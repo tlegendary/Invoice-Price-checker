@@ -28,6 +28,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>ChargeCheck uses the camera to photograph your supplier invoices so it can check the prices. Photos stay on your phone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -231,7 +233,7 @@
 		</dict>
 	</dict>
 	<key>UIFileSharingEnabled</key>
-	<false/>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
