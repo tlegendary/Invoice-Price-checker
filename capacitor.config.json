@@ -1,0 +1,10 @@
+{
+  "appId": "com.rjapps.invoicepricechecker",
+  "appName": "ChargeCheck",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#0b3b2e",
+    "limitsNavigationsToAppBoundDomains": false
+  }
+}

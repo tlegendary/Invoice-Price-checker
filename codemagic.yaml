@@ -1,0 +1,34 @@
+workflows:
+  ios-app-store:
+    name: ChargeCheck – App Store
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: AppStoreKey   # the name you give your App Store Connect API key in Codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.rjapps.invoicepricechecker
+      vars:
+        APP_STORE_APPLE_ID: 0000000000   # replace with your app's Apple ID number from App Store Connect
+      node: 20
+      xcode: latest
+    scripts:
+      - name: Install
+        script: npm ci
+      - name: Copy the app into the iOS project
+        script: npx cap sync ios
+      - name: Set up signing
+        script: xcode-project use-profiles
+      - name: Set build number
+        script: |
+          LATEST=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          cd ios/App && agvtool new-version -all $(($LATEST + 1))
+      - name: Build
+        script: xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
