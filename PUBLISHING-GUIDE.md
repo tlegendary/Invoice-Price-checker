@@ -34,7 +34,7 @@ Things to keep to hand:
    - Add a subscription with Reference name **Yearly**, Product ID `ipc_yearly`, duration 1 year and price £89.99.
    - On **each** one:
      - Under **Subscription Prices**, set the price.
-     - Under **Introductory Offers**, choose Free, 3 days, all countries.
+     - Under **Introductory Offers**, choose Free, 7 days, all countries.
      - Under **App Store Localization**, add a Display name ("Monthly" / "Yearly") and a Description ("Full access to ChargeCheck").
      - Under **Review Information**, upload `5_subscription-review.png` from the screenshots folder.
 6. **App Privacy.** Choose **Data Not Collected**. For the Privacy Policy URL, use the link above.
@@ -92,7 +92,7 @@ In App Store Connect, open **Apps › ChargeCheck › iOS App 1.0** and fill in 
   > • Your prices update automatically when a supplier charges less
   > • Works offline
   >
-  > Start with a 3-day free trial, then choose monthly or yearly.
+  > Start with a 7-day free trial, then choose monthly or yearly.
 - **Keywords:** invoice,price,check,overcharge,supplier,restaurant,takeaway,wholesale,cost,food,margin,credit
 - **Support URL** and **Privacy Policy URL:** the link at the top of this guide.
 - **Copyright:** 2026 RJ
