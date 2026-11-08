@@ -10,7 +10,7 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.rjapps.invoicepricechecker
       vars:
-        APP_STORE_APPLE_ID: 0000000000   # replace with your app's Apple ID number from App Store Connect
+        APP_STORE_APPLE_ID: 6832301124   # ChargeCheck: Invoice Checker
       node: 20
       xcode: latest
     scripts:
