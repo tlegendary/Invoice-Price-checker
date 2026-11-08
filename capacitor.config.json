@@ -3,8 +3,9 @@
   "appName": "ChargeCheck",
   "webDir": "www",
   "ios": {
-    "contentInset": "never",
+    "contentInset": "always",
     "backgroundColor": "#0b3b2e",
-    "limitsNavigationsToAppBoundDomains": false
+    "limitsNavigationsToAppBoundDomains": false,
+    "scrollEnabled": true
   }
 }
