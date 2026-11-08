@@ -100,7 +100,7 @@ In App Store Connect, open **Apps › ChargeCheck › iOS App 1.0** and fill in 
 - **In-App Purchases and Subscriptions:** tick **ipc_monthly** and **ipc_yearly**. Your first subscriptions have to be submitted together with the app.
 - **App Review Information:**
   - Sign-in required: **No**.
-  - Notes: "No account needed. Tap Start free trial on the first screen (sandbox). Tap 'Scan or upload invoices' and choose any photo of a supplier invoice. Support: 07922225757."
+  - Notes: "No account needed. Tap Start free trial on the first screen (sandbox). Tap 'Scan or upload invoices' and choose any photo of a supplier invoice. Support: r93.hamad@gmail.com"
 - Choose **Add for Review › Submit**. Apple usually replies within 1–3 days.
 
 ## Making changes later
