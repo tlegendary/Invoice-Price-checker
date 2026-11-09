@@ -40,6 +40,18 @@ workflows:
           NEW=$(date -u +%Y%m%d%H%M)
           echo "Build number: $NEW"
           cd ios/App && agvtool new-version -all $NEW
+      - name: Resolve Swift packages (with retries)
+        script: |
+          for i in 1 2 3; do
+            echo "Attempt $i"
+            if xcodebuild -resolvePackageDependencies -project ios/App/App.xcodeproj -scheme App 2>&1 | tee /tmp/spm.log | tail -40; then
+              if ! grep -qi "error" /tmp/spm.log; then echo "Packages resolved"; break; fi
+            fi
+            echo "---- package resolution problem, retrying in 20s ----"; grep -i -B2 -A6 "error" /tmp/spm.log | head -60
+            rm -rf ~/Library/Caches/org.swift.swiftpm ~/Library/Developer/Xcode/DerivedData/*/SourcePackages 2>/dev/null
+            sleep 20
+          done
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -showBuildSettings > /tmp/settings.log 2>&1 || { echo "---- showBuildSettings failed, real error below ----"; tail -60 /tmp/settings.log; exit 1; }
       - name: Build
         script: xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
     artifacts:
