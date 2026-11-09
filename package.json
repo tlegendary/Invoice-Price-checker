@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@capacitor-community/admob": "^8.3.0",
+    "@capacitor-community/in-app-review": "^8.0.0",
     "@capacitor/core": "^8.6.0",
     "@capacitor/filesystem": "^8.1.5",
     "@capacitor/ios": "^8.6.0",
+    "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/share": "^8.0.3",
     "@capgo/native-purchases": "^8.9.6"
   }
