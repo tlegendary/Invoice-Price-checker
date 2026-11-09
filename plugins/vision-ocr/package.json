@@ -1,0 +1,9 @@
+{
+  "name": "capacitor-vision-ocr",
+  "version": "1.0.0",
+  "description": "On-device invoice text reading with Apple Vision (offline)",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "files": ["index.js", "ios/Sources", "Package.swift"],
+  "capacitor": { "ios": { "src": "ios" } }
+}
