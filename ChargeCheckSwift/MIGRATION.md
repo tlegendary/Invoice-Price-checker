@@ -91,6 +91,20 @@ is ready and Ramyar says to switch.
 - Currencies: £, €, $, IQD. Changing currency does not convert saved prices.
 - Still to do: right-to-left layout inside the PDFs; Ramyar to check the Kurdish wording.
 
+## Supplier accounts, trusted suppliers, widget, better reading (added 11 Nov 2026)
+- Suppliers tab: balance = starting balance + invoices (amount to pay) − payments − credit notes − invoices marked paid
+  before payments existed. Payments towards the balance pay the oldest invoices first ("Still to pay").
+  Ticked invoices ("Pay invoices one by one", and Reports › Mark as paid) record one payment tied to them.
+  Core: `SupplierAccounts.swift` (tested). App: `Store/Accounts.swift` (payments.json in Application Support, in backups).
+- Trusted suppliers: scanning reads the total only (`InvoiceDraft.totalOnly`, `HistoryEntry.totalOnly`), no price check.
+- Weekly payment reminder (Suppliers › Weekly payment day).
+- Widget (`Widget/`): reads `widget.json` from the app group. Live app group: group.com.rjapps.invoicepricechecker,
+  beta: group.com.rjapps.invoicepricechecker.beta. Codemagic leaves the widget out until `ChargeCheckSwift/.widget-ready` exists
+  (the App Group must first be made on developer.apple.com and ticked on the app's and the widget's App IDs).
+  Before the live release: do the same for com.rjapps.invoicepricechecker and com.rjapps.invoicepricechecker.widget.
+- PDFs made by a computer are read from their own text (exact). iOS 26: Apple's table reader is tried and used when its
+  lines fit the printed total better. Invoices can be opened from WhatsApp, Mail or Files ("Open in ChargeCheck").
+
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
 - Switch `CCTestBuild` to false (also hides the test-mode switch and uses real ads).

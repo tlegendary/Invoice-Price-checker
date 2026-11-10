@@ -136,7 +136,7 @@ struct OwedView: View {
                             Text(line.name)
                                 .lineLimit(1)
                             if line.openInvoices > 0 {
-                                Text(line.openInvoices == 1 ? "1 invoice" : "\(line.openInvoices) invoices")
+                                Text(line.openInvoices == 1 ? LocalizedStringKey("1 invoice") : LocalizedStringKey("\(line.openInvoices) invoices"))
                                     .foregroundStyle(.secondary)
                             }
                             Spacer(minLength: 4)

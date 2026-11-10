@@ -222,7 +222,7 @@ struct SupplierDetailView: View {
                             UIPasteboard.general.string = statement(account)
                             copied = true
                         } label: {
-                            Label(copied ? "Copied" : "Copy statement", systemImage: copied ? "checkmark" : "doc.on.doc")
+                            Label(copied ? LocalizedStringKey("Copied") : LocalizedStringKey("Copy statement"), systemImage: copied ? "checkmark" : "doc.on.doc")
                         }
                     } footer: {
                         Text("Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers.")
@@ -387,7 +387,7 @@ struct RecordPaymentView: View {
                             .font(.title2.weight(.semibold))
                     }
                     DatePicker("Date", selection: $date, displayedComponents: .date)
-                    TextField(kind == .credit ? "Credit note number (optional)" : "Note, e.g. bank transfer (optional)", text: $note)
+                    TextField(kind == .credit ? LocalizedStringKey("Credit note number (optional)") : LocalizedStringKey("Note, e.g. bank transfer (optional)"), text: $note)
                 } header: {
                     Text(supplier)
                 } footer: {

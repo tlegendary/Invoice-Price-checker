@@ -161,6 +161,8 @@ targets:
         CFBundleDisplayName: ChargeCheck
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar, ckb, de, fr]
+        CFBundleAllowMixedLocalizations: true
         CCAppGroup: group.com.rjapps.invoicepricechecker
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
