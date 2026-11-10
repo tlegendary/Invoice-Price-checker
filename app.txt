@@ -1,6 +1,6 @@
-commit: 2e3baba0d46bd3d4e1587d20b5d51ac23e04fae8
+commit: d04da47c9a9aad35fbc8e107acc522076842881c
 result: success
-when: Tue Nov 10 22:56:19 UTC 2026
+when: Tue Nov 10 23:08:20 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -18,4 +18,4 @@ stringsdata files:       38
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
-Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/23AF6277-F5E3-4A66-B10F-A68FDDDCD61D/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/23AF6277-F5E3-4A66-B10F-A68FDDDCD61D/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/A5D09AF7-24C5-4877-82BE-195C9F141DB6/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/A5D09AF7-24C5-4877-82BE-195C9F141DB6/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
