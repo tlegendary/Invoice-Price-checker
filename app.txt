@@ -1,6 +1,6 @@
-commit: fb136796391a3e0c779bcfd9efa0f6b3c5c1ab59
+commit: 3b8e8b12bfa0305aaf66b0256d3ba2556842847d
 result: success
-when: Tue Nov 10 16:09:24 UTC 2026
+when: Tue Nov 10 16:39:01 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -15,4 +15,4 @@ Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure; this is an error in the Swift 6 language mode
-Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DB3AA6C5-2ED8-403B-B7A5-D3E82F2DD712/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DB3AA6C5-2ED8-403B-B7A5-D3E82F2DD712/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-2-prices.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/D34BF5E1-6BB6-436B-81E0-7BC09403D2F3/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/D34BF5E1-6BB6-436B-81E0-7BC09403D2F3/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
