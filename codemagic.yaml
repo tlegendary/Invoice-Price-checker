@@ -130,12 +130,11 @@ workflows:
           # replace an older copy so it always matches the current certificates
           app-store-connect profiles list --type IOS_APP_STORE --json > /tmp/profiles.json 2>/dev/null || echo "[]" > /tmp/profiles.json
           for old in $(python3 /tmp/ids.py "name=$NAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
-          app-store-connect profiles create --bundle-id "$(cat /tmp/bid.txt)" --certificate-ids $(cat /tmp/certs.txt) --type IOS_APP_STORE --name "$NAME" --save
+          app-store-connect profiles create "$(cat /tmp/bid.txt)" --type IOS_APP_STORE --name "$NAME" --save --certificate-ids $(cat /tmp/certs.txt)
       - name: Beta profile 3 - check it was saved
         script: |
           set -e
-          ls -la "$HOME/Library/MobileDevice/Provisioning Profiles/"
-          grep -la "invoicepricechecker.beta" "$HOME/Library/MobileDevice/Provisioning Profiles/"*
+          grep -la "invoicepricechecker.beta" "$HOME/Library/MobileDevice/Provisioning Profiles/"* "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/"* 2>/dev/null
       - name: Set up signing
         script: |
           set -e
