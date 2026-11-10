@@ -1,80 +1,81 @@
-commit: a8e88fe601c17ee2caa2b6667bb0dc7d43a72084
+commit: cabee92da073930bfb6b64125bc70c04c2bb7259
 result: success
-when: Tue Nov 10 12:13:19 UTC 2026
+when: Tue Nov 10 14:52:50 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
 Building for debugging...
+[Computing dependencies]
 [Pre-planning 1 / 154]
 [Planning deferred tasks]
 [37 / 60] ChargeCheckCore
 [38 / 60] ChargeCheckCore
 [46 / 65] ChargeCheckCoreTests-product
 [47 / 65] ChargeCheckCoreTests-product
+[54 / 65] ChargeCheckCore-product
 [54 / 65] ChargeCheckCoreTests-product
-[58 / 66] ChargeCheckCore-product
-[59 / 66] ChargeCheckCoreTests-test-runner
+[58 / 66] ChargeCheckCoreTests-product
 [62 / 69] ChargeCheckCoreTests-test-runner
 [66 / 69] ChargeCheckCoreTests-test-runner
 [70 / 70] ChargeCheckCoreTests-test-runner
-Build complete! (13.46 secs)
-Test Suite 'All tests' started at 2026-11-10 12:13:18.492
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 12:13:18.594
-Test Suite 'CoreTests' started at 2026-11-10 12:13:18.594
-Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 12:13:18.594
-Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.003 seconds)
-Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 12:13:18.598
-Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.218 seconds)
-Test Case 'CoreTests.testCategories' started at 2026-11-10 12:13:18.815
-Test Case 'CoreTests.testCategories' passed (0.103 seconds)
-Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 12:13:18.918
+Build complete! (17.98 secs)
+Test Suite 'All tests' started at 2026-11-10 14:52:49.048
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 14:52:49.118
+Test Suite 'CoreTests' started at 2026-11-10 14:52:49.118
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 14:52:49.118
+Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.002 seconds)
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 14:52:49.120
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.038 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-10 14:52:49.159
+Test Case 'CoreTests.testCategories' passed (0.004 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 14:52:49.162
 Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
-Test Case 'CoreTests.testMoney' started at 2026-11-10 12:13:18.919
+Test Case 'CoreTests.testMoney' started at 2026-11-10 14:52:49.163
 Test Case 'CoreTests.testMoney' passed (0.0 seconds)
-Test Case 'CoreTests.testNorm' started at 2026-11-10 12:13:18.919
+Test Case 'CoreTests.testNorm' started at 2026-11-10 14:52:49.163
 Test Case 'CoreTests.testNorm' passed (0.0 seconds)
-Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 12:13:18.919
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 14:52:49.163
 Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
-Test Case 'CoreTests.testSupplier' started at 2026-11-10 12:13:18.919
+Test Case 'CoreTests.testSupplier' started at 2026-11-10 14:52:49.164
 Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
-Test Suite 'CoreTests' passed at 2026-11-10 12:13:18.919
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.325 (0.325) seconds
-Test Suite 'LedgerTests' started at 2026-11-10 12:13:18.919
-Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' started at 2026-11-10 12:13:18.919
+Test Suite 'CoreTests' passed at 2026-11-10 14:52:49.164
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.046 (0.046) seconds
+Test Suite 'LedgerTests' started at 2026-11-10 14:52:49.164
+Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' started at 2026-11-10 14:52:49.164
 Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' passed (0.0 seconds)
-Test Case 'LedgerTests.testProductsMatchAppStoreConnect' started at 2026-11-10 12:13:18.919
+Test Case 'LedgerTests.testProductsMatchAppStoreConnect' started at 2026-11-10 14:52:49.164
 Test Case 'LedgerTests.testProductsMatchAppStoreConnect' passed (0.0 seconds)
-Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' started at 2026-11-10 12:13:18.919
+Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' started at 2026-11-10 14:52:49.164
 Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' passed (0.0 seconds)
-Test Case 'LedgerTests.testSavedAndLoaded' started at 2026-11-10 12:13:18.919
+Test Case 'LedgerTests.testSavedAndLoaded' started at 2026-11-10 14:52:49.164
 Test Case 'LedgerTests.testSavedAndLoaded' passed (0.0 seconds)
-Test Case 'LedgerTests.testUsingScans' started at 2026-11-10 12:13:18.919
+Test Case 'LedgerTests.testUsingScans' started at 2026-11-10 14:52:49.164
 Test Case 'LedgerTests.testUsingScans' passed (0.0 seconds)
-Test Suite 'LedgerTests' passed at 2026-11-10 12:13:18.920
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
-Test Suite 'ParserTests' started at 2026-11-10 12:13:18.920
-Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-10 12:13:18.920
+Test Suite 'LedgerTests' passed at 2026-11-10 14:52:49.165
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ParserTests' started at 2026-11-10 14:52:49.165
+Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-10 14:52:49.165
 Test Case 'ParserTests.testCheckingAnInvoice' passed (0.002 seconds)
-Test Case 'ParserTests.testCleanNames' started at 2026-11-10 12:13:18.921
-Test Case 'ParserTests.testCleanNames' passed (0.045 seconds)
-Test Case 'ParserTests.testConsensus' started at 2026-11-10 12:13:18.966
+Test Case 'ParserTests.testCleanNames' started at 2026-11-10 14:52:49.166
+Test Case 'ParserTests.testCleanNames' passed (0.061 seconds)
+Test Case 'ParserTests.testConsensus' started at 2026-11-10 14:52:49.227
 Test Case 'ParserTests.testConsensus' passed (0.001 seconds)
-Test Case 'ParserTests.testKnownWords' started at 2026-11-10 12:13:18.967
+Test Case 'ParserTests.testKnownWords' started at 2026-11-10 14:52:49.229
 Test Case 'ParserTests.testKnownWords' passed (0.0 seconds)
-Test Case 'ParserTests.testLines' started at 2026-11-10 12:13:18.967
-Test Case 'ParserTests.testLines' passed (0.122 seconds)
-Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-10 12:13:19.089
-Test Case 'ParserTests.testMergingTwoReads' passed (0.062 seconds)
-Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-10 12:13:19.151
-Test Case 'ParserTests.testRowsFromPositions' passed (0.003 seconds)
-Test Case 'ParserTests.testWholeInvoices' started at 2026-11-10 12:13:19.155
-Test Case 'ParserTests.testWholeInvoices' passed (0.027 seconds)
-Test Suite 'ParserTests' passed at 2026-11-10 12:13:19.181
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.262 (0.262) seconds
-Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 12:13:19.181
-	 Executed 21 tests, with 0 failures (0 unexpected) in 0.587 (0.587) seconds
-Test Suite 'All tests' passed at 2026-11-10 12:13:19.181
-	 Executed 21 tests, with 0 failures (0 unexpected) in 0.587 (0.587) seconds
+Test Case 'ParserTests.testLines' started at 2026-11-10 14:52:49.229
+Test Case 'ParserTests.testLines' passed (0.172 seconds)
+Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-10 14:52:49.401
+Test Case 'ParserTests.testMergingTwoReads' passed (0.072 seconds)
+Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-10 14:52:49.472
+Test Case 'ParserTests.testRowsFromPositions' passed (0.004 seconds)
+Test Case 'ParserTests.testWholeInvoices' started at 2026-11-10 14:52:49.476
+Test Case 'ParserTests.testWholeInvoices' passed (0.031 seconds)
+Test Suite 'ParserTests' passed at 2026-11-10 14:52:49.507
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.343 (0.343) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 14:52:49.507
+	 Executed 21 tests, with 0 failures (0 unexpected) in 0.389 (0.389) seconds
+Test Suite 'All tests' passed at 2026-11-10 14:52:49.507
+	 Executed 21 tests, with 0 failures (0 unexpected) in 0.389 (0.389) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu
