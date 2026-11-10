@@ -29,6 +29,7 @@ struct SettingsView: View {
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
     @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(SmartCheck.settingKey) private var smartCheck = true
     @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var showPricesShare: URL?
@@ -177,10 +178,12 @@ struct SettingsView: View {
                         Text("10p").tag(0.1)
                     }
                     Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
+                    Toggle("Double-check with Apple Intelligence", isOn: $smartCheck)
                 } header: {
                     Text("Checking")
                 } footer: {
-                    Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.")
+                    let status = SmartCheck.status
+                    Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price." + (status.isEmpty ? "" : "\n" + status))
                 }
 
                 Section {

@@ -104,6 +104,15 @@ final class CheckSession: ObservableObject {
             await previous?.value
             let book = PriceBook(items)
             let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, progress: report)
+            let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
+            // a name the user already corrected by hand is never second-guessed
+            let checked = await SmartCheck.check(firstLines.filter { fixes[TextTools.norm($0.read)] == nil }, supplier: outcome.invoice.supplier,
+                                                 book: book, progress: report)
+            let checkedByID = Dictionary(checked.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            // lines Apple Intelligence called "not a product" are missing from `checked` and drop out here
+            let finalLines = firstLines.compactMap { line -> CheckLine? in
+                fixes[TextTools.norm(line.read)] != nil ? line : checkedByID[line.id]
+            }
             guard let self else { return }
             self.update(id) { job in
                 job.draft.supplier = outcome.invoice.supplier
@@ -112,7 +121,7 @@ final class CheckSession: ObservableObject {
                 job.draft.printedNet = outcome.invoice.printedNet
                 job.draft.printedTotal = outcome.invoice.printedTotal
                 job.draft.passes = outcome.passes
-                job.draft.lines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
+                job.draft.lines = finalLines
                 job.status = .done
                 job.message = job.draft.lines.isEmpty
                     ? "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand."

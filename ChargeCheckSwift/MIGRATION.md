@@ -77,6 +77,12 @@ is ready and Ramyar says to switch.
   - [ ] Try on a real phone: camera scanner, real ads and purchases, iCloud folder, notifications
   - [ ] Ask Ramyar before switching the App Store build to the Swift version
 
+## Apple Intelligence check (added 11 Nov 2026, Ramyar's request)
+- `App/Reading/SmartCheck.swift`: after the photo is read, the on-device Apple Intelligence model (iOS 26, FoundationModels)
+  fixes misread names, picks the matching price-list item from a short list of choices, and flags lines that aren't products.
+- It never changes quantities or prices. A name Ramyar corrected by hand is never sent. Settings has an on/off switch.
+- Only on phones with Apple Intelligence (iPhone 15 Pro or newer, switched on). Otherwise the normal reader is used.
+
 ## Left out on purpose
 - Licence keys: not needed in the Swift app (Ramyar, 11 Nov 2026). App Store plans, scan packs and ads only.
 
