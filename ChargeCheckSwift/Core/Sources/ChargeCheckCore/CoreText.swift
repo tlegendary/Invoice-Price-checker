@@ -44,6 +44,7 @@ public enum CoreText {
         "(invoices {1} less {2} taken off)",
         "Total to pay: {1}",
         "Amounts include VAT.",
+        "Amounts are before VAT (no VAT added).",
         "Date", "Supplier", "Invoice no.", "Net", "Total inc VAT", "Overcharged", "Overcharged VAT", "Missing/returned",
         "To pay", "Paid", "Fully checked", "Overcharged lines", "Item", "Quantity", "Charged", "Agreed price", "Category",
         "On invoices as", "Yes", "No"

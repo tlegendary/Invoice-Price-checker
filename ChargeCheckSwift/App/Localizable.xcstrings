@@ -1589,6 +1589,34 @@
         }
       }
     },
+    "Amounts are before VAT (no VAT added).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبالغ قبل الضريبة (بدون ضريبة)."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بڕەکان پێش باجی VAT ن (باج زیاد نەکراوە)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beträge ohne MwSt. (keine MwSt. hinzugefügt)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montants hors TVA (sans TVA ajoutée)."
+          }
+        }
+      }
+    },
     "Amounts include VAT.": {
       "extractionState": "manual",
       "localizations": {
@@ -1952,6 +1980,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Boulangerie"
+          }
+        }
+      }
+    },
+    "Before VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش VAT"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA"
+          }
+        }
+      }
+    },
+    "Before VAT %@ + VAT %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة %1$@ + الضريبة %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش VAT %1$@ + VAT %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. %1$@ + MwSt. %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA %1$@ + TVA %2$@"
           }
         }
       }
@@ -4413,6 +4497,34 @@
         }
       }
     },
+    "Including VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شامل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ VAT"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inkl. MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TVA incluse"
+          }
+        }
+      }
+    },
     "Invoice": {
       "localizations": {
         "ar": {
@@ -4693,6 +4805,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Totaux des factures (TTC)"
+          }
+        }
+      }
+    },
+    "Invoice totals before VAT, less overcharges and missing or returned items. Choose “Before VAT” for a shop that isn’t VAT registered.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجمالي الفواتير قبل الضريبة، مطروحًا منه الزيادات في الأسعار والبنود المفقودة أو المرتجعة. اختر «قبل الضريبة» للمتجر غير المسجّل في الضريبة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆی پسوولەکان پێش VAT، کەمکراوە لە نرخی زیادە و کاڵای ون یان گەڕێنراوە. «پێش VAT» هەڵبژێرە بۆ دوکانێک کە بۆ VAT تۆمار نەکراوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnungssummen ohne MwSt., abzüglich Überberechnungen und fehlender oder zurückgegebener Artikel. Wähle „Ohne MwSt.“ für einen Laden ohne MwSt.-Registrierung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totaux des factures hors TVA, moins les surfacturations et les articles manquants ou retournés. Choisissez « Hors TVA » pour un magasin non assujetti à la TVA."
           }
         }
       }
@@ -10448,6 +10588,34 @@
         }
       }
     },
+    "These invoices have no VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد ضريبة على هذه الفواتير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم پسوولانە VAT یان نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Rechnungen enthalten keine MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces factures n’ont pas de TVA"
+          }
+        }
+      }
+    },
     "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer).": {
       "localizations": {
         "ar": {
@@ -11195,7 +11363,7 @@
         "ckb": {
           "stringUnit": {
             "state": "translated",
-            "value": "باج"
+            "value": "VAT"
           }
         },
         "de": {
@@ -11377,6 +11545,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "De qui viennent ces prix ?"
+          }
+        }
+      }
+    },
+    "With VAT it would be %@ (VAT %@)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مع الضريبة سيكون المبلغ %1$@ (الضريبة %2$@)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ VAT دەبێتە %1$@ (VAT %2$@)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit MwSt. wären es %1$@ (MwSt. %2$@)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec TVA, cela ferait %1$@ (TVA %2$@)"
           }
         }
       }
