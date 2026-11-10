@@ -20,13 +20,13 @@ enum AppData {
     }
 
     /// Everything on this phone as one backup file.
-    static func backup(_ context: ModelContext) -> BackupFile {
+    static func backup(_ context: ModelContext, scans: ScanCredits? = nil) -> BackupFile {
         let defaults = UserDefaults.standard
         var settings = BackupSettings()
         settings.biz = defaults.string(forKey: SettingKey.business)
         settings.mode = defaults.string(forKey: SettingKey.mode)
         settings.color = defaults.string(forKey: SettingKey.colour)
-        return BackupFile(baseline: items(context), history: entries(context), settings: settings)
+        return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -103,21 +103,21 @@ enum AppData {
     /// Documents folder. When the Swift version opens for the first time with nothing
     /// saved, it picks that up so prices and reports carry over.
     @discardableResult
-    static func importLegacyBackupIfNeeded(_ context: ModelContext) -> Int {
+    static func importLegacyBackupIfNeeded(_ context: ModelContext) -> BackupFile? {
         let defaults = UserDefaults.standard
-        if defaults.bool(forKey: legacyDoneKey) { return 0 }
+        if defaults.bool(forKey: legacyDoneKey) { return nil }
         let priceCount = (try? context.fetchCount(FetchDescriptor<StoredPrice>())) ?? 0
         let reportCount = (try? context.fetchCount(FetchDescriptor<StoredReport>())) ?? 0
         guard priceCount == 0, reportCount == 0 else {
             defaults.set(true, forKey: legacyDoneKey)
-            return 0
+            return nil
         }
-        guard let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return 0 }
+        guard let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         let file = folder.appendingPathComponent(legacyBackupName)
-        guard let data = try? Data(contentsOf: file), let backup = try? BackupFile.read(data) else { return 0 }
+        guard let data = try? Data(contentsOf: file), let backup = try? BackupFile.read(data) else { return nil }
         restore(backup, into: context)
         defaults.set(true, forKey: legacyDoneKey)
-        return backup.baseline.count
+        return backup
     }
 }
 
@@ -126,4 +126,6 @@ enum SettingKey {
     static let colour = "look.colour"
     static let business = "business.name"
     static let tolerance = "check.tolerance"
+    /// The user has seen the plans and chose to carry on with the free version.
+    static let choseFree = "access.choseFree"
 }

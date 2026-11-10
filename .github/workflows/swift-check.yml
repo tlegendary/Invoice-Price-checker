@@ -35,48 +35,46 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '[core]') }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build for the iPhone simulator
+      - name: Build, run the tests and take screenshots in an iPhone simulator
         run: |
-          set -o pipefail
           if [ ! -f ChargeCheckSwift/project.yml ]; then echo "No app project yet" | tee /tmp/app.log; exit 0; fi
           brew install xcodegen 2>&1 | tail -2
           cd ChargeCheckSwift
           xcodegen generate 2>&1 | tee /tmp/app.log
           xcodebuild -version | tee -a /tmp/app.log
-          xcodebuild -project ChargeCheck.xcodeproj -scheme ChargeCheck -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' -configuration Debug -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee /tmp/app-full.log | grep -E "error|warning: |BUILD|\*\*" | cut -c1-400 | tee -a /tmp/app.log
-          ls build/Build/Products/Debug-iphonesimulator/ChargeCheck.app | tr '\n' ' ' | tee -a /tmp/app.log
-      - name: Open it in a simulator and take screenshots
-        run: |
-          cd ChargeCheckSwift
-          APP=build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
           ID=com.rjapps.invoicepricechecker
           UDID=$(xcrun simctl list devices available | grep -E "iPhone 1[5-9]( Pro)? \(" | head -1 | grep -oE "[0-9A-F-]{36}")
           echo "Simulator: $UDID" | tee -a /tmp/app.log
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b | tail -1
-          xcrun simctl install "$UDID" "$APP"
-          # a backup file from the old app, to check that prices and reports carry over
-          DATA=$(xcrun simctl get_app_container "$UDID" $ID data)
-          mkdir -p "$DATA/Documents" && cp ci/sample-backup.json "$DATA/Documents/ChargeCheck-backup.json"
-          shot() { name="$1"; shift; xcrun simctl launch "$UDID" $ID "$@" >/dev/null; sleep 7; xcrun simctl io "$UDID" screenshot "/tmp/shot-$name.png" >/dev/null 2>&1; xcrun simctl terminate "$UDID" $ID; sleep 1; }
-          shot 1-first-open
-          shot 2-prices -startTab prices
-          shot 3-reports -startTab reports
-          shot 4-settings -startTab settings
-          shot 5-prices-dark-blue -startTab prices -look.mode dark -look.colour blue
-          shot 6-settings-dark-purple -startTab settings -look.mode dark -look.colour purple
-          # read the sample invoice with Apple's text reader and show the result
-          xcrun simctl launch "$UDID" $ID -demoScan YES >/dev/null; sleep 30
-          xcrun simctl io "$UDID" screenshot /tmp/shot-7-sample-invoice.png >/dev/null 2>&1
-          xcrun simctl terminate "$UDID" $ID
-          xcrun simctl launch "$UDID" $ID -demoScan sideways >/dev/null; sleep 40
-          xcrun simctl io "$UDID" screenshot /tmp/shot-8-sample-sideways.png >/dev/null 2>&1
-          xcrun simctl terminate "$UDID" $ID
-          ls -la /tmp/shot-*.png | tee -a /tmp/app.log
-          # did it crash?
-          ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log
+          # builds the app and runs the tests (these buy the products against Apple's StoreKit test server)
+          set +e
+          xcodebuild test -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
+            -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO > /tmp/app-full.log 2>&1
+          TESTS=$?
+          set -e
+          grep -E "error|warning: |BUILD|TEST|\*\*|Test Case|Test Suite|XCTAssert|Executed" /tmp/app-full.log | grep -v "appintents" | cut -c1-500 | tee -a /tmp/app.log
+          echo "Tests exit code: $TESTS" | tee -a /tmp/app.log
+          APP=build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+          if [ -d "$APP" ]; then
+            xcrun simctl uninstall "$UDID" $ID || true
+            xcrun simctl install "$UDID" "$APP"
+            # a backup file from the old app, to check that prices and reports carry over
+            DATA=$(xcrun simctl get_app_container "$UDID" $ID data)
+            mkdir -p "$DATA/Documents" && cp ci/sample-backup.json "$DATA/Documents/ChargeCheck-backup.json"
+            shot() { name="$1"; wait="$2"; shift; shift; xcrun simctl launch "$UDID" $ID "$@" >/dev/null; sleep "$wait"; xcrun simctl io "$UDID" screenshot "/tmp/shot-$name.png" >/dev/null 2>&1; xcrun simctl terminate "$UDID" $ID; sleep 1; }
+            shot 1-first-open 7
+            shot 2-prices 5 -startTab prices
+            shot 3-reports 5 -startTab reports
+            shot 4-settings 5 -startTab settings
+            shot 5-prices-dark-blue 5 -startTab prices -look.mode dark -look.colour blue
+            shot 7-sample-invoice 25 -demoScan YES
+            shot 8-sample-sideways 30 -demoScan sideways
+            shot 10-check-free 6 -startTab check
+            ls /tmp/shot-*.png | tr '\n' ' ' | tee -a /tmp/app.log
+            ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log
+          fi
+          exit $TESTS
       - name: Keep the log
         if: always()
         env:

@@ -7,8 +7,11 @@ import ChargeCheckCore
 /// The Check tab: scan or pick invoices, then see what each supplier overcharged.
 struct CheckView: View {
     let storageProblem: Bool
+    @Binding var showPaywall: Bool
 
     @EnvironmentObject private var session: CheckSession
+    @EnvironmentObject private var store: Store
+    @EnvironmentObject private var ads: AdService
     @Environment(\.modelContext) private var context
     @Query private var prices: [StoredPrice]
 
@@ -17,6 +20,34 @@ struct CheckView: View {
     @State private var showFiles = false
     @State private var picked: [PhotosPickerItem] = []
     @State private var notice: String?
+    @State private var showPhotos = false
+    @State private var showNeedScan = false
+    /// What to open once a free user has earned a scan.
+    @State private var afterScanEarned: (() -> Void)?
+
+    /// Subscribers go straight through. A free user needs a scan first (from a pack or one ad).
+    private func gated(_ action: @escaping () -> Void) {
+        if store.canScan {
+            action()
+        } else {
+            afterScanEarned = action
+            showNeedScan = true
+        }
+    }
+
+    /// Starts reading one invoice, using one scan for a free user. A scan is given back if nothing could be read.
+    private func startReading(_ pages: [UIImage]) -> Bool {
+        if store.isSubscribed {
+            session.read(pages: pages, context: context)
+            return true
+        }
+        guard store.useScans(1) == 1 else { return false }
+        session.read(pages: pages, context: context, onNothingRead: {
+            store.refundScan()
+            notice = "That invoice couldn't be read, so your scan was given back."
+        })
+        return true
+    }
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -26,20 +57,49 @@ struct CheckView: View {
                         .font(.footnote)
                         .foregroundStyle(.orange)
                 }
+                if store.checkedEntitlements && !store.isSubscribed {
+                    Section {
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text("Free version")
+                                    .font(.subheadline.weight(.semibold))
+                                Spacer()
+                                Text(store.credits == 1 ? "1 scan left" : "\(store.credits) scans left")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(store.credits > 0 ? Color.primary : Color.orange)
+                            }
+                            HStack(spacing: 8) {
+                                Button("Watch an ad for 1 scan") {
+                                    afterScanEarned = nil
+                                    showNeedScan = true
+                                }
+                                .buttonStyle(.bordered)
+                                Button("Go unlimited") {
+                                    showPaywall = true
+                                }
+                                .buttonStyle(.borderedProminent)
+                            }
+                            .font(.footnote.weight(.semibold))
+                        }
+                        .padding(.vertical, 2)
+                    }
+                }
                 Section {
                     if DocumentScanner.isAvailable {
                         Button {
-                            showScanner = true
+                            gated { showScanner = true }
                         } label: {
                             Label("Scan an invoice", systemImage: "doc.viewfinder")
                                 .font(.headline)
                         }
                     }
-                    PhotosPicker(selection: $picked, maxSelectionCount: 10, matching: .images) {
+                    Button {
+                        gated { showPhotos = true }
+                    } label: {
                         Label("Choose photos", systemImage: "photo.on.rectangle")
                     }
                     Button {
-                        showFiles = true
+                        gated { showFiles = true }
                     } label: {
                         Label("Choose a PDF or file", systemImage: "folder")
                     }
@@ -82,11 +142,24 @@ struct CheckView: View {
                 DocumentScanner(
                     onFinish: { pages in
                         showScanner = false
-                        if !pages.isEmpty { session.read(pages: pages, context: context) }
+                        if !pages.isEmpty && !startReading(pages) { notice = "You have no scans left. Watch an ad or buy scans to check this invoice." }
                     },
                     onCancel: { showScanner = false }
                 )
                 .ignoresSafeArea()
+            }
+            .photosPicker(isPresented: $showPhotos, selection: $picked, maxSelectionCount: 10, matching: .images)
+            .sheet(isPresented: $showNeedScan) {
+                NeedScanSheet(
+                    onEarned: {
+                        let next = afterScanEarned
+                        afterScanEarned = nil
+                        next?()
+                    },
+                    onShowPlans: { showPaywall = true }
+                )
+                .environmentObject(store)
+                .environmentObject(ads)
             }
             .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image], allowsMultipleSelection: true) { result in
                 open(result)
@@ -123,20 +196,26 @@ struct CheckView: View {
         picked = []
         Task {
             var failed = 0
+            var skipped = 0
             for item in items {
                 if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
-                    session.read(pages: [image], context: context)
+                    if !startReading([image]) { skipped += 1 }
                 } else {
                     failed += 1
                 }
             }
-            if failed > 0 { notice = failed == 1 ? "One photo couldn't be opened." : "\(failed) photos couldn't be opened." }
+            if skipped > 0 {
+                notice = "\(skipped == 1 ? "1 invoice wasn't" : "\(skipped) invoices weren't") scanned because you had no scans left. One ad or one pack scan is needed for each invoice."
+            } else if failed > 0 {
+                notice = failed == 1 ? "One photo couldn't be opened." : "\(failed) photos couldn't be opened."
+            }
         }
     }
 
     private func open(_ result: Result<[URL], Error>) {
         guard case .success(let urls) = result else { return }
         var failed = 0
+        var skipped = 0
         for url in urls {
             let scoped = url.startAccessingSecurityScopedResource()
             defer {
@@ -148,9 +227,17 @@ struct CheckView: View {
             } else if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
                 pages = [image]
             }
-            if pages.isEmpty { failed += 1 } else { session.read(pages: pages, context: context) }
+            if pages.isEmpty {
+                failed += 1
+            } else if !startReading(pages) {
+                skipped += 1
+            }
         }
-        if failed > 0 { notice = failed == 1 ? "One file couldn't be opened." : "\(failed) files couldn't be opened." }
+        if skipped > 0 {
+            notice = "\(skipped == 1 ? "1 invoice wasn't" : "\(skipped) invoices weren't") scanned because you had no scans left. One ad or one pack scan is needed for each invoice."
+        } else if failed > 0 {
+            notice = failed == 1 ? "One file couldn't be opened." : "\(failed) files couldn't be opened."
+        }
     }
 }
 

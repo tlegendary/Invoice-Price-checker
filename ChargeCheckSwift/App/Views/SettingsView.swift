@@ -4,6 +4,10 @@ import UniformTypeIdentifiers
 import ChargeCheckCore
 
 struct SettingsView: View {
+    @Binding var showPaywall: Bool
+
+    @EnvironmentObject private var store: Store
+    @EnvironmentObject private var ads: AdService
     @Environment(\.modelContext) private var context
     @AppStorage(SettingKey.mode) private var mode = "auto"
     @AppStorage(SettingKey.colour) private var colourID = "green"
@@ -15,7 +19,12 @@ struct SettingsView: View {
     @State private var pendingRestore: BackupFile?
     @State private var notice: String?
 
-    private let supportEmail = "r93.hamad@gmail.com"
+    private let supportEmail = AppConfig.supportEmail
+    @State private var restoring = false
+
+    private var planName: String {
+        store.subscribedProductID == Products.yearly ? "Unlimited – yearly" : "Unlimited – monthly"
+    }
 
     private var version: String {
         let info = Bundle.main.infoDictionary
@@ -66,6 +75,46 @@ struct SettingsView: View {
                     Text("Look")
                 } footer: {
                     Text("\(Themes.named(colourID).name). Automatic follows your iPhone's light or dark setting.")
+                }
+
+                Section {
+                    if store.isSubscribed {
+                        LabeledContent("Plan", value: planName)
+                        if let manage = AppConfig.manageSubscriptionsURL {
+                            Link("Manage or cancel subscription", destination: manage)
+                        }
+                    } else {
+                        LabeledContent("Plan", value: "Free version (1 ad per scan)")
+                        LabeledContent("Scans left", value: "\(store.credits)")
+                        Button("Go unlimited or buy scans") {
+                            showPaywall = true
+                        }
+                    }
+                    Button(restoring ? "Checking…" : "Restore purchases") {
+                        restoring = true
+                        Task {
+                            let found = await store.restore()
+                            restoring = false
+                            notice = found ? "Your subscription is active." : "No active subscription was found for this Apple ID."
+                        }
+                    }
+                    .disabled(restoring)
+                    if !store.isSubscribed && ads.privacyOptionsRequired {
+                        Button("Ad privacy choices") {
+                            Task { await ads.showPrivacyOptions() }
+                        }
+                    }
+                    if AppConfig.testBuild {
+                        Toggle("Test mode: use the free version", isOn: $store.testAsFree)
+                        LabeledContent("Ads", value: ads.status)
+                        LabeledContent("App Store", value: store.loadStatus)
+                    }
+                } header: {
+                    Text("Your plan")
+                } footer: {
+                    if AppConfig.testBuild {
+                        Text("Test mode is on: test ads are shown and nothing here is sent for review like this.")
+                    }
                 }
 
                 Section {
@@ -121,7 +170,8 @@ struct SettingsView: View {
             ), titleVisibility: .visible, presenting: pendingRestore) { backup in
                 Button("Replace what's on this phone", role: .destructive) {
                     AppData.restore(backup, into: context)
-                    notice = "Backup restored."
+                    let scans = store.restoreScans(from: backup.scans)
+                    notice = scans > 0 ? "Backup restored, with \(scans) unused scans." : "Backup restored."
                 }
                 Button("Cancel", role: .cancel) {}
             } message: { backup in
@@ -137,7 +187,7 @@ struct SettingsView: View {
     }
 
     private func save() {
-        guard let data = try? AppData.backup(context).encoded() else {
+        guard let data = try? AppData.backup(context, scans: store.ledger.forBackup).encoded() else {
             notice = "The backup couldn't be made. Please try again."
             return
         }

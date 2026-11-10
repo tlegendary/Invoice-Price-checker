@@ -6,17 +6,21 @@ struct RootView: View {
 
     @AppStorage(SettingKey.mode) private var mode = "auto"
     @AppStorage(SettingKey.colour) private var colourID = "green"
+    @AppStorage(SettingKey.choseFree) private var choseFree = false
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
     @StateObject private var session = CheckSession()
+    @StateObject private var store = Store()
+    @StateObject private var ads = AdService()
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
+    @State private var showPaywall = false
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
     @State private var tab = UserDefaults.standard.string(forKey: "startTab") ?? "check"
 
     var body: some View {
         TabView(selection: $tab) {
-            CheckView(storageProblem: storageProblem)
+            CheckView(storageProblem: storageProblem, showPaywall: $showPaywall)
                 .tabItem { Label("Check", systemImage: "doc.text.viewfinder") }
                 .tag("check")
             PricesView()
@@ -25,21 +29,39 @@ struct RootView: View {
             ReportsView()
                 .tabItem { Label("Reports", systemImage: "chart.bar") }
                 .tag("reports")
-            SettingsView()
+            SettingsView(showPaywall: $showPaywall)
                 .tabItem { Label("Settings", systemImage: "gearshape") }
                 .tag("settings")
         }
         .environmentObject(session)
+        .environmentObject(store)
+        .environmentObject(ads)
         .tint(Themes.named(colourID).accent(for: scheme))
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {
-            carriedOver = AppData.importLegacyBackupIfNeeded(context)
-            showCarriedOver = carriedOver > 0
+            if let legacy = AppData.importLegacyBackupIfNeeded(context) {
+                // prices, reports and unused scans from the previous version of the app
+                store.adoptLegacyScans(legacy.scans?.n ?? 0)
+                carriedOver = legacy.baseline.count
+                showCarriedOver = carriedOver > 0
+            }
+            store.start()
+            await store.refresh()
+            // first open without a subscription: show the plans once. Closing them carries on with the free version.
+            let quiet = UserDefaults.standard.object(forKey: "startTab") != nil || UserDefaults.standard.object(forKey: "demoScan") != nil
+            if UserDefaults.standard.bool(forKey: "showPaywall") || (!store.isSubscribed && !choseFree && !showCarriedOver && !quiet) {
+                showPaywall = true
+            }
         }
         .alert("Your prices are here", isPresented: $showCarriedOver) {
             Button("OK", role: .cancel) {}
         } message: {
             Text("\(carriedOver) prices and your reports were brought over from the previous version of the app.")
+        }
+        .sheet(isPresented: $showPaywall, onDismiss: { choseFree = true }) {
+            PaywallView()
+                .environmentObject(store)
+                .tint(Themes.named(colourID).accent(for: scheme))
         }
     }
 }

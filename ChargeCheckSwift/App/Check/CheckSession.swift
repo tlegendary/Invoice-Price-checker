@@ -63,7 +63,7 @@ final class CheckSession: ObservableObject {
 
     /// Starts reading an invoice (one or more pages). Invoices are read one after another.
     @discardableResult
-    func read(pages: [UIImage], context: ModelContext, sample: Bool = false) -> String {
+    func read(pages: [UIImage], context: ModelContext, sample: Bool = false, onNothingRead: (() -> Void)? = nil) -> String {
         let id = UUID().uuidString
         jobs.insert(InvoiceJob(id: id, status: .reading, message: "Waiting…", draft: InvoiceDraft(), isSample: sample,
                                thumbnail: pages.first?.thumbnail(), saved: nil), at: 0)
@@ -94,6 +94,7 @@ final class CheckSession: ObservableObject {
                     ? "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand."
                     : ""
             }
+            if outcome.invoice.lines.isEmpty { onNothingRead?() }
             self.saveIfChecked(id, context: context)
         }
         return id
