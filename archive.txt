@@ -1,0 +1,14 @@
+commit: 9341a3e011cf97037f2ae0bc4f47f5e30939fd06
+result: success
+when: Tue Nov 10 17:35:22 UTC 2026
+
+Xcode_16.0.0.app Xcode_16.0.app Xcode_16.1.0.app Xcode_16.1.app Xcode_16.2.0.app Xcode_16.2.app Xcode_16.3.0.app Xcode_16.3.app Xcode_16.4.0.app Xcode_16.4.app Xcode_16.app Xcode_26.0.1.app Xcode_26.0.app Xcode_26.1.1.app Xcode_26.1.app Xcode_26.2.0.app Xcode_26.2.app Xcode_26.3.0.app Xcode_26.3.app Xcode.app ⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+Xcode 26.3
+Build version 17C529
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos26.2-23C57-dc75598d0054f22ec865fa860f139d722dd23b4ebda140f7210d155ff1243552.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/
+    builtin-ScanDependencies -o /Users/runner/Library/Developer/Xcode/DerivedData/ChargeCheck-cocxejwjhbxqwydyrukkwbskkyog/Build/Intermediates.noindex/ArchiveIntermediates/ChargeCheck/IntermediateBuildFilesPath/GoogleUserMessagingPlatform.build/Release-iphoneos/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer/X
+** ARCHIVE SUCCEEDED **
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
