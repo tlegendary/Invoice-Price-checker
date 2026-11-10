@@ -83,6 +83,14 @@ is ready and Ramyar says to switch.
 - It never changes quantities or prices. A name Ramyar corrected by hand is never sent. Settings has an on/off switch.
 - Only on phones with Apple Intelligence (iPhone 15 Pro or newer, switched on). Otherwise the normal reader is used.
 
+## Languages and currencies (added 11 Nov 2026)
+- App screens in English, Kurdish Sorani (ckb), Arabic (ar), German (de), French (fr): `App/Localizable.xcstrings`.
+  Text outside views goes through `L()` (app) and `CoreText` (core). Arabic and Kurdish are right-to-left.
+- Invoices read in English, German, French, Arabic, Kurdish (Settings › Language and money). Kurdish uses Apple's Arabic reader
+  (no Kurdish reader exists yet). Arabic-Indic digits, "1.234,56" and dinar amounts are understood.
+- Currencies: £, €, $, IQD. Changing currency does not convert saved prices.
+- Still to do: right-to-left layout inside the PDFs; Ramyar to check the Kurdish wording.
+
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
 - Switch `CCTestBuild` to false (also hides the test-mode switch and uses real ads).
