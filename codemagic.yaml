@@ -98,27 +98,49 @@ workflows:
           sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
           grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:" project.yml
           xcodegen generate
-      - name: Get the beta app's provisioning profile
+      - name: Beta profile 1 - find the bundle ID and certificates
         script: |
+          set -e
           BETA=com.rjapps.invoicepricechecker.beta
+          grep -q "PRODUCT_BUNDLE_IDENTIFIER: $BETA" ChargeCheckSwift/project.yml   # never build this as the live app
+          cat > /tmp/ids.py <<'PY'
+          import json, sys
+          want = sys.argv[1] if len(sys.argv) > 1 else ""
+          data = json.load(sys.stdin)
+          data = data if isinstance(data, list) else data.get("data", [data])
+          out = []
+          for x in data:
+              attrs = x.get("attributes", x)
+              if want == "cert" and "DISTRIBUTION" not in str(attrs.get("certificateType", "")): continue
+              if want.startswith("name=") and attrs.get("name") != want[5:]: continue
+              out.append(x["id"])
+          print(" ".join(out))
+          PY
+          app-store-connect bundle-ids list --bundle-id-identifier "$BETA" --strict-match-identifier --json > /tmp/bid.json
+          app-store-connect certificates list --json > /tmp/certs.json
+          python3 /tmp/ids.py < /tmp/bid.json > /tmp/bid.txt
+          python3 /tmp/ids.py cert < /tmp/certs.json > /tmp/certs.txt
+          echo "Bundle: $(cat /tmp/bid.txt)  Certificates: $(cat /tmp/certs.txt)"
+          test -s /tmp/bid.txt && [ -n "$(cat /tmp/bid.txt)" ]
+          [ -n "$(cat /tmp/certs.txt)" ]
+      - name: Beta profile 2 - make it
+        script: |
+          set -e
           NAME="ChargeCheck Beta CI"
-          ids() { python3 -c "import json,sys; d=json.load(sys.stdin); d=d if isinstance(d,list) else [d]; print(' '.join(x['id'] for x in d if not sys.argv[1:] or x.get('attributes',{}).get('certificateType','') in sys.argv[1:]))" "$@"; }
-          # use the profile if it is already there, otherwise make it
-          if app-store-connect profiles list --name "$NAME" --type IOS_APP_STORE --profile-state ACTIVE --save 2>/tmp/p.log | grep -q "Saved"; then
-            echo "Using the existing beta profile"
-          elif grep -q "Saved" /tmp/p.log; then
-            echo "Using the existing beta profile"
-          else
-            BID=$(app-store-connect bundle-ids list --bundle-id-identifier "$BETA" --strict-match-identifier --json 2>/dev/null | ids)
-            if [ -z "$BID" ]; then echo "The bundle ID $BETA is not registered in the Apple developer account yet"; exit 1; fi
-            CERTS=$(app-store-connect certificates list --json 2>/dev/null | ids DISTRIBUTION IOS_DISTRIBUTION)
-            if [ -z "$CERTS" ]; then echo "No distribution certificate found in the Apple developer account"; exit 1; fi
-            echo "Bundle $BID, certificates: $CERTS"
-            app-store-connect profiles create --bundle-id "$BID" --certificate-ids $CERTS --type IOS_APP_STORE --name "$NAME" --save
-          fi
-          ls ~/Library/MobileDevice/Provisioning\ Profiles/ || true
+          # replace an older copy so it always matches the current certificates
+          app-store-connect profiles list --type IOS_APP_STORE --json > /tmp/profiles.json 2>/dev/null || echo "[]" > /tmp/profiles.json
+          for old in $(python3 /tmp/ids.py "name=$NAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
+          app-store-connect profiles create --bundle-id "$(cat /tmp/bid.txt)" --certificate-ids $(cat /tmp/certs.txt) --type IOS_APP_STORE --name "$NAME" --save
+      - name: Beta profile 3 - check it was saved
+        script: |
+          set -e
+          ls -la "$HOME/Library/MobileDevice/Provisioning Profiles/"
+          grep -la "invoicepricechecker.beta" "$HOME/Library/MobileDevice/Provisioning Profiles/"*
       - name: Set up signing
-        script: xcode-project use-profiles --project ChargeCheckSwift/ChargeCheck.xcodeproj
+        script: |
+          set -e
+          xcode-project use-profiles --project ChargeCheckSwift/ChargeCheck.xcodeproj
+          grep -c "ChargeCheck Beta CI" ChargeCheckSwift/ChargeCheck.xcodeproj/project.pbxproj
       - name: Resolve Swift packages (with retries)
         script: |
           for i in 1 2 3; do
