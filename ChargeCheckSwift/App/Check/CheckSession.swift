@@ -58,6 +58,8 @@ enum NameFixes {
 @MainActor
 final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
+    /// Invoice files sent to ChargeCheck from another app (Mail, WhatsApp, Files…), waiting to be read.
+    @Published var incoming: [URL] = []
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).

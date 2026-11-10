@@ -50,6 +50,17 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UIFileSharingEnabled: true
+        # "Open in ChargeCheck" / Share › ChargeCheck for invoice PDFs and photos from Mail, WhatsApp, Files…
+        LSSupportsOpeningDocumentsInPlace: false
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: PDF invoice
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [com.adobe.pdf]
+          - CFBundleTypeName: Invoice photo
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.jpeg, public.png, public.heic]
         # !!! Test mode: test ads and a "test as free user" switch. Set to false before sending for App Review.
         CCTestBuild: true
         GADApplicationIdentifier: ca-app-pub-2905482277981262~1451903100

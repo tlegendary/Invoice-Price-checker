@@ -4919,6 +4919,34 @@
         }
       }
     },
+    "Invoice in WhatsApp or Mail? Open it, tap Share, then ChargeCheck.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة في واتساب أو البريد؟ افتحها، اضغط مشاركة، ثم ChargeCheck."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکە لە واتسئاپ یان ئیمەیڵە؟ بیکەرەوە، Share دابگرە، پاشان ChargeCheck."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung in WhatsApp oder Mail? Öffne sie, tippe auf Teilen und dann auf ChargeCheck."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facture dans WhatsApp ou Mail ? Ouvrez-la, touchez Partager, puis ChargeCheck."
+          }
+        }
+      }
+    },
     "Invoice no.": {
       "localizations": {
         "ar": {

@@ -71,6 +71,12 @@ struct RootView: View {
                 showPaywall = true
             }
         }
+        .onOpenURL { url in
+            // an invoice PDF or photo sent from another app: read it on the Check tab
+            guard url.isFileURL else { return }
+            session.incoming.append(url)
+            tab = "check"
+        }
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }

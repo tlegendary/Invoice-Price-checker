@@ -119,6 +119,8 @@ struct CheckView: View {
                     Text(prices.isEmpty
                          ? "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with."
                          : "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.")
+                    + Text("\n")
+                    + Text("Invoice in WhatsApp or Mail? Open it, tap Share, then ChargeCheck.")
                 }
                 if !session.jobs.isEmpty {
                     Section("Invoices") {
@@ -188,6 +190,11 @@ struct CheckView: View {
             .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image], allowsMultipleSelection: true) { result in
                 open(result)
             }
+            .onReceive(session.$incoming) { urls in
+                guard !urls.isEmpty else { return }
+                session.incoming = []
+                importFiles(urls)
+            }
             .onChange(of: picked) {
                 loadPicked()
             }
@@ -249,6 +256,11 @@ struct CheckView: View {
 
     private func open(_ result: Result<[URL], Error>) {
         guard case .success(let urls) = result else { return }
+        importFiles(urls)
+    }
+
+    /// Reads invoice files: chosen in Files, or sent to ChargeCheck from another app.
+    private func importFiles(_ urls: [URL]) {
         var failed = 0
         var skipped = 0
         for url in urls {
