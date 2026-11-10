@@ -83,4 +83,15 @@ final class ReportTests: XCTestCase {
         XCTAssertEqual(ReportMaths.copyName(for: entry("A/7:9", "Food*Dist/ Ltd", "6.11.26", net: 1, total: 1)), "2026-11-06 Food Dist Ltd A 7 9")
         XCTAssertEqual(ReportMaths.copyName(for: entry("", "", "", net: 1, total: 1)), "2026-11-09 Invoice")
     }
+
+    func testCreditMessage() {
+        let entry = HistoryEntry(id: "c", supplier: "Sample Foods Ltd", invNo: "81", date: "06/11/2026", net: 47.97, total: 47.97, over: 1.00,
+                                 lines: [HistoryLine(qty: 2, desc: "CHICKEN WINGS", unit: 15.49, matchId: "w", base: 14.99, over: 1.00),
+                                         HistoryLine(qty: 1, desc: "OIL TIN", unit: 16.99, matchId: "o", excluded: true)])
+        let text = ReportMaths.creditText(entry, business: "My Shop")
+        XCTAssertTrue(text.hasPrefix("Hello Sample Foods Ltd,"))
+        XCTAssertTrue(text.contains("• 2 x CHICKEN WINGS – charged £15.49, agreed £14.99: £1.00"))
+        XCTAssertTrue(text.contains("• 1 x OIL TIN – not received / returned: £16.99"))
+        XCTAssertTrue(text.hasSuffix("Thank you,\nMy Shop"))
+    }
 }

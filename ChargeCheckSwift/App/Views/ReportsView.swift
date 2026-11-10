@@ -300,6 +300,7 @@ struct ReportDetailView: View {
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var preview: URL?
     @State private var confirmDelete = false
+    @State private var copied = false
 
     private var entry: HistoryEntry? { reports.first { $0.uid == reportID }?.entry }
 
@@ -342,9 +343,21 @@ struct ReportDetailView: View {
                                 Label("Send the original invoice", systemImage: "square.and.arrow.up")
                             }
                         }
-                        if amounts.less > 0, let url = creditRequest(entry) {
-                            ShareLink(item: url) {
-                                Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
+                        if amounts.less > 0 {
+                            let message = ReportMaths.creditText(entry, business: business)
+                            ShareLink(item: message, subject: Text("Credit request"), message: nil) {
+                                Label("Credit request message (WhatsApp, email…)", systemImage: "text.bubble")
+                            }
+                            Button {
+                                UIPasteboard.general.string = message
+                                copied = true
+                            } label: {
+                                Label(copied ? "Copied" : "Copy the credit request", systemImage: copied ? "checkmark" : "doc.on.doc")
+                            }
+                            if let url = creditRequest(entry) {
+                                ShareLink(item: url) {
+                                    Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
+                                }
                             }
                         }
                     }

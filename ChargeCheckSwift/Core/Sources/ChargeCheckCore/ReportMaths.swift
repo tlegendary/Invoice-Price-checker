@@ -78,6 +78,27 @@ public enum ReportMaths {
                           pay: Money.round2(suppliers.reduce(0) { $0 + $1.pay }))
     }
 
+    /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
+    public static func creditText(_ entry: HistoryEntry, business: String) -> String {
+        var s = "Hello" + (entry.supplier.isEmpty ? "" : " " + entry.supplier) + ",\n\n"
+        s += "I've checked the invoice below against our agreed prices and found the following differences:\n\n"
+        s += "Invoice" + (entry.invNo.isEmpty ? "" : " #" + entry.invNo) + (entry.date.isEmpty ? "" : " (" + entry.date + ")") + "\n"
+        func qty(_ q: Double) -> String { q == q.rounded() ? String(Int(q)) : String(q) }
+        for line in entry.lines where !line.excluded && line.over > 0.005 {
+            let name = line.desc.isEmpty ? line.item : line.desc
+            let base = line.base.map { ", agreed " + Money.format($0) } ?? ""
+            s += "• \(qty(line.qty)) x \(name) – charged \(Money.format(line.unit))\(base): \(Money.format(line.over))\n"
+        }
+        for line in entry.lines where line.excluded {
+            let name = line.desc.isEmpty ? line.item : line.desc
+            s += "• \(qty(line.qty)) x \(name) – not received / returned: \(Money.format(Money.round2(line.qty * line.unit)))\n"
+        }
+        let less = entry.amountToPay.less
+        s += "\nTotal to credit: " + Money.format(less) + (entry.overVat > 0.005 ? " (incl. VAT)" : "") + "\n\n"
+        s += "Please could you issue a credit note for this amount.\n\nThank you,\n" + (business.isEmpty ? "" : business)
+        return s.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     /// A text breakdown to send to a supplier with the payment.
     public static func paymentText(_ summary: PaySummary, today: String) -> String {
         var lines = ["Payment summary – " + today, ""]

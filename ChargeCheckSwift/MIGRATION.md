@@ -77,6 +77,9 @@ is ready and Ramyar says to switch.
   - [ ] Try on a real phone: camera scanner, real ads and purchases, iCloud folder, notifications
   - [ ] Ask Ramyar before switching the App Store build to the Swift version
 
+## Left out on purpose
+- Licence keys: not needed in the Swift app (Ramyar, 11 Nov 2026). App Store plans, scan packs and ads only.
+
 ## Rules
 
 - Never upload the Swift build to TestFlight / the App Store until Ramyar says yes.
