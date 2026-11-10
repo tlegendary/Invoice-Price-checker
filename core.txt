@@ -1,0 +1,50 @@
+commit: ee6b1ff8ca59582712f9009880dc13b96c9f4819
+result: success
+when: Tue Nov 10 05:24:27 UTC 2026
+
+Swift version 6.4.2 (swift-6.4.2-RELEASE)
+Target: x86_64-unknown-linux-gnu
+Building for debugging...
+[Computing dependencies]
+[Pre-planning 1 / 124]
+[Planning deferred tasks]
+[30 / 54] ChargeCheckCore
+[32 / 54] ChargeCheckCore
+[40 / 59] ChargeCheckCoreTests-product
+[47 / 59] ChargeCheckCoreTests-product
+[48 / 59] ChargeCheckCoreTests-product
+[52 / 60] ChargeCheckCore-product
+[53 / 60] ChargeCheckCoreTests-test-runner
+[56 / 63] ChargeCheckCoreTests-test-runner
+[60 / 63] ChargeCheckCoreTests-test-runner
+[64 / 64] ChargeCheckCoreTests-test-runner
+Build complete! (14.62 secs)
+Test Suite 'All tests' started at 2026-11-10 05:24:26.469
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 05:24:26.552
+Test Suite 'CoreTests' started at 2026-11-10 05:24:26.552
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 05:24:26.552
+Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.003 seconds)
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 05:24:26.555
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.145 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-10 05:24:26.700
+Test Case 'CoreTests.testCategories' passed (0.003 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 05:24:26.703
+Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
+Test Case 'CoreTests.testMoney' started at 2026-11-10 05:24:26.704
+Test Case 'CoreTests.testMoney' passed (0.0 seconds)
+Test Case 'CoreTests.testNorm' started at 2026-11-10 05:24:26.704
+Test Case 'CoreTests.testNorm' passed (0.0 seconds)
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 05:24:26.705
+Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
+Test Case 'CoreTests.testSupplier' started at 2026-11-10 05:24:26.705
+Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
+Test Suite 'CoreTests' passed at 2026-11-10 05:24:26.705
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.153 (0.153) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 05:24:26.705
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.153 (0.153) seconds
+Test Suite 'All tests' passed at 2026-11-10 05:24:26.705
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.153 (0.153) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.4.2 (288a2328ff84644)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
