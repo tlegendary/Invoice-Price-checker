@@ -19,6 +19,7 @@ let package = Package(
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm")
             ],
-            path: "ios/Sources/VisionOCRPlugin")
+            path: "ios/Sources/VisionOCRPlugin",
+            resources: [.copy("PrivacyInfo.xcprivacy")])
     ]
 )
