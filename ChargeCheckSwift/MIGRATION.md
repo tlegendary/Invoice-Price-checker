@@ -83,6 +83,10 @@ is ready and Ramyar says to switch.
 - It never changes quantities or prices. A name Ramyar corrected by hand is never sent. Settings has an on/off switch.
 - Only on phones with Apple Intelligence (iPhone 15 Pro or newer, switched on). Otherwise the normal reader is used.
 
+## Before going live – must remove
+- "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
+- Switch `CCTestBuild` to false (also hides the test-mode switch and uses real ads).
+
 ## Left out on purpose
 - Licence keys: not needed in the Swift app (Ramyar, 11 Nov 2026). App Store plans, scan packs and ads only.
 

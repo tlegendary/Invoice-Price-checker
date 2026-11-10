@@ -183,6 +183,13 @@ final class Store: ObservableObject {
         return added
     }
 
+    /// TEST BUILDS ONLY – Ramyar's own testing. Remove before the App Store release (see MIGRATION.md).
+    func addTestScans(_ count: Int = 5) {
+        guard AppConfig.testBuild else { return }
+        ledger.refund(count)
+        saveLedger()
+    }
+
     func adoptLegacyScans(_ count: Int) {
         ledger.adopt(legacyCredits: count)
         saveLedger()

@@ -81,6 +81,12 @@ jobs:
             shot 10-check-free 6 -startTab check
             shot 11-export 6 -startTab reports -demoExport YES
             shot 12-price-history 6 -startTab prices -demoPrice s1
+            # the app in each language (right-to-left for Arabic and Kurdish)
+            shot 20-ar-settings 6 -startTab settings -AppleLanguages "(ar)" -AppleLocale ar_IQ
+            shot 21-ckb-reports 6 -startTab reports -AppleLanguages "(ckb)" -AppleLocale ckb_IQ
+            shot 22-de-sample 25 -demoScan YES -AppleLanguages "(de)" -AppleLocale de_DE
+            shot 23-fr-prices 6 -startTab prices -AppleLanguages "(fr)" -AppleLocale fr_FR
+            shot 24-ckb-check 6 -startTab check -AppleLanguages "(ckb)" -AppleLocale ckb_IQ
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true

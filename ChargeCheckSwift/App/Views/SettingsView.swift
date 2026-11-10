@@ -166,6 +166,10 @@ struct SettingsView: View {
                         }
                     }
                     if AppConfig.testBuild {
+                        // TEST BUILDS ONLY – remove before the App Store release
+                        Button("Test: add 5 free scans") {
+                            store.addTestScans(5)
+                        }
                         Toggle("Test mode: use the free version", isOn: $store.testAsFree)
                         LabeledContent("Ads", value: ads.status)
                         LabeledContent("App Store", value: store.loadStatus)
@@ -196,10 +200,10 @@ struct SettingsView: View {
 
                 Section {
                     Picker("Ignore differences up to", selection: $toleranceValue) {
-                        Text("1p").tag(0.01)
-                        Text("2p").tag(0.02)
-                        Text("5p").tag(0.05)
-                        Text("10p").tag(0.1)
+                        Text(Money.format(0.01)).tag(0.01)
+                        Text(Money.format(0.02)).tag(0.02)
+                        Text(Money.format(0.05)).tag(0.05)
+                        Text(Money.format(0.1)).tag(0.1)
                     }
                     Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
                     Toggle("Double-check with Apple Intelligence", isOn: $smartCheck)
