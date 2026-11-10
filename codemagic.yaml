@@ -165,7 +165,25 @@ workflows:
             sleep 20
           done
       - name: Build
-        script: xcode-project build-ipa --project "ChargeCheckSwift/ChargeCheck.xcodeproj" --scheme "ChargeCheck"
+        script: |
+          set +e
+          xcode-project build-ipa --project "ChargeCheckSwift/ChargeCheck.xcodeproj" --scheme "ChargeCheck" > /tmp/build-ipa.log 2>&1
+          CODE=$?
+          tail -60 /tmp/build-ipa.log
+          if [ $CODE -ne 0 ]; then
+            # put the compiler errors where they can be read from GitHub (branch cm-logs)
+            {
+              echo "commit: $CM_COMMIT  build: $CM_BUILD_ID"
+              cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|\*\* .* FAILED|Provisioning|signing|requires a provisioning" | sort -u | cut -c1-400 | head -80
+              echo "---- last lines ----"
+              tail -40 /tmp/build-ipa.log | cut -c1-400
+            } > /tmp/cm-errors.txt
+            cat /tmp/cm-errors.txt
+            rm -rf /tmp/cmlogs && mkdir /tmp/cmlogs && cd /tmp/cmlogs && git init -q && cp /tmp/cm-errors.txt build.txt
+            git -c user.name=codemagic -c user.email=ci@codemagic.io commit -qam "build failed $CM_COMMIT" 2>/dev/null || { git add build.txt; git -c user.name=codemagic -c user.email=ci@codemagic.io commit -qm "build failed $CM_COMMIT"; }
+            git push -q -f "$(git -C "$CM_BUILD_DIR" remote get-url origin)" HEAD:refs/heads/cm-logs 2>&1 | tail -3 || true
+          fi
+          exit $CODE
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
