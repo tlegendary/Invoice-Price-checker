@@ -71,7 +71,8 @@ is ready and Ramyar says to switch.
   - [x] Codemagic workflow `swift-beta` (in `codemagic.yaml`): builds the Swift app as a separate **ChargeCheck Beta** app
         (bundle ID `com.rjapps.invoicepricechecker.beta`) and sends it to TestFlight. It only runs when
         `ChargeCheckSwift/.beta-build` changes. The live app's bundle ID and workflow are unchanged.
-  - [ ] Ramyar: register the beta bundle ID and create the "ChargeCheck Beta" app in App Store Connect, then the first build
+  - [x] Beta bundle ID registered, "ChargeCheck Beta" app created, first build uploaded to TestFlight (10 Nov 2026).
+        To send a new build: change `ChargeCheckSwift/.beta-build` and push.
   - [ ] Note: the beta app has no in-app purchase products of its own, so the plans won't load there. Use the test-mode switch.
   - [ ] Try on a real phone: camera scanner, real ads and purchases, iCloud folder, notifications
   - [ ] Ask Ramyar before switching the App Store build to the Swift version
