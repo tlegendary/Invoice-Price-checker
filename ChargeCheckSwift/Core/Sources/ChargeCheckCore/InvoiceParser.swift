@@ -165,6 +165,17 @@ public enum InvoiceParser {
     static func numberInfo(_ token: String) -> (value: Double, explicit: Bool)? {
         var s = stripToken(token)
         if !s.hasAsciiDigit || !Rx.test(s, "^[0-9OoIlS.,]+$") { return nil }
+        if Money.currency.decimals == 0 {
+            // dinars and similar: whole amounts, thousands grouped with , or .
+            if Rx.test(s, "^[0-9]{1,3}([.,][0-9]{3})+$") || Rx.test(s, "^[0-9]{1,9}$"),
+               let v = Double(s.replacingOccurrences(of: ",", with: "").replacingOccurrences(of: ".", with: "")) { return (v, true) }
+            return nil
+        }
+        if Rx.test(s, "^[0-9]{1,3}([.,][0-9]{3})+[.,][0-9]{2}$") {
+            // "1.234,56" or "1,234.56"
+            let digits = s.filter { $0.isASCII && $0.isNumber }
+            if let v = Double(digits) { return (v / 100, true) }
+        }
         s = s.replacingOccurrences(of: "O", with: "0").replacingOccurrences(of: "o", with: "0")
             .replacingOccurrences(of: "I", with: "1").replacingOccurrences(of: "l", with: "1")
             .replacingOccurrences(of: "S", with: "5").firstCommaToDot
@@ -179,14 +190,14 @@ public enum InvoiceParser {
         let s = stripToken(token).replacingOccurrences(of: "O", with: "0").replacingOccurrences(of: "o", with: "0").firstCommaToDot
         if Rx.test(s, "^[0-9]{1,3}\\.[0-9]{2}$") { return Double(s) }
         if decimalOnly { return nil }
-        if Rx.test(s, "^[1-9]00$"), let v = Int(s) { return Double(v) / 100 }
+        if Money.currency.decimals > 0, Rx.test(s, "^[1-9]00$"), let v = Int(s) { return Double(v) / 100 }
         if Rx.test(s, "^[0-9]{1,2}$"), let v = Int(s), v > 0 { return Double(v) }
         return nil
     }
 
     static func isJunk(_ token: String, trailing: Bool = false) -> Bool {
         let s = stripToken(token)
-        if s.isEmpty || Rx.test(token, "^[^A-Za-z0-9]+$") { return true }
+        if s.isEmpty || Rx.test(token, "^[^\\p{L}\\p{N}]+$") { return true }
         if trailing { return s.count <= 3 && !Rx.test(s, "[0-9][.,][0-9]") }
         return s.count <= 2 && !s.hasAsciiDigit
     }
@@ -212,11 +223,31 @@ public enum InvoiceParser {
 
     /// Drops product codes, stray letters, pen marks and prices the reader glued onto an item name.
     /// The second read (no spelling help) sometimes invents letters like Ą or Ž, or ¡ and ! for an inch mark.
+    /// The language invoices are written in: "en", "de", "fr", "ar" or "ckb" (set by the app).
+    public static var language = "en"
+    static var rightToLeft: Bool { language == "ar" || language == "ckb" }
+
+    /// Arabic-Indic and Persian digits (٠١٢ / ۰۱۲) become 0-9; the Arabic decimal and thousands marks become . and ,
+    public static func westernDigits(_ text: String) -> String {
+        guard text.unicodeScalars.contains(where: { (0x0660...0x066C).contains($0.value) || (0x06F0...0x06F9).contains($0.value) || $0.value == 0x060C }) else { return text }
+        return String(String.UnicodeScalarView(text.unicodeScalars.map { scalar -> Unicode.Scalar in
+            switch scalar.value {
+            case 0x0660...0x0669: return Unicode.Scalar(scalar.value - 0x0660 + 0x30)!
+            case 0x06F0...0x06F9: return Unicode.Scalar(scalar.value - 0x06F0 + 0x30)!
+            case 0x066B: return "."
+            case 0x066C, 0x060C: return ","
+            default: return scalar
+            }
+        }))
+    }
+
     /// Characters a UK invoice really uses beyond plain ASCII. Anything else the reader made up.
     private static let realSymbols: Set<Unicode.Scalar> = ["£", "€", "“", "”", "‘", "’", "–", "—", "×", "°", "½", "¼", "¾", "•", "©", "®", "™", "\u{00A0}"]
 
     public static func looksGarbled(_ text: String) -> Bool {
-        text.unicodeScalars.contains { $0.value > 0x7F && !realSymbols.contains($0) }
+        // only English invoices: other languages really use these letters
+        guard language == "en" else { return false }
+        return text.unicodeScalars.contains { $0.value > 0x7F && !realSymbols.contains($0) }
             || Rx.test(text, "[A-Za-z0-9]![A-Za-z0-9!]|![A-Za-z]")
     }
 
@@ -240,7 +271,7 @@ public enum InvoiceParser {
         s = Rx.replace(s, "\\bI(trs?)\\b", "L$1")
         s = Rx.replace(s, "\\bi(trs?)\\b", "l$1")
         var t: [String] = s.splitOnWhitespace().map { word in
-            var w = Rx.replace(word, "^[^A-Za-z0-9(£]+|[^A-Za-z0-9)%]+$", "")
+            var w = Rx.replace(word, "^[^\\p{L}\\p{N}(£€$]+|[^\\p{L}\\p{N})%]+$", "")
             if w.hasSuffix(")") && !w.contains("(") { w.removeLast() }
             if Rx.test(w, "^[0-9]+[xX][0-9SOo]+$"), let cut = w.firstIndex(where: { $0 == "x" || $0 == "X" }) {
                 let head = w[...cut]
@@ -266,6 +297,8 @@ public enum InvoiceParser {
         func junk(_ w: String, _ prev: String?) -> Bool {
             let lw = w.lowercased()
             if known.contains(lw) || keepShort.contains(lw) { return false }
+            // Arabic and Kurdish words are never stray marks
+            if w.unicodeScalars.contains(where: { $0.value >= 0x0600 && $0.value <= 0x06FF }) { return false }
             if Rx.test(w, "^[0-9]$") { return prev != nil && !(prev ?? "").isEmpty }
             if Rx.test(w, "^0+$") { return true }
             if w.hasAsciiDigit { return !isSize(w) && w.hasAsciiLetter && w.count <= 5 }
@@ -366,6 +399,12 @@ public enum InvoiceParser {
             E.removeFirst(k)
         }
 
+        if !found, rightToLeft, descTokens.count > 1, let q = quantityToken(descTokens[descTokens.count - 1]), q > 0,
+           T.indices.contains(where: { a in T.indices.contains { b in b > a && abs(q * T[a] - T[b]) < 0.06 } }) {
+            qty = q
+            qtyGuess = false
+            descTokens.removeLast()
+        }
         var unit: Double?
         var net: Double?
         var ni = -1
@@ -418,15 +457,16 @@ public enum InvoiceParser {
         let rawDesc = descTokens.joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)
         let cleaned = cleanDescription(rawDesc, known: known)
         let desc = cleaned.isEmpty ? rawDesc : cleaned
-        if desc.isEmpty || !Rx.test(desc, "[a-z]{2}", ci: true) { return nil }
+        if desc.isEmpty || !Rx.test(desc, "\\p{L}{2}") { return nil }
 
         var vat = 0.0
         let after: [Double] = ni >= 0 && ni + 1 < T.count ? Array(T[(ni + 1)...]) : []
-        for v in after where v == 20 || v == 5 {
+        let rates: [Double] = language == "de" ? [19, 7] : language == "fr" ? [20, 10, 5.5] : [20, 5]
+        for v in after where rates.contains(v) {
             vat = v
             break
         }
-        if vat == 0, let n = net, n != 0, let last = after.last, last > 0, abs(last - n * 0.2) < 0.03 { vat = 20 }
+        if vat == 0, let n = net, n != 0, let last = after.last, last > 0, let rate = rates.first, abs(last - n * rate / 100) < 0.03 { vat = rate }
         return ParsedLine(qty: qty, desc: desc, raw: rawDesc, unit: unit ?? 0, vat: vat, warn: warn)
     }
 
@@ -436,27 +476,86 @@ public enum InvoiceParser {
         let found = Rx.group(text, pattern, ci: true)
         if found.isEmpty { return nil }
         let digits = found.filter { ($0.isASCII && $0.isNumber) || $0 == "." || $0 == "," }
+        if Money.currency.decimals == 0 || Set(digits.filter { $0 == "." || $0 == "," }).count == 2 { return Money.parse(digits) ?? 0 }
         let cleaned = digits.firstCommaToDot.filter { ($0.isASCII && $0.isNumber) || $0 == "." || $0 == "-" }
         return leadingNumber(cleaned) ?? 0
     }
 
+    /// The words that mark totals, invoice numbers and dates. English invoices use exactly the English words;
+    /// other languages add their own words to the English ones.
+    enum Words {
+        private static func pick(_ en: String, _ others: [String: String]) -> String {
+            guard language != "en", let extra = others[language] else { return en }
+            return en + "|" + extra
+        }
+        static var skip: String {
+            pick("total|invoice\\s*no|account|page\\s*[0-9]|quantity\\s+desc", [
+                "de": "summe|gesamt|rechnungs?\\s*(nr|nummer)|seite\\s*[0-9]|menge\\s+(bezeichnung|artikel)|netto|brutto|mwst|ust",
+                "fr": "montant|facture\\s*(n°|no|num)|quantit[ée]\\s+d[ée]sign|sous-total|total\\s*h\\.?t|ttc|tva",
+                "ar": "المجموع|الإجمالي|الاجمالي|اجمالي|رقم الفاتورة|الكمية|الصافي|المبلغ|الضريبة",
+                "ckb": "کۆی گشتی|کۆی|ژمارەی پسوولە|ژمارەی وەسڵ|بڕ\\s|کۆ\\s|باج"
+            ])
+        }
+        static var company: String {
+            pick("\\b(ltd|limited|wholesale|distribution|foods?)\\b", [
+                "de": "\\b(gmbh|ag|kg|großhandel|grosshandel|lebensmittel)\\b",
+                "fr": "\\b(sarl|sas|eurl|sa|alimentaire|grossiste)\\b",
+                "ar": "شركة|مؤسسة|مخازن",
+                "ckb": "کۆمپانیا|کۆمپانیای|کۆگا"
+            ])
+        }
+        static var date: String {
+            pick("invoice\\s*date", [
+                "de": "rechnungsdatum|datum",
+                "fr": "date\\s*(de\\s*)?(la\\s*)?facture|date",
+                "ar": "تاريخ الفاتورة|التاريخ",
+                "ckb": "بەروار"
+            ])
+        }
+        static var invoiceNo: String {
+            pick("invoice\\s*no", [
+                "de": "rechnungs?\\s*(nr|nummer)",
+                "fr": "facture\\s*(n°|no|num[ée]ro)",
+                "ar": "رقم الفاتورة",
+                "ckb": "ژمارەی پسوولە|ژمارەی وەسڵ|ژمارەی فاتورە"
+            ])
+        }
+        static var net: String {
+            pick("total\\s*net\\s*amount", [
+                "de": "nettobetrag|summe\\s*netto|gesamt\\s*netto|netto\\s*summe",
+                "fr": "total\\s*h\\.?t\\.?|montant\\s*h\\.?t\\.?",
+                "ar": "المجموع قبل الضريبة|المبلغ الصافي|الصافي",
+                "ckb": "کۆی بێ باج"
+            ])
+        }
+        static var total: String {
+            pick("invoice\\s*total", [
+                "de": "gesamtbetrag|rechnungsbetrag|endbetrag|summe\\s*brutto",
+                "fr": "total\\s*ttc|net\\s*à\\s*payer",
+                "ar": "الإجمالي|الاجمالي|المجموع الكلي|المبلغ المستحق|المجموع",
+                "ckb": "کۆی گشتی"
+            ])
+        }
+    }
+
     public static func parseInvoice(_ text: String, known: Set<String> = []) -> ParsedInvoice {
+        let text = westernDigits(text)
         let lines = text.components(separatedBy: "\n").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
         var out: [ParsedLine] = []
         for line in lines {
-            if Rx.test(line, "total|invoice\\s*no|account|page\\s*[0-9]|quantity\\s+desc", ci: true) { continue }
+            if Rx.test(line, Words.skip, ci: true) { continue }
             if let parsed = parseLine(line, known: known) { out.append(parsed) }
         }
-        let supplierLine = lines.first { Rx.test($0, "\\b(ltd|limited|wholesale|distribution|foods?)\\b", ci: true) && !Rx.test($0, "fried chicken|fc\\b", ci: true) } ?? ""
-        let supplier = String(Rx.replace(supplierLine, "[^A-Za-z0-9&().,' -]", "").trimmingCharacters(in: .whitespacesAndNewlines).prefix(60))
-        var date = Rx.group(text, "invoice\\s*date[^0-9\\n]{0,10}([0-9]{1,2}[/.\\-][0-9]{1,2}[/.\\-][0-9]{2,4})", ci: true)
-        if date.isEmpty { date = Rx.group(text, "([0-9]{2}/[0-9]{2}/[0-9]{4})") }
+        let supplierLine = lines.first { Rx.test($0, Words.company, ci: true) && !Rx.test($0, "fried chicken|fc\\b", ci: true) } ?? ""
+        let supplier = String(Rx.replace(supplierLine, "[^\\p{L}0-9&().,' -]", "").trimmingCharacters(in: .whitespacesAndNewlines).prefix(60))
+        var date = Rx.group(text, "(?:" + Words.date + ")[^0-9\\n]{0,10}([0-9]{1,2}[/.\\-][0-9]{1,2}[/.\\-][0-9]{2,4})", ci: true)
+        if date.isEmpty { date = Rx.group(text, language == "en" ? "([0-9]{2}/[0-9]{2}/[0-9]{4})" : "([0-9]{2}[/.][0-9]{2}[/.][0-9]{4})") }
         return ParsedInvoice(
             supplier: supplier,
-            invNo: Rx.group(text, "invoice\\s*no\\.?[^0-9\\n]{0,10}([0-9]{3,})", ci: true),
+            invNo: Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{3,})", ci: true),
             date: date,
-            printedNet: printedAmount(text, "total\\s*net\\s*amount[^0-9\\n]{0,40}([0-9.,]+)"),
-            printedTotal: printedAmount(text, "invoice\\s*total[^0-9\\n]{0,40}([0-9.,]+)"),
+            printedNet: printedAmount(text, "(?:" + Words.net + ")[^0-9\\n]{0,40}([0-9.,]+)"),
+            printedTotal: printedAmount(text, "(?:" + Words.total + ")[^0-9\\n]{0,40}([0-9.,]+)"),
             lines: out
         )
     }
@@ -621,7 +720,7 @@ public enum InvoiceParser {
         }
         return rows.map { row in
             row.items.enumerated()
-                .sorted { $0.element.x != $1.element.x ? $0.element.x < $1.element.x : $0.offset < $1.offset }
+                .sorted { $0.element.x != $1.element.x ? (rightToLeft ? $0.element.x > $1.element.x : $0.element.x < $1.element.x) : $0.offset < $1.offset }
                 .map { $0.element.text }
                 .joined(separator: "  ")
         }.joined(separator: "\n")
