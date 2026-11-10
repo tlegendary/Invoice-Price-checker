@@ -1,6 +1,6 @@
-commit: d04da47c9a9aad35fbc8e107acc522076842881c
-result: success
-when: Tue Nov 10 23:08:20 UTC 2026
+commit: d3b44b404b7750e6cb08eed64cab96f3fab86253
+result: cancelled
+when: Tue Nov 10 23:23:47 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -18,4 +18,44 @@ stringsdata files:       38
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
-Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/A5D09AF7-24C5-4877-82BE-195C9F141DB6/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/A5D09AF7-24C5-4877-82BE-195C9F141DB6/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+---- last lines ----
+
+ExtractAppIntentsMetadata (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.ciYePV/Metal.xctoolchain --module-name ChargeCheckTests --sdk-root /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPh
+2026-11-10 23:19:33.228 appintentsmetadataprocessor[11553:35285] Starting appintentsmetadataprocessor export
+2026-11-10 23:19:33.231 appintentsmetadataprocessor[11553:35285] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+CopySwiftLibs /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/ChargeCheckTests --scan-folder /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/Info.plist --temp-dir-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-chec
+2026-11-10 23:19:33.255 appintentsnltrainingprocessor[11554:35286] Parsing options for appintentsnltrainingprocessor
+2026-11-10 23:19:33.256 appintentsnltrainingprocessor[11554:35286] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+
+Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+
+RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+
+Validate /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-validationUtility /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+
+** TEST BUILD SUCCEEDED **
+
