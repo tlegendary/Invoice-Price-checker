@@ -1,6 +1,6 @@
-commit: 91b63bab410ee887d578514cbf21c12c4156dade
-result: cancelled
-when: Tue Nov 10 10:47:31 UTC 2026
+commit: e832e24a628c07b48096e739c1bc4d4743ebebd8
+result: success
+when: Tue Nov 10 10:55:38 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -8,39 +8,15 @@ when: Tue Nov 10 10:47:31 UTC 2026
 Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
 Xcode 16.4
 Build version 16F6
----- last lines ----
-Command line invocation:
-    /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/xcodebuild -project ChargeCheck.xcodeproj -scheme ChargeCheck -sdk iphonesimulator -destination "generic/platform=iOS Simulator" -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-
-Build settings from command line:
-    CODE_SIGNING_ALLOWED = NO
-    SDKROOT = iphonesimulator18.5
-
-Resolve Package Graph
-
-
-Resolved source packages:
-  ChargeCheckCore: /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core
-
-ComputePackagePrebuildTargetDependencyGraph
-
-Prepare packages
-
-CreateBuildRequest
-
-SendProjectDescription
-
-CreateBuildOperation
-
-ComputeTargetDependencyGraph
-note: Building targets in dependency order
-note: Target dependency graph (3 targets)
-    Target 'ChargeCheck' in project 'ChargeCheck'
-        ➜ Explicit dependency on target 'ChargeCheckCore' in project 'ChargeCheckCore'
-    Target 'ChargeCheckCore' in project 'ChargeCheckCore'
-        ➜ Explicit dependency on target 'ChargeCheckCore' in project 'ChargeCheckCore'
-    Target 'ChargeCheckCore' in project 'ChargeCheckCore' (no dependencies)
-
-GatherProvisioningInputs
-
-CreateBuildDescription
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Check/CheckSession.swift:78:41: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Check/CheckSession.swift:78:41: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode
+2026-11-10 10:49:49.675 appintentsmetadataprocessor[3410:13748] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+** BUILD SUCCEEDED **
+__preview.dylib AppIcon60x60@2x.png AppIcon76x76@2x~ipad.png Assets.car ChargeCheck ChargeCheck.debug.dylib Info.plist PkgInfo PrivacyInfo.xcprivacy SampleInvoice.jpg Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
+-rw-r--r--@ 1 runner  wheel  381239 Nov 10 10:53 /tmp/shot-1-first-open.png
+-rw-r--r--@ 1 runner  wheel  428561 Nov 10 10:53 /tmp/shot-2-prices.png
+-rw-r--r--@ 1 runner  wheel  242521 Nov 10 10:54 /tmp/shot-3-reports.png
+-rw-r--r--@ 1 runner  wheel  449775 Nov 10 10:54 /tmp/shot-4-settings.png
+-rw-r--r--@ 1 runner  wheel  470999 Nov 10 10:54 /tmp/shot-5-prices-dark-blue.png
+-rw-r--r--@ 1 runner  wheel  501020 Nov 10 10:54 /tmp/shot-6-settings-dark-purple.png
+-rw-r--r--@ 1 runner  wheel  403879 Nov 10 10:55 /tmp/shot-7-sample-invoice.png
