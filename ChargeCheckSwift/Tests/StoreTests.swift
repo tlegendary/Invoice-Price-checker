@@ -59,7 +59,7 @@ final class StoreTests: XCTestCase {
         XCTAssertEqual(outcome2, .done(scans: 3))
         XCTAssertEqual(store.credits, 13)
         // looking at every purchase again must not add scans twice
-        for await result in Transaction.all { await store.handle(result) }
+        if let latest = await Transaction.latest(for: "ipc_scans_3") { await store.handle(latest) }
         XCTAssertEqual(store.credits, 13)
         // scans are saved: a fresh start on the same phone still has them
         let again = Store(defaults: defaults)

@@ -41,11 +41,20 @@ is ready and Ramyar says to switch.
   - [ ] Lower my price automatically when a checked invoice is cheaper (old app did this)
   - [ ] Photo quality hints (dark / blurry), exact text from PDFs that contain text
   - [ ] Arabic text (needs Ramyar's decision; Kurdish Sorani is not supported by Apple's reader)
-- [ ] **4. Subscriptions + free version with ads**  ← next
-  - [ ] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore
-  - [ ] Google Mobile Ads (same ad unit IDs), one rewarded ad = one scan, consent + tracking prompt
-  - [ ] Paywall as a closable sheet
-- [ ] **5. Reports, PDF export + backup**
+- [x] **4. Subscriptions + free version with ads**
+  - [x] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore purchases
+  - [x] Plans screen as a closable sheet (terms, privacy, restore); closing it carries on with the free version
+  - [x] Free version: one rewarded ad watched to the end = one scan; a closed or failed ad gives no scan
+  - [x] Google Mobile Ads 13.11.0 (same version and ad unit as the old app), consent form, Apple's tracking question
+  - [x] Subscribers never start the ads code
+  - [x] Unused scans carry over from the old app and travel in backups (not back onto the same phone)
+  - [x] Test mode (`CCTestBuild` in `project.yml`): test ads + "use the free version" switch. **Turn off before App Review.**
+  - [x] Purchase tests against Apple's StoreKit test server (`Tests/StoreTests.swift`). They are slow in the cloud,
+        so they only run when a commit message contains `[store]`.
+        Seen passing: products + trial, monthly, yearly unlock + expiry, pack bought and counted once.
+        The pack test is sometimes very slow to start on a cold simulator.
+  - [ ] Not tested yet: real ads and real purchases on a phone (needs a TestFlight build)
+- [ ] **5. Reports, PDF export + backup**  ← next
   - [ ] Reports: choose invoices to pay, mark as paid, copy breakdown (basic totals are done)
   - [ ] PDF / spreadsheet for the accountant, price-list PDF, credit request PDF (in the chosen colour)
   - [ ] Automatic backup, iCloud Drive folder, copies of invoices
