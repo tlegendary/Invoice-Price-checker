@@ -19,7 +19,7 @@ enum PDFText {
     }
 
     /// Joins the letters on a page into runs of text. A run ends at a new line or a wide gap (the next column).
-    private static func pieces(on page: PDFPage) -> [TextPiece] {
+    private static func pieces(on page: PDFKit.PDFPage) -> [TextPiece] {
         guard let text = page.string, !text.isEmpty else { return [] }
         let box = page.bounds(for: .mediaBox)
         let letters = text as NSString
