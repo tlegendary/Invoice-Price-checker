@@ -10,17 +10,23 @@ struct RootView: View {
     @Environment(\.modelContext) private var context
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
+    /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
+    @State private var tab = UserDefaults.standard.string(forKey: "startTab") ?? "check"
 
     var body: some View {
-        TabView {
+        TabView(selection: $tab) {
             CheckView(storageProblem: storageProblem)
                 .tabItem { Label("Check", systemImage: "doc.text.viewfinder") }
+                .tag("check")
             PricesView()
                 .tabItem { Label("Prices", systemImage: "tag") }
+                .tag("prices")
             ReportsView()
                 .tabItem { Label("Reports", systemImage: "chart.bar") }
+                .tag("reports")
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape") }
+                .tag("settings")
         }
         .tint(Themes.named(colourID).accent(for: scheme))
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))

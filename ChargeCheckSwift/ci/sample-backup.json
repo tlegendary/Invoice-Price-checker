@@ -1,0 +1,12 @@
+{"app":"ChargeCheck","v":3,"savedAt":"2026-11-10T02:49:39.977Z","baseline":[
+{"id":"s1","cat":"Meat & Poultry","name":"Chicken Wings 10kg","price":14.99,"supplier":"Sample Foods Ltd","aliases":["chicken wings","prime wing"]},
+{"id":"s2","cat":"Meat & Poultry","name":"Quarter Pounder 48x4oz","price":24.99,"supplier":"Sample Foods Ltd","aliases":["quater pounder","quarter pounder"]},
+{"id":"s3","cat":"Oils & Sauces","name":"Vegetable Oil Tin 20L","price":27.99,"supplier":"Sample Foods Ltd","aliases":["vegetable oil tin"]},
+{"id":"s4","cat":"Oils & Sauces","name":"Real Mayo 10L","price":10.99,"supplier":"","aliases":["real mayo"]},
+{"id":"s5","cat":"Bakery","name":"Seeded Burger Buns 4x12","price":6.99,"supplier":"Bakery Direct","aliases":["seed burger bun"]},
+{"id":"s6","cat":"Other","name":"Cola Cans 24x330ml","price":8,"supplier":"","aliases":["cola can"]},
+{"id":"s7","cat":"Other","name":"Pizza Boxes 12 inch","price":9.99,"supplier":"","aliases":["pizza box 12"]}],
+"history":[
+{"id":"h1","savedAt":"2026-11-09T10:00:00.000Z","shopId":"","credit":null,"supplier":"Sample Foods Ltd","invNo":"82044","date":"06/11/2026","net":542.26,"total":550.55,"over":17.39,"overVat":0.29,"excluded":0,"verified":true,"lines":[{"qty":2,"desc":"CHICKEN WINGS 10KG","unit":15.99,"vat":0,"matchId":"s1","item":"Chicken Wings 10kg","base":14.99,"over":2,"excluded":false,"noBase":false}]},
+{"id":"h2","savedAt":"2026-11-08T10:00:00.000Z","shopId":"","credit":null,"supplier":"Bakery Direct","invNo":"117","date":"04/11/2026","net":69.9,"total":69.9,"over":0,"overVat":0,"excluded":0,"verified":true,"lines":[{"qty":10,"desc":"SEED BURGER BUN 4X12","unit":6.99,"vat":0,"matchId":"s5","item":"Seeded Burger Buns 4x12","base":6.99,"over":0,"excluded":false,"noBase":false}]}],
+"settings":{"biz":"Sample Shop","tol":0.01,"mode":"auto","color":"green"}}
