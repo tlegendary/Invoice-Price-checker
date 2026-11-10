@@ -44,7 +44,7 @@ struct CheckView: View {
         guard store.useScans(1) == 1 else { return false }
         session.read(pages: pages, sourcePDF: sourcePDF, context: context, onNothingRead: {
             store.refundScan()
-            notice = "That invoice couldn't be read, so your scan was given back."
+            notice = String(localized: "That invoice couldn't be read, so your scan was given back.")
         })
         return true
     }
@@ -142,7 +142,7 @@ struct CheckView: View {
                 DocumentScanner(
                     onFinish: { pages in
                         showScanner = false
-                        if !pages.isEmpty && !startReading(pages) { notice = "You have no scans left. Watch an ad or buy scans to check this invoice." }
+                        if !pages.isEmpty && !startReading(pages) { notice = String(localized: "You have no scans left. Watch an ad or buy scans to check this invoice.") }
                     },
                     onCancel: { showScanner = false }
                 )
@@ -206,7 +206,7 @@ struct CheckView: View {
 
     private func trySample(open: Bool = false, sideways: Bool = false) {
         guard var image = SampleInvoice.image else {
-            notice = "The sample invoice is missing from the app."
+            notice = String(localized: "The sample invoice is missing from the app.")
             return
         }
         if sideways { image = image.prepared(quarterTurns: 1) }
@@ -229,9 +229,9 @@ struct CheckView: View {
                 }
             }
             if skipped > 0 {
-                notice = "\(skipped == 1 ? "1 invoice wasn't" : "\(skipped) invoices weren't") scanned because you had no scans left. One ad or one pack scan is needed for each invoice."
+                notice = skipped == 1 ? String(localized: "1 invoice wasn't scanned because you had no scans left. One ad or one pack scan is needed for each invoice.") : String(localized: "\(skipped) invoices weren't scanned because you had no scans left. One ad or one pack scan is needed for each invoice.")
             } else if failed > 0 {
-                notice = failed == 1 ? "One photo couldn't be opened." : "\(failed) photos couldn't be opened."
+                notice = failed == 1 ? String(localized: "One photo couldn't be opened.") : String(localized: "\(failed) photos couldn't be opened.")
             }
         }
     }
@@ -260,9 +260,9 @@ struct CheckView: View {
             }
         }
         if skipped > 0 {
-            notice = "\(skipped == 1 ? "1 invoice wasn't" : "\(skipped) invoices weren't") scanned because you had no scans left. One ad or one pack scan is needed for each invoice."
+            notice = skipped == 1 ? String(localized: "1 invoice wasn't scanned because you had no scans left. One ad or one pack scan is needed for each invoice.") : String(localized: "\(skipped) invoices weren't scanned because you had no scans left. One ad or one pack scan is needed for each invoice.")
         } else if failed > 0 {
-            notice = failed == 1 ? "One file couldn't be opened." : "\(failed) files couldn't be opened."
+            notice = failed == 1 ? String(localized: "One file couldn't be opened.") : String(localized: "\(failed) files couldn't be opened.")
         }
     }
 }

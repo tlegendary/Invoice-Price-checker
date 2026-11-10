@@ -22,18 +22,18 @@ enum SmartCheck {
             case .available:
                 return ""
             case .unavailable(.deviceNotEligible):
-                return "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer)."
+                return String(localized: "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer).")
             case .unavailable(.appleIntelligenceNotEnabled):
-                return "Turn on Apple Intelligence in the Settings app to use this."
+                return String(localized: "Turn on Apple Intelligence in the Settings app to use this.")
             case .unavailable(.modelNotReady):
-                return "Apple Intelligence is still downloading. It will be used once it's ready."
+                return String(localized: "Apple Intelligence is still downloading. It will be used once it's ready.")
             case .unavailable:
-                return "Apple Intelligence isn't available right now."
+                return String(localized: "Apple Intelligence isn't available right now.")
             }
         }
-        return "Needs iOS 26 or newer."
+        return String(localized: "Needs iOS 26 or newer.")
         #else
-        return "Needs iOS 26 or newer."
+        return String(localized: "Needs iOS 26 or newer.")
         #endif
     }
 
@@ -44,7 +44,7 @@ enum SmartCheck {
         guard canRun, !lines.isEmpty else { return lines }
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
-            progress("Checking with Apple Intelligence…")
+            progress(String(localized: "Checking with Apple Intelligence…"))
             return await Checker.run(lines, supplier: supplier, book: book)
         }
         #endif

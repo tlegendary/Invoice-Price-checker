@@ -210,8 +210,8 @@ enum MonthlyReminder {
         guard on else { return true }
         guard (try? await center.requestAuthorization(options: [.alert, .sound])) == true else { return false }
         let content = UNMutableNotificationContent()
-        content.title = "Last month's invoice report is ready"
-        content.body = "Open ChargeCheck › Reports › Export to send it to your accountant."
+        content.title = String(localized: "Last month's invoice report is ready")
+        content.body = String(localized: "Open ChargeCheck › Reports › Export to send it to your accountant.")
         content.sound = .default
         let trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents(day: 1, hour: 9, minute: 0), repeats: true)
         do {

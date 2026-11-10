@@ -163,7 +163,7 @@ struct ReportsView: View {
                     }
                     Button {
                         UIPasteboard.general.string = ReportMaths.paymentText(pay, today: today())
-                        notice = "Breakdown copied. Paste it into a message to your supplier."
+                        notice = String(localized: "Breakdown copied. Paste it into a message to your supplier.")
                     } label: {
                         Label("Copy breakdown", systemImage: "doc.on.doc")
                     }
@@ -196,11 +196,11 @@ struct ReportRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                Text(entry.supplier.isEmpty ? "Invoice" : entry.supplier)
+                Text(entry.supplier.isEmpty ? L("Invoice") : entry.supplier)
                     .font(.subheadline.weight(.semibold))
                     .lineLimit(1)
                 Spacer(minLength: 12)
-                Text(entry.over > 0.005 ? Money.format(entry.over) : "OK")
+                Text(entry.over > 0.005 ? Money.format(entry.over) : L("OK"))
                     .font(.subheadline.weight(.bold))
                     .foregroundStyle(entry.over > 0.005 ? Color.red : Color.green)
             }
@@ -214,9 +214,9 @@ struct ReportRow: View {
         var parts: [String] = []
         if !entry.invNo.isEmpty { parts.append("#" + entry.invNo) }
         if !entry.date.isEmpty { parts.append(entry.date) }
-        parts.append("total " + Money.format(entry.total))
-        if entry.paid != nil { parts.append("paid") }
-        if !entry.verified { parts.append("not fully checked") }
+        parts.append(String(localized: "total \(Money.format(entry.total))"))
+        if entry.paid != nil { parts.append(String(localized: "paid")) }
+        if !entry.verified { parts.append(String(localized: "not fully checked")) }
         return parts.joined(separator: " · ")
     }
 }
@@ -235,7 +235,7 @@ struct PayChooseView: View {
 
     private var suppliers: [String] {
         var seen = Set<String>()
-        return entries.map { $0.supplier.isEmpty ? "Unknown supplier" : $0.supplier }.filter { seen.insert($0).inserted }
+        return entries.map { $0.supplier.isEmpty ? L("Unknown supplier") : $0.supplier }.filter { seen.insert($0).inserted }
     }
 
     var body: some View {
@@ -248,7 +248,7 @@ struct PayChooseView: View {
                     if suppliers.count > 1 {
                         ForEach(suppliers, id: \.self) { name in
                             Button("Only \(name)") {
-                                set(Set(entries.filter { ($0.supplier.isEmpty ? "Unknown supplier" : $0.supplier) != name }.map { $0.id }))
+                                set(Set(entries.filter { ($0.supplier.isEmpty ? L("Unknown supplier") : $0.supplier) != name }.map { $0.id }))
                             }
                         }
                     }
@@ -265,7 +265,7 @@ struct PayChooseView: View {
                             }
                         )) {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text((entry.supplier.isEmpty ? "Invoice" : entry.supplier) + (entry.invNo.isEmpty ? "" : "  #" + entry.invNo))
+                                Text((entry.supplier.isEmpty ? L("Invoice") : entry.supplier) + (entry.invNo.isEmpty ? "" : "  #" + entry.invNo))
                                     .font(.subheadline.weight(.semibold))
                                 Text("\(entry.date) · invoiced \(Money.format(amounts.total))" + (amounts.less > 0 ? " − \(Money.format(amounts.less))" : "") + " · pay \(Money.format(amounts.pay))")
                                     .font(.footnote)
@@ -489,6 +489,6 @@ struct ExportView: View {
 
     private func finish(_ url: URL?) {
         made = url
-        problem = url == nil ? "The file couldn't be made. Please try again." : nil
+        problem = url == nil ? String(localized: "The file couldn't be made. Please try again.") : nil
     }
 }

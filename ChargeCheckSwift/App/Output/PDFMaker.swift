@@ -58,6 +58,7 @@ final class PDFPage {
     }
 
     func heading(_ text: String) {
+        let text = L(text)
         room(40)
         y += 6
         draw(text, at: CGPoint(x: margin, y: y), font: .boldSystemFont(ofSize: 12), colour: UIColor(theme.dark), width: width)
@@ -65,6 +66,7 @@ final class PDFPage {
     }
 
     func paragraph(_ text: String, size: CGFloat = 10, bold: Bool = false, colour: UIColor = .black) {
+        let text = L(text)
         let font: UIFont = bold ? .boldSystemFont(ofSize: size) : .systemFont(ofSize: size)
         let bounds = (text as NSString).boundingRect(with: CGSize(width: width, height: 4000), options: [.usesLineFragmentOrigin],
                                                     attributes: [.font: font], context: nil)
@@ -76,6 +78,7 @@ final class PDFPage {
 
     /// Label on the left, value on the right.
     func pair(_ label: String, _ value: String, bold: Bool = false) {
+        let label = L(label)
         room(18)
         let font: UIFont = bold ? .boldSystemFont(ofSize: 11) : .systemFont(ofSize: 10)
         draw(label, at: CGPoint(x: margin, y: y), font: font, colour: .black, width: width * 0.65)
@@ -85,6 +88,8 @@ final class PDFPage {
 
     /// A table. `widths` are shares of the page width; `right` are the columns to line up on the right (numbers).
     func table(headers: [String], widths: [CGFloat], right: Set<Int> = [], rows: [[String]], footer: [String]? = nil) {
+        let headers = headers.map(L)
+        let footer = footer?.map(L)
         let total = widths.reduce(0, +)
         let columns = widths.map { $0 / total * width }
         let rowHeight: CGFloat = 17
@@ -127,7 +132,7 @@ enum PDFMaker {
     static func make(title: String, subtitle: String, theme: AppTheme, _ body: (PDFPage) -> Void) -> Data {
         let renderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: PDFPage.size))
         return renderer.pdfData { context in
-            body(PDFPage(context: context, title: title, subtitle: subtitle, theme: theme))
+            body(PDFPage(context: context, title: L(title), subtitle: subtitle, theme: theme))
         }
     }
 
@@ -135,7 +140,7 @@ enum PDFMaker {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_GB")
         formatter.dateFormat = "d MMM yyyy HH:mm"
-        return (business.isEmpty ? "" : business + " · ") + "Created " + formatter.string(from: Date())
+        return (business.isEmpty ? "" : business + " · ") + L("Created") + " " + formatter.string(from: Date())
     }
 
     /// The report for the accountant: totals, every invoice, and every overcharged line.
@@ -154,7 +159,7 @@ enum PDFMaker {
 
             var bySupplier: [String: (count: Int, net: Double, over: Double)] = [:]
             for entry in entries {
-                let name = entry.supplier.isEmpty ? "Unknown supplier" : entry.supplier
+                let name = entry.supplier.isEmpty ? L("Unknown supplier") : entry.supplier
                 var row = bySupplier[name] ?? (0, 0, 0)
                 row.count += 1
                 row.net += entry.net
@@ -168,7 +173,7 @@ enum PDFMaker {
 
             page.heading("Invoices")
             page.table(headers: ["Date", "Supplier", "Invoice no.", "Net", "Total", "Overcharged", "Paid"], widths: [1.6, 4, 1.8, 1.7, 1.7, 1.9, 1], right: [3, 4, 5],
-                       rows: entries.map { [$0.date, $0.supplier, $0.invNo, Money.format($0.net), Money.format($0.total), Money.format($0.over), $0.paid == nil ? "" : "Yes"] },
+                       rows: entries.map { [$0.date, $0.supplier, $0.invNo, Money.format($0.net), Money.format($0.total), Money.format($0.over), $0.paid == nil ? "" : L("Yes")] },
                        footer: ["", "Total", "", Money.format(net), Money.format(total), Money.format(over), ""])
 
             var lines: [[String]] = []
@@ -204,7 +209,7 @@ enum PDFMaker {
     /// A credit request to send to a supplier for one invoice.
     static func creditRequest(_ entry: HistoryEntry, business: String, theme: AppTheme) -> Data {
         make(title: "Credit request", subtitle: stamp(business), theme: theme) { page in
-            page.pair("To", entry.supplier.isEmpty ? "Supplier" : entry.supplier, bold: true)
+            page.pair("To", entry.supplier.isEmpty ? L("Supplier") : entry.supplier, bold: true)
             if !business.isEmpty { page.pair("From", business) }
             if !entry.invNo.isEmpty { page.pair("Invoice no.", entry.invNo) }
             if !entry.date.isEmpty { page.pair("Invoice date", entry.date) }

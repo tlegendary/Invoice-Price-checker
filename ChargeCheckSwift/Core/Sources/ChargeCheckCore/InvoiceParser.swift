@@ -440,7 +440,7 @@ public enum InvoiceParser {
                         net = T[b]
                         ni = b
                         if q != old || qtyGuess {
-                            warn = "Quantity was hard to read – worked out \(Int(q)) from the line total. Check."
+                            warn = CoreText.t("Quantity was hard to read – worked out {1} from the line total. Check.", String(Int(q)))
                         }
                         if let first = descTokens.first, quantityToken(first) == q || Double(stripToken(first)) == q * 100 {
                             descTokens.removeFirst()
@@ -456,12 +456,12 @@ public enum InvoiceParser {
                 net = T[2]
                 ni = 2
                 unit = Money.round2(T[2] / qty)
-                warn = "Price was hard to read – worked out from the line total. Check."
+                warn = CoreText.t("Price was hard to read – worked out from the line total. Check.")
             } else {
                 unit = T[0]
-                warn = "Couldn't confirm this price against the line total – check the price and quantity."
+                warn = CoreText.t("Couldn't confirm this price against the line total – check the price and quantity.")
             }
-            if qtyGuess { warn = "Quantity and price were hard to read – check this line." }
+            if qtyGuess { warn = CoreText.t("Quantity and price were hard to read – check this line.") }
         }
 
         let rawDesc = descTokens.joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)

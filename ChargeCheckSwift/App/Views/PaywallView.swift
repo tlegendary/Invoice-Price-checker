@@ -27,11 +27,16 @@ struct PaywallView: View {
 
     private var legal: String {
         guard let plan = chosen else { return "" }
-        let period = plan.id == Products.yearly ? "year" : "month"
-        let start = store.trialAvailable
-            ? "7-day free trial, then \(plan.displayPrice) per \(period). Payment is charged to your Apple ID when you confirm (after the free trial ends)."
-            : "\(plan.displayPrice) per \(period). Payment is charged to your Apple ID when you confirm."
-        return start + " Your subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel any time in your App Store account settings."
+        let yearly = plan.id == Products.yearly
+        let price = plan.displayPrice
+        let start: String
+        switch (store.trialAvailable, yearly) {
+        case (true, true): start = String(localized: "7-day free trial, then \(price) per year. Payment is charged to your Apple ID when you confirm (after the free trial ends).")
+        case (true, false): start = String(localized: "7-day free trial, then \(price) per month. Payment is charged to your Apple ID when you confirm (after the free trial ends).")
+        case (false, true): start = String(localized: "\(price) per year. Payment is charged to your Apple ID when you confirm.")
+        case (false, false): start = String(localized: "\(price) per month. Payment is charged to your Apple ID when you confirm.")
+        }
+        return start + " " + String(localized: "Your subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel any time in your App Store account settings.")
     }
 
     var body: some View {
@@ -163,7 +168,7 @@ struct PaywallView: View {
         .interactiveDismissDisabled(busy)
     }
 
-    private func benefit(_ text: String) -> some View {
+    private func benefit(_ text: LocalizedStringKey) -> some View {
         Label {
             Text(text)
         } icon: {
@@ -238,9 +243,9 @@ struct PaywallView: View {
             case .done:
                 dismiss()
             case .pending:
-                notice = "Your purchase is waiting for approval. It will be added as soon as it's approved."
+                notice = String(localized: "Your purchase is waiting for approval. It will be added as soon as it's approved.")
             case .failed(let problem):
-                notice = "The purchase didn't go through. \(problem)"
+                notice = String(localized: "The purchase didn't go through. \(problem)")
             case .cancelled:
                 break
             }
@@ -257,9 +262,9 @@ struct PaywallView: View {
             case .done:
                 dismiss()
             case .pending:
-                notice = "Your purchase is waiting for approval. The scans will be added as soon as it's approved."
+                notice = String(localized: "Your purchase is waiting for approval. The scans will be added as soon as it's approved.")
             case .failed(let problem):
-                notice = "The purchase didn't go through. \(problem)"
+                notice = String(localized: "The purchase didn't go through. \(problem)")
             case .cancelled:
                 break
             }
@@ -275,7 +280,7 @@ struct PaywallView: View {
             if found {
                 dismiss()
             } else {
-                notice = "No active subscription was found for this Apple ID."
+                notice = String(localized: "No active subscription was found for this Apple ID.")
             }
         }
     }

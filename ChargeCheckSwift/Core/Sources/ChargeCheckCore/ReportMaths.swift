@@ -29,11 +29,11 @@ public enum ReportPeriod: String, CaseIterable, Identifiable, Sendable {
 
     public var title: String {
         switch self {
-        case .lastMonth: return "Last month"
-        case .thisMonth: return "This month"
-        case .thisTaxYear: return "This tax year"
-        case .lastTaxYear: return "Last tax year"
-        case .all: return "All time"
+        case .lastMonth: return CoreText.t("Last month")
+        case .thisMonth: return CoreText.t("This month")
+        case .thisTaxYear: return CoreText.t("This tax year")
+        case .lastTaxYear: return CoreText.t("Last tax year")
+        case .all: return CoreText.t("All time")
         }
     }
 }
@@ -53,7 +53,7 @@ public enum ReportMaths {
         var order: [String] = []
         var groups: [String: SupplierPay] = [:]
         for entry in selected {
-            let name = entry.supplier.isEmpty ? "Unknown supplier" : entry.supplier
+            let name = entry.supplier.isEmpty ? CoreText.t("Unknown supplier") : entry.supplier
             let amounts = entry.amountToPay
             var group = groups[name] ?? SupplierPay(name: name, entries: [], total: 0, less: 0, pay: 0, hasMissing: false)
             if groups[name] == nil { order.append(name) }
@@ -80,47 +80,50 @@ public enum ReportMaths {
 
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
     public static func creditText(_ entry: HistoryEntry, business: String) -> String {
-        var s = "Hello" + (entry.supplier.isEmpty ? "" : " " + entry.supplier) + ",\n\n"
-        s += "I've checked the invoice below against our agreed prices and found the following differences:\n\n"
-        s += "Invoice" + (entry.invNo.isEmpty ? "" : " #" + entry.invNo) + (entry.date.isEmpty ? "" : " (" + entry.date + ")") + "\n"
+        let t = CoreText.t
+        var s = t("Hello{1},", entry.supplier.isEmpty ? "" : " " + entry.supplier) + "\n\n"
+        s += t("I've checked the invoice below against our agreed prices and found the following differences:") + "\n\n"
+        s += t("Invoice") + (entry.invNo.isEmpty ? "" : " #" + entry.invNo) + (entry.date.isEmpty ? "" : " (" + entry.date + ")") + "\n"
         func qty(_ q: Double) -> String { q == q.rounded() ? String(Int(q)) : String(q) }
         for line in entry.lines where !line.excluded && line.over > 0.005 {
             let name = line.desc.isEmpty ? line.item : line.desc
-            let base = line.base.map { ", agreed " + Money.format($0) } ?? ""
-            s += "• \(qty(line.qty)) x \(name) – charged \(Money.format(line.unit))\(base): \(Money.format(line.over))\n"
+            let base = line.base.map { t(", agreed {1}", Money.format($0)) } ?? ""
+            s += "• " + t("{1} x {2} – charged {3}{4}: {5}", qty(line.qty), name, Money.format(line.unit), base, Money.format(line.over)) + "\n"
         }
         for line in entry.lines where line.excluded {
             let name = line.desc.isEmpty ? line.item : line.desc
-            s += "• \(qty(line.qty)) x \(name) – not received / returned: \(Money.format(Money.round2(line.qty * line.unit)))\n"
+            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.qty), name, Money.format(Money.round2(line.qty * line.unit))) + "\n"
         }
         let less = entry.amountToPay.less
-        s += "\nTotal to credit: " + Money.format(less) + (entry.overVat > 0.005 ? " (incl. VAT)" : "") + "\n\n"
-        s += "Please could you issue a credit note for this amount.\n\nThank you,\n" + (business.isEmpty ? "" : business)
+        s += "\n" + t("Total to credit: {1}", Money.format(less)) + (entry.overVat > 0.005 ? t(" (incl. VAT)") : "") + "\n\n"
+        s += t("Please could you issue a credit note for this amount.") + "\n\n" + t("Thank you,") + "\n" + (business.isEmpty ? "" : business)
         return s.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// A text breakdown to send to a supplier with the payment.
     public static func paymentText(_ summary: PaySummary, today: String) -> String {
-        var lines = ["Payment summary – " + today, ""]
+        let t = CoreText.t
+        var lines = [t("Payment summary – {1}", today), ""]
         for supplier in summary.suppliers {
             lines.append(supplier.name)
             for entry in supplier.entries {
                 let amounts = entry.amountToPay
-                var line = "  " + (entry.invNo.isEmpty ? "Invoice" : "Invoice " + entry.invNo)
+                var line = "  " + (entry.invNo.isEmpty ? t("Invoice") : t("Invoice {1}", entry.invNo))
                 if !entry.date.isEmpty { line += " · " + entry.date }
                 line += " · " + Money.format(amounts.total)
                 if amounts.less > 0 {
-                    line += " less \(Money.format(amounts.less)) \(entry.excluded > 0 ? "overcharged/missing" : "overcharged") = \(Money.format(amounts.pay))"
+                    line += " " + t(entry.excluded > 0 ? "less {1} overcharged/missing = {2}" : "less {1} overcharged = {2}",
+                                    Money.format(amounts.less), Money.format(amounts.pay))
                 }
                 lines.append(line)
             }
-            lines.append("  Pay \(supplier.name): \(Money.format(supplier.pay))")
+            lines.append("  " + t("Pay {1}: {2}", supplier.name, Money.format(supplier.pay)))
             lines.append("")
         }
-        var last = "Total to pay: " + Money.format(summary.pay)
-        if summary.less > 0 { last += " (invoices \(Money.format(summary.total)) less \(Money.format(summary.less)) taken off)" }
+        var last = t("Total to pay: {1}", Money.format(summary.pay))
+        if summary.less > 0 { last += " " + t("(invoices {1} less {2} taken off)", Money.format(summary.total), Money.format(summary.less)) }
         lines.append(last)
-        lines.append("Amounts include VAT.")
+        lines.append(t("Amounts include VAT."))
         return lines.joined(separator: "\n")
     }
 
@@ -184,14 +187,15 @@ public enum ReportMaths {
     static func amount(_ value: Double) -> String { String(format: "%.2f", value) }
 
     public static func reportCSV(_ entries: [HistoryEntry]) -> String {
-        var rows = [["Date", "Supplier", "Invoice no.", "Net", "Total inc VAT", "Overcharged", "Overcharged VAT", "Missing/returned", "To pay", "Paid", "Fully checked"]]
+        let t = CoreText.t
+        var rows = [["Date", "Supplier", "Invoice no.", "Net", "Total inc VAT", "Overcharged", "Overcharged VAT", "Missing/returned", "To pay", "Paid", "Fully checked"].map { t($0) }]
         for entry in entries {
             rows.append([entry.date, entry.supplier, entry.invNo, amount(entry.net), amount(entry.total), amount(entry.over), amount(entry.overVat),
-                         amount(entry.excluded), amount(entry.amountToPay.pay), entry.paid == nil ? "No" : "Yes", entry.verified ? "Yes" : "No"])
+                         amount(entry.excluded), amount(entry.amountToPay.pay), entry.paid == nil ? t("No") : t("Yes"), entry.verified ? t("Yes") : t("No")])
         }
         rows.append([])
-        rows.append(["Overcharged lines"])
-        rows.append(["Date", "Supplier", "Invoice no.", "Item", "Quantity", "Charged", "Agreed price", "Overcharged"])
+        rows.append([t("Overcharged lines")])
+        rows.append(["Date", "Supplier", "Invoice no.", "Item", "Quantity", "Charged", "Agreed price", "Overcharged"].map { t($0) })
         for entry in entries {
             for line in entry.lines where line.over > 0.005 && !line.excluded {
                 rows.append([entry.date, entry.supplier, entry.invNo, line.item.isEmpty ? line.desc : line.item, amount(line.qty), amount(line.unit),
@@ -202,7 +206,7 @@ public enum ReportMaths {
     }
 
     public static func pricesCSV(_ items: [PriceItem]) -> String {
-        var rows = [["Category", "Item", "Agreed price", "Supplier", "On invoices as"]]
+        var rows = [["Category", "Item", "Agreed price", "Supplier", "On invoices as"].map { CoreText.t($0) }]
         for item in items.sorted(by: { $0.cat != $1.cat ? $0.cat < $1.cat : $0.name < $1.name }) {
             rows.append([item.cat, item.name, amount(item.price), item.supplier, item.aliases.joined(separator: "; ")])
         }

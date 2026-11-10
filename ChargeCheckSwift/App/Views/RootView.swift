@@ -79,7 +79,7 @@ struct RootView: View {
             Button("Undo") { session.undoLowered(note, context: context) }
             Button("OK", role: .cancel) {}
         } message: { note in
-            Text(note.message + " You can turn this off in Settings.")
+            Text(note.message + " " + String(localized: "You can turn this off in Settings."))
         }
         .alert("Your prices are here", isPresented: $showCarriedOver) {
             Button("OK", role: .cancel) {}

@@ -43,6 +43,7 @@ enum Regional {
 
     /// Hands the choices to the reader and to every amount shown. Call at start-up and after a change.
     static func apply() {
+        Translations.connect()
         InvoiceParser.language = language.id
         Money.currency = currency
     }

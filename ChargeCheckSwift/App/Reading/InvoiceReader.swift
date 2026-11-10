@@ -79,12 +79,12 @@ enum InvoiceReader {
                      progress: @escaping @Sendable (String) -> Void) async -> ReadOutcome {
         var prepared = pages.map { $0.prepared() }
         let words = helpWords(book.items)
-        progress(doubleCheck ? "Reading invoice (1 of 2)…" : "Reading invoice…")
+        progress(doubleCheck ? String(localized: "Reading invoice (1 of 2)…") : String(localized: "Reading invoice…"))
         var first = onePass(prepared, book: book, words: words, second: false)
         if first.invoice.lines.count < 2 && prepared.count == 1 {
             // perhaps the photo is on its side or upside down
             for turns in [1, 3, 2] {
-                progress("Trying the photo another way round…")
+                progress(String(localized: "Trying the photo another way round…"))
                 let turned = [pages[0].prepared(quarterTurns: turns)]
                 let attempt = onePass(turned, book: book, words: words, second: false)
                 if attempt.invoice.lines.count > first.invoice.lines.count {
@@ -97,7 +97,7 @@ enum InvoiceReader {
         var merged = first.invoice
         var passes = 1
         if doubleCheck && !first.invoice.lines.isEmpty {
-            progress("Double-checking (2 of 2)…")
+            progress(String(localized: "Double-checking (2 of 2)…"))
             let second = onePass(prepared, book: book, words: words, second: true)
             merged = InvoiceParser.mergeReads(first.invoice, second.invoice, knownSuppliers: knownSuppliers)
             passes = 2

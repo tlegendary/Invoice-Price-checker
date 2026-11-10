@@ -29,9 +29,9 @@ struct LoweredPrices: Identifiable {
 
     var message: String {
         if changes.count == 1, let one = changes.first {
-            return "Your price for \(one.name) was lowered from \(Money.format(one.from)) to \(Money.format(one.to)), the cheaper price on this invoice."
+            return String(localized: "Your price for \(one.name) was lowered from \(Money.format(one.from)) to \(Money.format(one.to)), the cheaper price on this invoice.")
         }
-        return "\(changes.count) of your prices were lowered to the cheaper prices on this invoice."
+        return String(localized: "\(changes.count) of your prices were lowered to the cheaper prices on this invoice.")
     }
 }
 
@@ -124,7 +124,7 @@ final class CheckSession: ObservableObject {
                 job.draft.lines = finalLines
                 job.status = .done
                 job.message = job.draft.lines.isEmpty
-                    ? "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand."
+                    ? String(localized: "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand.")
                     : ""
             }
             if outcome.invoice.lines.isEmpty { onNothingRead?() }

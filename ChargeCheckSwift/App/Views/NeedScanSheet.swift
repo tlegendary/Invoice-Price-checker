@@ -102,9 +102,9 @@ struct NeedScanSheet: View {
                 dismiss()
                 onEarned()
             case .closedEarly:
-                problem = "The ad was closed before the end, so no scan was added."
+                problem = String(localized: "The ad was closed before the end, so no scan was added.")
             case .failed(let reason):
-                problem = "No ad is available right now, so no scan was added. Check your connection and try again. (\(reason))"
+                problem = String(localized: "No ad is available right now, so no scan was added. Check your connection and try again. (\(reason))")
             }
         }
     }

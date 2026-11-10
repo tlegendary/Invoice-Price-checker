@@ -20,7 +20,7 @@ final class Store: ObservableObject {
     @Published private(set) var subscribedProductID: String?
     @Published private(set) var trialAvailable = true
     @Published private(set) var ledger: ScanLedger
-    @Published private(set) var loadStatus = "Not loaded yet"
+    @Published private(set) var loadStatus = String(localized: "Not loaded yet")
     @Published private(set) var checkedEntitlements = false
     /// Test mode only: behave as a free user even with a subscription.
     @Published var testAsFree: Bool {
@@ -86,7 +86,7 @@ final class Store: ObservableObject {
                 trialAvailable = await subscription.isEligibleForIntroOffer
             }
         } catch {
-            loadStatus = "App Store error: \(error.localizedDescription)"
+            loadStatus = String(localized: "App Store error: \(error.localizedDescription)")
         }
     }
 
@@ -132,7 +132,7 @@ final class Store: ObservableObject {
             let result = try await product.purchase()
             switch result {
             case .success(let verification):
-                guard case .verified = verification else { return .failed("The App Store couldn't verify this purchase.") }
+                guard case .verified = verification else { return .failed(String(localized: "The App Store couldn't verify this purchase.")) }
                 let before = credits
                 await handle(verification)
                 return .done(scans: credits - before)
@@ -141,7 +141,7 @@ final class Store: ObservableObject {
             case .pending:
                 return .pending
             @unknown default:
-                return .failed("The purchase didn't finish.")
+                return .failed(String(localized: "The purchase didn't finish."))
             }
         } catch {
             return .failed(error.localizedDescription)

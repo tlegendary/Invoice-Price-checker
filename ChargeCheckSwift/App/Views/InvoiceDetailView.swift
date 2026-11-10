@@ -242,7 +242,7 @@ struct Hero: View {
                 Label("No lines found", systemImage: "questionmark.circle.fill")
                     .font(.headline)
                     .foregroundStyle(.orange)
-                Text(message.isEmpty ? "Add the lines by hand with “Add a line”." : message)
+                Text(message.isEmpty ? String(localized: "Add the lines by hand with “Add a line”.") : message)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else if totals.reviewCount > 0 {
@@ -292,7 +292,7 @@ struct LineRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .leading, spacing: 3) {
-                Text(line.desc.isEmpty ? "New line" : line.desc)
+                Text(line.desc.isEmpty ? String(localized: "New line") : line.desc)
                     .font(.subheadline.weight(.semibold))
                     .strikethrough(line.excluded)
                 Text(detail)

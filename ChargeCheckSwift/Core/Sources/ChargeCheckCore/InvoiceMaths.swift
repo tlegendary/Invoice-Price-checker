@@ -182,14 +182,14 @@ public enum InvoiceMaths {
         if line.excluded || line.ok { return [] }
         var out: [String] = []
         if !line.warn.isEmpty && !totalOk { out.append(line.warn) }
-        if line.disagree && !totalOk { out.append("The two reads of the photo didn't agree on this line.") }
-        if line.onlySecondRead { out.append("Only found on the second read – make sure it's really on the invoice.") }
-        if line.matchId == nil && !line.noBase { out.append("Not in your price list – choose the matching item or mark it as not in your list.") }
+        if line.disagree && !totalOk { out.append(CoreText.t("The two reads of the photo didn't agree on this line.")) }
+        if line.onlySecondRead { out.append(CoreText.t("Only found on the second read – make sure it's really on the invoice.")) }
+        if line.matchId == nil && !line.noBase { out.append(CoreText.t("Not in your price list – choose the matching item or mark it as not in your list.")) }
         if let item = book.item(line.matchId) {
             let base = item.basePrice(for: supplier)
-            if line.confident == false { out.append("Not 100% sure this is “\(item.name)”.") }
+            if line.confident == false { out.append(CoreText.t("Not 100% sure this is “{1}”.", item.name)) }
             if base > 0 && abs(line.unit - base) / base > 0.35 {
-                out.append("Price is very different from your price (\(Money.format(base))) – wrong item or misread?")
+                out.append(CoreText.t("Price is very different from your price ({1}) – wrong item or misread?", Money.format(base)))
             }
         }
         return out

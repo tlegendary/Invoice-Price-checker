@@ -37,17 +37,17 @@ struct SettingsView: View {
     @State private var showPricesShare: URL?
 
     private func when(_ seconds: Double) -> String {
-        if seconds <= 0 { return "not yet" }
+        if seconds <= 0 { return String(localized: "not yet") }
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_GB")
-        formatter.dateFormat = "d MMM, HH:mm"
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("d MMM HH:mm")
         return formatter.string(from: Date(timeIntervalSince1970: seconds))
     }
 
     private func pickedFolder(_ result: Result<URL, Error>) {
         guard case .success(let url) = result else { return }
         guard let name = CloudFolder.choose(url) else {
-            notice = "That folder couldn't be used. Please choose another one."
+            notice = String(localized: "That folder couldn't be used. Please choose another one.")
             return
         }
         cloudName = name
@@ -57,12 +57,12 @@ struct SettingsView: View {
             pendingRestore = found
         } else {
             AutoBackup.run(context, scans: store.ledger.forBackup)
-            notice = "Backups will now also be saved in \(name)."
+            notice = String(localized: "Backups will now also be saved in \(name).")
         }
     }
 
     private var planName: String {
-        store.subscribedProductID == Products.yearly ? "Unlimited – yearly" : "Unlimited – monthly"
+        store.subscribedProductID == Products.yearly ? String(localized: "Unlimited – yearly") : String(localized: "Unlimited – monthly")
     }
 
     private var version: String {
@@ -105,7 +105,7 @@ struct SettingsView: View {
                                     }
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel(theme.name)
+                            .accessibilityLabel(L(theme.name))
                             .accessibilityAddTraits(colourID == theme.id ? .isSelected : [])
                         }
                     }
@@ -113,7 +113,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Look")
                 } footer: {
-                    Text("\(Themes.named(colourID).name). Automatic follows your iPhone's light or dark setting.")
+                    Text("\(L(Themes.named(colourID).name)). Automatic follows your iPhone's light or dark setting.")
                 }
 
                 Section {
@@ -145,7 +145,7 @@ struct SettingsView: View {
                             Link("Manage or cancel subscription", destination: manage)
                         }
                     } else {
-                        LabeledContent("Plan", value: "Free version (1 ad per scan)")
+                        LabeledContent("Plan", value: String(localized: "Free version (1 ad per scan)"))
                         LabeledContent("Scans left", value: "\(store.credits)")
                         Button("Go unlimited or buy scans") {
                             showPaywall = true
@@ -156,7 +156,7 @@ struct SettingsView: View {
                         Task {
                             let found = await store.restore()
                             restoring = false
-                            notice = found ? "Your subscription is active." : "No active subscription was found for this Apple ID."
+                            notice = found ? String(localized: "Your subscription is active.") : String(localized: "No active subscription was found for this Apple ID.")
                         }
                     }
                     .disabled(restoring)
@@ -263,7 +263,7 @@ struct SettingsView: View {
                             Task {
                                 let ok = await MonthlyReminder.set(isOn)
                                 reminder = isOn && ok
-                                if isOn && !ok { notice = "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder." }
+                                if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
                             }
                         }
                     ))
@@ -301,7 +301,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .fileExporter(isPresented: $showExporter, document: exportDocument, contentType: .json, defaultFilename: exportName) { result in
-                if case .failure = result { notice = "The backup couldn't be saved. Please try again." }
+                if case .failure = result { notice = String(localized: "The backup couldn't be saved. Please try again.") }
             }
             .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json, .plainText]) { result in
                 open(result)
@@ -320,7 +320,7 @@ struct SettingsView: View {
                 Button("Replace what's on this phone", role: .destructive) {
                     AppData.restore(backup, into: context)
                     let scans = store.restoreScans(from: backup.scans)
-                    notice = scans > 0 ? "Backup restored, with \(scans) unused scans." : "Backup restored."
+                    notice = scans > 0 ? String(localized: "Backup restored, with \(scans) unused scans.") : String(localized: "Backup restored.")
                     AutoBackup.run(context, scans: store.ledger.forBackup)
                 }
                 Button("Cancel", role: .cancel) {}
@@ -338,7 +338,7 @@ struct SettingsView: View {
 
     private func save() {
         guard let data = try? AppData.backup(context, scans: store.ledger.forBackup).encoded() else {
-            notice = "The backup couldn't be made. Please try again."
+            notice = String(localized: "The backup couldn't be made. Please try again.")
             return
         }
         exportDocument = BackupDocument(data: data)
@@ -352,7 +352,7 @@ struct SettingsView: View {
             if scoped { url.stopAccessingSecurityScopedResource() }
         }
         guard let data = try? Data(contentsOf: url), let backup = try? BackupFile.read(data) else {
-            notice = "That isn't a ChargeCheck backup file."
+            notice = String(localized: "That isn't a ChargeCheck backup file.")
             return
         }
         pendingRestore = backup
