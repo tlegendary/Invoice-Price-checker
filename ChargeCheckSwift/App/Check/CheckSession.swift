@@ -112,7 +112,7 @@ final class CheckSession: ObservableObject {
                 job.draft.printedNet = outcome.invoice.printedNet
                 job.draft.printedTotal = outcome.invoice.printedTotal
                 job.draft.passes = outcome.passes
-                job.draft.lines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes) }
+                job.draft.lines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
                 job.status = .done
                 job.message = job.draft.lines.isEmpty
                     ? "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand."

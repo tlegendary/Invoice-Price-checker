@@ -53,4 +53,25 @@ final class SecondReadTests: XCTestCase {
         ])
         XCTAssertEqual(InvoiceParser.mergeReads(first, second).lines.count, 2)
     }
+
+    func testAnyInventedLetterIsCaught() {
+        for garbled in ["16Ạ!¡COLOUR PIZZA BOXES", "16Ą!¡COLOUR PIZZA BOXES", "16Ạ¡¡COLOUR PIZZA BOXES", "16ΑΙ COLOUR PIZZA BOXES"] {
+            XCTAssertTrue(InvoiceParser.looksGarbled(garbled), garbled)
+            let cleaned = InvoiceParser.cleanDescription(garbled, known: [])
+            XCTAssertFalse(InvoiceParser.looksGarbled(cleaned), cleaned)
+            XCTAssertTrue(cleaned.hasSuffix("COLOUR PIZZA BOXES"), cleaned)
+        }
+        XCTAssertFalse(InvoiceParser.looksGarbled("Chips £2.50 – 10kg × 2"))
+    }
+
+    func testGarbledNameFallsBackToThePrice() {
+        let boxes = PriceItem(id: "b", name: "16 inch Pizza Boxes", price: 16.99)
+        let flour = PriceItem(id: "f", name: "Bravo Pizza Flour 16kg", price: 13.99)
+        let book = PriceBook([boxes, flour])
+        let line = InvoiceMaths.makeLine(ParsedLine(qty: 1, desc: "UĄITEŽZ XQ", unit: 16.99), book: book)
+        XCTAssertEqual(line.matchId, "b")
+        XCTAssertEqual(line.confident, false)
+        XCTAssertFalse(InvoiceParser.looksGarbled(line.desc))
+        XCTAssertNil(InvoiceMaths.makeLine(ParsedLine(qty: 1, desc: "QWZX", unit: 5.55), book: book).matchId)
+    }
 }

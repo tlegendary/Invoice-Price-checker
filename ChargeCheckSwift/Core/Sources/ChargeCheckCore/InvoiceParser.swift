@@ -212,17 +212,22 @@ public enum InvoiceParser {
 
     /// Drops product codes, stray letters, pen marks and prices the reader glued onto an item name.
     /// The second read (no spelling help) sometimes invents letters like Ą or Ž, or ¡ and ! for an inch mark.
-    static func looksGarbled(_ text: String) -> Bool {
-        text.unicodeScalars.contains { scalar in
-            (scalar.value >= 0xC0 && scalar.value <= 0x24F) || scalar == "¡" || scalar == "¿"
-        } || Rx.test(text, "[A-Za-z0-9]![A-Za-z0-9!]|![A-Za-z]")
+    /// Characters a UK invoice really uses beyond plain ASCII. Anything else the reader made up.
+    private static let realSymbols: Set<Unicode.Scalar> = ["£", "€", "“", "”", "‘", "’", "–", "—", "×", "°", "½", "¼", "¾", "•", "©", "®", "™", "\u{00A0}"]
+
+    public static func looksGarbled(_ text: String) -> Bool {
+        text.unicodeScalars.contains { $0.value > 0x7F && !realSymbols.contains($0) }
+            || Rx.test(text, "[A-Za-z0-9]![A-Za-z0-9!]|![A-Za-z]")
     }
 
     /// Ą → A, Ž → Z; ¡ ¿ and a "!" inside a word go. Invoices here are in English.
     static func plainLetters(_ text: String) -> String {
         guard looksGarbled(text) else { return text }
-        var s = text.folding(options: [.diacriticInsensitive], locale: Locale(identifier: "en_GB"))
+        var s = text.folding(options: [.diacriticInsensitive, .widthInsensitive], locale: Locale(identifier: "en_GB"))
         s = s.replacingOccurrences(of: "ß", with: "SS").replacingOccurrences(of: "Ł", with: "L").replacingOccurrences(of: "ł", with: "l")
+            .replacingOccurrences(of: "Ø", with: "O").replacingOccurrences(of: "ø", with: "o").replacingOccurrences(of: "Đ", with: "D")
+        // whatever is still not plain text (Greek, Cyrillic look-alikes, odd marks) becomes a gap
+        s = String(String.UnicodeScalarView(s.unicodeScalars.map { $0.value <= 0x7F || realSymbols.contains($0) ? $0 : " " }))
         s = Rx.replace(s, "[¡¿]+", " ")
         s = Rx.replace(s, "([0-9])[A-Za-z]?!+(?=[\\sA-Za-z])", "$1\" ")
         s = Rx.replace(s, "!+", " ")

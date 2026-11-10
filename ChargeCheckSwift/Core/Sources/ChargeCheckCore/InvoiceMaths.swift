@@ -131,15 +131,31 @@ public struct PriceBook: Sendable {
 public enum InvoiceMaths {
     /// Turns a line read from the invoice into a line to check, matched to the price list.
     /// `nameFixes` are the user's earlier corrections (what the reader gave → what they typed).
-    public static func makeLine(_ parsed: ParsedLine, book: PriceBook, nameFixes: [String: String] = [:]) -> CheckLine {
-        var desc = parsed.desc
-        let read = parsed.desc
+    public static func makeLine(_ parsed: ParsedLine, book: PriceBook, nameFixes: [String: String] = [:], supplier: String = "") -> CheckLine {
+        var desc = InvoiceParser.plainLetters(parsed.desc)
+        let read = desc
         if !desc.isEmpty, let fixed = nameFixes[TextTools.norm(desc)], !fixed.isEmpty { desc = fixed }
         var match = desc.isEmpty ? MatchResult(itemID: nil, confident: false) : Matcher.match(desc, in: book.items)
-        if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(parsed.raw, in: book.items) }
+        if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(InvoiceParser.plainLetters(parsed.raw), in: book.items) }
+        if match.itemID == nil, let byPrice = matchByPrice(desc, unit: parsed.unit, supplier: supplier, book: book) {
+            // the name is too garbled to read: one item in the list has exactly this price – suggest it, never sure
+            match = MatchResult(itemID: byPrice, confident: false)
+        }
         return CheckLine(qty: parsed.qty == 0 ? 1 : parsed.qty, desc: desc, read: read, unit: parsed.unit, vat: parsed.vat, warn: parsed.warn,
                          matchId: match.itemID, confident: match.itemID == nil ? nil : match.confident, reads: parsed.reads,
                          disagree: parsed.disagree, onlySecondRead: parsed.onlySecondRead, altQty: parsed.altQty, altUnit: parsed.altUnit)
+    }
+
+    /// The only item whose agreed price is exactly this price (for this supplier); if several share it,
+    /// the one whose name is closest, and only when the name gives it some support.
+    static func matchByPrice(_ desc: String, unit: Double, supplier: String, book: PriceBook) -> String? {
+        guard unit > 0 else { return nil }
+        let same = book.items.filter { abs($0.basePrice(for: supplier) - unit) < 0.005 }
+        if same.count == 1 { return same[0].id }
+        guard same.count > 1, !desc.isEmpty else { return nil }
+        let scored = same.map { ($0.id, Matcher.score(desc, item: $0)) }.sorted { $0.1 > $1.1 }
+        guard scored[0].1 >= 0.25, scored[0].1 > scored[1].1 + 0.1 else { return nil }
+        return scored[0].0
     }
 
     public static func lineResult(_ line: CheckLine, supplier: String, book: PriceBook, tolerance: Double = 0.01) -> LineResult {
