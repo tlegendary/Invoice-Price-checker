@@ -1,6 +1,6 @@
-commit: e832e24a628c07b48096e739c1bc4d4743ebebd8
+commit: 736b994a85d61b334e129f4ec19e96ffef05d799
 result: success
-when: Tue Nov 10 10:48:27 UTC 2026
+when: Tue Nov 10 10:57:20 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
@@ -8,62 +8,64 @@ Building for debugging...
 [Computing dependencies]
 [Pre-planning 1 / 154]
 [Planning deferred tasks]
+[Starting]
+[34 / 57] ChargeCheckCore
 [37 / 60] ChargeCheckCore
 [38 / 60] ChargeCheckCore
+[43 / 61] ChargeCheckCoreTests-product
+[46 / 65] ChargeCheckCoreTests-product
 [47 / 65] ChargeCheckCoreTests-product
-[48 / 65] ChargeCheckCoreTests-product
 [54 / 65] ChargeCheckCore-product
-[54 / 65] ChargeCheckCoreTests-product
 [58 / 66] ChargeCheckCoreTests-product
 [59 / 66] ChargeCheckCoreTests-test-runner
 [62 / 69] ChargeCheckCoreTests-test-runner
 [66 / 69] ChargeCheckCoreTests-test-runner
 [70 / 70] ChargeCheckCoreTests-test-runner
-Build complete! (15.03 secs)
-Test Suite 'All tests' started at 2026-11-10 10:48:26.359
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 10:48:26.422
-Test Suite 'CoreTests' started at 2026-11-10 10:48:26.422
-Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 10:48:26.422
+Build complete! (14.91 secs)
+Test Suite 'All tests' started at 2026-11-10 10:57:18.312
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 10:57:18.405
+Test Suite 'CoreTests' started at 2026-11-10 10:57:18.405
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 10:57:18.405
 Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.003 seconds)
-Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 10:48:26.425
-Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.031 seconds)
-Test Case 'CoreTests.testCategories' started at 2026-11-10 10:48:26.457
-Test Case 'CoreTests.testCategories' passed (0.103 seconds)
-Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 10:48:26.560
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 10:57:18.408
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.067 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-10 10:57:18.475
+Test Case 'CoreTests.testCategories' passed (0.003 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 10:57:18.478
 Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
-Test Case 'CoreTests.testMoney' started at 2026-11-10 10:48:26.561
+Test Case 'CoreTests.testMoney' started at 2026-11-10 10:57:18.479
 Test Case 'CoreTests.testMoney' passed (0.0 seconds)
-Test Case 'CoreTests.testNorm' started at 2026-11-10 10:48:26.562
+Test Case 'CoreTests.testNorm' started at 2026-11-10 10:57:18.479
 Test Case 'CoreTests.testNorm' passed (0.0 seconds)
-Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 10:48:26.562
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 10:57:18.479
 Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
-Test Case 'CoreTests.testSupplier' started at 2026-11-10 10:48:26.562
+Test Case 'CoreTests.testSupplier' started at 2026-11-10 10:57:18.479
 Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
-Test Suite 'CoreTests' passed at 2026-11-10 10:48:26.563
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.141 (0.141) seconds
-Test Suite 'ParserTests' started at 2026-11-10 10:48:26.563
-Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-10 10:48:26.563
-Test Case 'ParserTests.testCheckingAnInvoice' passed (0.103 seconds)
-Test Case 'ParserTests.testCleanNames' started at 2026-11-10 10:48:26.665
-Test Case 'ParserTests.testCleanNames' passed (0.077 seconds)
-Test Case 'ParserTests.testConsensus' started at 2026-11-10 10:48:26.742
+Test Suite 'CoreTests' passed at 2026-11-10 10:57:18.480
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.074 (0.074) seconds
+Test Suite 'ParserTests' started at 2026-11-10 10:57:18.480
+Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-10 10:57:18.480
+Test Case 'ParserTests.testCheckingAnInvoice' passed (0.002 seconds)
+Test Case 'ParserTests.testCleanNames' started at 2026-11-10 10:57:18.482
+Test Case 'ParserTests.testCleanNames' passed (0.059 seconds)
+Test Case 'ParserTests.testConsensus' started at 2026-11-10 10:57:18.540
 Test Case 'ParserTests.testConsensus' passed (0.002 seconds)
-Test Case 'ParserTests.testKnownWords' started at 2026-11-10 10:48:26.744
+Test Case 'ParserTests.testKnownWords' started at 2026-11-10 10:57:18.542
 Test Case 'ParserTests.testKnownWords' passed (0.0 seconds)
-Test Case 'ParserTests.testLines' started at 2026-11-10 10:48:26.745
-Test Case 'ParserTests.testLines' passed (0.226 seconds)
-Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-10 10:48:26.971
-Test Case 'ParserTests.testMergingTwoReads' passed (0.099 seconds)
-Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-10 10:48:27.071
-Test Case 'ParserTests.testRowsFromPositions' passed (0.005 seconds)
-Test Case 'ParserTests.testWholeInvoices' started at 2026-11-10 10:48:27.075
-Test Case 'ParserTests.testWholeInvoices' passed (0.044 seconds)
-Test Suite 'ParserTests' passed at 2026-11-10 10:48:27.120
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.557 (0.557) seconds
-Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 10:48:27.120
-	 Executed 16 tests, with 0 failures (0 unexpected) in 0.698 (0.698) seconds
-Test Suite 'All tests' passed at 2026-11-10 10:48:27.120
-	 Executed 16 tests, with 0 failures (0 unexpected) in 0.698 (0.698) seconds
+Test Case 'ParserTests.testLines' started at 2026-11-10 10:57:18.543
+Test Case 'ParserTests.testLines' passed (0.161 seconds)
+Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-10 10:57:18.703
+Test Case 'ParserTests.testMergingTwoReads' passed (0.08 seconds)
+Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-10 10:57:18.784
+Test Case 'ParserTests.testRowsFromPositions' passed (0.004 seconds)
+Test Case 'ParserTests.testWholeInvoices' started at 2026-11-10 10:57:18.788
+Test Case 'ParserTests.testWholeInvoices' passed (0.035 seconds)
+Test Suite 'ParserTests' passed at 2026-11-10 10:57:18.822
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.342 (0.342) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 10:57:18.822
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.417 (0.417) seconds
+Test Suite 'All tests' passed at 2026-11-10 10:57:18.822
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.417 (0.417) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu
