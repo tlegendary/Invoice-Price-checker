@@ -1,0 +1,230 @@
+import Foundation
+
+/// One line of an invoice being checked.
+public struct CheckLine: Identifiable, Equatable, Sendable {
+    public var id: String
+    public var qty: Double
+    public var desc: String
+    /// The name as the reader gave it (used to learn the user's corrections).
+    public var read: String
+    public var unit: Double
+    public var vat: Double
+    public var warn: String
+    /// Missing or returned: left out of the overcharge and taken off what to pay.
+    public var excluded: Bool
+    public var matchId: String?
+    /// nil = no match, true = sure, false = not 100% sure.
+    public var confident: Bool?
+    public var reads: Int
+    public var disagree: Bool
+    public var onlySecondRead: Bool
+    public var altQty: Double?
+    public var altUnit: Double?
+    /// The user has looked at this line and confirmed it.
+    public var ok: Bool
+    /// The user said this item is not in their price list (nothing to compare).
+    public var noBase: Bool
+
+    public init(id: String = UUID().uuidString, qty: Double = 1, desc: String = "", read: String = "", unit: Double = 0, vat: Double = 0,
+                warn: String = "", excluded: Bool = false, matchId: String? = nil, confident: Bool? = nil, reads: Int = 0,
+                disagree: Bool = false, onlySecondRead: Bool = false, altQty: Double? = nil, altUnit: Double? = nil,
+                ok: Bool = false, noBase: Bool = false) {
+        self.id = id
+        self.qty = qty
+        self.desc = desc
+        self.read = read
+        self.unit = unit
+        self.vat = vat
+        self.warn = warn
+        self.excluded = excluded
+        self.matchId = matchId
+        self.confident = confident
+        self.reads = reads
+        self.disagree = disagree
+        self.onlySecondRead = onlySecondRead
+        self.altQty = altQty
+        self.altUnit = altUnit
+        self.ok = ok
+        self.noBase = noBase
+    }
+}
+
+/// An invoice being checked (before it is saved to Reports).
+public struct InvoiceDraft: Identifiable, Equatable, Sendable {
+    public var id: String
+    public var supplier: String
+    public var invNo: String
+    public var date: String
+    public var lines: [CheckLine]
+    /// The "Total Net Amount" printed on the invoice, used to check every line was read right.
+    public var printedNet: Double?
+    public var printedTotal: Double?
+    /// The user accepted that the total doesn't match what was read.
+    public var totalAcknowledged: Bool
+    public var passes: Int
+    public var shopId: String
+
+    public init(id: String = UUID().uuidString, supplier: String = "", invNo: String = "", date: String = "", lines: [CheckLine] = [],
+                printedNet: Double? = nil, printedTotal: Double? = nil, totalAcknowledged: Bool = false, passes: Int = 0, shopId: String = "") {
+        self.id = id
+        self.supplier = supplier
+        self.invNo = invNo
+        self.date = date
+        self.lines = lines
+        self.printedNet = printedNet
+        self.printedTotal = printedTotal
+        self.totalAcknowledged = totalAcknowledged
+        self.passes = passes
+        self.shopId = shopId
+    }
+}
+
+public struct LineResult: Equatable, Sendable {
+    public var item: PriceItem?
+    public var net: Double
+    public var vat: Double
+    public var base: Double?
+    public var diff: Double
+    public var over: Double
+    public var overVat: Double
+    public var under: Double
+}
+
+public struct InvoiceTotals: Equatable, Sendable {
+    public var net = 0.0
+    public var vat = 0.0
+    public var total = 0.0
+    public var over = 0.0
+    public var overVat = 0.0
+    public var under = 0.0
+    public var excluded = 0.0
+    public var unmatched = 0
+    /// Lines that need the user to look at them.
+    public var needLook = 0
+    public var totalKnown = false
+    public var totalOk = false
+    public var totalProblem = false
+    public var reviewCount: Int { needLook + (totalProblem ? 1 : 0) }
+    public var verified: Bool { reviewCount == 0 }
+}
+
+/// The price list, ready for quick look-ups while checking an invoice.
+public struct PriceBook: Sendable {
+    public let items: [PriceItem]
+    private let byID: [String: PriceItem]
+    public let knownWords: Set<String>
+
+    public init(_ items: [PriceItem]) {
+        self.items = items
+        var map: [String: PriceItem] = [:]
+        for item in items { map[item.id] = item }
+        byID = map
+        knownWords = InvoiceParser.knownWords(items)
+    }
+
+    public func item(_ id: String?) -> PriceItem? {
+        guard let id else { return nil }
+        return byID[id]
+    }
+}
+
+public enum InvoiceMaths {
+    /// Turns a line read from the invoice into a line to check, matched to the price list.
+    /// `nameFixes` are the user's earlier corrections (what the reader gave → what they typed).
+    public static func makeLine(_ parsed: ParsedLine, book: PriceBook, nameFixes: [String: String] = [:]) -> CheckLine {
+        var desc = parsed.desc
+        let read = parsed.desc
+        if !desc.isEmpty, let fixed = nameFixes[TextTools.norm(desc)], !fixed.isEmpty { desc = fixed }
+        var match = desc.isEmpty ? MatchResult(itemID: nil, confident: false) : Matcher.match(desc, in: book.items)
+        if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(parsed.raw, in: book.items) }
+        return CheckLine(qty: parsed.qty == 0 ? 1 : parsed.qty, desc: desc, read: read, unit: parsed.unit, vat: parsed.vat, warn: parsed.warn,
+                         matchId: match.itemID, confident: match.itemID == nil ? nil : match.confident, reads: parsed.reads,
+                         disagree: parsed.disagree, onlySecondRead: parsed.onlySecondRead, altQty: parsed.altQty, altUnit: parsed.altUnit)
+    }
+
+    public static func lineResult(_ line: CheckLine, supplier: String, book: PriceBook, tolerance: Double = 0.01) -> LineResult {
+        let item = book.item(line.matchId)
+        let net = Money.round2(line.qty * line.unit)
+        let vat = Money.round2(net * line.vat / 100)
+        let base = item?.basePrice(for: supplier)
+        var result = LineResult(item: item, net: net, vat: vat, base: base, diff: 0, over: 0, overVat: 0, under: 0)
+        if let base, !line.excluded {
+            result.diff = Money.round2(line.unit - base)
+            let tol = max(0.01, tolerance)
+            if result.diff >= tol - 1e-9 {
+                result.over = Money.round2(result.diff * line.qty)
+                result.overVat = Money.round2(result.over * line.vat / 100)
+            } else if result.diff <= -0.01 {
+                result.under = Money.round2(-result.diff * line.qty)
+            }
+        }
+        return result
+    }
+
+    /// Why a line needs the user to look at it (empty = fine).
+    public static func reasons(_ line: CheckLine, supplier: String, book: PriceBook, totalOk: Bool) -> [String] {
+        if line.excluded || line.ok { return [] }
+        var out: [String] = []
+        if !line.warn.isEmpty && !totalOk { out.append(line.warn) }
+        if line.disagree && !totalOk { out.append("The two reads of the photo didn't agree on this line.") }
+        if line.onlySecondRead { out.append("Only found on the second read – make sure it's really on the invoice.") }
+        if line.matchId == nil && !line.noBase { out.append("Not in your price list – choose the matching item or mark it as not in your list.") }
+        if let item = book.item(line.matchId) {
+            let base = item.basePrice(for: supplier)
+            if line.confident == false { out.append("Not 100% sure this is “\(item.name)”.") }
+            if base > 0 && abs(line.unit - base) / base > 0.35 {
+                out.append("Price is very different from your price (\(Money.format(base))) – wrong item or misread?")
+            }
+        }
+        return out
+    }
+
+    public static func totals(_ invoice: InvoiceDraft, book: PriceBook, tolerance: Double = 0.01) -> InvoiceTotals {
+        var t = InvoiceTotals()
+        for line in invoice.lines {
+            let c = lineResult(line, supplier: invoice.supplier, book: book, tolerance: tolerance)
+            t.net += c.net
+            t.vat += c.vat
+            t.over += c.over
+            t.overVat += c.overVat
+            t.under += c.under
+            if line.excluded { t.excluded += c.net } else if c.item == nil { t.unmatched += 1 }
+        }
+        t.net = Money.round2(t.net)
+        t.vat = Money.round2(t.vat)
+        t.over = Money.round2(t.over)
+        t.overVat = Money.round2(t.overVat)
+        t.under = Money.round2(t.under)
+        t.excluded = Money.round2(t.excluded)
+        t.total = Money.round2(t.net + t.vat)
+        let printed = invoice.printedNet ?? 0
+        t.totalKnown = printed != 0
+        t.totalOk = t.totalKnown && abs(printed - t.net) <= 0.05
+        for line in invoice.lines where !reasons(line, supplier: invoice.supplier, book: book, totalOk: t.totalOk).isEmpty { t.needLook += 1 }
+        t.totalProblem = t.totalKnown && !t.totalOk && !invoice.totalAcknowledged
+        return t
+    }
+
+    /// The invoice as it is kept in Reports.
+    public static func historyEntry(_ invoice: InvoiceDraft, book: PriceBook, tolerance: Double = 0.01, existing: HistoryEntry? = nil) -> HistoryEntry {
+        let t = totals(invoice, book: book, tolerance: tolerance)
+        let lines = invoice.lines.map { line -> HistoryLine in
+            let c = lineResult(line, supplier: invoice.supplier, book: book, tolerance: tolerance)
+            return HistoryLine(qty: line.qty, desc: line.desc, unit: line.unit, vat: line.vat, matchId: line.matchId, item: c.item?.name ?? "",
+                               base: c.base, over: c.over, excluded: line.excluded, noBase: line.noBase)
+        }
+        return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
+                            date: invoice.date, net: t.net, total: t.total, over: t.over, overVat: t.overVat, excluded: t.excluded,
+                            verified: t.verified, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: lines)
+    }
+
+    /// An invoice already in Reports that looks like the same one (so it is replaced, not saved twice).
+    public static func duplicate(of invoice: InvoiceDraft, net: Double, in history: [HistoryEntry]) -> HistoryEntry? {
+        history.first { entry in
+            guard entry.id != invoice.id else { return false }
+            guard TextTools.norm(entry.supplier) == TextTools.norm(invoice.supplier), entry.date == invoice.date else { return false }
+            if !invoice.invNo.isEmpty { return entry.invNo == invoice.invNo }
+            return net > 0 && abs(entry.net - net) < 0.01
+        }
+    }
+}

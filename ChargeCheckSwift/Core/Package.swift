@@ -11,6 +11,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "ChargeCheckCore"),
-        .testTarget(name: "ChargeCheckCoreTests", dependencies: ["ChargeCheckCore"])
+        .testTarget(name: "ChargeCheckCoreTests", dependencies: ["ChargeCheckCore"], resources: [.copy("Fixtures")])
     ]
 )

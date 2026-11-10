@@ -167,6 +167,27 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
     public var credit: CreditInfo?
     public var lines: [HistoryLine]
 
+    public init(id: String = UUID().uuidString, savedAt: String = ISO8601DateFormatter().string(from: Date()), shopId: String = "",
+                supplier: String, invNo: String = "", date: String = "", net: Double, total: Double, over: Double, overVat: Double = 0,
+                excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine]) {
+        self.id = id
+        self.savedAt = savedAt
+        self.shopId = shopId
+        self.supplier = supplier
+        self.invNo = invNo
+        self.date = date
+        self.net = net
+        self.total = total
+        self.over = over
+        self.overVat = overVat
+        self.excluded = excluded
+        self.verified = verified
+        self.paid = paid
+        self.file = file
+        self.credit = credit
+        self.lines = lines
+    }
+
     enum CodingKeys: String, CodingKey {
         case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines
     }
