@@ -67,7 +67,8 @@ enum AppData {
 
     /// Saves a checked invoice to Reports. If the same invoice is already there
     /// (same supplier, number and date) it is replaced, not saved twice.
-    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext) {
+    @discardableResult
+    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext) -> HistoryEntry {
         let all = entries(context)
         var existing = all.first { $0.id == draft.id }
         if existing == nil {
@@ -85,6 +86,24 @@ enum AppData {
         } else {
             context.insert(StoredReport(entry: entry))
         }
+        try? context.save()
+        return entry
+    }
+
+    /// Changes saved reports (for example marks them paid) and keeps everything else about them.
+    static func updateReports(_ ids: Set<String>, context: ModelContext, _ change: (inout HistoryEntry) -> Void) {
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
+            guard var entry = stored.entry else { continue }
+            let savedAt = entry.savedAt
+            change(&entry)
+            entry.savedAt = savedAt
+            stored.update(from: entry)
+        }
+        try? context.save()
+    }
+
+    static func deleteReport(_ id: String, context: ModelContext) {
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where stored.uid == id { context.delete(stored) }
         try? context.save()
     }
 
@@ -128,4 +147,8 @@ enum SettingKey {
     static let tolerance = "check.tolerance"
     /// The user has seen the plans and chose to carry on with the free version.
     static let choseFree = "access.choseFree"
+    static let keepCopies = "copies.mode"
+    static let cloudCopies = "copies.cloud"
+    static let reminder = "reminder.monthly"
+    static let paySkipped = "pay.skipped"
 }

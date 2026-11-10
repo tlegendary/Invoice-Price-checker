@@ -36,13 +36,13 @@ struct CheckView: View {
     }
 
     /// Starts reading one invoice, using one scan for a free user. A scan is given back if nothing could be read.
-    private func startReading(_ pages: [UIImage]) -> Bool {
+    private func startReading(_ pages: [UIImage], sourcePDF: Data? = nil) -> Bool {
         if store.isSubscribed {
-            session.read(pages: pages, context: context)
+            session.read(pages: pages, sourcePDF: sourcePDF, context: context)
             return true
         }
         guard store.useScans(1) == 1 else { return false }
-        session.read(pages: pages, context: context, onNothingRead: {
+        session.read(pages: pages, sourcePDF: sourcePDF, context: context, onNothingRead: {
             store.refundScan()
             notice = "That invoice couldn't be read, so your scan was given back."
         })
@@ -161,6 +161,30 @@ struct CheckView: View {
                 .environmentObject(store)
                 .environmentObject(ads)
             }
+            .sheet(isPresented: Binding(get: { session.offerCopy != nil }, set: { if !$0 { session.offerCopy = nil } })) {
+                if let copy = session.offerCopy {
+                    VStack(spacing: 16) {
+                        Image(systemName: "doc.on.doc.fill")
+                            .font(.system(size: 40))
+                            .foregroundStyle(.tint)
+                        Text("Keep a copy of this invoice")
+                            .font(.title3.weight(.bold))
+                        Text("A copy is already kept in the Files app › On My iPhone › ChargeCheck › Invoices. You can also save it somewhere else or send it on.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                        ShareLink(item: copy) {
+                            Label("Save or send a copy", systemImage: "square.and.arrow.up")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 6)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        Button("Not now") { session.offerCopy = nil }
+                    }
+                    .padding(24)
+                    .presentationDetents([.medium])
+                }
+            }
             .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image], allowsMultipleSelection: true) { result in
                 open(result)
             }
@@ -222,14 +246,16 @@ struct CheckView: View {
                 if scoped { url.stopAccessingSecurityScopedResource() }
             }
             var pages: [UIImage] = []
+            var pdf: Data?
             if url.pathExtension.lowercased() == "pdf" {
                 pages = ImageTools.pages(ofPDF: url)
+                pdf = try? Data(contentsOf: url)
             } else if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
                 pages = [image]
             }
             if pages.isEmpty {
                 failed += 1
-            } else if !startReading(pages) {
+            } else if !startReading(pages, sourcePDF: pdf) {
                 skipped += 1
             }
         }

@@ -9,6 +9,7 @@ struct RootView: View {
     @AppStorage(SettingKey.choseFree) private var choseFree = false
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
+    @Environment(\.scenePhase) private var phase
     @StateObject private var session = CheckSession()
     @StateObject private var store = Store()
     @StateObject private var ads = AdService()
@@ -45,6 +46,18 @@ struct RootView: View {
                 carriedOver = legacy.baseline.count
                 showCarriedOver = carriedOver > 0
             }
+            session.onSaved = { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if UserDefaults.standard.bool(forKey: "demoExport") {
+                // the cloud check: write each kind of PDF so they can be looked at
+                let all = AppData.entries(context)
+                let theme = Themes.named(colourID)
+                AppFiles.write(PDFMaker.report(all, period: "All time", business: "", theme: theme), folder: "Exports", name: "demo-report.pdf")
+                AppFiles.write(PDFMaker.priceList(AppData.items(context), business: "", theme: theme), folder: "Exports", name: "demo-prices.pdf")
+                if let first = all.first(where: { $0.over > 0.005 }) ?? all.first {
+                    AppFiles.write(PDFMaker.creditRequest(first, business: "", theme: theme), folder: "Exports", name: "demo-credit.pdf")
+                }
+                AutoBackup.run(context, scans: store.ledger.forBackup)
+            }
             store.start()
             await store.refresh()
             // first open without a subscription: show the plans once. Closing them carries on with the free version.
@@ -52,6 +65,10 @@ struct RootView: View {
             if UserDefaults.standard.bool(forKey: "showPaywall") || (!store.isSubscribed && !choseFree && !showCarriedOver && !quiet) {
                 showPaywall = true
             }
+        }
+        .onChange(of: phase) {
+            // leaving the app: make sure the automatic backup is up to date
+            if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
         }
         .alert("Your prices are here", isPresented: $showCarriedOver) {
             Button("OK", role: .cancel) {}

@@ -16,6 +16,10 @@ struct InvoiceJob: Identifiable, Equatable {
     var thumbnail: UIImage?
     /// The invoice as it was last saved to Reports (nil = not saved yet).
     var saved: InvoiceDraft?
+    /// The pictures (and the PDF, if it came from one) so a copy of the original can be kept.
+    var pages: [UIImage] = []
+    var sourcePDF: Data?
+    var copyPath: String?
 }
 
 /// What the user corrected a misread name to, so the same misread is fixed next time.
@@ -41,6 +45,10 @@ enum NameFixes {
 @MainActor
 final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
+    /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
+    @Published var offerCopy: URL?
+    /// Called after anything is saved to Reports (used to refresh the automatic backup).
+    var onSaved: (() -> Void)?
     private var queue: Task<Void, Never>?
 
     func job(_ id: String) -> InvoiceJob? {
@@ -63,10 +71,10 @@ final class CheckSession: ObservableObject {
 
     /// Starts reading an invoice (one or more pages). Invoices are read one after another.
     @discardableResult
-    func read(pages: [UIImage], context: ModelContext, sample: Bool = false, onNothingRead: (() -> Void)? = nil) -> String {
+    func read(pages: [UIImage], sourcePDF: Data? = nil, context: ModelContext, sample: Bool = false, onNothingRead: (() -> Void)? = nil) -> String {
         let id = UUID().uuidString
         jobs.insert(InvoiceJob(id: id, status: .reading, message: "Waiting…", draft: InvoiceDraft(), isSample: sample,
-                               thumbnail: pages.first?.thumbnail(), saved: nil), at: 0)
+                               thumbnail: pages.first?.thumbnail(), saved: nil, pages: sample ? [] : pages, sourcePDF: sourcePDF), at: 0)
         let items = sample ? SampleInvoice.prices : AppData.items(context)
         let suppliers = sample ? [] : AppData.knownSuppliers(context)
         let fixes = sample ? [:] : NameFixes.all()
@@ -118,10 +126,22 @@ final class CheckSession: ObservableObject {
         let book = PriceBook(AppData.items(context))
         if !anyway && !InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance).verified { return }
         var draft = job.draft
-        AppData.saveReport(&draft, book: book, context: context)
+        let entry = AppData.saveReport(&draft, book: book, context: context)
+        // keep a copy of the original invoice next to the report
+        var copyPath = job.copyPath ?? entry.file
+        if !job.pages.isEmpty || job.sourcePDF != nil {
+            let first = job.copyPath == nil
+            copyPath = InvoiceCopies.keep(pages: job.pages, sourcePDF: job.sourcePDF, entry: entry, replacing: job.copyPath)
+            if let copyPath, copyPath != entry.file {
+                AppData.updateReports([entry.id], context: context) { $0.file = copyPath }
+            }
+            if first, InvoiceCopies.mode == "ask", let copyPath, let url = AppFiles.url(forRelativePath: copyPath) { offerCopy = url }
+        }
         update(id) {
             $0.draft = draft
             $0.saved = draft
+            $0.copyPath = copyPath
         }
+        onSaved?()
     }
 }
