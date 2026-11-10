@@ -1,6 +1,6 @@
-commit: 119ac4e75f1e3ebd52122216346da21bba168817
-result: cancelled
-when: Tue Nov 10 23:28:18 UTC 2026
+commit: 0afa74b7698fc8aaae7b5668c87e5310340ad6fc
+result: success
+when: Tue Nov 10 23:32:02 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,10 +9,13 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
----- last lines ----
-Command line invocation:
-    /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/xcodebuild build-for-testing -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=4A57FB15-6E7C-49CC-BE93-450B18BD286E" -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO
-
-Build settings from command line:
-    CODE_SIGNING_ALLOWED = NO
-
+stringsdata files:       38
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
+    builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
+   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
+** TEST BUILD SUCCEEDED **
+/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
+Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DE734A22-F5D0-4748-80D8-6AE720981AAB/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DE734A22-F5D0-4748-80D8-6AE720981AAB/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
