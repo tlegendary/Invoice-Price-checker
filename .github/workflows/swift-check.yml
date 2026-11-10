@@ -100,3 +100,34 @@ jobs:
         run: |
           [ "$RESULT" != "success" ] && [ -f /tmp/app-full.log ] && { echo "---- last lines ----" >> /tmp/app.log; tail -40 /tmp/app-full.log | cut -c1-400 >> /tmp/app.log; } || true
           bash .github/save-log.sh app /tmp/app.log
+  archive:
+    # The same kind of build Codemagic makes for TestFlight (release, real device), without signing,
+    # so its errors can be read. Only runs when a commit message contains [archive].
+    name: Release build
+    runs-on: macos-15
+    timeout-minutes: 30
+    if: ${{ contains(github.event.head_commit.message, '[archive]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release build for a real iPhone
+        run: |
+          brew install xcodegen 2>&1 | tail -2
+          ls /Applications | grep -i xcode | tr '\n' ' ' | tee /tmp/archive.log
+          NEWEST=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          sudo xcode-select -s "$NEWEST"
+          cd ChargeCheckSwift
+          xcodegen generate 2>&1 | tee -a /tmp/archive.log
+          xcodebuild -version | tee -a /tmp/archive.log
+          set +e
+          xcodebuild archive -project ChargeCheck.xcodeproj -scheme ChargeCheck -configuration Release -destination "generic/platform=iOS" \
+            -archivePath /tmp/cc.xcarchive CODE_SIGNING_ALLOWED=NO > /tmp/archive-full.log 2>&1
+          CODE=$?
+          grep -E "error|warning: unre|\*\* ARCHIVE" /tmp/archive-full.log | sort -u | cut -c1-500 | head -60 | tee -a /tmp/archive.log
+          [ $CODE -ne 0 ] && tail -30 /tmp/archive-full.log | cut -c1-400 | tee -a /tmp/archive.log
+          exit $CODE
+      - name: Keep the log
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ job.status }}
+        run: bash .github/save-log.sh archive /tmp/archive.log
