@@ -64,6 +64,7 @@ targets:
         # !!! Test mode: test ads and a "test as free user" switch. Set to false before sending for App Review.
         CCTestBuild: true
         GADApplicationIdentifier: ca-app-pub-2905482277981262~1451903100
+        NSFaceIDUsageDescription: ChargeCheck can lock with Face ID so only you can see your prices, suppliers and payments.
         NSUserTrackingUsageDescription: This lets the free version show ads that are more relevant to you. Your invoices and prices are never shared.
         SKAdNetworkItems:
           - SKAdNetworkIdentifier: cstr6suwn9.skadnetwork

@@ -18,6 +18,8 @@ struct RootView: View {
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
     @State private var showPaywall = false
+    /// Settings › Lock with Face ID: the app is covered until unlocked, and again after leaving it.
+    @State private var locked = AppLock.isOn
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
     @State private var tab = UserDefaults.standard.string(forKey: "startTab") ?? "check"
 
@@ -71,6 +73,12 @@ struct RootView: View {
                 showPaywall = true
             }
         }
+        .overlay {
+            if locked {
+                LockScreen { locked = false }
+                    .transition(.opacity)
+            }
+        }
         .onOpenURL { url in
             // an invoice PDF or photo sent from another app: read it on the Check tab
             guard url.isFileURL else { return }
@@ -80,6 +88,7 @@ struct RootView: View {
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if phase == .background && AppLock.isOn { locked = true }
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
             if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
         }

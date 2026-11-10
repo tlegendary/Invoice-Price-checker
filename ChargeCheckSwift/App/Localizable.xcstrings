@@ -1899,6 +1899,34 @@
         }
       }
     },
+    "Asks for Face ID, Touch ID or your passcode each time ChargeCheck opens, so staff or family using this phone can't see your prices and payments.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يطلب بصمة الوجه أو بصمة الإصبع أو رمز الدخول في كل مرة يُفتح فيها ChargeCheck، حتى لا يرى الموظفون أو العائلة أسعارك ومدفوعاتك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەر جارێک ChargeCheck دەکرێتەوە داوای Face ID، Touch ID یان وشەی نهێنی دەکات، بۆ ئەوەی کارمەند یان خێزان نرخ و پارەدانەکانت نەبینن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fragt bei jedem Öffnen von ChargeCheck nach Face ID, Touch ID oder deinem Code, damit Mitarbeiter oder Familie deine Preise und Zahlungen nicht sehen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demande Face ID, Touch ID ou votre code à chaque ouverture de ChargeCheck, pour que le personnel ou la famille ne voie pas vos prix et paiements."
+          }
+        }
+      }
+    },
     "Automatic": {
       "localizations": {
         "ar": {
@@ -2438,6 +2466,34 @@
       }
     },
     "ChargeCheck": {},
+    "ChargeCheck is locked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck مقفل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck داخراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck ist gesperrt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck est verrouillé"
+          }
+        }
+      }
+    },
     "Charged": {
       "localizations": {
         "ar": {
@@ -5761,6 +5817,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chargement de la pub…"
+          }
+        }
+      }
+    },
+    "Lock with Face ID or passcode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القفل ببصمة الوجه أو رمز الدخول"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داخستن بە Face ID یان وشەی نهێنی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit Face ID oder Code sperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouiller avec Face ID ou le code"
           }
         }
       }
@@ -11628,6 +11712,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Illimité – annuel"
+          }
+        }
+      }
+    },
+    "Unlock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کردنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entsperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déverrouiller"
+          }
+        }
+      }
+    },
+    "Unlock ChargeCheck": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح ChargeCheck"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck entsperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déverrouiller ChargeCheck"
           }
         }
       }
