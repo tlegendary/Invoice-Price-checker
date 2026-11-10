@@ -1,0 +1,34 @@
+commit: bc59848b0aa6092ec252e8787eb24891877f3e59
+result: success
+when: Tue Nov 10 09:38:59 UTC 2026
+
+
+found 0 vulnerabilities
+[info] All Capacitor plugins have a Package.swift file and will be included in Package.swift
+[info] Writing Package.swift
+[info] Found 7 Capacitor plugins for ios:
+       @capacitor-community/admob@8.3.0
+       @capacitor-community/in-app-review@8.0.0
+       @capacitor/filesystem@8.1.5
+       @capacitor/local-notifications@8.3.1
+       @capacitor/share@8.0.3
+       @capgo/native-purchases@8.9.6
+       capacitor-vision-ocr@1.0.0
+✔ update ios in 35.36ms
+[info] Sync finished in 0.136s
+Xcode 16.4
+Build version 16F6
+    builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/x86_64/placeholder.o.scan -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/ru
+    /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnosti
+    builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/run
+    /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnosti
+    /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module App --output-partial-info-plist /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/Build/Intermediates.noindex/App.build/Debug-iphonesimulator/App.build/Base.lproj/Main-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --minimum-depl
+    /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module App --output-partial-info-plist /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/Build/Intermediates.noindex/App.build/Debug-iphonesimulator/App.build/Base.lproj/LaunchScreen-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --mini
+    /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module App --target-device iphone --target-device ipad --minimum-deployment-target 15.0 --output-format human-readable-text --link /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/build/Build/Products/Debug-iphonesimulator/App.app /Users/runner/work/Invoice-Price-checker/Invoice-Price-c
+** BUILD SUCCEEDED **
+Privacy manifests in the app:
+CapacitorVisionOcr_VisionOCRPlugin.bundle/PrivacyInfo.xcprivacy
+Frameworks/Capacitor.framework/PrivacyInfo.xcprivacy
+Frameworks/GoogleMobileAds.framework/PrivacyInfo.xcprivacy
+Frameworks/UserMessagingPlatform.framework/PrivacyInfo.xcprivacy
+Frameworks/Cordova.framework/PrivacyInfo.xcprivacy
