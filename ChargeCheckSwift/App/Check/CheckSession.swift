@@ -60,6 +60,8 @@ final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
     /// Invoices shared into the app from WhatsApp, Mail or Files, waiting for the Check tab to read them.
     @Published var incoming: [URL] = []
+    /// Siri / Shortcuts asked to scan an invoice: the Check tab opens the camera.
+    @Published var openScanner = false
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).

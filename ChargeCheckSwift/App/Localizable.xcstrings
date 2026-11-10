@@ -2840,6 +2840,34 @@
         }
       }
     },
+    "Check an invoice": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فحص فاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشکنینی پسوولە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier une facture"
+          }
+        }
+      }
+    },
     "Check the prices on this invoice": {
       "extractionState": "manual",
       "localizations": {
@@ -8230,6 +8258,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir un tableur ou un fichier texte (CSV)"
+          }
+        }
+      }
+    },
+    "Opens ChargeCheck with the camera, ready to scan a supplier invoice.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يفتح ChargeCheck مع الكاميرا، جاهزًا لمسح فاتورة مورّد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck لەگەڵ کامێرا دەکاتەوە، ئامادە بۆ سکانکردنی پسوولەی دابینکەر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet ChargeCheck mit der Kamera, bereit zum Scannen einer Lieferantenrechnung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre ChargeCheck avec l’appareil photo, prêt à scanner une facture fournisseur."
           }
         }
       }

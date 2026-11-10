@@ -188,6 +188,11 @@ struct CheckView: View {
             .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image], allowsMultipleSelection: true) { result in
                 open(result)
             }
+            .onReceive(session.$openScanner) { wanted in
+                guard wanted else { return }
+                session.openScanner = false
+                if DocumentScanner.isAvailable { gated { showScanner = true } }
+            }
             .onChange(of: picked) {
                 loadPicked()
             }

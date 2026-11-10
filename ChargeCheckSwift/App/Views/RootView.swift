@@ -84,6 +84,11 @@ struct RootView: View {
             Accounts.shared.changed(context)
             store.start()
             await store.refresh()
+            if IntentInbox.takeScanRequest() {
+                // opened by Siri / Shortcuts: "Check an invoice"
+                tab = "check"
+                session.openScanner = true
+            }
             // first open without a subscription: show the plans once. Closing them carries on with the free version.
             let quiet = UserDefaults.standard.object(forKey: "startTab") != nil || UserDefaults.standard.object(forKey: "demoScan") != nil
             if UserDefaults.standard.bool(forKey: "showPaywall") || (!store.isSubscribed && !choseFree && !showCarriedOver && !quiet) {
@@ -96,10 +101,20 @@ struct RootView: View {
                     .transition(.opacity)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: IntentInbox.notification)) { _ in
+            if IntentInbox.takeScanRequest() {
+                tab = "check"
+                session.openScanner = true
+            }
+        }
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
             if phase == .background && AppLock.isOn { locked = true }
+            if phase == .active && IntentInbox.takeScanRequest() {
+                tab = "check"
+                session.openScanner = true
+            }
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
             if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
         }
