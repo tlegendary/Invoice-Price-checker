@@ -89,6 +89,12 @@ struct PricesView: View {
                 }
             }
             .navigationTitle("Prices")
+            .task {
+                // the cloud check opens one item to look at its price history
+                if let id = UserDefaults.standard.string(forKey: "demoPrice"), let stored = prices.first(where: { $0.uid == id }) {
+                    draft = PriceDraft(item: stored.item, isNew: false)
+                }
+            }
             .searchable(text: $search, prompt: "Search \(prices.count) items")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

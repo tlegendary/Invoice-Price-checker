@@ -26,6 +26,13 @@ enum AppData {
         settings.biz = defaults.string(forKey: SettingKey.business)
         settings.mode = defaults.string(forKey: SettingKey.mode)
         settings.color = defaults.string(forKey: SettingKey.colour)
+        settings.keepCopy = defaults.string(forKey: SettingKey.keepCopies)
+        settings.tol = tolerance
+        let shops = Shops.all
+        if !shops.isEmpty {
+            settings.shops = shops
+            settings.shop = Shops.current
+        }
         return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans)
     }
 
@@ -50,6 +57,12 @@ enum AppData {
             if let biz = settings.biz { defaults.set(biz, forKey: SettingKey.business) }
             if let mode = settings.mode, ["auto", "light", "dark"].contains(mode) { defaults.set(mode, forKey: SettingKey.mode) }
             if let colour = settings.color, Themes.all.contains(where: { $0.id == colour }) { defaults.set(colour, forKey: SettingKey.colour) }
+            if let copies = settings.keepCopy, ["phone", "ask", "off"].contains(copies) { defaults.set(copies, forKey: SettingKey.keepCopies) }
+            if let tol = settings.tol, tol >= 0.01, tol <= 1 { defaults.set(tol, forKey: SettingKey.tolerance) }
+            if let shops = settings.shops, !shops.isEmpty {
+                Shops.all = shops
+                if let shop = settings.shop { defaults.set(shop, forKey: Shops.currentKey) }
+            }
         }
     }
 
@@ -151,4 +164,7 @@ enum SettingKey {
     static let cloudCopies = "copies.cloud"
     static let reminder = "reminder.monthly"
     static let paySkipped = "pay.skipped"
+    /// Lower an agreed price when a fully checked invoice is cheaper (on unless turned off).
+    static let autoLower = "prices.autoLower"
+    static let lastRatingAsk = "rating.lastAsk"
 }

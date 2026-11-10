@@ -61,9 +61,15 @@ is ready and Ramyar says to switch.
   - [x] Automatic backup (Files app › ChargeCheck, last 14 days), iCloud Drive folder, copies of invoices (phone / ask / off)
   - [x] Monthly reminder
   - [ ] Not tested yet on a real phone: iCloud folder, notifications, the share sheet (simulator checked: screens, PDFs, backup files)
-- [ ] **6. Polish**  ← next
-  - [ ] Price history chart, sample invoice, rating prompt, shops
-  - [ ] Codemagic workflow to sign and send the Swift build to TestFlight
+- [ ] **6. Polish**  ← in progress
+  - [x] Price history chart on each item (what suppliers charged over time against the agreed price)
+  - [x] Shops: add / rename / remove, new invoices filed under the ticked shop, Reports can show one shop
+  - [x] Lower an agreed price when a fully checked invoice is cheaper (with Undo, can be turned off)
+  - [x] "Ignore differences up to" setting, rating prompt after a few saved invoices
+  - [x] Open a spreadsheet (CSV) or text file as a price list
+  - [x] Backups now also carry shops, the tolerance and the invoice-copies choice
+  - [ ] Codemagic workflow to sign and send the Swift build to TestFlight (waiting for Ramyar's yes)
+  - [ ] Try on a real phone: camera scanner, real ads and purchases, iCloud folder, notifications
   - [ ] Ask Ramyar before switching the App Store build to the Swift version
 
 ## Rules

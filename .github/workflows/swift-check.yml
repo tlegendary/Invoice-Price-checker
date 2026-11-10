@@ -73,6 +73,7 @@ jobs:
             shot 8-sample-sideways 30 -demoScan sideways
             shot 10-check-free 6 -startTab check
             shot 11-export 6 -startTab reports -demoExport YES
+            shot 12-price-history 6 -startTab prices -demoPrice s1
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true

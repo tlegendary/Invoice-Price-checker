@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 struct RootView: View {
     let storageProblem: Bool
@@ -10,6 +11,7 @@ struct RootView: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var phase
+    @Environment(\.requestReview) private var requestReview
     @StateObject private var session = CheckSession()
     @StateObject private var store = Store()
     @StateObject private var ads = AdService()
@@ -46,7 +48,10 @@ struct RootView: View {
                 carriedOver = legacy.baseline.count
                 showCarriedOver = carriedOver > 0
             }
-            session.onSaved = { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            session.onSaved = {
+                AutoBackup.run(context, scans: store.ledger.forBackup)
+                askForRating()
+            }
             if UserDefaults.standard.bool(forKey: "demoExport") {
                 // the cloud check: write each kind of PDF so they can be looked at
                 let all = AppData.entries(context)
@@ -70,6 +75,12 @@ struct RootView: View {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
         }
+        .alert("Price lowered", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
+            Button("Undo") { session.undoLowered(note, context: context) }
+            Button("OK", role: .cancel) {}
+        } message: { note in
+            Text(note.message + " You can turn this off in Settings.")
+        }
         .alert("Your prices are here", isPresented: $showCarriedOver) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -79,6 +90,20 @@ struct RootView: View {
             PaywallView()
                 .environmentObject(store)
                 .tint(Themes.named(colourID).accent(for: scheme))
+        }
+    }
+
+    /// After a few saved invoices, ask for an App Store rating. Apple decides whether to show it
+    /// (three times a year at most); the app asks no more than once every four months.
+    private func askForRating() {
+        let defaults = UserDefaults.standard
+        let last = defaults.double(forKey: SettingKey.lastRatingAsk)
+        let now = Date().timeIntervalSince1970
+        guard AppData.entries(context).count >= 3, now - last > 120 * 86_400 else { return }
+        defaults.set(now, forKey: SettingKey.lastRatingAsk)
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(2))
+            requestReview()
         }
     }
 }

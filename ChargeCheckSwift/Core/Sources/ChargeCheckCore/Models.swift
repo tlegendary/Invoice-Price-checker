@@ -225,6 +225,11 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
 public struct ShopInfo: Codable, Equatable, Sendable {
     public var id: String
     public var name: String
+
+    public init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
 }
 
 public struct BackupSettings: Codable, Equatable, Sendable {

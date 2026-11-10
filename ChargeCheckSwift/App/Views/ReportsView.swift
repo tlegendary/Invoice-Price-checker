@@ -16,7 +16,17 @@ struct ReportsView: View {
     @State private var notice: String?
     @State private var undoPaid: Set<String> = []
 
-    private var entries: [HistoryEntry] { reports.compactMap { $0.entry } }
+    @AppStorage(Shops.listKey) private var shopData = Data()
+    /// "" = every shop
+    @State private var shopFilter = ""
+
+    private var shops: [ShopInfo] { Shops.decode(shopData) }
+
+    private var entries: [HistoryEntry] {
+        let all = reports.compactMap { $0.entry }
+        if shopFilter.isEmpty || !shops.contains(where: { $0.id == shopFilter }) { return all }
+        return all.filter { $0.shopId == shopFilter }
+    }
 
     private var skipped: Set<String> {
         Set(skippedText.split(separator: ",").map(String.init))
@@ -36,9 +46,9 @@ struct ReportsView: View {
             List {
                 if list.isEmpty {
                     ContentUnavailableView {
-                        Label("No reports yet", systemImage: "chart.bar")
+                        Label(reports.isEmpty ? "No reports yet" : "No invoices for this shop", systemImage: "chart.bar")
                     } description: {
-                        Text("Every invoice you check is kept here, with what each supplier overcharged.")
+                        Text(reports.isEmpty ? "Every invoice you check is kept here, with what each supplier overcharged." : "Choose “All shops” at the top to see every invoice.")
                     }
                 } else {
                     Section {
@@ -69,6 +79,19 @@ struct ReportsView: View {
                 }
             }
             .navigationTitle("Reports")
+            .toolbar {
+                if !shops.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Picker("Shop", selection: $shopFilter) {
+                            Text("All shops").tag("")
+                            ForEach(shops, id: \.id) { shop in
+                                Text(shop.name).tag(shop.id)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                }
+            }
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
             }

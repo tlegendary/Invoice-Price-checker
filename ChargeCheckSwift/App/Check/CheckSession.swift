@@ -22,6 +22,19 @@ struct InvoiceJob: Identifiable, Equatable {
     var copyPath: String?
 }
 
+struct LoweredPrices: Identifiable {
+    let id = UUID()
+    var changes: [PriceChange]
+    var before: [PriceItem]
+
+    var message: String {
+        if changes.count == 1, let one = changes.first {
+            return "Your price for \(one.name) was lowered from \(Money.format(one.from)) to \(Money.format(one.to)), the cheaper price on this invoice."
+        }
+        return "\(changes.count) of your prices were lowered to the cheaper prices on this invoice."
+    }
+}
+
 /// What the user corrected a misread name to, so the same misread is fixed next time.
 enum NameFixes {
     private static let key = "nameFixes"
@@ -47,6 +60,9 @@ final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
+    /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).
+    @Published var lowered: LoweredPrices?
+    private var loweredOnce = Set<String>()
     /// Called after anything is saved to Reports (used to refresh the automatic backup).
     var onSaved: (() -> Void)?
     private var queue: Task<Void, Never>?
@@ -118,6 +134,28 @@ final class CheckSession: ObservableObject {
         return id
     }
 
+    /// A cheaper price on a fully checked invoice becomes the agreed price. Never raised, never adds items,
+    /// and each item only once per invoice so "Undo" sticks.
+    private func lowerPrices(_ draft: InvoiceDraft, jobID: String, book: PriceBook, context: ModelContext) {
+        if UserDefaults.standard.object(forKey: SettingKey.autoLower) as? Bool == false { return }
+        guard InvoiceMaths.totals(draft, book: book, tolerance: AppData.tolerance).verified else { return }
+        let changes = PriceTools.cheaper(in: draft, book: book).filter { loweredOnce.insert(jobID + "|" + $0.itemID).inserted }
+        var before: [PriceItem] = []
+        for change in changes {
+            guard let item = book.item(change.itemID) else { continue }
+            before.append(item)
+            AppData.save(PriceTools.setting(change.to, on: item, supplier: draft.supplier), in: context)
+        }
+        if before.isEmpty { return }
+        try? context.save()
+        lowered = LoweredPrices(changes: changes, before: before)
+    }
+
+    func undoLowered(_ note: LoweredPrices, context: ModelContext) {
+        for item in note.before { AppData.save(item, in: context) }
+        try? context.save()
+    }
+
     /// Saves the invoice to Reports once every line is checked (or straight away when `anyway` is true).
     func saveIfChecked(_ id: String, context: ModelContext, anyway: Bool = false) {
         guard let job = job(id), !job.isSample, job.status == .done else { return }
@@ -126,7 +164,9 @@ final class CheckSession: ObservableObject {
         let book = PriceBook(AppData.items(context))
         if !anyway && !InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance).verified { return }
         var draft = job.draft
+        if draft.shopId.isEmpty { draft.shopId = Shops.current }
         let entry = AppData.saveReport(&draft, book: book, context: context)
+        lowerPrices(draft, jobID: id, book: book, context: context)
         // keep a copy of the original invoice next to the report
         var copyPath = job.copyPath ?? entry.file
         if !job.pages.isEmpty || job.sourcePDF != nil {

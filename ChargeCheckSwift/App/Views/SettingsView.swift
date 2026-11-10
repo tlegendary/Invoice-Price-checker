@@ -28,6 +28,9 @@ struct SettingsView: View {
     @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
+    @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
+    @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var showPricesShare: URL?
 
     private func when(_ seconds: Double) -> String {
@@ -154,8 +157,30 @@ struct SettingsView: View {
                     TextField("Business name", text: $business)
                 } header: {
                     Text("Your business")
+                    NavigationLink {
+                        ShopsView()
+                    } label: {
+                        LabeledContent("Shops") {
+                            let shops = Shops.decode(shopData)
+                            Text(shops.isEmpty ? "One shop" : "\(shops.count)")
+                        }
+                    }
                 } footer: {
-                    Text("Shown at the top of reports and credit requests.")
+                    Text("The name is shown at the top of reports and credit requests. Add your shops if you have more than one.")
+                }
+
+                Section {
+                    Picker("Ignore differences up to", selection: $toleranceValue) {
+                        Text("1p").tag(0.01)
+                        Text("2p").tag(0.02)
+                        Text("5p").tag(0.05)
+                        Text("10p").tag(0.1)
+                    }
+                    Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
+                } header: {
+                    Text("Checking")
+                } footer: {
+                    Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.")
                 }
 
                 Section {

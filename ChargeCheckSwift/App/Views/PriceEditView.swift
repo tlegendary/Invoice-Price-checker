@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import ChargeCheckCore
 
 struct PriceEditView: View {
@@ -13,6 +14,11 @@ struct PriceEditView: View {
     @State private var priceText: String
     @State private var aliasText: String
     @State private var newCategory = ""
+    @Query private var reports: [StoredReport]
+
+    private var history: [PricePoint] {
+        isNew ? [] : PriceTools.history(of: item.id, in: reports.compactMap { $0.entry })
+    }
 
     init(draft: PriceDraft, categories: [String], onSave: @escaping (PriceItem) -> Void, onDelete: (() -> Void)?) {
         self.isNew = draft.isNew
@@ -64,6 +70,11 @@ struct PriceEditView: View {
                     Text("On invoices as")
                 } footer: {
                     Text("How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it.")
+                }
+                if !history.isEmpty {
+                    Section("Price history") {
+                        PriceHistoryChart(points: history, agreed: price ?? item.price)
+                    }
                 }
                 if let onDelete {
                     Section {
