@@ -1,0 +1,56 @@
+# Checks the Swift version of ChargeCheck every time the swift-rewrite branch changes.
+# It only checks that the code builds and the tests pass. It does NOT upload anything to the App Store.
+name: Swift check
+on:
+  push:
+    branches: [swift-rewrite]
+permissions:
+  contents: write
+concurrency:
+  group: swift-check
+  cancel-in-progress: true
+jobs:
+  core:
+    name: Core tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the tests
+        run: |
+          cd ChargeCheckSwift/Core
+          swift --version 2>&1 | tee /tmp/core.log
+          set -o pipefail
+          swift test 2>&1 | tee -a /tmp/core.log
+      - name: Keep the log
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ job.status }}
+        run: bash .github/save-log.sh core /tmp/core.log
+  app:
+    name: App build
+    runs-on: macos-15
+    timeout-minutes: 25
+    if: ${{ !contains(github.event.head_commit.message, '[core]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build for the iPhone simulator
+        run: |
+          set -o pipefail
+          if [ ! -f ChargeCheckSwift/project.yml ]; then echo "No app project yet" | tee /tmp/app.log; exit 0; fi
+          brew install xcodegen 2>&1 | tail -2
+          cd ChargeCheckSwift
+          xcodegen generate 2>&1 | tee /tmp/app.log
+          xcodebuild -version | tee -a /tmp/app.log
+          xcodebuild -project ChargeCheck.xcodeproj -scheme ChargeCheck -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee /tmp/app-full.log | grep -E "error|warning: |BUILD|\*\*" | tee -a /tmp/app.log
+      - name: Keep the log
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ job.status }}
+        run: |
+          [ -f /tmp/app-full.log ] && { echo "---- last lines ----" >> /tmp/app.log; tail -60 /tmp/app-full.log >> /tmp/app.log; } || true
+          bash .github/save-log.sh app /tmp/app.log
