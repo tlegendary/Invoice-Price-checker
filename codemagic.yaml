@@ -165,25 +165,83 @@ workflows:
             sleep 20
           done
       - name: Build
+        ignore_failure: true
         script: |
           set +e
           xcode-project build-ipa --project "ChargeCheckSwift/ChargeCheck.xcodeproj" --scheme "ChargeCheck" > /tmp/build-ipa.log 2>&1
           CODE=$?
+          echo $CODE > /tmp/build-code
           tail -60 /tmp/build-ipa.log
-          if [ $CODE -ne 0 ]; then
-            # put the compiler errors where they can be read from GitHub (branch cm-logs)
-            {
-              echo "commit: $CM_COMMIT  build: $CM_BUILD_ID"
-              cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|\*\* .* FAILED|Provisioning|signing|requires a provisioning" | sort -u | cut -c1-400 | head -80
-              echo "---- last lines ----"
-              tail -40 /tmp/build-ipa.log | cut -c1-400
-            } > /tmp/cm-errors.txt
-            cat /tmp/cm-errors.txt
-            rm -rf /tmp/cmlogs && mkdir /tmp/cmlogs && cd /tmp/cmlogs && git init -q && cp /tmp/cm-errors.txt build.txt
-            git -c user.name=codemagic -c user.email=ci@codemagic.io commit -qam "build failed $CM_COMMIT" 2>/dev/null || { git add build.txt; git -c user.name=codemagic -c user.email=ci@codemagic.io commit -qm "build failed $CM_COMMIT"; }
-            git push -q -f "$(git -C "$CM_BUILD_DIR" remote get-url origin)" HEAD:refs/heads/cm-logs 2>&1 | tail -3 || true
-          fi
+          cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|FAILED|rovision" | sort -u | cut -c1-400 > /tmp/errors.txt
+          cat /tmp/errors.txt | head -80
           exit $CODE
+      - name: "Diagnose – InvoiceReader"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(InvoiceReader.swift)" /tmp/errors.txt; then grep -E "(InvoiceReader.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – SuppliersView"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(SuppliersView.swift)" /tmp/errors.txt; then grep -E "(SuppliersView.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – InvoiceDetailView"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(InvoiceDetailView.swift)" /tmp/errors.txt; then grep -E "(InvoiceDetailView.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – CheckView"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(CheckView.swift)" /tmp/errors.txt; then grep -E "(CheckView.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – RootView"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(RootView.swift)" /tmp/errors.txt; then grep -E "(RootView.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Accounts"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(Accounts.swift)" /tmp/errors.txt; then grep -E "(Accounts.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – CheckSession"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(CheckSession.swift)" /tmp/errors.txt; then grep -E "(CheckSession.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – ReportsView"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(ReportsView.swift)" /tmp/errors.txt; then grep -E "(ReportsView.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – AppData"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(AppData.swift)" /tmp/errors.txt; then grep -E "(AppData.swift)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Core package"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(ChargeCheckCore/)" /tmp/errors.txt; then grep -E "(ChargeCheckCore/)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – String catalog"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(xcstrings)" /tmp/errors.txt; then grep -E "(xcstrings)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Info.plist"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(Info.plist|plist)" /tmp/errors.txt; then grep -E "(Info.plist|plist)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Signing"
+        ignore_failure: true
+        script: |
+          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
+          if grep -Eq "(rovision|igning|entitlement)" /tmp/errors.txt; then grep -E "(rovision|igning|entitlement)" /tmp/errors.txt | head -20; exit 1; fi
+      - name: Stop if the build failed
+        script: exit $(cat /tmp/build-code)
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
