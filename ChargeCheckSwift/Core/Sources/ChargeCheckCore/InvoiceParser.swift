@@ -343,8 +343,18 @@ public enum InvoiceParser {
 
     // MARK: - one line
 
+    static var vatRates: [Double] { language == "de" ? [19, 7] : language == "fr" ? [20, 10, 5.5] : [20, 5] }
+
     public static func parseLine(_ raw: String, known: Set<String> = []) -> ParsedLine? {
-        let t = raw.splitOnWhitespace()
+        var t = raw.splitOnWhitespace()
+        // European invoices often end a line with the VAT rate as a plain "7" or "19%"
+        var tailRate = 0.0
+        if language != "en", t.count > 3, let last = t.last,
+           let rate = Double(stripToken(last).replacingOccurrences(of: "%", with: "").replacingOccurrences(of: ",", with: ".")),
+           vatRates.contains(rate), !Rx.test(last, "[.,][0-9]{2}$") {
+            tailRate = rate
+            t.removeLast()
+        }
         if t.count < 2 { return nil }
         var qi = -1
         var qty: Double = 1
@@ -461,12 +471,13 @@ public enum InvoiceParser {
 
         var vat = 0.0
         let after: [Double] = ni >= 0 && ni + 1 < T.count ? Array(T[(ni + 1)...]) : []
-        let rates: [Double] = language == "de" ? [19, 7] : language == "fr" ? [20, 10, 5.5] : [20, 5]
+        let rates = vatRates
         for v in after where rates.contains(v) {
             vat = v
             break
         }
         if vat == 0, let n = net, n != 0, let last = after.last, last > 0, let rate = rates.first, abs(last - n * rate / 100) < 0.03 { vat = rate }
+        if vat == 0 { vat = tailRate }
         return ParsedLine(qty: qty, desc: desc, raw: rawDesc, unit: unit ?? 0, vat: vat, warn: warn)
     }
 
@@ -486,7 +497,8 @@ public enum InvoiceParser {
     enum Words {
         private static func pick(_ en: String, _ others: [String: String]) -> String {
             guard language != "en", let extra = others[language] else { return en }
-            return en + "|" + extra
+            // inner brackets must not capture: the number is the only thing captured
+            return en + "|" + extra.replacingOccurrences(of: "(", with: "(?:")
         }
         static var skip: String {
             pick("total|invoice\\s*no|account|page\\s*[0-9]|quantity\\s+desc", [
