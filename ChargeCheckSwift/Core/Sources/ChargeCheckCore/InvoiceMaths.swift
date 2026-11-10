@@ -63,6 +63,8 @@ public struct InvoiceDraft: Identifiable, Equatable, Sendable {
     public var totalAcknowledged: Bool
     public var passes: Int
     public var shopId: String
+    /// A trusted supplier: only the total counts, the lines aren't checked.
+    public var totalOnly: Bool = false
 
     public init(id: String = UUID().uuidString, supplier: String = "", invNo: String = "", date: String = "", lines: [CheckLine] = [],
                 printedNet: Double? = nil, printedTotal: Double? = nil, totalAcknowledged: Bool = false, passes: Int = 0, shopId: String = "") {
@@ -228,6 +230,12 @@ public enum InvoiceMaths {
             let c = lineResult(line, supplier: invoice.supplier, book: book, tolerance: tolerance)
             return HistoryLine(qty: line.qty, desc: line.desc, unit: line.unit, vat: line.vat, matchId: line.matchId, item: c.item?.name ?? "",
                                base: c.base, over: c.over, excluded: line.excluded, noBase: line.noBase)
+        }
+        if invoice.totalOnly {
+            let total = Money.round2(invoice.printedTotal ?? invoice.printedNet ?? 0)
+            return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
+                                date: invoice.date, net: Money.round2(invoice.printedNet ?? total), total: total, over: 0,
+                                verified: true, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: [], totalOnly: true)
         }
         return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
                             date: invoice.date, net: t.net, total: t.total, over: t.over, overVat: t.overVat, excluded: t.excluded,

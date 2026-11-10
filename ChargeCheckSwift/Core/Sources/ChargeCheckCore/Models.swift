@@ -166,10 +166,13 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
     public var file: String?
     public var credit: CreditInfo?
     public var lines: [HistoryLine]
+    /// A trusted supplier's invoice: only the total was read, the prices weren't checked.
+    public var totalOnly: Bool
 
     public init(id: String = UUID().uuidString, savedAt: String = ISO8601DateFormatter().string(from: Date()), shopId: String = "",
                 supplier: String, invNo: String = "", date: String = "", net: Double, total: Double, over: Double, overVat: Double = 0,
-                excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine]) {
+                excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine],
+                totalOnly: Bool = false) {
         self.id = id
         self.savedAt = savedAt
         self.shopId = shopId
@@ -186,10 +189,11 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         self.file = file
         self.credit = credit
         self.lines = lines
+        self.totalOnly = totalOnly
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines
+        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines, totalOnly
     }
 
     public init(from decoder: Decoder) throws {
@@ -210,6 +214,7 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         file = c.flexString(.file)
         credit = try? c.decode(CreditInfo.self, forKey: .credit)
         lines = (try? c.decode([HistoryLine].self, forKey: .lines)) ?? []
+        totalOnly = c.flexBool(.totalOnly) ?? false
     }
 
     /// What to send the supplier: the invoice total less overcharges and missing items (VAT included).
@@ -276,8 +281,13 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var history: [HistoryEntry]
     public var settings: BackupSettings?
     public var scans: ScanCredits?
+    /// Payments, credits and starting balances (added with supplier accounts).
+    public var payments: [SupplierPayment]?
+    /// Suppliers whose invoices are only totalled, not price-checked.
+    public var trusted: [String]?
 
-    public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil) {
+    public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
+                payments: [SupplierPayment]? = nil, trusted: [String]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -285,9 +295,11 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.history = history
         self.settings = settings
         self.scans = scans
+        self.payments = payments
+        self.trusted = trusted
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -298,6 +310,8 @@ public struct BackupFile: Codable, Equatable, Sendable {
         history = (try? c.decode([HistoryEntry].self, forKey: .history)) ?? []
         settings = try? c.decode(BackupSettings.self, forKey: .settings)
         scans = try? c.decode(ScanCredits.self, forKey: .scans)
+        payments = try? c.decode([SupplierPayment].self, forKey: .payments)
+        trusted = try? c.decode([String].self, forKey: .trusted)
     }
 
     public enum ReadError: Error { case notABackup }
