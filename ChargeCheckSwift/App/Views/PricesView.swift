@@ -63,7 +63,7 @@ struct PricesView: View {
                     ContentUnavailableView.search(text: search)
                 }
                 ForEach(groups) { group in
-                    Section(group.cat) {
+                    Section(L(group.cat)) {
                         ForEach(group.items) { price in
                             Button {
                                 draft = PriceDraft(item: price.item, isNew: false)
@@ -168,7 +168,7 @@ struct PriceRow: View {
         var parts: [String] = []
         if !price.supplier.isEmpty { parts.append(price.supplier) }
         let spellings = price.aliases.filter { $0 != TextTools.norm(price.name) }
-        if !spellings.isEmpty { parts.append("on invoices as: " + spellings.joined(separator: ", ")) }
+        if !spellings.isEmpty { parts.append(String(localized: "on invoices as: \(spellings.joined(separator: ", "))")) }
         return parts.joined(separator: " · ")
     }
 

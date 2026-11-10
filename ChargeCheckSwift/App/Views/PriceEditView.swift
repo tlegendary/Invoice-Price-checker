@@ -57,7 +57,7 @@ struct PriceEditView: View {
                 Section("Category") {
                     Picker("Category", selection: $item.cat) {
                         ForEach(categories, id: \.self) { name in
-                            Text(name).tag(name)
+                            Text(L(name)).tag(name)
                         }
                     }
                     TextField("Or type a new category", text: $newCategory)

@@ -11,11 +11,17 @@ struct PriceHistoryChart: View {
         guard let first = points.first, let last = points.last else { return "" }
         let low = points.map { $0.unit }.min() ?? last.unit
         let high = points.map { $0.unit }.max() ?? last.unit
-        var text = "Bought \(points.count == 1 ? "once" : "\(points.count) times") · last \(Money.format(last.unit)) on \(last.label)"
+        let lastPrice = Money.format(last.unit)
+        var text = points.count == 1
+            ? String(localized: "Bought once · last \(lastPrice) on \(last.label)")
+            : String(localized: "Bought \(points.count) times · last \(lastPrice) on \(last.label)")
         if points.count > 1 {
-            text += " · lowest \(Money.format(low)), highest \(Money.format(high))"
+            text += " · " + String(localized: "lowest \(Money.format(low)), highest \(Money.format(high))")
             let change = Money.round2(last.unit - first.unit)
-            if abs(change) > 0.005 { text += " · \(change > 0 ? "up" : "down") \(Money.format(abs(change))) since \(first.label)" }
+            let amount = Money.format(abs(change))
+            if abs(change) > 0.005 {
+                text += " · " + (change > 0 ? String(localized: "up \(amount) since \(first.label)") : String(localized: "down \(amount) since \(first.label)"))
+            }
         }
         return text
     }

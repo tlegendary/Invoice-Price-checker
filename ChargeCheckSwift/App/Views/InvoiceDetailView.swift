@@ -312,12 +312,12 @@ struct LineRow: View {
 
     private var detail: String {
         var text = "\(quantity(line.qty)) × \(Money.format(line.unit))"
-        if line.excluded { return text + " · missing or returned" }
+        if line.excluded { return text + " · " + String(localized: "missing or returned") }
         if let item = result.item, let base = result.base {
-            text += " · your price \(Money.format(base))"
+            text += " · " + String(localized: "your price \(Money.format(base))")
             if TextTools.norm(item.name) != TextTools.norm(line.desc) { text += " (\(item.name))" }
         } else if line.noBase {
-            text += " · not in your price list"
+            text += " · " + String(localized: "not in your price list")
         }
         return text
     }

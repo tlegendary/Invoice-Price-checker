@@ -139,7 +139,7 @@ struct ReportsView: View {
                     HStack(alignment: .firstTextBaseline) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(supplier.name)
-                            Text("Invoiced \(Money.format(supplier.total))" + (supplier.less > 0 ? " − \(Money.format(supplier.less))" : ""))
+                            Text(String(localized: "Invoiced \(Money.format(supplier.total))") + (supplier.less > 0 ? " − \(Money.format(supplier.less))" : ""))
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
@@ -267,7 +267,7 @@ struct PayChooseView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text((entry.supplier.isEmpty ? L("Invoice") : entry.supplier) + (entry.invNo.isEmpty ? "" : "  #" + entry.invNo))
                                     .font(.subheadline.weight(.semibold))
-                                Text("\(entry.date) · invoiced \(Money.format(amounts.total))" + (amounts.less > 0 ? " − \(Money.format(amounts.less))" : "") + " · pay \(Money.format(amounts.pay))")
+                                Text(String(localized: "\(entry.date) · invoiced \(Money.format(amounts.total))") + (amounts.less > 0 ? " − \(Money.format(amounts.less))" : "") + " · " + String(localized: "pay \(Money.format(amounts.pay))"))
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                             }
@@ -368,7 +368,7 @@ struct ReportDetailView: View {
                                     Text(line.item.isEmpty ? line.desc : line.item)
                                         .font(.subheadline.weight(.semibold))
                                         .strikethrough(line.excluded)
-                                    Text("\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))" + (line.base.map { " · your price \(Money.format($0))" } ?? "") + (line.excluded ? " · missing or returned" : ""))
+                                    Text("\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))" + (line.base.map { " · " + String(localized: "your price \(Money.format($0))") } ?? "") + (line.excluded ? " · missing or returned" : ""))
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }

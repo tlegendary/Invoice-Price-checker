@@ -142,6 +142,35 @@
         }
       }
     },
+    "%@ · invoiced %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · المفوتر %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · پسوولەکراو %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · in Rechnung %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · facturé %2$@"
+          }
+        }
+      }
+    },
     "%@ · overcharged %@": {
       "localizations": {
         "ar": {
@@ -1898,6 +1927,35 @@
         }
       }
     },
+    "Bakery": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخبوزات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نانەواخانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backwaren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boulangerie"
+          }
+        }
+      }
+    },
     "Blue": {
       "extractionState": "manual",
       "localizations": {
@@ -1923,6 +1981,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bleu"
+          }
+        }
+      }
+    },
+    "Bought %lld times · last %@ on %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اشتُري %1$lld مرات · آخر سعر %2$@ في %3$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld جار کڕدراوە · دوایین %2$@ لە %3$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld-mal gekauft · zuletzt %2$@ am %3$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acheté %1$lld fois · dernier prix %2$@ le %3$@"
+          }
+        }
+      }
+    },
+    "Bought once · last %@ on %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اشتُري مرة واحدة · آخر سعر %1$@ في %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەک جار کڕدراوە · دوایین %1$@ لە %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einmal gekauft · zuletzt %1$@ am %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acheté une fois · dernier prix %1$@ le %2$@"
           }
         }
       }
@@ -2603,6 +2719,35 @@
         }
       }
     },
+    "Cleaning": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنظيف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پاککردنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reinigung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nettoyage"
+          }
+        }
+      }
+    },
     "Close": {
       "localizations": {
         "ar": {
@@ -2966,6 +3111,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Devise"
+          }
+        }
+      }
+    },
+    "Dairy & Cheese": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ألبان وأجبان"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شیرەمەنی و پەنیر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Milchprodukte & Käse"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Produits laitiers & fromages"
           }
         }
       }
@@ -3362,6 +3536,64 @@
         }
       }
     },
+    "Drinks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشروبات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خواردنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Getränke"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boissons"
+          }
+        }
+      }
+    },
+    "Dry Goods": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مواد جافة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵای وشک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trockenware"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épicerie sèche"
+          }
+        }
+      }
+    },
     "Edit": {
       "localizations": {
         "ar": {
@@ -3751,6 +3983,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "De"
+          }
+        }
+      }
+    },
+    "Frozen & Sides": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجمدات ومقبلات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەستوو و لاوەکی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiefkühl & Beilagen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surgelés & accompagnements"
           }
         }
       }
@@ -4489,6 +4750,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Facture {1}"
+          }
+        }
+      }
+    },
+    "Invoiced %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المفوتر %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکراو %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ in Rechnung gestellt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facturé %@"
           }
         }
       }
@@ -5251,6 +5541,35 @@
         }
       }
     },
+    "Meat & Poultry": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لحوم ودواجن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گۆشت و پەلەوەر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fleisch & Geflügel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viandes & volailles"
+          }
+        }
+      }
+    },
     "Missing or returned": {
       "localizations": {
         "ar": {
@@ -5725,6 +6044,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune pub n’est disponible pour le moment, aucun scan n’a donc été ajouté. Vérifiez votre connexion et réessayez. (%@)"
+          }
+        }
+      }
+    },
+    "No category": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا فئة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بێ پۆل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Kategorie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans catégorie"
           }
         }
       }
@@ -6264,6 +6612,35 @@
         }
       }
     },
+    "Oils & Sauces": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيوت وصلصات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕۆن و سۆس"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öle & Saucen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Huiles & sauces"
+          }
+        }
+      }
+    },
     "On invoices as": {
       "localizations": {
         "ar": {
@@ -6685,6 +7062,35 @@
         }
       }
     },
+    "Other": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخرى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonstiges"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autre"
+          }
+        }
+      }
+    },
     "Over": {
       "extractionState": "manual",
       "localizations": {
@@ -7022,6 +7428,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Surfacturé, depuis le début"
+          }
+        }
+      }
+    },
+    "Packaging": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغليف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پاکێجکردن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verpackung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emballages"
           }
         }
       }
@@ -11535,6 +11970,35 @@
         }
       }
     },
+    "down %@ since %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انخفض %1$@ منذ %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ دابەزیوە لە %2$@ ەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ günstiger seit %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "en baisse de %1$@ depuis le %2$@"
+          }
+        }
+      }
+    },
     "e.g. quater pounder, qtr pounder": {
       "localizations": {
         "ar": {
@@ -11649,6 +12113,64 @@
         }
       }
     },
+    "lowest %@, highest %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدنى %1$@، الأعلى %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەمترین %1$@، زۆرترین %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "niedrigster %1$@, höchster %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "le plus bas %1$@, le plus haut %2$@"
+          }
+        }
+      }
+    },
+    "missing or returned": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناقص أو مرتجع"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ونبوو یان گەڕێنراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fehlt oder zurückgegeben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "manquant ou retourné"
+          }
+        }
+      }
+    },
     "not fully checked": {
       "localizations": {
         "ar": {
@@ -11673,6 +12195,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "pas entièrement vérifiée"
+          }
+        }
+      }
+    },
+    "not in your price list": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ليس في قائمة أسعارك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە لیستی نرخەکانتدا نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "nicht in deiner Preisliste"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "pas dans votre liste de prix"
           }
         }
       }
@@ -11733,6 +12284,35 @@
         }
       }
     },
+    "on invoices as: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "على الفواتير باسم: %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەسەر پسوولەکان وەک: %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "auf Rechnungen als: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sur les factures : %@"
+          }
+        }
+      }
+    },
     "paid": {
       "localizations": {
         "ar": {
@@ -11761,6 +12341,35 @@
         }
       }
     },
+    "pay %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفع %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەدان %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zahlen %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "payer %@"
+          }
+        }
+      }
+    },
     "total %@": {
       "localizations": {
         "ar": {
@@ -11785,6 +12394,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "total %@"
+          }
+        }
+      }
+    },
+    "up %@ since %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارتفع %1$@ منذ %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ بەرز بووەتەوە لە %2$@ ەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ teurer seit %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "en hausse de %1$@ depuis le %2$@"
+          }
+        }
+      }
+    },
+    "your price %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سعرك %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکەت %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dein Preis %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "votre prix %@"
           }
         }
       }
