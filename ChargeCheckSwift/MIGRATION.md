@@ -54,12 +54,14 @@ is ready and Ramyar says to switch.
         Seen passing: products + trial, monthly, yearly unlock + expiry, pack bought and counted once.
         The pack test is sometimes very slow to start on a cold simulator.
   - [ ] Not tested yet: real ads and real purchases on a phone (needs a TestFlight build)
-- [ ] **5. Reports, PDF export + backup**  ← next
-  - [ ] Reports: choose invoices to pay, mark as paid, copy breakdown (basic totals are done)
-  - [ ] PDF / spreadsheet for the accountant, price-list PDF, credit request PDF (in the chosen colour)
-  - [ ] Automatic backup, iCloud Drive folder, copies of invoices
-  - [ ] Monthly reminder
-- [ ] **6. Polish**
+- [x] **5. Reports, PDF export + backup**
+  - [x] Reports: "To pay" per supplier, choose invoices (all ticked to begin with), mark as paid + undo, copy breakdown
+  - [x] One invoice: lines, paid switch, original photo/PDF, credit request PDF, delete
+  - [x] PDF / spreadsheet (CSV) for the accountant by period, price-list PDF, credit request PDF (in the chosen colour)
+  - [x] Automatic backup (Files app › ChargeCheck, last 14 days), iCloud Drive folder, copies of invoices (phone / ask / off)
+  - [x] Monthly reminder
+  - [ ] Not tested yet on a real phone: iCloud folder, notifications, the share sheet (simulator checked: screens, PDFs, backup files)
+- [ ] **6. Polish**  ← next
   - [ ] Price history chart, sample invoice, rating prompt, shops
   - [ ] Codemagic workflow to sign and send the Swift build to TestFlight
   - [ ] Ask Ramyar before switching the App Store build to the Swift version

@@ -113,12 +113,16 @@ struct ReportsView: View {
                     }
                 }
                 ForEach(pay.suppliers) { supplier in
-                    LabeledContent {
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(supplier.name)
+                            Text("Invoiced \(Money.format(supplier.total))" + (supplier.less > 0 ? " − \(Money.format(supplier.less))" : ""))
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer(minLength: 8)
                         Text(Money.format(supplier.pay))
                             .fontWeight(.semibold)
-                    } label: {
-                        Text(supplier.name)
-                        Text("Invoiced \(Money.format(supplier.total))" + (supplier.less > 0 ? " − \(Money.format(supplier.less)) \(supplier.hasMissing ? "overcharged / missing" : "overcharged")" : ""))
                     }
                 }
                 if !pay.selected.isEmpty {
