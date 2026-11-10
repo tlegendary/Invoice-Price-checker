@@ -259,6 +259,7 @@
 
     },
     "%lld files couldn't be opened." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -286,7 +287,11 @@
         }
       }
     },
+    "%lld invoices to pay" : {
+
+    },
     "%lld invoices weren't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -315,6 +320,7 @@
       }
     },
     "%lld lines" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -399,6 +405,7 @@
       }
     },
     "%lld of your prices were lowered to the cheaper prices on this invoice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -427,6 +434,7 @@
       }
     },
     "%lld photos couldn't be opened." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -539,6 +547,7 @@
       }
     },
     "%lld scans left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -567,6 +576,7 @@
       }
     },
     "%lld things to check" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -661,7 +671,11 @@
     "1" : {
 
     },
+    "1 invoice to pay" : {
+
+    },
     "1 invoice wasn't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -690,6 +704,7 @@
       }
     },
     "1 line" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -718,6 +733,7 @@
       }
     },
     "1 scan left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -746,6 +762,7 @@
       }
     },
     "1 thing to check" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -892,6 +909,7 @@
       }
     },
     "A copy is already kept in the Files app › On My iPhone › ChargeCheck › Invoices. You can also save it somewhere else or send it on." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -918,6 +936,9 @@
           }
         }
       }
+    },
+    "A reminder at 9am on the day you pay your suppliers." : {
+
     },
     "About" : {
       "localizations" : {
@@ -1032,6 +1053,7 @@
       }
     },
     "Add %lld new items to my price list" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1060,6 +1082,7 @@
       }
     },
     "Add 1 new item to my price list" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1086,6 +1109,9 @@
           }
         }
       }
+    },
+    "Add a credit note" : {
+
     },
     "Add a line" : {
       "localizations" : {
@@ -1171,7 +1197,14 @@
         }
       }
     },
+    "Add a supplier" : {
+
+    },
+    "Add an older amount owed" : {
+
+    },
     "Add the lines by hand with “Add a line”." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1228,6 +1261,7 @@
       }
     },
     "Adds up to the total printed on the invoice" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1371,6 +1405,7 @@
       }
     },
     "All prices match" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1597,35 +1632,6 @@
         }
       }
     },
-    "Amounts are before VAT (no VAT added)." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المبالغ قبل الضريبة (بدون ضريبة)."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بڕەکان پێش باجی VAT ن (باج زیاد نەکراوە)."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beträge ohne MwSt. (keine MwSt. hinzugefügt)."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Montants hors TVA (sans TVA ajoutée)."
-          }
-        }
-      }
-    },
     "Amounts include VAT." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1656,6 +1662,7 @@
       }
     },
     "An invoice is saved to Reports by itself once every line is checked." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1995,61 +2002,11 @@
         }
       }
     },
-    "Before VAT" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قبل الضريبة"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "پێش VAT"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ohne MwSt."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hors TVA"
-          }
-        }
-      }
+    "Balance = their invoices (less overcharges and missing items) − your payments and credit notes." : {
+
     },
-    "Before VAT %@ + VAT %@" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قبل الضريبة %1$@ + الضريبة %2$@"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "پێش VAT %1$@ + VAT %2$@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ohne MwSt. %1$@ + MwSt. %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hors TVA %1$@ + TVA %2$@"
-          }
-        }
-      }
+    "Balance owed: %@" : {
+
     },
     "Blue" : {
       "extractionState" : "manual",
@@ -2364,9 +2321,6 @@
         }
       }
     },
-    "ChargeCheck" : {
-
-    },
     "Charged" : {
       "localizations" : {
         "ar" : {
@@ -2621,6 +2575,7 @@
       }
     },
     "Choose a PDF or file" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2733,6 +2688,7 @@
       }
     },
     "Choose photos" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2957,6 +2913,9 @@
         }
       }
     },
+    "Copy statement" : {
+
+    },
     "Copy the credit request" : {
       "localizations" : {
         "ar" : {
@@ -3015,6 +2974,7 @@
       }
     },
     "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3070,6 +3030,15 @@
           }
         }
       }
+    },
+    "Credit note" : {
+
+    },
+    "Credit note number (optional)" : {
+
+    },
+    "Credit notes" : {
+
     },
     "Credit request" : {
       "localizations" : {
@@ -3832,6 +3801,7 @@
       }
     },
     "Every line double-checked." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3971,6 +3941,9 @@
         }
       }
     },
+    "For invoices from before you used ChargeCheck. Leave it empty if you owe them nothing." : {
+
+    },
     "Found %lld items" : {
       "localizations" : {
         "ar" : {
@@ -4000,6 +3973,7 @@
       }
     },
     "Free version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4427,6 +4401,7 @@
       }
     },
     "I've checked – it's fine" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4510,34 +4485,6 @@
         }
       }
     },
-    "Including VAT" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "شامل الضريبة"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لەگەڵ VAT"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inkl. MwSt."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TVA incluse"
-          }
-        }
-      }
-    },
     "Invoice" : {
       "localizations" : {
         "ar" : {
@@ -4565,6 +4512,9 @@
           }
         }
       }
+    },
+    "Invoice %@" : {
+
     },
     "Invoice check report" : {
       "extractionState" : "manual",
@@ -4681,6 +4631,7 @@
       }
     },
     "Invoice removed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4818,34 +4769,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Totaux des factures (TTC)"
-          }
-        }
-      }
-    },
-    "Invoice totals before VAT, less overcharges and missing or returned items. Choose “Before VAT” for a shop that isn’t VAT registered." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إجمالي الفواتير قبل الضريبة، مطروحًا منه الزيادات في الأسعار والبنود المفقودة أو المرتجعة. اختر «قبل الضريبة» للمتجر غير المسجّل في الضريبة."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "کۆی پسوولەکان پێش VAT، کەمکراوە لە نرخی زیادە و کاڵای ون یان گەڕێنراوە. «پێش VAT» هەڵبژێرە بۆ دوکانێک کە بۆ VAT تۆمار نەکراوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechnungssummen ohne MwSt., abzüglich Überberechnungen und fehlender oder zurückgegebener Artikel. Wähle „Ohne MwSt.“ für einen Laden ohne MwSt.-Registrierung."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Totaux des factures hors TVA, moins les surfacturations et les articles manquants ou retournés. Choisissez « Hors TVA » pour un magasin non assujetti à la TVA."
           }
         }
       }
@@ -5048,6 +4971,9 @@
         }
       }
     },
+    "Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them." : {
+
+    },
     "Iraqi dinar (IQD)" : {
       "localizations" : {
         "ar" : {
@@ -5077,6 +5003,7 @@
       }
     },
     "It stays in Reports." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5189,6 +5116,7 @@
       }
     },
     "Keep a copy of this invoice" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5302,6 +5230,7 @@
       }
     },
     "Last month's invoice report is ready" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5325,6 +5254,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le rapport des factures du mois dernier est prêt"
+          }
+        }
+      }
+    },
+    "Last payment: %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last payment: %1$@ on %2$@"
           }
         }
       }
@@ -5694,6 +5633,9 @@
         }
       }
     },
+    "Marked paid before" : {
+
+    },
     "Meat & Poultry" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6005,6 +5947,7 @@
       }
     },
     "Net" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6061,6 +6004,7 @@
       }
     },
     "New items are added at the price on this invoice, so you'll be told if it goes up next time." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6089,6 +6033,7 @@
       }
     },
     "New line" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6287,6 +6232,7 @@
       }
     },
     "No lines found" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6427,6 +6373,9 @@
         }
       }
     },
+    "No suppliers yet" : {
+
+    },
     "Not 100% sure this is “{1}”." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6542,6 +6491,7 @@
       }
     },
     "Not now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6568,6 +6518,9 @@
           }
         }
       }
+    },
+    "Note, e.g. bank transfer (optional)" : {
+
     },
     "Nothing found" : {
       "localizations" : {
@@ -6654,6 +6607,7 @@
       }
     },
     "Nothing was charged above your agreed prices." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6710,6 +6664,7 @@
       }
     },
     "Number" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6764,6 +6719,9 @@
           }
         }
       }
+    },
+    "Off" : {
+
     },
     "Oils & Sauces" : {
       "extractionState" : "manual",
@@ -6851,6 +6809,7 @@
       }
     },
     "One file couldn't be opened." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6907,6 +6866,7 @@
       }
     },
     "One photo couldn't be opened." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7047,6 +7007,7 @@
       }
     },
     "Open ChargeCheck › Reports › Export to send it to your accountant." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7274,6 +7235,7 @@
       }
     },
     "Overcharged" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7302,6 +7264,7 @@
       }
     },
     "Overcharged %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7330,6 +7293,7 @@
       }
     },
     "Overcharged %@ so far. Tap the orange lines to confirm them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7642,6 +7606,15 @@
         }
       }
     },
+    "Paid invoices" : {
+
+    },
+    "Paid on" : {
+
+    },
+    "Paid this week" : {
+
+    },
     "Paste a price list" : {
       "localizations" : {
         "ar" : {
@@ -7698,6 +7671,15 @@
         }
       }
     },
+    "Pay invoices" : {
+
+    },
+    "Pay invoices one by one" : {
+
+    },
+    "Pay the whole balance: %@" : {
+
+    },
     "Pay {1}: {2}" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7726,6 +7708,15 @@
           }
         }
       }
+    },
+    "Payment" : {
+
+    },
+    "Payment for %lld invoices" : {
+
+    },
+    "Payment for 1 invoice" : {
+
     },
     "Payment summary – {1}" : {
       "extractionState" : "manual",
@@ -7756,6 +7747,12 @@
         }
       }
     },
+    "Payments" : {
+
+    },
+    "Payments and credits" : {
+
+    },
     "Period" : {
       "localizations" : {
         "ar" : {
@@ -7785,6 +7782,7 @@
       }
     },
     "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7955,6 +7953,7 @@
       }
     },
     "Plus %@ VAT on top. Every line double-checked." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8410,6 +8409,7 @@
       }
     },
     "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8493,6 +8493,12 @@
         }
       }
     },
+    "Record a payment" : {
+
+    },
+    "Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers." : {
+
+    },
     "Remove" : {
       "localizations" : {
         "ar" : {
@@ -8522,6 +8528,7 @@
       }
     },
     "Remove this invoice from the list" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8774,6 +8781,7 @@
       }
     },
     "Sample invoice with example prices. Nothing here is saved." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8858,6 +8866,7 @@
       }
     },
     "Save or send a copy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8942,6 +8951,7 @@
       }
     },
     "Save to Reports anyway" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8970,6 +8980,7 @@
       }
     },
     "Saved in Reports" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8998,6 +9009,7 @@
       }
     },
     "Scan an invoice" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -9587,6 +9599,22 @@
         }
       }
     },
+    "Starting balance" : {
+
+    },
+    "Statement – %@ – %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Statement – %1$@ – %2$@"
+          }
+        }
+      }
+    },
+    "Still to pay" : {
+
+    },
     "Stop paying more than your agreed prices." : {
       "localizations" : {
         "ar" : {
@@ -9756,6 +9784,18 @@
         }
       }
     },
+    "Supplier name, as on their invoices" : {
+
+    },
+    "Supplier removed" : {
+
+    },
+    "Suppliers" : {
+
+    },
+    "Suppliers appear here when you check their invoices. Add one with + to record a starting balance or make them trusted." : {
+
+    },
     "Support" : {
       "localizations" : {
         "ar" : {
@@ -9784,7 +9824,11 @@
         }
       }
     },
+    "Swipe left on one to remove it." : {
+
+    },
     "Tap the orange lines to confirm them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10040,6 +10084,7 @@
       }
     },
     "That invoice couldn't be read, so your scan was given back." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10321,6 +10366,7 @@
       }
     },
     "The lines add up to %@ but the invoice says %@. A line may be missing or misread." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10372,62 +10418,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le nom apparaît en haut des rapports et des demandes d’avoir. Ajoutez vos magasins si vous en avez plusieurs."
-          }
-        }
-      }
-    },
-    "The photo looks blurry. Hold the phone still and let it focus before taking the photo, or add the lines by hand." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصورة غير واضحة. ثبّت الهاتف وانتظر حتى يضبط التركيز قبل التصوير، أو أضف البنود يدويًا."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "وێنەکە ناڕوونە. مۆبایلەکە ڕاگرە و با فۆکەس بکات پێش ئەوەی وێنە بگریت، یان دێڕەکان بە دەست زیاد بکە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Foto ist unscharf. Halte das Handy ruhig und lass es scharf stellen, bevor du fotografierst, oder füge die Positionen von Hand hinzu."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La photo est floue. Tenez le téléphone immobile et laissez-le faire la mise au point avant de prendre la photo, ou ajoutez les lignes à la main."
-          }
-        }
-      }
-    },
-    "The photo looks too dark to read. Take it again in brighter light or with the flash, or add the lines by hand." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصورة مظلمة جدًا ولا يمكن قراءتها. أعد التصوير في إضاءة أقوى أو باستخدام الفلاش، أو أضف البنود يدويًا."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "وێنەکە زۆر تاریکە و ناخوێندرێتەوە. لە ڕووناکییەکی زیاتردا یان بە فلاش دووبارە بیگرەوە، یان دێڕەکان بە دەست زیاد بکە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Foto ist zu dunkel zum Lesen. Fotografiere es bei mehr Licht oder mit Blitz noch einmal oder füge die Positionen von Hand hinzu."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La photo est trop sombre pour être lue. Reprenez-la avec plus de lumière ou avec le flash, ou ajoutez les lignes à la main."
           }
         }
       }
@@ -10517,6 +10507,7 @@
       }
     },
     "The sample invoice is missing from the app." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10597,34 +10588,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les deux lectures de la photo ne concordent pas sur cette ligne."
-          }
-        }
-      }
-    },
-    "These invoices have no VAT" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا توجد ضريبة على هذه الفواتير"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ئەم پسوولانە VAT یان نییە"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Rechnungen enthalten keine MwSt."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ces factures n’ont pas de TVA"
           }
         }
       }
@@ -10917,6 +10880,7 @@
       }
     },
     "Totals" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10944,7 +10908,14 @@
         }
       }
     },
+    "Trusted" : {
+
+    },
+    "Trusted supplier" : {
+
+    },
     "Try a sample invoice" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11057,6 +11028,7 @@
       }
     },
     "Type by hand" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11376,7 +11348,7 @@
         "ckb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "VAT"
+            "value" : "باج"
           }
         },
         "de" : {
@@ -11507,6 +11479,7 @@
       }
     },
     "Watch an ad for 1 scan" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11534,6 +11507,12 @@
         }
       }
     },
+    "Weekly payment day" : {
+
+    },
+    "What you owe them now (optional)" : {
+
+    },
     "Who are these prices from?" : {
       "localizations" : {
         "ar" : {
@@ -11558,34 +11537,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De qui viennent ces prix ?"
-          }
-        }
-      }
-    },
-    "With VAT it would be %@ (VAT %@)" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مع الضريبة سيكون المبلغ %1$@ (الضريبة %2$@)"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لەگەڵ VAT دەبێتە %1$@ (VAT %2$@)"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit MwSt. wären es %1$@ (MwSt. %2$@)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec TVA, cela ferait %1$@ (TVA %2$@)"
           }
         }
       }
@@ -11676,6 +11627,7 @@
       }
     },
     "You have no scans left. Watch an ad or buy scans to check this invoice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11703,7 +11655,11 @@
         }
       }
     },
+    "You owe" : {
+
+    },
     "You paid %@ less than your agreed prices." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11732,6 +11688,7 @@
       }
     },
     "You should pay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11758,6 +11715,9 @@
           }
         }
       }
+    },
+    "You've paid %@ more than they invoiced. It comes off their next invoices." : {
+
     },
     "Your agreed price" : {
       "localizations" : {
@@ -11956,6 +11916,7 @@
       }
     },
     "Your price for %@ was lowered from %@ to %@, the cheaper price on this invoice." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12096,6 +12057,7 @@
       }
     },
     "Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12208,6 +12170,7 @@
       }
     },
     "dd/mm/yyyy" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12316,6 +12279,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sauvegarde iCloud"
+          }
+        }
+      }
+    },
+    "last paid %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "last paid %1$@ on %2$@"
           }
         }
       }
@@ -12521,7 +12494,11 @@
         }
       }
     },
+    "nothing owed" : {
+
+    },
     "off" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12662,6 +12639,12 @@
           }
         }
       }
+    },
+    "total only" : {
+
+    },
+    "trusted supplier, prices not checked" : {
+
     },
     "up %@ since %@" : {
       "extractionState" : "manual",
