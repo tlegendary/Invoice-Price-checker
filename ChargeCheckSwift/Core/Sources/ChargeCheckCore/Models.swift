@@ -139,6 +139,18 @@ public struct CreditInfo: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey { case status, amount, at, paidAt }
 
+    public static let requested = "requested"
+    public static let received = "received"
+
+    public init(status: String, amount: Double, at: String? = nil, paidAt: String? = nil) {
+        self.status = status
+        self.amount = amount
+        self.at = at
+        self.paidAt = paidAt
+    }
+
+    public var isOwed: Bool { status == CreditInfo.requested }
+
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         status = c.flexString(.status) ?? "requested"

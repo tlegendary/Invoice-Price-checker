@@ -200,6 +200,30 @@ enum InvoiceCopies {
     }
 }
 
+/// A reminder two weeks after asking a supplier for a credit, if it hasn't been marked as received.
+enum CreditReminder {
+    static let days = 14
+
+    private static func id(_ entryID: String) -> String { "chargecheck.credit." + entryID }
+
+    static func set(for entry: HistoryEntry, amount: Double) async {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [id(entry.id)])
+        guard (try? await center.requestAuthorization(options: [.alert, .sound])) == true else { return }
+        let content = UNMutableNotificationContent()
+        let supplier = entry.supplier.isEmpty ? String(localized: "your supplier") : entry.supplier
+        content.title = String(localized: "Has \(supplier) sent your credit?")
+        content.body = String(localized: "You asked for \(Money.format(amount)) two weeks ago. Open ChargeCheck › Reports to mark it received or ask again.")
+        content.sound = .default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(days * 86_400), repeats: false)
+        try? await center.add(UNNotificationRequest(identifier: id(entry.id), content: content, trigger: trigger))
+    }
+
+    static func cancel(for entryID: String) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id(entryID)])
+    }
+}
+
 /// A reminder on the 1st of each month to send last month's report to the accountant.
 enum MonthlyReminder {
     private static let id = "chargecheck.monthly.report"

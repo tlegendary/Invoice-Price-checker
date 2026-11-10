@@ -87,6 +87,20 @@ public enum ReportMaths {
                           payWithVat: Money.round2(selected.reduce(0) { $0 + $1.amountToPay.pay }))
     }
 
+    // MARK: - credits
+
+    /// Credits asked for but not received yet: how many, and how much in all.
+    public static func creditsOwed(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
+        let owed = entries.filter { $0.credit?.isOwed == true }
+        return (owed.count, Money.round2(owed.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+    }
+
+    /// Credits received, how many and how much in all – money won back.
+    public static func creditsReceived(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
+        let got = entries.filter { $0.credit?.status == CreditInfo.received }
+        return (got.count, Money.round2(got.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+    }
+
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
     public static func creditText(_ entry: HistoryEntry, business: String) -> String {
         let t = CoreText.t
