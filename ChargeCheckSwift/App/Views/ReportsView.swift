@@ -60,6 +60,18 @@ struct ReportsView: View {
                         }
                         LabeledContent("Invoices checked", value: "\(list.count)")
                         LabeledContent("Spend checked", value: Money.format(Money.round2(list.reduce(0) { $0 + $1.net })))
+                        let owed = ReportMaths.creditsOwed(list)
+                        if owed.count > 0 {
+                            LabeledContent(owed.count == 1 ? String(localized: "1 credit still owed") : String(localized: "\(owed.count) credits still owed")) {
+                                Text(Money.format(owed.amount))
+                                    .foregroundStyle(.orange)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        let received = ReportMaths.creditsReceived(list)
+                        if received.count > 0 {
+                            LabeledContent("Credits received", value: Money.format(received.amount))
+                        }
                         Button {
                             showExport = true
                         } label: {
@@ -393,6 +405,9 @@ struct ReportDetailView: View {
                             }
                         }
                     }
+                    if amounts.less > 0 {
+                        creditSection(entry, amount: amounts.less)
+                    }
                     Section("Lines") {
                         ForEach(Array(entry.lines.enumerated()), id: \.offset) { _, line in
                             HStack(alignment: .top) {
@@ -435,6 +450,60 @@ struct ReportDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         }
+    }
+
+    /// Keeps track of the credit: asked for, then received. A reminder comes after two weeks if it hasn't arrived.
+    @ViewBuilder
+    private func creditSection(_ entry: HistoryEntry, amount: Double) -> some View {
+        Section {
+            if let credit = entry.credit, credit.status == CreditInfo.received {
+                Label("Credit of \(Money.format(credit.amount)) received", systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(.green)
+                Button("Not received after all") { setCredit(entry, nil, amount: amount) }
+            } else if let credit = entry.credit, credit.isOwed {
+                Label(String(localized: "Asked for \(Money.format(credit.amount))") + (credit.at.map { " · " + shortDate($0) } ?? ""), systemImage: "hourglass")
+                    .foregroundStyle(.orange)
+                Button {
+                    setCredit(entry, CreditInfo.received, amount: credit.amount)
+                } label: {
+                    Label("Credit received", systemImage: "checkmark.circle")
+                }
+                Button("I haven't asked yet") { setCredit(entry, nil, amount: amount) }
+            } else {
+                Button {
+                    setCredit(entry, CreditInfo.requested, amount: amount)
+                } label: {
+                    Label("I've asked for this credit", systemImage: "paperplane")
+                }
+            }
+        } header: {
+            Text("Credit")
+        } footer: {
+            Text("Mark the credit as asked for, and ChargeCheck reminds you after \(CreditReminder.days) days if it hasn't arrived.")
+        }
+    }
+
+    private func setCredit(_ entry: HistoryEntry, _ status: String?, amount: Double) {
+        let stamp = ISO8601DateFormatter().string(from: Date())
+        let asked = entry.credit?.at
+        AppData.updateReports([entry.id], context: context) { saved in
+            if let status {
+                saved.credit = CreditInfo(status: status, amount: amount, at: asked ?? stamp,
+                                          paidAt: status == CreditInfo.received ? stamp : nil)
+            } else {
+                saved.credit = nil
+            }
+        }
+        if status == CreditInfo.requested {
+            Task { await CreditReminder.set(for: entry, amount: amount) }
+        } else {
+            CreditReminder.cancel(for: entry.id)
+        }
+    }
+
+    private func shortDate(_ iso: String) -> String {
+        guard let date = ISO8601DateFormatter().date(from: iso) else { return "" }
+        return date.formatted(date: .abbreviated, time: .omitted)
     }
 
     private func creditRequest(_ entry: HistoryEntry) -> URL? {

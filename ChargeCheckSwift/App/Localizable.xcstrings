@@ -256,6 +256,34 @@
       }
     },
     "%lld": {},
+    "%lld credits still owed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مبالغ مستردة لم تصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پارەی گەڕاوە هێشتا ماون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Gutschriften noch offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld avoirs encore dus"
+          }
+        }
+      }
+    },
     "%lld files couldn't be opened.": {
       "localizations": {
         "ar": {
@@ -682,6 +710,34 @@
     "0%": {},
     "0.00": {},
     "1": {},
+    "1 credit still owed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبلغ مسترد واحد لم يصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ پارەی گەڕاوە هێشتا ماوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Gutschrift noch offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 avoir encore dû"
+          }
+        }
+      }
+    },
     "1 invoice to pay": {
       "extractionState": "manual",
       "localizations": {
@@ -2014,6 +2070,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apple Intelligence n’est pas disponible pour le moment."
+          }
+        }
+      }
+    },
+    "Asked for %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم طلب %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوای %@ کرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ demandé"
           }
         }
       }
@@ -3435,6 +3519,34 @@
         }
       }
     },
+    "Credit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەی گەڕاوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir"
+          }
+        }
+      }
+    },
     "Credit note": {
       "extractionState": "manual",
       "localizations": {
@@ -3518,6 +3630,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avoirs"
+          }
+        }
+      }
+    },
+    "Credit of %@ received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استلام مبلغ مسترد بقيمة %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەی گەڕاوەی %@ وەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift über %@ erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir de %@ reçu"
+          }
+        }
+      }
+    },
+    "Credit received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استلام المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارە گەڕاوەکە وەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir reçu"
           }
         }
       }
@@ -3631,6 +3799,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avoir demandé (TTC)"
+          }
+        }
+      }
+    },
+    "Credits received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبالغ المستردة المستلمة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارە گەڕاوە وەرگیراوەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erhaltene Gutschriften"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoirs reçus"
           }
         }
       }
@@ -4736,6 +4932,34 @@
         }
       }
     },
+    "Has %@ sent your credit?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل أرسل %@ المبلغ المسترد؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئایا %@ پارە گەڕاوەکەتی ناردووە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hat %@ deine Gutschrift geschickt?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ a-t-il envoyé votre avoir ?"
+          }
+        }
+      }
+    },
     "Hello{1},": {
       "extractionState": "manual",
       "localizations": {
@@ -4845,6 +5069,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Comment les fournisseurs écrivent cet article sur leurs factures, séparé par des virgules. L’app s’en sert pour le reconnaître."
+          }
+        }
+      }
+    },
+    "I haven't asked yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم أطلبه بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا داوام نەکردووە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch nicht angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je ne l’ai pas encore demandé"
+          }
+        }
+      }
+    },
+    "I've asked for this credit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبت هذا المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوای ئەم پارە گەڕاوەیەم کرد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ich habe diese Gutschrift angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "J’ai demandé cet avoir"
           }
         }
       }
@@ -6261,6 +6541,34 @@
         }
       }
     },
+    "Mark the credit as asked for, and ChargeCheck reminds you after %lld days if it hasn't arrived.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجّل أنك طلبت المبلغ المسترد، وسيذكّرك ChargeCheck بعد %lld يومًا إذا لم يصل."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دیاری بکە کە داوای پارە گەڕاوەکەت کردووە، ChargeCheck دوای %lld ڕۆژ بیرت دەخاتەوە ئەگەر نەگەیشت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markiere die Gutschrift als angefordert – ChargeCheck erinnert dich nach %lld Tagen, falls sie nicht angekommen ist."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquez l’avoir comme demandé : ChargeCheck vous le rappellera après %lld jours s’il n’est pas arrivé."
+          }
+        }
+      }
+    },
     "Marked paid before": {
       "extractionState": "manual",
       "localizations": {
@@ -7190,6 +7498,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plus tard"
+          }
+        }
+      }
+    },
+    "Not received after all": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُستلم في الواقع"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ڕاستیدا وەرنەگیراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doch nicht erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalement pas reçu"
           }
         }
       }
@@ -13287,6 +13623,34 @@
         }
       }
     },
+    "You asked for %@ two weeks ago. Open ChargeCheck › Reports to mark it received or ask again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبت %@ قبل أسبوعين. افتح ChargeCheck › التقارير لتسجيل استلامه أو اطلبه مرة أخرى."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو هەفتە لەمەوبەر داوای %@ت کرد. ChargeCheck › ڕاپۆرتەکان بکەرەوە بۆ ئەوەی وەرگیراو دیاری بکەیت یان دووبارە داوا بکەیتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du hast vor zwei Wochen %@ angefordert. Öffne ChargeCheck › Berichte, um sie als erhalten zu markieren oder erneut nachzufragen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous avez demandé %@ il y a deux semaines. Ouvrez ChargeCheck › Rapports pour le marquer comme reçu ou relancer."
+          }
+        }
+      }
+    },
     "You can turn this off in Settings.": {
       "localizations": {
         "ar": {
@@ -14531,6 +14895,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "votre prix %@"
+          }
+        }
+      }
+    },
+    "your supplier": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المورّد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەرەکەت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dein Lieferant"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "votre fournisseur"
           }
         }
       }

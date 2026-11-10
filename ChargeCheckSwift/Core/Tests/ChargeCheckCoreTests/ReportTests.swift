@@ -38,6 +38,21 @@ final class ReportTests: XCTestCase {
         XCTAssertEqual(ReportMaths.paySummary([], skipped: []).pay, 0)
     }
 
+    func testCredits() throws {
+        var list = sample
+        list[0].credit = CreditInfo(status: CreditInfo.requested, amount: 11, at: "2026-11-06T10:00:00Z")
+        list[2].credit = CreditInfo(status: CreditInfo.received, amount: 6, at: "2026-10-05T10:00:00Z", paidAt: "2026-10-20T10:00:00Z")
+        XCTAssertEqual(ReportMaths.creditsOwed(list).count, 1)
+        XCTAssertEqual(ReportMaths.creditsOwed(list).amount, 11)
+        XCTAssertEqual(ReportMaths.creditsReceived(list).amount, 6)
+        XCTAssertEqual(ReportMaths.creditsOwed(sample).count, 0)
+        // the old app's backup format: a credit survives a save and a load
+        let data = try JSONEncoder().encode(list[0])
+        let back = try JSONDecoder().decode(HistoryEntry.self, from: data)
+        XCTAssertEqual(back.credit?.status, "requested")
+        XCTAssertEqual(back.credit?.amount, 11)
+    }
+
     func testWhatToPayBeforeVat() {
         let withVat = ReportMaths.paySummary(sample, skipped: [])
         XCTAssertEqual(withVat.payBeforeVat, 315)
