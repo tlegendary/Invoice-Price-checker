@@ -1,6 +1,6 @@
-commit: bc811354b0be2e71f727d8b85ec06524d4de9d45
-result: failure
-when: Tue Nov 10 15:41:12 UTC 2026
+commit: fb136796391a3e0c779bcfd9efa0f6b3c5c1ab59
+result: success
+when: Tue Nov 10 16:09:24 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -13,72 +13,6 @@ Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
 ** TEST BUILD SUCCEEDED **
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
-/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-2-prices.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 	 Executed 5 tests, with 0 failures (0 unexpected) in 175.694 (175.698) seconds
-	 Executed 5 tests, with 0 failures (0 unexpected) in 175.694 (175.699) seconds
-** TEST EXECUTE FAILED **
-*** If you believe this error represents a bug, please attach the result bundle at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.10_15-31-24-+0000.xcresult
-2026-11-10 15:31:41.768144+0000 ChargeCheck[19604:57424] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was i
-2026-11-10 15:31:41.768147+0000 ChargeCheck[19604:57432] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fail
-2026-11-10 15:31:41.769889+0000 ChargeCheck[19604:57424] [Client] Synchronous remote object proxy returned error: Er2026-11-10 15:31:41.770228+0000 ChargeCheck[19604:57428] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserI
-2026-11-10 15:31:41.952897+0000 ChargeCheck[19604:57424] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fail
-2026-11-10 15:31:41.954391+0000 ChargeCheck[19604:57424] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.x
-2026-11-10 15:37:34.042023+0000 ChargeCheck[37524:101079] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-10 15:37:34.042541+0000 ChargeCheck[37524:101084] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.043518+0000 ChargeCheck[37524:101079] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-10 15:37:34.043595+0000 ChargeCheck[37524:101080] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.046608+0000 ChargeCheck[37524:101080] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.046703+0000 ChargeCheck[37524:101080] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.
-ror Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process.}
-Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' exceeded execution time allowance of 5 minutes. The test may have hung; check Xcode's test report for additional diagnostics. If the test requires additional time, use -[XCTestCase executionTimeAllowance] or one of xcodebuild's command-line overrides.
-Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' started.
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' passed (11.247 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' started.
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (119.661 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' started.
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (30.050 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' passed (13.629 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (1.107 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
----- last lines ----
-2026-11-10 15:37:34.042541+0000 ChargeCheck[37524:101084] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.043518+0000 ChargeCheck[37524:101079] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-10 15:37:34.043595+0000 ChargeCheck[37524:101080] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.046608+0000 ChargeCheck[37524:101080] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: fai
-2026-11-10 15:37:34.046703+0000 ChargeCheck[37524:101080] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.
-
-Restarting after unexpected exit, crash, or test timeout; summary will include totals from previous launches.
-
-Test Suite 'Selected tests' started at 2026-11-10 15:37:34.728.
-Test Suite 'ChargeCheckTests.xctest' started at 2026-11-10 15:37:34.728.
-Test Suite 'StoreTests' started at 2026-11-10 15:37:34.728.
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' started.
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' passed (11.247 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' started.
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (119.661 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (30.050 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' passed (13.629 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (1.107 seconds).
-Test Suite 'StoreTests' passed at 2026-11-10 15:40:30.426.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 175.694 (175.698) seconds
-Test Suite 'ChargeCheckTests.xctest' passed at 2026-11-10 15:40:30.427.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 175.694 (175.698) seconds
-Test Suite 'Selected tests' passed at 2026-11-10 15:40:30.427.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 175.694 (175.699) seconds
-2026-11-10 15:41:05.308 xcodebuild[18733:54986] [MT] IDETestOperationsObserverDebug: 580.757 elapsed -- Testing started completed.
-2026-11-10 15:41:05.309 xcodebuild[18733:54986] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
-2026-11-10 15:41:05.309 xcodebuild[18733:54986] [MT] IDETestOperationsObserverDebug: 580.757 sec, +580.757 sec -- end
-
-Test session results, code coverage, and logs:
-	/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.10_15-31-24-+0000.xcresult
-
-Failing tests:
-	StoreTests.testBuyingPacksAddsScansOnce()
-
-** TEST EXECUTE FAILED **
-
-Testing started
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure; this is an error in the Swift 6 language mode
+Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DB3AA6C5-2ED8-403B-B7A5-D3E82F2DD712/Documents/Backups: ChargeCheck-2026-11-10.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/DB3AA6C5-2ED8-403B-B7A5-D3E82F2DD712/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-2-prices.png /tmp/shot-3-reports.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
