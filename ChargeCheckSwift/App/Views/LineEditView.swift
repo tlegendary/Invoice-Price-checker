@@ -71,7 +71,7 @@ struct LineEditView: View {
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                     }
-                    LabeledContent("Unit price £") {
+                    LabeledContent("Unit price \(Money.currency.symbol)") {
                         TextField("0.00", text: $unitText)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)

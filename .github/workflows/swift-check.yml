@@ -55,6 +55,12 @@ jobs:
             -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO > /tmp/app-full.log 2>&1
           BUILD=$?
           set -e
+          # every piece of text in the app, as Xcode extracted it (for translating)
+          cp App/Localizable.xcstrings /tmp/strings-before.xcstrings
+          find build -name "*.stringsdata" > /tmp/stringsdata.txt || true
+          echo "stringsdata files: $(wc -l < /tmp/stringsdata.txt)" | tee -a /tmp/app.log
+          xcrun xcstringstool sync App/Localizable.xcstrings --stringsdata $(cat /tmp/stringsdata.txt | tr '\n' ' ') 2>&1 | tail -3 | tee -a /tmp/app.log || true
+          cp App/Localizable.xcstrings /tmp/Localizable.xcstrings
           grep -E "error|warning: |BUILD|\*\*" /tmp/app-full.log | grep -v "appintents" | sort -u | cut -c1-400 | tee -a /tmp/app.log
           if [ $BUILD -ne 0 ]; then exit $BUILD; fi
           APP=build/Build/Products/Debug-iphonesimulator/ChargeCheck.app

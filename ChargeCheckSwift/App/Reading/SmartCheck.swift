@@ -58,7 +58,7 @@ enum SmartCheck {
 struct SmartLine {
     @Guide(description: "The line number, exactly as given")
     var line: Int
-    @Guide(description: "The product name as it is really printed on the invoice: plain English, the reader's spelling mistakes and invented letters fixed. Do not add words that are not there. Empty if you can't tell.")
+    @Guide(description: "The product name as it is really printed on the invoice, in the invoice's language, with the reader's spelling mistakes and invented letters fixed. Do not add words that are not there. Empty if you can't tell.")
     var name: String
     @Guide(description: "The number of the matching choice, or 0 if none of the choices is the same product")
     var choice: Int
@@ -74,12 +74,15 @@ struct SmartReply {
 
 @available(iOS 26.0, *)
 private enum Checker {
-    static let instructions = """
-    You check lines that a text reader read from a photo of a UK food supplier's invoice (takeaway and restaurant supplies).
+    static var instructions: String {
+        """
+    You check lines that a text reader read from a photo of a food supplier's invoice (takeaway and restaurant supplies), written in \(Regional.language.name), with prices in \(Money.currency.code).
     The reader sometimes invents letters (for example "16Ạ!¡COLOUR" for 16" COLOUR, "Vznfiour16Ko" for FLOUR 16Kg), joins words, or reads the same line twice.
     For each line: write the real product name, choose which of its choices from the shop's price list is the same product (0 if none is), and say if it is not a product line.
     Sizes, weights and pack counts must agree for a choice to be the same product. Quantities and prices are already correct; never change them.
+    Write names in the invoice's own language and alphabet.
     """
+    }
 
     static func run(_ lines: [CheckLine], supplier: String, book: PriceBook) async -> [CheckLine] {
         var result = lines

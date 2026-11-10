@@ -32,7 +32,7 @@ struct PasteListView: View {
                 } header: {
                     Text("Your list")
                 } footer: {
-                    Text("One item per line with its price at the end, for example: Chicken wings 10kg £15.00")
+                    Text("One item per line with its price at the end, for example: Chicken wings 10kg \(Money.format(15))")
                 }
                 Section("Supplier (optional)") {
                     TextField("Who are these prices from?", text: $supplier)

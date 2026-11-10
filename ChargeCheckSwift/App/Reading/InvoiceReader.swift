@@ -33,7 +33,11 @@ enum InvoiceReader {
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = correct
-        request.recognitionLanguages = ["en-US"]
+        let wanted = Regional.language.vision
+        let supported = (try? request.supportedRecognitionLanguages()) ?? ["en-US"]
+        let usable = wanted.filter { supported.contains($0) }
+        request.recognitionLanguages = usable.isEmpty ? ["en-US"] : usable
+        if Regional.language.id != "en" { request.automaticallyDetectsLanguage = usable.isEmpty }
         request.minimumTextHeight = 0.006
         if correct && !words.isEmpty { request.customWords = words }
         let handler = VNImageRequestHandler(cgImage: image, orientation: .up, options: [:])

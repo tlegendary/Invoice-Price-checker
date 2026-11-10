@@ -33,7 +33,7 @@ struct PriceEditView: View {
     }
 
     private var price: Double? {
-        guard let value = Money.parse(priceText), value > 0, value < 100_000 else { return nil }
+        guard let value = Money.parse(priceText), value > 0, value < (Money.currency.decimals == 0 ? 1_000_000_000 : 100_000) else { return nil }
         return Money.round2(value)
     }
 
@@ -47,7 +47,7 @@ struct PriceEditView: View {
                 Section("Item") {
                     TextField("Name, e.g. Chicken Wings 10kg", text: $item.name)
                     HStack {
-                        Text("£")
+                        Text(Money.currency.symbol)
                             .foregroundStyle(.secondary)
                         TextField("Your agreed price", text: $priceText)
                             .keyboardType(.decimalPad)

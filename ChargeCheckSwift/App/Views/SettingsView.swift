@@ -30,6 +30,8 @@ struct SettingsView: View {
     @State private var showFolderPicker = false
     @AppStorage(SettingKey.autoLower) private var autoLower = true
     @AppStorage(SmartCheck.settingKey) private var smartCheck = true
+    @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
+    @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
     @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var showPricesShare: URL?
@@ -113,6 +115,28 @@ struct SettingsView: View {
                 } footer: {
                     Text("\(Themes.named(colourID).name). Automatic follows your iPhone's light or dark setting.")
                 }
+
+                Section {
+                    Picker("Invoices are in", selection: $invoiceLanguage) {
+                        ForEach(Regional.languages) { language in
+                            Text(language.name).tag(language.id)
+                        }
+                    }
+                    Picker("Currency", selection: $currencyCode) {
+                        ForEach(Currency.all) { currency in
+                            Text(Regional.currencyName(currency)).tag(currency.code)
+                        }
+                    }
+                    if let open = URL(string: UIApplication.openSettingsURLString) {
+                        Link("App language", destination: open)
+                    }
+                } header: {
+                    Text("Language and money")
+                } footer: {
+                    Text("Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language.")
+                }
+                .onChange(of: invoiceLanguage) { Regional.apply() }
+                .onChange(of: currencyCode) { Regional.apply() }
 
                 Section {
                     if store.isSubscribed {

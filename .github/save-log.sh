@@ -10,7 +10,7 @@ fi
 cd "$work" || exit 0
 git config user.name "ChargeCheck CI"; git config user.email "ci@users.noreply.github.com"
 { echo "commit: $GITHUB_SHA"; echo "result: $RESULT"; echo "when: $(date -u)"; echo; tail -c 60000 "$file"; } > "$name.txt"
-[ "$name" = "app" ] && cp /tmp/shot-*.png /tmp/*.pdf . 2>/dev/null
+[ "$name" = "app" ] && { cp /tmp/shot-*.png /tmp/*.pdf . 2>/dev/null; cp /tmp/Localizable.xcstrings . 2>/dev/null; }
 git add -A && git commit -qm "$name: $RESULT ($GITHUB_SHA)" || exit 0
 for i in 1 2 3 4; do
   git push -q origin ci-logs && exit 0
