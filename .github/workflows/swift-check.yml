@@ -32,7 +32,8 @@ jobs:
     name: App build
     runs-on: macos-15
     timeout-minutes: 35
-    if: ${{ !contains(github.event.head_commit.message, '[core]') }}
+    # macOS minutes are expensive on a private repo: only when the commit message asks for it
+    if: ${{ contains(github.event.head_commit.message, '[app]') }}
     steps:
       - uses: actions/checkout@v4
       - name: Build, run the tests and take screenshots in an iPhone simulator
