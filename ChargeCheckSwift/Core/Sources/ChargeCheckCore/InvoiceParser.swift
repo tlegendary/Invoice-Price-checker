@@ -250,9 +250,9 @@ public enum InvoiceParser {
         if let k = t.indices.first(where: { $0 >= 2 && Rx.test(t[$0], "^[0-9]{1,4}[.,][0-9]{2}$") }), k > 0 {
             t = Array(t[..<k])
         }
-        // a quantity like "2.00" repeated in front of the name, or after it
+        // a quantity like "2.00" repeated in front of the name
         if t.count > 2, Rx.test(t[0], "^[0-9]{1,3}[.,][0-9]{2}$") { t.removeFirst() }
-        if t.count > 1, Rx.test(t[t.count - 1], "^[0-9]{1,3}[.,]00$") { t.removeLast() }
+
         // product / stock codes in front of the name
         while t.count > 1, Rx.test(t[0], "^[0-9]{4,}$") || (t[0].hasAsciiDigit && Rx.test(t[0], "^[A-Z0-9\\-/]{5,}$") && !isSize(t[0])) {
             t.removeFirst()
@@ -287,7 +287,7 @@ public enum InvoiceParser {
 
     /// The same item read twice: keep only the words both reads agree on at the start and end.
     public static func consensusDescription(_ a: String, _ b: String) -> String {
-        let A = jsSplit(a), B = jsSplit(b)
+        let A = jsSplit(plainLetters(a)), B = jsSplit(plainLetters(b))
         func inB(_ w: String) -> Bool { B.contains { TextTools.tokenEqual($0.lowercased(), w.lowercased()) } }
         func inA(_ w: String) -> Bool { A.contains { TextTools.tokenEqual($0.lowercased(), w.lowercased()) } }
         func weak(_ w: String) -> Bool { w.count <= 3 || (!w.hasAsciiDigit && !Rx.test(w, "[aeiouy]", ci: true)) }
@@ -545,7 +545,12 @@ public enum InvoiceParser {
         let printedTotal = (A.printedTotal ?? 0) != 0 ? A.printedTotal : B.printedTotal
 
         func finish(_ lines: [ParsedLine]) -> ParsedInvoice {
-            ParsedInvoice(supplier: bestSupplier([A.supplier, B.supplier], known: knownSuppliers),
+            let lines = lines.map { line -> ParsedLine in
+                var copy = line
+                copy.desc = plainLetters(copy.desc)
+                return copy
+            }
+            return ParsedInvoice(supplier: bestSupplier([A.supplier, B.supplier], known: knownSuppliers),
                           invNo: A.invNo.isEmpty ? B.invNo : A.invNo,
                           date: A.date.isEmpty ? B.date : A.date,
                           printedNet: printedNet, printedTotal: printedTotal, lines: lines)
