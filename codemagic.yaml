@@ -84,7 +84,7 @@ workflows:
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.rjapps.invoicepricechecker.beta
+        bundle_identifier: com.rjapps.invoicepricechecker   # brings the distribution certificate; the beta profile is fetched below
       xcode: latest
     scripts:
       - name: Make the Xcode project (beta name and bundle ID)
@@ -98,6 +98,25 @@ workflows:
           sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
           grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:" project.yml
           xcodegen generate
+      - name: Get the beta app's provisioning profile
+        script: |
+          BETA=com.rjapps.invoicepricechecker.beta
+          NAME="ChargeCheck Beta CI"
+          ids() { python3 -c "import json,sys; d=json.load(sys.stdin); d=d if isinstance(d,list) else [d]; print(' '.join(x['id'] for x in d if not sys.argv[1:] or x.get('attributes',{}).get('certificateType','') in sys.argv[1:]))" "$@"; }
+          # use the profile if it is already there, otherwise make it
+          if app-store-connect profiles list --name "$NAME" --type IOS_APP_STORE --profile-state ACTIVE --save 2>/tmp/p.log | grep -q "Saved"; then
+            echo "Using the existing beta profile"
+          elif grep -q "Saved" /tmp/p.log; then
+            echo "Using the existing beta profile"
+          else
+            BID=$(app-store-connect bundle-ids list --bundle-id-identifier "$BETA" --strict-match-identifier --json 2>/dev/null | ids)
+            if [ -z "$BID" ]; then echo "The bundle ID $BETA is not registered in the Apple developer account yet"; exit 1; fi
+            CERTS=$(app-store-connect certificates list --json 2>/dev/null | ids DISTRIBUTION IOS_DISTRIBUTION)
+            if [ -z "$CERTS" ]; then echo "No distribution certificate found in the Apple developer account"; exit 1; fi
+            echo "Bundle $BID, certificates: $CERTS"
+            app-store-connect profiles create --bundle-id "$BID" --certificate-ids $CERTS --type IOS_APP_STORE --name "$NAME" --save
+          fi
+          ls ~/Library/MobileDevice/Provisioning\ Profiles/ || true
       - name: Set up signing
         script: xcode-project use-profiles --project ChargeCheckSwift/ChargeCheck.xcodeproj
       - name: Resolve Swift packages (with retries)
