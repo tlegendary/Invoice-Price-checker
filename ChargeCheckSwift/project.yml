@@ -32,6 +32,7 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         UIFileSharingEnabled: true
+        NSCameraUsageDescription: ChargeCheck uses the camera to scan your supplier invoices so it can check the prices. Scans stay on your phone.
         LSSupportsOpeningDocumentsInPlace: true
     settings:
       base:

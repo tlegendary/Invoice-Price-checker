@@ -8,6 +8,7 @@ struct RootView: View {
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
+    @StateObject private var session = CheckSession()
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
@@ -28,6 +29,7 @@ struct RootView: View {
                 .tabItem { Label("Settings", systemImage: "gearshape") }
                 .tag("settings")
         }
+        .environmentObject(session)
         .tint(Themes.named(colourID).accent(for: scheme))
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {

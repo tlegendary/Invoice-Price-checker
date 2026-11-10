@@ -53,6 +53,41 @@ enum AppData {
         }
     }
 
+    /// Supplier names the user already has (from reports and the price list).
+    static func knownSuppliers(_ context: ModelContext) -> [String] {
+        var seen = Set<String>()
+        let names = entries(context).map { $0.supplier } + items(context).map { $0.supplier }
+        return names.map { TextTools.cleanSupplier($0) }.filter { $0.count > 2 && seen.insert($0).inserted }
+    }
+
+    /// How much above the agreed price counts as an overcharge (at least 1p).
+    static var tolerance: Double {
+        max(0.01, UserDefaults.standard.double(forKey: SettingKey.tolerance))
+    }
+
+    /// Saves a checked invoice to Reports. If the same invoice is already there
+    /// (same supplier, number and date) it is replaced, not saved twice.
+    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext) {
+        let all = entries(context)
+        var existing = all.first { $0.id == draft.id }
+        if existing == nil {
+            let net = InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
+            if let same = InvoiceMaths.duplicate(of: draft, net: net, in: all) {
+                existing = same
+                draft.id = same.id
+            }
+        }
+        let entry = InvoiceMaths.historyEntry(draft, book: book, tolerance: tolerance, existing: existing)
+        let id = entry.id
+        let descriptor = FetchDescriptor<StoredReport>(predicate: #Predicate<StoredReport> { $0.uid == id })
+        if let stored = (try? context.fetch(descriptor))?.first {
+            stored.update(from: entry)
+        } else {
+            context.insert(StoredReport(entry: entry))
+        }
+        try? context.save()
+    }
+
     /// Adds or updates one price.
     static func save(_ item: PriceItem, in context: ModelContext) {
         let id = item.id
@@ -90,4 +125,5 @@ enum SettingKey {
     static let mode = "look.mode"
     static let colour = "look.colour"
     static let business = "business.name"
+    static let tolerance = "check.tolerance"
 }
