@@ -211,8 +211,26 @@ public enum InvoiceParser {
     }
 
     /// Drops product codes, stray letters, pen marks and prices the reader glued onto an item name.
+    /// The second read (no spelling help) sometimes invents letters like Ą or Ž, or ¡ and ! for an inch mark.
+    static func looksGarbled(_ text: String) -> Bool {
+        text.unicodeScalars.contains { scalar in
+            (scalar.value >= 0xC0 && scalar.value <= 0x24F) || scalar == "¡" || scalar == "¿"
+        } || Rx.test(text, "[A-Za-z0-9]![A-Za-z0-9!]|![A-Za-z]")
+    }
+
+    /// Ą → A, Ž → Z; ¡ ¿ and a "!" inside a word go. Invoices here are in English.
+    static func plainLetters(_ text: String) -> String {
+        guard looksGarbled(text) else { return text }
+        var s = text.folding(options: [.diacriticInsensitive], locale: Locale(identifier: "en_GB"))
+        s = s.replacingOccurrences(of: "ß", with: "SS").replacingOccurrences(of: "Ł", with: "L").replacingOccurrences(of: "ł", with: "l")
+        s = Rx.replace(s, "[¡¿]+", " ")
+        s = Rx.replace(s, "([0-9])[A-Za-z]?!+(?=[\\sA-Za-z])", "$1\" ")
+        s = Rx.replace(s, "!+", " ")
+        return s
+    }
+
     public static func cleanDescription(_ text: String, known: Set<String>) -> String {
-        var s = Rx.replace(text, "[|«»©®™~_¦§¬¥€$*#@^<>{}\\[\\]]+", " ")
+        var s = Rx.replace(plainLetters(text), "[|«»©®™~_¦§¬¥€$*#@^<>{}\\[\\]]+", " ")
         s = Rx.replace(s, "(^|[\\sxX])([0-9])[0O][zZ]\\b", "$1$2oz")
         s = Rx.replace(s, "\\bI(trs?)\\b", "L$1")
         s = Rx.replace(s, "\\bi(trs?)\\b", "l$1")
@@ -232,8 +250,9 @@ public enum InvoiceParser {
         if let k = t.indices.first(where: { $0 >= 2 && Rx.test(t[$0], "^[0-9]{1,4}[.,][0-9]{2}$") }), k > 0 {
             t = Array(t[..<k])
         }
-        // a quantity like "2.00" repeated in front of the name
+        // a quantity like "2.00" repeated in front of the name, or after it
         if t.count > 2, Rx.test(t[0], "^[0-9]{1,3}[.,][0-9]{2}$") { t.removeFirst() }
+        if t.count > 1, Rx.test(t[t.count - 1], "^[0-9]{1,3}[.,]00$") { t.removeLast() }
         // product / stock codes in front of the name
         while t.count > 1, Rx.test(t[0], "^[0-9]{4,}$") || (t[0].hasAsciiDigit && Rx.test(t[0], "^[A-Z0-9\\-/]{5,}$") && !isSize(t[0])) {
             t.removeFirst()
@@ -279,6 +298,8 @@ public enum InvoiceParser {
         while s2 < e2 - 1, !inA(B[s2]), weak(B[s2]) { s2 += 1 }
         while e2 - 1 > s2, !inA(B[e2 - 1]), weak(B[e2 - 1]) { e2 -= 1 }
         let x = A[s..<e].joined(separator: " "), y = B[s2..<e2].joined(separator: " ")
+        let badX = looksGarbled(x), badY = looksGarbled(y)
+        if badX != badY { return badY ? x : y }
         return x.utf16.count >= y.utf16.count ? x : y
     }
 
@@ -505,15 +526,22 @@ public enum InvoiceParser {
                 out.append(line)
             }
         }
-        for (i, b) in B.lines.enumerated() where !used.contains(i) && b.warn.isEmpty {
-            if !A.lines.contains(where: { TextTools.similarity($0.desc, b.desc) >= 0.3 }) {
-                var line = b
-                line.reads = 1
-                line.onlySecondRead = true
-                out.append(line)
-            }
-        }
         let printedNet = (A.printedNet ?? 0) != 0 ? A.printedNet : B.printedNet
+        for (i, b) in B.lines.enumerated() where !used.contains(i) && b.warn.isEmpty {
+            if A.lines.contains(where: { TextTools.similarity($0.desc, b.desc) >= 0.3 }) { continue }
+            let copiesALine = A.lines.contains { abs($0.qty - b.qty) < 0.001 && abs($0.unit - b.unit) < 0.005 }
+            if copiesALine {
+                // keep it only if the printed total says a line is missing and this is exactly it
+                guard let target = printedNet, target != 0,
+                      abs(sum(out) - target) > 0.05,
+                      abs(sum(out) + Money.round2(b.qty * b.unit) - target) <= 0.05 else { continue }
+            }
+            var line = b
+            line.reads = 1
+            line.onlySecondRead = true
+            line.desc = plainLetters(line.desc)
+            out.append(line)
+        }
         let printedTotal = (A.printedTotal ?? 0) != 0 ? A.printedTotal : B.printedTotal
 
         func finish(_ lines: [ParsedLine]) -> ParsedInvoice {
