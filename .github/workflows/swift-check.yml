@@ -78,6 +78,7 @@ jobs:
             shot 5-prices-dark-blue 5 -startTab prices -look.mode dark -look.colour blue
             shot 7-sample-invoice 25 -demoScan YES
             shot 8-sample-sideways 30 -demoScan sideways
+            shot 9-sample-pdf 25 -demoScan pdf
             shot 10-check-free 6 -startTab check
             shot 11-export 6 -startTab reports -demoExport YES
             shot 12-price-history 6 -startTab prices -demoPrice s1

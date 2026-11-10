@@ -76,6 +76,7 @@ enum InvoiceReader {
 
     /// Reads one invoice (one or more pages). Runs away from the main thread.
     static func read(pages: [UIImage], book: PriceBook, knownSuppliers: [String], doubleCheck: Bool = true,
+                     pdfText: [[TextPiece]] = [],
                      progress: @escaping @Sendable (String) -> Void) async -> ReadOutcome {
         var prepared = pages.map { $0.prepared() }
         let words = helpWords(book.items)
@@ -92,6 +93,19 @@ enum InvoiceReader {
                     prepared = turned
                 }
                 if first.invoice.lines.count >= 2 { break }
+            }
+        }
+        // a PDF with real text in it: use that text when it finds at least as many lines – it is exact
+        if pdfText.contains(where: { !$0.isEmpty }) {
+            var text = ""
+            for page in pdfText {
+                let rows = InvoiceParser.rows(from: page)
+                if !rows.isEmpty { text += rows + "\n" }
+            }
+            var exact = InvoiceParser.parseInvoice(text, known: book.knownWords)
+            if !exact.lines.isEmpty && exact.lines.count >= first.invoice.lines.count {
+                exact.supplier = InvoiceParser.bestSupplier([exact.supplier, first.invoice.supplier], known: knownSuppliers)
+                return ReadOutcome(invoice: exact, passes: 2, rawText: text)
             }
         }
         var merged = first.invoice

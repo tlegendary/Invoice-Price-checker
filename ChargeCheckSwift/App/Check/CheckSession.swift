@@ -103,7 +103,8 @@ final class CheckSession: ObservableObject {
         queue = Task { [weak self] in
             await previous?.value
             let book = PriceBook(items)
-            let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, progress: report)
+            let pdfText = sourcePDF.map { PDFText.pieces(ofPDF: $0) } ?? []
+            let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, pdfText: pdfText, progress: report)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a name the user already corrected by hand is never second-guessed
             let checked = await SmartCheck.check(firstLines.filter { fixes[TextTools.norm($0.read)] == nil }, supplier: outcome.invoice.supplier,

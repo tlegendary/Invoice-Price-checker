@@ -198,10 +198,21 @@ struct CheckView: View {
                 // the cloud check starts the sample invoice with "-demoScan YES"
                 // ("-demoScan sideways" turns it on its side first, to check that is handled)
                 if let demo = UserDefaults.standard.string(forKey: "demoScan"), session.jobs.isEmpty {
-                    trySample(open: true, sideways: demo == "sideways")
+                    if demo == "pdf" { trySamplePDF() } else { trySample(open: true, sideways: demo == "sideways") }
                 }
             }
         }
+    }
+
+    /// The cloud check: the sample invoice as a PDF with real text, to check that text is read exactly.
+    private func trySamplePDF() {
+        let data = SampleInvoice.textPDF()
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("sample-invoice.pdf")
+        guard (try? data.write(to: url)) != nil else { return }
+        let pages = ImageTools.pages(ofPDF: url)
+        guard !pages.isEmpty else { return }
+        let id = session.read(pages: pages, sourcePDF: data, context: context, sample: true)
+        path = [id]
     }
 
     private func trySample(open: Bool = false, sideways: Bool = false) {
