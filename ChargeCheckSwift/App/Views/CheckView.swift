@@ -217,6 +217,13 @@ struct CheckView: View {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("sample-invoice.pdf")
         guard (try? data.write(to: url)) != nil else { return }
         let pages = ImageTools.pages(ofPDF: url)
+        // for the cloud check log: what the PDF's own text gives
+        let pieces = PDFText.pieces(ofPDF: data)
+        let rows = pieces.map { InvoiceParser.rows(from: $0) }.joined(separator: "\n")
+        let parsed = InvoiceParser.parseInvoice(rows, known: PriceBook(SampleInvoice.prices).knownWords)
+        let note = "pages \(pieces.count), pieces \(pieces.map { $0.count }), lines \(parsed.lines.count)\n" + rows + "\n---\n"
+            + pieces.flatMap { $0 }.prefix(40).map { "\($0.text) @\(Int($0.x)),\(Int($0.y)) h\(Int($0.height))" }.joined(separator: "\n")
+        AppFiles.write(Data(note.utf8), folder: "Exports", name: "demo-pdftext.txt")
         guard !pages.isEmpty else { return }
         let id = session.read(pages: pages, sourcePDF: data, context: context, sample: true)
         path = [id]

@@ -91,6 +91,7 @@ jobs:
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true
+            cat "$DATA/Documents/Exports/"*.txt 2>/dev/null | head -80 | tee -a /tmp/app.log || true
             ls /tmp/shot-*.png | tr '\n' ' ' | tee -a /tmp/app.log
             ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log
           fi
