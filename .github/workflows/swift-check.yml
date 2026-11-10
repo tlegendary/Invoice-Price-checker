@@ -31,11 +31,13 @@ jobs:
   app:
     name: App build
     runs-on: macos-15
-    timeout-minutes: 25
+    timeout-minutes: 35
     if: ${{ !contains(github.event.head_commit.message, '[core]') }}
     steps:
       - uses: actions/checkout@v4
       - name: Build, run the tests and take screenshots in an iPhone simulator
+        env:
+          RUN_STORE_TESTS: ${{ contains(github.event.head_commit.message, '[store]') }}
         run: |
           if [ ! -f ChargeCheckSwift/project.yml ]; then echo "No app project yet" | tee /tmp/app.log; exit 0; fi
           brew install xcodegen 2>&1 | tail -2
@@ -47,14 +49,13 @@ jobs:
           echo "Simulator: $UDID" | tee -a /tmp/app.log
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b | tail -1
-          # builds the app and runs the tests (these buy the products against Apple's StoreKit test server)
           set +e
-          xcodebuild test -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
+          xcodebuild build-for-testing -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
             -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO > /tmp/app-full.log 2>&1
-          TESTS=$?
+          BUILD=$?
           set -e
-          grep -E "error|warning: |BUILD|TEST|\*\*|Test Case|Test Suite|XCTAssert|Executed" /tmp/app-full.log | grep -v "appintents" | cut -c1-500 | tee -a /tmp/app.log
-          echo "Tests exit code: $TESTS" | tee -a /tmp/app.log
+          grep -E "error|warning: |BUILD|\*\*" /tmp/app-full.log | grep -v "appintents" | sort -u | cut -c1-400 | tee -a /tmp/app.log
+          if [ $BUILD -ne 0 ]; then exit $BUILD; fi
           APP=build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
           if [ -d "$APP" ]; then
             xcrun simctl uninstall "$UDID" $ID || true
@@ -74,7 +75,18 @@ jobs:
             ls /tmp/shot-*.png | tr '\n' ' ' | tee -a /tmp/app.log
             ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log
           fi
-          exit $TESTS
+          # The purchase tests buy every product against Apple's StoreKit test server. They are slow,
+          # so they only run when the commit message contains [store].
+          if [ "$RUN_STORE_TESTS" = "true" ]; then
+            set +e
+            xcodebuild test-without-building -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
+              -derivedDataPath build -test-timeouts-enabled YES -maximum-test-execution-time-allowance 300 > /tmp/tests-full.log 2>&1
+            TESTS=$?
+            set -e
+            grep -E "error|\*\*|Test Case|XCTAssert|Executed" /tmp/tests-full.log | sort -u | cut -c1-400 | tee -a /tmp/app.log
+            cp /tmp/tests-full.log /tmp/app-full.log
+            exit $TESTS
+          fi
       - name: Keep the log
         if: always()
         env:

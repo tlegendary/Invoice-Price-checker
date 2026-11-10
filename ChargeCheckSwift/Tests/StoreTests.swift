@@ -97,7 +97,12 @@ final class StoreTests: XCTestCase {
         again.testAsFree = false
         // when it ends, the app is free again
         try session.expireSubscription(productIdentifier: Products.yearly)
-        await store.refresh()
+        // the test server takes a moment to pass the news on
+        for _ in 0..<20 {
+            await store.refresh()
+            if !store.isSubscribed { break }
+            try await Task.sleep(nanoseconds: 500_000_000)
+        }
         XCTAssertFalse(store.isSubscribed)
         XCTAssertFalse(store.canScan)
     }
