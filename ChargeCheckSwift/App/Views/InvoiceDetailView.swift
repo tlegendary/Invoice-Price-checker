@@ -47,7 +47,7 @@ struct InvoiceDetailView: View {
             if let job {
                 LineEditView(draft: draft, supplier: job.draft.supplier, items: items(job), isSample: job.isSample,
                              onSave: { saveLine($0, original: draft) },
-                             onDelete: draft.isNew ? nil : { deleteLine(draft.line.id) })
+                             onDelete: deleteAction(for: draft))
             }
         }
     }
@@ -78,6 +78,12 @@ struct InvoiceDetailView: View {
                 draft.lines.append(line)
             }
         }
+    }
+
+    private func deleteAction(for draft: LineDraft) -> (() -> Void)? {
+        if draft.isNew { return nil }
+        let id = draft.line.id
+        return { deleteLine(id) }
     }
 
     private func deleteLine(_ id: String) {
