@@ -42,6 +42,13 @@ struct RootView: View {
         .environmentObject(session)
         .environmentObject(store)
         .environmentObject(ads)
+        .onOpenURL { url in
+            // an invoice shared into ChargeCheck
+            let kind = url.pathExtension.lowercased()
+            guard url.isFileURL, ["pdf", "jpg", "jpeg", "png", "heic", "heif"].contains(kind) else { return }
+            tab = "check"
+            session.incoming.append(url)
+        }
         .tint(Themes.named(colourID).accent(for: scheme))
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {

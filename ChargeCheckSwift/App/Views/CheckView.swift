@@ -191,6 +191,12 @@ struct CheckView: View {
             .onChange(of: picked) {
                 loadPicked()
             }
+            .onChange(of: session.incoming) {
+                takeIncoming()
+            }
+            .onAppear {
+                takeIncoming()
+            }
             .alert(notice ?? "", isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
                 Button("OK", role: .cancel) {}
             }
@@ -212,6 +218,19 @@ struct CheckView: View {
         if sideways { image = image.prepared(quarterTurns: 1) }
         let id = session.read(pages: [image], context: context, sample: true)
         if open { path = [id] }
+    }
+
+    /// Reads invoices shared into the app (one scan each for a free user, as usual).
+    private func takeIncoming() {
+        let urls = session.incoming
+        if urls.isEmpty { return }
+        session.incoming = []
+        path = []
+        gated {
+            open(.success(urls))
+            // "Copy to ChargeCheck" leaves a copy in the app's Inbox folder: not needed once read
+            for url in urls where url.path.contains("/Inbox/") { try? FileManager.default.removeItem(at: url) }
+        }
     }
 
     private func loadPicked() {

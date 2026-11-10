@@ -58,6 +58,8 @@ enum NameFixes {
 @MainActor
 final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
+    /// Invoices shared into the app from WhatsApp, Mail or Files, waiting for the Check tab to read them.
+    @Published var incoming: [URL] = []
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).
@@ -104,7 +106,7 @@ final class CheckSession: ObservableObject {
         queue = Task { [weak self] in
             await previous?.value
             let book = PriceBook(items)
-            let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, progress: report)
+            let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers, progress: report)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a trusted supplier: only the total counts, so the price check is skipped
             if SupplierAccounts.isTrusted(outcome.invoice.supplier, trusted: trustedList) {

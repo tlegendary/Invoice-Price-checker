@@ -101,6 +101,16 @@ targets:
           - SKAdNetworkIdentifier: 3qcr597p9d.skadnetwork
         NSCameraUsageDescription: ChargeCheck uses the camera to scan your supplier invoices so it can check the prices. Scans stay on your phone.
         LSSupportsOpeningDocumentsInPlace: true
+        # invoices shared from WhatsApp, Mail or Files ("Open in ChargeCheck")
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: PDF invoice
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [com.adobe.pdf]
+          - CFBundleTypeName: Invoice photo
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.jpeg, public.png, public.heic, public.image]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker
