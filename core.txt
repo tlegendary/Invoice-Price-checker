@@ -1,49 +1,50 @@
-commit: fc3dd5bf64d1efafba2990ac6c58adc5b360b631
+commit: 1102f49a5e0e8d58564836155403682f8f80af9c
 result: success
-when: Tue Nov 10 09:31:17 UTC 2026
+when: Tue Nov 10 09:35:04 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
 Building for debugging...
-[Constructing description]
+[Computing dependencies]
 [Pre-planning 1 / 124]
 [Planning deferred tasks]
 [31 / 54] ChargeCheckCore
-[39 / 58] ChargeCheckCoreTests-product
-[41 / 59] ChargeCheckCoreTests-product
+[32 / 54] ChargeCheckCore
+[40 / 59] ChargeCheckCoreTests-product
+[43 / 59] ChargeCheckCoreTests-product
 [48 / 59] ChargeCheckCoreTests-product
-[52 / 60] ChargeCheckCore-product
 [52 / 60] ChargeCheckCoreTests-product
 [53 / 60] ChargeCheckCoreTests-test-runner
 [56 / 63] ChargeCheckCoreTests-test-runner
+[56 / 63] ChargeCheckCore-product
 [60 / 63] ChargeCheckCoreTests-test-runner
 [64 / 64] ChargeCheckCoreTests-test-runner
-Build complete! (15.91 secs)
-Test Suite 'All tests' started at 2026-11-10 09:31:16.175
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 09:31:16.285
-Test Suite 'CoreTests' started at 2026-11-10 09:31:16.285
-Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 09:31:16.285
-Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.003 seconds)
-Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 09:31:16.288
-Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.115 seconds)
-Test Case 'CoreTests.testCategories' started at 2026-11-10 09:31:16.403
-Test Case 'CoreTests.testCategories' passed (0.104 seconds)
-Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 09:31:16.507
+Build complete! (16.16 secs)
+Test Suite 'All tests' started at 2026-11-10 09:35:03.789
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-10 09:35:03.891
+Test Suite 'CoreTests' started at 2026-11-10 09:35:03.891
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-10 09:35:03.891
+Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.004 seconds)
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-10 09:35:03.894
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.055 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-10 09:35:03.949
+Test Case 'CoreTests.testCategories' passed (0.003 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-10 09:35:03.952
 Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
-Test Case 'CoreTests.testMoney' started at 2026-11-10 09:31:16.508
+Test Case 'CoreTests.testMoney' started at 2026-11-10 09:35:03.953
 Test Case 'CoreTests.testMoney' passed (0.0 seconds)
-Test Case 'CoreTests.testNorm' started at 2026-11-10 09:31:16.508
+Test Case 'CoreTests.testNorm' started at 2026-11-10 09:35:03.954
 Test Case 'CoreTests.testNorm' passed (0.0 seconds)
-Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 09:31:16.508
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-10 09:35:03.954
 Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
-Test Case 'CoreTests.testSupplier' started at 2026-11-10 09:31:16.509
+Test Case 'CoreTests.testSupplier' started at 2026-11-10 09:35:03.954
 Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
-Test Suite 'CoreTests' passed at 2026-11-10 09:31:16.509
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.224 (0.224) seconds
-Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 09:31:16.509
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.224 (0.224) seconds
-Test Suite 'All tests' passed at 2026-11-10 09:31:16.509
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.224 (0.224) seconds
+Test Suite 'CoreTests' passed at 2026-11-10 09:35:03.954
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.063 (0.063) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-10 09:35:03.954
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.063 (0.063) seconds
+Test Suite 'All tests' passed at 2026-11-10 09:35:03.954
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.063 (0.063) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu
