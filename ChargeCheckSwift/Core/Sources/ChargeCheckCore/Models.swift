@@ -255,6 +255,11 @@ public struct BackupSettings: Codable, Equatable, Sendable {
 public struct ScanCredits: Codable, Equatable, Sendable {
     public var n: Int
     public var dev: String?
+
+    public init(n: Int, dev: String?) {
+        self.n = n
+        self.dev = dev
+    }
 }
 
 /// A whole backup: price list, reports, settings and unused scans.
