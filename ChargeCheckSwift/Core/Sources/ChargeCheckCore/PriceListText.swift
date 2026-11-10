@@ -24,7 +24,9 @@ public enum PriceListText {
             var name = String(line[nameRange])
             while let last = name.last, " ,;:-–£\t".contains(last) { name.removeLast() }
             // a spreadsheet (CSV) puts quotes round names that contain a comma
-            name = name.replacingOccurrences(of: "\"", with: "")
+            if name.count > 2, name.hasPrefix("\""), name.hasSuffix("\"") {
+                name = String(name.dropFirst().dropLast()).replacingOccurrences(of: "\"\"", with: "\"")
+            }
             name = name.split(whereSeparator: { $0 == " " }).joined(separator: " ")
             guard name.count >= 3, let price = Money.parse(String(line[priceRange])) else { continue }
             rows.append(Row(name: name, price: Money.round2(price)))
