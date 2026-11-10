@@ -106,6 +106,16 @@ is ready and Ramyar says to switch.
 - PDFs made by a computer are read from their own text (exact). iOS 26: Apple's table reader is tried and used when its
   lines fit the printed total better. Invoices can be opened from WhatsApp, Mail or Files ("Open in ChargeCheck").
 
+## Improvements from /improve-system (11 Nov 2026)
+- [x] To pay: "Including VAT / Before VAT" switch (shops that aren't VAT registered), split shown, breakdown follows it
+- [x] Credits per invoice: asked for → received, reminder after 14 days, totals on Reports (old app's data format)
+- [x] Optional lock with Face ID / Touch ID / passcode (Settings). Note: a sheet that was open when leaving the app
+      can still show above the lock – close sheets when locking in a later update
+- [x] Siri / Spotlight / Shortcuts: "Check an invoice" opens the camera scanner
+- [x] Photo tips when nothing could be read (too dark / blurry); scan given back if no product lines at all
+- [x] Subscription checked again whenever the app comes back to the front
+- [ ] Try on a real phone: Face ID lock, Siri phrase, credit reminder notification
+
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
 - Switch `CCTestBuild` to false (also hides the test-mode switch and uses real ads).
