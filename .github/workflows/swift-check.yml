@@ -71,6 +71,9 @@ jobs:
           xcrun simctl launch "$UDID" $ID -demoScan YES >/dev/null; sleep 30
           xcrun simctl io "$UDID" screenshot /tmp/shot-7-sample-invoice.png >/dev/null 2>&1
           xcrun simctl terminate "$UDID" $ID
+          xcrun simctl launch "$UDID" $ID -demoScan sideways >/dev/null; sleep 40
+          xcrun simctl io "$UDID" screenshot /tmp/shot-8-sample-sideways.png >/dev/null 2>&1
+          xcrun simctl terminate "$UDID" $ID
           ls -la /tmp/shot-*.png | tee -a /tmp/app.log
           # did it crash?
           ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log

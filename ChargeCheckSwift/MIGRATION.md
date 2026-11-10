@@ -28,13 +28,20 @@ is ready and Ramyar says to switch.
   - [x] Light / dark / automatic and 8 colours
   - [ ] Import Excel / CSV
   - [ ] Special prices per supplier (kept in the data, no screen yet)
-- [ ] **3. Scanning + OCR + price matching**  ← next
-  - [ ] Document camera (VisionKit) and photo / PDF import
-  - [ ] Apple's text reader (Vision), rows rebuilt by position, read twice
-  - [ ] Port the invoice parser and name clean-up from the old app into `Core/` with tests
-  - [ ] Result screen: overcharges, missing items, add missing items to the price list
-  - [ ] Arabic text (Vision supports it; Kurdish Sorani is not supported by Apple's reader)
-- [ ] **4. Subscriptions + free version with ads**
+- [x] **3. Scanning + OCR + price matching**
+  - [x] Document camera (VisionKit, several pages), photos, PDFs and files, type by hand
+  - [x] Apple's text reader (Vision), rows rebuilt by position, every invoice read twice
+  - [x] Invoice reader logic ported to `Core/` – tests check it gives the same answers as the old app
+        (735 lines, 271 names, 41 invoices, 40 merges; rebuild them with `tools/make-parser-fixtures.js`)
+  - [x] Result screen: overcharge, things to check, edit a line, choose the matching item,
+        missing/returned items, add new items to the price list, printed-total check
+  - [x] Saved to Reports once every line is checked; the same invoice is never saved twice
+  - [x] Learns the user's name corrections and how each supplier writes an item
+  - [x] Sample invoice (read for real by the cloud check on every change)
+  - [ ] Lower my price automatically when a checked invoice is cheaper (old app did this)
+  - [ ] Photo quality hints (dark / blurry), exact text from PDFs that contain text
+  - [ ] Arabic text (needs Ramyar's decision; Kurdish Sorani is not supported by Apple's reader)
+- [ ] **4. Subscriptions + free version with ads**  ← next
   - [ ] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore
   - [ ] Google Mobile Ads (same ad unit IDs), one rewarded ad = one scan, consent + tracking prompt
   - [ ] Paywall as a closable sheet

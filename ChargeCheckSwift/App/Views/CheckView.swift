@@ -99,16 +99,20 @@ struct CheckView: View {
             }
             .task {
                 // the cloud check starts the sample invoice with "-demoScan YES"
-                if UserDefaults.standard.bool(forKey: "demoScan") && session.jobs.isEmpty { trySample(open: true) }
+                // ("-demoScan sideways" turns it on its side first, to check that is handled)
+                if let demo = UserDefaults.standard.string(forKey: "demoScan"), session.jobs.isEmpty {
+                    trySample(open: true, sideways: demo == "sideways")
+                }
             }
         }
     }
 
-    private func trySample(open: Bool = false) {
-        guard let image = SampleInvoice.image else {
+    private func trySample(open: Bool = false, sideways: Bool = false) {
+        guard var image = SampleInvoice.image else {
             notice = "The sample invoice is missing from the app."
             return
         }
+        if sideways { image = image.prepared(quarterTurns: 1) }
         let id = session.read(pages: [image], context: context, sample: true)
         if open { path = [id] }
     }

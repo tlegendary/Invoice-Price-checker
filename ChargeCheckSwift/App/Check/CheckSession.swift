@@ -71,14 +71,15 @@ final class CheckSession: ObservableObject {
         let suppliers = sample ? [] : AppData.knownSuppliers(context)
         let fixes = sample ? [:] : NameFixes.all()
         let previous = queue
+        let report: @Sendable (String) -> Void = { [weak self] text in
+            Task { @MainActor in
+                self?.update(id) { $0.message = text }
+            }
+        }
         queue = Task { [weak self] in
             await previous?.value
             let book = PriceBook(items)
-            let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers) { text in
-                Task { @MainActor [weak self] in
-                    self?.update(id) { $0.message = text }
-                }
-            }
+            let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, progress: report)
             guard let self else { return }
             self.update(id) { job in
                 job.draft.supplier = outcome.invoice.supplier
