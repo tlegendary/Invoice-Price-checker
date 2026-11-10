@@ -68,7 +68,11 @@ is ready and Ramyar says to switch.
   - [x] "Ignore differences up to" setting, rating prompt after a few saved invoices
   - [x] Open a spreadsheet (CSV) or text file as a price list
   - [x] Backups now also carry shops, the tolerance and the invoice-copies choice
-  - [ ] Codemagic workflow to sign and send the Swift build to TestFlight (waiting for Ramyar's yes)
+  - [x] Codemagic workflow `swift-beta` (in `codemagic.yaml`): builds the Swift app as a separate **ChargeCheck Beta** app
+        (bundle ID `com.rjapps.invoicepricechecker.beta`) and sends it to TestFlight. It only runs when
+        `ChargeCheckSwift/.beta-build` changes. The live app's bundle ID and workflow are unchanged.
+  - [ ] Ramyar: register the beta bundle ID and create the "ChargeCheck Beta" app in App Store Connect, then the first build
+  - [ ] Note: the beta app has no in-app purchase products of its own, so the plans won't load there. Use the test-mode switch.
   - [ ] Try on a real phone: camera scanner, real ads and purchases, iCloud folder, notifications
   - [ ] Ask Ramyar before switching the App Store build to the Swift version
 

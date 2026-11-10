@@ -60,3 +60,61 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: false   # internal testers get builds without Beta Review
+
+  # The Swift version, as a separate "ChargeCheck Beta" app in TestFlight, so the live app is never touched.
+  # It only builds when ChargeCheckSwift/.beta-build changes (so ordinary pushes cost nothing).
+  swift-beta:
+    name: ChargeCheck Beta (Swift) – TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: swift-rewrite
+          include: true
+          source: true
+      cancel_previous_builds: true
+    when:
+      changeset:
+        includes:
+          - 'ChargeCheckSwift/.beta-build'
+    integrations:
+      app_store_connect: AppStoreKey
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.rjapps.invoicepricechecker.beta
+      xcode: latest
+    scripts:
+      - name: Make the Xcode project (beta name and bundle ID)
+        script: |
+          brew install xcodegen
+          cd ChargeCheckSwift
+          NEW=$(date -u +%Y%m%d%H%M)
+          echo "Build number: $NEW"
+          sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta/' project.yml
+          sed -i '' 's/CFBundleDisplayName: ChargeCheck$/CFBundleDisplayName: CC Beta/' project.yml
+          sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
+          grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:" project.yml
+          xcodegen generate
+      - name: Set up signing
+        script: xcode-project use-profiles --project ChargeCheckSwift/ChargeCheck.xcodeproj
+      - name: Resolve Swift packages (with retries)
+        script: |
+          for i in 1 2 3; do
+            if xcodebuild -resolvePackageDependencies -project ChargeCheckSwift/ChargeCheck.xcodeproj -scheme ChargeCheck 2>&1 | tee /tmp/spm.log | tail -20; then
+              if ! grep -qi "error" /tmp/spm.log; then echo "Packages resolved"; break; fi
+            fi
+            rm -rf ~/Library/Caches/org.swift.swiftpm 2>/dev/null
+            sleep 20
+          done
+      - name: Build
+        script: xcode-project build-ipa --project "ChargeCheckSwift/ChargeCheck.xcodeproj" --scheme "ChargeCheck"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false   # internal testers only, no review
