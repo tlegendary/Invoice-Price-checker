@@ -96,7 +96,13 @@ workflows:
           sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta/' project.yml
           sed -i '' 's/CFBundleDisplayName: ChargeCheck$/CFBundleDisplayName: CC Beta/' project.yml
           sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
-          grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:" project.yml
+          # the widget and the app group get beta names too
+          sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.widget$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta.widget/' project.yml
+          sed -i '' 's/group.com.rjapps.invoicepricechecker\]/group.com.rjapps.invoicepricechecker.beta]/; s/CCAppGroup: group.com.rjapps.invoicepricechecker$/CCAppGroup: group.com.rjapps.invoicepricechecker.beta/' project.yml
+          # The widget needs an App Group set up by hand on developer.apple.com. Until that's done
+          # (Ramyar creates ChargeCheckSwift/.widget-ready), the beta is built without it.
+          if [ ! -f .widget-ready ]; then python3 tools/without-widget.py project.yml; fi
+          grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:\|group.com" project.yml
           xcodegen generate
       - name: Beta profile 1 - find the bundle ID and certificates
         script: |
@@ -131,6 +137,15 @@ workflows:
           app-store-connect profiles list --type IOS_APP_STORE --json > /tmp/profiles.json 2>/dev/null || echo "[]" > /tmp/profiles.json
           for old in $(python3 /tmp/ids.py "name=$NAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
           app-store-connect profiles create "$(cat /tmp/bid.txt)" --type IOS_APP_STORE --name "$NAME" --save --certificate-ids $(cat /tmp/certs.txt)
+          if [ -f ChargeCheckSwift/.widget-ready ]; then
+            WNAME="ChargeCheck Beta Widget CI"
+            app-store-connect bundle-ids list --bundle-id-identifier com.rjapps.invoicepricechecker.beta.widget --strict-match-identifier --json > /tmp/wbid.json
+            WBID=$(python3 /tmp/ids.py < /tmp/wbid.json)
+            echo "Widget bundle: $WBID"
+            [ -n "$WBID" ]
+            for old in $(python3 /tmp/ids.py "name=$WNAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
+            app-store-connect profiles create "$WBID" --type IOS_APP_STORE --name "$WNAME" --save --certificate-ids $(cat /tmp/certs.txt)
+          fi
       - name: Beta profile 3 - check it was saved
         script: |
           set -e

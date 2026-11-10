@@ -278,7 +278,7 @@ struct TotalOnlyView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 6)
             }
-            Section("Invoice") {
+            Section {
                 LabeledContent("Supplier") {
                     TextField("Supplier", text: Binding(get: { job.draft.supplier }, set: { value in change { $0.supplier = value } }))
                         .multilineTextAlignment(.trailing)
@@ -298,6 +298,8 @@ struct TotalOnlyView: View {
                         .focused($totalFocused)
                         .fontWeight(.semibold)
                 }
+            } header: {
+                Text("Invoice")
             } footer: {
                 Text("Check the total matches the invoice. Tap it to correct it.")
             }

@@ -10,13 +10,14 @@ struct SuppliersView: View {
     @AppStorage(WeeklyPayReminder.dayKey) private var payDay = 0
     @State private var showAdd = false
     @State private var notice: String?
+    @State private var path = NavigationPath()
 
     private var list: [SupplierAccount] {
         SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments, trusted: accounts.trusted)
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             let all = list
             let owed = Money.round2(all.filter { $0.balance > 0.005 }.reduce(0) { $0 + $1.balance })
             let thisWeek = Money.round2(all.reduce(0) { $0 + $1.paidThisWeek })
@@ -85,6 +86,10 @@ struct SuppliersView: View {
             }
             .sheet(isPresented: $showAdd) {
                 AddSupplierView()
+            }
+            .task {
+                // the cloud check opens the first supplier with "-demoSupplier YES"
+                if UserDefaults.standard.bool(forKey: "demoSupplier"), let first = list.first { path.append(first.id) }
             }
             .alert(notice ?? "", isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
                 Button("OK", role: .cancel) {}

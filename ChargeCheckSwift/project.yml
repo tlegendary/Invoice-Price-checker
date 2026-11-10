@@ -28,6 +28,13 @@ targets:
       - package: ChargeCheckCore
       - package: GoogleMobileAds
       - package: GoogleUserMessagingPlatform
+      - target: ChargeCheckWidget  # widget
+    # widget-start
+    entitlements:
+      path: App/ChargeCheck.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.rjapps.invoicepricechecker]
+    # widget-end
     scheme:
       testTargets:
         - ChargeCheckTests
@@ -52,6 +59,12 @@ targets:
         UIFileSharingEnabled: true
         # !!! Test mode: test ads and a "test as free user" switch. Set to false before sending for App Review.
         CCTestBuild: true
+        # shared with the home screen widget
+        CCAppGroup: group.com.rjapps.invoicepricechecker
+        # the widget opens the app on the Suppliers tab
+        CFBundleURLTypes:
+          - CFBundleURLName: com.rjapps.invoicepricechecker
+            CFBundleURLSchemes: [chargecheck]
         GADApplicationIdentifier: ca-app-pub-2905482277981262~1451903100
         NSUserTrackingUsageDescription: This lets the free version show ads that are more relevant to you. Your invoices and prices are never shared.
         SKAdNetworkItems:
@@ -124,6 +137,45 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_PREVIEWS: "YES"
         OTHER_LDFLAGS: "$(inherited) -ObjC"
+  # widget-start
+  # The home screen widget: what you owe your suppliers. Reads what the app writes to the shared app group.
+  ChargeCheckWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+        excludes:
+          - Info.plist
+          - "*.entitlements"
+    dependencies:
+      - package: ChargeCheckCore
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    entitlements:
+      path: Widget/ChargeCheckWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.rjapps.invoicepricechecker]
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: ChargeCheck
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CCAppGroup: group.com.rjapps.invoicepricechecker
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.widget
+        PRODUCT_NAME: ChargeCheckWidget
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
+        SWIFT_EMIT_LOC_STRINGS: "YES"
+        SKIP_INSTALL: "YES"
+  # widget-end
   ChargeCheckTests:
     type: bundle.unit-test
     platform: iOS

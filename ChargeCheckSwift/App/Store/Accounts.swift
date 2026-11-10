@@ -10,7 +10,7 @@ import ChargeCheckCore
 final class Accounts: ObservableObject {
     static let shared = Accounts()
     static let trustedKey = "suppliers.trusted"
-    static let appGroup = Bundle.main.object(forInfoDictionaryKey: "CCAppGroup") as? String ?? "group.com.rjapps.invoicepricechecker"
+    nonisolated static let appGroup = Bundle.main.object(forInfoDictionaryKey: "CCAppGroup") as? String ?? "group.com.rjapps.invoicepricechecker"
 
     @Published private(set) var payments: [SupplierPayment] = []
     @Published private(set) var trusted: [String] = []

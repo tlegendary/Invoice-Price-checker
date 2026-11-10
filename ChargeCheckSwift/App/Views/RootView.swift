@@ -43,6 +43,11 @@ struct RootView: View {
         .environmentObject(store)
         .environmentObject(ads)
         .onOpenURL { url in
+            // the home screen widget
+            if url.scheme == "chargecheck" {
+                if url.host == "suppliers" { tab = "suppliers" }
+                return
+            }
             // an invoice shared into ChargeCheck
             let kind = url.pathExtension.lowercased()
             guard url.isFileURL, ["pdf", "jpg", "jpeg", "png", "heic", "heif"].contains(kind) else { return }
