@@ -1,0 +1,954 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ a month" : {
+
+    },
+    "%@ a month · Save %lld%%" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ a month · Save %2$lld%%"
+          }
+        }
+      }
+    },
+    "%@ · overcharged %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · overcharged %2$@"
+          }
+        }
+      }
+    },
+    "%@ → %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "%@. Automatic follows your iPhone's light or dark setting." : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld lines" : {
+
+    },
+    "%lld of %lld selected · pay %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld selected · pay %3$@"
+          }
+        }
+      }
+    },
+    "%lld of %lld unpaid invoices selected" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld unpaid invoices selected"
+          }
+        }
+      }
+    },
+    "%lld prices and %lld reports. This replaces the prices and reports on this phone." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld prices and %2$lld reports. This replaces the prices and reports on this phone."
+          }
+        }
+      }
+    },
+    "%lld prices and your reports were brought over from the previous version of the app." : {
+
+    },
+    "%lld scans" : {
+
+    },
+    "%lld scans left" : {
+
+    },
+    "%lld things to check" : {
+
+    },
+    "0%" : {
+
+    },
+    "0.00" : {
+
+    },
+    "1" : {
+
+    },
+    "1 line" : {
+
+    },
+    "1 scan left" : {
+
+    },
+    "1 thing to check" : {
+
+    },
+    "10p" : {
+
+    },
+    "1p" : {
+
+    },
+    "20%" : {
+
+    },
+    "2p" : {
+
+    },
+    "5%" : {
+
+    },
+    "5p" : {
+
+    },
+    "7-day free trial, then %@" : {
+
+    },
+    "A backup holds your prices, reports and settings. One is kept automatically in the Files app › On My iPhone › ChargeCheck, with a copy for each of the last 14 days." : {
+
+    },
+    "A copy is already kept in the Files app › On My iPhone › ChargeCheck › Invoices. You can also save it somewhere else or send it on." : {
+
+    },
+    "About" : {
+
+    },
+    "Ad privacy choices" : {
+
+    },
+    "Add" : {
+
+    },
+    "Add %lld" : {
+
+    },
+    "Add %lld new items to my price list" : {
+
+    },
+    "Add 1 new item to my price list" : {
+
+    },
+    "Add a line" : {
+
+    },
+    "Add a price" : {
+
+    },
+    "Add a shop, e.g. High Street" : {
+
+    },
+    "Add the prices you agreed with your suppliers. Tap + to add one, or use the ••• menu to paste a whole list." : {
+
+    },
+    "Adds up to the total printed on the invoice" : {
+
+    },
+    "Ads" : {
+
+    },
+    "All prices match" : {
+
+    },
+    "All shops" : {
+
+    },
+    "Also kept in the Files app › On My iPhone › ChargeCheck › Exports." : {
+
+    },
+    "Also save invoice copies there" : {
+
+    },
+    "Amount to pay" : {
+
+    },
+    "An invoice is saved to Reports by itself once every line is checked." : {
+
+    },
+    "App Store" : {
+
+    },
+    "App language" : {
+
+    },
+    "Appearance" : {
+
+    },
+    "Automatic" : {
+
+    },
+    "Automatic backup" : {
+
+    },
+    "Business name" : {
+
+    },
+    "Buy scans or go unlimited – no ads" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Category" : {
+
+    },
+    "Change folder" : {
+
+    },
+    "ChargeCheck" : {
+
+    },
+    "Charged" : {
+
+    },
+    "Check" : {
+
+    },
+    "Check this line" : {
+
+    },
+    "Checked invoices" : {
+
+    },
+    "Checking" : {
+
+    },
+    "Checking…" : {
+
+    },
+    "Choose" : {
+
+    },
+    "Choose a PDF or file" : {
+
+    },
+    "Choose a folder once (for example make a “ChargeCheck” folder in iCloud Drive) and every backup is also saved there. Safe even if you lose or change your phone." : {
+
+    },
+    "Choose an iCloud Drive folder" : {
+
+    },
+    "Choose invoices to pay" : {
+
+    },
+    "Choose photos" : {
+
+    },
+    "Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language." : {
+
+    },
+    "Choose “All shops” at the top to see every invoice." : {
+
+    },
+    "Close" : {
+
+    },
+    "Copied" : {
+
+    },
+    "Copies of the original photo or PDF are kept in the Files app › ChargeCheck › Invoices, by month. The reminder arrives on the 1st of each month to send last month's report to your accountant." : {
+
+    },
+    "Copy breakdown" : {
+
+    },
+    "Copy the credit request" : {
+
+    },
+    "Credit request" : {
+
+    },
+    "Credit request for the supplier (PDF)" : {
+
+    },
+    "Credit request message (WhatsApp, email…)" : {
+
+    },
+    "Currency" : {
+
+    },
+    "Dark" : {
+
+    },
+    "Date" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete all %lld prices?" : {
+
+    },
+    "Delete all prices" : {
+
+    },
+    "Delete this item" : {
+
+    },
+    "Delete this line" : {
+
+    },
+    "Delete this report" : {
+
+    },
+    "Delete this report?" : {
+
+    },
+    "Dollar ($)" : {
+
+    },
+    "Don't keep copies" : {
+
+    },
+    "Done" : {
+
+    },
+    "Double-check with Apple Intelligence" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit price" : {
+
+    },
+    "Euro (€)" : {
+
+    },
+    "Every invoice you check is kept here, with what each supplier overcharged." : {
+
+    },
+    "Every line double-checked." : {
+
+    },
+    "Everything is already in the right place." : {
+
+    },
+    "Export" : {
+
+    },
+    "Export for your accountant" : {
+
+    },
+    "Folder" : {
+
+    },
+    "Found %lld items" : {
+
+    },
+    "Free version" : {
+
+    },
+    "Go unlimited" : {
+
+    },
+    "Go unlimited or buy scans" : {
+
+    },
+    "Help" : {
+
+    },
+    "Help: %@" : {
+
+    },
+    "How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it." : {
+
+    },
+    "I've checked this line" : {
+
+    },
+    "I've checked – it's fine" : {
+
+    },
+    "Ignore differences up to" : {
+
+    },
+    "In your price list" : {
+
+    },
+    "Invoice" : {
+
+    },
+    "Invoice copies" : {
+
+    },
+    "Invoice no." : {
+
+    },
+    "Invoice removed" : {
+
+    },
+    "Invoice total" : {
+
+    },
+    "Invoice totals" : {
+
+    },
+    "Invoice totals with VAT, less overcharges and missing or returned items." : {
+
+    },
+    "Invoices" : {
+
+    },
+    "Invoices and reports" : {
+
+    },
+    "Invoices are in" : {
+
+    },
+    "Invoices checked" : {
+
+    },
+    "Iraqi dinar (IQD)" : {
+
+    },
+    "It stays in Reports." : {
+
+    },
+    "Item" : {
+
+    },
+    "Item name" : {
+
+    },
+    "Keep + ask where else" : {
+
+    },
+    "Keep a copy of this invoice" : {
+
+    },
+    "Keep on this phone" : {
+
+    },
+    "Language and money" : {
+
+    },
+    "Last saved there" : {
+
+    },
+    "Light" : {
+
+    },
+    "Lines" : {
+
+    },
+    "Loading the ad…" : {
+
+    },
+    "Look" : {
+
+    },
+    "Looks at every item." : {
+
+    },
+    "Lower my prices when an invoice is cheaper" : {
+
+    },
+    "Make a PDF" : {
+
+    },
+    "Make a spreadsheet (CSV)" : {
+
+    },
+    "Manage or cancel subscription" : {
+
+    },
+    "Mark %@ as paid (%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mark %1$@ as paid (%2$@)?"
+          }
+        }
+      }
+    },
+    "Mark as paid" : {
+
+    },
+    "Missing or returned" : {
+
+    },
+    "Missing or returned items are taken off what you pay." : {
+
+    },
+    "Monthly" : {
+
+    },
+    "Monthly reminder" : {
+
+    },
+    "More" : {
+
+    },
+    "Move" : {
+
+    },
+    "Move %lld" : {
+
+    },
+    "Name, e.g. Chicken Wings 10kg" : {
+
+    },
+    "Net" : {
+
+    },
+    "New invoices are filed under the ticked shop. Swipe a shop to rename or remove it; its invoices stay in Reports." : {
+
+    },
+    "New items are added at the price on this invoice, so you'll be told if it goes up next time." : {
+
+    },
+    "No checked invoices in this period." : {
+
+    },
+    "No invoices for this shop" : {
+
+    },
+    "No lines found" : {
+
+    },
+    "No lines with an item name and a price. Put one item per line with the price at the end." : {
+
+    },
+    "No prices yet" : {
+
+    },
+    "No reports yet" : {
+
+    },
+    "Not in my price list" : {
+
+    },
+    "Not now" : {
+
+    },
+    "Nothing found" : {
+
+    },
+    "Nothing to pay. Every checked invoice is marked as paid." : {
+
+    },
+    "Nothing to sort. Every item already has a category." : {
+
+    },
+    "Nothing was charged above your agreed prices." : {
+
+    },
+    "Number" : {
+
+    },
+    "OK" : {
+
+    },
+    "On invoices as" : {
+
+    },
+    "On the invoice" : {
+
+    },
+    "One item per line with its price at the end, for example: Chicken wings 10kg %@" : {
+
+    },
+    "One shop" : {
+
+    },
+    "Only %@" : {
+
+    },
+    "Only found on the second read – make sure it's really on the invoice." : {
+
+    },
+    "Only needed if you have more than one shop. Each invoice is filed under a shop, and Reports can show each shop on its own. Your prices are shared by all shops." : {
+
+    },
+    "Open a spreadsheet or text file (CSV)" : {
+
+    },
+    "Or buy scans – no subscription, no ads" : {
+
+    },
+    "Or type a new category" : {
+
+    },
+    "Original invoice" : {
+
+    },
+    "Overcharged" : {
+
+    },
+    "Overcharged %@" : {
+
+    },
+    "Overcharged %@ so far. Tap the orange lines to confirm them." : {
+
+    },
+    "Overcharged / missing" : {
+
+    },
+    "Overcharged / missing – take off" : {
+
+    },
+    "Overcharged – take off" : {
+
+    },
+    "Overcharged, all time" : {
+
+    },
+    "Paid" : {
+
+    },
+    "Paste a price list" : {
+
+    },
+    "Paste from clipboard" : {
+
+    },
+    "Period" : {
+
+    },
+    "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice." : {
+
+    },
+    "Pick the matching item." : {
+
+    },
+    "Pick the matching item. The app remembers how this supplier writes it." : {
+
+    },
+    "Plan" : {
+
+    },
+    "Plus %@ VAT on top. Every line double-checked." : {
+
+    },
+    "Pound (£)" : {
+
+    },
+    "Price history" : {
+
+    },
+    "Price list as a PDF" : {
+
+    },
+    "Price lowered" : {
+
+    },
+    "Prices" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Quantity" : {
+
+    },
+    "Re-check items that already have a category" : {
+
+    },
+    "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with." : {
+
+    },
+    "Remove" : {
+
+    },
+    "Remove this invoice from the list" : {
+
+    },
+    "Rename" : {
+
+    },
+    "Rename shop" : {
+
+    },
+    "Replace what's on this phone" : {
+
+    },
+    "Report removed" : {
+
+    },
+    "Reports" : {
+
+    },
+    "Restore backup" : {
+
+    },
+    "Restore purchases" : {
+
+    },
+    "Restore this backup?" : {
+
+    },
+    "Sample invoice with example prices. Nothing here is saved." : {
+
+    },
+    "Save" : {
+
+    },
+    "Save backup file" : {
+
+    },
+    "Save or send a copy" : {
+
+    },
+    "Save or send the price list" : {
+
+    },
+    "Save or send “%@”" : {
+
+    },
+    "Save to Reports anyway" : {
+
+    },
+    "Saved in Reports" : {
+
+    },
+    "Scan an invoice" : {
+
+    },
+    "Scans left" : {
+
+    },
+    "Search %lld items" : {
+
+    },
+    "Search your price list" : {
+
+    },
+    "Select all" : {
+
+    },
+    "Select none" : {
+
+    },
+    "Send the original invoice" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Shop" : {
+
+    },
+    "Shop name" : {
+
+    },
+    "Shops" : {
+
+    },
+    "Show my whole price list" : {
+
+    },
+    "Sort into categories" : {
+
+    },
+    "Sorts items that are in “Other” or have no category. It learns from the items you've already sorted." : {
+
+    },
+    "Spend checked" : {
+
+    },
+    "Start free trial" : {
+
+    },
+    "Start your 7-day free trial" : {
+
+    },
+    "Stop paying more than your agreed prices." : {
+
+    },
+    "Stop saving there" : {
+
+    },
+    "Subscribe" : {
+
+    },
+    "Supplier" : {
+
+    },
+    "Supplier (optional)" : {
+
+    },
+    "Support" : {
+
+    },
+    "Tap the orange lines to confirm them." : {
+
+    },
+    "Terms of Use" : {
+
+    },
+    "Test mode is on: test ads are shown and nothing here is sent for review like this." : {
+
+    },
+    "Test mode · %@" : {
+
+    },
+    "Test mode: use the free version" : {
+
+    },
+    "The copy of the original invoice in the Files app is kept." : {
+
+    },
+    "The free version gives you one scan for each ad you watch to the end." : {
+
+    },
+    "The lines add up to %@ but the invoice says %@. A line may be missing or misread." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The lines add up to %1$@ but the invoice says %2$@. A line may be missing or misread."
+          }
+        }
+      }
+    },
+    "The name is shown at the top of reports and credit requests. Add your shops if you have more than one." : {
+
+    },
+    "The plans couldn't be loaded from the App Store. Check your internet connection and try again." : {
+
+    },
+    "The second read gave %@ × %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The second read gave %1$@ × %2$@."
+          }
+        }
+      }
+    },
+    "This is a different item" : {
+
+    },
+    "To pay" : {
+
+    },
+    "Totals" : {
+
+    },
+    "Try a sample invoice" : {
+
+    },
+    "Try again" : {
+
+    },
+    "Type by hand" : {
+
+    },
+    "Undo" : {
+
+    },
+    "Undo “mark as paid”" : {
+
+    },
+    "Unit price %@" : {
+
+    },
+    "Untick anything you don't want moved" : {
+
+    },
+    "Use the free version (1 ad per scan)" : {
+
+    },
+    "Usual supplier (optional)" : {
+
+    },
+    "VAT" : {
+
+    },
+    "Version" : {
+
+    },
+    "Watch a short ad to scan 1 invoice" : {
+
+    },
+    "Watch an ad" : {
+
+    },
+    "Watch an ad for 1 scan" : {
+
+    },
+    "Who are these prices from?" : {
+
+    },
+    "Yearly" : {
+
+    },
+    "You paid %@ less than your agreed prices." : {
+
+    },
+    "You should pay" : {
+
+    },
+    "Your agreed price" : {
+
+    },
+    "Your business" : {
+
+    },
+    "Your data" : {
+
+    },
+    "Your list" : {
+
+    },
+    "Your plan" : {
+
+    },
+    "Your price" : {
+
+    },
+    "Your price %@" : {
+
+    },
+    "Your prices are here" : {
+
+    },
+    "Your reports are kept. This can't be undone, so save a backup first in Settings." : {
+
+    },
+    "Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again." : {
+
+    },
+    "Your shops" : {
+
+    },
+    "dd/mm/yyyy" : {
+
+    },
+    "e.g. quater pounder, qtr pounder" : {
+
+    },
+    "iCloud backup" : {
+
+    },
+    "off" : {
+
+    },
+    "·" : {
+
+    }
+  },
+  "version" : "1.0"
+}
