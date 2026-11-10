@@ -20,6 +20,12 @@ public struct PaySummary: Equatable, Sendable {
     public var total: Double
     public var less: Double
     public var pay: Double
+    /// True when the amounts above are before VAT.
+    public var beforeVat = false
+    /// The amount to pay before VAT and with VAT, whichever way the amounts above are shown.
+    public var payBeforeVat: Double = 0
+    public var payWithVat: Double = 0
+    public var vat: Double { Money.round2(max(0, payWithVat - payBeforeVat)) }
     public var hasMissing: Bool { suppliers.contains { $0.hasMissing } }
 }
 
@@ -47,14 +53,14 @@ public enum ReportMaths {
 
     // MARK: - what to pay
 
-    public static func paySummary(_ entries: [HistoryEntry], skipped: Set<String>) -> PaySummary {
+    public static func paySummary(_ entries: [HistoryEntry], skipped: Set<String>, beforeVat: Bool = false) -> PaySummary {
         let unpaid = entries.filter { $0.paid == nil }
         let selected = unpaid.filter { !skipped.contains($0.id) }
         var order: [String] = []
         var groups: [String: SupplierPay] = [:]
         for entry in selected {
             let name = entry.supplier.isEmpty ? CoreText.t("Unknown supplier") : entry.supplier
-            let amounts = entry.amountToPay
+            let amounts = entry.amountToPay(beforeVat: beforeVat)
             var group = groups[name] ?? SupplierPay(name: name, entries: [], total: 0, less: 0, pay: 0, hasMissing: false)
             if groups[name] == nil { order.append(name) }
             group.entries.append(entry)
@@ -75,7 +81,10 @@ public enum ReportMaths {
         return PaySummary(unpaid: unpaid, selected: selected, suppliers: suppliers,
                           total: Money.round2(suppliers.reduce(0) { $0 + $1.total }),
                           less: Money.round2(suppliers.reduce(0) { $0 + $1.less }),
-                          pay: Money.round2(suppliers.reduce(0) { $0 + $1.pay }))
+                          pay: Money.round2(suppliers.reduce(0) { $0 + $1.pay }),
+                          beforeVat: beforeVat,
+                          payBeforeVat: Money.round2(selected.reduce(0) { $0 + $1.amountToPayBeforeVat.pay }),
+                          payWithVat: Money.round2(selected.reduce(0) { $0 + $1.amountToPay.pay }))
     }
 
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
@@ -107,7 +116,7 @@ public enum ReportMaths {
         for supplier in summary.suppliers {
             lines.append(supplier.name)
             for entry in supplier.entries {
-                let amounts = entry.amountToPay
+                let amounts = entry.amountToPay(beforeVat: summary.beforeVat)
                 var line = "  " + (entry.invNo.isEmpty ? t("Invoice") : t("Invoice {1}", entry.invNo))
                 if !entry.date.isEmpty { line += " · " + entry.date }
                 line += " · " + Money.format(amounts.total)
@@ -123,7 +132,7 @@ public enum ReportMaths {
         var last = t("Total to pay: {1}", Money.format(summary.pay))
         if summary.less > 0 { last += " " + t("(invoices {1} less {2} taken off)", Money.format(summary.total), Money.format(summary.less)) }
         lines.append(last)
-        lines.append(t("Amounts include VAT."))
+        lines.append(summary.beforeVat ? t("Amounts are before VAT (no VAT added).") : t("Amounts include VAT."))
         return lines.joined(separator: "\n")
     }
 

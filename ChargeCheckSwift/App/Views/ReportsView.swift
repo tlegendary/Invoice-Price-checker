@@ -9,6 +9,7 @@ struct ReportsView: View {
     @EnvironmentObject private var store: Store
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @AppStorage(SettingKey.paySkipped) private var skippedText = ""
+    @AppStorage(SettingKey.payBeforeVat) private var beforeVat = false
 
     @State private var showChoose = false
     @State private var showExport = false
@@ -42,7 +43,7 @@ struct ReportsView: View {
     var body: some View {
         NavigationStack {
             let list = entries
-            let pay = ReportMaths.paySummary(list, skipped: skipped)
+            let pay = ReportMaths.paySummary(list, skipped: skipped, beforeVat: beforeVat)
             List {
                 if list.isEmpty {
                     ContentUnavailableView {
@@ -125,6 +126,11 @@ struct ReportsView: View {
                     .foregroundStyle(.secondary)
                 if !undoPaid.isEmpty { undoButton }
             } else {
+                Picker("VAT", selection: $beforeVat) {
+                    Text("Including VAT").tag(false)
+                    Text("Before VAT").tag(true)
+                }
+                .pickerStyle(.segmented)
                 Button {
                     showChoose = true
                 } label: {
@@ -155,11 +161,25 @@ struct ReportsView: View {
                                 .foregroundStyle(.red)
                         }
                     }
-                    LabeledContent("Amount to pay") {
+                    LabeledContent {
                         Text(Money.format(pay.pay))
                             .font(.title2.weight(.heavy))
                             .foregroundStyle(.tint)
+                    } label: {
+                        Text("Amount to pay")
+                        Text(beforeVat ? "Before VAT" : "Including VAT")
                     }
+                    Group {
+                        if beforeVat {
+                            Text(pay.vat > 0.005
+                                 ? String(localized: "With VAT it would be \(Money.format(pay.payWithVat)) (VAT \(Money.format(pay.vat)))")
+                                 : String(localized: "These invoices have no VAT"))
+                        } else {
+                            Text("Before VAT \(Money.format(pay.payBeforeVat)) + VAT \(Money.format(pay.vat))")
+                        }
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
                     Button {
                         UIPasteboard.general.string = ReportMaths.paymentText(pay, today: today())
                         notice = String(localized: "Breakdown copied. Paste it into a message to your supplier.")
@@ -177,7 +197,8 @@ struct ReportsView: View {
         } header: {
             Text("To pay")
         } footer: {
-            Text("Invoice totals with VAT, less overcharges and missing or returned items.")
+            Text(beforeVat ? "Invoice totals before VAT, less overcharges and missing or returned items. Choose “Before VAT” for a shop that isn’t VAT registered."
+                           : "Invoice totals with VAT, less overcharges and missing or returned items.")
         }
     }
 
@@ -248,7 +269,7 @@ struct PayChooseView: View {
 
     var body: some View {
         NavigationStack {
-            let pay = ReportMaths.paySummary(entries, skipped: skipped)
+            let pay = ReportMaths.paySummary(entries, skipped: skipped, beforeVat: UserDefaults.standard.bool(forKey: SettingKey.payBeforeVat))
             List {
                 Section {
                     Button("Select all") { set([]) }
@@ -263,7 +284,7 @@ struct PayChooseView: View {
                 }
                 Section {
                     ForEach(entries) { entry in
-                        let amounts = entry.amountToPay
+                        let amounts = entry.amountToPay(beforeVat: pay.beforeVat)
                         Toggle(isOn: Binding(
                             get: { !skipped.contains(entry.id) },
                             set: { isOn in

@@ -38,6 +38,23 @@ final class ReportTests: XCTestCase {
         XCTAssertEqual(ReportMaths.paySummary([], skipped: []).pay, 0)
     }
 
+    func testWhatToPayBeforeVat() {
+        let withVat = ReportMaths.paySummary(sample, skipped: [])
+        XCTAssertEqual(withVat.payBeforeVat, 315)
+        XCTAssertEqual(withVat.payWithVat, 333)
+        XCTAssertEqual(withVat.vat, 18)
+        let net = ReportMaths.paySummary(sample, skipped: [], beforeVat: true)
+        XCTAssertTrue(net.beforeVat)
+        XCTAssertEqual(net.total, 350)
+        XCTAssertEqual(net.less, 35)
+        XCTAssertEqual(net.pay, 315)
+        XCTAssertEqual(net.suppliers.map { $0.pay }, [270, 45])
+        XCTAssertEqual(net.payWithVat, 333)
+        let text = ReportMaths.paymentText(ReportMaths.paySummary(sample, skipped: ["1", "2"], beforeVat: true), today: "10 Nov 2026")
+        XCTAssertTrue(text.contains("Invoice 3 · 04/10/2026 · £50.00 less £5.00 overcharged = £45.00"), text)
+        XCTAssertTrue(text.contains("Amounts are before VAT (no VAT added)."), text)
+    }
+
     func testPeriods() {
         let calendar = ReportMaths.ukCalendar
         let now = calendar.date(from: DateComponents(year: 2026, month: 11, day: 10, hour: 9))!

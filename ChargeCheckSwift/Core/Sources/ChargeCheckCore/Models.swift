@@ -225,6 +225,19 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         let less = min(total, Money.round2(over + overVat + excluded + missingVat))
         return (Money.round2(total), less, Money.round2(total - less))
     }
+
+    /// The same, before VAT: the net invoice total, less overcharges and missing items (without their VAT).
+    /// For shops that aren't VAT registered, or anyone who wants to see the figures without VAT.
+    public var amountToPayBeforeVat: (total: Double, less: Double, pay: Double) {
+        let total = Money.round2(net)
+        let less = min(total, Money.round2(over + excluded))
+        return (total, less, Money.round2(total - less))
+    }
+
+    /// What to pay for this invoice, with or without VAT.
+    public func amountToPay(beforeVat: Bool) -> (total: Double, less: Double, pay: Double) {
+        beforeVat ? amountToPayBeforeVat : amountToPay
+    }
 }
 
 public struct ShopInfo: Codable, Equatable, Sendable {
