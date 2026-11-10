@@ -109,6 +109,18 @@ struct InvoiceDetailView: View {
 
     @ViewBuilder
     private func content(_ job: InvoiceJob, book: PriceBook) -> some View {
+        if job.draft.totalOnly {
+            TotalOnlyView(job: job, change: change, remove: {
+                session.remove(jobID)
+                dismiss()
+            })
+        } else {
+            checkedContent(job, book: book)
+        }
+    }
+
+    @ViewBuilder
+    private func checkedContent(_ job: InvoiceJob, book: PriceBook) -> some View {
         let totals = InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance)
         let missing = job.draft.lines.filter { $0.matchId == nil && !$0.excluded && !$0.noBase && $0.unit > 0 && !$0.desc.isEmpty }.count
         List {
@@ -225,6 +237,108 @@ struct InvoiceDetailView: View {
             } footer: {
                 if job.saved != nil { Text("It stays in Reports.") }
             }
+        }
+    }
+}
+
+/// A trusted supplier's invoice: just the total, which is added to what you owe them.
+struct TotalOnlyView: View {
+    let job: InvoiceJob
+    let change: ((inout InvoiceDraft) -> Void) -> Void
+    let remove: () -> Void
+
+    @State private var totalText = ""
+    @FocusState private var totalFocused: Bool
+
+    private func text(_ value: Double?) -> String {
+        guard let value, value > 0 else { return "" }
+        return String(format: "%.\(Money.currency.decimals)f", value)
+    }
+
+    var body: some View {
+        List {
+            Section {
+                VStack(spacing: 8) {
+                    Image(systemName: "checkmark.shield.fill")
+                        .font(.system(size: 34))
+                        .foregroundStyle(.green)
+                    Text(Money.format(job.draft.printedTotal ?? 0))
+                        .font(.largeTitle.weight(.heavy))
+                    Text("Trusted supplier: only the total was read. The prices weren't checked.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                    if !job.message.isEmpty {
+                        Text(job.message)
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(.orange)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+            }
+            Section("Invoice") {
+                LabeledContent("Supplier") {
+                    TextField("Supplier", text: Binding(get: { job.draft.supplier }, set: { value in change { $0.supplier = value } }))
+                        .multilineTextAlignment(.trailing)
+                }
+                LabeledContent("Invoice no.") {
+                    TextField("Number", text: Binding(get: { job.draft.invNo }, set: { value in change { $0.invNo = value } }))
+                        .multilineTextAlignment(.trailing)
+                }
+                LabeledContent("Date") {
+                    TextField("dd/mm/yyyy", text: Binding(get: { job.draft.date }, set: { value in change { $0.date = value } }))
+                        .multilineTextAlignment(.trailing)
+                }
+                LabeledContent("Invoice total") {
+                    TextField("0.00", text: $totalText)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .focused($totalFocused)
+                        .fontWeight(.semibold)
+                }
+            } footer: {
+                Text("Check the total matches the invoice. Tap it to correct it.")
+            }
+            Section {
+                if job.saved == job.draft {
+                    Label("Added to what you owe them in Suppliers", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                }
+                Button {
+                    change { $0.totalOnly = false }
+                } label: {
+                    Label("Check the prices on this invoice", systemImage: "doc.text.magnifyingglass")
+                }
+            } footer: {
+                Text("To stop treating this supplier as trusted, go to Suppliers and turn off “Trusted supplier”.")
+            }
+            Section {
+                Button("Remove this invoice from the list", role: .destructive, action: remove)
+            } footer: {
+                if job.saved != nil { Text("It stays in Reports.") }
+            }
+        }
+        .onAppear { totalText = text(job.draft.printedTotal) }
+        .onChange(of: totalFocused) {
+            if !totalFocused { commit() }
+        }
+        .onSubmit(commit)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { totalFocused = false }
+            }
+        }
+    }
+
+    private func commit() {
+        let value = Money.parse(totalText).map(Money.round2)
+        guard let value, value > 0, value != job.draft.printedTotal else { return }
+        change {
+            $0.printedTotal = value
+            if let net = $0.printedNet, net > value { $0.printedNet = nil }
         }
     }
 }

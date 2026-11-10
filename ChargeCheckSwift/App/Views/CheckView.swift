@@ -306,7 +306,15 @@ struct JobRow: View {
 
     @ViewBuilder private var summary: some View {
         let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
-        if job.draft.lines.isEmpty {
+        if job.draft.totalOnly {
+            Label {
+                Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0))") : String(localized: "Trusted · type in the total"))
+            } icon: {
+                Image(systemName: "checkmark.shield.fill")
+            }
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle((job.draft.printedTotal ?? 0) > 0 ? Color.green : Color.orange)
+        } else if job.draft.lines.isEmpty {
             Text("No lines found")
                 .font(.footnote)
                 .foregroundStyle(.orange)

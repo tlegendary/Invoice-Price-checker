@@ -94,6 +94,7 @@ final class CheckSession: ObservableObject {
         let items = sample ? SampleInvoice.prices : AppData.items(context)
         let suppliers = sample ? [] : AppData.knownSuppliers(context)
         let fixes = sample ? [:] : NameFixes.all()
+        let trustedList = sample ? [] : Accounts.shared.trusted
         let previous = queue
         let report: @Sendable (String) -> Void = { [weak self] text in
             Task { @MainActor in
@@ -105,6 +106,25 @@ final class CheckSession: ObservableObject {
             let book = PriceBook(items)
             let outcome = await InvoiceReader.read(pages: pages, book: book, knownSuppliers: suppliers, progress: report)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
+            // a trusted supplier: only the total counts, so the price check is skipped
+            if SupplierAccounts.isTrusted(outcome.invoice.supplier, trusted: trustedList) {
+                guard let self else { return }
+                let total = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
+                self.update(id) { job in
+                    job.draft.supplier = outcome.invoice.supplier
+                    job.draft.invNo = outcome.invoice.invNo
+                    job.draft.date = outcome.invoice.date
+                    job.draft.printedNet = outcome.invoice.printedNet
+                    job.draft.printedTotal = total > 0 ? total : nil
+                    job.draft.passes = outcome.passes
+                    job.draft.lines = firstLines
+                    job.draft.totalOnly = true
+                    job.status = .done
+                    job.message = total > 0 ? "" : String(localized: "Couldn't read the invoice total. Type it in.")
+                }
+                self.saveIfChecked(id, context: context)
+                return
+            }
             // a name the user already corrected by hand is never second-guessed
             let checked = await SmartCheck.check(firstLines.filter { fixes[TextTools.norm($0.read)] == nil }, supplier: outcome.invoice.supplier,
                                                  book: book, progress: report)
@@ -169,13 +189,18 @@ final class CheckSession: ObservableObject {
     func saveIfChecked(_ id: String, context: ModelContext, anyway: Bool = false) {
         guard let job = job(id), !job.isSample, job.status == .done else { return }
         let lines = job.draft.lines.filter { !$0.desc.trimmingCharacters(in: .whitespaces).isEmpty }
-        guard !lines.isEmpty, job.saved != job.draft else { return }
+        guard job.saved != job.draft else { return }
         let book = PriceBook(AppData.items(context))
-        if !anyway && !InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance).verified { return }
+        if job.draft.totalOnly {
+            guard (job.draft.printedTotal ?? job.draft.printedNet ?? 0) > 0 else { return }
+        } else {
+            guard !lines.isEmpty else { return }
+            if !anyway && !InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance).verified { return }
+        }
         var draft = job.draft
         if draft.shopId.isEmpty { draft.shopId = Shops.current }
         let entry = AppData.saveReport(&draft, book: book, context: context)
-        lowerPrices(draft, jobID: id, book: book, context: context)
+        if !draft.totalOnly { lowerPrices(draft, jobID: id, book: book, context: context) }
         // keep a copy of the original invoice next to the report
         var copyPath = job.copyPath ?? entry.file
         if !job.pages.isEmpty || job.sourcePDF != nil {

@@ -224,6 +224,14 @@ public enum InvoiceMaths {
     }
 
     /// The invoice as it is kept in Reports.
+    /// What the read lines add up to with VAT (for an invoice whose printed total couldn't be read).
+    public static func linesTotal(_ lines: [ParsedLine]) -> Double {
+        Money.round2(lines.reduce(0) { sum, line in
+            let net = Money.round2(line.qty * line.unit)
+            return sum + net + Money.round2(net * line.vat / 100)
+        })
+    }
+
     public static func historyEntry(_ invoice: InvoiceDraft, book: PriceBook, tolerance: Double = 0.01, existing: HistoryEntry? = nil) -> HistoryEntry {
         let t = totals(invoice, book: book, tolerance: tolerance)
         let lines = invoice.lines.map { line -> HistoryLine in

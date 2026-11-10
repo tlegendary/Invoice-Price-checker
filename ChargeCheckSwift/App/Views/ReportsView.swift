@@ -105,8 +105,7 @@ struct ReportsView: View {
                                 isPresented: $confirmPaid, titleVisibility: .visible) {
                 Button("Mark as paid") {
                     let ids = Set(pay.selected.map { $0.id })
-                    let stamp = ISO8601DateFormatter().string(from: Date())
-                    AppData.updateReports(ids, context: context) { $0.paid = stamp }
+                    Accounts.shared.markPaid(pay.selected, context: context)
                     undoPaid = ids
                     AutoBackup.run(context, scans: store.ledger.forBackup)
                 }
@@ -184,7 +183,7 @@ struct ReportsView: View {
 
     private var undoButton: some View {
         Button("Undo “mark as paid”") {
-            AppData.updateReports(undoPaid, context: context) { $0.paid = nil }
+            Accounts.shared.markUnpaid(undoPaid, context: context)
             undoPaid = []
         }
     }
@@ -200,9 +199,14 @@ struct ReportRow: View {
                     .font(.subheadline.weight(.semibold))
                     .lineLimit(1)
                 Spacer(minLength: 12)
-                Text(entry.over > 0.005 ? Money.format(entry.over) : L("OK"))
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(entry.over > 0.005 ? Color.red : Color.green)
+                if entry.totalOnly {
+                    Text(Money.format(entry.total))
+                        .font(.subheadline.weight(.bold))
+                } else {
+                    Text(entry.over > 0.005 ? Money.format(entry.over) : L("OK"))
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(entry.over > 0.005 ? Color.red : Color.green)
+                }
             }
             Text(detail)
                 .font(.footnote)
@@ -214,7 +218,11 @@ struct ReportRow: View {
         var parts: [String] = []
         if !entry.invNo.isEmpty { parts.append("#" + entry.invNo) }
         if !entry.date.isEmpty { parts.append(entry.date) }
-        parts.append(String(localized: "total \(Money.format(entry.total))"))
+        if entry.totalOnly {
+            parts.append(String(localized: "trusted supplier, prices not checked"))
+        } else {
+            parts.append(String(localized: "total \(Money.format(entry.total))"))
+        }
         if entry.paid != nil { parts.append(String(localized: "paid")) }
         if !entry.verified { parts.append(String(localized: "not fully checked")) }
         return parts.joined(separator: " · ")
@@ -327,8 +335,11 @@ struct ReportDetailView: View {
                         Toggle("Paid", isOn: Binding(
                             get: { entry.paid != nil },
                             set: { isOn in
-                                let stamp = ISO8601DateFormatter().string(from: Date())
-                                AppData.updateReports([entry.id], context: context) { $0.paid = isOn ? stamp : nil }
+                                if isOn {
+                                    Accounts.shared.markPaid([entry], context: context)
+                                } else {
+                                    Accounts.shared.markUnpaid([entry.id], context: context)
+                                }
                             }
                         ))
                     }

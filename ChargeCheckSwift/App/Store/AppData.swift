@@ -33,7 +33,8 @@ enum AppData {
             settings.shops = shops
             settings.shop = Shops.current
         }
-        return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans)
+        return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans,
+                          payments: Accounts.shared.payments, trusted: Accounts.shared.trusted)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -51,6 +52,7 @@ enum AppData {
             context.insert(StoredReport(entry: entry))
         }
         try? context.save()
+        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, context: context)
 
         let defaults = UserDefaults.standard
         if let settings = backup.settings {
@@ -85,7 +87,7 @@ enum AppData {
         let all = entries(context)
         var existing = all.first { $0.id == draft.id }
         if existing == nil {
-            let net = InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
+            let net = draft.totalOnly ? (draft.printedNet ?? draft.printedTotal ?? 0) : InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
             if let same = InvoiceMaths.duplicate(of: draft, net: net, in: all) {
                 existing = same
                 draft.id = same.id

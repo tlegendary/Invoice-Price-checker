@@ -32,6 +32,9 @@ struct RootView: View {
             ReportsView()
                 .tabItem { Label("Reports", systemImage: "chart.bar") }
                 .tag("reports")
+            SuppliersView()
+                .tabItem { Label("Suppliers", systemImage: "shippingbox") }
+                .tag("suppliers")
             SettingsView(showPaywall: $showPaywall)
                 .tabItem { Label("Settings", systemImage: "gearshape") }
                 .tag("settings")
@@ -49,6 +52,7 @@ struct RootView: View {
                 showCarriedOver = carriedOver > 0
             }
             session.onSaved = {
+                Accounts.shared.changed(context)
                 AutoBackup.run(context, scans: store.ledger.forBackup)
                 askForRating()
             }
@@ -63,6 +67,7 @@ struct RootView: View {
                 }
                 AutoBackup.run(context, scans: store.ledger.forBackup)
             }
+            Accounts.shared.changed(context)
             store.start()
             await store.refresh()
             // first open without a subscription: show the plans once. Closing them carries on with the free version.
