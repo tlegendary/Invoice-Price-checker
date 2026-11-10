@@ -14,6 +14,12 @@
         }
       }
     },
+    "%@ per month. Payment is charged to your Apple ID when you confirm." : {
+
+    },
+    "%@ per year. Payment is charged to your Apple ID when you confirm." : {
+
+    },
     "%@ · overcharged %@" : {
       "localizations" : {
         "en" : {
@@ -40,6 +46,12 @@
     "%lld" : {
 
     },
+    "%lld files couldn't be opened." : {
+
+    },
+    "%lld invoices weren't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
+
+    },
     "%lld lines" : {
 
     },
@@ -62,6 +74,12 @@
           }
         }
       }
+    },
+    "%lld of your prices were lowered to the cheaper prices on this invoice." : {
+
+    },
+    "%lld photos couldn't be opened." : {
+
     },
     "%lld prices and %lld reports. This replaces the prices and reports on this phone." : {
       "localizations" : {
@@ -94,6 +112,9 @@
     "1" : {
 
     },
+    "1 invoice wasn't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
+
+    },
     "1 line" : {
 
     },
@@ -122,6 +143,12 @@
 
     },
     "7-day free trial, then %@" : {
+
+    },
+    "7-day free trial, then %@ per month. Payment is charged to your Apple ID when you confirm (after the free trial ends)." : {
+
+    },
+    "7-day free trial, then %@ per year. Payment is charged to your Apple ID when you confirm (after the free trial ends)." : {
 
     },
     "A backup holds your prices, reports and settings. One is kept automatically in the Files app › On My iPhone › ChargeCheck, with a copy for each of the last 14 days." : {
@@ -157,6 +184,9 @@
     "Add a shop, e.g. High Street" : {
 
     },
+    "Add the lines by hand with “Add a line”." : {
+
+    },
     "Add the prices you agreed with your suppliers. Tap + to add one, or use the ••• menu to paste a whole list." : {
 
     },
@@ -187,16 +217,37 @@
     "App Store" : {
 
     },
+    "App Store error: %@" : {
+
+    },
     "App language" : {
 
     },
     "Appearance" : {
 
     },
+    "Apple Intelligence is still downloading. It will be used once it's ready." : {
+
+    },
+    "Apple Intelligence isn't available right now." : {
+
+    },
     "Automatic" : {
 
     },
     "Automatic backup" : {
+
+    },
+    "Backup restored, with %lld unused scans." : {
+
+    },
+    "Backup restored." : {
+
+    },
+    "Backups will now also be saved in %@." : {
+
+    },
+    "Breakdown copied. Paste it into a message to your supplier." : {
 
     },
     "Business name" : {
@@ -230,6 +281,9 @@
 
     },
     "Checking" : {
+
+    },
+    "Checking with Apple Intelligence…" : {
 
     },
     "Checking…" : {
@@ -272,6 +326,9 @@
 
     },
     "Copy the credit request" : {
+
+    },
+    "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand." : {
 
     },
     "Credit request" : {
@@ -325,6 +382,9 @@
     "Double-check with Apple Intelligence" : {
 
     },
+    "Double-checking (2 of 2)…" : {
+
+    },
     "Edit" : {
 
     },
@@ -332,6 +392,9 @@
 
     },
     "Euro (€)" : {
+
+    },
+    "Every invoice double-checked before you see the result" : {
 
     },
     "Every invoice you check is kept here, with what each supplier overcharged." : {
@@ -356,6 +419,9 @@
 
     },
     "Free version" : {
+
+    },
+    "Free version (1 ad per scan)" : {
 
     },
     "Go unlimited" : {
@@ -442,6 +508,9 @@
     "Language and money" : {
 
     },
+    "Last month's invoice report is ready" : {
+
+    },
     "Last saved there" : {
 
     },
@@ -509,6 +578,9 @@
     "Name, e.g. Chicken Wings 10kg" : {
 
     },
+    "Needs iOS 26 or newer." : {
+
+    },
     "Net" : {
 
     },
@@ -516,6 +588,15 @@
 
     },
     "New items are added at the price on this invoice, so you'll be told if it goes up next time." : {
+
+    },
+    "New line" : {
+
+    },
+    "No active subscription was found for this Apple ID." : {
+
+    },
+    "No ad is available right now, so no scan was added. Check your connection and try again. (%@)" : {
 
     },
     "No checked invoices in this period." : {
@@ -539,6 +620,9 @@
     "Not in my price list" : {
 
     },
+    "Not loaded yet" : {
+
+    },
     "Not now" : {
 
     },
@@ -554,6 +638,9 @@
     "Nothing was charged above your agreed prices." : {
 
     },
+    "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder." : {
+
+    },
     "Number" : {
 
     },
@@ -566,7 +653,13 @@
     "On the invoice" : {
 
     },
+    "One file couldn't be opened." : {
+
+    },
     "One item per line with its price at the end, for example: Chicken wings 10kg %@" : {
+
+    },
+    "One photo couldn't be opened." : {
 
     },
     "One shop" : {
@@ -579,6 +672,9 @@
 
     },
     "Only needed if you have more than one shop. Each invoice is filed under a shop, and Reports can show each shop on its own. Your prices are shared by all shops." : {
+
+    },
+    "Open ChargeCheck › Reports › Export to send it to your accountant." : {
 
     },
     "Open a spreadsheet or text file (CSV)" : {
@@ -668,6 +764,12 @@
     "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with." : {
 
     },
+    "Reading invoice (1 of 2)…" : {
+
+    },
+    "Reading invoice…" : {
+
+    },
     "Remove" : {
 
     },
@@ -725,6 +827,9 @@
     "Scan an invoice" : {
 
     },
+    "Scan photo or PDF invoices – read on your phone, works offline" : {
+
+    },
     "Scans left" : {
 
     },
@@ -732,6 +837,9 @@
 
     },
     "Search your price list" : {
+
+    },
+    "See exactly how much each supplier overcharged you" : {
 
     },
     "Select all" : {
@@ -806,7 +914,31 @@
     "Test mode: use the free version" : {
 
     },
+    "That folder couldn't be used. Please choose another one." : {
+
+    },
+    "That invoice couldn't be read, so your scan was given back." : {
+
+    },
+    "That isn't a ChargeCheck backup file." : {
+
+    },
+    "The App Store couldn't verify this purchase." : {
+
+    },
+    "The ad was closed before the end, so no scan was added." : {
+
+    },
+    "The backup couldn't be made. Please try again." : {
+
+    },
+    "The backup couldn't be saved. Please try again." : {
+
+    },
     "The copy of the original invoice in the Files app is kept." : {
+
+    },
+    "The file couldn't be made. Please try again." : {
 
     },
     "The free version gives you one scan for each ad you watch to the end." : {
@@ -828,6 +960,15 @@
     "The plans couldn't be loaded from the App Store. Check your internet connection and try again." : {
 
     },
+    "The purchase didn't finish." : {
+
+    },
+    "The purchase didn't go through. %@" : {
+
+    },
+    "The sample invoice is missing from the app." : {
+
+    },
     "The second read gave %@ × %@." : {
       "localizations" : {
         "en" : {
@@ -837,6 +978,9 @@
           }
         }
       }
+    },
+    "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer)." : {
+
     },
     "This is a different item" : {
 
@@ -853,6 +997,12 @@
     "Try again" : {
 
     },
+    "Trying the photo another way round…" : {
+
+    },
+    "Turn on Apple Intelligence in the Settings app to use this." : {
+
+    },
     "Type by hand" : {
 
     },
@@ -863,6 +1013,15 @@
 
     },
     "Unit price %@" : {
+
+    },
+    "Unlimited scans, no ads" : {
+
+    },
+    "Unlimited – monthly" : {
+
+    },
+    "Unlimited – yearly" : {
 
     },
     "Untick anything you don't want moved" : {
@@ -895,6 +1054,12 @@
     "Yearly" : {
 
     },
+    "You can turn this off in Settings." : {
+
+    },
+    "You have no scans left. Watch an ad or buy scans to check this invoice." : {
+
+    },
     "You paid %@ less than your agreed prices." : {
 
     },
@@ -922,7 +1087,23 @@
     "Your price %@" : {
 
     },
+    "Your price for %@ was lowered from %@ to %@, the cheaper price on this invoice." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Your price for %1$@ was lowered from %2$@ to %3$@, the cheaper price on this invoice."
+          }
+        }
+      }
+    },
     "Your prices are here" : {
+
+    },
+    "Your purchase is waiting for approval. It will be added as soon as it's approved." : {
+
+    },
+    "Your purchase is waiting for approval. The scans will be added as soon as it's approved." : {
 
     },
     "Your reports are kept. This can't be undone, so save a backup first in Settings." : {
@@ -934,6 +1115,12 @@
     "Your shops" : {
 
     },
+    "Your subscription is active." : {
+
+    },
+    "Your subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel any time in your App Store account settings." : {
+
+    },
     "dd/mm/yyyy" : {
 
     },
@@ -943,7 +1130,19 @@
     "iCloud backup" : {
 
     },
+    "not fully checked" : {
+
+    },
+    "not yet" : {
+
+    },
     "off" : {
+
+    },
+    "paid" : {
+
+    },
+    "total %@" : {
 
     },
     "·" : {
