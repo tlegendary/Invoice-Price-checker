@@ -71,3 +71,45 @@ enum ImageTools {
         return images
     }
 }
+
+/// Why a photo might have been hard to read. Only used to word the "couldn't read" message.
+enum PhotoProblem {
+    case dark
+    case blurry
+}
+
+extension ImageTools {
+    /// A quick look at a photo: is it too dark, or blurry? Works on a small grey copy, so it is fast.
+    static func problem(with image: UIImage) -> PhotoProblem? {
+        guard let picture = image.cgImage, picture.width > 0, picture.height > 0 else { return nil }
+        let width = 256
+        let height = max(16, min(1024, Int(Double(width) * Double(picture.height) / Double(picture.width))))
+        var pixels = [UInt8](repeating: 0, count: width * height)
+        let drawn: Bool = pixels.withUnsafeMutableBytes { buffer in
+            guard let grey = CGContext(data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8,
+                                       bytesPerRow: width, space: CGColorSpaceCreateDeviceGray(),
+                                       bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return false }
+            grey.interpolationQuality = .medium
+            grey.draw(picture, in: CGRect(x: 0, y: 0, width: width, height: height))
+            return true
+        }
+        guard drawn else { return nil }
+        let brightness = pixels.reduce(0.0) { $0 + Double($1) } / Double(pixels.count)
+        if brightness < 70 { return .dark }
+        // sharpness: how sharply each pixel differs from its neighbours (the spread of the Laplacian)
+        var sum = 0.0, sumOfSquares = 0.0, count = 0.0
+        for y in 1..<(height - 1) {
+            for x in 1..<(width - 1) {
+                let i = y * width + x
+                let edge = 4 * Double(pixels[i]) - Double(pixels[i - 1]) - Double(pixels[i + 1])
+                    - Double(pixels[i - width]) - Double(pixels[i + width])
+                sum += edge
+                sumOfSquares += edge * edge
+                count += 1
+            }
+        }
+        guard count > 0 else { return nil }
+        let spread = sumOfSquares / count - (sum / count) * (sum / count)
+        return spread < 60 ? .blurry : nil
+    }
+}

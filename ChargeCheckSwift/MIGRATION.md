@@ -9,7 +9,7 @@ is ready and Ramyar says to switch.
 - Same bundle ID (`com.rjapps.invoicepricechecker`), app name and App Store products
 - Needs iOS 17 or later (for SwiftData)
 - Cloud check: GitHub Actions (`.github/workflows/swift-check.yml`) runs the tests and
-  builds the app on every push to `swift-rewrite`. Short logs are kept on the `ci-logs` branch.
+  builds the app on every push to `swift-rewrite` and to `improve/…` branches. Short logs are kept on the `ci-logs` branch.
   It never uploads to the App Store.
 
 ## Stages
@@ -26,7 +26,7 @@ is ready and Ramyar says to switch.
   - [x] Backup and restore through the Files app (same file format as the old app)
   - [x] First launch brings over prices and reports from the old app automatically
   - [x] Light / dark / automatic and 8 colours
-  - [ ] Import Excel / CSV
+  - [x] Import CSV (stage 6) · [ ] Excel (.xlsx) files
   - [ ] Special prices per supplier (kept in the data, no screen yet)
 - [x] **3. Scanning + OCR + price matching**
   - [x] Document camera (VisionKit, several pages), photos, PDFs and files, type by hand
@@ -38,8 +38,9 @@ is ready and Ramyar says to switch.
   - [x] Saved to Reports once every line is checked; the same invoice is never saved twice
   - [x] Learns the user's name corrections and how each supplier writes an item
   - [x] Sample invoice (read for real by the cloud check on every change)
-  - [ ] Lower my price automatically when a checked invoice is cheaper (old app did this)
-  - [ ] Photo quality hints (dark / blurry), exact text from PDFs that contain text
+  - [x] Lower my price automatically when a checked invoice is cheaper (done in stage 6)
+  - [x] Photo quality hints: when nothing could be read, says if the photo was too dark or blurry (11 Nov 2026)
+  - [ ] Exact text from PDFs that contain text (instead of reading a picture of the page)
   - [ ] Arabic text (needs Ramyar's decision; Kurdish Sorani is not supported by Apple's reader)
 - [x] **4. Subscriptions + free version with ads**
   - [x] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore purchases
