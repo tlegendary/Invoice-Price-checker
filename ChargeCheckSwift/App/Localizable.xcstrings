@@ -10223,6 +10223,62 @@
         }
       }
     },
+    "The photo looks blurry. Hold the phone still and let it focus before taking the photo, or add the lines by hand.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة غير واضحة. ثبّت الهاتف وانتظر حتى يضبط التركيز قبل التصوير، أو أضف البنود يدويًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکە ناڕوونە. مۆبایلەکە ڕاگرە و با فۆکەس بکات پێش ئەوەی وێنە بگریت، یان دێڕەکان بە دەست زیاد بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Foto ist unscharf. Halte das Handy ruhig und lass es scharf stellen, bevor du fotografierst, oder füge die Positionen von Hand hinzu."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La photo est floue. Tenez le téléphone immobile et laissez-le faire la mise au point avant de prendre la photo, ou ajoutez les lignes à la main."
+          }
+        }
+      }
+    },
+    "The photo looks too dark to read. Take it again in brighter light or with the flash, or add the lines by hand.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة مظلمة جدًا ولا يمكن قراءتها. أعد التصوير في إضاءة أقوى أو باستخدام الفلاش، أو أضف البنود يدويًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکە زۆر تاریکە و ناخوێندرێتەوە. لە ڕووناکییەکی زیاتردا یان بە فلاش دووبارە بیگرەوە، یان دێڕەکان بە دەست زیاد بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Foto ist zu dunkel zum Lesen. Fotografiere es bei mehr Licht oder mit Blitz noch einmal oder füge die Positionen von Hand hinzu."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La photo est trop sombre pour être lue. Reprenez-la avec plus de lumière ou avec le flash, ou ajoutez les lignes à la main."
+          }
+        }
+      }
+    },
     "The plans couldn't be loaded from the App Store. Check your internet connection and try again.": {
       "localizations": {
         "ar": {

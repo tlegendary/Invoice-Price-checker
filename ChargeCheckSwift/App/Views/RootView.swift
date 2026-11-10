@@ -74,6 +74,8 @@ struct RootView: View {
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
+            if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
         }
         .alert("Price lowered", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
             Button("Undo") { session.undoLowered(note, context: context) }
