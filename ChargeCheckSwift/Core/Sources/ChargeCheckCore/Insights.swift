@@ -200,3 +200,89 @@ public enum Insights {
             }
     }
 }
+
+/// A supplier charged more for an item than the last time you bought it from them.
+public struct PriceRise: Identifiable, Equatable, Sendable {
+    public var id: String { supplier + "|" + item + "|" + when }
+    public var item: String
+    public var supplier: String
+    public var from: Double
+    public var to: Double
+    /// When the higher price was charged, and when the old one was ("yyyy-MM-dd…").
+    public var when: String
+    public var before: String
+    /// The invoice with the higher price.
+    public var invoiceID: String
+
+    public var percent: Double { from > 0 ? (to - from) / from * 100 : 0 }
+
+    public init(item: String, supplier: String, from: Double, to: Double, when: String, before: String, invoiceID: String) {
+        self.item = item
+        self.supplier = supplier
+        self.from = from
+        self.to = to
+        self.when = when
+        self.before = before
+        self.invoiceID = invoiceID
+    }
+}
+
+extension Insights {
+    /// Same item, whatever the line says: its price-list item if matched, otherwise its name.
+    public static func itemKey(matchId: String?, name: String) -> String? {
+        if let matchId, !matchId.isEmpty { return "id:" + matchId }
+        let key = SupplierAccounts.key(name)
+        return key.isEmpty ? nil : "name:" + key
+    }
+
+    /// Smaller changes than this are rounding, not a rise.
+    static let riseThreshold = 0.5   // percent
+
+    /// Every time a supplier charged more than the time before, newest first. `since` limits it to rises on or after that day.
+    public static func priceRises(_ entries: [HistoryEntry], since: String? = nil) -> [PriceRise] {
+        let oldestFirst = entries.filter { !$0.totalOnly && !$0.supplier.isEmpty }.sorted { $0.savedAt < $1.savedAt }
+        var last: [String: (unit: Double, when: String)] = [:]
+        var rises: [PriceRise] = []
+        for entry in oldestFirst {
+            let who = SupplierAccounts.key(entry.supplier)
+            var seenHere = Set<String>()
+            for line in entry.lines where !line.excluded && line.unit > 0 {
+                let name = line.item.isEmpty ? line.desc : line.item
+                guard let key = itemKey(matchId: line.matchId, name: name), seenHere.insert(key).inserted else { continue }
+                let slot = who + "|" + key
+                if let previous = last[slot], line.unit > previous.unit + 0.005,
+                   (line.unit - previous.unit) / previous.unit * 100 >= riseThreshold {
+                    rises.append(PriceRise(item: name, supplier: entry.supplier, from: previous.unit, to: line.unit,
+                                           when: entry.savedAt, before: previous.when, invoiceID: entry.id))
+                }
+                last[slot] = (line.unit, entry.savedAt)
+            }
+        }
+        let shown = since.map { day in rises.filter { $0.when >= day } } ?? rises
+        return shown.sorted { $0.when != $1.when ? $0.when > $1.when : $0.percent > $1.percent }
+    }
+
+    /// The rises on an invoice being checked, against the last time each item was bought from this supplier.
+    public static func priceRises(on lines: [CheckLine], supplier: String, history: [HistoryEntry], excluding invoiceID: String) -> [PriceRise] {
+        let who = SupplierAccounts.key(supplier)
+        guard !who.isEmpty else { return [] }
+        let earlier = history.filter { $0.id != invoiceID && !$0.totalOnly && SupplierAccounts.key($0.supplier) == who }
+            .sorted { $0.savedAt > $1.savedAt }
+        var rises: [PriceRise] = []
+        var seen = Set<String>()
+        for line in lines where !line.excluded && line.unit > 0 {
+            guard let key = itemKey(matchId: line.matchId, name: line.desc), seen.insert(key).inserted else { continue }
+            for entry in earlier {
+                guard let old = entry.lines.first(where: { old in
+                    !old.excluded && old.unit > 0 && itemKey(matchId: old.matchId, name: old.item.isEmpty ? old.desc : old.item) == key
+                }) else { continue }
+                if line.unit > old.unit + 0.005, (line.unit - old.unit) / old.unit * 100 >= riseThreshold {
+                    rises.append(PriceRise(item: line.desc, supplier: supplier, from: old.unit, to: line.unit, when: "",
+                                           before: entry.savedAt, invoiceID: invoiceID))
+                }
+                break
+            }
+        }
+        return rises.sorted { $0.percent > $1.percent }
+    }
+}

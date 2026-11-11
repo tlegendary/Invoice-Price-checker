@@ -175,8 +175,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
   on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
   after #7 is merged and the check is green.
-- Features chat (12 Nov 2026): on F2 (branch `feature/f2-supplier-prices`, built on F1's branch). Touches
-  `PriceEditView.swift` (a "Special prices" section) besides its own files. F1 is pull request #9.
+- Features chat (12 Nov 2026): on F3 (branch `feature/f3-price-rises`, built on F2's). Adds a "price rises" section to
+  `InvoiceDetailView.swift`. F1 = PR #9, F2 = PR #15.
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container

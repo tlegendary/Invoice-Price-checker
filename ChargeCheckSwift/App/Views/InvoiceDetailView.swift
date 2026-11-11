@@ -16,6 +16,7 @@ struct InvoiceDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Query private var prices: [StoredPrice]
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @State private var editing: LineDraft?
     @State private var checkingDelivery = false
 
@@ -195,6 +196,10 @@ struct InvoiceDetailView: View {
                 if missing > 0 && !job.isSample {
                     Text("New items are added at the price on this invoice, so you'll be told if it goes up next time.")
                 }
+            }
+            if !job.isSample {
+                PriceRiseSection(rises: Insights.priceRises(on: job.draft.lines, supplier: job.draft.supplier,
+                                                            history: reports.compactMap { $0.entry }, excluding: job.draft.id))
             }
             Section {
                 Button {
