@@ -125,6 +125,32 @@ is ready and Ramyar says to switch.
 ## Left out on purpose
 - Licence keys: not needed in the Swift app (Ramyar, 11 Nov 2026). App Store plans, scan packs and ads only.
 
+## Working together (two Claude chats work on this app)
+
+Ramyar runs two chats on this code. They can't see each other, so this section is how they stay in step.
+**Read it before starting, and update "Now working on" when you start and finish.**
+
+- **Features chat**: new features (payments, suppliers, delivery check, credit notes, tips, summaries).
+- **Review chat** (`/improve-system`): reviews, bug fixes, speed, reading/matching accuracy, settings for how invoices are read,
+  and **sending beta builds**.
+
+Rules for both:
+1. **Only the review chat sends beta builds** (changes `ChargeCheckSwift/.beta-build`). The features chat tells Ramyar
+   "ready for a build" instead. This stops a build picking up half-finished work.
+2. **Never push to `swift-rewrite` while its cloud check is red or still running from your own last push.** Push work that
+   builds; fix a red check before anything else.
+3. **Work on your own branch** (`feature/...` or `improve/...`), bring in the latest `swift-rewrite` (merge it into your
+   branch) before asking Ramyar to merge, and keep changes small.
+4. **Stay out of the other chat's files where you can.** If you must change them, say so in "Now working on".
+5. **`Localizable.xcstrings`**: only add keys, keep them sorted, never reformat the file. On a conflict keep both sides' keys.
+6. The rules at the bottom of this file apply to both chats.
+
+### Now working on
+- Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
+  on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
+  after #7 is merged and the check is green.
+- Features chat: (write here what you are on)
+
 ## Rules
 
 - ChargeCheck Beta (TestFlight) builds: go ahead without asking (Ramyar, 11 Nov 2026).
