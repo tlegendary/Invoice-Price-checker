@@ -1880,6 +1880,34 @@
         }
       }
     },
+    "Also check with Apple Intelligence": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق أيضًا بواسطة Apple Intelligence"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەروەها پشکنین بە Apple Intelligence"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zusätzlich mit Apple Intelligence prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier aussi avec Apple Intelligence"
+          }
+        }
+      }
+    },
     "Also kept in the Files app › On My iPhone › ChargeCheck › Exports.": {
       "localizations": {
         "ar": {
@@ -5941,6 +5969,34 @@
         }
       }
     },
+    "How invoices are read": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طريقة قراءة الفواتير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چۆنیەتی خوێندنەوەی پسوولەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "So werden Rechnungen gelesen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture des factures"
+          }
+        }
+      }
+    },
     "How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it.": {
       "localizations": {
         "ar": {
@@ -9140,6 +9196,34 @@
         }
       }
     },
+    "Once (faster)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرة واحدة (أسرع)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەک جار (خێراتر)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einmal (schneller)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une fois (plus rapide)"
+          }
+        }
+      }
+    },
     "One file couldn't be opened.": {
       "localizations": {
         "ar": {
@@ -11049,6 +11133,34 @@
         }
       }
     },
+    "Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُخفَّض الأسعار فقط للأصناف الموجودة في قائمتك، وفقط في فاتورة تم فحصها بالكامل، ولا تُرفع أبدًا. يمكنك التراجع في كل مرة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکان تەنها بۆ ئەو کاڵایانە کەم دەکرێنەوە کە لە لیستەکەتدان، تەنها لە پسوولەیەکی تەواو پشکنراودا، و هەرگیز بەرز ناکرێنەوە. هەموو جارێک دەتوانیت پاشگەزی بکەیتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preise werden nur für Artikel in deiner Liste gesenkt, nur bei einer vollständig geprüften Rechnung, und nie erhöht. Du kannst es jedes Mal rückgängig machen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les prix ne sont baissés que pour les articles déjà dans votre liste, uniquement sur une facture entièrement vérifiée, et jamais augmentés. Vous pouvez annuler à chaque fois."
+          }
+        }
+      }
+    },
     "Prices that went up": {
       "extractionState": "manual",
       "localizations": {
@@ -11274,6 +11386,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Revérifier les articles qui ont déjà une catégorie"
+          }
+        }
+      }
+    },
+    "Read each photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قراءة كل صورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خوێندنەوەی هەر وێنەیەک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jedes Foto lesen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture de chaque photo"
           }
         }
       }
@@ -14936,6 +15076,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Activez Apple Intelligence dans l’app Réglages pour utiliser cette fonction."
+          }
+        }
+      }
+    },
+    "Twice (double-checked)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرتين (تحقق مزدوج)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو جار (دووبارە پشکنین)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zweimal (doppelt geprüft)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deux fois (double vérification)"
+          }
+        }
+      }
+    },
+    "Twice is safest: the photo is read two different ways and the app points out any line where the two reads differ. Once is about twice as fast.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price. It makes a scan slower.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القراءة مرتين هي الأكثر أمانًا: تُقرأ الصورة بطريقتين مختلفتين ويشير التطبيق إلى أي بند تختلف فيه القراءتان. القراءة مرة واحدة أسرع بنحو الضعف.\n\nApple Intelligence يصحح الأسماء المقروءة خطأً ويختار الصنف الصحيح من قائمتك، على هاتفك وبدون إنترنت. لا يغيّر أبدًا كمية أو سعرًا. يجعل المسح أبطأ."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو جار سەلامەتترینە: وێنەکە بە دوو شێوازی جیاواز دەخوێندرێتەوە و ئەپەکە هەر دێڕێک دیاری دەکات کە دوو خوێندنەوەکە تێیدا جیاوازن. یەک جار نزیکەی دوو هێندە خێراترە.\n\nApple Intelligence ناوە هەڵە خوێندراوەکان ڕاست دەکاتەوە و کاڵای دروست لە لیستەکەت هەڵدەبژێرێت، لەسەر ئایفۆنەکەت و بەبێ ئینتەرنێت. هەرگیز بڕ یان نرخ ناگۆڕێت. سکانەکە خاوتر دەکات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zweimal ist am sichersten: Das Foto wird auf zwei verschiedene Arten gelesen und die App zeigt jede Zeile, in der sich die beiden Lesungen unterscheiden. Einmal ist etwa doppelt so schnell.\n\nApple Intelligence korrigiert falsch gelesene Namen und wählt den richtigen Artikel aus deiner Liste, auf deinem iPhone und offline. Mengen und Preise werden nie geändert. Der Scan dauert dadurch länger."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deux fois est le plus sûr : la photo est lue de deux façons différentes et l’app signale toute ligne où les deux lectures diffèrent. Une fois est environ deux fois plus rapide.\n\nApple Intelligence corrige les noms mal lus et choisit le bon article dans votre liste, sur votre iPhone et hors ligne. Il ne modifie jamais une quantité ni un prix. Il ralentit le scan."
           }
         }
       }
