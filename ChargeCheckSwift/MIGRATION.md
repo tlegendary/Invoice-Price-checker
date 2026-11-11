@@ -110,6 +110,8 @@ is ready and Ramyar says to switch.
 - [x] To pay: "Including VAT / Before VAT" switch (shops that aren't VAT registered), split shown, breakdown follows it
 - [x] Credits per invoice: asked for → received, reminder after 14 days, totals on Reports (old app's data format)
 - [x] Optional lock with Face ID / Touch ID / passcode (Settings). The lock is its own window, so it also covers open sheets
+- [x] Faster scans: both reads of the photo and the table reader run at the same time; Apple Intelligence only checks
+      lines that need it (no clear match, reads differed, or a misread-looking name)
 - [x] Item names in any alphabet match: Arabic / Kurdish letter variants and digits, accents (é, ü, ß), Arabic "ال"
 - [x] Siri / Spotlight / Shortcuts: "Check an invoice" opens the camera scanner
 - [x] Photo tips when nothing could be read (too dark / blurry); scan given back if no product lines at all
