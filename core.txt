@@ -1,33 +1,140 @@
-commit: 77e2caa81eecf2e4d96ddf5bb3cb88ecd4596398
+commit: daf1d66e445b357c4b3d75892cb25c6377bd37e4
 result: failure
-when: Wed Nov 11 22:03:30 UTC 2026
+when: Wed Nov 11 22:11:56 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
 Building for debugging...
-[Computing dependencies]
 [Pre-planning 1 / 154]
 [Planning deferred tasks]
+[34 / 57] ChargeCheckCore
 [39 / 62] ChargeCheckCore
-[49 / 69] ChargeCheckCore
-error: SwiftCompile normal x86_64 /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/InsightTests.swift failed with a nonzero exit code. Command line:     cd /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile InsightTests.swift
-/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/InsightTests.swift:11:130: [1;31merror: [1;39mmissing argument for parameter 'over' in call[0;0m
-  [0;36m9 |[0;0m     private func entry(_ id: String, _ supplier: String, _ savedAt: String, _ lines: [HistoryLine], shop: String = "") -> HistoryEntry {
- [0;36m10 |[0;0m         let net = lines.reduce(0) { $0 + $1.qty * $1.unit }
- [0;36m11 |[0;0m         return HistoryEntry(id: id, savedAt: savedAt, shopId: shop, supplier: supplier, invNo: id, date: "", net: net, total: net, lines: lines)
-    [0;36m|[0;0m                                                                                                                                  `- [1;31merror: [1;39mmissing argument for parameter 'over' in call[0;0m
- [0;36m12 |[0;0m     }
- [0;36m13 |[0;0m 
+[50 / 69] ChargeCheckCoreTests-product
+[51 / 69] ChargeCheckCoreTests-product
+[58 / 69] ChargeCheckCoreTests-product
+[62 / 70] ChargeCheckCoreTests-product
+[63 / 70] ChargeCheckCoreTests-test-runner
+[66 / 73] ChargeCheckCoreTests-test-runner
+[70 / 73] ChargeCheckCoreTests-test-runner
+[74 / 74] ChargeCheckCoreTests-test-runner
+Build complete! (9.67 secs)
+Test Suite 'All tests' started at 2026-11-11 22:11:54.216
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-11 22:11:54.217
+Test Suite 'CoreTests' started at 2026-11-11 22:11:54.217
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-11 22:11:54.217
+Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.002 seconds)
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-11 22:11:54.218
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.097 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-11 22:11:54.315
+Test Case 'CoreTests.testCategories' passed (0.001 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-11 22:11:54.316
+Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
+Test Case 'CoreTests.testMoney' started at 2026-11-11 22:11:54.317
+Test Case 'CoreTests.testMoney' passed (0.0 seconds)
+Test Case 'CoreTests.testNorm' started at 2026-11-11 22:11:54.317
+Test Case 'CoreTests.testNorm' passed (0.0 seconds)
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-11 22:11:54.317
+Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
+Test Case 'CoreTests.testSupplier' started at 2026-11-11 22:11:54.318
+Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
+Test Suite 'CoreTests' passed at 2026-11-11 22:11:54.318
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'InsightTests' started at 2026-11-11 22:11:54.318
+Test Case 'InsightTests.testCheaperSupplier' started at 2026-11-11 22:11:54.318
+/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/InsightTests.swift:26: error: InsightTests.testCheaperSupplier : XCTAssertEqual failed: ("0") is not equal to ("2") - 
+Swift/ContiguousArrayBuffer.swift:695: Fatal error: Index out of range
 
-/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Sources/ChargeCheckCore/Models.swift:188:12: [1;39mnote: [1;39m'init(id:savedAt:shopId:supplier:invNo:date:net:total:over:overVat:excluded:verified:paid:file:credit:lines:totalOnly:)' declared here[0;0m
-[0;36m186 |[0;0m     public var totalOnly: Bool
-[0;36m187 |[0;0m 
-[0;36m188 |[0;0m     public init(id: String = UUID().uuidString, savedAt: String = ISO8601DateFormatter().string(from: Date()), shopId: String = "",
-    [0;36m|[0;0m            `- [1;39mnote: [1;39m'init(id:savedAt:shopId:supplier:invNo:date:net:total:over:overVat:excluded:verified:paid:file:credit:lines:totalOnly:)' declared here[0;0m
-[0;36m189 |[0;0m                 supplier: String, invNo: String = "", date: String = "", net: Double, total: Double, over: Double, overVat: Double = 0,
-[0;36m190 |[0;0m                 excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine],
-Failed frontend command:
-/usr/share/swift/usr/bin/swift-frontend -frontend -c /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/DerivedSources/resource_bundle_accessor.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/DerivedSources/test_anchor.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/CoreTests.swift -primary-file /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/InsightTests.swift -primary-file /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/LanguageTests.swift -primary-file /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/LedgerTests.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/ParserTests.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/PriceToolsTests.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/ReportTests.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/SecondReadTests.swift /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/SupplierAccountTests.swift -supplementary-output-file-map /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/supplementaryOutputs-6 -target x86_64-unknown-linux-gnu -disable-objc-interop -I /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64 -module-cache-path /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/ModuleCache.noindex -color-diagnostics -Xcc -fcolor-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -swift-version 5 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE -D Xcode -serialize-debugging-options -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /usr/share/swift/usr/lib/swift/host/plugins/testing\#/usr/share/swift/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift -enable-anonymous-context-mangled-names -file-compilation-dir /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -Xcc -I/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64/include -Xcc -I/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/DerivedSources-normal/x86_64 -Xcc -I/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/DerivedSources/x86_64 -Xcc -I/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name ChargeCheckCoreTests -package-name core -const-gather-protocols-file /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/ChargeCheckCoreTests_const_extract_protocols.json -in-process-plugin-server-path /usr/share/swift/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /usr/share/swift/usr/lib/swift/host/plugins -plugin-path /usr/share/swift/usr/local/lib/swift/host/plugins -parse-as-library -o /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/InsightTests.o -o /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/LanguageTests.o -o /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Intermediates.noindex/ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/LedgerTests.o -index-unit-output-path /ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/InsightTests.o -index-unit-output-path /ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/LanguageTests.o -index-unit-output-path /ChargeCheckCore.build/Debug-linux-x86_64/ChargeCheckCoreTests-p.build/Objects-normal/x86_64/LedgerTests.o -index-store-path /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out -index-system-modules
-error: Build failed
-error: fatalError
+*** Signal 4: Backtracing from 0x7fcf80b731ef... done ***
+
+*** Program crashed: Illegal instruction at 0x00007fcf80b731ef ***
+
+Platform: x86_64 Linux (Ubuntu 24.04.5 LTS)
+
+Thread 0 "ChargeCheckCore" crashed:
+
+0               0x00007fcf80b731ef closure #1 in closure #1 in _assertionFailure(_:_:file:line:flags:) + 623 in libswiftCore.so
+1 [ra]          0x00007fcf80d0a2cc _assertionFailure(_:_:file:line:flags:) + 283 in libswiftCore.so
+2 [ra]          0x00007fcf80b9188d Array.subscript.getter + 124 in libswiftCore.so
+3 [ra] [system] 0x00007fcf812034b7 implicit closure #3 in InsightTests.testCheaperSupplier() + 38 in ChargeCheckCoreTests.so at //<compiler-generated>
+4 [ra] [thunk]  0x00007fcf8120352f partial apply for implicit closure #3 in InsightTests.testCheaperSupplier() + 14 in ChargeCheckCoreTests.so at //<compiler-generated>
+5 [ra]          0x00007fcf806d104c closure #1 in XCTAssertEqual<A>(_:_:_:file:line:) + 75 in libXCTest.so
+
+Thread 1 "DispatchWorker":
+
+0      0x00007fcf7f098e51 <unknown> in libc.so.6
+1 [ra] 0x00007fcf7f0a4e73 <unknown> in libc.so.6
+2 [ra] 0x00007fcf8076cc31 _dispatch_sema4_timedwait + 80 in libdispatch.so
+3 [ra] 0x00007fcf80765a21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
+4 [ra] 0x00007fcf8076534e _dispatch_worker_thread + 1069 in libdispatch.so
+5 [ra] 0x00007fcf7f09cb84 <unknown> in libc.so.6
+
+Thread 2 "DispatchWorker":
+
+0      0x00007fcf7f12a2d2 <unknown> in libc.so.6
+1 [ra] 0x00007fcf8076c537 _dispatch_event_loop_drain + 54 in libdispatch.so
+2 [ra] 0x00007fcf80762022 _dispatch_mgr_invoke + 129 in libdispatch.so
+3 [ra] 0x00007fcf80761f8d _dispatch_mgr_thread + 108 in libdispatch.so
+4 [ra] 0x00007fcf807651b5 _dispatch_worker_thread + 660 in libdispatch.so
+5 [ra] 0x00007fcf7f09cb84 <unknown> in libc.so.6
+
+Thread 3 "DispatchWorker":
+
+0      0x00007fcf7f098e51 <unknown> in libc.so.6
+1 [ra] 0x00007fcf7f0a4e73 <unknown> in libc.so.6
+2 [ra] 0x00007fcf8076cc31 _dispatch_sema4_timedwait + 80 in libdispatch.so
+3 [ra] 0x00007fcf80765a21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
+4 [ra] 0x00007fcf8076534e _dispatch_worker_thread + 1069 in libdispatch.so
+5 [ra] 0x00007fcf7f09cb84 <unknown> in libc.so.6
+
+Thread 4 "DispatchWorker":
+
+0      0x00007fcerror: Process '/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64/ChargeCheckCoreTests-test-runner' exited with unexpected signal code 4
+f7f098e51 <unknown> in libc.so.6
+1 [ra] 0x00007fcf7f0a4e73 <unknown> in libc.so.6
+2 [ra] 0x00007fcf8076cc31 _dispatch_sema4_timedwait + 80 in libdispatch.so
+3 [ra] 0x00007fcf80765a21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
+4 [ra] 0x00007fcf8076534e _dispatch_worker_thread + 1069 in libdispatch.so
+5 [ra] 0x00007fcf7f09cb84 <unknown> in libc.so.6
+
+
+Registers:
+
+rax 0x0000000000000001  1
+rdx 0x00000000000002b7  695
+rcx 0x0000000000000001  1
+rbx 0x000000055d18e070  23036747888
+rsi 0x0000000000000000  0
+rdi 0x000055d18e0708e0  00 00 00 00 00 00 00 00 31 00 00 00 00 00 00 00  ········1·······
+rbp 0x00007ffd9eb53bb0  60 3c b5 9e fd 7f 00 00 cc a2 d0 80 cf 7f 00 00  `<µ·ý···Ì¢Ð·Ï···
+rsp 0x00007ffd9eb53b90  70 e1 03 8e d1 55 00 00 e6 00 00 00 00 00 00 00  pá··ÑU··æ·······
+ r8 0x000055d18dfd9010  07 00 01 00 03 00 06 00 05 00 07 00 07 00 07 00  ················
+ r9 0x0000000000000007  7
+r10 0x000055d18e0708f0  70 e0 18 5d 05 00 00 00 75 ae 2d ab 9b 63 01 c1  pà·]····u®-«·c·Á
+r11 0xc101639bab2dae75  13907506644539780725
+r12 0x0000000000000000  0
+r13 0x00007fcf80fffe98  c8 5f ff 80 cf 7f 00 00 ff ff ff ff 04 00 00 80  È_ÿ·Ï···ÿÿÿÿ····
+r14 0x0000000000000001  1
+r15 0x000000000000000b  11
+rip 0x00007fcf80b731ef  0f 0b 48 83 ec 08 48 8d 05 24 78 49 00 48 8d 3d  ··H·ì·H··$xI·H·=
+
+rflags 0x0000000000010206  PF
+
+cs 0x0033  fs 0x0000  gs 0x0000
+
+
+Images (21 omitted):
+
+0x00007fcf7f000000–0x00007fcf7f1b0039 a4a7992a8e66555c8141ab2a08a8465ff6e0ea65 libc.so.6               /usr/lib/x86_64-linux-gnu/libc.so.6
+0x00007fcf80698000–0x00007fcf806ef748 f3312a5fdfecdada6c72c04a94ad224711d1c7a1 libXCTest.so            /usr/share/swift/usr/lib/swift/linux/libXCTest.so
+0x00007fcf80730000–0x00007fcf807780d0 3874d40e3b354035874e842e883228a08cf5d450 libdispatch.so          /usr/share/swift/usr/lib/swift/linux/libdispatch.so
+0x00007fcf80a00000–0x00007fcf80fd9b70 5efcbc7cd961c4e601daaa68b8cb1e43cb786bc0 libswiftCore.so         /usr/share/swift/usr/lib/swift/linux/libswiftCore.so
+0x00007fcf811ba000–0x00007fcf81320410 153ffee4d3ed9249f90de5c6486be641257a1867 ChargeCheckCoreTests.so /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64/ChargeCheckCoreTests.so
+
+Backtrace took 0.20s
+
+◇ Test run started.
+↳ Testing Library Version: 6.4.2 (288a2328ff84644)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
+Note: Some test targets reported failures:
+  - ChargeCheckCoreTests (XCTest)
