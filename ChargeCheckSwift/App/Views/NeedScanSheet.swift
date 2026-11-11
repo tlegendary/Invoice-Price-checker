@@ -103,8 +103,9 @@ struct NeedScanSheet: View {
                 onEarned()
             case .closedEarly:
                 problem = String(localized: "The ad was closed before the end, so no scan was added.")
-            case .failed(let reason):
-                problem = String(localized: "No ad is available right now, so no scan was added. Check your connection and try again. (\(reason))")
+            case .failed:
+                // the technical reason isn't useful to a shop owner, so it isn't shown
+                problem = String(localized: "No ad is available right now, so no scan was added. Check your connection and try again.")
             }
         }
     }
