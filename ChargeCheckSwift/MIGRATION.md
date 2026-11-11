@@ -127,6 +127,89 @@ is ready and Ramyar says to switch.
 ## Left out on purpose
 - Licence keys: not needed in the Swift app (Ramyar, 11 Nov 2026). App Store plans, scan packs and ads only.
 
+## Working together (two Claude chats work on this app)
+
+Ramyar runs two chats on this code. They can't see each other, so this section is how they stay in step.
+**Read it before starting, and update "Now working on" when you start and finish.**
+
+- **Features chat**: new features (payments, suppliers, delivery check, credit notes, tips, summaries).
+- **Review chat** (`/improve-system`): reviews, bug fixes, speed, reading/matching accuracy, settings for how invoices are read,
+  and **sending beta builds**.
+
+Rules for both:
+1. **Only the review chat sends beta builds** (changes `ChargeCheckSwift/.beta-build`). The features chat tells Ramyar
+   "ready for a build" instead. This stops a build picking up half-finished work.
+2. **Never push to `swift-rewrite` while its cloud check is red or still running from your own last push.** Push work that
+   builds; fix a red check before anything else.
+3. **Work on your own branch** (`feature/...` or `improve/...`), bring in the latest `swift-rewrite` (merge it into your
+   branch) before asking Ramyar to merge, and keep changes small.
+4. **Stay out of the other chat's files where you can.** If you must change them, say so in "Now working on".
+5. **`Localizable.xcstrings`**: only add keys, keep them sorted, never reformat the file. On a conflict keep both sides' keys.
+6. The rules at the bottom of this file apply to both chats.
+
+### The plan (12 Nov 2026) – who does what
+
+Tick an item when it is merged and the cloud check is green. Don't start an item on the other chat's list.
+
+**Review chat** (reading, speed, accuracy, getting ready for the App Store)
+- [ ] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
+- [ ] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
+      so a smaller pack at the same price is caught as an overcharge
+- [ ] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
+- [ ] R4. Excel (.xlsx) price-list import, next to the CSV import
+- [ ] R5. Free scan when no ad can load (for example up to 3 a day) – **only after Ramyar says yes**
+- [ ] R6. Arabic invoices: test real ones, fix what the reader gets wrong; right-to-left layout check of every screen
+- [ ] R7. Accessibility: large text and VoiceOver labels on Check, Reports and the paywall
+- [ ] R8. App Store release checklist: test mode off, test button removed, product IDs checked against App Store Connect,
+      privacy label text, new screenshots, Arabic listing text – **switching the live app needs Ramyar's yes**
+
+**Features chat** (new things the app can do)
+- [ ] F1. Keep the cloud check green after the payments / delivery check / credit notes work
+- [ ] F2. Special prices per supplier: a screen to see and edit them (the data is already there)
+- [ ] F3. Price-rise alerts: "this supplier put X up by 8% since last time", with a list of recent rises per supplier
+- [ ] F4. Compare shops: spend, overcharges and credits per shop side by side (Ramyar has many shops)
+- [ ] F5. Supplier statement check: scan a monthly statement and tick it off against the invoices in Reports
+- [ ] F6. Accountant pack: one export per month with the PDF report plus a CSV of every invoice and payment
+- [ ] F7. First-run guide: three short screens showing scan → check → what to pay, with the sample invoice
+- [ ] F8. Home-screen widget: amount to pay and credits still owed
+
+### Now working on
+- Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
+  on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
+  after #7 is merged and the check is green.
+- Features chat (12 Nov 2026): finished on `swift-rewrite` – supplier payments (how paid, reference, receipt photo,
+  swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary. The tips test fix is
+  in 16a31c8 (Core tests green). **Mistake:** 16a31c8 also changed `.beta-build`, so it started a beta build; it won't happen again.
+  Next: A1 below, once Ramyar has done the Apple setup.
+
+### Plan: who does what (agreed with Ramyar, 12 Nov 2026)
+Each chat takes only its own list, one item at a time, on its own branch. Tick items off here when merged.
+
+**Features chat** (new things; files: `Store/Accounts.swift`, `Views/SuppliersView.swift`, `Views/InsightsViews.swift`,
+`Widget/`, new `Sharing/` folder)
+- [ ] A1. Staff phones share the shops' data through iCloud: owner invites staff (their own Apple IDs), staff can scan
+      invoices and see what's owed; owner-only: prices, payments, settings. Needs Ramyar's Apple setup (iCloud container
+      `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID).
+- [ ] A2. Turn the home screen widget on (`.widget-ready`) once the App Group exists on developer.apple.com.
+- [ ] A3. Receipt photos and supplier payments in every backup (backup file + iCloud folder), so nothing is lost on a new phone.
+- [ ] A4. Payment reminders per supplier ("pay Apex every Friday"), on top of the weekly payment day.
+- [ ] A5. (On hold – Ramyar said leave it for now) staff clock in/out by tapping their own iPhone on an NFC tag in the shop.
+
+**Review chat** (fixes, reading, polish, builds; files: `Reading/`, `Output/PDFMaker.swift`, `Check/CheckSession.swift`,
+`SettingsView.swift`, `ReportsView.swift`, `Localizable.xcstrings` clean-ups)
+- [ ] B1. Fix anything Ramyar finds when testing on his phone: PDF text reading, Apple's table reader, sharing invoices in
+      from WhatsApp/Mail, delivery check, scanning credit notes, trusted suppliers.
+- [ ] B2. Credit note detection: test on real credit notes (English, Arabic, Kurdish), fewer false matches.
+- [ ] B3. Right-to-left layout in Arabic and Kurdish PDFs.
+- [ ] B4. Kurdish wording fixes after Ramyar checks the screens.
+- [ ] B5. Going-live list: remove the "add 5 free scans" button, test mode off, live App Group / iCloud / widget IDs,
+      privacy details for receipt photos and iCloud, App Store screenshots in all five languages.
+- [ ] B6. Beta builds (only this chat), after the features chat says "ready for a build".
+
+**Ramyar**
+- [ ] On developer.apple.com: App Group + iCloud container + widget App ID (steps in the features chat, 12 Nov).
+- [ ] Check the Kurdish wording; test the new beta on real invoices and say what's wrong.
+
 ## Rules
 
 - ChargeCheck Beta (TestFlight) builds: go ahead without asking (Ramyar, 11 Nov 2026).

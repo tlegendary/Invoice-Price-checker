@@ -229,7 +229,7 @@ struct SupplierDetailView: View {
                         if account.settledOutside > 0.005 {
                             LabeledContent("Marked paid before", value: "−" + Money.format(account.settledOutside))
                         }
-                        LabeledContent("Payments", value: "−" + Money.format(account.paid))
+                        if account.paid > 0.005 { LabeledContent("Payments", value: "−" + Money.format(account.paid)) }
                         if account.credits > 0.005 { LabeledContent("Credit notes", value: "−" + Money.format(account.credits)) }
                         LabeledContent("Paid this week", value: Money.format(account.paidThisWeek))
                     } footer: {

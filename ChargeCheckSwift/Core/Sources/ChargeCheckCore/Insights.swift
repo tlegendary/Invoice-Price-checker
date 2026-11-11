@@ -58,7 +58,7 @@ public enum Insights {
     static func itemKey(_ line: HistoryLine) -> (key: String, name: String)? {
         let name = line.item.isEmpty ? line.desc : line.item
         let key = line.matchId.map { "id:" + $0 } ?? "name:" + SupplierAccounts.key(name)
-        guard !name.trimmingCharacters(in: .whitespaces).isEmpty, key.count > 5, line.unit > 0, !line.excluded else { return nil }
+        guard !name.trimmingCharacters(in: .whitespaces).isEmpty, key != "name:", key != "id:", line.unit > 0, !line.excluded else { return nil }
         return (key, name)
     }
 
