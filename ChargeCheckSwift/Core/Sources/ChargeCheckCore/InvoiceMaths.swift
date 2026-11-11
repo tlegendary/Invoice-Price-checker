@@ -196,6 +196,10 @@ public enum InvoiceMaths {
         if let item = book.item(line.matchId) {
             let base = item.basePrice(for: supplier)
             if line.confident == false { out.append(CoreText.t("Not 100% sure this is “{1}”.", item.name)) }
+            if let sizes = PackSize.mismatch(invoice: line.desc, item: item.name) {
+                // the right product in a different pack: the agreed price doesn't apply as it stands
+                out.append(CoreText.t("The invoice says {1} but your item is {2} – check it's the same pack size.", sizes.invoice, sizes.item))
+            }
             if base > 0 && abs(line.unit - base) / base > 0.35 {
                 out.append(CoreText.t("Price is very different from your price ({1}) – wrong item or misread?", Money.format(base)))
             }
