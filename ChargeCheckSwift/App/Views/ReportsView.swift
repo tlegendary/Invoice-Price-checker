@@ -80,6 +80,11 @@ struct ReportsView: View {
                         } label: {
                             Label("Export for your accountant", systemImage: "square.and.arrow.up")
                         }
+                        NavigationLink {
+                            MonthlySummaryView()
+                        } label: {
+                            Label("Monthly summary", systemImage: "text.alignleft")
+                        }
                     }
                     paySection(pay)
                     Section("Checked invoices") {
@@ -430,7 +435,8 @@ struct ReportDetailView: View {
                                     Text(line.item.isEmpty ? line.desc : line.item)
                                         .font(.subheadline.weight(.semibold))
                                         .strikethrough(line.excluded)
-                                    Text("\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))" + (line.base.map { " · " + String(localized: "your price \(Money.format($0))") } ?? "") + (line.excluded ? " · missing or returned" : ""))
+                                    Text("\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))" + (line.base.map { " · " + String(localized: "your price \(Money.format($0))") } ?? "") + (line.excluded ? " · " + String(localized: "missing or returned") : "")
+                                         + (!line.excluded && line.short > 0 ? " · " + String(localized: "\(PDFMaker.quantity(line.short)) didn't arrive") : ""))
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }

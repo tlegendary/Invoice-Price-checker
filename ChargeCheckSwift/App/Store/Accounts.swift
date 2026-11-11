@@ -2,6 +2,7 @@ import Foundation
 import SwiftData
 import UserNotifications
 import WidgetKit
+import UIKit
 import ChargeCheckCore
 
 /// Payments, credits and starting balances for each supplier, and the trusted-supplier list.
@@ -54,9 +55,32 @@ final class Accounts: ObservableObject {
         changed(context)
     }
 
+    // MARK: - receipts
+
+    private static var receiptsFolder: URL? {
+        guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
+        let folder = base.appendingPathComponent("Receipts", isDirectory: true)
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        return folder
+    }
+
+    /// Keeps a photo or screenshot of a payment receipt. Returns its file name.
+    func saveReceipt(_ image: UIImage) -> String? {
+        let name = UUID().uuidString + ".jpg"
+        guard let folder = Self.receiptsFolder, let data = image.resizedForReceipt().jpegData(compressionQuality: 0.75),
+              (try? data.write(to: folder.appendingPathComponent(name), options: .atomic)) != nil else { return nil }
+        return name
+    }
+
+    func receiptURL(_ name: String) -> URL? {
+        guard let url = Self.receiptsFolder?.appendingPathComponent(name), FileManager.default.fileExists(atPath: url.path) else { return nil }
+        return url
+    }
+
     func remove(_ id: String, context: ModelContext) {
         guard let payment = payments.first(where: { $0.id == id }) else { return }
         payments.removeAll { $0.id == id }
+        if let receipt = payment.receipt, let url = receiptURL(receipt) { try? FileManager.default.removeItem(at: url) }
         // a payment for ticked invoices: those invoices are unpaid again
         if !payment.invoiceIDs.isEmpty {
             AppData.updateReports(Set(payment.invoiceIDs), context: context) { $0.paid = nil }
@@ -155,5 +179,18 @@ enum WeeklyPayReminder {
         } catch {
             return false
         }
+    }
+}
+
+private extension UIImage {
+    /// Receipts don't need full camera size: at most 1600 pixels on the long side.
+    func resizedForReceipt() -> UIImage {
+        let longest = max(size.width, size.height)
+        guard longest > 1600 else { return self }
+        let scale = 1600 / longest
+        let target = CGSize(width: size.width * scale, height: size.height * scale)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        return UIGraphicsImageRenderer(size: target, format: format).image { _ in draw(in: CGRect(origin: .zero, size: target)) }
     }
 }

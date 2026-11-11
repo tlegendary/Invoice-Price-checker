@@ -339,7 +339,15 @@ struct JobRow: View {
 
     @ViewBuilder private var summary: some View {
         let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
-        if job.draft.totalOnly {
+        if let note = job.creditNote {
+            Label {
+                Text(String(localized: "Credit note · \(Money.format(note.amount))"))
+            } icon: {
+                Image(systemName: "arrow.uturn.backward.circle.fill")
+            }
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(note.amount > 0 ? Color.green : Color.orange)
+        } else if job.draft.totalOnly {
             Label {
                 Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0))") : String(localized: "Trusted · type in the total"))
             } icon: {
