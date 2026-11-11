@@ -72,6 +72,33 @@ final class LanguageTests: XCTestCase {
         XCTAssertTrue(invoice.supplier.hasPrefix("شركة"))
     }
 
+    func testNamesInOtherAlphabetsMatch() {
+        // English stays exactly as it was
+        XCTAssertEqual(TextTools.norm("Chicken Wings (10KG) – 2.5L!"), "chicken wings 10kg 2.5l")
+        // accents are dropped, so a name matches with or without them
+        XCTAssertEqual(TextTools.norm("Hähnchenflügel 10kg"), "hahnchenflugel 10kg")
+        XCTAssertEqual(TextTools.norm("CAFÉ Crème"), "cafe creme")
+        XCTAssertEqual(TextTools.norm("Großhandel"), "grosshandel")
+        // Arabic and Kurdish: different ways of writing the same letter count as the same
+        XCTAssertEqual(TextTools.norm("أجنحة دجاج ١٠ كغم"), TextTools.norm("اجنحه دجاج 10 كغم"))
+        XCTAssertEqual(TextTools.norm("مریشک"), TextTools.norm("مريشك"))
+        XCTAssertFalse(TextTools.norm("زيت نباتي").isEmpty)
+
+        let wings = PriceItem(id: "w", cat: "Meat", name: "اجنحة دجاج 10 كغم", price: 25000)
+        let oil = PriceItem(id: "o", cat: "Oil", name: "زيت نباتي 20 لتر", price: 32500)
+        let german = PriceItem(id: "g", cat: "Meat", name: "Hähnchenflügel 10kg", price: 14.99)
+        let items = [wings, oil, german]
+        XCTAssertEqual(Matcher.match("أجنحة الدجاج ١٠ كغم", in: items).itemID, "w")
+        XCTAssertEqual(Matcher.match("زيت نباتي ٢٠ لتر", in: items).itemID, "o")
+        XCTAssertEqual(Matcher.match("HAHNCHENFLUGEL 10KG", in: items).itemID, "g")
+        XCTAssertNil(Matcher.match("طحين ابيض", in: items).itemID)
+
+        // supplier names in Arabic are kept, and compared
+        XCTAssertEqual(TextTools.cleanSupplier("شركة النور 123 ##"), "شركة النور")
+        XCTAssertTrue(TextTools.sameSupplier("شركة النور للمواد الغذائية", "شركة النور"))
+        XCTAssertEqual(TextTools.cleanSupplier("NORTHGATE WHOLESALE LTD ~ 4"), "NORTHGATE WHOLESALE LTD")
+    }
+
     func testEnglishIsUnchanged() {
         let line = InvoiceParser.parseLine("2.00 FRESH PRIME WING 14.99 29.98 0.00")
         XCTAssertEqual(line?.qty, 2)

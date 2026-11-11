@@ -193,6 +193,11 @@ enum InvoiceReader {
         var prepared = pages.map { $0.prepared() }
         let words = helpWords(book.items)
         progress(doubleCheck ? String(localized: "Reading invoice (1 of 2)…") : String(localized: "Reading invoice…"))
+        // speed: the double-check read starts at the same time as the first read, instead of after it
+        let upright = prepared
+        async let earlySecond: (invoice: ParsedInvoice, text: String)? = doubleCheck
+            ? onePass(upright, book: book, words: words, second: true) : nil
+        var wasTurned = false
         var first = onePass(prepared, book: book, words: words, second: false)
         if first.invoice.lines.count < 2 && prepared.count == 1 {
             // perhaps the photo is on its side or upside down
@@ -203,19 +208,25 @@ enum InvoiceReader {
                 if attempt.invoice.lines.count > first.invoice.lines.count {
                     first = attempt
                     prepared = turned
+                    wasTurned = true
                 }
                 if first.invoice.lines.count >= 2 { break }
             }
         }
-        if #available(iOS 26.0, *), !first.invoice.lines.isEmpty || prepared.count == 1 {
-            progress(String(localized: "Reading the table of items…"))
-            first.invoice = betterLines(first.invoice, tableText: await tableRows(prepared), book: book)
-        }
+        // speed: the table reader (iOS 26) runs while the double-check finishes
+        let finalPages = prepared
+        var wantTable = false
+        if #available(iOS 26.0, *) { wantTable = !first.invoice.lines.isEmpty || finalPages.count == 1 }
+        async let tableText = wantTable ? tableRows(finalPages) : ""
+        let wantSecond = doubleCheck && !first.invoice.lines.isEmpty
+        if wantSecond { progress(String(localized: "Double-checking (2 of 2)…")) }
+        var second = await earlySecond
+        // the photo had to be turned round: the early double-check read it the wrong way up, so read it again
+        if wantSecond && wasTurned { second = onePass(finalPages, book: book, words: words, second: true) }
+        first.invoice = betterLines(first.invoice, tableText: await tableText, book: book)
         var merged = first.invoice
         var passes = 1
-        if doubleCheck && !first.invoice.lines.isEmpty {
-            progress(String(localized: "Double-checking (2 of 2)…"))
-            let second = onePass(prepared, book: book, words: words, second: true)
+        if wantSecond, let second {
             merged = InvoiceParser.mergeReads(first.invoice, second.invoice, knownSuppliers: knownSuppliers)
             passes = 2
         } else {

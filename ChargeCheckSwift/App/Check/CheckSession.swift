@@ -130,12 +130,15 @@ final class CheckSession: ObservableObject {
                 return
             }
             // a name the user already corrected by hand is never second-guessed
-            let checked = await SmartCheck.check(firstLines.filter { fixes[TextTools.norm($0.read)] == nil }, supplier: outcome.invoice.supplier,
-                                                 book: book, progress: report)
+            // speed: Apple Intelligence only looks at lines that need a second opinion. A line both reads agreed on,
+            // with a readable name that clearly matches one price-list item, is already right.
+            let toCheck = firstLines.filter { fixes[TextTools.norm($0.read)] == nil && Self.needsSecondOpinion($0) }
+            let sent = Set(toCheck.map { $0.id })
+            let checked = await SmartCheck.check(toCheck, supplier: outcome.invoice.supplier, book: book, progress: report)
             let checkedByID = Dictionary(checked.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             // lines Apple Intelligence called "not a product" are missing from `checked` and drop out here
             let finalLines = firstLines.compactMap { line -> CheckLine? in
-                fixes[TextTools.norm(line.read)] != nil ? line : checkedByID[line.id]
+                sent.contains(line.id) ? checkedByID[line.id] : line
             }
             // nothing read from a photo: check whether it was too dark or blurry, to give a better tip
             let problem = finalLines.isEmpty && sourcePDF == nil ? pages.first.flatMap { ImageTools.problem(with: $0) } : nil
@@ -156,6 +159,12 @@ final class CheckSession: ObservableObject {
             self.saveIfChecked(id, context: context)
         }
         return id
+    }
+
+    /// Whether Apple Intelligence should look at this line: no clear match, the two reads differed, or the name looks misread.
+    nonisolated static func needsSecondOpinion(_ line: CheckLine) -> Bool {
+        line.matchId == nil || line.confident != true || line.disagree || line.onlySecondRead
+            || InvoiceParser.looksGarbled(line.desc)
     }
 
     /// What to say when no item lines could be found.
