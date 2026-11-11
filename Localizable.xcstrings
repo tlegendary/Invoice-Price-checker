@@ -780,6 +780,9 @@
         }
       }
     },
+    "+%@%%" : {
+
+    },
     ", agreed {1}" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -993,8 +996,66 @@
         }
       }
     },
+    "1 year" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سنة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "١ ساڵ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Jahr"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 an"
+          }
+        }
+      }
+    },
     "20%" : {
 
+    },
+    "30 days" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "٣٠ يومًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "٣٠ ڕۆژ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 Tage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 jours"
+          }
+        }
+      }
     },
     "5%" : {
 
@@ -1079,6 +1140,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "7 jours gratuits, puis %@ par an. Le paiement est débité sur votre identifiant Apple lors de la confirmation (après la fin de l’essai gratuit)."
+          }
+        }
+      }
+    },
+    "90 days" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "٩٠ يومًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "٩٠ ڕۆژ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90 Tage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90 jours"
           }
         }
       }
@@ -2019,34 +2109,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Depuis le début"
-          }
-        }
-      }
-    },
-    "Also check with Apple Intelligence" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التحقق أيضًا بواسطة Apple Intelligence"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "هەروەها پشکنین بە Apple Intelligence"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zusätzlich mit Apple Intelligence prüfen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifier aussi avec Apple Intelligence"
           }
         }
       }
@@ -4103,6 +4165,35 @@
         }
       }
     },
+    "Compared with the last invoice from this supplier, even when it's still within your agreed price." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مقارنةً بآخر فاتورة من هذا المورّد، حتى لو كان ضمن سعرك المتفق عليه."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەراورد بە دوایین پسوولەی ئەم دابینکەرە، تەنانەت ئەگەر هێشتا لە نرخی ڕێککەوتووتدا بێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verglichen mit der letzten Rechnung dieses Lieferanten, auch wenn der Preis noch im vereinbarten Rahmen liegt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparé à la dernière facture de ce fournisseur, même si c’est encore dans votre prix convenu."
+          }
+        }
+      }
+    },
     "Copied" : {
       "localizations" : {
         "ar" : {
@@ -5239,7 +5330,6 @@
       }
     },
     "Double-check with Apple Intelligence" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6143,34 +6233,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aide : %@"
-          }
-        }
-      }
-    },
-    "How invoices are read" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "طريقة قراءة الفواتير"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "چۆنیەتی خوێندنەوەی پسوولەکان"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "So werden Rechnungen gelesen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lecture des factures"
           }
         }
       }
@@ -7453,34 +7515,6 @@
         }
       }
     },
-    "Learn the names suppliers use" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تعلُّم الأسماء التي يستخدمها المورّدون"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فێربوونی ئەو ناوانەی دابینکەران بەکاریان دەهێنن"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Namen der Lieferanten lernen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apprendre les noms utilisés par les fournisseurs"
-          }
-        }
-      }
-    },
     "Leave a supplier empty if you didn't pay them. Each amount pays off that supplier's oldest invoices first." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8696,6 +8730,35 @@
         }
       }
     },
+    "No price rises" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد زيادات في الأسعار"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هیچ بەرزبوونەوەیەکی نرخ نییە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Preiserhöhungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune hausse de prix"
+          }
+        }
+      }
+    },
     "No prices yet" : {
       "localizations" : {
         "ar" : {
@@ -9463,34 +9526,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sur la facture"
-          }
-        }
-      }
-    },
-    "Once (faster)" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مرة واحدة (أسرع)"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "یەک جار (خێراتر)"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einmal (schneller)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une fois (plus rapide)"
           }
         }
       }
@@ -11408,6 +11443,122 @@
         }
       }
     },
+    "Price rises" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زيادات الأسعار"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرزبوونەوەی نرخ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hausses de prix"
+          }
+        }
+      }
+    },
+    "Price rises – %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زيادات الأسعار – %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرزبوونەوەی نرخ – %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungen – %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hausses de prix – %@"
+          }
+        }
+      }
+    },
+    "Price rises, last 30 days" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زيادات الأسعار، آخر ٣٠ يومًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرزبوونەوەی نرخ، ٣٠ ڕۆژی ڕابردوو"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungen, letzte 30 Tage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hausses de prix, 30 derniers jours"
+          }
+        }
+      }
+    },
+    "Price rises, last 90 days" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زيادات الأسعار، آخر ٩٠ يومًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرزبوونەوەی نرخ، ٩٠ ڕۆژی ڕابردوو"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungen, letzte 90 Tage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hausses de prix, 90 derniers jours"
+          }
+        }
+      }
+    },
     "Price was hard to read – worked out from the line total. Check." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -11490,34 +11641,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prix convenus avec ce fournisseur qui diffèrent de vos prix standard."
-          }
-        }
-      }
-    },
-    "Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تُخفَّض الأسعار فقط للأصناف الموجودة في قائمتك، وفقط في فاتورة تم فحصها بالكامل، ولا تُرفع أبدًا. يمكنك التراجع في كل مرة."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "نرخەکان تەنها بۆ ئەو کاڵایانە کەم دەکرێنەوە کە لە لیستەکەتدان، تەنها لە پسوولەیەکی تەواو پشکنراودا، و هەرگیز بەرز ناکرێنەوە. هەموو جارێک دەتوانیت پاشگەزی بکەیتەوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preise werden nur für Artikel in deiner Liste gesenkt, nur bei einer vollständig geprüften Rechnung, und nie erhöht. Du kannst es jedes Mal rückgängig machen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les prix ne sont baissés que pour les articles déjà dans votre liste, uniquement sur une facture entièrement vérifiée, et jamais augmentés. Vous pouvez annuler à chaque fois."
           }
         }
       }
@@ -11776,34 +11899,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Revérifier les articles qui ont déjà une catégorie"
-          }
-        }
-      }
-    },
-    "Read each photo" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قراءة كل صورة"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "خوێندنەوەی هەر وێنەیەک"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jedes Foto lesen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lecture de chaque photo"
           }
         }
       }
@@ -12855,6 +12950,35 @@
         }
       }
     },
+    "See all %lld price rises" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض كل زيادات الأسعار (%lld)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەموو %lld بەرزبوونەوەکە ببینە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle %lld Preiserhöhungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir les %lld hausses de prix"
+          }
+        }
+      }
+    },
     "See exactly how much each supplier overcharged you" : {
       "localizations" : {
         "ar" : {
@@ -12879,6 +13003,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voyez exactement combien chaque fournisseur vous a surfacturé"
+          }
+        }
+      }
+    },
+    "See the price rise" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض زيادة السعر"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرزبوونەوەکە ببینە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhung ansehen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir la hausse de prix"
           }
         }
       }
@@ -13909,34 +14062,6 @@
         }
       }
     },
-    "Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كثيرًا ما يسمّي المورّدون الصنف نفسه بأسماء مختلفة. عندما تُظهر فاتورة مفحوصة بالكامل اسمًا جديدًا لصنف يتأكد منه التطبيق، يُضاف الاسم إلى ذلك الصنف ليُعرف فورًا في المرة القادمة. يمكنك رؤية الأسماء أو حذفها تحت كل صنف في الأسعار."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دابینکەران زۆرجار هەمان کاڵا بە ناوی جیاواز ناودەبەن. کاتێک پسوولەیەکی تەواو پشکنراو ناوێکی نوێ بۆ کاڵایەک نیشان دەدات کە ئەپەکە لێی دڵنیایە، ناوەکە بۆ ئەو کاڵایە زیاد دەکرێت تا جاری داهاتوو دەستبەجێ بناسرێتەوە. ناوەکان لە ژێر هەر کاڵایەک لە نرخەکان ببینە یان بیانسڕەوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lieferanten nennen denselben Artikel oft unterschiedlich. Zeigt eine vollständig geprüfte Rechnung einen neuen Namen für einen Artikel, bei dem die App sicher ist, wird der Name zu diesem Artikel hinzugefügt und beim nächsten Mal sofort erkannt. Die Namen kannst du unter jedem Artikel in Preise ansehen oder entfernen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les fournisseurs donnent souvent des noms différents au même article. Quand une facture entièrement vérifiée montre un nouveau nom pour un article dont l’app est sûre, ce nom est ajouté à l’article, qui sera reconnu tout de suite la prochaine fois. Consultez ou supprimez les noms sous chaque article dans Prix."
-          }
-        }
-      }
-    },
     "Suppliers still owe you {1} in credits." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14613,35 +14738,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La version gratuite vous donne un scan pour chaque pub regardée jusqu’au bout."
-          }
-        }
-      }
-    },
-    "The invoice says {1} but your item is {2} – check it's the same pack size." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الفاتورة تذكر {1} لكن الصنف في قائمتك {2} – تأكد أنه نفس حجم العبوة."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "پسوولەکە دەڵێت {1} بەڵام کاڵاکەی لیستەکەت {2} ە – دڵنیابە هەمان قەبارەی پاکەتە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf der Rechnung steht {1}, dein Artikel ist aber {2} – prüfe, ob es dieselbe Packungsgröße ist."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La facture indique {1} mais votre article est {2} – vérifiez que c’est le même conditionnement."
           }
         }
       }
@@ -15643,62 +15739,6 @@
         }
       }
     },
-    "Twice (double-checked)" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مرتين (تحقق مزدوج)"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دوو جار (دووبارە پشکنین)"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zweimal (doppelt geprüft)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux fois (double vérification)"
-          }
-        }
-      }
-    },
-    "Twice is safest: the photo is read two different ways and the app points out any line where the two reads differ. Once is about twice as fast.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price. It makes a scan slower." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "القراءة مرتين هي الأكثر أمانًا: تُقرأ الصورة بطريقتين مختلفتين ويشير التطبيق إلى أي بند تختلف فيه القراءتان. القراءة مرة واحدة أسرع بنحو الضعف.\n\nApple Intelligence يصحح الأسماء المقروءة خطأً ويختار الصنف الصحيح من قائمتك، على هاتفك وبدون إنترنت. لا يغيّر أبدًا كمية أو سعرًا. يجعل المسح أبطأ."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دوو جار سەلامەتترینە: وێنەکە بە دوو شێوازی جیاواز دەخوێندرێتەوە و ئەپەکە هەر دێڕێک دیاری دەکات کە دوو خوێندنەوەکە تێیدا جیاوازن. یەک جار نزیکەی دوو هێندە خێراترە.\n\nApple Intelligence ناوە هەڵە خوێندراوەکان ڕاست دەکاتەوە و کاڵای دروست لە لیستەکەت هەڵدەبژێرێت، لەسەر ئایفۆنەکەت و بەبێ ئینتەرنێت. هەرگیز بڕ یان نرخ ناگۆڕێت. سکانەکە خاوتر دەکات."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zweimal ist am sichersten: Das Foto wird auf zwei verschiedene Arten gelesen und die App zeigt jede Zeile, in der sich die beiden Lesungen unterscheiden. Einmal ist etwa doppelt so schnell.\n\nApple Intelligence korrigiert falsch gelesene Namen und wählt den richtigen Artikel aus deiner Liste, auf deinem iPhone und offline. Mengen und Preise werden nie geändert. Der Scan dauert dadurch länger."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deux fois est le plus sûr : la photo est lue de deux façons différentes et l’app signale toute ligne où les deux lectures diffèrent. Une fois est environ deux fois plus rapide.\n\nApple Intelligence corrige les noms mal lus et choisit le bon article dans votre liste, sur votre iPhone et hors ligne. Il ne modifie jamais une quantité ni un prix. Il ralentit le scan."
-          }
-        }
-      }
-    },
     "Type by hand" : {
       "localizations" : {
         "ar" : {
@@ -16004,6 +16044,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décochez ce que vous ne voulez pas déplacer"
+          }
+        }
+      }
+    },
+    "Up since last time" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ارتفع منذ آخر مرة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لە دوایین جارەوە بەرز بووەتەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teurer als beim letzten Mal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En hausse depuis la dernière fois"
           }
         }
       }
@@ -16348,6 +16417,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ce que vous avez payé à chaque fournisseur"
+          }
+        }
+      }
+    },
+    "When a supplier charges more than the last time you bought the same item from them, it shows here." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عندما يفرض مورّد سعرًا أعلى من آخر مرة اشتريت فيها الصنف نفسه منه، يظهر هنا."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاتێک دابینکەرێک زیاتر لە دوایین جار بۆ هەمان کاڵا وەردەگرێت، لێرە دەردەکەوێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ein Lieferant mehr berechnet als beim letzten Kauf desselben Artikels, erscheint es hier."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand un fournisseur facture plus cher que la dernière fois pour le même article, cela apparaît ici."
           }
         }
       }
