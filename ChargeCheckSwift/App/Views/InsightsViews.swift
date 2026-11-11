@@ -278,3 +278,123 @@ struct PriceRiseSection: View {
         }
     }
 }
+
+/// Every shop side by side: spend, overcharges and credits.
+struct CompareShopsView: View {
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
+    @State private var period = "month"
+
+    private var range: (since: String?, until: String?) {
+        let calendar = Calendar.current
+        let now = Date()
+        func start(_ unit: Calendar.Component, back: Int = 0) -> String? {
+            guard let begin = calendar.dateInterval(of: unit, for: now)?.start,
+                  let date = calendar.date(byAdding: unit, value: -back, to: begin) else { return nil }
+            return SupplierAccounts.dayText(date)
+        }
+        switch period {
+        case "month": return (start(.month), nil)
+        case "lastMonth": return (start(.month, back: 1), start(.month))
+        case "90": return (SupplierAccounts.dayText(now.addingTimeInterval(-90 * 86_400)), nil)
+        case "year": return (start(.year), nil)
+        default: return (nil, nil)
+        }
+    }
+
+    var body: some View {
+        let rows = Insights.compareShops(reports.compactMap { $0.entry }, shops: Shops.all, since: range.since, until: range.until)
+        let maxOver = rows.map { $0.overchargedPercent }.max() ?? 0
+        List {
+            Section {
+                Picker("Period", selection: $period) {
+                    Text("This month").tag("month")
+                    Text("Last month").tag("lastMonth")
+                    Text("Last 90 days").tag("90")
+                    Text("This year").tag("year")
+                    Text("All time").tag("all")
+                }
+            }
+            if rows.count < 2 {
+                ContentUnavailableView {
+                    Label("Add your shops first", systemImage: "storefront")
+                } description: {
+                    Text("Add your shops in Settings › Shops and choose a shop when you scan. Then each shop's figures appear here side by side.")
+                }
+            } else {
+                Section {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        Grid(alignment: .trailing, horizontalSpacing: 18, verticalSpacing: 10) {
+                            GridRow {
+                                Text("")
+                                ForEach(rows) { row in
+                                    Text(row.name)
+                                        .font(.subheadline.weight(.bold))
+                                        .lineLimit(2)
+                                        .frame(minWidth: 90, alignment: .trailing)
+                                }
+                            }
+                            Divider()
+                            metric("Invoices", rows) { Text("\($0.invoices)") }
+                            metric("Spent", rows) { Text(Money.format($0.spent)).fontWeight(.semibold) }
+                            metric("Overcharged", rows) { row in
+                                Text(Money.format(row.overcharged))
+                                    .foregroundStyle(row.overcharged > 0.005 ? Color.red : Color.secondary)
+                            }
+                            metric("Of spend", rows) { row in
+                                Text("\(row.overchargedPercent.formatted(.number.precision(.fractionLength(1))))%")
+                                    .fontWeight(row.overchargedPercent >= maxOver && maxOver > 0 ? .bold : .regular)
+                                    .foregroundStyle(row.overchargedPercent >= maxOver && maxOver > 0 ? Color.red : Color.primary)
+                            }
+                            metric("Credits owed", rows) { row in
+                                Text(Money.format(row.creditsOwed))
+                                    .foregroundStyle(row.creditsOwed > 0.005 ? Color.orange : Color.secondary)
+                            }
+                            metric("Credits received", rows) { Text(Money.format($0.creditsReceived)) }
+                            metric("Top supplier", rows) { row in
+                                Text(row.topSupplier.isEmpty ? "–" : row.topSupplier)
+                                    .lineLimit(2)
+                                    .font(.footnote)
+                            }
+                        }
+                        .font(.subheadline)
+                        .padding(.vertical, 6)
+                    }
+                } footer: {
+                    Text("Swipe sideways to see every shop. The shop overcharged most, as a share of its spend, is in red.")
+                }
+                Section("Overcharged, as a share of spend") {
+                    ForEach(rows.sorted { $0.overchargedPercent > $1.overchargedPercent }) { row in
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Text(row.name)
+                                Spacer()
+                                Text("\(row.overchargedPercent.formatted(.number.precision(.fractionLength(1))))%")
+                                    .fontWeight(.semibold)
+                            }
+                            .font(.subheadline)
+                            GeometryReader { proxy in
+                                Capsule()
+                                    .fill(Color.red.opacity(0.75))
+                                    .frame(width: maxOver > 0 ? proxy.size.width * row.overchargedPercent / maxOver : 0)
+                            }
+                            .frame(height: 6)
+                        }
+                    }
+                }
+            }
+        }
+        .navigationTitle("Compare shops")
+    }
+
+    private func metric<V: View>(_ title: LocalizedStringKey, _ rows: [ShopFigures], @ViewBuilder value: @escaping (ShopFigures) -> V) -> some View {
+        GridRow {
+            Text(title)
+                .foregroundStyle(.secondary)
+                .gridColumnAlignment(.leading)
+                .lineLimit(1)
+            ForEach(rows) { row in
+                value(row)
+            }
+        }
+    }
+}

@@ -286,3 +286,54 @@ extension Insights {
         return rises.sorted { $0.percent > $1.percent }
     }
 }
+
+/// One shop's figures, to put next to the others.
+public struct ShopFigures: Identifiable, Equatable, Sendable {
+    public var id: String
+    public var name: String
+    public var invoices: Int
+    /// Invoice totals with VAT.
+    public var spent: Double
+    /// Overcharges and missing items, with VAT.
+    public var overcharged: Double
+    public var creditsOwed: Double
+    public var creditsReceived: Double
+    /// Whom this shop spends most with.
+    public var topSupplier: String
+
+    /// Overcharged as a share of spend, in percent.
+    public var overchargedPercent: Double { spent > 0 ? overcharged / spent * 100 : 0 }
+}
+
+extension Insights {
+    /// Every shop's figures for invoices saved on or after `since` ("yyyy-MM-dd"; nil = all time), most spent first.
+    /// Invoices filed under no shop (or a shop since removed) are shown as "No shop".
+    public static func compareShops(_ entries: [HistoryEntry], shops: [ShopInfo], since: String? = nil, until: String? = nil) -> [ShopFigures] {
+        let known = Set(shops.map { $0.id })
+        let chosen = entries.filter { entry in
+            (since.map { entry.savedAt >= $0 } ?? true) && (until.map { entry.savedAt < $0 } ?? true)
+        }
+        let groups = Dictionary(grouping: chosen) { known.contains($0.shopId) ? $0.shopId : "" }
+        var rows: [ShopFigures] = shops.map { shop in figures(id: shop.id, name: shop.name, groups[shop.id] ?? []) }
+        if let loose = groups[""], !loose.isEmpty {
+            rows.append(figures(id: "", name: CoreText.t("No shop"), loose))
+        }
+        return rows.sorted { $0.spent != $1.spent ? $0.spent > $1.spent : $0.name < $1.name }
+    }
+
+    private static func figures(id: String, name: String, _ entries: [HistoryEntry]) -> ShopFigures {
+        var bySupplier: [String: (name: String, spent: Double)] = [:]
+        for entry in entries where !entry.supplier.isEmpty {
+            let k = SupplierAccounts.key(entry.supplier)
+            bySupplier[k, default: (entry.supplier, 0)].spent += entry.amountToPay.total
+        }
+        let credits = entries.compactMap { $0.credit }
+        return ShopFigures(
+            id: id, name: name, invoices: entries.count,
+            spent: Money.round2(entries.reduce(0) { $0 + $1.amountToPay.total }),
+            overcharged: Money.round2(entries.reduce(0) { $0 + $1.amountToPay.less }),
+            creditsOwed: Money.round2(credits.filter { $0.isOwed }.reduce(0) { $0 + $1.amount }),
+            creditsReceived: Money.round2(credits.filter { $0.status == CreditInfo.received }.reduce(0) { $0 + $1.amount }),
+            topSupplier: bySupplier.values.max { $0.spent < $1.spent }?.name ?? "")
+    }
+}
