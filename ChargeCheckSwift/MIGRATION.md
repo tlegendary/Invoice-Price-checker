@@ -145,6 +145,32 @@ Rules for both:
 5. **`Localizable.xcstrings`**: only add keys, keep them sorted, never reformat the file. On a conflict keep both sides' keys.
 6. The rules at the bottom of this file apply to both chats.
 
+### The plan (12 Nov 2026) – who does what
+
+Tick an item when it is merged and the cloud check is green. Don't start an item on the other chat's list.
+
+**Review chat** (reading, speed, accuracy, getting ready for the App Store)
+- [ ] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
+- [ ] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
+      so a smaller pack at the same price is caught as an overcharge
+- [ ] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
+- [ ] R4. Excel (.xlsx) price-list import, next to the CSV import
+- [ ] R5. Free scan when no ad can load (for example up to 3 a day) – **only after Ramyar says yes**
+- [ ] R6. Arabic invoices: test real ones, fix what the reader gets wrong; right-to-left layout check of every screen
+- [ ] R7. Accessibility: large text and VoiceOver labels on Check, Reports and the paywall
+- [ ] R8. App Store release checklist: test mode off, test button removed, product IDs checked against App Store Connect,
+      privacy label text, new screenshots, Arabic listing text – **switching the live app needs Ramyar's yes**
+
+**Features chat** (new things the app can do)
+- [ ] F1. Keep the cloud check green after the payments / delivery check / credit notes work
+- [ ] F2. Special prices per supplier: a screen to see and edit them (the data is already there)
+- [ ] F3. Price-rise alerts: "this supplier put X up by 8% since last time", with a list of recent rises per supplier
+- [ ] F4. Compare shops: spend, overcharges and credits per shop side by side (Ramyar has many shops)
+- [ ] F5. Supplier statement check: scan a monthly statement and tick it off against the invoices in Reports
+- [ ] F6. Accountant pack: one export per month with the PDF report plus a CSV of every invoice and payment
+- [ ] F7. First-run guide: three short screens showing scan → check → what to pay, with the sample invoice
+- [ ] F8. Home-screen widget: amount to pay and credits still owed
+
 ### Now working on
 - Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
   on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
