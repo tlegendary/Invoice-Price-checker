@@ -99,6 +99,25 @@ final class LanguageTests: XCTestCase {
         XCTAssertEqual(TextTools.cleanSupplier("NORTHGATE WHOLESALE LTD ~ 4"), "NORTHGATE WHOLESALE LTD")
     }
 
+    func testPackSizeWarning() {
+        XCTAssertEqual(PackSize.sizes(in: "CHICKEN WINGS 10KG").map { $0.label }, ["10kg"])
+        XCTAssertEqual(PackSize.sizes(in: "Veg Oil 2.5 L").first?.amount, 2500)
+        XCTAssertEqual(PackSize.sizes(in: "Mayo 4x500g").first?.amount, 500)
+        XCTAssertNil(PackSize.mismatch(invoice: "CHICKEN WINGS 10 KG", item: "Chicken wings 10kg"))
+        XCTAssertNil(PackSize.mismatch(invoice: "OIL 20LTR", item: "Vegetable Oil 20L"))
+        XCTAssertNil(PackSize.mismatch(invoice: "CHICKEN WINGS", item: "Chicken wings 10kg"))
+        XCTAssertNil(PackSize.mismatch(invoice: "PIZZA BOX 12 INCH", item: "Pizza box 16in"))
+        XCTAssertEqual(PackSize.mismatch(invoice: "CHICKEN WINGS 5KG", item: "Chicken wings 10kg")?.invoice, "5kg")
+        XCTAssertEqual(PackSize.mismatch(invoice: "اجنحة دجاج ٥ كغم", item: "اجنحة دجاج 10 كغم")?.item, "10كغم")
+
+        let wings = PriceItem(id: "w", cat: "Meat", name: "Chicken wings 10kg", price: 15)
+        let book = PriceBook([wings])
+        let small = CheckLine(qty: 2, desc: "CHICKEN WINGS 5KG", unit: 15, matchId: "w", confident: true, reads: 2)
+        let same = CheckLine(qty: 2, desc: "CHICKEN WINGS 10KG", unit: 15, matchId: "w", confident: true, reads: 2)
+        XCTAssertEqual(InvoiceMaths.reasons(small, supplier: "", book: book, totalOk: true).count, 1)
+        XCTAssertTrue(InvoiceMaths.reasons(same, supplier: "", book: book, totalOk: true).isEmpty)
+    }
+
     func testEnglishIsUnchanged() {
         let line = InvoiceParser.parseLine("2.00 FRESH PRIME WING 14.99 29.98 0.00")
         XCTAssertEqual(line?.qty, 2)

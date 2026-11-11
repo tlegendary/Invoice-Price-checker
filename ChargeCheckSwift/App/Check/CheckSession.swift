@@ -252,6 +252,22 @@ final class CheckSession: ObservableObject {
         lowered = LoweredPrices(changes: changes, before: before)
     }
 
+    /// Suppliers call the same item different names. On a fully checked invoice, each new name of an item the app
+    /// is sure about is added to that item ("on invoices as"), so it is recognised straight away next time.
+    private func learnNames(_ draft: InvoiceDraft, book: PriceBook, context: ModelContext) {
+        if UserDefaults.standard.object(forKey: SettingKey.autoLearnNames) as? Bool == false { return }
+        guard InvoiceMaths.totals(draft, book: book, tolerance: AppData.tolerance).verified else { return }
+        var changed: [String: PriceItem] = [:]
+        for name in PriceTools.newNames(in: draft, book: book) {
+            guard var item = changed[name.itemID] ?? book.item(name.itemID) else { continue }
+            item.aliases.append(name.spelling)
+            changed[name.itemID] = item
+        }
+        if changed.isEmpty { return }
+        for item in changed.values { AppData.save(item, in: context) }
+        try? context.save()
+    }
+
     func undoLowered(_ note: LoweredPrices, context: ModelContext) {
         for item in note.before { AppData.save(item, in: context) }
         try? context.save()
@@ -313,7 +329,10 @@ final class CheckSession: ObservableObject {
         var draft = job.draft
         if draft.shopId.isEmpty { draft.shopId = Shops.current }
         let entry = AppData.saveReport(&draft, book: book, context: context)
-        if !draft.totalOnly { lowerPrices(draft, jobID: id, book: book, context: context) }
+        if !draft.totalOnly {
+            lowerPrices(draft, jobID: id, book: book, context: context)
+            learnNames(draft, book: book, context: context)
+        }
         // keep a copy of the original invoice next to the report
         var copyPath = job.copyPath ?? entry.file
         if !job.pages.isEmpty || job.sourcePDF != nil {

@@ -7243,6 +7243,34 @@
         }
       }
     },
+    "Learn the names suppliers use": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعلُّم الأسماء التي يستخدمها المورّدون"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فێربوونی ئەو ناوانەی دابینکەران بەکاریان دەهێنن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Namen der Lieferanten lernen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apprendre les noms utilisés par les fournisseurs"
+          }
+        }
+      }
+    },
     "Leave a supplier empty if you didn't pay them. Each amount pays off that supplier's oldest invoices first.": {
       "extractionState": "manual",
       "localizations": {
@@ -13403,6 +13431,34 @@
         }
       }
     },
+    "Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كثيرًا ما يسمّي المورّدون الصنف نفسه بأسماء مختلفة. عندما تُظهر فاتورة مفحوصة بالكامل اسمًا جديدًا لصنف يتأكد منه التطبيق، يُضاف الاسم إلى ذلك الصنف ليُعرف فورًا في المرة القادمة. يمكنك رؤية الأسماء أو حذفها تحت كل صنف في الأسعار."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەران زۆرجار هەمان کاڵا بە ناوی جیاواز ناودەبەن. کاتێک پسوولەیەکی تەواو پشکنراو ناوێکی نوێ بۆ کاڵایەک نیشان دەدات کە ئەپەکە لێی دڵنیایە، ناوەکە بۆ ئەو کاڵایە زیاد دەکرێت تا جاری داهاتوو دەستبەجێ بناسرێتەوە. ناوەکان لە ژێر هەر کاڵایەک لە نرخەکان ببینە یان بیانسڕەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lieferanten nennen denselben Artikel oft unterschiedlich. Zeigt eine vollständig geprüfte Rechnung einen neuen Namen für einen Artikel, bei dem die App sicher ist, wird der Name zu diesem Artikel hinzugefügt und beim nächsten Mal sofort erkannt. Die Namen kannst du unter jedem Artikel in Preise ansehen oder entfernen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les fournisseurs donnent souvent des noms différents au même article. Quand une facture entièrement vérifiée montre un nouveau nom pour un article dont l’app est sûre, ce nom est ajouté à l’article, qui sera reconnu tout de suite la prochaine fois. Consultez ou supprimez les noms sous chaque article dans Prix."
+          }
+        }
+      }
+    },
     "Suppliers still owe you {1} in credits.": {
       "extractionState": "manual",
       "localizations": {
@@ -14079,6 +14135,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "La version gratuite vous donne un scan pour chaque pub regardée jusqu’au bout."
+          }
+        }
+      }
+    },
+    "The invoice says {1} but your item is {2} – check it's the same pack size.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة تذكر {1} لكن الصنف في قائمتك {2} – تأكد أنه نفس حجم العبوة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکە دەڵێت {1} بەڵام کاڵاکەی لیستەکەت {2} ە – دڵنیابە هەمان قەبارەی پاکەتە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf der Rechnung steht {1}, dein Artikel ist aber {2} – prüfe, ob es dieselbe Packungsgröße ist."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La facture indique {1} mais votre article est {2} – vérifiez que c’est le même conditionnement."
           }
         }
       }

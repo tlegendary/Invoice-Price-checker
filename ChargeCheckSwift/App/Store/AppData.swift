@@ -172,5 +172,7 @@ enum SettingKey {
     static let payBeforeVat = "pay.beforeVat"
     /// Lower an agreed price when a fully checked invoice is cheaper (on unless turned off).
     static let autoLower = "prices.autoLower"
+    /// Add the names suppliers use to the price list when a checked invoice shows a new one (on unless switched off).
+    static let autoLearnNames = "prices.autoLearnNames"
     static let lastRatingAsk = "rating.lastAsk"
 }

@@ -174,9 +174,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
-  on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
-  after #7 is merged and the check is green.
+- Review chat (12 Nov 2026): B7 pack-size warning on `improve/2026-11-12` (new `Core/PackSize.swift`, one check in
+  `InvoiceMaths.reasons`). Pull request #7 (B8) is waiting for Ramyar's merge. Next: B9.
 - Features chat (12 Nov 2026): finished on `swift-rewrite` – supplier payments (how paid, reference, receipt photo,
   swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary. The tips test fix is
   in 16a31c8 (Core tests green). **Mistake:** 16a31c8 also changed `.beta-build`, so it started a beta build; it won't happen again.
@@ -204,6 +203,13 @@ Each chat takes only its own list, one item at a time, on its own branch. Tick i
 - [ ] B4. Kurdish wording fixes after Ramyar checks the screens.
 - [ ] B5. Going-live list: remove the "add 5 free scans" button, test mode off, live App Group / iCloud / widget IDs,
       privacy details for receipt photos and iCloud, App Store screenshots in all five languages.
+- [x] B7. Pack-size warning: a line is flagged when the invoice says "5kg" and the matched item is "10kg" (12 Nov, `Core/PackSize.swift`)
+- [x] B12. Learn the names suppliers use: on a fully checked invoice, a new name for an item the app is sure about is added
+      to that item's "on invoices as" list (Settings switch, on by default; `PriceTools.newNames`)
+- [x] B8. Settings › How invoices are read: read once or twice, Apple Intelligence on/off (pull request #7, waiting for Ramyar's merge)
+- [ ] B9. Fast with big price lists (prepare the list once per scan; search quick at 2,000+ items)
+- [ ] B10. Excel (.xlsx) price-list import
+- [ ] B11. Free scan when no ad can load – only after Ramyar says yes
 - [ ] B6. Beta builds (only this chat), after the features chat says "ready for a build".
 
 **Ramyar**

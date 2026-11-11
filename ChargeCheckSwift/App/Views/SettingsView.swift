@@ -29,6 +29,7 @@ struct SettingsView: View {
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
     @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(SettingKey.autoLearnNames) private var autoLearnNames = true
     @AppStorage(AppLock.settingKey) private var lockOn = false
     @AppStorage(SmartCheck.settingKey) private var smartCheck = true
     @AppStorage(SettingKey.photoReads) private var photoReads = 2
@@ -221,10 +222,13 @@ struct SettingsView: View {
                         Text(Money.format(0.1)).tag(0.1)
                     }
                     Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
+                    Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
                 } header: {
                     Text("Checking")
                 } footer: {
                     Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.")
+                        + Text(verbatim: "\n\n")
+                        + Text("Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices.")
                 }
 
                 Section {
