@@ -20,6 +20,7 @@ public enum CoreText {
         "Not in your price list – choose the matching item or mark it as not in your list.",
         "Not 100% sure this is “{1}”.",
         "Price is very different from your price ({1}) – wrong item or misread?",
+        "The invoice says {1} but your item is {2} – check it's the same pack size.",
         "Quantity was hard to read – worked out {1} from the line total. Check.",
         "Price was hard to read – worked out from the line total. Check.",
         "Couldn't confirm this price against the line total – check the price and quantity.",
