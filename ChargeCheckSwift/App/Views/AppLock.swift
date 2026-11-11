@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import LocalAuthentication
 
 /// An optional lock: Face ID, Touch ID or the phone's passcode before ChargeCheck shows anything.
@@ -26,6 +27,9 @@ enum AppLock {
 struct LockScreen: View {
     let onUnlock: () -> Void
     @State private var trying = false
+    /// Face ID is asked once each time the app comes to the front (not again straight after "Cancel").
+    @State private var askedThisTime = false
+    @Environment(\.scenePhase) private var phase
 
     var body: some View {
         VStack(spacing: 18) {
@@ -45,7 +49,17 @@ struct LockScreen: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
-        .task { attempt() }
+        .task { askOnce() }
+        .onChange(of: phase) {
+            if phase == .background { askedThisTime = false }
+            if phase == .active { askOnce() }
+        }
+    }
+
+    private func askOnce() {
+        guard UIApplication.shared.applicationState == .active, !askedThisTime else { return }
+        askedThisTime = true
+        attempt()
     }
 
     private func attempt() {
@@ -56,5 +70,38 @@ struct LockScreen: View {
             trying = false
             if ok { onUnlock() }
         }
+    }
+}
+
+/// Shows the lock screen in its own window above everything else – including any sheet
+/// (an invoice, the paywall, an export) that was open when the app was left.
+@MainActor
+final class LockCover {
+    static let shared = LockCover()
+    private var window: UIWindow?
+
+    var isShowing: Bool { window != nil }
+
+    func show(onUnlock: @escaping () -> Void) {
+        guard window == nil else { return }
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        guard let scene = scenes.first(where: { $0.activationState == .foregroundActive })
+                ?? scenes.first(where: { $0.activationState == .foregroundInactive })
+                ?? scenes.first else { return }
+        let cover = UIWindow(windowScene: scene)
+        cover.windowLevel = .alert + 1
+        cover.rootViewController = UIHostingController(rootView: LockScreen { [weak self] in
+            self?.hide()
+            onUnlock()
+        })
+        cover.makeKeyAndVisible()
+        window = cover
+    }
+
+    func hide() {
+        guard let cover = window else { return }
+        cover.isHidden = true
+        window = nil
+        cover.windowScene?.windows.first { $0 !== cover && !$0.isHidden }?.makeKey()
     }
 }
