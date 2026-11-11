@@ -13985,6 +13985,35 @@
         }
       }
     },
+    "The invoice says {1} but your item is {2} – check it's the same pack size." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الفاتورة تذكر {1} لكن الصنف في قائمتك {2} – تأكد أنه نفس حجم العبوة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولەکە دەڵێت {1} بەڵام کاڵاکەی لیستەکەت {2} ە – دڵنیابە هەمان قەبارەی پاکەتە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf der Rechnung steht {1}, dein Artikel ist aber {2} – prüfe, ob es dieselbe Packungsgröße ist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La facture indique {1} mais votre article est {2} – vérifiez que c’est le même conditionnement."
+          }
+        }
+      }
+    },
     "The items below were charged above our agreed prices, or were missing or returned. Please issue a credit note for the amount shown." : {
       "extractionState" : "manual",
       "localizations" : {
