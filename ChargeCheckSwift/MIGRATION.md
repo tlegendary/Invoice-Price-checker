@@ -125,6 +125,7 @@ is ready and Ramyar says to switch.
 
 ## Rules
 
-- Never upload the Swift build to TestFlight / the App Store until Ramyar says yes.
+- ChargeCheck Beta (TestFlight) builds: go ahead without asking (Ramyar, 11 Nov 2026).
+- Never send the Swift version to the App Store (the live app) until Ramyar says yes.
 - Do not change prices, products, trial length, ad frequency or AdMob IDs without asking.
 - No phone number anywhere. Contact is email only.
