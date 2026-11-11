@@ -63,7 +63,7 @@ struct PricesView: View {
                     ContentUnavailableView.search(text: search)
                 }
                 ForEach(groups) { group in
-                    Section(group.cat) {
+                    Section(L(group.cat)) {
                         ForEach(group.items) { price in
                             Button {
                                 draft = PriceDraft(item: price.item, isNew: false)
@@ -89,6 +89,12 @@ struct PricesView: View {
                 }
             }
             .navigationTitle("Prices")
+            .task {
+                // the cloud check opens one item to look at its price history
+                if let id = UserDefaults.standard.string(forKey: "demoPrice"), let stored = prices.first(where: { $0.uid == id }) {
+                    draft = PriceDraft(item: stored.item, isNew: false)
+                }
+            }
             .searchable(text: $search, prompt: "Search \(prices.count) items")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -162,7 +168,7 @@ struct PriceRow: View {
         var parts: [String] = []
         if !price.supplier.isEmpty { parts.append(price.supplier) }
         let spellings = price.aliases.filter { $0 != TextTools.norm(price.name) }
-        if !spellings.isEmpty { parts.append("on invoices as: " + spellings.joined(separator: ", ")) }
+        if !spellings.isEmpty { parts.append(String(localized: "on invoices as: \(spellings.joined(separator: ", "))")) }
         return parts.joined(separator: " · ")
     }
 

@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import UniformTypeIdentifiers
 import ChargeCheckCore
 
 /// Paste a price list from WhatsApp, an email or a spreadsheet: one item per line, price at the end.
@@ -11,6 +12,7 @@ struct PasteListView: View {
 
     @State private var text = ""
     @State private var supplier = ""
+    @State private var showFiles = false
 
     private var rows: [PriceListText.Row] { PriceListText.parse(text) }
 
@@ -24,10 +26,13 @@ struct PasteListView: View {
                     Button("Paste from clipboard") {
                         if let copied = UIPasteboard.general.string { text = copied }
                     }
+                    Button("Open a spreadsheet or text file (CSV)") {
+                        showFiles = true
+                    }
                 } header: {
                     Text("Your list")
                 } footer: {
-                    Text("One item per line with its price at the end, for example: Chicken wings 10kg £15.00")
+                    Text("One item per line with its price at the end, for example: Chicken wings 10kg \(Money.format(15))")
                 }
                 Section("Supplier (optional)") {
                     TextField("Who are these prices from?", text: $supplier)
@@ -51,6 +56,15 @@ struct PasteListView: View {
                         }
                     }
                 }
+            }
+            .fileImporter(isPresented: $showFiles, allowedContentTypes: [.commaSeparatedText, .plainText]) { result in
+                guard case .success(let url) = result else { return }
+                let scoped = url.startAccessingSecurityScopedResource()
+                defer {
+                    if scoped { url.stopAccessingSecurityScopedResource() }
+                }
+                guard let data = try? Data(contentsOf: url) else { return }
+                text = String(data: data, encoding: .utf8) ?? String(decoding: data, as: UTF8.self)
             }
             .navigationTitle("Paste a price list")
             .navigationBarTitleDisplayMode(.inline)
