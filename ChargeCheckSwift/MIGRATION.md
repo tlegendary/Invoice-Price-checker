@@ -204,7 +204,9 @@ Each chat takes only its own list, one item at a time, on its own branch. Tick i
 - [ ] B5. Going-live list: remove the "add 5 free scans" button, test mode off, live App Group / iCloud / widget IDs,
       privacy details for receipt photos and iCloud, App Store screenshots in all five languages.
 - [x] B7. Pack-size warning: a line is flagged when the invoice says "5kg" and the matched item is "10kg" (12 Nov, `Core/PackSize.swift`)
-- [ ] B8. Settings › How invoices are read: read once or twice, Apple Intelligence on/off (pull request #7, waiting for Ramyar's merge)
+- [x] B12. Learn the names suppliers use: on a fully checked invoice, a new name for an item the app is sure about is added
+      to that item's "on invoices as" list (Settings switch, on by default; `PriceTools.newNames`)
+- [x] B8. Settings › How invoices are read: read once or twice, Apple Intelligence on/off (pull request #7, waiting for Ramyar's merge)
 - [ ] B9. Fast with big price lists (prepare the list once per scan; search quick at 2,000+ items)
 - [ ] B10. Excel (.xlsx) price-list import
 - [ ] B11. Free scan when no ad can load – only after Ramyar says yes
