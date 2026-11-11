@@ -175,7 +175,38 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
   on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
   after #7 is merged and the check is green.
-- Features chat: (write here what you are on)
+- Features chat (12 Nov 2026): finished on `swift-rewrite` – supplier payments (how paid, reference, receipt photo,
+  swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary. The tips test fix is
+  in 16a31c8 (Core tests green). **Mistake:** 16a31c8 also changed `.beta-build`, so it started a beta build; it won't happen again.
+  Next: A1 below, once Ramyar has done the Apple setup.
+
+### Plan: who does what (agreed with Ramyar, 12 Nov 2026)
+Each chat takes only its own list, one item at a time, on its own branch. Tick items off here when merged.
+
+**Features chat** (new things; files: `Store/Accounts.swift`, `Views/SuppliersView.swift`, `Views/InsightsViews.swift`,
+`Widget/`, new `Sharing/` folder)
+- [ ] A1. Staff phones share the shops' data through iCloud: owner invites staff (their own Apple IDs), staff can scan
+      invoices and see what's owed; owner-only: prices, payments, settings. Needs Ramyar's Apple setup (iCloud container
+      `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID).
+- [ ] A2. Turn the home screen widget on (`.widget-ready`) once the App Group exists on developer.apple.com.
+- [ ] A3. Receipt photos and supplier payments in every backup (backup file + iCloud folder), so nothing is lost on a new phone.
+- [ ] A4. Payment reminders per supplier ("pay Apex every Friday"), on top of the weekly payment day.
+- [ ] A5. (On hold – Ramyar said leave it for now) staff clock in/out by tapping their own iPhone on an NFC tag in the shop.
+
+**Review chat** (fixes, reading, polish, builds; files: `Reading/`, `Output/PDFMaker.swift`, `Check/CheckSession.swift`,
+`SettingsView.swift`, `ReportsView.swift`, `Localizable.xcstrings` clean-ups)
+- [ ] B1. Fix anything Ramyar finds when testing on his phone: PDF text reading, Apple's table reader, sharing invoices in
+      from WhatsApp/Mail, delivery check, scanning credit notes, trusted suppliers.
+- [ ] B2. Credit note detection: test on real credit notes (English, Arabic, Kurdish), fewer false matches.
+- [ ] B3. Right-to-left layout in Arabic and Kurdish PDFs.
+- [ ] B4. Kurdish wording fixes after Ramyar checks the screens.
+- [ ] B5. Going-live list: remove the "add 5 free scans" button, test mode off, live App Group / iCloud / widget IDs,
+      privacy details for receipt photos and iCloud, App Store screenshots in all five languages.
+- [ ] B6. Beta builds (only this chat), after the features chat says "ready for a build".
+
+**Ramyar**
+- [ ] On developer.apple.com: App Group + iCloud container + widget App ID (steps in the features chat, 12 Nov).
+- [ ] Check the Kurdish wording; test the new beta on real invoices and say what's wrong.
 
 ## Rules
 
