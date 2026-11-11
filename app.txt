@@ -1,6 +1,6 @@
-commit: daf1d66e445b357c4b3d75892cb25c6377bd37e4
-result: success
-when: Wed Nov 11 22:23:34 UTC 2026
+commit: 16a31c8345ebcc9d41a48854417769e8ab2dd73b
+result: cancelled
+when: Wed Nov 11 22:28:53 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,15 +9,44 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
-stringsdata files:       45
-    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
-    builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
-   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
-** TEST BUILD SUCCEEDED **
-/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:220:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:350:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
-Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/837A984D-E695-4FA5-8B7B-4374FCFF16FB/Documents/Backups: ChargeCheck-2026-11-11.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/837A984D-E695-4FA5-8B7B-4374FCFF16FB/Documents/Exports: Credit request 2026-11-06 Sample Foods Ltd 82044.pdf demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+---- last lines ----
+        ➜ Explicit dependency on target 'GoogleMobileAdsTarget' in project 'GoogleMobileAds'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'GoogleUserMessagingPlatform'
+    Target 'GoogleMobileAdsTarget' in project 'GoogleMobileAds'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'GoogleUserMessagingPlatform'
+    Target 'GoogleUserMessagingPlatform' in project 'GoogleUserMessagingPlatform'
+        ➜ Explicit dependency on target 'UserMessagingPlatformTarget' in project 'GoogleUserMessagingPlatform'
+    Target 'UserMessagingPlatformTarget' in project 'GoogleUserMessagingPlatform' (no dependencies)
+    Target 'ChargeCheckWidget' in project 'ChargeCheck'
+        ➜ Explicit dependency on target 'ChargeCheckCore' in project 'ChargeCheckCore'
+    Target 'ChargeCheckCore' in project 'ChargeCheckCore'
+        ➜ Explicit dependency on target 'ChargeCheckCore' in project 'ChargeCheckCore'
+    Target 'ChargeCheckCore' in project 'ChargeCheckCore' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/xcstringstool compile --dry-run --output-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckWidget.build /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Widget/Localiza
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/xcstringstool compile --dry-run --output-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Localizable.xcstr
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+Build description signature: bc1a02e242d620efb05616f1bfa15a0f
+Build description path: /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/XCBuildData/bc1a02e242d620efb05616f1bfa15a0f.xcbuilddata
+ClangStatCache /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f13
