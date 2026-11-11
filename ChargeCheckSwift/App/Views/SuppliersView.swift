@@ -204,6 +204,7 @@ struct SupplierDetailView: View {
 
     @Environment(\.modelContext) private var context
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
+    @Query private var prices: [StoredPrice]
     @ObservedObject private var accounts = Accounts.shared
     @State private var addKind: SupplierPayment.Kind?
     @State private var showPayInvoices = false
@@ -269,6 +270,18 @@ struct SupplierDetailView: View {
                         }
                     } footer: {
                         Text("Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers.")
+                    }
+
+                    Section {
+                        NavigationLink {
+                            SupplierPricesView(supplier: account.name)
+                        } label: {
+                            LabeledContent("Special prices") {
+                                Text("\(SupplierPrices.count(for: account.name, items: prices.map { $0.item }))")
+                            }
+                        }
+                    } footer: {
+                        Text("Prices agreed with this supplier that differ from your standard prices.")
                     }
 
                     Section {
@@ -822,6 +835,194 @@ struct AddSupplierView: View {
                         dismiss()
                     }
                     .disabled(cleanName.count < 2)
+                }
+            }
+        }
+    }
+}
+
+/// The prices agreed with one supplier that differ from the standard price. Invoices from them are checked against these.
+struct SupplierPricesView: View {
+    let supplier: String
+
+    @Environment(\.modelContext) private var context
+    @Query private var prices: [StoredPrice]
+    @State private var editing: PriceItem?
+    @State private var adding = false
+
+    private var items: [PriceItem] { prices.map { $0.item } }
+
+    var body: some View {
+        let rows = SupplierPrices.rows(for: supplier, items: items)
+        List {
+            if rows.isEmpty {
+                ContentUnavailableView {
+                    Label("No special prices", systemImage: "tag")
+                } description: {
+                    Text("Add a price you agreed with \(supplier) when it differs from your standard price. Their invoices are then checked against it.")
+                }
+            } else {
+                Section {
+                    ForEach(rows) { row in
+                        Button {
+                            editing = row.item
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(row.item.name)
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundStyle(.primary)
+                                    Text("Standard price \(Money.format(row.standard))")
+                                        .font(.footnote)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer(minLength: 8)
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text(Money.format(row.special))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.primary)
+                                    if abs(row.difference) > 0.005 {
+                                        Text((row.difference > 0 ? "+" : "−") + Money.format(abs(row.difference)))
+                                            .font(.caption)
+                                            .foregroundStyle(row.difference > 0 ? Color.red : Color.green)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .onDelete { offsets in
+                        for row in offsets.map({ rows[$0] }) {
+                            AppData.save(SupplierPrices.set(nil, for: supplier, on: row.item), in: context)
+                        }
+                    }
+                } footer: {
+                    Text("Invoices from \(supplier) are checked against these prices instead of the standard ones. Swipe left to remove one.")
+                }
+            }
+        }
+        .navigationTitle(String(localized: "Prices – \(supplier)"))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    adding = true
+                } label: {
+                    Label("Add a special price", systemImage: "plus")
+                }
+                .disabled(items.isEmpty)
+            }
+        }
+        .sheet(item: $editing) { item in
+            SpecialPriceEditView(item: item, supplier: supplier) { price in
+                AppData.save(SupplierPrices.set(price, for: supplier, on: item), in: context)
+            }
+        }
+        .sheet(isPresented: $adding) {
+            PickItemView(items: items.filter { item in !rows.contains { $0.id == item.id } }) { item in
+                adding = false
+                // open the price sheet once the list has closed
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { editing = item }
+            }
+        }
+    }
+}
+
+/// Type in one supplier's price for an item.
+struct SpecialPriceEditView: View {
+    let item: PriceItem
+    let supplier: String
+    let save: (Double?) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+
+    private var value: Double? {
+        guard let v = Money.parse(text), v > 0, v < 1_000_000_000 else { return nil }
+        return Money.round2(v)
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    HStack {
+                        Text(Money.currency.symbol)
+                            .foregroundStyle(.secondary)
+                        TextField("Price agreed with this supplier", text: $text)
+                            .keyboardType(.decimalPad)
+                            .font(.title3.weight(.semibold))
+                    }
+                    LabeledContent("Standard price", value: Money.format(item.price))
+                } header: {
+                    Text(item.name)
+                } footer: {
+                    Text("Only invoices from \(supplier) are checked against this price.")
+                }
+                if item.sp.contains(where: { TextTools.sameSupplier($0.s, supplier) }) {
+                    Section {
+                        Button("Remove this special price", role: .destructive) {
+                            save(nil)
+                            dismiss()
+                        }
+                    }
+                }
+            }
+            .navigationTitle(supplier)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        save(value)
+                        dismiss()
+                    }
+                    .disabled(value == nil)
+                }
+            }
+            .onAppear {
+                let current = item.basePrice(for: supplier)
+                text = String(format: "%.\(Money.currency.decimals)f", current)
+            }
+        }
+        .presentationDetents([.medium])
+    }
+}
+
+/// Choose an item from the price list.
+struct PickItemView: View {
+    let items: [PriceItem]
+    let pick: (PriceItem) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var search = ""
+
+    private var shown: [PriceItem] {
+        let sorted = items.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        let words = search.lowercased().split(separator: " ")
+        if words.isEmpty { return sorted }
+        return sorted.filter { item in words.allSatisfy { item.name.lowercased().contains($0) } }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List(shown) { item in
+                Button {
+                    pick(item)
+                } label: {
+                    HStack {
+                        Text(item.name).foregroundStyle(.primary)
+                        Spacer()
+                        Text(Money.format(item.price)).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .searchable(text: $search, prompt: "Search your price list")
+            .navigationTitle("Choose an item")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
                 }
             }
         }

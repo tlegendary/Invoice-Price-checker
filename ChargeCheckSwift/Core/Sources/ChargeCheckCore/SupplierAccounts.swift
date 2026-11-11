@@ -239,3 +239,40 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
                               currency: currency, updated: now)
     }
 }
+
+/// Prices agreed with one supplier that differ from an item's standard price ("Apex sells us wings at £14.50").
+public enum SupplierPrices {
+    public struct Row: Identifiable, Equatable, Sendable {
+        public var id: String { item.id }
+        public var item: PriceItem
+        /// This supplier's agreed price.
+        public var special: Double
+        /// The item's standard price.
+        public var standard: Double
+        public var difference: Double { Money.round2(special - standard) }
+    }
+
+    /// The items with a special price for this supplier, by name.
+    public static func rows(for supplier: String, items: [PriceItem]) -> [Row] {
+        items.compactMap { item in
+            guard let price = item.sp.first(where: { TextTools.sameSupplier($0.s, supplier) })?.p else { return nil }
+            return Row(item: item, special: price, standard: item.price)
+        }
+        .sorted { $0.item.name.localizedCaseInsensitiveCompare($1.item.name) == .orderedAscending }
+    }
+
+    /// Sets (or with nil, removes) this supplier's special price on an item.
+    public static func set(_ price: Double?, for supplier: String, on item: PriceItem) -> PriceItem {
+        var changed = item
+        changed.sp.removeAll { TextTools.sameSupplier($0.s, supplier) }
+        if let price, price > 0 {
+            changed.sp.append(SupplierPrice(s: supplier.trimmingCharacters(in: .whitespaces), p: Money.round2(price)))
+        }
+        return changed
+    }
+
+    /// How many special prices each supplier has (for the supplier list).
+    public static func count(for supplier: String, items: [PriceItem]) -> Int {
+        items.filter { item in item.sp.contains { TextTools.sameSupplier($0.s, supplier) } }.count
+    }
+}
