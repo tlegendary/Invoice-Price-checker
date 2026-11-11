@@ -1,9 +1,9 @@
-# Checks the Swift version of ChargeCheck every time the swift-rewrite branch (or an improve/ branch) changes.
+# Checks the Swift version of ChargeCheck every time the swift-rewrite branch (or an improve/ or feature/ branch) changes.
 # It only checks that the code builds and the tests pass. It does NOT upload anything to the App Store.
 name: Swift check
 on:
   push:
-    branches: [swift-rewrite, 'improve/**']
+    branches: [swift-rewrite, 'improve/**', 'feature/**']
 permissions:
   contents: write
 concurrency:
