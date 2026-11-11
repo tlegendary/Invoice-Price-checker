@@ -1,18 +1,17 @@
-commit: f197700ed1cba435ec455667764b185d09da8472
-result: failure
-when: Wed Nov 11 22:19:01 UTC 2026
+commit: 16a31c8345ebcc9d41a48854417769e8ab2dd73b
+result: success
+when: Wed Nov 11 22:25:51 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
 Building for debugging...
-[Constructing description]
+[Provisioning 2 / 6]
 [Pre-planning 1 / 154]
 [Planning deferred tasks]
-[32 / 56]
 [39 / 62] ChargeCheckCore
 [40 / 62] ChargeCheckCore
-[48 / 68] ChargeCheckCore
 [51 / 69] ChargeCheckCoreTests-product
+[52 / 69] ChargeCheckCoreTests-product
 [58 / 69] ChargeCheckCoreTests-product
 [58 / 69] ChargeCheckCore-product
 [58 / 69] ChargeCheckCoreTests-product
@@ -21,124 +20,153 @@ Building for debugging...
 [66 / 73] ChargeCheckCoreTests-test-runner
 [70 / 73] ChargeCheckCoreTests-test-runner
 [74 / 74] ChargeCheckCoreTests-test-runner
-Build complete! (15.11 secs)
-Test Suite 'All tests' started at 2026-11-11 22:18:59.100
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-11 22:18:59.100
-Test Suite 'CoreTests' started at 2026-11-11 22:18:59.100
-Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-11 22:18:59.100
-Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.103 seconds)
-Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-11 22:18:59.203
-Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.026 seconds)
-Test Case 'CoreTests.testCategories' started at 2026-11-11 22:18:59.229
+Build complete! (16.09 secs)
+Test Suite 'All tests' started at 2026-11-11 22:25:48.703
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-11 22:25:48.703
+Test Suite 'CoreTests' started at 2026-11-11 22:25:48.703
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-11 22:25:48.703
+Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.002 seconds)
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-11 22:25:48.706
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.201 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-11 22:25:48.906
 Test Case 'CoreTests.testCategories' passed (0.002 seconds)
-Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-11 22:18:59.231
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-11 22:25:48.908
 Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.001 seconds)
-Test Case 'CoreTests.testMoney' started at 2026-11-11 22:18:59.232
+Test Case 'CoreTests.testMoney' started at 2026-11-11 22:25:48.910
 Test Case 'CoreTests.testMoney' passed (0.0 seconds)
-Test Case 'CoreTests.testNorm' started at 2026-11-11 22:18:59.233
+Test Case 'CoreTests.testNorm' started at 2026-11-11 22:25:48.910
 Test Case 'CoreTests.testNorm' passed (0.0 seconds)
-Test Case 'CoreTests.testPastedPriceList' started at 2026-11-11 22:18:59.233
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-11 22:25:48.910
 Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
-Test Case 'CoreTests.testSupplier' started at 2026-11-11 22:18:59.233
+Test Case 'CoreTests.testSupplier' started at 2026-11-11 22:25:48.910
 Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
-Test Suite 'CoreTests' passed at 2026-11-11 22:18:59.233
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.133 (0.133) seconds
-Test Suite 'InsightTests' started at 2026-11-11 22:18:59.233
-Test Case 'InsightTests.testCheaperSupplier' started at 2026-11-11 22:18:59.233
-/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/Tests/ChargeCheckCoreTests/InsightTests.swift:26: error: InsightTests.testCheaperSupplier : XCTAssertEqual failed: ("0") is not equal to ("2") - 
-Swift/ContiguousArrayBuffer.swift:695: Fatal error: Index out of range
-
-*** Signal 4: Backtracing from 0x7f4234f731ef... done ***
-
-*** Program crashed: Illegal instruction at 0x00007f4234f731ef ***
-
-Platform: x86_64 Linux (Ubuntu 24.04.5 LTS)
-
-Thread 0 "ChargeCheckCore" crashed:
-
-0               0x00007f4234f731ef closure #1 in closure #1 in _assertionFailure(_:_:file:line:flags:) + 623 in libswiftCore.so
-1 [ra]          0x00007f423510a2cc _assertionFailure(_:_:file:line:flags:) + 283 in libswiftCore.so
-2 [ra]          0x00007f4234f9188d Array.subscript.getter + 124 in libswiftCore.so
-3 [ra] [system] 0x00007f423564e4b7 implicit closure #3 in InsightTests.testCheaperSupplier() + 38 in ChargeCheckCoreTests.so at //<compiler-generated>
-4 [ra] [thunk]  0x00007f423564e52f partial apply for implicit closure #3 in InsightTests.testCheaperSupplier() + 14 in ChargeCheckCoreTests.so at //<compiler-generated>
-5 [ra]          0x00007f4234b3004c closure #1 in XCTAssertEqual<A>(_:_:_:file:line:) + 75 in libXCTest.so
-
-Thread 1 "DispatchWorker":
-
-0      0x00007f4233498e51 <unknown> in libc.so.6
-1 [ra] 0x00007f42334a4e73 <unknown> in libc.so.6
-2 [ra] 0x00007f4235565c31 _dispatch_sema4_timedwait + 80 in libdispatch.so
-3 [ra] 0x00007f423555ea21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
-4 [ra] 0x00007f423555e34e _dispatch_worker_thread + 1069 in libdispatch.so
-5 [ra] 0x00007f423349cb84 <unknown> in libc.so.6
-
-Thread 2 "DispatchWorker":
-
-0      0x00007f423352a2d2 <unknown> in libc.so.6
-1 [ra] 0x00007f4235565537 _dispatch_event_loop_drain + 54 in libdispatch.so
-2 [ra] 0x00007f423555b022 _dispatch_mgr_invoke + 129 in libdispatch.so
-3 [ra] 0x00007f423555af8d _dispatch_mgr_thread + 108 in libdispatch.so
-4 [ra] 0x00007f423555e1b5 _dispatch_worker_thread + 660 in libdispatch.so
-5 [ra] 0x00007f423349cb84 <unknown> in libc.so.6
-
-Thread 3 "DispatchWorker":
-
-0      0x00007f4233498e51 <unknown> in libc.so.6
-1 [ra] 0x00007f42334a4e73 <unknown> in libc.so.6
-2 [ra] 0x00007f4235565c31 _dispatch_sema4_timedwait + 80 in libdispatch.so
-3 [ra] 0x00007f423555ea21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
-4 [ra] 0x00007f423555e34e _dispatch_worker_thread + 1069 in libdispatch.so
-5 [ra] 0x00007f423349cb84 <unknown> in libc.so.6
-
-Thread 4 "DispatchWorker":
-
-0      0x00007f4error: Process '/home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64/ChargeCheckCoreTests-test-runner' exited with unexpected signal code 4
-233498e51 <unknown> in libc.so.6
-1 [ra] 0x00007f42334a4e73 <unknown> in libc.so.6
-2 [ra] 0x00007f4235565c31 _dispatch_sema4_timedwait + 80 in libdispatch.so
-3 [ra] 0x00007f423555ea21 _dispatch_semaphore_wait_slow + 32 in libdispatch.so
-4 [ra] 0x00007f423555e34e _dispatch_worker_thread + 1069 in libdispatch.so
-5 [ra] 0x00007f423349cb84 <unknown> in libc.so.6
-
-
-Registers:
-
-rax 0x0000000000000001  1
-rdx 0x00000000000002b7  695
-rcx 0x0000000000000001  1
-rbx 0x00000005653583fe  23172842494
-rsi 0x0000000000000000  0
-rdi 0x00005653583fe350  00 00 00 00 00 00 00 00 31 00 00 00 00 00 00 00  ········1·······
-rbp 0x00007ffc4526b4b0  60 b5 26 45 fc 7f 00 00 cc a2 10 35 42 7f 00 00  `µ&Eü···Ì¢·5B···
-rsp 0x00007ffc4526b490  f0 b0 3c 58 53 56 00 00 e6 00 00 00 00 00 00 00  ð°<XSV··æ·······
- r8 0x0000565358366010  07 00 01 00 03 00 06 00 04 00 07 00 07 00 07 00  ················
- r9 0x0000000000000007  7
-r10 0x00005653583fe360  fe 83 35 65 05 00 00 00 b4 57 de 89 94 c7 66 05  þ·5e····´WÞ··Çf·
-r11 0x0566c79489de57b4  389217858596263860
-r12 0x0000000000000000  0
-r13 0x00007f42353ffe98  c8 5f 3f 35 42 7f 00 00 ff ff ff ff 04 00 00 80  È_?5B···ÿÿÿÿ····
-r14 0x0000000000000001  1
-r15 0x000000000000000b  11
-rip 0x00007f4234f731ef  0f 0b 48 83 ec 08 48 8d 05 24 78 49 00 48 8d 3d  ··H·ì·H··$xI·H·=
-
-rflags 0x0000000000010206  PF
-
-cs 0x0033  fs 0x0000  gs 0x0000
-
-
-Images (21 omitted):
-
-0x00007f4233400000–0x00007f42335b0039 a4a7992a8e66555c8141ab2a08a8465ff6e0ea65 libc.so.6               /usr/lib/x86_64-linux-gnu/libc.so.6
-0x00007f4234af7000–0x00007f4234b4e748 f3312a5fdfecdada6c72c04a94ad224711d1c7a1 libXCTest.so            /usr/share/swift/usr/lib/swift/linux/libXCTest.so
-0x00007f4234e00000–0x00007f42353d9b70 5efcbc7cd961c4e601daaa68b8cb1e43cb786bc0 libswiftCore.so         /usr/share/swift/usr/lib/swift/linux/libswiftCore.so
-0x00007f4235529000–0x00007f42355710d0 3874d40e3b354035874e842e883228a08cf5d450 libdispatch.so          /usr/share/swift/usr/lib/swift/linux/libdispatch.so
-0x00007f4235605000–0x00007f423576b410 313034a1ad50db3ff76d692683ccad025b1d16f3 ChargeCheckCoreTests.so /home/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Core/.build/out/Products/Debug-linux-x86_64/ChargeCheckCoreTests.so
-
-Backtrace took 0.16s
-
+Test Suite 'CoreTests' passed at 2026-11-11 22:25:48.910
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.207 (0.207) seconds
+Test Suite 'InsightTests' started at 2026-11-11 22:25:48.910
+Test Case 'InsightTests.testCheaperSupplier' started at 2026-11-11 22:25:48.910
+Test Case 'InsightTests.testCheaperSupplier' passed (0.0 seconds)
+Test Case 'InsightTests.testCreditNotes' started at 2026-11-11 22:25:48.911
+Test Case 'InsightTests.testCreditNotes' passed (0.005 seconds)
+Test Case 'InsightTests.testMonthSummary' started at 2026-11-11 22:25:48.916
+Test Case 'InsightTests.testMonthSummary' passed (0.006 seconds)
+Test Case 'InsightTests.testNoTipWhenYouAlreadyUseTheCheapest' started at 2026-11-11 22:25:48.921
+Test Case 'InsightTests.testNoTipWhenYouAlreadyUseTheCheapest' passed (0.0 seconds)
+Test Case 'InsightTests.testPaymentDetails' started at 2026-11-11 22:25:48.922
+Test Case 'InsightTests.testPaymentDetails' passed (0.0 seconds)
+Test Case 'InsightTests.testShortDelivery' started at 2026-11-11 22:25:48.922
+Test Case 'InsightTests.testShortDelivery' passed (0.0 seconds)
+Test Suite 'InsightTests' passed at 2026-11-11 22:25:48.922
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.012 (0.012) seconds
+Test Suite 'LanguageTests' started at 2026-11-11 22:25:48.922
+Test Case 'LanguageTests.testArabicInvoiceInDinars' started at 2026-11-11 22:25:48.922
+Test Case 'LanguageTests.testArabicInvoiceInDinars' passed (0.102 seconds)
+Test Case 'LanguageTests.testCurrencies' started at 2026-11-11 22:25:49.024
+Test Case 'LanguageTests.testCurrencies' passed (0.001 seconds)
+Test Case 'LanguageTests.testEnglishIsUnchanged' started at 2026-11-11 22:25:49.025
+Test Case 'LanguageTests.testEnglishIsUnchanged' passed (0.0 seconds)
+Test Case 'LanguageTests.testGermanInvoice' started at 2026-11-11 22:25:49.025
+Test Case 'LanguageTests.testGermanInvoice' passed (0.001 seconds)
+Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' started at 2026-11-11 22:25:49.026
+Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' passed (0.033 seconds)
+Test Suite 'LanguageTests' passed at 2026-11-11 22:25:49.059
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.136 (0.136) seconds
+Test Suite 'LedgerTests' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' passed (0.0 seconds)
+Test Case 'LedgerTests.testProductsMatchAppStoreConnect' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testProductsMatchAppStoreConnect' passed (0.0 seconds)
+Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' passed (0.0 seconds)
+Test Case 'LedgerTests.testSavedAndLoaded' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testSavedAndLoaded' passed (0.0 seconds)
+Test Case 'LedgerTests.testUsingScans' started at 2026-11-11 22:25:49.059
+Test Case 'LedgerTests.testUsingScans' passed (0.0 seconds)
+Test Suite 'LedgerTests' passed at 2026-11-11 22:25:49.060
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ParserTests' started at 2026-11-11 22:25:49.060
+Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-11 22:25:49.060
+Test Case 'ParserTests.testCheckingAnInvoice' passed (0.001 seconds)
+Test Case 'ParserTests.testCleanNames' started at 2026-11-11 22:25:49.061
+Test Case 'ParserTests.testCleanNames' passed (0.074 seconds)
+Test Case 'ParserTests.testConsensus' started at 2026-11-11 22:25:49.135
+Test Case 'ParserTests.testConsensus' passed (0.003 seconds)
+Test Case 'ParserTests.testKnownWords' started at 2026-11-11 22:25:49.138
+Test Case 'ParserTests.testKnownWords' passed (0.0 seconds)
+Test Case 'ParserTests.testLines' started at 2026-11-11 22:25:49.139
+Test Case 'ParserTests.testLines' passed (0.214 seconds)
+Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-11 22:25:49.353
+Test Case 'ParserTests.testMergingTwoReads' passed (0.191 seconds)
+Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-11 22:25:49.544
+Test Case 'ParserTests.testRowsFromPositions' passed (0.004 seconds)
+Test Case 'ParserTests.testWholeInvoices' started at 2026-11-11 22:25:49.548
+Test Case 'ParserTests.testWholeInvoices' passed (0.045 seconds)
+Test Suite 'ParserTests' passed at 2026-11-11 22:25:49.593
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.533 (0.533) seconds
+Test Suite 'PriceToolsTests' started at 2026-11-11 22:25:49.593
+Test Case 'PriceToolsTests.testCheaperPricesNeverRiseAndNeedASureLine' started at 2026-11-11 22:25:49.593
+Test Case 'PriceToolsTests.testCheaperPricesNeverRiseAndNeedASureLine' passed (0.0 seconds)
+Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' started at 2026-11-11 22:25:49.593
+Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' passed (0.001 seconds)
+Test Case 'PriceToolsTests.testSpreadsheetLists' started at 2026-11-11 22:25:49.594
+Test Case 'PriceToolsTests.testSpreadsheetLists' passed (0.0 seconds)
+Test Suite 'PriceToolsTests' passed at 2026-11-11 22:25:49.594
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'ReportTests' started at 2026-11-11 22:25:49.594
+Test Case 'ReportTests.testCopyNames' started at 2026-11-11 22:25:49.594
+Test Case 'ReportTests.testCopyNames' passed (0.001 seconds)
+Test Case 'ReportTests.testCreditMessage' started at 2026-11-11 22:25:49.595
+Test Case 'ReportTests.testCreditMessage' passed (0.0 seconds)
+Test Case 'ReportTests.testCredits' started at 2026-11-11 22:25:49.595
+Test Case 'ReportTests.testCredits' passed (0.0 seconds)
+Test Case 'ReportTests.testPeriods' started at 2026-11-11 22:25:49.595
+Test Case 'ReportTests.testPeriods' passed (0.101 seconds)
+Test Case 'ReportTests.testSpreadsheets' started at 2026-11-11 22:25:49.696
+Test Case 'ReportTests.testSpreadsheets' passed (0.0 seconds)
+Test Case 'ReportTests.testWhatToPay' started at 2026-11-11 22:25:49.697
+Test Case 'ReportTests.testWhatToPay' passed (0.0 seconds)
+Test Case 'ReportTests.testWhatToPayBeforeVat' started at 2026-11-11 22:25:49.697
+Test Case 'ReportTests.testWhatToPayBeforeVat' passed (0.0 seconds)
+Test Suite 'ReportTests' passed at 2026-11-11 22:25:49.697
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
+Test Suite 'SecondReadTests' started at 2026-11-11 22:25:49.697
+Test Case 'SecondReadTests.testANewItemOnlyTheSecondReadSawIsStillAdded' started at 2026-11-11 22:25:49.697
+Test Case 'SecondReadTests.testANewItemOnlyTheSecondReadSawIsStillAdded' passed (0.0 seconds)
+Test Case 'SecondReadTests.testAnyInventedLetterIsCaught' started at 2026-11-11 22:25:49.697
+Test Case 'SecondReadTests.testAnyInventedLetterIsCaught' passed (0.0 seconds)
+Test Case 'SecondReadTests.testGarbledNameFallsBackToThePrice' started at 2026-11-11 22:25:49.698
+Test Case 'SecondReadTests.testGarbledNameFallsBackToThePrice' passed (0.001 seconds)
+Test Case 'SecondReadTests.testInventedLettersAreNotChosenOrKept' started at 2026-11-11 22:25:49.699
+Test Case 'SecondReadTests.testInventedLettersAreNotChosenOrKept' passed (0.0 seconds)
+Test Case 'SecondReadTests.testMissingLineIsKeptWhenTheTotalNeedsIt' started at 2026-11-11 22:25:49.700
+Test Case 'SecondReadTests.testMissingLineIsKeptWhenTheTotalNeedsIt' passed (0.101 seconds)
+Test Case 'SecondReadTests.testSameLineReadTwiceIsNotAdded' started at 2026-11-11 22:25:49.800
+Test Case 'SecondReadTests.testSameLineReadTwiceIsNotAdded' passed (0.0 seconds)
+Test Suite 'SecondReadTests' passed at 2026-11-11 22:25:49.801
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
+Test Suite 'SupplierAccountTests' started at 2026-11-11 22:25:49.801
+Test Case 'SupplierAccountTests.testBackupKeepsPayments' started at 2026-11-11 22:25:49.801
+Test Case 'SupplierAccountTests.testBackupKeepsPayments' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' started at 2026-11-11 22:25:49.801
+Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' started at 2026-11-11 22:25:49.802
+Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' started at 2026-11-11 22:25:49.802
+Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' started at 2026-11-11 22:25:49.802
+Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTotalOnlyInvoice' started at 2026-11-11 22:25:49.803
+Test Case 'SupplierAccountTests.testTotalOnlyInvoice' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTrustedSuppliers' started at 2026-11-11 22:25:49.803
+Test Case 'SupplierAccountTests.testTrustedSuppliers' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testWidget' started at 2026-11-11 22:25:49.803
+Test Case 'SupplierAccountTests.testWidget' passed (0.0 seconds)
+Test Suite 'SupplierAccountTests' passed at 2026-11-11 22:25:49.803
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-11 22:25:49.803
+	 Executed 56 tests, with 0 failures (0 unexpected) in 1.099 (1.099) seconds
+Test Suite 'All tests' passed at 2026-11-11 22:25:49.803
+	 Executed 56 tests, with 0 failures (0 unexpected) in 1.099 (1.099) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu
 ✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
-Note: Some test targets reported failures:
-  - ChargeCheckCoreTests (XCTest)
