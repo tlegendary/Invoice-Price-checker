@@ -29,8 +29,10 @@ struct SettingsView: View {
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
     @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(SettingKey.autoLearnNames) private var autoLearnNames = true
     @AppStorage(AppLock.settingKey) private var lockOn = false
     @AppStorage(SmartCheck.settingKey) private var smartCheck = true
+    @AppStorage(SettingKey.photoReads) private var photoReads = 2
     @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
     @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
     @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
@@ -220,12 +222,33 @@ struct SettingsView: View {
                         Text(Money.format(0.1)).tag(0.1)
                     }
                     Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
-                    Toggle("Double-check with Apple Intelligence", isOn: $smartCheck)
+                    Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
                 } header: {
                     Text("Checking")
                 } footer: {
+                    Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.")
+                        + Text(verbatim: "\n\n")
+                        + Text("Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices.")
+                }
+
+                Section {
+                    Picker("Read each photo", selection: $photoReads) {
+                        Text("Once (faster)").tag(1)
+                        Text("Twice (double-checked)").tag(2)
+                    }
+                    if SmartCheck.status.isEmpty {
+                        Toggle("Also check with Apple Intelligence", isOn: $smartCheck)
+                    } else {
+                        // this iPhone can't run Apple Intelligence: shown off, and never used
+                        Toggle("Also check with Apple Intelligence", isOn: .constant(false))
+                            .disabled(true)
+                    }
+                } header: {
+                    Text("How invoices are read")
+                } footer: {
                     let status = SmartCheck.status
-                    Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price." + (status.isEmpty ? "" : "\n" + status))
+                    Text("Twice is safest: the photo is read two different ways and the app points out any line where the two reads differ. Once is about twice as fast.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price. It makes a scan slower.")
+                        + Text(verbatim: status.isEmpty ? "" : "\n\n" + status)
                 }
 
                 Section {
