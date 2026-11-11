@@ -175,71 +175,71 @@ workflows:
           cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|FAILED|rovision" | sort -u | cut -c1-400 > /tmp/errors.txt
           cat /tmp/errors.txt | head -80
           exit $CODE
-      - name: "Diagnose – InvoiceReader"
+      - name: "Diagnose – Reader lines 81-122 (PDF text)"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(InvoiceReader.swift)" /tmp/errors.txt; then grep -E "(InvoiceReader.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – SuppliersView"
+          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[01][0-9]|12[0-2]):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[01][0-9]|12[0-2]):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 123-137 (PDF pages)"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(SuppliersView.swift)" /tmp/errors.txt; then grep -E "(SuppliersView.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – InvoiceDetailView"
+          if grep -Eq 'InvoiceReader.swift:(12[3-9]|13[0-7]):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(12[3-9]|13[0-7]):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 138-144 (table request)"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(InvoiceDetailView.swift)" /tmp/errors.txt; then grep -E "(InvoiceDetailView.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – CheckView"
+          if grep -Eq 'InvoiceReader.swift:(13[8-9]|14[0-4]):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(13[8-9]|14[0-4]):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 145-158 (table rows)"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(CheckView.swift)" /tmp/errors.txt; then grep -E "(CheckView.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – RootView"
+          if grep -Eq 'InvoiceReader.swift:(14[5-9]|15[0-8]):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(14[5-9]|15[0-8]):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 159-180"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(RootView.swift)" /tmp/errors.txt; then grep -E "(RootView.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – Accounts"
+          if grep -Eq 'InvoiceReader.swift:(159|1[6-7][0-9]|180):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(159|1[6-7][0-9]|180):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 181+ (read)"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(Accounts.swift)" /tmp/errors.txt; then grep -E "(Accounts.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – CheckSession"
+          if grep -Eq 'InvoiceReader.swift:(18[1-9]|19[0-9]|20[0-9]|21[0-9]|2[2-9][0-9]):' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:(18[1-9]|19[0-9]|20[0-9]|21[0-9]|2[2-9][0-9]):' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Reader lines 1-80"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(CheckSession.swift)" /tmp/errors.txt; then grep -E "(CheckSession.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – ReportsView"
+          if grep -Eq 'InvoiceReader.swift:[1-7]?[0-9]:' /tmp/errors.txt; then grep -E 'InvoiceReader.swift:[1-7]?[0-9]:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – no table reader type"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(ReportsView.swift)" /tmp/errors.txt; then grep -E "(ReportsView.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – AppData"
+          if grep -Eq 'cannot find .RecognizeDocumentsRequest|RecognizeDocumentsRequest. (is|cannot)' /tmp/errors.txt; then grep -E 'cannot find .RecognizeDocumentsRequest|RecognizeDocumentsRequest. (is|cannot)' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – table reader member missing"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(AppData.swift)" /tmp/errors.txt; then grep -E "(AppData.swift)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – Core package"
+          if grep -Eq 'no member .(tables|rows|document|content|text|transcript).' /tmp/errors.txt; then grep -E 'no member .(tables|rows|document|content|text|transcript).' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – perform"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(ChargeCheckCore/)" /tmp/errors.txt; then grep -E "(ChargeCheckCore/)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – String catalog"
+          if grep -Eq 'perform' /tmp/errors.txt; then grep -E 'perform' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – concurrency"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(xcstrings)" /tmp/errors.txt; then grep -E "(xcstrings)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – Info.plist"
+          if grep -Eq '[Ss]endable|actor|isolat' /tmp/errors.txt; then grep -E '[Ss]endable|actor|isolat' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – availability"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(Info.plist|plist)" /tmp/errors.txt; then grep -E "(Info.plist|plist)" /tmp/errors.txt | head -20; exit 1; fi
-      - name: "Diagnose – Signing"
+          if grep -Eq 'availab' /tmp/errors.txt; then grep -E 'availab' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Diagnose – Message – signing"
         ignore_failure: true
         script: |
           if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq "(rovision|igning|entitlement)" /tmp/errors.txt; then grep -E "(rovision|igning|entitlement)" /tmp/errors.txt | head -20; exit 1; fi
+          if grep -Eq 'Provisioning profile|development team|Signing for' /tmp/errors.txt; then grep -E 'Provisioning profile|development team|Signing for' /tmp/errors.txt | head -20; exit 1; fi
       - name: Stop if the build failed
         script: exit $(cat /tmp/build-code)
     artifacts:
