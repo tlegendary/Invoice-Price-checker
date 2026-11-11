@@ -209,18 +209,27 @@ struct CheckView: View {
                 // the cloud check starts the sample invoice with "-demoScan YES"
                 // ("-demoScan sideways" turns it on its side first, to check that is handled)
                 if let demo = UserDefaults.standard.string(forKey: "demoScan"), session.jobs.isEmpty {
-                    trySample(open: true, sideways: demo == "sideways")
+                    trySample(open: true, sideways: demo == "sideways", dark: demo == "dark")
                 }
             }
         }
     }
 
-    private func trySample(open: Bool = false, sideways: Bool = false) {
+    private func trySample(open: Bool = false, sideways: Bool = false, dark: Bool = false) {
         guard var image = SampleInvoice.image else {
             notice = String(localized: "The sample invoice is missing from the app.")
             return
         }
         if sideways { image = image.prepared(quarterTurns: 1) }
+        if dark {
+            // the cloud check: a photo taken with almost no light, to check the "too dark" tip
+            let size = image.size
+            image = UIGraphicsImageRenderer(size: size).image { _ in
+                image.draw(in: CGRect(origin: .zero, size: size))
+                UIColor.black.withAlphaComponent(0.96).setFill()
+                UIRectFillUsingBlendMode(CGRect(origin: .zero, size: size), .normal)
+            }
+        }
         let id = session.read(pages: [image], context: context, sample: true)
         if open { path = [id] }
     }

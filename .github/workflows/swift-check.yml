@@ -82,6 +82,10 @@ jobs:
             shot 10-check-free 6 -startTab check
             shot 11-export 6 -startTab reports -demoExport YES
             shot 12-price-history 6 -startTab prices -demoPrice s1
+            shot 13-reports-before-vat 6 -startTab reports -pay.beforeVat YES
+            shot 14-invoice-credit 8 -startTab reports -demoReport YES
+            shot 15-invoice-credit-asked 8 -startTab reports -demoReport YES -demoCredit YES
+            shot 16-photo-dark 25 -demoScan dark
             # the app in each language (right-to-left for Arabic and Kurdish)
             shot 20-ar-settings 6 -startTab settings -AppleLanguages "(ar)" -AppleLocale ar_IQ
             shot 21-ckb-reports 6 -startTab reports -AppleLanguages "(ckb)" -AppleLocale ckb_IQ

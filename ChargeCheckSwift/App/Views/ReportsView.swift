@@ -40,8 +40,11 @@ struct ReportsView: View {
         return formatter.string(from: Date())
     }
 
+    /// Only used by the cloud check ("-demoReport YES") to open an invoice's details.
+    @State private var demoPath: [String] = []
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $demoPath) {
             let list = entries
             let pay = ReportMaths.paySummary(list, skipped: skipped, beforeVat: beforeVat)
             List {
@@ -107,6 +110,18 @@ struct ReportsView: View {
             }
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
+            }
+            .task {
+                // the cloud check: open an overcharged invoice ("-demoCredit YES" marks its credit as asked for)
+                guard UserDefaults.standard.bool(forKey: "demoReport"), demoPath.isEmpty,
+                      let first = entries.first(where: { $0.amountToPay.less > 0 }) ?? entries.first else { return }
+                if UserDefaults.standard.bool(forKey: "demoCredit"), first.credit == nil {
+                    AppData.updateReports([first.id], context: context) { saved in
+                        saved.credit = CreditInfo(status: CreditInfo.requested, amount: first.amountToPay.less,
+                                                  at: ISO8601DateFormatter().string(from: Date()))
+                    }
+                }
+                demoPath = [first.id]
             }
             .sheet(isPresented: $showChoose) {
                 PayChooseView(entries: pay.unpaid, skippedText: $skippedText)
