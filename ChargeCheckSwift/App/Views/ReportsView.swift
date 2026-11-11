@@ -365,6 +365,17 @@ struct ReportDetailView: View {
 
     private var entry: HistoryEntry? { reports.first { $0.uid == reportID }?.entry }
 
+    static func lineDetail(_ line: HistoryLine) -> String {
+        var parts = ["\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))"]
+        if let base = line.base { parts.append(String(localized: "your price \(Money.format(base))")) }
+        if line.excluded {
+            parts.append(String(localized: "missing or returned"))
+        } else if line.short > 0 {
+            parts.append(String(localized: "\(PDFMaker.quantity(line.short)) didn't arrive"))
+        }
+        return parts.joined(separator: " · ")
+    }
+
     var body: some View {
         Group {
             if let entry {
@@ -435,8 +446,7 @@ struct ReportDetailView: View {
                                     Text(line.item.isEmpty ? line.desc : line.item)
                                         .font(.subheadline.weight(.semibold))
                                         .strikethrough(line.excluded)
-                                    Text("\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))" + (line.base.map { " · " + String(localized: "your price \(Money.format($0))") } ?? "") + (line.excluded ? " · " + String(localized: "missing or returned") : "")
-                                         + (!line.excluded && line.short > 0 ? " · " + String(localized: "\(PDFMaker.quantity(line.short)) didn't arrive") : ""))
+                                    Text(Self.lineDetail(line))
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }

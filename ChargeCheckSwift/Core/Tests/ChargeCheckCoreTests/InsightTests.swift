@@ -8,7 +8,7 @@ final class InsightTests: XCTestCase {
 
     private func entry(_ id: String, _ supplier: String, _ savedAt: String, _ lines: [HistoryLine], shop: String = "") -> HistoryEntry {
         let net = lines.reduce(0) { $0 + $1.qty * $1.unit }
-        return HistoryEntry(id: id, savedAt: savedAt, shopId: shop, supplier: supplier, invNo: id, date: "", net: net, total: net, lines: lines)
+        return HistoryEntry(id: id, savedAt: savedAt, shopId: shop, supplier: supplier, invNo: id, date: "", net: net, total: net, over: 0, lines: lines)
     }
 
     private let now = SupplierAccounts.day("2026-11-12")!
