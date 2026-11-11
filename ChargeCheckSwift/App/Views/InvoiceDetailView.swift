@@ -17,6 +17,7 @@ struct InvoiceDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var prices: [StoredPrice]
     @State private var editing: LineDraft?
+    @State private var checkingDelivery = false
 
     private var job: InvoiceJob? { session.job(jobID) }
 
@@ -48,6 +49,19 @@ struct InvoiceDetailView: View {
                 LineEditView(draft: draft, supplier: job.draft.supplier, items: items(job), isSample: job.isSample,
                              onSave: { saveLine($0, original: draft) },
                              onDelete: deleteAction(for: draft))
+            }
+        }
+        .sheet(isPresented: $checkingDelivery) {
+            if let job {
+                DeliveryCheckView(lines: job.draft.lines) { received in
+                    change { draft in
+                        for index in draft.lines.indices {
+                            if let got = received[draft.lines[index].id] {
+                                draft.lines[index].short = max(0, draft.lines[index].qty - got)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -109,7 +123,12 @@ struct InvoiceDetailView: View {
 
     @ViewBuilder
     private func content(_ job: InvoiceJob, book: PriceBook) -> some View {
-        if job.draft.totalOnly {
+        if let note = job.creditNote {
+            CreditNoteView(job: job, note: note, change: change, apply: { session.applyCreditNote(jobID, context: context) }, remove: {
+                session.remove(jobID)
+                dismiss()
+            })
+        } else if job.draft.totalOnly {
             TotalOnlyView(job: job, change: change, remove: {
                 session.remove(jobID)
                 dismiss()
@@ -177,6 +196,16 @@ struct InvoiceDetailView: View {
                     Text("New items are added at the price on this invoice, so you'll be told if it goes up next time.")
                 }
             }
+            Section {
+                Button {
+                    checkingDelivery = true
+                } label: {
+                    Label("Check the delivery", systemImage: "shippingbox.and.arrow.backward")
+                }
+            } footer: {
+                Text("Tick off what arrived. Anything short comes off what you pay and goes into the credit request.")
+            }
+
             Section("Totals") {
                 LabeledContent("Net", value: Money.format(totals.net))
                 LabeledContent("VAT", value: Money.format(totals.vat))
@@ -238,6 +267,163 @@ struct InvoiceDetailView: View {
                 if job.saved != nil { Text("It stays in Reports.") }
             }
         }
+    }
+}
+
+/// Tick off what arrived, line by line.
+struct DeliveryCheckView: View {
+    let lines: [CheckLine]
+    let save: ([String: Double]) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var received: [String: Double] = [:]
+
+    private var shortValue: Double {
+        lines.reduce(0) { sum, line in
+            let got = received[line.id] ?? line.received
+            return sum + Money.round2(max(0, line.qty - got) * line.unit)
+        }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    ForEach(lines.filter { !$0.excluded && $0.qty > 0 }) { line in
+                        let got = received[line.id] ?? line.received
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack {
+                                Image(systemName: got >= line.qty ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
+                                    .foregroundStyle(got >= line.qty ? Color.green : Color.orange)
+                                Text(line.desc.isEmpty ? L("New line") : line.desc)
+                                    .font(.subheadline.weight(.semibold))
+                            }
+                            Stepper(value: Binding(get: { got }, set: { received[line.id] = min(line.qty, max(0, $0)) }),
+                                    in: 0...line.qty, step: 1) {
+                                Text("Arrived: \(PDFMaker.quantity(got)) of \(PDFMaker.quantity(line.qty))")
+                                    .font(.footnote)
+                                    .foregroundStyle(got >= line.qty ? Color.secondary : Color.orange)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            // a tap switches between all arrived and none arrived
+                            received[line.id] = got >= line.qty ? 0 : line.qty
+                        }
+                    }
+                } footer: {
+                    Text("Tap an item to switch between all arrived and none arrived, or use − and + for part of it.")
+                }
+                Section {
+                    LabeledContent("Short", value: Money.format(shortValue))
+                        .fontWeight(.semibold)
+                    Button("Everything arrived") {
+                        for line in lines { received[line.id] = line.qty }
+                    }
+                }
+            }
+            .navigationTitle("Check the delivery")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        var all: [String: Double] = [:]
+                        for line in lines { all[line.id] = received[line.id] ?? line.received }
+                        save(all)
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// A scanned credit note: it's not saved as an invoice, it pays off a credit or lowers what you owe.
+struct CreditNoteView: View {
+    let job: InvoiceJob
+    let note: CreditNoteResult
+    let change: ((inout InvoiceDraft) -> Void) -> Void
+    let apply: () -> Void
+    let remove: () -> Void
+
+    @State private var totalText = ""
+    @FocusState private var totalFocused: Bool
+
+    private var edited: Bool {
+        job.draft.supplier != note.supplier || job.draft.invNo != note.number || Money.round2(job.draft.printedTotal ?? 0) != note.amount
+    }
+
+    var body: some View {
+        List {
+            Section {
+                VStack(spacing: 8) {
+                    Image(systemName: "arrow.uturn.backward.circle.fill")
+                        .font(.system(size: 34))
+                        .foregroundStyle(.green)
+                    Text("Credit note")
+                        .font(.headline)
+                    Text(Money.format(note.amount))
+                        .font(.largeTitle.weight(.heavy))
+                    Text(note.message)
+                        .font(.footnote)
+                        .foregroundStyle(note.amount > 0 ? Color.secondary : Color.orange)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+            }
+            Section {
+                LabeledContent("Supplier") {
+                    TextField("Supplier", text: Binding(get: { job.draft.supplier }, set: { value in change { $0.supplier = value } }))
+                        .multilineTextAlignment(.trailing)
+                }
+                LabeledContent("Number") {
+                    TextField("Number", text: Binding(get: { job.draft.invNo }, set: { value in change { $0.invNo = value } }))
+                        .multilineTextAlignment(.trailing)
+                }
+                LabeledContent("Credit total") {
+                    TextField("0.00", text: $totalText)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .focused($totalFocused)
+                        .fontWeight(.semibold)
+                }
+                if edited {
+                    Button {
+                        totalFocused = false
+                        commit()
+                        apply()
+                    } label: {
+                        Label("Use the corrected details", systemImage: "checkmark.circle")
+                    }
+                }
+            } header: {
+                Text("Credit note")
+            } footer: {
+                Text("A credit note isn't saved as an invoice. If you asked for this credit, it's marked as received. Otherwise it comes off what you owe the supplier.")
+            }
+            Section {
+                Button("Remove from the list", role: .destructive, action: remove)
+            }
+        }
+        .onAppear { totalText = note.amount > 0 ? String(format: "%.\(Money.currency.decimals)f", note.amount) : "" }
+        .onChange(of: totalFocused) {
+            if !totalFocused { commit() }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { totalFocused = false }
+            }
+        }
+    }
+
+    private func commit() {
+        guard let value = Money.parse(totalText).map(Money.round2), value > 0, value != job.draft.printedTotal else { return }
+        change { $0.printedTotal = value }
     }
 }
 
@@ -429,6 +615,7 @@ struct LineRow: View {
     private var detail: String {
         var text = "\(quantity(line.qty)) × \(Money.format(line.unit))"
         if line.excluded { return text + " · " + String(localized: "missing or returned") }
+        if line.short > 0 { text += " · " + String(localized: "\(quantity(line.short)) didn't arrive") }
         if let item = result.item, let base = result.base {
             text += " · " + String(localized: "your price \(Money.format(base))")
             if TextTools.norm(item.name) != TextTools.norm(line.desc) { text += " (\(item.name))" }

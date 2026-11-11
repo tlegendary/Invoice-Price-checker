@@ -20,9 +20,17 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
     public var note: String
     /// The invoices this payment paid off, when they were ticked one by one (empty = paid towards the balance).
     public var invoiceIDs: [String]
+    /// How it was paid: "cash", "transfer", "card", "cheque" or "" (not said).
+    public var method: String
+    /// The bank transfer or cheque number, if any.
+    public var reference: String
+    /// File name of a photo or screenshot of the receipt, kept by the app.
+    public var receipt: String?
+
+    public static let methods = ["transfer", "cash", "card", "cheque"]
 
     public init(id: String = UUID().uuidString, supplier: String, amount: Double, date: String, kind: Kind = .payment,
-                note: String = "", invoiceIDs: [String] = []) {
+                note: String = "", invoiceIDs: [String] = [], method: String = "", reference: String = "", receipt: String? = nil) {
         self.id = id
         self.supplier = supplier
         self.amount = amount
@@ -30,9 +38,12 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
         self.kind = kind
         self.note = note
         self.invoiceIDs = invoiceIDs
+        self.method = method
+        self.reference = reference
+        self.receipt = receipt
     }
 
-    enum CodingKeys: String, CodingKey { case id, supplier, amount, date, kind, note, invoiceIDs }
+    enum CodingKeys: String, CodingKey { case id, supplier, amount, date, kind, note, invoiceIDs, method, reference, receipt }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -43,6 +54,9 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
         kind = (try? c.decode(Kind.self, forKey: .kind)) ?? .payment
         note = c.flexString(.note) ?? ""
         invoiceIDs = (try? c.decode([String].self, forKey: .invoiceIDs)) ?? []
+        method = c.flexString(.method) ?? ""
+        reference = c.flexString(.reference) ?? ""
+        receipt = c.flexString(.receipt)
     }
 }
 

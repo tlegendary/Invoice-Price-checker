@@ -96,6 +96,7 @@ jobs:
             shot 30-suppliers 6 -startTab suppliers
             shot 31-supplier-detail 7 -startTab suppliers -demoSupplier YES
             shot 32-ckb-suppliers 6 -startTab suppliers -AppleLanguages "(ckb)" -AppleLocale ckb_IQ
+            shot 33-supplier-detail-receipt 7 -startTab suppliers -demoSupplier YES
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true

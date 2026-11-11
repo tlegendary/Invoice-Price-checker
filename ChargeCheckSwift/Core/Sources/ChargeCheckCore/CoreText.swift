@@ -47,6 +47,17 @@ public enum CoreText {
         "Amounts are before VAT (no VAT added).",
         "Date", "Supplier", "Invoice no.", "Net", "Total inc VAT", "Overcharged", "Overcharged VAT", "Missing/returned",
         "To pay", "Paid", "Fully checked", "Overcharged lines", "Item", "Quantity", "Charged", "Agreed price", "Category",
-        "On invoices as", "Yes", "No"
+        "On invoices as", "Yes", "No",
+        "No shop",
+        "No invoices were checked in {1}.",
+        "In {1} you checked {2} invoices worth {3}.",
+        "You were overcharged {1} in total, {2} of it by {3}.",
+        "Nobody charged more than your agreed prices.",
+        "You spent most with {1}: {2}.",
+        "{1} spent the most: {2}.",
+        "{1} went up at {2}, from {3} to {4}.",
+        "Suppliers still owe you {1} in credits.",
+        "You paid suppliers {1} this month.",
+        "You owe {1} in total now."
     ]
 }

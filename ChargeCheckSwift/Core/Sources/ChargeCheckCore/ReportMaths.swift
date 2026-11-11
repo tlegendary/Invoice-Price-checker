@@ -117,6 +117,10 @@ public enum ReportMaths {
             let name = line.desc.isEmpty ? line.item : line.desc
             s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.qty), name, Money.format(Money.round2(line.qty * line.unit))) + "\n"
         }
+        for line in entry.lines where !line.excluded && line.short > 0 {
+            let name = line.desc.isEmpty ? line.item : line.desc
+            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.short), name, Money.format(Money.round2(line.short * line.unit))) + "\n"
+        }
         let less = entry.amountToPay.less
         s += "\n" + t("Total to credit: {1}", Money.format(less)) + (entry.overVat > 0.005 ? t(" (incl. VAT)") : "") + "\n\n"
         s += t("Please could you issue a credit note for this amount.") + "\n\n" + t("Thank you,") + "\n" + (business.isEmpty ? "" : business)

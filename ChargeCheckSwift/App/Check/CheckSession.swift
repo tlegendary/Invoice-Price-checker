@@ -20,6 +20,32 @@ struct InvoiceJob: Identifiable, Equatable {
     var pages: [UIImage] = []
     var sourcePDF: Data?
     var copyPath: String?
+    /// A supplier's credit note, not an invoice: it's never saved to Reports, it lowers what you owe them instead.
+    var creditNote: CreditNoteResult?
+}
+
+/// What happened to a scanned credit note.
+struct CreditNoteResult: Equatable {
+    var supplier: String
+    var number: String
+    var amount: Double
+    /// The invoice whose requested credit this note pays (marked "Credit received").
+    var invoiceID: String?
+    var invoiceNo: String
+    /// The credit recorded against the supplier's balance (when it isn't for a credit you asked for).
+    var paymentID: String?
+
+    var message: String {
+        if invoiceID != nil {
+            return invoiceNo.isEmpty
+                ? String(localized: "Credit received. It was already taken off what you pay \(supplier).")
+                : String(localized: "Credit received for invoice \(invoiceNo). It was already taken off what you pay \(supplier).")
+        }
+        if paymentID != nil {
+            return String(localized: "\(Money.format(amount)) taken off what you owe \(supplier).")
+        }
+        return String(localized: "Couldn't read the credit note's total. Type it in.")
+    }
 }
 
 struct LoweredPrices: Identifiable {
@@ -113,6 +139,23 @@ final class CheckSession: ObservableObject {
             let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers,
                                                    doubleCheck: twice, progress: report)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
+            // a credit note: it lowers what you owe that supplier, it isn't a new invoice
+            if !sample, Insights.isCreditNote(outcome.rawText) {
+                guard let self else { return }
+                let amount = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
+                self.update(id) { job in
+                    job.draft.supplier = outcome.invoice.supplier
+                    job.draft.invNo = outcome.invoice.invNo
+                    job.draft.date = outcome.invoice.date
+                    job.draft.printedTotal = amount > 0 ? amount : nil
+                    job.draft.totalOnly = true
+                    job.status = .done
+                    job.creditNote = CreditNoteResult(supplier: outcome.invoice.supplier, number: outcome.invoice.invNo,
+                                                      amount: Money.round2(amount), invoiceID: nil, invoiceNo: "", paymentID: nil)
+                }
+                if amount > 0 { self.applyCreditNote(id, context: context) }
+                return
+            }
             // a trusted supplier: only the total counts, so the price check is skipped
             if SupplierAccounts.isTrusted(outcome.invoice.supplier, trusted: trustedList) {
                 guard let self else { return }
@@ -215,10 +258,51 @@ final class CheckSession: ObservableObject {
     }
 
     /// Saves the invoice to Reports once every line is checked (or straight away when `anyway` is true).
+    /// Uses a scanned credit note: pays off a credit you asked for, or comes off the supplier's balance.
+    /// Calling it again (after the amount or supplier was corrected) first undoes what it did before.
+    func applyCreditNote(_ id: String, context: ModelContext) {
+        guard let job = jobs.first(where: { $0.id == id }), var note = job.creditNote else { return }
+        undoCreditNote(note, context: context)
+        note.supplier = job.draft.supplier
+        note.number = job.draft.invNo
+        note.amount = Money.round2(job.draft.printedTotal ?? 0)
+        note.invoiceID = nil
+        note.invoiceNo = ""
+        note.paymentID = nil
+        guard note.amount > 0, !note.supplier.trimmingCharacters(in: .whitespaces).isEmpty else {
+            update(id) { $0.creditNote = note }
+            return
+        }
+        if let invoice = Insights.creditMatch(supplier: note.supplier, amount: note.amount, in: AppData.entries(context)) {
+            let stamp = ISO8601DateFormatter().string(from: Date())
+            AppData.updateReports([invoice.id], context: context) { saved in
+                saved.credit = CreditInfo(status: CreditInfo.received, amount: saved.credit?.amount ?? note.amount, at: saved.credit?.at, paidAt: stamp)
+            }
+            note.invoiceID = invoice.id
+            note.invoiceNo = invoice.invNo
+        } else {
+            let payment = SupplierPayment(supplier: note.supplier, amount: note.amount, date: SupplierAccounts.dayText(Date()), kind: .credit,
+                                          note: note.number.isEmpty ? "" : String(localized: "Credit note \(note.number)"))
+            Accounts.shared.add(payment, context: context)
+            note.paymentID = payment.id
+        }
+        update(id) { $0.creditNote = note }
+        Accounts.shared.changed(context)
+    }
+
+    private func undoCreditNote(_ note: CreditNoteResult, context: ModelContext) {
+        if let invoiceID = note.invoiceID {
+            AppData.updateReports([invoiceID], context: context) { saved in
+                if let credit = saved.credit { saved.credit = CreditInfo(status: CreditInfo.requested, amount: credit.amount, at: credit.at) }
+            }
+        }
+        if let paymentID = note.paymentID { Accounts.shared.remove(paymentID, context: context) }
+    }
+
     func saveIfChecked(_ id: String, context: ModelContext, anyway: Bool = false) {
         guard let job = job(id), !job.isSample, job.status == .done else { return }
         let lines = job.draft.lines.filter { !$0.desc.trimmingCharacters(in: .whitespaces).isEmpty }
-        guard job.saved != job.draft else { return }
+        guard job.saved != job.draft, job.creditNote == nil else { return }
         let book = PriceBook(AppData.items(context))
         if job.draft.totalOnly {
             guard (job.draft.printedTotal ?? job.draft.printedNet ?? 0) > 0 else { return }

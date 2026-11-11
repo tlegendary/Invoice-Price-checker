@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import PhotosUI
 import ChargeCheckCore
 
 /// Every supplier: what you owe them, what you paid this week, and their trusted setting.
@@ -9,6 +10,8 @@ struct SuppliersView: View {
     @ObservedObject private var accounts = Accounts.shared
     @AppStorage(WeeklyPayReminder.dayKey) private var payDay = 0
     @State private var showAdd = false
+    @State private var showPayRun = false
+    @State private var paying: SupplierAccount?
     @State private var notice: String?
     @State private var path = NavigationPath()
 
@@ -42,11 +45,45 @@ struct SuppliersView: View {
                             NavigationLink(value: account.id) {
                                 SupplierRow(account: account)
                             }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button {
+                                    paying = account
+                                } label: {
+                                    Label("Pay", systemImage: "banknote")
+                                }
+                                .tint(.green)
+                            }
                         }
                     } header: {
                         Text("Suppliers")
                     } footer: {
-                        Text("Balance = their invoices (less overcharges and missing items) − your payments and credit notes.")
+                        Text("Swipe left on a supplier to record a payment. Balance = their invoices (less overcharges and missing items) − your payments and credit notes.")
+                    }
+                    let tips = Insights.supplierTips(reports.compactMap { $0.entry })
+                    if !tips.isEmpty {
+                        Section {
+                            ForEach(tips.prefix(2)) { tip in
+                                SupplierTipRow(tip: tip)
+                            }
+                            if tips.count > 2 {
+                                NavigationLink {
+                                    SupplierTipsView(tips: tips)
+                                } label: {
+                                    Text("See all \(tips.count) cheaper items")
+                                }
+                            }
+                        } header: {
+                            Label("Cheaper elsewhere", systemImage: "tag")
+                        }
+                    }
+                    if owed > 0.005 {
+                        Section {
+                            Button {
+                                showPayRun = true
+                            } label: {
+                                Label("Pay run: pay several suppliers at once", systemImage: "list.bullet.rectangle")
+                            }
+                        }
                     }
                 }
                 Section {
@@ -86,6 +123,12 @@ struct SuppliersView: View {
             }
             .sheet(isPresented: $showAdd) {
                 AddSupplierView()
+            }
+            .sheet(isPresented: $showPayRun) {
+                PayRunView(accounts: list)
+            }
+            .sheet(item: $paying) { account in
+                RecordPaymentView(supplier: account.name, kind: .payment, suggested: max(0, account.balance))
             }
             .task {
                 // the cloud check opens the first supplier with "-demoSupplier YES"
@@ -329,20 +372,39 @@ struct InvoiceMoneyRow: View {
 
 struct PaymentRow: View {
     let payment: SupplierPayment
+    @State private var showReceipt = false
 
     var body: some View {
         HStack {
+            if payment.kind == .payment {
+                Image(systemName: PayMethod.icon(payment.method))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 24)
+            }
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.subheadline.weight(.semibold))
-                Text([PayDates.show(payment.date), payment.note].filter { !$0.isEmpty }.joined(separator: " · "))
+                Text([PayDates.show(payment.date), PayMethod.name(payment.method), payment.reference, payment.note]
+                    .filter { !$0.isEmpty }.joined(separator: " · "))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
             Spacer()
+            if payment.receipt != nil {
+                Button {
+                    showReceipt = true
+                } label: {
+                    Image(systemName: "paperclip")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Show the receipt")
+            }
             Text((payment.kind == .opening ? "+" : "−") + Money.format(payment.amount))
                 .fontWeight(.semibold)
                 .foregroundStyle(payment.kind == .opening ? Color.primary : Color.green)
+        }
+        .sheet(isPresented: $showReceipt) {
+            ReceiptView(payment: payment)
         }
     }
 
@@ -358,6 +420,83 @@ struct PaymentRow: View {
     }
 }
 
+/// How a payment was made, in words.
+enum PayMethod {
+    static func name(_ code: String) -> String {
+        switch code {
+        case "transfer": return String(localized: "Bank transfer")
+        case "cash": return String(localized: "Cash")
+        case "card": return String(localized: "Card")
+        case "cheque": return String(localized: "Cheque")
+        default: return ""
+        }
+    }
+
+    static func icon(_ code: String) -> String {
+        switch code {
+        case "transfer": return "building.columns"
+        case "cash": return "banknote"
+        case "card": return "creditcard"
+        case "cheque": return "doc.plaintext"
+        default: return "sterlingsign.circle"
+        }
+    }
+}
+
+/// How it was paid, the reference, and a photo of the receipt.
+struct PaymentExtras: View {
+    @Binding var method: String
+    @Binding var reference: String
+    @Binding var receipt: UIImage?
+    @State private var picked: PhotosPickerItem?
+
+    var body: some View {
+        Picker("Paid by", selection: $method) {
+            ForEach(SupplierPayment.methods, id: \.self) { code in
+                Text(PayMethod.name(code)).tag(code)
+            }
+        }
+        if method == "transfer" || method == "cheque" || method == "card" {
+            TextField(method == "cheque" ? LocalizedStringKey("Cheque number (optional)") : LocalizedStringKey("Reference (optional)"),
+                      text: $reference)
+                .textInputAutocapitalization(.characters)
+        }
+        PhotosPicker(selection: $picked, matching: .images) {
+            Label(receipt == nil ? LocalizedStringKey("Add a photo of the receipt") : LocalizedStringKey("Change the receipt photo"),
+                  systemImage: "paperclip")
+        }
+        .onChange(of: picked) {
+            guard let picked else { return }
+            Task {
+                if let data = try? await picked.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                    receipt = image
+                }
+                self.picked = nil
+            }
+        }
+        if let receipt {
+            HStack {
+                Image(uiImage: receipt)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                Text("Receipt attached")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button(role: .destructive) {
+                    self.receipt = nil
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Remove the receipt")
+            }
+        }
+    }
+}
+
 /// Type in a payment, credit note or starting balance.
 struct RecordPaymentView: View {
     let supplier: String
@@ -366,9 +505,13 @@ struct RecordPaymentView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @AppStorage("pay.lastMethod") private var lastMethod = "transfer"
     @State private var amountText = ""
     @State private var date = Date()
     @State private var note = ""
+    @State private var method = ""
+    @State private var reference = ""
+    @State private var receipt: UIImage?
 
     private var amount: Double? {
         guard let value = Money.parse(amountText), value > 0, value < 1_000_000_000 else { return nil }
@@ -387,7 +530,6 @@ struct RecordPaymentView: View {
                             .font(.title2.weight(.semibold))
                     }
                     DatePicker("Date", selection: $date, displayedComponents: .date)
-                    TextField(kind == .credit ? LocalizedStringKey("Credit note number (optional)") : LocalizedStringKey("Note, e.g. bank transfer (optional)"), text: $note)
                 } header: {
                     Text(supplier)
                 } footer: {
@@ -396,6 +538,18 @@ struct RecordPaymentView: View {
                             amountText = String(format: "%.\(Money.currency.decimals)f", suggested)
                         }
                         .font(.footnote.weight(.semibold))
+                    }
+                }
+                if kind == .payment {
+                    Section {
+                        PaymentExtras(method: $method, reference: $reference, receipt: $receipt)
+                    }
+                }
+                Section {
+                    TextField(kind == .credit ? LocalizedStringKey("Credit note number (optional)") : LocalizedStringKey("Note (optional)"), text: $note)
+                } footer: {
+                    if kind == .credit {
+                        Text("Only for credits that weren't already taken off one of their invoices in ChargeCheck.")
                     }
                 }
             }
@@ -408,15 +562,22 @@ struct RecordPaymentView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         guard let amount else { return }
-                        Accounts.shared.add(SupplierPayment(supplier: supplier, amount: amount, date: SupplierAccounts.dayText(date), kind: kind,
-                                                            note: note.trimmingCharacters(in: .whitespaces)), context: context)
+                        let accounts = Accounts.shared
+                        let file = receipt.flatMap { accounts.saveReceipt($0) }
+                        accounts.add(SupplierPayment(supplier: supplier, amount: amount, date: SupplierAccounts.dayText(date), kind: kind,
+                                                     note: note.trimmingCharacters(in: .whitespaces),
+                                                     method: kind == .payment ? method : "",
+                                                     reference: kind == .payment ? reference.trimmingCharacters(in: .whitespaces) : "",
+                                                     receipt: file), context: context)
+                        if kind == .payment { lastMethod = method }
                         dismiss()
                     }
                     .disabled(amount == nil)
                 }
             }
+            .onAppear { if method.isEmpty { method = lastMethod } }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.large])
     }
 
     private var title: String {
@@ -424,6 +585,135 @@ struct RecordPaymentView: View {
         case .payment: return String(localized: "Record a payment")
         case .credit: return String(localized: "Add a credit note")
         case .opening: return String(localized: "Starting balance")
+        }
+    }
+}
+
+/// A payment's receipt photo, to look at or send on.
+struct ReceiptView: View {
+    let payment: SupplierPayment
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if let name = payment.receipt, let url = Accounts.shared.receiptURL(name), let image = UIImage(contentsOfFile: url.path) {
+                    ScrollView {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .padding()
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            ShareLink(item: url) {
+                                Label("Send", systemImage: "square.and.arrow.up")
+                            }
+                        }
+                    }
+                } else {
+                    ContentUnavailableView("No receipt", systemImage: "paperclip")
+                }
+            }
+            .navigationTitle(String(localized: "Receipt – \(payment.supplier)"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") { dismiss() }
+                }
+            }
+        }
+    }
+}
+
+/// The weekly pay run: everyone you owe on one screen. Type what you paid each, save them all at once.
+struct PayRunView: View {
+    let accounts: [SupplierAccount]
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @AppStorage("pay.lastMethod") private var lastMethod = "transfer"
+    @State private var amounts: [String: String] = [:]
+    @State private var method = ""
+    @State private var date = Date()
+
+    private var owing: [SupplierAccount] { accounts.filter { $0.balance > 0.005 } }
+
+    private func value(_ id: String) -> Double? {
+        guard let text = amounts[id], let v = Money.parse(text), v > 0, v < 1_000_000_000 else { return nil }
+        return Money.round2(v)
+    }
+
+    private var total: Double { Money.round2(owing.compactMap { value($0.id) }.reduce(0, +)) }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    ForEach(owing) { account in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(account.name)
+                                    .font(.subheadline.weight(.semibold))
+                                    .lineLimit(1)
+                                Text("Owed \(Money.format(account.balance))")
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer(minLength: 8)
+                            TextField("0", text: Binding(get: { amounts[account.id] ?? "" }, set: { amounts[account.id] = $0 }))
+                                .keyboardType(.decimalPad)
+                                .multilineTextAlignment(.trailing)
+                                .frame(maxWidth: 110)
+                                .fontWeight(.semibold)
+                        }
+                    }
+                } header: {
+                    Text("What you paid each supplier")
+                } footer: {
+                    Text("Leave a supplier empty if you didn't pay them. Each amount pays off that supplier's oldest invoices first.")
+                }
+                Section {
+                    Button("Fill in every full balance") {
+                        for account in owing {
+                            amounts[account.id] = String(format: "%.\(Money.currency.decimals)f", account.balance)
+                        }
+                    }
+                    Button("Clear", role: .destructive) { amounts = [:] }
+                        .disabled(amounts.isEmpty)
+                }
+                Section {
+                    Picker("Paid by", selection: $method) {
+                        ForEach(SupplierPayment.methods, id: \.self) { code in
+                            Text(PayMethod.name(code)).tag(code)
+                        }
+                    }
+                    DatePicker("Paid on", selection: $date, displayedComponents: .date)
+                    LabeledContent("Total paid") {
+                        Text(Money.format(total)).fontWeight(.bold)
+                    }
+                }
+            }
+            .navigationTitle("Pay run")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        let day = SupplierAccounts.dayText(date)
+                        for account in owing {
+                            guard let amount = value(account.id) else { continue }
+                            Accounts.shared.add(SupplierPayment(supplier: account.name, amount: amount, date: day, method: method), context: context)
+                        }
+                        lastMethod = method
+                        dismiss()
+                    }
+                    .disabled(total <= 0)
+                }
+            }
+            .onAppear { if method.isEmpty { method = lastMethod } }
         }
     }
 }

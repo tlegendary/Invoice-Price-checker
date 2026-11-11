@@ -99,9 +99,11 @@ public struct HistoryLine: Codable, Equatable, Sendable {
     public var over: Double
     public var excluded: Bool
     public var noBase: Bool
+    /// How many didn't arrive (delivery check).
+    public var short: Double
 
     public init(qty: Double, desc: String, unit: Double, vat: Double = 0, matchId: String? = nil, item: String = "",
-                base: Double? = nil, over: Double = 0, excluded: Bool = false, noBase: Bool = false) {
+                base: Double? = nil, over: Double = 0, excluded: Bool = false, noBase: Bool = false, short: Double = 0) {
         self.qty = qty
         self.desc = desc
         self.unit = unit
@@ -112,9 +114,10 @@ public struct HistoryLine: Codable, Equatable, Sendable {
         self.over = over
         self.excluded = excluded
         self.noBase = noBase
+        self.short = short
     }
 
-    enum CodingKeys: String, CodingKey { case qty, desc, unit, vat, matchId, item, base, over, excluded, noBase }
+    enum CodingKeys: String, CodingKey { case qty, desc, unit, vat, matchId, item, base, over, excluded, noBase, short }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -128,6 +131,7 @@ public struct HistoryLine: Codable, Equatable, Sendable {
         over = c.flexDouble(.over) ?? 0
         excluded = c.flexBool(.excluded) ?? false
         noBase = c.flexBool(.noBase) ?? false
+        short = c.flexDouble(.short) ?? 0
     }
 }
 
@@ -231,8 +235,10 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
 
     /// What to send the supplier: the invoice total less overcharges and missing items (VAT included).
     public var amountToPay: (total: Double, less: Double, pay: Double) {
-        let missingVat = lines.filter { $0.excluded }.reduce(0.0) { sum, line in
-            sum + Money.round2(Money.round2(line.qty * line.unit) * line.vat / 100)
+        let missingVat = lines.reduce(0.0) { sum, line in
+            let gone = line.excluded ? line.qty : line.short
+            guard gone > 0 else { return sum }
+            return sum + Money.round2(Money.round2(gone * line.unit) * line.vat / 100)
         }
         let less = min(total, Money.round2(over + overVat + excluded + missingVat))
         return (Money.round2(total), less, Money.round2(total - less))

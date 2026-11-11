@@ -24,11 +24,16 @@ public struct CheckLine: Identifiable, Equatable, Sendable {
     public var ok: Bool
     /// The user said this item is not in their price list (nothing to compare).
     public var noBase: Bool
+    /// Delivery check: how many of `qty` didn't arrive (taken off what to pay, like a missing line).
+    public var short: Double
+
+    /// What was really delivered.
+    public var received: Double { max(0, qty - short) }
 
     public init(id: String = UUID().uuidString, qty: Double = 1, desc: String = "", read: String = "", unit: Double = 0, vat: Double = 0,
                 warn: String = "", excluded: Bool = false, matchId: String? = nil, confident: Bool? = nil, reads: Int = 0,
                 disagree: Bool = false, onlySecondRead: Bool = false, altQty: Double? = nil, altUnit: Double? = nil,
-                ok: Bool = false, noBase: Bool = false) {
+                ok: Bool = false, noBase: Bool = false, short: Double = 0) {
         self.id = id
         self.qty = qty
         self.desc = desc
@@ -46,6 +51,7 @@ public struct CheckLine: Identifiable, Equatable, Sendable {
         self.altUnit = altUnit
         self.ok = ok
         self.noBase = noBase
+        self.short = short
     }
 }
 
@@ -206,7 +212,12 @@ public enum InvoiceMaths {
             t.over += c.over
             t.overVat += c.overVat
             t.under += c.under
-            if line.excluded { t.excluded += c.net } else if c.item == nil { t.unmatched += 1 }
+            if line.excluded {
+                t.excluded += c.net
+            } else {
+                if line.short > 0 { t.excluded += Money.round2(min(line.short, line.qty) * line.unit) }
+                if c.item == nil { t.unmatched += 1 }
+            }
         }
         t.net = Money.round2(t.net)
         t.vat = Money.round2(t.vat)
@@ -237,7 +248,8 @@ public enum InvoiceMaths {
         let lines = invoice.lines.map { line -> HistoryLine in
             let c = lineResult(line, supplier: invoice.supplier, book: book, tolerance: tolerance)
             return HistoryLine(qty: line.qty, desc: line.desc, unit: line.unit, vat: line.vat, matchId: line.matchId, item: c.item?.name ?? "",
-                               base: c.base, over: c.over, excluded: line.excluded, noBase: line.noBase)
+                               base: c.base, over: c.over, excluded: line.excluded, noBase: line.noBase,
+                               short: line.excluded ? 0 : min(line.short, line.qty))
         }
         if invoice.totalOnly {
             let total = Money.round2(invoice.printedTotal ?? invoice.printedNet ?? 0)
