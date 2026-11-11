@@ -1,6 +1,6 @@
-commit: ce8806c565c4f8a350cc27046dd4a79e61f15680
-result: failure
-when: Wed Nov 11 08:03:24 UTC 2026
+commit: 833deb81fe1bea47676c96d6a62c2de82c7bee82
+result: success
+when: Wed Nov 11 08:17:23 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,58 +9,14 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
-stringsdata files:       29
+stringsdata files:       44
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
-** TEST BUILD FAILED **
+   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
+** TEST BUILD SUCCEEDED **
+/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:149:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:103:45: error: cannot infer contextual base in reference to member 'whitespacesAndNewlines'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:107:31: error: value of type 'PDFPage' has no member 'characterBounds'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:128:59: error: cannot convert value of type 'PDFKit.PDFPage' to expected argument type 'ChargeCheck.PDFPage'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:82:31: error: value of type 'PDFPage' has no member 'string'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:83:24: error: value of type 'PDFPage' has no member 'bounds'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:83:37: error: cannot infer contextual base in reference to member 'mediaBox'
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:307:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
----- last lines ----
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/AppData.swift:8:16: note: static property declared here
-    static let legacyBackupName = "ChargeCheck-backup.json"
-               ^
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/ImageTools.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
-            MobileAds.shared.start(completionHandler: nil)
-                             ^
-GoogleMobileAds.MobileAds.start:2:11: note: 'start()' declared here
-open func start() async -> InitializationStatus}
-          ^
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/InvoiceDetailView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
-            MobileAds.shared.start(completionHandler: nil)
-                             ^
-GoogleMobileAds.MobileAds.start:2:11: note: 'start()' declared here
-open func start() async -> InitializationStatus}
-          ^
-
-SwiftDriverJobDiscovery normal arm64 Compiling SampleInvoice.swift, SettingsView.swift, Shops.swift, ShopsView.swift, Shortcuts.swift, SmartCheck.swift, SortCategoriesView.swift, Store.swift, StoredModels.swift, SuppliersView.swift, Theme.swift, GeneratedAssetSymbols.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-
-SwiftDriver ChargeCheckTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheckTests' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftDriver -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheckTests -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCh
-
-SwiftDriverJobDiscovery normal arm64 Compiling Accounts.swift, AdService.swift, AppConfig.swift, AppData.swift, AppLock.swift, BackupDocument.swift, ChargeCheckApp.swift, CheckSession.swift, CheckView.swift, DocumentScanner.swift, Files.swift, ImageTools.swift, InvoiceDetailView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-
-** TEST BUILD FAILED **
-
-
-The following build commands failed:
-	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-	SwiftCompile normal arm64 Compiling\ InvoiceReader.swift,\ LineEditView.swift,\ Localize.swift,\ NeedScanSheet.swift,\ PDFMaker.swift,\ PasteListView.swift,\ PaywallView.swift,\ PriceEditView.swift,\ PriceHistoryChart.swift,\ PricesView.swift,\ Regional.swift,\ ReportsView.swift,\ RootView.swift /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceRea
-	Building project ChargeCheck for testing with scheme ChargeCheck
-(3 failures)
+Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/569C0345-3701-4CFD-BEC4-858A0ED7F911/Documents/Backups: ChargeCheck-2026-11-11.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/569C0345-3701-4CFD-BEC4-858A0ED7F911/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-4-settings.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
