@@ -108,7 +108,10 @@ final class CheckSession: ObservableObject {
         queue = Task { [weak self] in
             await previous?.value
             let book = PriceBook(items)
-            let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers, progress: report)
+            // Settings › Checking: read each photo once (faster) or twice (double-checked)
+            let twice = UserDefaults.standard.integer(forKey: SettingKey.photoReads) != 1
+            let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers,
+                                                   doubleCheck: twice, progress: report)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a trusted supplier: only the total counts, so the price check is skipped
             if SupplierAccounts.isTrusted(outcome.invoice.supplier, trusted: trustedList) {

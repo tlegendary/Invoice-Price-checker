@@ -166,6 +166,8 @@ enum SettingKey {
     static let cloudCopies = "copies.cloud"
     static let reminder = "reminder.monthly"
     static let paySkipped = "pay.skipped"
+    /// How many times each photo is read: 1 (faster) or 2 (double-checked). 2 unless the user chose 1.
+    static let photoReads = "check.photoReads"
     /// Show "To pay" before VAT (for shops that aren't VAT registered).
     static let payBeforeVat = "pay.beforeVat"
     /// Lower an agreed price when a fully checked invoice is cheaper (on unless turned off).

@@ -112,6 +112,8 @@ is ready and Ramyar says to switch.
 - [x] Optional lock with Face ID / Touch ID / passcode (Settings). The lock is its own window, so it also covers open sheets
 - [x] Faster scans: both reads of the photo and the table reader run at the same time; Apple Intelligence only checks
       lines that need it (no clear match, reads differed, or a misread-looking name)
+- [x] Settings › How invoices are read: read each photo once (faster) or twice; Apple Intelligence switch,
+      shown off and never used on an iPhone that can't run it
 - [x] Item names in any alphabet match: Arabic / Kurdish letter variants and digits, accents (é, ü, ß), Arabic "ال"
 - [x] Siri / Spotlight / Shortcuts: "Check an invoice" opens the camera scanner
 - [x] Photo tips when nothing could be read (too dark / blurry); scan given back if no product lines at all
