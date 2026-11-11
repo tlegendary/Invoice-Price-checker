@@ -95,11 +95,12 @@ struct RootView: View {
                 showPaywall = true
             }
         }
-        .overlay {
-            if locked {
-                LockScreen { locked = false }
-                    .transition(.opacity)
-            }
+        .onAppear {
+            if locked { LockCover.shared.show { locked = false } }
+        }
+        .onChange(of: locked) {
+            // the cover is a separate window, so it also hides a sheet that was left open
+            if locked { LockCover.shared.show { locked = false } } else { LockCover.shared.hide() }
         }
         .onReceive(NotificationCenter.default.publisher(for: IntentInbox.notification)) { _ in
             if IntentInbox.takeScanRequest() {
