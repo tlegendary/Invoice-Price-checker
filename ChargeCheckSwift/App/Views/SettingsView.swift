@@ -29,6 +29,7 @@ struct SettingsView: View {
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
     @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(AppLock.settingKey) private var lockOn = false
     @AppStorage(SmartCheck.settingKey) private var smartCheck = true
     @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
     @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
@@ -198,6 +199,19 @@ struct SettingsView: View {
                     Text("The name is shown at the top of reports and credit requests. Add your shops if you have more than one.")
                 }
 
+                if AppLock.available || lockOn {
+                    Section {
+                        Toggle("Lock with Face ID or passcode", isOn: Binding(
+                            get: { lockOn },
+                            set: { wanted in
+                                // check it's the owner before turning the lock off or on
+                                Task { if await AppLock.unlock() { lockOn = wanted } }
+                            }
+                        ))
+                    } footer: {
+                        Text("Asks for Face ID, Touch ID or your passcode each time ChargeCheck opens, so staff or family using this phone can't see your prices and payments.")
+                    }
+                }
                 Section {
                     Picker("Ignore differences up to", selection: $toleranceValue) {
                         Text(Money.format(0.01)).tag(0.01)

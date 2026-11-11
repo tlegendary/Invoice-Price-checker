@@ -9,7 +9,7 @@ is ready and Ramyar says to switch.
 - Same bundle ID (`com.rjapps.invoicepricechecker`), app name and App Store products
 - Needs iOS 17 or later (for SwiftData)
 - Cloud check: GitHub Actions (`.github/workflows/swift-check.yml`) runs the tests and
-  builds the app on every push to `swift-rewrite`. Short logs are kept on the `ci-logs` branch.
+  builds the app on every push to `swift-rewrite` and to `improve/…` branches. Short logs are kept on the `ci-logs` branch.
   It never uploads to the App Store.
 
 ## Stages
@@ -26,7 +26,7 @@ is ready and Ramyar says to switch.
   - [x] Backup and restore through the Files app (same file format as the old app)
   - [x] First launch brings over prices and reports from the old app automatically
   - [x] Light / dark / automatic and 8 colours
-  - [ ] Import Excel / CSV
+  - [x] Import CSV (stage 6) · [ ] Excel (.xlsx) files
   - [ ] Special prices per supplier (kept in the data, no screen yet)
 - [x] **3. Scanning + OCR + price matching**
   - [x] Document camera (VisionKit, several pages), photos, PDFs and files, type by hand
@@ -38,8 +38,9 @@ is ready and Ramyar says to switch.
   - [x] Saved to Reports once every line is checked; the same invoice is never saved twice
   - [x] Learns the user's name corrections and how each supplier writes an item
   - [x] Sample invoice (read for real by the cloud check on every change)
-  - [ ] Lower my price automatically when a checked invoice is cheaper (old app did this)
-  - [ ] Photo quality hints (dark / blurry), exact text from PDFs that contain text
+  - [x] Lower my price automatically when a checked invoice is cheaper (done in stage 6)
+  - [x] Photo quality hints: when nothing could be read, says if the photo was too dark or blurry (11 Nov 2026)
+  - [ ] Exact text from PDFs that contain text (instead of reading a picture of the page)
   - [ ] Arabic text (needs Ramyar's decision; Kurdish Sorani is not supported by Apple's reader)
 - [x] **4. Subscriptions + free version with ads**
   - [x] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore purchases
@@ -104,6 +105,16 @@ is ready and Ramyar says to switch.
   Before the live release: do the same for com.rjapps.invoicepricechecker and com.rjapps.invoicepricechecker.widget.
 - PDFs made by a computer are read from their own text (exact). iOS 26: Apple's table reader is tried and used when its
   lines fit the printed total better. Invoices can be opened from WhatsApp, Mail or Files ("Open in ChargeCheck").
+
+## Improvements from /improve-system (11 Nov 2026)
+- [x] To pay: "Including VAT / Before VAT" switch (shops that aren't VAT registered), split shown, breakdown follows it
+- [x] Credits per invoice: asked for → received, reminder after 14 days, totals on Reports (old app's data format)
+- [x] Optional lock with Face ID / Touch ID / passcode (Settings). Note: a sheet that was open when leaving the app
+      can still show above the lock – close sheets when locking in a later update
+- [x] Siri / Spotlight / Shortcuts: "Check an invoice" opens the camera scanner
+- [x] Photo tips when nothing could be read (too dark / blurry); scan given back if no product lines at all
+- [x] Subscription checked again whenever the app comes back to the front
+- [ ] Try on a real phone: Face ID lock, Siri phrase, credit reminder notification
 
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.

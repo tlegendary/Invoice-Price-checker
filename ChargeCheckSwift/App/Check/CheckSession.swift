@@ -60,6 +60,8 @@ final class CheckSession: ObservableObject {
     @Published var jobs: [InvoiceJob] = []
     /// Invoices shared into the app from WhatsApp, Mail or Files, waiting for the Check tab to read them.
     @Published var incoming: [URL] = []
+    /// Siri / Shortcuts asked to scan an invoice: the Check tab opens the camera.
+    @Published var openScanner = false
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).
@@ -135,6 +137,8 @@ final class CheckSession: ObservableObject {
             let finalLines = firstLines.compactMap { line -> CheckLine? in
                 fixes[TextTools.norm(line.read)] != nil ? line : checkedByID[line.id]
             }
+            // nothing read from a photo: check whether it was too dark or blurry, to give a better tip
+            let problem = finalLines.isEmpty && sourcePDF == nil ? pages.first.flatMap { ImageTools.problem(with: $0) } : nil
             guard let self else { return }
             self.update(id) { job in
                 job.draft.supplier = outcome.invoice.supplier
@@ -145,14 +149,25 @@ final class CheckSession: ObservableObject {
                 job.draft.passes = outcome.passes
                 job.draft.lines = finalLines
                 job.status = .done
-                job.message = job.draft.lines.isEmpty
-                    ? String(localized: "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand.")
-                    : ""
+                job.message = job.draft.lines.isEmpty ? Self.nothingReadMessage(problem) : ""
             }
-            if outcome.invoice.lines.isEmpty { onNothingRead?() }
+            // also when Apple Intelligence found that none of the lines were products
+            if finalLines.isEmpty { onNothingRead?() }
             self.saveIfChecked(id, context: context)
         }
         return id
+    }
+
+    /// What to say when no item lines could be found.
+    static func nothingReadMessage(_ problem: PhotoProblem?) -> String {
+        switch problem {
+        case .dark:
+            return String(localized: "The photo looks too dark to read. Take it again in brighter light or with the flash, or add the lines by hand.")
+        case .blurry:
+            return String(localized: "The photo looks blurry. Hold the phone still and let it focus before taking the photo, or add the lines by hand.")
+        case nil:
+            return String(localized: "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand.")
+        }
     }
 
     /// A blank invoice to type in by hand.

@@ -9,6 +9,7 @@ struct ReportsView: View {
     @EnvironmentObject private var store: Store
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @AppStorage(SettingKey.paySkipped) private var skippedText = ""
+    @AppStorage(SettingKey.payBeforeVat) private var beforeVat = false
 
     @State private var showChoose = false
     @State private var showExport = false
@@ -39,10 +40,13 @@ struct ReportsView: View {
         return formatter.string(from: Date())
     }
 
+    /// Only used by the cloud check ("-demoReport YES") to open an invoice's details.
+    @State private var demoPath: [String] = []
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $demoPath) {
             let list = entries
-            let pay = ReportMaths.paySummary(list, skipped: skipped)
+            let pay = ReportMaths.paySummary(list, skipped: skipped, beforeVat: beforeVat)
             List {
                 if list.isEmpty {
                     ContentUnavailableView {
@@ -59,6 +63,18 @@ struct ReportsView: View {
                         }
                         LabeledContent("Invoices checked", value: "\(list.count)")
                         LabeledContent("Spend checked", value: Money.format(Money.round2(list.reduce(0) { $0 + $1.net })))
+                        let owed = ReportMaths.creditsOwed(list)
+                        if owed.count > 0 {
+                            LabeledContent(owed.count == 1 ? String(localized: "1 credit still owed") : String(localized: "\(owed.count) credits still owed")) {
+                                Text(Money.format(owed.amount))
+                                    .foregroundStyle(.orange)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        let received = ReportMaths.creditsReceived(list)
+                        if received.count > 0 {
+                            LabeledContent("Credits received", value: Money.format(received.amount))
+                        }
                         Button {
                             showExport = true
                         } label: {
@@ -95,6 +111,18 @@ struct ReportsView: View {
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
             }
+            .task {
+                // the cloud check: open an overcharged invoice ("-demoCredit YES" marks its credit as asked for)
+                guard UserDefaults.standard.bool(forKey: "demoReport"), demoPath.isEmpty,
+                      let first = entries.first(where: { $0.amountToPay.less > 0 }) ?? entries.first else { return }
+                if UserDefaults.standard.bool(forKey: "demoCredit"), first.credit == nil {
+                    AppData.updateReports([first.id], context: context) { saved in
+                        saved.credit = CreditInfo(status: CreditInfo.requested, amount: first.amountToPay.less,
+                                                  at: ISO8601DateFormatter().string(from: Date()))
+                    }
+                }
+                demoPath = [first.id]
+            }
             .sheet(isPresented: $showChoose) {
                 PayChooseView(entries: pay.unpaid, skippedText: $skippedText)
             }
@@ -125,6 +153,11 @@ struct ReportsView: View {
                     .foregroundStyle(.secondary)
                 if !undoPaid.isEmpty { undoButton }
             } else {
+                Picker("VAT", selection: $beforeVat) {
+                    Text("Including VAT").tag(false)
+                    Text("Before VAT").tag(true)
+                }
+                .pickerStyle(.segmented)
                 Button {
                     showChoose = true
                 } label: {
@@ -155,11 +188,25 @@ struct ReportsView: View {
                                 .foregroundStyle(.red)
                         }
                     }
-                    LabeledContent("Amount to pay") {
+                    LabeledContent {
                         Text(Money.format(pay.pay))
                             .font(.title2.weight(.heavy))
                             .foregroundStyle(.tint)
+                    } label: {
+                        Text("Amount to pay")
+                        Text(beforeVat ? "Before VAT" : "Including VAT")
                     }
+                    Group {
+                        if beforeVat {
+                            Text(pay.vat > 0.005
+                                 ? String(localized: "With VAT it would be \(Money.format(pay.payWithVat)) (VAT \(Money.format(pay.vat)))")
+                                 : String(localized: "These invoices have no VAT"))
+                        } else {
+                            Text("Before VAT \(Money.format(pay.payBeforeVat)) + VAT \(Money.format(pay.vat))")
+                        }
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
                     Button {
                         UIPasteboard.general.string = ReportMaths.paymentText(pay, today: today())
                         notice = String(localized: "Breakdown copied. Paste it into a message to your supplier.")
@@ -177,7 +224,8 @@ struct ReportsView: View {
         } header: {
             Text("To pay")
         } footer: {
-            Text("Invoice totals with VAT, less overcharges and missing or returned items.")
+            Text(beforeVat ? "Invoice totals before VAT, less overcharges and missing or returned items. Choose “Before VAT” for a shop that isn’t VAT registered."
+                           : "Invoice totals with VAT, less overcharges and missing or returned items.")
         }
     }
 
@@ -248,7 +296,7 @@ struct PayChooseView: View {
 
     var body: some View {
         NavigationStack {
-            let pay = ReportMaths.paySummary(entries, skipped: skipped)
+            let pay = ReportMaths.paySummary(entries, skipped: skipped, beforeVat: UserDefaults.standard.bool(forKey: SettingKey.payBeforeVat))
             List {
                 Section {
                     Button("Select all") { set([]) }
@@ -263,7 +311,7 @@ struct PayChooseView: View {
                 }
                 Section {
                     ForEach(entries) { entry in
-                        let amounts = entry.amountToPay
+                        let amounts = entry.amountToPay(beforeVat: pay.beforeVat)
                         Toggle(isOn: Binding(
                             get: { !skipped.contains(entry.id) },
                             set: { isOn in
@@ -372,6 +420,9 @@ struct ReportDetailView: View {
                             }
                         }
                     }
+                    if amounts.less > 0 {
+                        creditSection(entry, amount: amounts.less)
+                    }
                     Section("Lines") {
                         ForEach(Array(entry.lines.enumerated()), id: \.offset) { _, line in
                             HStack(alignment: .top) {
@@ -414,6 +465,60 @@ struct ReportDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         }
+    }
+
+    /// Keeps track of the credit: asked for, then received. A reminder comes after two weeks if it hasn't arrived.
+    @ViewBuilder
+    private func creditSection(_ entry: HistoryEntry, amount: Double) -> some View {
+        Section {
+            if let credit = entry.credit, credit.status == CreditInfo.received {
+                Label("Credit of \(Money.format(credit.amount)) received", systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(.green)
+                Button("Not received after all") { setCredit(entry, nil, amount: amount) }
+            } else if let credit = entry.credit, credit.isOwed {
+                Label(String(localized: "Asked for \(Money.format(credit.amount))") + (credit.at.map { " · " + shortDate($0) } ?? ""), systemImage: "hourglass")
+                    .foregroundStyle(.orange)
+                Button {
+                    setCredit(entry, CreditInfo.received, amount: credit.amount)
+                } label: {
+                    Label("Credit received", systemImage: "checkmark.circle")
+                }
+                Button("I haven't asked yet") { setCredit(entry, nil, amount: amount) }
+            } else {
+                Button {
+                    setCredit(entry, CreditInfo.requested, amount: amount)
+                } label: {
+                    Label("I've asked for this credit", systemImage: "paperplane")
+                }
+            }
+        } header: {
+            Text("Credit")
+        } footer: {
+            Text("Mark the credit as asked for, and ChargeCheck reminds you after \(CreditReminder.days) days if it hasn't arrived.")
+        }
+    }
+
+    private func setCredit(_ entry: HistoryEntry, _ status: String?, amount: Double) {
+        let stamp = ISO8601DateFormatter().string(from: Date())
+        let asked = entry.credit?.at
+        AppData.updateReports([entry.id], context: context) { saved in
+            if let status {
+                saved.credit = CreditInfo(status: status, amount: amount, at: asked ?? stamp,
+                                          paidAt: status == CreditInfo.received ? stamp : nil)
+            } else {
+                saved.credit = nil
+            }
+        }
+        if status == CreditInfo.requested {
+            Task { await CreditReminder.set(for: entry, amount: amount) }
+        } else {
+            CreditReminder.cancel(for: entry.id)
+        }
+    }
+
+    private func shortDate(_ iso: String) -> String {
+        guard let date = ISO8601DateFormatter().date(from: iso) else { return "" }
+        return date.formatted(date: .abbreviated, time: .omitted)
     }
 
     private func creditRequest(_ entry: HistoryEntry) -> URL? {

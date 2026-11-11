@@ -18,6 +18,8 @@ struct RootView: View {
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
     @State private var showPaywall = false
+    /// Settings › Lock with Face ID: the app is covered until unlocked, and again after leaving it.
+    @State private var locked = AppLock.isOn
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
     @State private var tab = UserDefaults.standard.string(forKey: "startTab") ?? "check"
 
@@ -82,15 +84,39 @@ struct RootView: View {
             Accounts.shared.changed(context)
             store.start()
             await store.refresh()
+            if IntentInbox.takeScanRequest() {
+                // opened by Siri / Shortcuts: "Check an invoice"
+                tab = "check"
+                session.openScanner = true
+            }
             // first open without a subscription: show the plans once. Closing them carries on with the free version.
             let quiet = UserDefaults.standard.object(forKey: "startTab") != nil || UserDefaults.standard.object(forKey: "demoScan") != nil
             if UserDefaults.standard.bool(forKey: "showPaywall") || (!store.isSubscribed && !choseFree && !showCarriedOver && !quiet) {
                 showPaywall = true
             }
         }
+        .overlay {
+            if locked {
+                LockScreen { locked = false }
+                    .transition(.opacity)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: IntentInbox.notification)) { _ in
+            if IntentInbox.takeScanRequest() {
+                tab = "check"
+                session.openScanner = true
+            }
+        }
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if phase == .background && AppLock.isOn { locked = true }
+            if phase == .active && IntentInbox.takeScanRequest() {
+                tab = "check"
+                session.openScanner = true
+            }
+            // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
+            if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
         }
         .alert("Price lowered", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
             Button("Undo") { session.undoLowered(note, context: context) }

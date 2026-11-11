@@ -166,6 +166,8 @@ enum SettingKey {
     static let cloudCopies = "copies.cloud"
     static let reminder = "reminder.monthly"
     static let paySkipped = "pay.skipped"
+    /// Show "To pay" before VAT (for shops that aren't VAT registered).
+    static let payBeforeVat = "pay.beforeVat"
     /// Lower an agreed price when a fully checked invoice is cheaper (on unless turned off).
     static let autoLower = "prices.autoLower"
     static let lastRatingAsk = "rating.lastAsk"

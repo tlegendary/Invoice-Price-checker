@@ -38,6 +38,38 @@ final class ReportTests: XCTestCase {
         XCTAssertEqual(ReportMaths.paySummary([], skipped: []).pay, 0)
     }
 
+    func testCredits() throws {
+        var list = sample
+        list[0].credit = CreditInfo(status: CreditInfo.requested, amount: 11, at: "2026-11-06T10:00:00Z")
+        list[2].credit = CreditInfo(status: CreditInfo.received, amount: 6, at: "2026-10-05T10:00:00Z", paidAt: "2026-10-20T10:00:00Z")
+        XCTAssertEqual(ReportMaths.creditsOwed(list).count, 1)
+        XCTAssertEqual(ReportMaths.creditsOwed(list).amount, 11)
+        XCTAssertEqual(ReportMaths.creditsReceived(list).amount, 6)
+        XCTAssertEqual(ReportMaths.creditsOwed(sample).count, 0)
+        // the old app's backup format: a credit survives a save and a load
+        let data = try JSONEncoder().encode(list[0])
+        let back = try JSONDecoder().decode(HistoryEntry.self, from: data)
+        XCTAssertEqual(back.credit?.status, "requested")
+        XCTAssertEqual(back.credit?.amount, 11)
+    }
+
+    func testWhatToPayBeforeVat() {
+        let withVat = ReportMaths.paySummary(sample, skipped: [])
+        XCTAssertEqual(withVat.payBeforeVat, 315)
+        XCTAssertEqual(withVat.payWithVat, 333)
+        XCTAssertEqual(withVat.vat, 18)
+        let net = ReportMaths.paySummary(sample, skipped: [], beforeVat: true)
+        XCTAssertTrue(net.beforeVat)
+        XCTAssertEqual(net.total, 350)
+        XCTAssertEqual(net.less, 35)
+        XCTAssertEqual(net.pay, 315)
+        XCTAssertEqual(net.suppliers.map { $0.pay }, [270, 45])
+        XCTAssertEqual(net.payWithVat, 333)
+        let text = ReportMaths.paymentText(ReportMaths.paySummary(sample, skipped: ["1", "2"], beforeVat: true), today: "10 Nov 2026")
+        XCTAssertTrue(text.contains("Invoice 3 · 04/10/2026 · £50.00 less £5.00 overcharged = £45.00"), text)
+        XCTAssertTrue(text.contains("Amounts are before VAT (no VAT added)."), text)
+    }
+
     func testPeriods() {
         let calendar = ReportMaths.ukCalendar
         let now = calendar.date(from: DateComponents(year: 2026, month: 11, day: 10, hour: 9))!

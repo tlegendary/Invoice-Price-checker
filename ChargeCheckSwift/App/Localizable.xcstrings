@@ -256,6 +256,34 @@
       }
     },
     "%lld": {},
+    "%lld credits still owed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مبالغ مستردة لم تصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پارەی گەڕاوە هێشتا ماون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Gutschriften noch offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld avoirs encore dus"
+          }
+        }
+      }
+    },
     "%lld files couldn't be opened.": {
       "localizations": {
         "ar": {
@@ -682,6 +710,34 @@
     "0%": {},
     "0.00": {},
     "1": {},
+    "1 credit still owed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبلغ مسترد واحد لم يصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ پارەی گەڕاوە هێشتا ماوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Gutschrift noch offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 avoir encore dû"
+          }
+        }
+      }
+    },
     "1 invoice to pay": {
       "extractionState": "manual",
       "localizations": {
@@ -1792,6 +1848,34 @@
         }
       }
     },
+    "Amounts are before VAT (no VAT added).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبالغ قبل الضريبة (بدون ضريبة)."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بڕەکان پێش باجی VAT ن (باج زیاد نەکراوە)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beträge ohne MwSt. (keine MwSt. hinzugefügt)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montants hors TVA (sans TVA ajoutée)."
+          }
+        }
+      }
+    },
     "Amounts include VAT.": {
       "extractionState": "manual",
       "localizations": {
@@ -1986,6 +2070,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apple Intelligence n’est pas disponible pour le moment."
+          }
+        }
+      }
+    },
+    "Asked for %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم طلب %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوای %@ کرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ demandé"
+          }
+        }
+      }
+    },
+    "Asks for Face ID, Touch ID or your passcode each time ChargeCheck opens, so staff or family using this phone can't see your prices and payments.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يطلب بصمة الوجه أو بصمة الإصبع أو رمز الدخول في كل مرة يُفتح فيها ChargeCheck، حتى لا يرى الموظفون أو العائلة أسعارك ومدفوعاتك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەر جارێک ChargeCheck دەکرێتەوە داوای Face ID، Touch ID یان وشەی نهێنی دەکات، بۆ ئەوەی کارمەند یان خێزان نرخ و پارەدانەکانت نەبینن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fragt bei jedem Öffnen von ChargeCheck nach Face ID, Touch ID oder deinem Code, damit Mitarbeiter oder Familie deine Preise und Zahlungen nicht sehen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demande Face ID, Touch ID ou votre code à chaque ouverture de ChargeCheck, pour que le personnel ou la famille ne voie pas vos prix et paiements."
           }
         }
       }
@@ -2213,6 +2353,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Solde dû : %@"
+          }
+        }
+      }
+    },
+    "Before VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش VAT"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA"
+          }
+        }
+      }
+    },
+    "Before VAT %@ + VAT %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة %1$@ + الضريبة %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش VAT %1$@ + VAT %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. %1$@ + MwSt. %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA %1$@ + TVA %2$@"
           }
         }
       }
@@ -2531,6 +2727,34 @@
       }
     },
     "ChargeCheck": {},
+    "ChargeCheck is locked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck مقفل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck داخراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck ist gesperrt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck est verrouillé"
+          }
+        }
+      }
+    },
     "Charged": {
       "localizations": {
         "ar": {
@@ -2612,6 +2836,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vérifier"
+          }
+        }
+      }
+    },
+    "Check an invoice": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فحص فاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشکنینی پسوولە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier une facture"
           }
         }
       }
@@ -3351,6 +3603,34 @@
         }
       }
     },
+    "Credit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەی گەڕاوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir"
+          }
+        }
+      }
+    },
     "Credit note": {
       "extractionState": "manual",
       "localizations": {
@@ -3434,6 +3714,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avoirs"
+          }
+        }
+      }
+    },
+    "Credit of %@ received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استلام مبلغ مسترد بقيمة %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەی گەڕاوەی %@ وەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift über %@ erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir de %@ reçu"
+          }
+        }
+      }
+    },
+    "Credit received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم استلام المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارە گەڕاوەکە وەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschrift erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoir reçu"
           }
         }
       }
@@ -3547,6 +3883,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avoir demandé (TTC)"
+          }
+        }
+      }
+    },
+    "Credits received": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبالغ المستردة المستلمة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارە گەڕاوە وەرگیراوەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erhaltene Gutschriften"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoirs reçus"
           }
         }
       }
@@ -4652,6 +5016,34 @@
         }
       }
     },
+    "Has %@ sent your credit?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل أرسل %@ المبلغ المسترد؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئایا %@ پارە گەڕاوەکەتی ناردووە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hat %@ deine Gutschrift geschickt?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ a-t-il envoyé votre avoir ?"
+          }
+        }
+      }
+    },
     "Hello{1},": {
       "extractionState": "manual",
       "localizations": {
@@ -4761,6 +5153,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "Comment les fournisseurs écrivent cet article sur leurs factures, séparé par des virgules. L’app s’en sert pour le reconnaître."
+          }
+        }
+      }
+    },
+    "I haven't asked yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم أطلبه بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا داوام نەکردووە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch nicht angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je ne l’ai pas encore demandé"
+          }
+        }
+      }
+    },
+    "I've asked for this credit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبت هذا المبلغ المسترد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوای ئەم پارە گەڕاوەیەم کرد"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ich habe diese Gutschrift angefordert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "J’ai demandé cet avoir"
           }
         }
       }
@@ -4902,6 +5350,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dans votre liste de prix"
+          }
+        }
+      }
+    },
+    "Including VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شامل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ VAT"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inkl. MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TVA incluse"
           }
         }
       }
@@ -5215,6 +5691,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Totaux des factures (TTC)"
+          }
+        }
+      }
+    },
+    "Invoice totals before VAT, less overcharges and missing or returned items. Choose “Before VAT” for a shop that isn’t VAT registered.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجمالي الفواتير قبل الضريبة، مطروحًا منه الزيادات في الأسعار والبنود المفقودة أو المرتجعة. اختر «قبل الضريبة» للمتجر غير المسجّل في الضريبة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆی پسوولەکان پێش VAT، کەمکراوە لە نرخی زیادە و کاڵای ون یان گەڕێنراوە. «پێش VAT» هەڵبژێرە بۆ دوکانێک کە بۆ VAT تۆمار نەکراوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnungssummen ohne MwSt., abzüglich Überberechnungen und fehlender oder zurückgegebener Artikel. Wähle „Ohne MwSt.“ für einen Laden ohne MwSt.-Registrierung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totaux des factures hors TVA, moins les surfacturations et les articles manquants ou retournés. Choisissez « Hors TVA » pour un magasin non assujetti à la TVA."
           }
         }
       }
@@ -5897,6 +6401,34 @@
         }
       }
     },
+    "Lock with Face ID or passcode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القفل ببصمة الوجه أو رمز الدخول"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داخستن بە Face ID یان وشەی نهێنی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit Face ID oder Code sperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verrouiller avec Face ID ou le code"
+          }
+        }
+      }
+    },
     "Look": {
       "localizations": {
         "ar": {
@@ -6117,6 +6649,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marquer comme payée"
+          }
+        }
+      }
+    },
+    "Mark the credit as asked for, and ChargeCheck reminds you after %lld days if it hasn't arrived.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجّل أنك طلبت المبلغ المسترد، وسيذكّرك ChargeCheck بعد %lld يومًا إذا لم يصل."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دیاری بکە کە داوای پارە گەڕاوەکەت کردووە، ChargeCheck دوای %lld ڕۆژ بیرت دەخاتەوە ئەگەر نەگەیشت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markiere die Gutschrift als angefordert – ChargeCheck erinnert dich nach %lld Tagen, falls sie nicht angekommen ist."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquez l’avoir comme demandé : ChargeCheck vous le rappellera après %lld jours s’il n’est pas arrivé."
           }
         }
       }
@@ -7054,6 +7614,34 @@
         }
       }
     },
+    "Not received after all": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُستلم في الواقع"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ڕاستیدا وەرنەگیراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doch nicht erhalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalement pas reçu"
+          }
+        }
+      }
+    },
     "Note, e.g. bank transfer (optional)": {
       "extractionState": "manual",
       "localizations": {
@@ -7670,6 +8258,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir un tableur ou un fichier texte (CSV)"
+          }
+        }
+      }
+    },
+    "Opens ChargeCheck with the camera, ready to scan a supplier invoice.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يفتح ChargeCheck مع الكاميرا، جاهزًا لمسح فاتورة مورّد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck لەگەڵ کامێرا دەکاتەوە، ئامادە بۆ سکانکردنی پسوولەی دابینکەر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnet ChargeCheck mit der Kamera, bereit zum Scannen einer Lieferantenrechnung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre ChargeCheck avec l’appareil photo, prêt à scanner une facture fournisseur."
           }
         }
       }
@@ -11644,6 +12260,62 @@
         }
       }
     },
+    "The photo looks blurry. Hold the phone still and let it focus before taking the photo, or add the lines by hand.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة غير واضحة. ثبّت الهاتف وانتظر حتى يضبط التركيز قبل التصوير، أو أضف البنود يدويًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکە ناڕوونە. مۆبایلەکە ڕاگرە و با فۆکەس بکات پێش ئەوەی وێنە بگریت، یان دێڕەکان بە دەست زیاد بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Foto ist unscharf. Halte das Handy ruhig und lass es scharf stellen, bevor du fotografierst, oder füge die Positionen von Hand hinzu."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La photo est floue. Tenez le téléphone immobile et laissez-le faire la mise au point avant de prendre la photo, ou ajoutez les lignes à la main."
+          }
+        }
+      }
+    },
+    "The photo looks too dark to read. Take it again in brighter light or with the flash, or add the lines by hand.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة مظلمة جدًا ولا يمكن قراءتها. أعد التصوير في إضاءة أقوى أو باستخدام الفلاش، أو أضف البنود يدويًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکە زۆر تاریکە و ناخوێندرێتەوە. لە ڕووناکییەکی زیاتردا یان بە فلاش دووبارە بیگرەوە، یان دێڕەکان بە دەست زیاد بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Foto ist zu dunkel zum Lesen. Fotografiere es bei mehr Licht oder mit Blitz noch einmal oder füge die Positionen von Hand hinzu."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La photo est trop sombre pour être lue. Reprenez-la avec plus de lumière ou avec le flash, ou ajoutez les lignes à la main."
+          }
+        }
+      }
+    },
     "The plans couldn't be loaded from the App Store. Check your internet connection and try again.": {
       "localizations": {
         "ar": {
@@ -11809,6 +12481,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les deux lectures de la photo ne concordent pas sur cette ligne."
+          }
+        }
+      }
+    },
+    "These invoices have no VAT": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد ضريبة على هذه الفواتير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم پسوولانە VAT یان نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Rechnungen enthalten keine MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces factures n’ont pas de TVA"
           }
         }
       }
@@ -12639,6 +13339,62 @@
         }
       }
     },
+    "Unlock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کردنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entsperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déverrouiller"
+          }
+        }
+      }
+    },
+    "Unlock ChargeCheck": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح ChargeCheck"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck entsperren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déverrouiller ChargeCheck"
+          }
+        }
+      }
+    },
     "Untick anything you don't want moved": {
       "localizations": {
         "ar": {
@@ -12978,6 +13734,34 @@
         }
       }
     },
+    "With VAT it would be %@ (VAT %@)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مع الضريبة سيكون المبلغ %1$@ (الضريبة %2$@)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ VAT دەبێتە %1$@ (VAT %2$@)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit MwSt. wären es %1$@ (MwSt. %2$@)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec TVA, cela ferait %1$@ (TVA %2$@)"
+          }
+        }
+      }
+    },
     "Yearly": {
       "localizations": {
         "ar": {
@@ -13031,6 +13815,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Oui"
+          }
+        }
+      }
+    },
+    "You asked for %@ two weeks ago. Open ChargeCheck › Reports to mark it received or ask again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبت %@ قبل أسبوعين. افتح ChargeCheck › التقارير لتسجيل استلامه أو اطلبه مرة أخرى."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو هەفتە لەمەوبەر داوای %@ت کرد. ChargeCheck › ڕاپۆرتەکان بکەرەوە بۆ ئەوەی وەرگیراو دیاری بکەیت یان دووبارە داوا بکەیتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du hast vor zwei Wochen %@ angefordert. Öffne ChargeCheck › Berichte, um sie als erhalten zu markieren oder erneut nachzufragen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous avez demandé %@ il y a deux semaines. Ouvrez ChargeCheck › Rapports pour le marquer comme reçu ou relancer."
           }
         }
       }
@@ -14279,6 +15091,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "votre prix %@"
+          }
+        }
+      }
+    },
+    "your supplier": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المورّد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەرەکەت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dein Lieferant"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "votre fournisseur"
           }
         }
       }
