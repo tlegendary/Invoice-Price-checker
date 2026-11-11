@@ -7221,7 +7221,36 @@
         }
       }
     },
+    "No ad is available right now, so no scan was added. Check your connection and try again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يتوفر إعلان الآن، لذلك لم تتم إضافة مسح. تحقّق من اتصالك وحاول مجددًا."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئێستا هیچ ڕیکلامێک بەردەست نییە، بۆیە هیچ سکانێک زیاد نەکرا. پەیوەندییەکەت بپشکنە و دووبارە هەوڵ بدەرەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade ist keine Werbung verfügbar, daher wurde kein Scan hinzugefügt. Prüfe deine Verbindung und versuche es erneut."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune pub n’est disponible pour le moment, aucun scan n’a donc été ajouté. Vérifiez votre connexion et réessayez."
+          }
+        }
+      }
+    },
     "No ad is available right now, so no scan was added. Check your connection and try again. (%@)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
