@@ -175,10 +175,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
   on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
   after #7 is merged and the check is green.
-- Features chat (12 Nov 2026): on F1 (branch `feature/f1-green`). Also lets the cloud check run on `feature/` branches
-  (one line in `.github/workflows/swift-check.yml`). Finished earlier on `swift-rewrite`: supplier payments (how paid,
-  reference, receipt photo, swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary.
-  **Mistake:** 16a31c8 changed `.beta-build`, which started a beta build. Won't happen again.
+- Features chat (12 Nov 2026): on F2 (branch `feature/f2-supplier-prices`, built on F1's branch). Touches
+  `PriceEditView.swift` (a "Special prices" section) besides its own files. F1 is pull request #9.
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
