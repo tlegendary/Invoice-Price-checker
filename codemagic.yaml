@@ -175,204 +175,163 @@ workflows:
           cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|FAILED|rovision" | sort -u | cut -c1-400 > /tmp/errors.txt
           cat /tmp/errors.txt | head -80
           exit $CODE
-      - name: "Diagnose – lines with errors"
+      # When the build fails, each step below turns red if that file has an error, so the GitHub check shows where.
+      - name: "Error in Accounts.swift?"
         ignore_failure: true
         script: |
-          grep -oE 'InvoiceReader.swift:[0-9]+' /tmp/errors.txt | sort -u | tr '\n' ' '
-          exit 1
-      - name: "Diagnose – says ambiguous"
+          if grep -q '/Accounts.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Accounts.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AdService.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (ambiguous)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says cannot find"
+          if grep -q '/AdService.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AdService.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AppConfig.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (cannot find)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says has no member"
+          if grep -q '/AppConfig.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AppConfig.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AppData.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (has no member)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says cannot convert"
+          if grep -q '/AppData.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AppData.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in BackupDocument.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (cannot convert)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says argument"
+          if grep -q '/BackupDocument.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/BackupDocument.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ChargeCheckApp.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (argument)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says captur"
+          if grep -q '/ChargeCheckApp.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ChargeCheckApp.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ChargeCheckWidget.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (captur)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says before it is  or being declared"
+          if grep -q '/ChargeCheckWidget.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ChargeCheckWidget.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in CheckSession.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (before (it is |being )?declared)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says CGFloat"
+          if grep -q '/CheckSession.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/CheckSession.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in CheckView.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (CGFloat)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says Double"
+          if grep -q '/CheckView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/CheckView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in DocumentScanner.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (Double)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says PDF"
+          if grep -q '/DocumentScanner.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/DocumentScanner.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Files.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (PDF)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says String or NSString or substring"
+          if grep -q '/Files.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Files.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ImageTools.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (String|NSString|substring)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says isEmpty or isNull or null"
+          if grep -q '/ImageTools.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ImageTools.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in InvoiceDetailView.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (isEmpty|isNull|null)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says Range or NSRange"
+          if grep -q '/InvoiceDetailView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/InvoiceDetailView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in InvoiceReader.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (Range|NSRange)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says TextPiece"
+          if grep -q '/InvoiceReader.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/InvoiceReader.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in LineEditView.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (TextPiece)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says mutat or inout or let"
+          if grep -q '/LineEditView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/LineEditView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Localize.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (mutat|inout|let)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says closure or func"
+          if grep -q '/Localize.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Localize.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in NeedScanSheet.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (closure|func)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – says expected or consecutive or extraneous or unexpected"
+          if grep -q '/NeedScanSheet.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/NeedScanSheet.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PDFMaker.swift?"
         ignore_failure: true
         script: |
-          if [ "$(cat /tmp/build-code)" = "0" ]; then exit 0; fi
-          if grep -Eq 'InvoiceReader.swift:(8[1-9]|9[0-9]|1[0-3][0-9]):[0-9]+: error: (expected|consecutive|extraneous|unexpected)' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 82"
+          if grep -q '/PDFMaker.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PDFMaker.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PasteListView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:82:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 83"
+          if grep -q '/PasteListView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PasteListView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PaywallView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:83:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 84"
+          if grep -q '/PaywallView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PaywallView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PriceEditView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:84:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 86"
+          if grep -q '/PriceEditView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PriceEditView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PriceHistoryChart.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:86:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 89"
+          if grep -q '/PriceHistoryChart.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PriceHistoryChart.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PricesView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:89:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 90"
+          if grep -q '/PricesView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PricesView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Regional.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:90:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 93"
+          if grep -q '/Regional.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Regional.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ReportsView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:93:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 94"
+          if grep -q '/ReportsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ReportsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in RootView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:94:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 95"
+          if grep -q '/RootView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/RootView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SampleInvoice.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:95:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 97"
+          if grep -q '/SampleInvoice.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SampleInvoice.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SettingsView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:97:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 98"
+          if grep -q '/SettingsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SettingsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Shops.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:98:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 100"
+          if grep -q '/Shops.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Shops.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ShopsView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:100:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 101"
+          if grep -q '/ShopsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ShopsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SmartCheck.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:101:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 102"
+          if grep -q '/SmartCheck.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SmartCheck.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SortCategoriesView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:102:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 103"
+          if grep -q '/SortCategoriesView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SortCategoriesView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Store.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:103:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 107"
+          if grep -q '/Store.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Store.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in StoredModels.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:107:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 108"
+          if grep -q '/StoredModels.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/StoredModels.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SuppliersView.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:108:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 111"
+          if grep -q '/SuppliersView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SuppliersView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Theme.swift?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:111:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 112"
+          if grep -q '/Theme.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Theme.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Core package?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:112:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 113"
+          if grep -Eq 'ChargeCheckCore/.*error' /tmp/errors.txt; then exit 1; fi
+      - name: "Error in signing or provisioning?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:113:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 115"
+          if grep -Eq '[Pp]rovisioning profile|[Ss]igning for|requires a development team' /tmp/errors.txt; then exit 1; fi
+      - name: "Error in other error?"
         ignore_failure: true
         script: |
-          if grep -q 'InvoiceReader.swift:115:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 116"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:116:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 124"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:124:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 127"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:127:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 128"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:128:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 131"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:131:' /tmp/errors.txt; then exit 1; fi
-      - name: "Diagnose – line 132"
-        ignore_failure: true
-        script: |
-          if grep -q 'InvoiceReader.swift:132:' /tmp/errors.txt; then exit 1; fi
+          if grep -Eq '^error:|: error:' /tmp/errors.txt; then exit 1; fi
       - name: Stop if the build failed
         script: exit $(cat /tmp/build-code)
     artifacts:

@@ -78,7 +78,7 @@ enum InvoiceReader {
     // MARK: - PDFs with real text
 
     /// The words on one PDF page, straight from its text (no reading mistakes possible). Scanned PDFs have none.
-    static func pdfPieces(_ page: PDFPage) -> [TextPiece] {
+    static func pdfPieces(_ page: PDFKit.PDFPage) -> [TextPiece] {
         guard let text = page.string, !text.isEmpty else { return [] }
         let box = page.bounds(for: .mediaBox)
         let longest = max(box.width, box.height)
