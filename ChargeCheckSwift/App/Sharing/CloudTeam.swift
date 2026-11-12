@@ -17,6 +17,14 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     static let roleKey = "team.role"
+    /// OFF since beta 16 (12 Nov 2026): the app crashed on opening on Ramyar's phone after builds 14/15. The likely cause is
+    /// iCloud's sync engine starting without the Push Notifications capability. While this is false, iCloud is never touched.
+    /// Turn back on only together with the push entitlement (see MIGRATION.md, "Staff phones").
+    static let enabled = false
+    /// Set while the sync engine is starting. If the app dies before it's cleared, sharing stays paused on the next launch
+    /// instead of crashing again and again.
+    private static let startingKey = "team.starting"
+    @Published private(set) var pausedAfterCrash = false
     private static let zoneName = "Business"
     private static let zoneOwnerKey = "team.zoneOwner"
     private static let recordType = "Item"
@@ -26,7 +34,7 @@ final class CloudTeam: NSObject, ObservableObject {
     @Published private(set) var lastSync: Date?
     @Published private(set) var busy = false
 
-    var isStaff: Bool { role == .staff }
+    var isStaff: Bool { Self.enabled && role == .staff }
 
     private var context: ModelContext?
     private var engine: CKSyncEngine?
@@ -125,7 +133,19 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     private func startEngine() {
-        guard role != .none, engine == nil else { return }
+        guard Self.enabled, role != .none, engine == nil else { return }
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: Self.startingKey) {
+            pausedAfterCrash = true
+            status = String(localized: "Staff sharing is paused because the app closed unexpectedly while starting it.")
+            return
+        }
+        defaults.set(true, forKey: Self.startingKey)
+        defaults.synchronize()
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
+            UserDefaults.standard.removeObject(forKey: Self.startingKey)
+        }
         let database = role == .owner ? container.privateCloudDatabase : container.sharedCloudDatabase
         var configuration = CKSyncEngine.Configuration(database: database, stateSerialization: engineState, delegate: self)
         configuration.automaticallySync = true
@@ -135,6 +155,14 @@ final class CloudTeam: NSObject, ObservableObject {
         }
         scheduleScan(after: 0.5)
         Task { await refresh() }
+    }
+
+    /// After a paused start: try once more.
+    func retryAfterCrash() {
+        UserDefaults.standard.removeObject(forKey: Self.startingKey)
+        pausedAfterCrash = false
+        status = ""
+        startEngine()
     }
 
     /// Fetches what other phones changed and sends this phone's changes. Safe to call any time.
@@ -158,6 +186,7 @@ final class CloudTeam: NSObject, ObservableObject {
 
     /// Turns sharing on: everything on this phone goes up to the owner's iCloud.
     func becomeOwner() async throws {
+        guard Self.enabled else { throw TeamError.noICloud }
         let account = try await container.accountStatus()
         guard account == .available else { throw TeamError.noICloud }
         engine = nil
@@ -196,6 +225,7 @@ final class CloudTeam: NSObject, ObservableObject {
 
     /// A staff member opened the owner's invite link.
     func accept(_ metadata: CKShare.Metadata) async {
+        guard Self.enabled else { return }
         busy = true
         defer { busy = false }
         do {

@@ -15,6 +15,17 @@ struct TeamView: View {
 
     var body: some View {
         List {
+            if !CloudTeam.enabled {
+                Section {
+                    Label("Staff sharing is switched off in this build while a problem is fixed. Your data is safe on this phone.",
+                          systemImage: "wrench.and.screwdriver")
+                        .foregroundStyle(.orange)
+                }
+            } else if team.pausedAfterCrash {
+                Section {
+                    Button("Try starting staff sharing again") { team.retryAfterCrash() }
+                }
+            }
             switch team.role {
             case .none: offView
             case .owner: ownerView
@@ -65,7 +76,7 @@ struct TeamView: View {
                     if working { Spacer(); ProgressView() }
                 }
             }
-            .disabled(working)
+            .disabled(working || !CloudTeam.enabled)
         } footer: {
             Text("Everything is kept in your own iCloud. Staff join with an invite link you send them. To join someone else's business, open the invite link they sent you.")
         }

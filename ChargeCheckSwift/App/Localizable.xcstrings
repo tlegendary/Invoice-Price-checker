@@ -15265,6 +15265,64 @@
         }
       }
     },
+    "Staff sharing is paused because the app closed unexpectedly while starting it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشاركة الموظفين متوقفة مؤقتًا لأن التطبيق أُغلق فجأة أثناء تشغيلها."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هاوبەشیی کارمەندان ڕاگیراوە چونکە ئەپەکە لە کاتی دەستپێکردنیدا لەناکاو داخرا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Teilen mit Mitarbeitern ist pausiert, weil die App beim Starten unerwartet beendet wurde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le partage avec le personnel est en pause car l’app s’est fermée de façon inattendue au démarrage."
+          }
+        }
+      }
+    },
+    "Staff sharing is switched off in this build while a problem is fixed. Your data is safe on this phone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشاركة الموظفين متوقفة في هذه النسخة ريثما تُحل مشكلة. بياناتك آمنة على هذا الهاتف."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هاوبەشیی کارمەندان لەم وەشانەدا کوژاوەتەوە تا کێشەیەک چارەسەر دەکرێت. زانیارییەکانت لەسەر ئەم مۆبایلە سەلامەتن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Teilen mit Mitarbeitern ist in dieser Version ausgeschaltet, während ein Problem behoben wird. Deine Daten sind auf diesem iPhone sicher."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le partage avec le personnel est désactivé dans cette version le temps de corriger un problème. Vos données sont en sécurité sur ce téléphone."
+          }
+        }
+      }
+    },
     "Staff use ChargeCheck on their own iPhones. They scan and check invoices for their shop, and see Reports and what's owed. Only you can change prices, record payments and change settings.": {
       "extractionState": "manual",
       "localizations": {
@@ -17831,6 +17889,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réessayer"
+          }
+        }
+      }
+    },
+    "Try starting staff sharing again": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حاول تشغيل مشاركة الموظفين مجددًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دووبارە هەوڵی دەستپێکردنی هاوبەشی بدە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teilen mit Mitarbeitern erneut starten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réessayer de démarrer le partage"
           }
         }
       }

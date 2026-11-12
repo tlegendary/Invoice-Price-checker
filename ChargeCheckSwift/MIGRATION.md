@@ -194,6 +194,11 @@ On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` an
 creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 
 ### Staff phones (features chat, 12 Nov 2026)
+- **SWITCHED OFF in beta 16 (`CloudTeam.enabled = false`).** Builds 14/15 crashed on opening on Ramyar's phone. No crash log
+  yet. Most likely: he turned sharing on, and `CKSyncEngine` starting without the Push Notifications capability
+  (`aps-environment` entitlement + `remote-notification` background mode) kills the app on every launch. To turn back on:
+  Ramyar ticks Push Notifications on the beta App ID, add both to `project.yml`, set `enabled = true`, and confirm with a
+  crash log if it still fails. A start guard (`team.starting`) now pauses sharing after a crashed start instead of looping.
 - The owner turns on sharing in Settings › Staff; the whole business (reports, prices, payments, business name, shops, trusted
   suppliers) goes into a zone "Business" in the owner's private iCloud and is shared with staff (zone-wide `CKShare`).
   Staff join through the invite link (`TeamSceneDelegate`). `CKSyncEngine` sends and fetches; each record holds the same
