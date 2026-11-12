@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     " (incl. VAT)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -326,9 +323,6 @@
           }
         }
       }
-    },
-    "%@%%" : {
-
     },
     "%@. Automatic follows your iPhone's light or dark setting." : {
       "localizations" : {
@@ -1858,64 +1852,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajoutez les prix convenus avec vos fournisseurs. Touchez + pour en ajouter un, ou utilisez le menu ••• pour coller toute une liste."
-          }
-        }
-      }
-    },
-    "Add your shops first" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أضف متاجرك أولًا"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سەرەتا دوکانەکانت زیاد بکە"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge zuerst deine Filialen hinzu"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez d’abord vos magasins"
-          }
-        }
-      }
-    },
-    "Add your shops in Settings › Shops and choose a shop when you scan. Then each shop's figures appear here side by side." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أضف متاجرك من الإعدادات › المتاجر واختر متجرًا عند المسح. ستظهر أرقام كل متجر هنا جنبًا إلى جنب."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دوکانەکانت لە ڕێکخستنەکان › دوکانەکان زیاد بکە و لە کاتی سکانکردن دوکانێک هەڵبژێرە. ئینجا ژمارەکانی هەر دوکانێک لێرە لە تەنیشت یەک دەردەکەون."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge deine Filialen unter Einstellungen › Filialen hinzu und wähle beim Scannen eine Filiale. Dann erscheinen die Zahlen jeder Filiale hier nebeneinander."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez vos magasins dans Réglages › Magasins et choisissez un magasin quand vous scannez. Les chiffres de chaque magasin apparaissent alors ici côte à côte."
           }
         }
       }
@@ -4257,35 +4193,6 @@
         }
       }
     },
-    "Compare shops" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مقارنة المتاجر"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بەراوردی دوکانەکان"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filialen vergleichen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comparer les magasins"
-          }
-        }
-      }
-    },
     "Compared with the last invoice from this supplier, even when it's still within your agreed price." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5025,35 +4932,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total de l’avoir"
-          }
-        }
-      }
-    },
-    "Credits owed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إشعارات دائنة مستحقة"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "گەڕاندنەوەی ماوە"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Offene Gutschriften"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avoirs dus"
           }
         }
       }
@@ -7551,35 +7429,6 @@
         }
       }
     },
-    "Last 90 days" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "آخر ٩٠ يومًا"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "٩٠ ڕۆژی ڕابردوو"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Letzte 90 Tage"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "90 derniers jours"
-          }
-        }
-      }
-    },
     "Last month" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -9652,35 +9501,6 @@
         }
       }
     },
-    "Of spend" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "من المصروف"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لە خەرجی"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vom Umsatz"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Des dépenses"
-          }
-        }
-      }
-    },
     "Off" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -10672,35 +10492,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Surfacturé, depuis le début"
-          }
-        }
-      }
-    },
-    "Overcharged, as a share of spend" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المبالغ الزائدة كنسبة من المصروف"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "زیادە، وەک ڕێژەیەک لە خەرجی"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Überberechnet, als Anteil am Umsatz"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Surfacturé, en part des dépenses"
           }
         }
       }
@@ -13925,35 +13716,6 @@
         }
       }
     },
-    "Spent" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المصروف"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "خەرجکراو"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausgegeben"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dépensé"
-          }
-        }
-      }
-    },
     "Standard price" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14608,35 +14370,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Balayez vers la gauche pour supprimer."
-          }
-        }
-      }
-    },
-    "Swipe sideways to see every shop. The shop overcharged most, as a share of its spend, is in red." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اسحب جانبيًا لرؤية كل متجر. المتجر الأعلى في نسبة المبالغ الزائدة من مصروفه باللون الأحمر."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بۆ بینینی هەموو دوکانەکان بە لادا ڕابکێشە. ئەو دوکانەی زۆرترین ڕێژەی زیادەی لێ وەرگیراوە بە سوور نیشان دراوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seitlich wischen, um jede Filiale zu sehen. Die Filiale mit dem höchsten Anteil an Überberechnungen ist rot."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Balayez sur le côté pour voir chaque magasin. Le magasin le plus surfacturé, en part de ses dépenses, est en rouge."
           }
         }
       }
@@ -15687,35 +15420,6 @@
         }
       }
     },
-    "This year" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "هذه السنة"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ئەمساڵ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Jahr"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette année"
-          }
-        }
-      }
-    },
     "Tick off what arrived. Anything short comes off what you pay and goes into the credit request." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15827,35 +15531,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour ne plus traiter ce fournisseur comme fiable, allez dans Fournisseurs et désactivez « Fournisseur fiable »."
-          }
-        }
-      }
-    },
-    "Top supplier" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المورّد الأكبر"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "گەورەترین دابینکەر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Größter Lieferant"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Premier fournisseur"
           }
         }
       }
