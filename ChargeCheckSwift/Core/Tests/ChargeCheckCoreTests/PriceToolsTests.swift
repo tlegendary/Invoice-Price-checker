@@ -41,4 +41,33 @@ final class PriceToolsTests: XCTestCase {
         XCTAssertEqual(rows.map { $0.price }, [15, 22.5, 9.99])
         XCTAssertEqual(rows.first?.name, "Chicken Wings 10kg")
     }
+
+    func testLearnsTheNamesSuppliersUse() {
+        let wings = PriceItem(id: "w", cat: "Meat", name: "Chicken wings 10kg", price: 15, aliases: ["prime wing"])
+        let oil = PriceItem(id: "o", cat: "Oil", name: "Vegetable oil 20L", price: 30)
+        let book = PriceBook([wings, oil])
+        var draft = InvoiceDraft(supplier: "Apex")
+        draft.lines = [
+            // sure, and a new name: learned
+            CheckLine(qty: 1, desc: "FRESH WING JUMBO 10KG", unit: 15, matchId: "w", confident: true, reads: 2),
+            // not sure and not confirmed: not learned
+            CheckLine(qty: 1, desc: "COOKING OIL DRUM", unit: 30, matchId: "o", confident: false, reads: 2),
+            // already known by this name: nothing to learn
+            CheckLine(qty: 1, desc: "PRIME WING 10KG", unit: 15, matchId: "w", confident: true, reads: 2),
+            // a different pack size is not the same item
+            CheckLine(qty: 1, desc: "WING JUMBO BOX 5KG", unit: 15, matchId: "w", confident: true, reads: 2),
+            // too loose to be a name
+            CheckLine(qty: 1, desc: "OIL", unit: 30, matchId: "o", confident: true, reads: 2)
+        ]
+        XCTAssertEqual(PriceTools.newNames(in: draft, book: book), [LearnedName(itemID: "w", spelling: "fresh wing jumbo 10kg")])
+        // once the user confirms the unsure line, its name is learned too
+        draft.lines[1].ok = true
+        XCTAssertEqual(PriceTools.newNames(in: draft, book: book).map { $0.spelling }, ["fresh wing jumbo 10kg", "cooking oil drum"])
+        // and with the name learned, the next invoice matches it straight away
+        var learned = wings
+        learned.aliases.append("fresh wing jumbo 10kg")
+        let match = Matcher.match("FRESH WING JUMBO 10KG", in: [learned, oil])
+        XCTAssertEqual(match.itemID, "w")
+        XCTAssertTrue(match.confident)
+    }
 }
