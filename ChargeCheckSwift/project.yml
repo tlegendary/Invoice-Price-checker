@@ -33,10 +33,10 @@ targets:
       path: App/ChargeCheck.entitlements
       properties:
         com.apple.security.application-groups: [group.com.rjapps.invoicepricechecker]  # widget
-        # iCloud for staff phones (CloudKit sharing). Beta builds use Apple's test iCloud ("Development").
+        # iCloud for staff phones (CloudKit sharing). TestFlight and App Store builds always use the Production iCloud.
         com.apple.developer.icloud-container-identifiers: [iCloud.com.rjapps.invoicepricechecker]  # icloud
         com.apple.developer.icloud-services: [CloudKit]  # icloud
-        com.apple.developer.icloud-container-environment: Development  # icloud
+        com.apple.developer.icloud-container-environment: Production  # icloud
     scheme:
       testTargets:
         - ChargeCheckTests
