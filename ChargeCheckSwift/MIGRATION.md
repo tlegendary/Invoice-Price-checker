@@ -183,9 +183,10 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Single chat (12 Nov 2026, review run): build 14 went out (signed with iCloud). This run: R3 done (price list prepared once per
-  scan, `PriceBook` cheap to make), staff phones can't delete invoices or mark them paid, widget switched on (`.widget-ready`).
-  Waiting on Ramyar: CloudKit Console step (record type `Item`), then his test of staff sharing. Next: F6, F7, R4, R6–R8.
+- Single chat (12 Nov 2026, late): **builds 14/15 crash on opening on Ramyar's phone.** Beta 16 = recovery build: staff sharing
+  off (`CloudTeam.enabled = false`) and widget off again (`.widget-ready` removed), so it's build 13 plus the new screens.
+  Then bring back one at a time: widget first (build 15 signed fine with it), then sharing with the push entitlement.
+  Waiting on Ramyar: does 16 open? A crash log if not.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
