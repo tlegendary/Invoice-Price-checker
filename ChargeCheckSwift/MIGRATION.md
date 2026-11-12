@@ -129,6 +129,11 @@ is ready and Ramyar says to switch.
 
 ## Working together (two Claude chats work on this app)
 
+> **From 12 Nov 2026 (evening): ONE chat only.** Ramyar stopped the review chat. The former features chat now does everything:
+> features, fixes, reviews and beta builds. The two-chat rules below are kept for history. What still applies: push only work
+> that passes the cloud check, never touch `main` (the live app) without Ramyar's yes, `Localizable.xcstrings` add-only.
+> The review chat's open items (R3–R8, F6–F8) are now this chat's.
+
 Ramyar runs two chats on this code. They can't see each other, so this section is how they stay in step.
 **Read it before starting, and update "Now working on" when you start and finish.**
 
@@ -178,10 +183,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
-  Sends the beta builds.
-- Features chat (12 Nov 2026): **staff phones merged** (PR #22, cloud check green). **Ready for a beta build** – review chat,
-  please send one. Then waiting for Ramyar's test on his phone and one staff phone. Nothing else in progress.
+- Single chat (12 Nov 2026): sent beta build 14 (statement check F5 + staff phones; widget still off). Waiting for Ramyar's
+  test of staff sharing. Next: widget on (F8) once build 14 signs with iCloud, then F6, F7, R3–R8.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
