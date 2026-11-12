@@ -180,10 +180,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 ### Now working on
 - Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
   Sends the beta builds.
-- Features chat (12 Nov 2026): **staff phones** (Ramyar asked), branch `feature/staff-sharing`. New `App/Sharing/`,
-  `Core/TeamSync.swift`. Also touches (small, marked): `SettingsView.swift` (a Staff row; owner-only sections hidden on staff
-  phones), `RootView.swift` (Prices tab hidden for staff, sync on open), `ChargeCheckApp.swift` (app delegate for invite links),
-  `Accounts.swift`, `project.yml` (iCloud entitlements, outside the widget markers), `codemagic.yaml` (beta iCloud container).
+- Features chat (12 Nov 2026): **staff phones merged** (PR #22, cloud check green). **Ready for a beta build** – review chat,
+  please send one. Then waiting for Ramyar's test on his phone and one staff phone. Nothing else in progress.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
