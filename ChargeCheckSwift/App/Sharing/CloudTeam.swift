@@ -37,6 +37,9 @@ final class CloudTeam: NSObject, ObservableObject {
     /// Data waiting to be sent.
     private var outgoing: [String: SyncItem] = [:]
     private var scanTask: Task<Void, Never>?
+    /// This phone's items by record name, built once when iCloud asks for records that aren't waiting in `outgoing`.
+    private var itemsCache: [String: SyncItem]?
+    private static let wipeKey = "team.wipeOnStart"
     /// While remote changes are being applied, local saves mustn't be sent back.
     private var applying = false
 
@@ -110,6 +113,11 @@ final class CloudTeam: NSObject, ObservableObject {
     /// Called once at launch with the app's data.
     func start(_ context: ModelContext) {
         self.context = context
+        if UserDefaults.standard.bool(forKey: Self.wipeKey) {
+            // an invite link opened the app before its data was ready: clear this phone's own data now
+            UserDefaults.standard.removeObject(forKey: Self.wipeKey)
+            wipeLocal()
+        }
         NotificationCenter.default.addObserver(forName: ModelContext.didSave, object: nil, queue: .main) { [weak self] _ in
             Task { @MainActor in self?.scheduleScan() }
         }
@@ -197,11 +205,10 @@ final class CloudTeam: NSObject, ObservableObject {
             UserDefaults.standard.set(metadata.share.recordID.zoneID.ownerName, forKey: Self.zoneOwnerKey)
             setRole(.staff)
             // the owner's data replaces this phone's
-            if let context {
-                for stored in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(stored) }
-                for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(stored) }
-                try? context.save()
-                Accounts.shared.restore(payments: [], trusted: [], context: context)
+            if context != nil {
+                wipeLocal()
+            } else {
+                UserDefaults.standard.set(true, forKey: Self.wipeKey)
             }
             startEngine()
         } catch {
@@ -217,12 +224,18 @@ final class CloudTeam: NSObject, ObservableObject {
         setRole(.none)
         forgetState()
         UserDefaults.standard.removeObject(forKey: Self.zoneOwnerKey)
-        if let context {
-            for stored in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(stored) }
-            for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(stored) }
-            try? context.save()
-            Accounts.shared.restore(payments: [], trusted: [], context: context)
-        }
+        wipeLocal()
+    }
+
+    /// Removes prices, reports and payments from this phone (joining or leaving a team). Never touches iCloud.
+    private func wipeLocal() {
+        guard let context else { return }
+        applying = true
+        defer { applying = false }
+        for stored in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(stored) }
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(stored) }
+        try? context.save()
+        Accounts.shared.restore(payments: [], trusted: [], context: context)
     }
 
     // MARK: - finding what changed on this phone
@@ -247,8 +260,17 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     private func scan() {
-        guard let engine, role != .none, !applying else { return }
-        let changes = TeamSync.changes(currentItems(), synced: synced, staff: role == .staff)
+        guard let engine, context != nil, role != .none, !applying else { return }
+        let items = currentItems()
+        itemsCache = nil
+        var changes = TeamSync.changes(items, synced: synced, staff: role == .staff)
+        // Safety: if this phone suddenly has (almost) nothing, its data didn't load or was reset – never pass that on as
+        // deleting everyone's records. Real deletions are one or a few at a time.
+        let deletable = synced.keys.filter { name in TeamSync.parse(name).map { !(role == .staff && $0.kind.ownerOnly) } ?? false }.count
+        if changes.delete.count > 10 && changes.delete.count * 2 > deletable {
+            status = String(localized: "This phone's data looks empty, so nothing was deleted from iCloud.")
+            changes.delete = []
+        }
         guard !changes.save.isEmpty || !changes.delete.isEmpty else { return }
         var pending: [CKSyncEngine.PendingRecordZoneChange] = []
         for item in changes.save {
@@ -263,7 +285,10 @@ final class CloudTeam: NSObject, ObservableObject {
 
     private func record(for id: CKRecord.ID) -> CKRecord? {
         let name = id.recordName
-        if outgoing[name] == nil, let item = currentItems().first(where: { $0.recordName == name }) { outgoing[name] = item }
+        if outgoing[name] == nil {
+            if itemsCache == nil { itemsCache = Dictionary(currentItems().map { ($0.recordName, $0) }, uniquingKeysWith: { a, _ in a }) }
+            if let item = itemsCache?[name] { outgoing[name] = item }
+        }
         guard let item = outgoing[name] else { return nil }
         let record: CKRecord
         if let fields = systemFields[name], let coder = try? NSKeyedUnarchiver(forReadingFrom: fields) {
