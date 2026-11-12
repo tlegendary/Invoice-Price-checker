@@ -104,6 +104,8 @@ workflows:
           # The widget needs an App Group set up by hand on developer.apple.com. Until that's done
           # (Ramyar creates ChargeCheckSwift/.widget-ready), the beta is built without it.
           if [ ! -f .widget-ready ]; then python3 tools/without-widget.py project.yml; fi
+          # Escape hatch: if signing ever fails over iCloud, create ChargeCheckSwift/.no-icloud to build without staff sharing.
+          if [ -f .no-icloud ]; then sed -i '' '/# icloud$/d' project.yml; echo "iCloud left out (.no-icloud)"; fi
           grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:\|group.com" project.yml
           xcodegen generate
       - name: Beta profile 1 - find the bundle ID and certificates

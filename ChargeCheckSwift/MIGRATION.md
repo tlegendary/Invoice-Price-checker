@@ -191,6 +191,20 @@ On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` an
 `com.rjapps.invoicepricechecker.beta.widget` has the same App Group. The widget (F8, review chat) can now be switched on by
 creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 
+### Staff phones (features chat, 12 Nov 2026)
+- The owner turns on sharing in Settings › Staff; the whole business (reports, prices, payments, business name, shops, trusted
+  suppliers) goes into a zone "Business" in the owner's private iCloud and is shared with staff (zone-wide `CKShare`).
+  Staff join through the invite link (`TeamSceneDelegate`). `CKSyncEngine` sends and fetches; each record holds the same
+  JSON as the backup file (`Core/TeamSync.swift`, tested). Syncs when the app opens, on pull-to-refresh, and after changes.
+- Staff phones send only reports; they hide the Prices tab, payments, special prices, the trusted switch and the
+  owner-only Settings sections. Joining or leaving clears the staff phone's own data (never iCloud's).
+- Safety: a phone whose data suddenly looks empty never passes that on as deleting everyone's records.
+- Beta builds use Apple's test iCloud (`icloud-container-environment: Development`). **Before the live release:** deploy the
+  schema to Production in the CloudKit Console (icloud.developer.apple.com) and set the environment to Production.
+- **If a beta build fails at signing because of iCloud:** create `ChargeCheckSwift/.no-icloud` (Codemagic then leaves the
+  iCloud lines out) and tell the features chat.
+- Not tested on real phones yet; the cloud check can't use iCloud. First test: Ramyar's phone + one staff phone.
+
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
   `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID.
