@@ -146,6 +146,8 @@ Rules for both:
 4. **Stay out of the other chat's files where you can.** If you must change them, say so in "Now working on".
 5. **`Localizable.xcstrings`**: only add keys, keep them sorted, never reformat the file. On a conflict keep both sides' keys.
 6. The rules at the bottom of this file apply to both chats.
+7. **Merging (Ramyar, 12 Nov 2026):** the review chat may merge pull requests into `swift-rewrite` without asking when the
+   cloud check on the latest commit is green. Never into `main` (the live app) without Ramyar's yes each time.
 
 ### The plan (12 Nov 2026) – who does what
 
@@ -166,10 +168,10 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
       privacy label text, new screenshots, Arabic listing text – **switching the live app needs Ramyar's yes**
 
 **Features chat** (new things the app can do)
-- [ ] F1. Keep the cloud check green after the payments / delivery check / credit notes work
-- [ ] F2. Special prices per supplier: a screen to see and edit them (the data is already there)
-- [ ] F3. Price-rise alerts: "this supplier put X up by 8% since last time", with a list of recent rises per supplier
-- [ ] F4. Compare shops: spend, overcharges and credits per shop side by side (Ramyar has many shops)
+- [x] F1. Keep the cloud check green after the payments / delivery check / credit notes work
+- [x] F2. Special prices per supplier: a screen to see and edit them (the data is already there)
+- [x] F3. Price-rise alerts: "this supplier put X up by 8% since last time", with a list of recent rises per supplier
+- [x] F4. Compare shops: spend, overcharges and credits per shop side by side (Ramyar has many shops)
 - [ ] F5. Supplier statement check: scan a monthly statement and tick it off against the invoices in Reports
 - [ ] F6. Accountant pack: one export per month with the PDF report plus a CSV of every invoice and payment
 - [ ] F7. First-run guide: three short screens showing scan → check → what to pay, with the sample invoice
