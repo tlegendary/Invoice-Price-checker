@@ -4,6 +4,8 @@ import SwiftData
 @main
 struct ChargeCheckApp: App {
     private let storage = AppStorageSetup.open()
+    /// Opens staff invite links (iCloud sharing).
+    @UIApplicationDelegateAdaptor(TeamAppDelegate.self) private var teamDelegate
 
     init() {
         Regional.apply()
