@@ -136,12 +136,33 @@ public struct PriceBook: Sendable {
     }
 }
 
+/// Shop staff write on the paper invoice when an item didn't arrive or went back: "Retrn", "missing", "damaged".
+/// The photo reader picks that up as part of the item's name.
+public enum HandNote {
+    private static let words: Set<String> = ["retrn", "retn", "rtn", "return", "returned", "returns", "missing", "mising",
+                                             "misssing", "damaged", "damage"]
+
+    /// The item's name without a hand-written note at the end, and the note if there was one.
+    public static func split(_ text: String) -> (name: String, note: String?) {
+        var parts = text.split(separator: " ").map(String.init)
+        guard parts.count >= 2, let last = parts.last, words.contains(last.lowercased().filter { $0.isLetter }) else {
+            return (text, nil)
+        }
+        parts.removeLast()
+        // a cross or tick drawn next to the note
+        while parts.count > 1, let mark = parts.last, ["x", "X", "×", "-", "/", "✓", "✗"].contains(mark) { parts.removeLast() }
+        return (parts.joined(separator: " "), last)
+    }
+}
+
 public enum InvoiceMaths {
     /// Turns a line read from the invoice into a line to check, matched to the price list.
     /// `nameFixes` are the user's earlier corrections (what the reader gave → what they typed).
     public static func makeLine(_ parsed: ParsedLine, book: PriceBook, nameFixes: [String: String] = [:], supplier: String = "") -> CheckLine {
         var desc = InvoiceParser.plainLetters(parsed.desc)
         let read = desc
+        // a note written by hand after the name ("Retrn", "x missing") isn't part of the item's name
+        desc = HandNote.split(desc).name
         if !desc.isEmpty, let fixed = nameFixes[TextTools.norm(desc)], !fixed.isEmpty { desc = fixed }
         var match = desc.isEmpty ? MatchResult(itemID: nil, confident: false) : Matcher.match(desc, in: book.items)
         if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(InvoiceParser.plainLetters(parsed.raw), in: book.items) }
@@ -191,6 +212,9 @@ public enum InvoiceMaths {
         var out: [String] = []
         if !line.warn.isEmpty && !totalOk { out.append(line.warn) }
         if line.disagree && !totalOk { out.append(CoreText.t("The two reads of the photo didn't agree on this line.")) }
+        if let note = HandNote.split(line.read).note {
+            out.append(CoreText.t("Handwritten on this line: “{1}”. If it was missing or sent back, mark the line as missing or returned.", note))
+        }
         if line.onlySecondRead { out.append(CoreText.t("Only found on the second read – make sure it's really on the invoice.")) }
         if line.matchId == nil && !line.noBase { out.append(CoreText.t("Not in your price list – choose the matching item or mark it as not in your list.")) }
         if let item = book.item(line.matchId) {

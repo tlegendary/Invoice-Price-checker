@@ -91,6 +91,27 @@ final class RealInvoiceTests: XCTestCase {
         ], net: 546.73, total: 546.73)
     }
 
+    func testHandwrittenReturnAndMissingNotes() {
+        XCTAssertEqual(HandNote.split("SUPRANO CHEESE Retrn").name, "SUPRANO CHEESE")
+        XCTAssertEqual(HandNote.split("SUPRANO CHEESE Retrn").note, "Retrn")
+        XCTAssertEqual(HandNote.split("QUATER POUNDER 48X4oz x missing").name, "QUATER POUNDER 48X4oz")
+        XCTAssertNil(HandNote.split("FRESH PRIME WING").note)
+        XCTAssertNil(HandNote.split("Missing").note)
+
+        let cheese = PriceItem(id: "c", cat: "Dairy", name: "Suprano Cheese", price: 47.99)
+        let book = PriceBook([cheese])
+        let line = InvoiceMaths.makeLine(ParsedLine(qty: 1, desc: "SUPRANO CHEESE Retrn", unit: 47.99), book: book)
+        XCTAssertEqual(line.desc, "SUPRANO CHEESE")
+        XCTAssertEqual(line.matchId, "c")
+        // the price is right, but the note means the user should look at the line
+        XCTAssertEqual(InvoiceMaths.reasons(line, supplier: "", book: book, totalOk: true).count, 1)
+        var marked = line
+        marked.excluded = true
+        XCTAssertTrue(InvoiceMaths.reasons(marked, supplier: "", book: book, totalOk: true).isEmpty)
+        let plain = InvoiceMaths.makeLine(ParsedLine(qty: 1, desc: "SUPRANO CHEESE", unit: 47.99), book: book)
+        XCTAssertTrue(InvoiceMaths.reasons(plain, supplier: "", book: book, totalOk: true).isEmpty)
+    }
+
     func testTicksAndAScribbleNextToTheName() {
         let rows = """
         /  1.00  FRESH HALAL FILLET 110-130 9KG  11-130  50.99  0.00  50.99  0.00  0.00
