@@ -183,10 +183,12 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Single chat (12 Nov 2026, late): **builds 14/15 crash on opening on Ramyar's phone.** Beta 16 = recovery build: staff sharing
-  off (`CloudTeam.enabled = false`) and widget off again (`.widget-ready` removed), so it's build 13 plus the new screens.
-  Then bring back one at a time: widget first (build 15 signed fine with it), then sharing with the push entitlement.
-  Waiting on Ramyar: does 16 open? A crash log if not.
+- Single chat (13 Nov 2026): **crash on opening found and fixed** (crash log from Ramyar, build 15). Cause: the iCloud
+  entitlement added in build 14 made SwiftData try CloudKit sync on the main store ("automatic"), which this schema can't do, so
+  no storage could open → `fatalError` in `AppStorageSetup.open()`. Builds 14, 15 and 16 all crash. Fix: `cloudKitDatabase: .none`
+  and `groupContainer: .none` in `ChargeCheckApp.swift` (must stay). Beta 17 = this fix only; widget and staff sharing still off.
+  Next, one per build after Ramyar confirms 17 opens: widget on, then staff sharing (needs Push Notifications on the App ID
+  and the CloudKit `Item` record type).
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
@@ -195,11 +197,10 @@ On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` an
 creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 
 ### Staff phones (features chat, 12 Nov 2026)
-- **SWITCHED OFF in beta 16 (`CloudTeam.enabled = false`).** Builds 14/15 crashed on opening on Ramyar's phone. No crash log
-  yet. Most likely: he turned sharing on, and `CKSyncEngine` starting without the Push Notifications capability
-  (`aps-environment` entitlement + `remote-notification` background mode) kills the app on every launch. To turn back on:
-  Ramyar ticks Push Notifications on the beta App ID, add both to `project.yml`, set `enabled = true`, and confirm with a
-  crash log if it still fails. A start guard (`team.starting`) now pauses sharing after a crashed start instead of looping.
+- **Switched off since beta 16 (`CloudTeam.enabled = false`).** The launch crash turned out NOT to be the sync engine (see "Now
+  working on": SwiftData + iCloud entitlement). Sharing itself is still untested on a phone. Before turning it back on: add the
+  push entitlement (`aps-environment`) and `remote-notification` background mode (Ramyar ticks Push Notifications on the beta
+  App ID first), and the CloudKit record type `Item` must exist in Production. The start guard (`team.starting`) stays.
 - The owner turns on sharing in Settings › Staff; the whole business (reports, prices, payments, business name, shops, trusted
   suppliers) goes into a zone "Business" in the owner's private iCloud and is shared with staff (zone-wide `CKShare`).
   Staff join through the invite link (`TeamSceneDelegate`). `CKSyncEngine` sends and fetches; each record holds the same
