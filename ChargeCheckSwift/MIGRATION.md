@@ -164,7 +164,7 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
       so a smaller pack at the same price is caught as an overcharge
 - [x] R9. Learn the names suppliers use: a new name for an item the app is sure about is saved with the item
       (Settings switch; `PriceTools.newNames`) – Ramyar's request, 12 Nov
-- [ ] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
+- [x] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
 - [ ] R4. Excel (.xlsx) price-list import, next to the CSV import
 - [ ] R5. Free scan when no ad can load (for example up to 3 a day) – **only after Ramyar says yes**
 - [ ] R6. Arabic invoices: test real ones, fix what the reader gets wrong; right-to-left layout check of every screen
@@ -183,8 +183,9 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Single chat (12 Nov 2026): sent beta build 14 (statement check F5 + staff phones; widget still off). Waiting for Ramyar's
-  test of staff sharing. Next: widget on (F8) once build 14 signs with iCloud, then F6, F7, R3–R8.
+- Single chat (12 Nov 2026, review run): build 14 went out (signed with iCloud). This run: R3 done (price list prepared once per
+  scan, `PriceBook` cheap to make), staff phones can't delete invoices or mark them paid, widget switched on (`.widget-ready`).
+  Waiting on Ramyar: CloudKit Console step (record type `Item`), then his test of staff sharing. Next: F6, F7, R4, R6–R8.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container

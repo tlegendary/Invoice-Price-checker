@@ -117,17 +117,43 @@ public struct InvoiceTotals: Equatable, Sendable {
 }
 
 /// The price list, ready for quick look-ups while checking an invoice.
+/// Worked out the first time it's asked for, then kept (safe from any thread).
+final class Once<Value: Sendable>: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value: Value?
+    private let make: @Sendable () -> Value
+
+    init(_ make: @escaping @Sendable () -> Value) { self.make = make }
+
+    var get: Value {
+        lock.lock()
+        defer { lock.unlock() }
+        if let value { return value }
+        let made = make()
+        value = made
+        return made
+    }
+}
+
 public struct PriceBook: Sendable {
     public let items: [PriceItem]
     private let byID: [String: PriceItem]
-    public let knownWords: Set<String>
+    private let words: Once<Set<String>>
+    private let ready: Once<[Matcher.Prepared]>
 
+    /// Words from the price list, for cleaning up what the reader read. Worked out once, when first needed.
+    public var knownWords: Set<String> { words.get }
+    /// The items with their words already split, for matching. Worked out once, when first needed.
+    public var prepared: [Matcher.Prepared] { ready.get }
+
+    /// Cheap to make: screens build one just to look items up. The heavier lists above wait until a scan needs them.
     public init(_ items: [PriceItem]) {
         self.items = items
         var map: [String: PriceItem] = [:]
         for item in items { map[item.id] = item }
         byID = map
-        knownWords = InvoiceParser.knownWords(items)
+        words = Once { InvoiceParser.knownWords(items) }
+        ready = Once { items.map(Matcher.prepare) }
     }
 
     public func item(_ id: String?) -> PriceItem? {
@@ -164,8 +190,8 @@ public enum InvoiceMaths {
         // a note written by hand after the name ("Retrn", "x missing") isn't part of the item's name
         desc = HandNote.split(desc).name
         if !desc.isEmpty, let fixed = nameFixes[TextTools.norm(desc)], !fixed.isEmpty { desc = fixed }
-        var match = desc.isEmpty ? MatchResult(itemID: nil, confident: false) : Matcher.match(desc, in: book.items)
-        if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(InvoiceParser.plainLetters(parsed.raw), in: book.items) }
+        var match = desc.isEmpty ? MatchResult(itemID: nil, confident: false) : Matcher.match(desc, prepared: book.prepared)
+        if match.itemID == nil, !parsed.raw.isEmpty, parsed.raw != desc { match = Matcher.match(InvoiceParser.plainLetters(parsed.raw), prepared: book.prepared) }
         if match.itemID == nil, let byPrice = matchByPrice(desc, unit: parsed.unit, supplier: supplier, book: book) {
             // the name is too garbled to read: one item in the list has exactly this price – suggest it, never sure
             match = MatchResult(itemID: byPrice, confident: false)

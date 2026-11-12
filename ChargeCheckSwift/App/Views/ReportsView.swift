@@ -103,6 +103,8 @@ struct ReportsView: View {
                         .onDelete { offsets in
                             for id in offsets.map({ list[$0].id }) { AppData.deleteReport(id, context: context) }
                         }
+                        // staff phones: only the owner removes invoices
+                        .deleteDisabled(CloudTeam.shared.isStaff)
                     }
                 }
             }
@@ -225,10 +227,13 @@ struct ReportsView: View {
                     } label: {
                         Label("Copy breakdown", systemImage: "doc.on.doc")
                     }
-                    Button {
-                        confirmPaid = true
-                    } label: {
-                        Label("Mark as paid", systemImage: "checkmark.circle")
+                    // staff phones: payments are the owner's
+                    if !CloudTeam.shared.isStaff {
+                        Button {
+                            confirmPaid = true
+                        } label: {
+                            Label("Mark as paid", systemImage: "checkmark.circle")
+                        }
                     }
                 }
                 if !undoPaid.isEmpty { undoButton }
@@ -413,6 +418,7 @@ struct ReportDetailView: View {
                                 }
                             }
                         ))
+                        .disabled(CloudTeam.shared.isStaff)
                     }
                     Section {
                         if let path = entry.file, let url = AppFiles.url(forRelativePath: path) {
@@ -468,6 +474,7 @@ struct ReportDetailView: View {
                     }
                     Section {
                         Button("Delete this report", role: .destructive) {
+                            guard !CloudTeam.shared.isStaff else { return }
                             confirmDelete = true
                         }
                     } footer: {
