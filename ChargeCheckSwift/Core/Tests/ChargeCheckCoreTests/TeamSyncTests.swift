@@ -50,3 +50,19 @@ final class TeamSyncTests: XCTestCase {
         XCTAssertEqual(items.map { $0.hash }, again.map { $0.hash })
     }
 }
+
+final class PreparedMatchTests: XCTestCase {
+    func testPreparedMatchingGivesTheSameAnswers() {
+        let items = [
+            PriceItem(id: "w", name: "Chicken Wings 10kg", price: 15, aliases: ["prime wing", "wings 10 kg"]),
+            PriceItem(id: "o", name: "Vegetable Oil 20L", price: 30),
+            PriceItem(id: "b", name: "Pizza Boxes 16 inch", price: 20, aliases: ["16 colour pizza boxes"])
+        ]
+        let book = PriceBook(items)
+        for text in ["FRESH PRIME WING", "veg oil 20l", "16 COLOUR PIZZA BOXES", "Ketchup sachets", "chicken wings", ""] {
+            XCTAssertEqual(Matcher.match(text, prepared: book.prepared), Matcher.match(text, in: items), text)
+        }
+        XCTAssertEqual(Matcher.match("FRESH PRIME WING", prepared: book.prepared).itemID, "w")
+        XCTAssertFalse(book.knownWords.isEmpty)
+    }
+}
