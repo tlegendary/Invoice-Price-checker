@@ -152,9 +152,11 @@ Rules for both:
 Tick an item when it is merged and the cloud check is green. Don't start an item on the other chat's list.
 
 **Review chat** (reading, speed, accuracy, getting ready for the App Store)
-- [ ] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
-- [ ] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
+- [x] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
+- [x] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
       so a smaller pack at the same price is caught as an overcharge
+- [x] R9. Learn the names suppliers use: a new name for an item the app is sure about is saved with the item
+      (Settings switch; `PriceTools.newNames`) – Ramyar's request, 12 Nov
 - [ ] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
 - [ ] R4. Excel (.xlsx) price-list import, next to the CSV import
 - [ ] R5. Free scan when no ad can load (for example up to 3 a day) – **only after Ramyar says yes**
@@ -174,47 +176,21 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Review chat (12 Nov 2026): B7 pack-size warning on `improve/2026-11-12` (new `Core/PackSize.swift`, one check in
-  `InvoiceMaths.reasons`). Pull request #7 (B8) is waiting for Ramyar's merge. Next: B9.
-- Features chat (12 Nov 2026): finished on `swift-rewrite` – supplier payments (how paid, reference, receipt photo,
-  swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary. The tips test fix is
-  in 16a31c8 (Core tests green). **Mistake:** 16a31c8 also changed `.beta-build`, so it started a beta build; it won't happen again.
-  Next: A1 below, once Ramyar has done the Apple setup.
+- Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
+  Sends the beta builds.
+- Features chat (12 Nov 2026): on F1 (branch `feature/f1-green`). Also lets the cloud check run on `feature/` branches
+  (one line in `.github/workflows/swift-check.yml`). Finished earlier on `swift-rewrite`: supplier payments (how paid,
+  reference, receipt photo, swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary.
+  **Mistake:** 16a31c8 changed `.beta-build`, which started a beta build. Won't happen again.
 
-### Plan: who does what (agreed with Ramyar, 12 Nov 2026)
-Each chat takes only its own list, one item at a time, on its own branch. Tick items off here when merged.
-
-**Features chat** (new things; files: `Store/Accounts.swift`, `Views/SuppliersView.swift`, `Views/InsightsViews.swift`,
-`Widget/`, new `Sharing/` folder)
-- [ ] A1. Staff phones share the shops' data through iCloud: owner invites staff (their own Apple IDs), staff can scan
-      invoices and see what's owed; owner-only: prices, payments, settings. Needs Ramyar's Apple setup (iCloud container
-      `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID).
-- [ ] A2. Turn the home screen widget on (`.widget-ready`) once the App Group exists on developer.apple.com.
-- [ ] A3. Receipt photos and supplier payments in every backup (backup file + iCloud folder), so nothing is lost on a new phone.
-- [ ] A4. Payment reminders per supplier ("pay Apex every Friday"), on top of the weekly payment day.
-- [ ] A5. (On hold – Ramyar said leave it for now) staff clock in/out by tapping their own iPhone on an NFC tag in the shop.
-
-**Review chat** (fixes, reading, polish, builds; files: `Reading/`, `Output/PDFMaker.swift`, `Check/CheckSession.swift`,
-`SettingsView.swift`, `ReportsView.swift`, `Localizable.xcstrings` clean-ups)
-- [ ] B1. Fix anything Ramyar finds when testing on his phone: PDF text reading, Apple's table reader, sharing invoices in
-      from WhatsApp/Mail, delivery check, scanning credit notes, trusted suppliers.
-- [ ] B2. Credit note detection: test on real credit notes (English, Arabic, Kurdish), fewer false matches.
-- [ ] B3. Right-to-left layout in Arabic and Kurdish PDFs.
-- [ ] B4. Kurdish wording fixes after Ramyar checks the screens.
-- [ ] B5. Going-live list: remove the "add 5 free scans" button, test mode off, live App Group / iCloud / widget IDs,
-      privacy details for receipt photos and iCloud, App Store screenshots in all five languages.
-- [x] B7. Pack-size warning: a line is flagged when the invoice says "5kg" and the matched item is "10kg" (12 Nov, `Core/PackSize.swift`)
-- [x] B12. Learn the names suppliers use: on a fully checked invoice, a new name for an item the app is sure about is added
-      to that item's "on invoices as" list (Settings switch, on by default; `PriceTools.newNames`)
-- [x] B8. Settings › How invoices are read: read once or twice, Apple Intelligence on/off (pull request #7, waiting for Ramyar's merge)
-- [ ] B9. Fast with big price lists (prepare the list once per scan; search quick at 2,000+ items)
-- [ ] B10. Excel (.xlsx) price-list import
-- [ ] B11. Free scan when no ad can load – only after Ramyar says yes
-- [ ] B6. Beta builds (only this chat), after the features chat says "ready for a build".
-
-**Ramyar**
-- [ ] On developer.apple.com: App Group + iCloud container + widget App ID (steps in the features chat, 12 Nov).
-- [ ] Check the Kurdish wording; test the new beta on real invoices and say what's wrong.
+### Later (features chat, after F1–F8, only when Ramyar asks)
+- Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
+  `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID.
+- Receipt photos and supplier payments in every backup (backup file + iCloud folder).
+- Payment reminders per supplier ("pay Apex every Friday").
+- On hold (Ramyar): staff clock in/out with an NFC tag.
+- The widget (F8) needs the App Group on developer.apple.com first: `group.com.rjapps.invoicepricechecker.beta`, ticked on
+  the beta App ID and on a widget App ID `com.rjapps.invoicepricechecker.beta.widget`. Then create `ChargeCheckSwift/.widget-ready`.
 
 ## Rules
 
