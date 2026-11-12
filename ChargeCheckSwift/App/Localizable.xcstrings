@@ -399,6 +399,35 @@
         }
       }
     },
+    "%lld invoices match": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فواتير متطابقة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پسوولە یەکدەگرنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Rechnungen stimmen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld factures correspondent"
+          }
+        }
+      }
+    },
     "%lld invoices to pay": {
       "extractionState": "manual",
       "localizations": {
@@ -564,6 +593,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld de vos prix ont été baissés aux prix moins chers de cette facture."
+          }
+        }
+      }
+    },
+    "%lld payments and credits match": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مدفوعات وإشعارات دائنة متطابقة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پارەدان و گەڕاندنەوە یەکدەگرنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Zahlungen und Gutschriften stimmen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld paiements et avoirs correspondent"
           }
         }
       }
@@ -825,6 +883,35 @@
         }
       }
     },
+    "1 invoice matches": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة واحدة متطابقة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ پسوولە یەکدەگرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Rechnung stimmt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 facture correspond"
+          }
+        }
+      }
+    },
     "1 invoice to pay": {
       "extractionState": "manual",
       "localizations": {
@@ -906,6 +993,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 ligne"
+          }
+        }
+      }
+    },
+    "1 payment or credit matches": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دفعة أو إشعار دائن واحد متطابق"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ پارەدان یان گەڕاندنەوە یەکدەگرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Zahlung oder Gutschrift stimmt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 paiement ou avoir correspond"
           }
         }
       }
@@ -2254,6 +2370,35 @@
         }
       }
     },
+    "Amount differs": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المبلغ مختلف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بڕەکە جیاوازە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Betrag weicht ab"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montant différent"
+          }
+        }
+      }
+    },
     "Amount to pay": {
       "localizations": {
         "ar": {
@@ -2392,6 +2537,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Une facture est enregistrée seule dans les rapports dès que chaque ligne est vérifiée."
+          }
+        }
+      }
+    },
+    "Another": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەکێکی تر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch einer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un autre"
           }
         }
       }
@@ -3421,6 +3595,64 @@
         }
       }
     },
+    "ChargeCheck reads the statement and ticks it off against %@'s invoices and your payments. It doesn't use a scan.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقرأ ChargeCheck الكشف ويطابقه مع فواتير %@ ومدفوعاتك. لا يستهلك مسحًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck کەشفەکە دەخوێنێتەوە و لەگەڵ پسوولەکانی %@ و پارەدانەکانت بەراوردی دەکات. هیچ سکانێک بەکارناهێنێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck liest den Kontoauszug und gleicht ihn mit den Rechnungen von %@ und deinen Zahlungen ab. Dafür wird kein Scan verbraucht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck lit le relevé et le compare aux factures de %@ et à vos paiements. Cela n’utilise pas de scan."
+          }
+        }
+      }
+    },
+    "ChargeCheck says": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقول ChargeCheck"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck دەڵێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laut ChargeCheck"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon ChargeCheck"
+          }
+        }
+      }
+    },
     "ChargeCheck summary – %@": {
       "extractionState": "manual",
       "localizations": {
@@ -3564,6 +3796,35 @@
         }
       }
     },
+    "Check a statement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فحص كشف حساب"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشکنینی کەشف"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontoauszug prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier un relevé"
+          }
+        }
+      }
+    },
     "Check an invoice": {
       "localizations": {
         "ar": {
@@ -3675,6 +3936,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vérifiez que le total correspond à la facture. Touchez-le pour le corriger."
+          }
+        }
+      }
+    },
+    "Check their statement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افحص كشف حسابهم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەشفەکەیان بپشکنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontoauszug prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier son relevé"
           }
         }
       }
@@ -4326,6 +4616,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les copies de la photo ou du PDF d’origine sont conservées dans l’app Fichiers › ChargeCheck › Invoices, par mois. Le rappel arrive le 1er de chaque mois pour envoyer le rapport du mois précédent à votre comptable."
+          }
+        }
+      }
+    },
+    "Copy a message to the supplier": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ رسالة إلى المورّد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نامەیەک بۆ دابینکەر کۆپی بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nachricht an den Lieferanten kopieren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier un message pour le fournisseur"
           }
         }
       }
@@ -5777,6 +6096,35 @@
         }
       }
     },
+    "Everything on the statement matches your records": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل ما في الكشف يطابق سجلاتك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شتێکی کەشفەکە لەگەڵ تۆمارەکانت یەکدەگرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles auf dem Kontoauszug stimmt mit deinen Daten überein"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout le relevé correspond à vos données"
+          }
+        }
+      }
+    },
     "Export": {
       "localizations": {
         "ar": {
@@ -6515,6 +6863,35 @@
         }
       }
     },
+    "I've checked your statement against our records and found these differences:": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "راجعت كشف حسابكم مقارنةً بسجلاتنا ووجدت هذه الفروقات:"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەشفەکەتانم لەگەڵ تۆمارەکانمان بەراورد کرد و ئەم جیاوازیانەم دۆزییەوە:"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ich habe Ihren Kontoauszug mit unseren Unterlagen verglichen und folgende Unterschiede gefunden:"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "J’ai comparé votre relevé à nos données et trouvé ces écarts :"
+          }
+        }
+      }
+    },
     "I've checked – it's fine": {
       "localizations": {
         "ar": {
@@ -7079,6 +7456,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Facture {1}"
+          }
+        }
+      }
+    },
+    "Invoice {1} ({2}, {3}): we don't have this invoice. Please send a copy.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة {1} ({2}، {3}): ليست لدينا هذه الفاتورة. يرجى إرسال نسخة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی {1} ({2}، {3}): ئەم پسوولەیەمان نییە. تکایە کۆپییەک بنێرن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung {1} ({2}, {3}): Diese Rechnung liegt uns nicht vor. Bitte senden Sie eine Kopie."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facture {1} ({2}, {3}) : nous n’avons pas cette facture. Merci d’en envoyer une copie."
+          }
+        }
+      }
+    },
+    "Invoice {1}: your statement says {2}, our copy says {3}.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة {1}: كشفكم يقول {2}، ونسختنا تقول {3}."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی {1}: کەشفەکەتان دەڵێت {2}، کۆپییەکەی ئێمە دەڵێت {3}."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung {1}: Laut Ihrem Kontoauszug {2}, laut unserer Kopie {3}."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facture {1} : votre relevé indique {2}, notre copie indique {3}."
           }
         }
       }
@@ -7791,6 +8226,35 @@
         }
       }
     },
+    "Lists every difference, ready to paste into WhatsApp or an email.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يسرد كل فرق، جاهزًا للصق في واتساب أو بريد إلكتروني."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو جیاوازییەک دەنووسێت، ئامادەیە بۆ لکاندن لە واتسئەپ یان ئیمەیڵ."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listet jeden Unterschied auf, bereit zum Einfügen in WhatsApp oder eine E-Mail."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste chaque écart, prêt à coller dans WhatsApp ou un e-mail."
+          }
+        }
+      }
+    },
     "Loading the ad…": {
       "localizations": {
         "ar": {
@@ -8124,6 +8588,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marqué payé avant"
+          }
+        }
+      }
+    },
+    "Matches": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المتطابق"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەکگرتووەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Übereinstimmungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correspondances"
           }
         }
       }
@@ -9121,6 +9614,35 @@
         }
       }
     },
+    "No statement lines were found. Each line needs a date and an amount. Try a clearer photo, or the PDF the supplier sent.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على أسطر. يحتاج كل سطر إلى تاريخ ومبلغ. جرّب صورة أوضح أو ملف PDF الذي أرسله المورّد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ دێڕێک نەدۆزرایەوە. هەر دێڕێک پێویستی بە بەروار و بڕێکە. وێنەیەکی ڕوونتر تاقی بکەرەوە، یان ئەو PDF ـەی دابینکەر ناردوویەتی."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Zeilen gefunden. Jede Zeile braucht ein Datum und einen Betrag. Versuche ein schärferes Foto oder die PDF des Lieferanten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune ligne trouvée. Chaque ligne doit avoir une date et un montant. Essayez une photo plus nette, ou le PDF envoyé par le fournisseur."
+          }
+        }
+      }
+    },
     "No suppliers yet": {
       "extractionState": "manual",
       "localizations": {
@@ -9232,6 +9754,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas dans ma liste de prix"
+          }
+        }
+      }
+    },
+    "Not in your Reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير موجود في تقاريرك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ڕاپۆرتەکانتدا نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht in deinen Berichten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absent de vos rapports"
           }
         }
       }
@@ -10283,6 +10834,35 @@
         }
       }
     },
+    "Our payment of {1} on {2} isn't on your statement.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دفعتنا بمبلغ {1} بتاريخ {2} غير موجودة في كشفكم."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەدانەکەمان بە بڕی {1} لە {2} لە کەشفەکەتاندا نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unsere Zahlung über {1} vom {2} fehlt auf Ihrem Kontoauszug."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notre paiement de {1} du {2} n’apparaît pas sur votre relevé."
+          }
+        }
+      }
+    },
     "Over": {
       "extractionState": "manual",
       "localizations": {
@@ -10855,6 +11435,35 @@
         }
       }
     },
+    "Part of the difference is the %@ of overcharges and missing items you took off their invoices.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جزء من الفرق هو %@ من المبالغ الزائدة والأصناف الناقصة التي خصمتها من فواتيرهم."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەشێک لە جیاوازییەکە ئەو %@ ـەیە کە وەک زیادە و کاڵای ونبوو لە پسوولەکانیانت بڕیوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Teil des Unterschieds sind die %@ an Überberechnungen und fehlenden Artikeln, die du von ihren Rechnungen abgezogen hast."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une partie de l’écart correspond aux %@ de surfacturations et d’articles manquants déduits de leurs factures."
+          }
+        }
+      }
+    },
     "Paste a price list": {
       "localizations": {
         "ar": {
@@ -11284,6 +11893,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Paiements et avoirs"
+          }
+        }
+      }
+    },
+    "Payments and credits you have no record of": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدفوعات وإشعارات دائنة ليست لديك في سجلاتك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەدان و گەڕاندنەوەی کە تۆمارت نەکردوون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahlungen und Gutschriften, die du nicht erfasst hast"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paiements et avoirs que vous n’avez pas enregistrés"
           }
         }
       }
@@ -12342,6 +12980,35 @@
         }
       }
     },
+    "Reading the statement…": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ قراءة الكشف…"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەشفەکە دەخوێندرێتەوە…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontoauszug wird gelesen …"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture du relevé…"
+          }
+        }
+      }
+    },
     "Reading the table of items…": {
       "extractionState": "manual",
       "localizations": {
@@ -12483,6 +13150,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enregistrez n’importe quel montant payé sur le solde ; il règle d’abord les factures les plus anciennes. Ou cochez les factures exactes couvertes par un paiement."
+          }
+        }
+      }
+    },
+    "Record them in the supplier's account if they're right.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجّلها في حساب المورّد إن كانت صحيحة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەگەر ڕاستن لە ئەکاونتی دابینکەرەکەدا تۆماریان بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trage sie im Konto des Lieferanten ein, wenn sie stimmen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrez-les dans le compte du fournisseur s’ils sont justes."
           }
         }
       }
@@ -13163,6 +13859,35 @@
         }
       }
     },
+    "Scan the statement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امسح الكشف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەشفەکە سکان بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontoauszug scannen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanner le relevé"
+          }
+        }
+      }
+    },
     "Scans left": {
       "localizations": {
         "ar": {
@@ -13698,6 +14423,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Voir le reçu"
+          }
+        }
+      }
+    },
+    "Some things don't match": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بعض الأشياء لا تتطابق"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەندێک شت یەکناگرنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einiges stimmt nicht überein"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certains éléments ne correspondent pas"
           }
         }
       }
@@ -15521,6 +16275,35 @@
         }
       }
     },
+    "They say you owe": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقولون إنك مدين بـ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەوان دەڵێن قەرزاریت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laut Lieferant schuldest du"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon eux, vous devez"
+          }
+        }
+      }
+    },
     "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer).": {
       "localizations": {
         "ar": {
@@ -16717,6 +17500,35 @@
         }
       }
     },
+    "Usually invoices that arrived after the statement was printed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادةً فواتير وصلت بعد طباعة الكشف."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زۆرجار ئەو پسوولانەن کە دوای چاپکردنی کەشفەکە گەیشتوون."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meist Rechnungen, die nach dem Druck des Kontoauszugs kamen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En général des factures arrivées après l’impression du relevé."
+          }
+        }
+      }
+    },
     "VAT": {
       "localizations": {
         "ar": {
@@ -17257,6 +18069,35 @@
         }
       }
     },
+    "You haven't checked these invoices in ChargeCheck, or never received them. Ask for a copy if you don't have one.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تفحص هذه الفواتير في ChargeCheck أو لم تستلمها. اطلب نسخة إن لم تكن لديك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم پسوولانەت لە ChargeCheck نەپشکنیوە، یان هەرگیز پێت نەگەیشتوون. ئەگەر کۆپیت نییە داوای بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Rechnungen hast du in ChargeCheck nicht geprüft oder nie erhalten. Fordere eine Kopie an, falls du keine hast."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous n’avez pas vérifié ces factures dans ChargeCheck, ou ne les avez jamais reçues. Demandez une copie si besoin."
+          }
+        }
+      }
+    },
     "You owe": {
       "extractionState": "manual",
       "localizations": {
@@ -17571,6 +18412,35 @@
         }
       }
     },
+    "Your invoices not on the statement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فواتيرك غير الموجودة في الكشف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەو پسوولانەت کە لە کەشفەکەدا نین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Rechnungen, die nicht auf dem Kontoauszug sind"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos factures absentes du relevé"
+          }
+        }
+      }
+    },
     "Your list": {
       "localizations": {
         "ar": {
@@ -17595,6 +18465,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre liste"
+          }
+        }
+      }
+    },
+    "Your payments missing from the statement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدفوعاتك غير الموجودة في الكشف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەو پارەدانانەت کە لە کەشفەکەدا نین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Zahlungen, die auf dem Kontoauszug fehlen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos paiements absents du relevé"
           }
         }
       }
@@ -17875,6 +18774,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vos magasins"
+          }
+        }
+      }
+    },
+    "Your statement shows {1} owed; by our records it's {2}.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُظهر كشفكم {1} مستحقًا؛ وحسب سجلاتنا هو {2}."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کەشفەکەتان {1} وەک قەرز پیشان دەدات؛ بەپێی تۆمارەکانی ئێمە {2} ـە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ihr Kontoauszug zeigt {1} offen; laut unseren Unterlagen sind es {2}."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre relevé indique {1} dû ; selon nos données, c’est {2}."
           }
         }
       }
@@ -18618,6 +19546,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "votre fournisseur"
+          }
+        }
+      }
+    },
+    "yours %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لديك %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هی تۆ %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "deiner %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "le vôtre %@"
           }
         }
       }

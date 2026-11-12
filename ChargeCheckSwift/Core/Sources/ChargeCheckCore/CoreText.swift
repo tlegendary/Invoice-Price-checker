@@ -59,6 +59,11 @@ public enum CoreText {
         "{1} went up at {2}, from {3} to {4}.",
         "Suppliers still owe you {1} in credits.",
         "You paid suppliers {1} this month.",
-        "You owe {1} in total now."
+        "You owe {1} in total now.",
+        "I've checked your statement against our records and found these differences:",
+        "Invoice {1}: your statement says {2}, our copy says {3}.",
+        "Invoice {1} ({2}, {3}): we don't have this invoice. Please send a copy.",
+        "Our payment of {1} on {2} isn't on your statement.",
+        "Your statement shows {1} owed; by our records it's {2}."
     ]
 }

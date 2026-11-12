@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import PhotosUI
+import UniformTypeIdentifiers
 import ChargeCheckCore
 
 /// Every supplier: what you owe them, what you paid this week, and their trusted setting.
@@ -223,6 +224,7 @@ struct SupplierDetailView: View {
     @ObservedObject private var accounts = Accounts.shared
     @State private var addKind: SupplierPayment.Kind?
     @State private var showPayInvoices = false
+    @State private var showStatement = false
     @State private var copied = false
 
     private var account: SupplierAccount? {
@@ -276,6 +278,11 @@ struct SupplierDetailView: View {
                             addKind = .opening
                         } label: {
                             Label("Add an older amount owed", systemImage: "plus.circle")
+                        }
+                        Button {
+                            showStatement = true
+                        } label: {
+                            Label("Check their statement", systemImage: "list.bullet.clipboard")
                         }
                         Button {
                             UIPasteboard.general.string = statement(account)
@@ -370,6 +377,9 @@ struct SupplierDetailView: View {
                 }
                 .sheet(isPresented: $showPayInvoices) {
                     PayInvoicesView(supplier: account.name, open: account.open)
+                }
+                .sheet(isPresented: $showStatement) {
+                    StatementCheckView(account: account)
                 }
             } else {
                 ContentUnavailableView("Supplier removed", systemImage: "shippingbox")
@@ -1058,6 +1068,251 @@ struct PickItemView: View {
                     Button("Cancel") { dismiss() }
                 }
             }
+        }
+    }
+}
+
+/// Scan a supplier's statement and tick it off against your invoices and payments.
+struct StatementCheckView: View {
+    let account: SupplierAccount
+
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var accounts = Accounts.shared
+    @AppStorage(SettingKey.business) private var business = ""
+    @State private var showScanner = false
+    @State private var showFiles = false
+    @State private var picked: [PhotosPickerItem] = []
+    @State private var reading = false
+    @State private var progress = ""
+    @State private var result: StatementResult?
+    @State private var problem: String?
+    @State private var copied = false
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if let result {
+                    resultSections(result)
+                } else if reading {
+                    Section {
+                        HStack {
+                            ProgressView()
+                            Text(progress.isEmpty ? String(localized: "Reading the statement…") : progress)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } else {
+                    Section {
+                        if DocumentScanner.isAvailable {
+                            Button {
+                                showScanner = true
+                            } label: {
+                                Label("Scan the statement", systemImage: "doc.viewfinder")
+                            }
+                        }
+                        PhotosPicker(selection: $picked, maxSelectionCount: 6, matching: .images) {
+                            Label("Choose photos", systemImage: "photo.on.rectangle")
+                        }
+                        Button {
+                            showFiles = true
+                        } label: {
+                            Label("Choose a PDF or file", systemImage: "folder")
+                        }
+                    } footer: {
+                        Text("ChargeCheck reads the statement and ticks it off against \(account.name)'s invoices and your payments. It doesn't use a scan.")
+                    }
+                    if let problem {
+                        Section {
+                            Text(problem)
+                                .foregroundStyle(.orange)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Check a statement")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") { dismiss() }
+                }
+                if result != nil {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button("Another") {
+                            result = nil
+                            problem = nil
+                        }
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $showScanner) {
+                DocumentScanner(onFinish: { pages in
+                    showScanner = false
+                    read(pages: pages, pdf: nil)
+                }, onCancel: { showScanner = false })
+                .ignoresSafeArea()
+            }
+            .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image]) { outcome in
+                guard case .success(let url) = outcome else { return }
+                let access = url.startAccessingSecurityScopedResource()
+                defer { if access { url.stopAccessingSecurityScopedResource() } }
+                if url.pathExtension.lowercased() == "pdf" {
+                    read(pages: ImageTools.pages(ofPDF: url), pdf: try? Data(contentsOf: url))
+                } else if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    read(pages: [image], pdf: nil)
+                }
+            }
+            .onChange(of: picked) {
+                let items = picked
+                guard !items.isEmpty else { return }
+                picked = []
+                Task {
+                    var pages: [UIImage] = []
+                    for item in items {
+                        if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) { pages.append(image) }
+                    }
+                    read(pages: pages, pdf: nil)
+                }
+            }
+        }
+    }
+
+    private func read(pages: [UIImage], pdf: Data?) {
+        guard !pages.isEmpty || pdf != nil else { return }
+        reading = true
+        problem = nil
+        let account = account
+        let payments = accounts.payments
+        Task {
+            let outcome = await InvoiceReader.read(pages: pages, pdf: pdf, book: PriceBook([]), knownSuppliers: [], doubleCheck: false) { text in
+                Task { @MainActor in progress = text }
+            }
+            let statement = StatementCheck.parse(outcome.rawText)
+            reading = false
+            if statement.lines.isEmpty {
+                problem = String(localized: "No statement lines were found. Each line needs a date and an amount. Try a clearer photo, or the PDF the supplier sent.")
+            } else {
+                result = StatementCheck.compare(statement, account: account, payments: payments)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func resultSections(_ r: StatementResult) -> some View {
+        Section {
+            if r.allClear {
+                Label("Everything on the statement matches your records", systemImage: "checkmark.seal.fill")
+                    .foregroundStyle(.green)
+            } else {
+                Label("Some things don't match", systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+            }
+            if let theirs = r.theirBalance {
+                LabeledContent("They say you owe", value: Money.format(theirs))
+            }
+            LabeledContent("ChargeCheck says", value: Money.format(r.yourBalance))
+            if let theirs = r.theirBalance, theirs - r.yourBalance > 0.05, r.takenOff > 0.005 {
+                Text("Part of the difference is the \(Money.format(r.takenOff)) of overcharges and missing items you took off their invoices.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        if !r.amountDiffers.isEmpty {
+            Section("Amount differs") {
+                ForEach(r.amountDiffers) { item in
+                    LabeledContent {
+                        VStack(alignment: .trailing) {
+                            Text(Money.format(item.line.amount)).foregroundStyle(.orange)
+                            Text("yours \(Money.format(item.yours))").font(.caption).foregroundStyle(.secondary)
+                        }
+                    } label: {
+                        statementLabel(item.line)
+                    }
+                }
+            }
+        }
+        if !r.notInReports.isEmpty {
+            Section {
+                ForEach(r.notInReports) { line in
+                    LabeledContent { Text(Money.format(line.amount)).foregroundStyle(.red) } label: { statementLabel(line) }
+                }
+            } header: {
+                Text("Not in your Reports")
+            } footer: {
+                Text("You haven't checked these invoices in ChargeCheck, or never received them. Ask for a copy if you don't have one.")
+            }
+        }
+        if !r.paymentsNotCounted.isEmpty {
+            Section("Your payments missing from the statement") {
+                ForEach(r.paymentsNotCounted) { payment in
+                    PaymentRow(payment: payment)
+                }
+            }
+        }
+        if !r.paymentsUnknown.isEmpty {
+            Section {
+                ForEach(r.paymentsUnknown) { line in
+                    LabeledContent { Text(Money.format(line.amount)) } label: { statementLabel(line) }
+                }
+            } header: {
+                Text("Payments and credits you have no record of")
+            } footer: {
+                Text("Record them in the supplier's account if they're right.")
+            }
+        }
+        if !r.notOnStatement.isEmpty {
+            Section {
+                ForEach(r.notOnStatement) { entry in
+                    InvoiceMoneyRow(entry: entry)
+                }
+            } header: {
+                Text("Your invoices not on the statement")
+            } footer: {
+                Text("Usually invoices that arrived after the statement was printed.")
+            }
+        }
+        if !r.matched.isEmpty || !r.paymentsMatched.isEmpty {
+            Section("Matches") {
+                Label(r.matched.count == 1 ? String(localized: "1 invoice matches") : String(localized: "\(r.matched.count) invoices match"),
+                      systemImage: "checkmark.circle.fill")
+                    .foregroundStyle(.green)
+                if !r.paymentsMatched.isEmpty {
+                    Label(r.paymentsMatched.count == 1 ? String(localized: "1 payment or credit matches")
+                          : String(localized: "\(r.paymentsMatched.count) payments and credits match"),
+                          systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                }
+            }
+        }
+        if !r.allClear {
+            Section {
+                Button {
+                    UIPasteboard.general.string = StatementCheck.query(r, supplier: account.name, business: business)
+                    copied = true
+                } label: {
+                    Label(copied ? LocalizedStringKey("Copied") : LocalizedStringKey("Copy a message to the supplier"),
+                          systemImage: copied ? "checkmark" : "doc.on.doc")
+                }
+            } footer: {
+                Text("Lists every difference, ready to paste into WhatsApp or an email.")
+            }
+        }
+    }
+
+    private func statementLabel(_ line: StatementLine) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(line.reference.isEmpty ? L(kindName(line.kind)) : line.reference)
+                .font(.subheadline.weight(.semibold))
+            Text(line.date)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func kindName(_ kind: StatementLine.Kind) -> String {
+        switch kind {
+        case .invoice: return "Invoice"
+        case .payment: return "Payment"
+        case .credit: return "Credit note"
         }
     }
 }
