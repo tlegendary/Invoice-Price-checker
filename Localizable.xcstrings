@@ -6623,6 +6623,35 @@
         }
       }
     },
+    "Handwritten on this line: “{1}”. If it was missing or sent back, mark the line as missing or returned." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مكتوب بخط اليد على هذا البند: «{1}». إذا كان مفقودًا أو أُعيد، حدّد البند كمفقود أو مُرتجع."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بە دەست لەسەر ئەم دێڕە نووسراوە: «{1}». ئەگەر ون بووە یان گەڕێنراوەتەوە، دێڕەکە وەک ون یان گەڕێنراوە دیاری بکە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handschriftlich in dieser Zeile: „{1}“. Wenn der Artikel fehlte oder zurückging, markiere die Zeile als fehlend oder zurückgegeben."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrit à la main sur cette ligne : « {1} ». S’il manquait ou a été renvoyé, marquez la ligne comme manquante ou retournée."
+          }
+        }
+      }
+    },
     "Has %@ sent your credit?" : {
       "localizations" : {
         "ar" : {
