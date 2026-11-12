@@ -178,10 +178,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 ### Now working on
 - Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
   Sends the beta builds.
-- Features chat (12 Nov 2026): on F1 (branch `feature/f1-green`). Also lets the cloud check run on `feature/` branches
-  (one line in `.github/workflows/swift-check.yml`). Finished earlier on `swift-rewrite`: supplier payments (how paid,
-  reference, receipt photo, swipe to pay, pay run), delivery check, scanned credit notes, cheaper-supplier tips, monthly summary.
-  **Mistake:** 16a31c8 changed `.beta-build`, which started a beta build. Won't happen again.
+- Features chat (12 Nov 2026): on F2 (branch `feature/f2-supplier-prices`, built on F1's branch). Touches
+  `PriceEditView.swift` (a "Special prices" section) besides its own files. F1 is pull request #9.
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container

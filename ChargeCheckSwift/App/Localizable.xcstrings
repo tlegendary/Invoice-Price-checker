@@ -1141,6 +1141,35 @@
         }
       }
     },
+    "A different price agreed with one supplier. Invoices from that supplier are checked against it. Swipe left to remove one.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سعر مختلف متفق عليه مع مورّد واحد. تُفحص فواتيره على أساسه. اسحب لليسار للإزالة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخێکی جیاواز کە لەگەڵ دابینکەرێک ڕێککەوتوویت. پسوولەکانی ئەو دابینکەرە بەو نرخە دەپشکنرێن. بۆ لابردن بەرەو چەپ ڕابکێشە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein anderer, mit einem Lieferanten vereinbarter Preis. Rechnungen dieses Lieferanten werden damit geprüft. Nach links wischen zum Entfernen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un prix différent convenu avec un fournisseur. Ses factures sont vérifiées avec ce prix. Balayez vers la gauche pour en retirer un."
+          }
+        }
+      }
+    },
     "A reminder at 9am on the day you pay your suppliers.": {
       "extractionState": "manual",
       "localizations": {
@@ -1481,6 +1510,35 @@
         }
       }
     },
+    "Add a price you agreed with %@ when it differs from your standard price. Their invoices are then checked against it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف سعرًا اتفقت عليه مع %@ إذا كان مختلفًا عن سعرك العادي. ستُفحص فواتيره على أساسه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخێک زیاد بکە کە لەگەڵ %@ ڕێککەوتوویت ئەگەر جیاوازە لە نرخی ئاساییت. پسوولەکانی بەو نرخە دەپشکنرێن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge einen mit %@ vereinbarten Preis hinzu, wenn er von deinem Standardpreis abweicht. Ihre Rechnungen werden dann damit geprüft."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez un prix convenu avec %@ quand il diffère de votre prix standard. Ses factures seront vérifiées avec ce prix."
+          }
+        }
+      }
+    },
     "Add a shop, e.g. High Street": {
       "localizations": {
         "ar": {
@@ -1505,6 +1563,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter un magasin, ex. Rue principale"
+          }
+        }
+      }
+    },
+    "Add a special price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة سعر خاص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخێکی تایبەت زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonderpreis hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un prix spécial"
           }
         }
       }
@@ -1534,6 +1621,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter un fournisseur"
+          }
+        }
+      }
+    },
+    "Add a supplier's own price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة سعر خاص بمورّد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی تایبەتی دابینکەرێک زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigenen Preis eines Lieferanten hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter le prix d’un fournisseur"
           }
         }
       }
@@ -3724,6 +3840,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choisir un dossier iCloud Drive"
+          }
+        }
+      }
+    },
+    "Choose an item": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صنفًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵایەک هەڵبژێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artikel wählen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir un article"
           }
         }
       }
@@ -6847,6 +6992,35 @@
         }
       }
     },
+    "Invoices from %@ are checked against these prices instead of the standard ones. Swipe left to remove one.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُفحص فواتير %@ بهذه الأسعار بدل الأسعار العادية. اسحب لليسار للإزالة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکانی %@ بەم نرخانە دەپشکنرێن نەک نرخە ئاساییەکان. بۆ لابردن بەرەو چەپ ڕابکێشە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnungen von %@ werden mit diesen Preisen statt den Standardpreisen geprüft. Nach links wischen zum Entfernen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les factures de %@ sont vérifiées avec ces prix au lieu des prix standard. Balayez vers la gauche pour en retirer un."
+          }
+        }
+      }
+    },
     "Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.": {
       "extractionState": "manual",
       "localizations": {
@@ -8628,6 +8802,35 @@
         }
       }
     },
+    "No special prices": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد أسعار خاصة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ نرخێکی تایبەت نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Sonderpreise"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun prix spécial"
+          }
+        }
+      }
+    },
     "No suppliers yet": {
       "extractionState": "manual",
       "localizations": {
@@ -9445,6 +9648,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trouvée seulement à la deuxième lecture – vérifiez qu’elle est bien sur la facture."
+          }
+        }
+      }
+    },
+    "Only invoices from %@ are checked against this price.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُفحص فواتير %@ فقط بهذا السعر."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تەنها پسوولەکانی %@ بەم نرخە دەپشکنرێن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Rechnungen von %@ werden mit diesem Preis geprüft."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seules les factures de %@ sont vérifiées avec ce prix."
           }
         }
       }
@@ -10991,6 +11223,35 @@
         }
       }
     },
+    "Price agreed with this supplier": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر المتفق عليه مع هذا المورّد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی ڕێککەوتوو لەگەڵ ئەم دابینکەرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit diesem Lieferanten vereinbarter Preis"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix convenu avec ce fournisseur"
+          }
+        }
+      }
+    },
     "Price history": {
       "localizations": {
         "ar": {
@@ -11161,6 +11422,35 @@
         }
       }
     },
+    "Prices agreed with this supplier that differ from your standard prices.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار متفق عليها مع هذا المورّد تختلف عن أسعارك العادية."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەو نرخانەی لەگەڵ ئەم دابینکەرە ڕێککەوتوون و جیاوازن لە نرخە ئاساییەکانت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit diesem Lieferanten vereinbarte Preise, die von deinen Standardpreisen abweichen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix convenus avec ce fournisseur qui diffèrent de vos prix standard."
+          }
+        }
+      }
+    },
     "Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.": {
       "localizations": {
         "ar": {
@@ -11214,6 +11504,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prix en hausse"
+          }
+        }
+      }
+    },
+    "Prices – %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسعار – %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکان – %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preise – %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix – %@"
           }
         }
       }
@@ -11843,6 +12162,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retirer cette facture de la liste"
+          }
+        }
+      }
+    },
+    "Remove this special price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة هذا السعر الخاص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم نرخە تایبەتە لاببە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diesen Sonderpreis entfernen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer ce prix spécial"
           }
         }
       }
@@ -12888,6 +13236,35 @@
         }
       }
     },
+    "Special prices": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار خاصة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخە تایبەتەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonderpreise"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix spéciaux"
+          }
+        }
+      }
+    },
     "Spend (net)": {
       "extractionState": "manual",
       "localizations": {
@@ -12970,6 +13347,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dépenses vérifiées (HT)"
+          }
+        }
+      }
+    },
+    "Standard price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر العادي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی ئاسایی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardpreis"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix standard"
+          }
+        }
+      }
+    },
+    "Standard price %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر العادي %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی ئاسایی %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardpreis %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix standard %@"
           }
         }
       }
