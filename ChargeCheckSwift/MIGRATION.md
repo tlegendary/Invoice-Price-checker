@@ -112,6 +112,8 @@ is ready and Ramyar says to switch.
 - [x] Optional lock with Face ID / Touch ID / passcode (Settings). The lock is its own window, so it also covers open sheets
 - [x] Faster scans: both reads of the photo and the table reader run at the same time; Apple Intelligence only checks
       lines that need it (no clear match, reads differed, or a misread-looking name)
+- [x] Settings › How invoices are read: read each photo once (faster) or twice; Apple Intelligence switch,
+      shown off and never used on an iPhone that can't run it
 - [x] Item names in any alphabet match: Arabic / Kurdish letter variants and digits, accents (é, ü, ß), Arabic "ال"
 - [x] Siri / Spotlight / Shortcuts: "Check an invoice" opens the camera scanner
 - [x] Photo tips when nothing could be read (too dark / blurry); scan given back if no product lines at all
@@ -150,9 +152,11 @@ Rules for both:
 Tick an item when it is merged and the cloud check is green. Don't start an item on the other chat's list.
 
 **Review chat** (reading, speed, accuracy, getting ready for the App Store)
-- [ ] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
-- [ ] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
+- [x] R1. Settings › How invoices are read: read each photo once or twice, Apple Intelligence on/off (pull request #7, built)
+- [x] R2. Pack-size warning: flag a line when the size on the invoice differs from the matched item ("5kg" vs "10kg"),
       so a smaller pack at the same price is caught as an overcharge
+- [x] R9. Learn the names suppliers use: a new name for an item the app is sure about is saved with the item
+      (Settings switch; `PriceTools.newNames`) – Ramyar's request, 12 Nov
 - [ ] R3. Fast with big price lists: prepare the price list once per scan instead of once per line; keep search quick at 2,000+ items
 - [ ] R4. Excel (.xlsx) price-list import, next to the CSV import
 - [ ] R5. Free scan when no ad can load (for example up to 3 a day) – **only after Ramyar says yes**
@@ -172,9 +176,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Review chat (12 Nov 2026): pull request #7 – Settings › How invoices are read (read once or twice, Apple Intelligence
-  on/off). Touches `SettingsView.swift`, `CheckSession.swift` (one line), `AppData.swift` (one setting key). Next: beta build
-  after #7 is merged and the check is green.
+- Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
+  Sends the beta builds.
 - Features chat (12 Nov 2026): on F3 (branch `feature/f3-price-rises`, built on F2's). Adds a "price rises" section to
   `InvoiceDetailView.swift`. F1 = PR #9, F2 = PR #15.
 
