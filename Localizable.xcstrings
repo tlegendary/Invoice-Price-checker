@@ -17282,6 +17282,35 @@
         }
       }
     },
+    "This phone's data looks empty, so nothing was deleted from iCloud." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدو بيانات هذا الهاتف فارغة، لذلك لم يُحذف شيء من iCloud."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زانیارییەکانی ئەم مۆبایلە بەتاڵ دیارن، بۆیە هیچ شتێک لە iCloud نەسڕایەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Daten auf diesem iPhone scheinen leer zu sein, deshalb wurde nichts aus iCloud gelöscht."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données de ce téléphone semblent vides, rien n’a donc été supprimé d’iCloud."
+          }
+        }
+      }
+    },
     "This tax year" : {
       "extractionState" : "manual",
       "localizations" : {
