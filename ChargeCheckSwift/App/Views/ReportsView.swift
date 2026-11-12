@@ -85,6 +85,13 @@ struct ReportsView: View {
                         } label: {
                             Label("Monthly summary", systemImage: "text.alignleft")
                         }
+                        if shops.count > 1 {
+                            NavigationLink {
+                                CompareShopsView()
+                            } label: {
+                                Label("Compare shops", systemImage: "storefront")
+                            }
+                        }
                     }
                     paySection(pay)
                     Section("Checked invoices") {

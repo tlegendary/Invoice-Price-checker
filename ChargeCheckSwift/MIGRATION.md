@@ -178,8 +178,9 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 ### Now working on
 - Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
   Sends the beta builds.
-- Features chat (12 Nov 2026): on F3 (branch `feature/f3-price-rises`, built on F2's). Adds a "price rises" section to
-  `InvoiceDetailView.swift`. F1 = PR #9, F2 = PR #15.
+- Features chat (12 Nov 2026): on F4 (branch `feature/f4-compare-shops`, built on F3's). Adds one "Compare shops" link
+  to `ReportsView.swift`. F1 = PR #9, F2 = #15, F3 = #16. Ramyar: features chat does F3–F5 only, then waits; the review
+  chat has F6–F8.
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
