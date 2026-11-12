@@ -3723,6 +3723,35 @@
         }
       }
     },
+    "ChargeCheck team" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فريق ChargeCheck"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تیمی ChargeCheck"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck-Team"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Équipe ChargeCheck"
+          }
+        }
+      }
+    },
     "Charged" : {
       "localizations" : {
         "ar" : {
@@ -6138,6 +6167,35 @@
         }
       }
     },
+    "Everything is kept in your own iCloud. Staff join with an invite link you send them. To join someone else's business, open the invite link they sent you." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبقى كل شيء في iCloud الخاص بك. ينضم الموظفون برابط دعوة ترسله لهم. للانضمام إلى نشاط آخر، افتح رابط الدعوة الذي أرسلوه لك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەموو شتێک لە iCloud ـی خۆتدا دەمێنێتەوە. کارمەندان بە بەستەری بانگهێشتێک کە بۆیان دەنێریت دەچنە ناو. بۆ چوونە ناو کاری کەسێکی تر، ئەو بەستەرە بکەرەوە کە بۆی ناردوویت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles bleibt in deiner eigenen iCloud. Mitarbeiter treten über einen Einladungslink bei, den du ihnen schickst. Um einem anderen Betrieb beizutreten, öffne dessen Einladungslink."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout reste dans votre propre iCloud. Le personnel rejoint avec un lien d’invitation que vous lui envoyez. Pour rejoindre une autre entreprise, ouvrez le lien qu’elle vous a envoyé."
+          }
+        }
+      }
+    },
     "Everything on the statement matches your records" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7136,6 +7194,35 @@
         }
       }
     },
+    "Invite staff or see who's joined" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ادعُ موظفين أو اعرض من انضم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەند بانگهێشت بکە یان ببینە کێ هاتووەتە ناو"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter einladen oder Mitglieder ansehen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inviter du personnel ou voir qui a rejoint"
+          }
+        }
+      }
+    },
     "Invoice" : {
       "localizations" : {
         "ar" : {
@@ -7791,6 +7878,35 @@
         }
       }
     },
+    "Invoices you check are shared with the owner. Prices, payments and settings are managed by the owner." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تُشارَك الفواتير التي تفحصها مع المالك. يدير المالك الأسعار والمدفوعات والإعدادات."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەو پسوولانەی دەیپشکنیت لەگەڵ خاوەنەکە هاوبەش دەکرێن. نرخ، پارەدان و ڕێکخستنەکان خاوەنەکە بەڕێوەیان دەبات."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechnungen, die du prüfst, werden mit dem Inhaber geteilt. Preise, Zahlungen und Einstellungen verwaltet der Inhaber."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les factures que vous vérifiez sont partagées avec le propriétaire. Les prix, paiements et réglages sont gérés par lui."
+          }
+        }
+      }
+    },
     "Iraqi dinar (IQD)" : {
       "localizations" : {
         "ar" : {
@@ -8158,6 +8274,35 @@
         }
       }
     },
+    "Last synced %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آخر مزامنة %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوایین هاوکاتکردن %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt synchronisiert %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière synchro %@"
+          }
+        }
+      }
+    },
     "Last tax year" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8215,6 +8360,35 @@
         }
       }
     },
+    "Leave" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مغادرة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دەرچوون"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlassen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter"
+          }
+        }
+      }
+    },
     "Leave a supplier empty if you didn't pay them. Each amount pays off that supplier's oldest invoices first." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8240,6 +8414,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Laissez vide un fournisseur que vous n’avez pas payé. Chaque montant règle d’abord ses plus anciennes factures."
+          }
+        }
+      }
+    },
+    "Leave the team" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مغادرة الفريق"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لە تیمەکە دەربچۆ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team verlassen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter l’équipe"
+          }
+        }
+      }
+    },
+    "Leave the team?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مغادرة الفريق؟"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لە تیمەکە دەربچیت؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team verlassen?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter l’équipe ?"
+          }
+        }
+      }
+    },
+    "Let staff check invoices on their own iPhones." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دع الموظفين يفحصون الفواتير على أجهزة iPhone الخاصة بهم."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڕێگە بدە کارمەندان لەسەر iPhone ـی خۆیان پسوولە بپشکنن."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass Mitarbeiter Rechnungen auf ihren eigenen iPhones prüfen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissez votre personnel vérifier les factures sur leur propre iPhone."
           }
         }
       }
@@ -9375,6 +9636,35 @@
         }
       }
     },
+    "No internet connection. Changes are sent when you're back online." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يوجد اتصال بالإنترنت. تُرسل التغييرات عند عودة الاتصال."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئینتەرنێت نییە. گۆڕانکارییەکان دەنێردرێن کاتێک دیسان پەیوەست بوویتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Internetverbindung. Änderungen werden gesendet, sobald du wieder online bist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de connexion Internet. Les changements seront envoyés quand vous serez reconnecté."
+          }
+        }
+      }
+    },
     "No invoices for this shop" : {
       "localizations" : {
         "ar" : {
@@ -9971,6 +10261,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finalement pas reçu"
+          }
+        }
+      }
+    },
+    "Not synced yet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم تتم المزامنة بعد"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هێشتا هاوکات نەکراوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nicht synchronisiert"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore synchronisé"
           }
         }
       }
@@ -10744,6 +11063,35 @@
     },
     "Open the app to see what you owe your suppliers." : {
 
+    },
+    "Open the invite link again and follow Apple's steps to verify." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح رابط الدعوة مرة أخرى واتبع خطوات Apple للتحقق."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەستەری بانگهێشتەکە دووبارە بکەرەوە و هەنگاوەکانی Apple بۆ پشتڕاستکردنەوە بکە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne den Einladungslink erneut und folge Apples Schritten zur Bestätigung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rouvrez le lien d’invitation et suivez les étapes d’Apple pour la vérification."
+          }
+        }
+      }
     },
     "Opens ChargeCheck with the camera, ready to scan a supplier invoice." : {
       "localizations" : {
@@ -14253,6 +14601,35 @@
         }
       }
     },
+    "Send the invite by WhatsApp, Messages or email. Staff need ChargeCheck Beta from TestFlight first (add them as testers in App Store Connect). You can remove anyone from the same screen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أرسل الدعوة عبر واتساب أو الرسائل أو البريد. يحتاج الموظفون أولًا إلى ChargeCheck Beta من TestFlight (أضفهم كمختبرين في App Store Connect). يمكنك إزالة أي شخص من الشاشة نفسها."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بانگهێشتەکە بە واتسئەپ، نامە یان ئیمەیڵ بنێرە. کارمەندان سەرەتا پێویستیان بە ChargeCheck Beta لە TestFlight هەیە (لە App Store Connect وەک تاقیکەرەوە زیادیان بکە). لە هەمان شاشەدا دەتوانیت هەر کەسێک لاببەیت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schicke die Einladung per WhatsApp, Nachrichten oder E-Mail. Mitarbeiter brauchen zuerst ChargeCheck Beta aus TestFlight (füge sie in App Store Connect als Tester hinzu). Auf demselben Bildschirm kannst du jeden wieder entfernen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyez l’invitation par WhatsApp, Messages ou e-mail. Le personnel doit d’abord installer ChargeCheck Beta via TestFlight (ajoutez-le comme testeur dans App Store Connect). Vous pouvez retirer quelqu’un depuis le même écran."
+          }
+        }
+      }
+    },
     "Send the original invoice" : {
       "localizations" : {
         "ar" : {
@@ -14334,6 +14711,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Share your shops with staff" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شارك متاجرك مع الموظفين"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوکانەکانت لەگەڵ کارمەندان هاوبەش بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filialen mit Mitarbeitern teilen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager vos magasins avec le personnel"
+          }
+        }
+      }
+    },
+    "Sharing is on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المشاركة مفعّلة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هاوبەشی چالاکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen ist an"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le partage est activé"
+          }
+        }
+      }
+    },
+    "Sharing on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المشاركة مفعّلة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هاوبەشی چالاکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen an"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partage activé"
           }
         }
       }
@@ -14504,6 +14968,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voir le reçu"
+          }
+        }
+      }
+    },
+    "Sign in to iCloud in the Settings app first (Settings › your name › iCloud)." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سجّل الدخول إلى iCloud أولًا من تطبيق الإعدادات (الإعدادات › اسمك › iCloud)."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سەرەتا لە ئەپی Settings بچۆ ناو iCloud (Settings › ناوەکەت › iCloud)."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melde dich zuerst in der Einstellungen-App bei iCloud an (Einstellungen › dein Name › iCloud)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectez-vous d’abord à iCloud dans l’app Réglages (Réglages › votre nom › iCloud)."
+          }
+        }
+      }
+    },
+    "Signed out of iCloud. Sharing is paused." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم تسجيل الخروج من iCloud. المشاركة متوقفة مؤقتًا."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لە iCloud دەرچوویت. هاوبەشی ڕاگیراوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von iCloud abgemeldet. Teilen ist pausiert."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déconnecté d’iCloud. Le partage est en pause."
           }
         }
       }
@@ -14733,6 +15255,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dépensé"
+          }
+        }
+      }
+    },
+    "Staff" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الموظفون"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەندان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnel"
+          }
+        }
+      }
+    },
+    "Staff phones lose access straight away. Your own data stays on this phone." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تفقد هواتف الموظفين الوصول فورًا. تبقى بياناتك على هذا الهاتف."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مۆبایلی کارمەندان یەکسەر دەسەڵاتیان نامێنێت. زانیارییەکانی خۆت لەسەر ئەم مۆبایلە دەمێننەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter-iPhones verlieren sofort den Zugriff. Deine eigenen Daten bleiben auf diesem iPhone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les téléphones du personnel perdent l’accès immédiatement. Vos données restent sur ce téléphone."
+          }
+        }
+      }
+    },
+    "Staff use ChargeCheck on their own iPhones. They scan and check invoices for their shop, and see Reports and what's owed. Only you can change prices, record payments and change settings." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم الموظفون ChargeCheck على أجهزتهم. يمسحون الفواتير ويفحصونها لمتجرهم، ويرون التقارير والمستحقات. أنت وحدك تغيّر الأسعار وتسجّل المدفوعات وتعدّل الإعدادات."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەندان ChargeCheck لەسەر iPhone ـی خۆیان بەکاردەهێنن. پسوولەکانی دوکانەکەیان سکان دەکەن و دەیپشکنن، و ڕاپۆرت و قەرزەکان دەبینن. تەنها تۆ دەتوانیت نرخ بگۆڕیت، پارەدان تۆمار بکەیت و ڕێکخستنەکان بگۆڕیت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter nutzen ChargeCheck auf ihren eigenen iPhones. Sie scannen und prüfen Rechnungen für ihre Filiale und sehen Berichte und offene Beträge. Nur du kannst Preise ändern, Zahlungen eintragen und Einstellungen ändern."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le personnel utilise ChargeCheck sur son propre iPhone. Il scanne et vérifie les factures de son magasin, et voit les rapports et ce qui est dû. Vous seul pouvez modifier les prix, enregistrer les paiements et changer les réglages."
           }
         }
       }
@@ -14990,6 +15599,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ne plus y enregistrer"
+          }
+        }
+      }
+    },
+    "Stop sharing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيقاف المشاركة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هاوبەشی ڕابگرە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen beenden"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter le partage"
+          }
+        }
+      }
+    },
+    "Stop sharing with every staff member?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيقاف المشاركة مع جميع الموظفين؟"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هاوبەشی لەگەڵ هەموو کارمەندان ڕابگیرێت؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen mit allen Mitarbeitern beenden?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter le partage avec tout le personnel ?"
           }
         }
       }
@@ -15424,6 +16091,35 @@
         }
       }
     },
+    "Sync now" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زامن الآن"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئێستا هاوکات بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt synchronisieren"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchroniser"
+          }
+        }
+      }
+    },
     "Tap an item to switch between all arrived and none arrived, or use − and + for part of it." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15506,6 +16202,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bleu canard"
+          }
+        }
+      }
+    },
+    "Team member" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عضو في الفريق"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەندامی تیم"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teammitglied"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membre de l’équipe"
           }
         }
       }
@@ -16099,6 +16824,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le nom apparaît en haut des rapports et des demandes d’avoir. Ajoutez vos magasins si vous en avez plusieurs."
+          }
+        }
+      }
+    },
+    "The owner stopped sharing with this phone." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أوقف المالك المشاركة مع هذا الهاتف."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خاوەنەکە هاوبەشی لەگەڵ ئەم مۆبایلە ڕاگرت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Inhaber teilt nicht mehr mit diesem iPhone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le propriétaire a arrêté le partage avec ce téléphone."
+          }
+        }
+      }
+    },
+    "The owner's iCloud storage is full." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مساحة iCloud لدى المالك ممتلئة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بیرگەی iCloud ـی خاوەنەکە پڕە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der iCloud-Speicher des Inhabers ist voll."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le stockage iCloud du propriétaire est plein."
+          }
+        }
+      }
+    },
+    "The owner's prices and reports are removed from this phone." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تُزال أسعار المالك وتقاريره من هذا الهاتف."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نرخ و ڕاپۆرتەکانی خاوەنەکە لەم مۆبایلە لادەبرێن."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preise und Berichte des Inhabers werden von diesem iPhone entfernt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les prix et rapports du propriétaire sont retirés de ce téléphone."
           }
         }
       }
@@ -17098,6 +17910,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activez Apple Intelligence dans l’app Réglages pour utiliser cette fonction."
+          }
+        }
+      }
+    },
+    "Turn on sharing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تشغيل المشاركة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هاوبەشی چالاک بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen einschalten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer le partage"
           }
         }
       }
@@ -18383,6 +19224,35 @@
         }
       }
     },
+    "You're on the team of %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنت في فريق %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تۆ لە تیمی %@ یت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du bist im Team von %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous faites partie de l’équipe de %@"
+          }
+        }
+      }
+    },
     "You've paid %@ more than they invoiced. It comes off their next invoices." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -19060,6 +19930,35 @@
         }
       }
     },
+    "iCloud problem: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مشكلة في iCloud: %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کێشەی iCloud: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-Problem: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problème iCloud : %@"
+          }
+        }
+      }
+    },
     "last paid %@ on %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -19458,6 +20357,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "payer %@"
+          }
+        }
+      }
+    },
+    "the owner" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المالك"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خاوەنەکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dem Inhaber"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "le propriétaire"
           }
         }
       }
