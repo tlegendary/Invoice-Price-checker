@@ -183,6 +183,12 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - Features chat (12 Nov 2026): F1–F5 merged and green (PRs #9, #15, #16, #17, #18). **Waiting for Ramyar** – nothing in
   progress. F6–F8 are the review chat's. Ready for a beta build with F5 (statement check).
 
+### Apple setup done (Ramyar, 12 Nov 2026)
+On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
+`iCloud.com.rjapps.invoicepricechecker.beta` are ticked on the ChargeCheck Beta App ID, and the widget App ID
+`com.rjapps.invoicepricechecker.beta.widget` has the same App Group. The widget (F8, review chat) can now be switched on by
+creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
+
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
   `iCloud.com.rjapps.invoicepricechecker.beta` on the beta App ID.
