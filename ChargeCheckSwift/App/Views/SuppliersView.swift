@@ -59,6 +59,21 @@ struct SuppliersView: View {
                     } footer: {
                         Text("Swipe left on a supplier to record a payment. Balance = their invoices (less overcharges and missing items) − your payments and credit notes.")
                     }
+                    let monthRises = Insights.priceRises(reports.compactMap { $0.entry }, since: SupplierAccounts.dayText(Date().addingTimeInterval(-30 * 86_400)))
+                    if !monthRises.isEmpty {
+                        Section {
+                            ForEach(monthRises.prefix(2)) { rise in
+                                PriceRiseRow(rise: rise, showSupplier: true)
+                            }
+                            NavigationLink {
+                                PriceRisesView(supplier: nil)
+                            } label: {
+                                Text(monthRises.count == 1 ? String(localized: "See the price rise") : String(localized: "See all \(monthRises.count) price rises"))
+                            }
+                        } header: {
+                            Label("Price rises, last 30 days", systemImage: "arrow.up.right")
+                        }
+                    }
                     let tips = Insights.supplierTips(reports.compactMap { $0.entry })
                     if !tips.isEmpty {
                         Section {
@@ -270,6 +285,24 @@ struct SupplierDetailView: View {
                         }
                     } footer: {
                         Text("Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers.")
+                    }
+
+                    let rises = Insights.priceRises(account.entries, since: SupplierAccounts.dayText(Date().addingTimeInterval(-90 * 86_400)))
+                    if !rises.isEmpty {
+                        Section {
+                            ForEach(rises.prefix(3)) { rise in
+                                PriceRiseRow(rise: rise, showSupplier: false)
+                            }
+                            if rises.count > 3 {
+                                NavigationLink {
+                                    PriceRisesView(supplier: account.name)
+                                } label: {
+                                    Text("See all \(rises.count) price rises")
+                                }
+                            }
+                        } header: {
+                            Label("Price rises, last 90 days", systemImage: "arrow.up.right")
+                        }
                     }
 
                     Section {

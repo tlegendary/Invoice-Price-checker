@@ -178,8 +178,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 ### Now working on
 - Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
   Sends the beta builds.
-- Features chat (12 Nov 2026): on F2 (branch `feature/f2-supplier-prices`, built on F1's branch). Touches
-  `PriceEditView.swift` (a "Special prices" section) besides its own files. F1 is pull request #9.
+- Features chat (12 Nov 2026): on F3 (branch `feature/f3-price-rises`, built on F2's). Adds a "price rises" section to
+  `InvoiceDetailView.swift`. F1 = PR #9, F2 = PR #15.
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container

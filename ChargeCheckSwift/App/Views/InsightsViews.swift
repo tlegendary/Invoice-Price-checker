@@ -189,3 +189,92 @@ enum SummaryWriter {
         return nil
     }
 }
+
+/// Prices suppliers put up since the last time you bought from them.
+struct PriceRisesView: View {
+    /// nil = every supplier
+    let supplier: String?
+
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
+    @State private var days = 90
+
+    var body: some View {
+        let since = SupplierAccounts.dayText(Date().addingTimeInterval(-Double(days) * 86_400))
+        let all = Insights.priceRises(reports.compactMap { $0.entry }, since: since)
+            .filter { rise in supplier.map { SupplierAccounts.key($0) == SupplierAccounts.key(rise.supplier) } ?? true }
+        let groups = Dictionary(grouping: all) { SupplierAccounts.key($0.supplier) }
+            .values.sorted { ($0.first?.supplier ?? "") < ($1.first?.supplier ?? "") }
+        List {
+            Section {
+                Picker("Period", selection: $days) {
+                    Text("30 days").tag(30)
+                    Text("90 days").tag(90)
+                    Text("1 year").tag(365)
+                }
+                .pickerStyle(.segmented)
+            }
+            if all.isEmpty {
+                ContentUnavailableView {
+                    Label("No price rises", systemImage: "arrow.up.right")
+                } description: {
+                    Text("When a supplier charges more than the last time you bought the same item from them, it shows here.")
+                }
+            }
+            ForEach(groups, id: \.first?.id) { rises in
+                Section(rises.first?.supplier ?? "") {
+                    ForEach(rises) { rise in
+                        PriceRiseRow(rise: rise, showSupplier: false)
+                    }
+                }
+            }
+        }
+        .navigationTitle(supplier.map { String(localized: "Price rises – \($0)") } ?? String(localized: "Price rises"))
+    }
+}
+
+struct PriceRiseRow: View {
+    let rise: PriceRise
+    let showSupplier: Bool
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(rise.item)
+                    .font(.subheadline.weight(.semibold))
+                Text([showSupplier ? rise.supplier : "", "\(Money.format(rise.from)) → \(Money.format(rise.to))", day(rise.when)]
+                    .filter { !$0.isEmpty }.joined(separator: " · "))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 8)
+            Text("+\(rise.percent.formatted(.number.precision(.fractionLength(0...1))))%")
+                .fontWeight(.bold)
+                .foregroundStyle(.red)
+        }
+    }
+
+    private func day(_ stamp: String) -> String {
+        guard !stamp.isEmpty, let date = SupplierAccounts.day(stamp) else { return "" }
+        return date.formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+/// On an invoice being checked: what went up since the last time you bought it from this supplier.
+struct PriceRiseSection: View {
+    let rises: [PriceRise]
+
+    var body: some View {
+        if !rises.isEmpty {
+            Section {
+                ForEach(rises) { rise in
+                    PriceRiseRow(rise: rise, showSupplier: false)
+                }
+            } header: {
+                Label("Up since last time", systemImage: "arrow.up.right")
+                    .foregroundStyle(.red)
+            } footer: {
+                Text("Compared with the last invoice from this supplier, even when it's still within your agreed price.")
+            }
+        }
+    }
+}

@@ -966,10 +966,68 @@
         }
       }
     },
+    "1 year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ ساڵ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 an"
+          }
+        }
+      }
+    },
     "10p": {},
     "1p": {},
     "20%": {},
     "2p": {},
+    "30 days": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "٣٠ يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "٣٠ ڕۆژ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 Tage"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 jours"
+          }
+        }
+      }
+    },
     "5%": {},
     "5p": {},
     "7-day free trial, then %@": {
@@ -1052,6 +1110,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "7 jours gratuits, puis %@ par an. Le paiement est débité sur votre identifiant Apple lors de la confirmation (après la fin de l’essai gratuit)."
+          }
+        }
+      }
+    },
+    "90 days": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "٩٠ يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "٩٠ ڕۆژ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "90 Tage"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "90 jours"
           }
         }
       }
@@ -4067,6 +4154,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fermer"
+          }
+        }
+      }
+    },
+    "Compared with the last invoice from this supplier, even when it's still within your agreed price.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقارنةً بآخر فاتورة من هذا المورّد، حتى لو كان ضمن سعرك المتفق عليه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەراورد بە دوایین پسوولەی ئەم دابینکەرە، تەنانەت ئەگەر هێشتا لە نرخی ڕێککەوتووتدا بێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verglichen mit der letzten Rechnung dieses Lieferanten, auch wenn der Preis noch im vereinbarten Rahmen liegt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comparé à la dernière facture de ce fournisseur, même si c’est encore dans votre prix convenu."
           }
         }
       }
@@ -8659,6 +8775,35 @@
         }
       }
     },
+    "No price rises": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد زيادات في الأسعار"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ بەرزبوونەوەیەکی نرخ نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Preiserhöhungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune hausse de prix"
+          }
+        }
+      }
+    },
     "No prices yet": {
       "localizations": {
         "ar": {
@@ -11365,6 +11510,122 @@
         }
       }
     },
+    "Price rises": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادات الأسعار"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرزبوونەوەی نرخ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preiserhöhungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hausses de prix"
+          }
+        }
+      }
+    },
+    "Price rises – %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادات الأسعار – %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرزبوونەوەی نرخ – %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preiserhöhungen – %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hausses de prix – %@"
+          }
+        }
+      }
+    },
+    "Price rises, last 30 days": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادات الأسعار، آخر ٣٠ يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرزبوونەوەی نرخ، ٣٠ ڕۆژی ڕابردوو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preiserhöhungen, letzte 30 Tage"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hausses de prix, 30 derniers jours"
+          }
+        }
+      }
+    },
+    "Price rises, last 90 days": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادات الأسعار، آخر ٩٠ يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرزبوونەوەی نرخ، ٩٠ ڕۆژی ڕابردوو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preiserhöhungen, letzte 90 Tage"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hausses de prix, 90 derniers jours"
+          }
+        }
+      }
+    },
     "Price was hard to read – worked out from the line total. Check.": {
       "extractionState": "manual",
       "localizations": {
@@ -12812,6 +13073,35 @@
         }
       }
     },
+    "See all %lld price rises": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض كل زيادات الأسعار (%lld)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو %lld بەرزبوونەوەکە ببینە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle %lld Preiserhöhungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les %lld hausses de prix"
+          }
+        }
+      }
+    },
     "See exactly how much each supplier overcharged you": {
       "localizations": {
         "ar": {
@@ -12836,6 +13126,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Voyez exactement combien chaque fournisseur vous a surfacturé"
+          }
+        }
+      }
+    },
+    "See the price rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض زيادة السعر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرزبوونەوەکە ببینە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preiserhöhung ansehen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir la hausse de prix"
           }
         }
       }
@@ -15965,6 +16284,35 @@
         }
       }
     },
+    "Up since last time": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارتفع منذ آخر مرة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە دوایین جارەوە بەرز بووەتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teurer als beim letzten Mal"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En hausse depuis la dernière fois"
+          }
+        }
+      }
+    },
     "Use the corrected details": {
       "extractionState": "manual",
       "localizations": {
@@ -16302,6 +16650,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce que vous avez payé à chaque fournisseur"
+          }
+        }
+      }
+    },
+    "When a supplier charges more than the last time you bought the same item from them, it shows here.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عندما يفرض مورّد سعرًا أعلى من آخر مرة اشتريت فيها الصنف نفسه منه، يظهر هنا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێک دابینکەرێک زیاتر لە دوایین جار بۆ هەمان کاڵا وەردەگرێت، لێرە دەردەکەوێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn ein Lieferant mehr berechnet als beim letzten Kauf desselben Artikels, erscheint es hier."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quand un fournisseur facture plus cher que la dernière fois pour le même article, cela apparaît ici."
           }
         }
       }
