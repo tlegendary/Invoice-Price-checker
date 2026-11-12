@@ -142,6 +142,7 @@ final class Accounts: ObservableObject {
 
     /// Anything changed: refresh the home screen widget.
     func changed(_ context: ModelContext) {
+        CloudTeam.shared.scheduleScan()
         WidgetData.write(WidgetSnapshot.make(accounts(context), currency: Money.currency.code))
     }
 }

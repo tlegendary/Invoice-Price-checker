@@ -11,6 +11,7 @@ struct RootView: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var phase
+    @ObservedObject private var team = CloudTeam.shared
     @Environment(\.requestReview) private var requestReview
     @StateObject private var session = CheckSession()
     @StateObject private var store = Store()
@@ -28,9 +29,12 @@ struct RootView: View {
             CheckView(storageProblem: storageProblem, showPaywall: $showPaywall)
                 .tabItem { Label("Check", systemImage: "doc.text.viewfinder") }
                 .tag("check")
-            PricesView()
-                .tabItem { Label("Prices", systemImage: "tag") }
-                .tag("prices")
+            // staff phones: prices are the owner's
+            if !team.isStaff {
+                PricesView()
+                    .tabItem { Label("Prices", systemImage: "tag") }
+                    .tag("prices")
+            }
             ReportsView()
                 .tabItem { Label("Reports", systemImage: "chart.bar") }
                 .tag("reports")
@@ -59,6 +63,7 @@ struct RootView: View {
         .tint(Themes.named(colourID).accent(for: scheme))
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {
+            CloudTeam.shared.start(context)
             if let legacy = AppData.importLegacyBackupIfNeeded(context) {
                 // prices, reports and unused scans from the previous version of the app
                 store.adoptLegacyScans(legacy.scans?.n ?? 0)
@@ -111,6 +116,7 @@ struct RootView: View {
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if phase == .active { Task { await CloudTeam.shared.refresh() } }
             if phase == .background && AppLock.isOn { locked = true }
             if phase == .active && IntentInbox.takeScanRequest() {
                 tab = "check"

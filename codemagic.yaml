@@ -99,9 +99,13 @@ workflows:
           # the widget and the app group get beta names too
           sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.widget$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta.widget/' project.yml
           sed -i '' 's/group.com.rjapps.invoicepricechecker\]/group.com.rjapps.invoicepricechecker.beta]/; s/CCAppGroup: group.com.rjapps.invoicepricechecker$/CCAppGroup: group.com.rjapps.invoicepricechecker.beta/' project.yml
+          # iCloud for staff phones: the beta has its own container
+          sed -i '' 's/iCloud.com.rjapps.invoicepricechecker\]/iCloud.com.rjapps.invoicepricechecker.beta]/; s/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker$/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker.beta/' project.yml
           # The widget needs an App Group set up by hand on developer.apple.com. Until that's done
           # (Ramyar creates ChargeCheckSwift/.widget-ready), the beta is built without it.
           if [ ! -f .widget-ready ]; then python3 tools/without-widget.py project.yml; fi
+          # Escape hatch: if signing ever fails over iCloud, create ChargeCheckSwift/.no-icloud to build without staff sharing.
+          if [ -f .no-icloud ]; then sed -i '' '/# icloud$/d' project.yml; echo "iCloud left out (.no-icloud)"; fi
           grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:\|group.com" project.yml
           xcodegen generate
       - name: Beta profile 1 - find the bundle ID and certificates

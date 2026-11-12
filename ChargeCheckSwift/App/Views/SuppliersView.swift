@@ -7,6 +7,8 @@ import ChargeCheckCore
 /// Every supplier: what you owe them, what you paid this week, and their trusted setting.
 struct SuppliersView: View {
     @Environment(\.modelContext) private var context
+    /// Staff phones see balances but can't record payments or change suppliers.
+    @ObservedObject private var team = CloudTeam.shared
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @ObservedObject private var accounts = Accounts.shared
     @AppStorage(WeeklyPayReminder.dayKey) private var payDay = 0
@@ -47,12 +49,14 @@ struct SuppliersView: View {
                                 SupplierRow(account: account)
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button {
-                                    paying = account
-                                } label: {
-                                    Label("Pay", systemImage: "banknote")
+                                if !team.isStaff {
+                                    Button {
+                                        paying = account
+                                    } label: {
+                                        Label("Pay", systemImage: "banknote")
+                                    }
+                                    .tint(.green)
                                 }
-                                .tint(.green)
                             }
                         }
                     } header: {
@@ -92,7 +96,7 @@ struct SuppliersView: View {
                             Label("Cheaper elsewhere", systemImage: "tag")
                         }
                     }
-                    if owed > 0.005 {
+                    if owed > 0.005 && !team.isStaff {
                         Section {
                             Button {
                                 showPayRun = true
@@ -123,14 +127,17 @@ struct SuppliersView: View {
             }
             .navigationTitle("Suppliers")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showAdd = true
-                    } label: {
-                        Label("Add a supplier", systemImage: "plus")
+                if !team.isStaff {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showAdd = true
+                        } label: {
+                            Label("Add a supplier", systemImage: "plus")
+                        }
                     }
                 }
             }
+            .refreshable { await team.refresh() }
             .navigationDestination(for: String.self) { key in
                 SupplierDetailView(key: key)
             }
@@ -222,6 +229,7 @@ struct SupplierDetailView: View {
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @Query private var prices: [StoredPrice]
     @ObservedObject private var accounts = Accounts.shared
+    @ObservedObject private var team = CloudTeam.shared
     @State private var addKind: SupplierPayment.Kind?
     @State private var showPayInvoices = false
     @State private var showStatement = false
@@ -256,81 +264,84 @@ struct SupplierDetailView: View {
                         }
                     }
 
-                    Section {
-                        Button {
-                            addKind = .payment
-                        } label: {
-                            Label("Record a payment", systemImage: "banknote")
-                        }
-                        if !account.open.isEmpty {
-                            Button {
-                                showPayInvoices = true
-                            } label: {
-                                Label("Pay invoices one by one", systemImage: "checklist")
-                            }
-                        }
-                        Button {
-                            addKind = .credit
-                        } label: {
-                            Label("Add a credit note", systemImage: "arrow.uturn.backward.circle")
-                        }
-                        Button {
-                            addKind = .opening
-                        } label: {
-                            Label("Add an older amount owed", systemImage: "plus.circle")
-                        }
-                        Button {
-                            showStatement = true
-                        } label: {
-                            Label("Check their statement", systemImage: "list.bullet.clipboard")
-                        }
-                        Button {
-                            UIPasteboard.general.string = statement(account)
-                            copied = true
-                        } label: {
-                            Label(copied ? LocalizedStringKey("Copied") : LocalizedStringKey("Copy statement"), systemImage: copied ? "checkmark" : "doc.on.doc")
-                        }
-                    } footer: {
-                        Text("Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers.")
-                    }
-
-                    let rises = Insights.priceRises(account.entries, since: SupplierAccounts.dayText(Date().addingTimeInterval(-90 * 86_400)))
-                    if !rises.isEmpty {
+                    // staff phones: payments, special prices and the trusted setting are the owner's
+                    if !team.isStaff {
                         Section {
-                            ForEach(rises.prefix(3)) { rise in
-                                PriceRiseRow(rise: rise, showSupplier: false)
+                            Button {
+                                addKind = .payment
+                            } label: {
+                                Label("Record a payment", systemImage: "banknote")
                             }
-                            if rises.count > 3 {
-                                NavigationLink {
-                                    PriceRisesView(supplier: account.name)
+                            if !account.open.isEmpty {
+                                Button {
+                                    showPayInvoices = true
                                 } label: {
-                                    Text("See all \(rises.count) price rises")
+                                    Label("Pay invoices one by one", systemImage: "checklist")
                                 }
                             }
-                        } header: {
-                            Label("Price rises, last 90 days", systemImage: "arrow.up.right")
+                            Button {
+                                addKind = .credit
+                            } label: {
+                                Label("Add a credit note", systemImage: "arrow.uturn.backward.circle")
+                            }
+                            Button {
+                                addKind = .opening
+                            } label: {
+                                Label("Add an older amount owed", systemImage: "plus.circle")
+                            }
+                            Button {
+                                showStatement = true
+                            } label: {
+                                Label("Check their statement", systemImage: "list.bullet.clipboard")
+                            }
+                            Button {
+                                UIPasteboard.general.string = statement(account)
+                                copied = true
+                            } label: {
+                                Label(copied ? LocalizedStringKey("Copied") : LocalizedStringKey("Copy statement"), systemImage: copied ? "checkmark" : "doc.on.doc")
+                            }
+                        } footer: {
+                            Text("Record any amount you paid towards the balance; it pays off the oldest invoices first. Or tick the exact invoices a payment covers.")
                         }
-                    }
 
-                    Section {
-                        NavigationLink {
-                            SupplierPricesView(supplier: account.name)
-                        } label: {
-                            LabeledContent("Special prices") {
-                                Text("\(SupplierPrices.count(for: account.name, items: prices.map { $0.item }))")
+                        let rises = Insights.priceRises(account.entries, since: SupplierAccounts.dayText(Date().addingTimeInterval(-90 * 86_400)))
+                        if !rises.isEmpty {
+                            Section {
+                                ForEach(rises.prefix(3)) { rise in
+                                    PriceRiseRow(rise: rise, showSupplier: false)
+                                }
+                                if rises.count > 3 {
+                                    NavigationLink {
+                                        PriceRisesView(supplier: account.name)
+                                    } label: {
+                                        Text("See all \(rises.count) price rises")
+                                    }
+                                }
+                            } header: {
+                                Label("Price rises, last 90 days", systemImage: "arrow.up.right")
                             }
                         }
-                    } footer: {
-                        Text("Prices agreed with this supplier that differ from your standard prices.")
-                    }
 
-                    Section {
-                        Toggle("Trusted supplier", isOn: Binding(
-                            get: { account.trusted },
-                            set: { accounts.setTrusted(account.name, $0, context: context) }
-                        ))
-                    } footer: {
-                        Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
+                        Section {
+                            NavigationLink {
+                                SupplierPricesView(supplier: account.name)
+                            } label: {
+                                LabeledContent("Special prices") {
+                                    Text("\(SupplierPrices.count(for: account.name, items: prices.map { $0.item }))")
+                                }
+                            }
+                        } footer: {
+                            Text("Prices agreed with this supplier that differ from your standard prices.")
+                        }
+
+                        Section {
+                            Toggle("Trusted supplier", isOn: Binding(
+                                get: { account.trusted },
+                                set: { accounts.setTrusted(account.name, $0, context: context) }
+                            ))
+                        } footer: {
+                            Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
+                        }
                     }
 
                     if !account.open.isEmpty {
