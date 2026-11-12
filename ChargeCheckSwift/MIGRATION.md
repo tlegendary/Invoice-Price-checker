@@ -172,7 +172,7 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [x] F2. Special prices per supplier: a screen to see and edit them (the data is already there)
 - [x] F3. Price-rise alerts: "this supplier put X up by 8% since last time", with a list of recent rises per supplier
 - [x] F4. Compare shops: spend, overcharges and credits per shop side by side (Ramyar has many shops)
-- [ ] F5. Supplier statement check: scan a monthly statement and tick it off against the invoices in Reports
+- [x] F5. Supplier statement check: scan a monthly statement and tick it off against the invoices in Reports
 - [ ] F6. Accountant pack: one export per month with the PDF report plus a CSV of every invoice and payment
 - [ ] F7. First-run guide: three short screens showing scan → check → what to pay, with the sample invoice
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
@@ -180,9 +180,8 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 ### Now working on
 - Review chat (12 Nov 2026): R1, R2 and name learning are merged and in beta build 11. Next: R3 (fast with big price lists).
   Sends the beta builds.
-- Features chat (12 Nov 2026): F1–F4 merged and green (PRs #9, #15, #16, #17). On F5 (branch `feature/f5-statement-check`):
-  new `Core/StatementCheck.swift`, a "Check their statement" button and screen in `SuppliersView.swift`. Then stops and waits
-  (Ramyar: features chat does F3–F5 only; the review chat has F6–F8).
+- Features chat (12 Nov 2026): F1–F5 merged and green (PRs #9, #15, #16, #17, #18). **Waiting for Ramyar** – nothing in
+  progress. F6–F8 are the review chat's. Ready for a beta build with F5 (statement check).
 
 ### Later (features chat, after F1–F8, only when Ramyar asks)
 - Staff phones share the shops' data through iCloud (owner invites staff). Needs Ramyar's Apple setup: iCloud container
