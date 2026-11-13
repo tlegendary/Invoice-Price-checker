@@ -43,7 +43,7 @@ public enum InvoiceDetails {
                 if Rx.test(line, "[\\u0600-\\u06FF]"), let value = usableNumber(before) { return value }
             }
             // a header box: the label on one row, the number on the row underneath
-            if let value = underLabel(label, in: lines, pick: { usableNumber($0) }) { return value }
+            if let value = underLabel(label, in: lines, rows: 1, pick: { boxNumber($0) }) { return value }
         }
         // a tilted photo: "Invoice No" with its box just above or below, so the number lands on the next row
         if let value = besideLabel(InvoiceParser.Words.invoiceNo, in: lines) { return value }
@@ -142,7 +142,13 @@ public enum InvoiceDetails {
 
     /// A label on a row with nothing usable after it, and its value on the next row or two.
     /// With several labels in one header row, the value is taken from the same column (by word position).
-    static func underLabel(_ label: String, in lines: [String], pick: (String) -> String?) -> String? {
+    /// A number on its own in a box: at least 3 digits in a row, no spaces ("82044", "INV-2041"; never "B14 7JJ").
+    static func boxNumber(_ text: String) -> String? {
+        guard Rx.test(text, "^[A-Za-z]{0,6}[-/]?[0-9]{3,}[0-9A-Za-z\\-/]*$") else { return nil }
+        return usableNumber(text)
+    }
+
+    static func underLabel(_ label: String, in lines: [String], rows: Int = 2, pick: (String) -> String?) -> String? {
         guard let rx = Rx.regex("(?:" + label + ")", ci: true) else { return nil }
         for (index, line) in lines.enumerated() {
             let range = NSRange(line.startIndex..., in: line)
@@ -152,7 +158,7 @@ public enum InvoiceDetails {
             if after.hasAsciiDigit { continue }
             let headerColumns = line.components(separatedBy: "   ").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
             let column = headerColumns.firstIndex { Rx.test($0, "(?:" + label + ")", ci: true) }
-            for next in lines.dropFirst(index + 1).prefix(2) {
+            for next in lines.dropFirst(index + 1).prefix(rows) {
                 let cells = next.components(separatedBy: "   ").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
                 if let column, headerColumns.count > 1, cells.count == headerColumns.count, let value = pick(cells[column]) { return value }
                 // otherwise the first usable word on the row
