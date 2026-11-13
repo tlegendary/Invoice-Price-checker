@@ -24,6 +24,10 @@ final class CloudTeam: NSObject, ObservableObject {
     /// Set while the sync engine is starting. If the app dies before it's cleared, sharing stays paused on the next launch
     /// instead of crashing again and again.
     private static let startingKey = "team.starting"
+    /// The user deliberately deleted many things at once: the next scan may send that many deletions.
+    private var bulkDeleteAllowed = false
+
+    func allowBulkDelete() { bulkDeleteAllowed = true }
     @Published private(set) var pausedAfterCrash = false
     private static let zoneName = "Business"
     private static let zoneOwnerKey = "team.zoneOwner"
@@ -297,7 +301,9 @@ final class CloudTeam: NSObject, ObservableObject {
         // Safety: if this phone suddenly has (almost) nothing, its data didn't load or was reset – never pass that on as
         // deleting everyone's records. Real deletions are one or a few at a time.
         let deletable = synced.keys.filter { name in TeamSync.parse(name).map { !(role == .staff && $0.kind.ownerOnly) } ?? false }.count
-        if changes.delete.count > 10 && changes.delete.count * 2 > deletable {
+        let allowed = bulkDeleteAllowed
+        bulkDeleteAllowed = false
+        if !allowed && changes.delete.count > 10 && changes.delete.count * 2 > deletable {
             status = String(localized: "This phone's data looks empty, so nothing was deleted from iCloud.")
             changes.delete = []
         }

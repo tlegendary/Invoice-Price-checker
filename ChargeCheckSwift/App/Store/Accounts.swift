@@ -89,6 +89,23 @@ final class Accounts: ObservableObject {
         changed(context)
     }
 
+    /// Removes payments for one supplier: all of them, or only those tied to the given invoices.
+    func removePayments(supplier: String, onlyFor invoiceIDs: Set<String>? = nil, context: ModelContext) {
+        let key = SupplierAccounts.key(supplier)
+        let gone = payments.filter { payment in
+            guard SupplierAccounts.key(payment.supplier) == key else { return false }
+            guard let ids = invoiceIDs else { return true }
+            return !payment.invoiceIDs.isEmpty && payment.invoiceIDs.allSatisfy { ids.contains($0) }
+        }
+        for payment in gone {
+            if let receipt = payment.receipt, let url = receiptURL(receipt) { try? FileManager.default.removeItem(at: url) }
+        }
+        let goneIDs = Set(gone.map { $0.id })
+        payments.removeAll { goneIDs.contains($0.id) }
+        save()
+        changed(context)
+    }
+
     func setTrusted(_ supplier: String, _ on: Bool, context: ModelContext) {
         let key = SupplierAccounts.key(supplier)
         trusted.removeAll { SupplierAccounts.key($0) == key }

@@ -234,6 +234,7 @@ struct SupplierDetailView: View {
     @State private var showPayInvoices = false
     @State private var showStatement = false
     @State private var copied = false
+    @State private var confirmDeleteAll = false
 
     private var account: SupplierAccount? {
         SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments, trusted: accounts.trusted)
@@ -381,6 +382,30 @@ struct SupplierDetailView: View {
                             }
                         }
                     }
+
+                    // owner only: clear this supplier out in one go instead of one invoice at a time
+                    if !team.isStaff && (!account.entries.isEmpty || !account.payments.isEmpty) {
+                        Section {
+                            Button(role: .destructive) {
+                                confirmDeleteAll = true
+                            } label: {
+                                Label(account.entries.count == 1 ? String(localized: "Delete this supplier's invoice")
+                                      : String(localized: "Delete all \(account.entries.count) of this supplier's invoices"),
+                                      systemImage: "trash")
+                            }
+                        } footer: {
+                            Text("Your prices and this supplier's special prices are kept.")
+                        }
+                        .confirmationDialog("Delete \(account.name)'s invoices?", isPresented: $confirmDeleteAll, titleVisibility: .visible) {
+                            if !account.entries.isEmpty {
+                                Button("Delete invoices, keep payments", role: .destructive) { deleteAll(account, payments: false) }
+                            }
+                            Button("Delete invoices and payments", role: .destructive) { deleteAll(account, payments: true) }
+                            Button("Cancel", role: .cancel) {}
+                        } message: {
+                            Text("This can't be undone. Save a backup in Settings first if you might need them. Deleting the payments too starts this supplier's balance from zero.")
+                        }
+                    }
                 }
                 .navigationTitle(account.name)
                 .sheet(item: $addKind) { kind in
@@ -396,6 +421,17 @@ struct SupplierDetailView: View {
                 ContentUnavailableView("Supplier removed", systemImage: "shippingbox")
             }
         }
+    }
+
+    private func deleteAll(_ account: SupplierAccount, payments: Bool) {
+        let ids = Set(account.entries.map { $0.id })
+        CloudTeam.shared.allowBulkDelete()
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
+            context.delete(stored)
+        }
+        try? context.save()
+        // payments for exactly those invoices go with them, so the balance doesn't go below zero
+        accounts.removePayments(supplier: account.name, onlyFor: payments ? nil : ids, context: context)
     }
 
     private func statement(_ account: SupplierAccount) -> String {

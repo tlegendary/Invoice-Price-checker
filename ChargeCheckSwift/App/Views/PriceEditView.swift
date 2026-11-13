@@ -12,7 +12,8 @@ struct PriceEditView: View {
 
     @State private var item: PriceItem
     @State private var priceText: String
-    @State private var aliasText: String
+    @State private var aliasList: [String]
+    @State private var newAlias = ""
     @State private var newCategory = ""
     @Query private var reports: [StoredReport]
 
@@ -29,7 +30,7 @@ struct PriceEditView: View {
         self.onDelete = onDelete
         _item = State(initialValue: draft.item)
         _priceText = State(initialValue: draft.item.price > 0 ? String(format: "%.2f", draft.item.price) : "")
-        _aliasText = State(initialValue: draft.item.aliases.joined(separator: ", "))
+        _aliasList = State(initialValue: draft.item.aliases)
     }
 
     private var price: Double? {
@@ -93,13 +94,23 @@ struct PriceEditView: View {
                     Text("A different price agreed with one supplier. Invoices from that supplier are checked against it. Swipe left to remove one.")
                 }
                 Section {
-                    TextField("e.g. quater pounder, qtr pounder", text: $aliasText, axis: .vertical)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
+                    ForEach(aliasList.indices, id: \.self) { index in
+                        Text(aliasList[index])
+                    }
+                    .onDelete { aliasList.remove(atOffsets: $0) }
+                    HStack {
+                        TextField("Another name, e.g. hp10 box", text: $newAlias)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .onSubmit(addAlias)
+                        Button("Add", action: addAlias)
+                            .buttonStyle(.borderless)
+                            .disabled(TextTools.norm(newAlias).isEmpty)
+                    }
                 } header: {
-                    Text("On invoices as")
+                    Text("Other names on invoices")
                 } footer: {
-                    Text("How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it.")
+                    Text("Every way suppliers write this item, one per line. The app recognises the item by any of them. When you pick the right item for a line it didn't recognise, that name is added here for you. Swipe left to remove one.")
                 }
                 if !history.isEmpty {
                     Section("Price history") {
@@ -138,8 +149,8 @@ struct PriceEditView: View {
         let typed = newCategory.trimmingCharacters(in: .whitespaces)
         if !typed.isEmpty { result.cat = typed }
         var seen = Set<String>()
-        var aliases = aliasText
-            .split(whereSeparator: { $0 == "," || $0 == "\n" })
+        var aliases = (aliasList + [newAlias])
+            .flatMap { $0.split(whereSeparator: { $0 == "," || $0 == "\n" }) }
             .map { TextTools.norm(String($0)) }
             .filter { !$0.isEmpty && seen.insert($0).inserted }
         if aliases.isEmpty { aliases = [TextTools.norm(result.name)] }
@@ -149,5 +160,14 @@ struct PriceEditView: View {
             .filter { !$0.s.isEmpty && $0.p > 0 }
         onSave(result)
         dismiss()
+    }
+
+    /// Adds the typed name (commas split several at once).
+    private func addAlias() {
+        for part in newAlias.split(whereSeparator: { $0 == "," || $0 == "\n" }) {
+            let name = TextTools.norm(String(part))
+            if !name.isEmpty, !aliasList.contains(name) { aliasList.append(name) }
+        }
+        newAlias = ""
     }
 }
