@@ -848,4 +848,102 @@ public enum InvoiceParser {
                 .joined(separator: "  ")
         }.joined(separator: "\n")
     }
+
+    // MARK: - curled or bent paper
+
+    /// Rows found by following each printed line from left to right, so a page that is curled or bent (its lines
+    /// slope more on one side than the other) still keeps each item's numbers on the item's own row.
+    /// With one tilt for the whole page, a curl can move a line's prices onto the row above, and the item loses them.
+    public static func followedRows(from pieces: [TextPiece]) -> String {
+        let items = pieces.filter { piece in
+            !piece.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && (piece.confidence >= 0.3 || piece.text.hasAsciiDigit)
+        }
+        if items.isEmpty { return "" }
+        let angles = items.filter { $0.width > 3 * $0.height }.map { $0.angle }.sorted()
+        var angle = angles.isEmpty ? 0 : angles[angles.count >> 1]
+        if abs(angle) > 0.35 { angle = 0 }
+        let c = cos(angle), sn = sin(angle)
+        let heights = items.map { $0.height == 0 ? 10 : $0.height }.sorted()
+        let h = max(heights[heights.count >> 1], 1)
+
+        struct Piece {
+            let text: String
+            let left: (x: Double, y: Double)
+            let right: (x: Double, y: Double)
+            let slope: Double?
+            let y: Double
+        }
+        let placed: [Piece] = items.map { piece in
+            let x = piece.x * c + piece.y * sn
+            let y = -piece.x * sn + piece.y * c
+            // a wide piece shows the slope of its own line; a short number doesn't
+            let slope: Double? = piece.width > 3 * max(piece.height, 1) ? max(-0.15, min(0.15, tan(piece.angle - angle))) : nil
+            let half = piece.width / 2
+            let s = slope ?? 0
+            return Piece(text: piece.text.trimmingCharacters(in: .whitespacesAndNewlines),
+                         left: (x - half, y - s * half), right: (x + half, y + s * half), slope: slope, y: y)
+        }.sorted { $0.left.x < $1.left.x }
+
+        struct Row {
+            var pieces: [Piece]
+            var end: (x: Double, y: Double)
+            var slope: Double
+        }
+        var rows: [Row] = []
+        for p in placed {
+            var best: (index: Int, error: Double)?
+            for (index, row) in rows.enumerated() where p.left.x >= row.end.x - h * 0.5 {
+                let predicted = row.end.y + row.slope * (p.left.x - row.end.x)
+                let error = abs(p.left.y - predicted)
+                if error <= h * 0.6, best == nil || error < best!.error { best = (index, error) }
+            }
+            guard let found = best else {
+                rows.append(Row(pieces: [p], end: p.right, slope: p.slope ?? 0))
+                continue
+            }
+            var row = rows[found.index]
+            if let own = p.slope {
+                row.slope = own
+            } else if p.left.x - row.end.x > 2 * h {
+                // the curl: how the line has moved since the last piece
+                let measured = max(-0.15, min(0.15, (p.left.y - row.end.y) / (p.left.x - row.end.x)))
+                row.slope = (row.slope + measured) / 2
+            }
+            row.pieces.append(p)
+            row.end = p.right
+            rows[found.index] = row
+        }
+        return rows
+            .sorted { a, b in
+                let ya = a.pieces.reduce(0) { $0 + $1.y } / Double(a.pieces.count)
+                let yb = b.pieces.reduce(0) { $0 + $1.y } / Double(b.pieces.count)
+                return ya < yb
+            }
+            .map { row in (rightToLeft ? row.pieces.reversed() : row.pieces).map { $0.text }.joined(separator: "  ") }
+            .joined(separator: "\n")
+    }
+
+    /// The rows of a photographed page: the usual reading, or the line-following one when that reads the invoice
+    /// better (the lines add up to the printed total where the usual one doesn't, or more item lines are found).
+    public static func bestRows(from pieces: [TextPiece], known: Set<String> = []) -> String {
+        let usual = rows(from: pieces)
+        let followed = followedRows(from: pieces)
+        if usual == followed || followed.isEmpty { return usual }
+        let a = parseInvoice(usual, known: known), b = parseInvoice(followed, known: known)
+        func addsUp(_ invoice: ParsedInvoice) -> Bool {
+            guard !invoice.lines.isEmpty else { return false }
+            if let net = invoice.printedNet, net > 0 { return abs(sum(invoice.lines) - net) <= 0.05 }
+            if let total = invoice.printedTotal, total > 0 {
+                let withVat = invoice.lines.reduce(0.0) { acc, line in
+                    let n = Money.round2(line.qty * line.unit)
+                    return acc + n + Money.round2(n * line.vat / 100)
+                }
+                return abs(Money.round2(withVat) - total) <= 0.05
+            }
+            return false
+        }
+        if addsUp(a) { return usual }
+        if addsUp(b) { return followed }
+        return b.lines.count > a.lines.count ? followed : usual
+    }
 }
