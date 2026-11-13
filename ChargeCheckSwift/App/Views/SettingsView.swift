@@ -90,7 +90,6 @@ struct SettingsView: View {
     }
 
     private var content: some View {
-        Group {
             Form {
                 Section {
                     Picker("Appearance", selection: $mode) {
@@ -378,7 +377,6 @@ struct SettingsView: View {
             )) {
                 Button("OK", role: .cancel) {}
             }
-        }
     }
 
     private func save() {

@@ -58,7 +58,6 @@ struct PricesView: View {
     }
 
     private var content: some View {
-        Group {
             List {
                 if prices.isEmpty {
                     ContentUnavailableView {
@@ -164,7 +163,6 @@ struct PricesView: View {
             } message: {
                 Text("Your reports are kept. Deleted prices can be brought back from More › Recently deleted for 30 days.")
             }
-        }
     }
 }
 

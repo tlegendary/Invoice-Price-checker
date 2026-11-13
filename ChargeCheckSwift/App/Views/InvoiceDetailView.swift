@@ -170,6 +170,8 @@ struct InvoiceDetailView: View {
                                 reasons: InvoiceMaths.reasons(line, supplier: job.draft.supplier, book: book, totalOk: totals.totalOk))
                     }
                     .buttonStyle(.plain)
+                    // lines the reader isn't sure about are shaded amber until you've looked at them
+                    .listRowBackground(LineRow.unsure(line) ? Color.orange.opacity(0.10) : nil)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             deleteLine(line.id)
@@ -610,6 +612,23 @@ struct LineRow: View {
                 Text(detail)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+                if Self.unsure(line) && reasons.isEmpty {
+                    Label("Check this match", systemImage: "questionmark.circle")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.orange)
+                }
+                if !line.read.isEmpty && TextTools.norm(line.read) != TextTools.norm(line.desc) {
+                    Text("On the invoice: \(line.read)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
+                if !line.excluded, result.over > 0.005, let base = result.base {
+                    Text(Self.sum(qty: line.qty, unit: line.unit, base: base, over: result.over))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.red)
+                        .monospacedDigit()
+                }
                 ForEach(reasons, id: \.self) { reason in
                     Text(reason)
                         .font(.footnote)
@@ -620,6 +639,18 @@ struct LineRow: View {
             badge
         }
         .contentShape(Rectangle())
+    }
+
+    /// The reader wasn't sure: an uncertain match, the two reads differed, or only one read found the line.
+    static func unsure(_ line: CheckLine) -> Bool {
+        guard !line.ok, !line.excluded else { return false }
+        return line.confident == false || line.disagree || line.onlySecondRead
+    }
+
+    /// How the overcharge was worked out: "(£32.00 − £30.00) × 2 = £4.00".
+    static func sum(qty: Double, unit: Double, base: Double, over: Double) -> String {
+        let q = qty == qty.rounded() ? String(Int(qty)) : String(format: "%.2f", qty)
+        return "(\(Money.format(unit)) − \(Money.format(base))) × \(q) = \(Money.format(over))"
     }
 
     private var detail: String {

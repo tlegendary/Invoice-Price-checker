@@ -105,6 +105,11 @@ struct ReportsView: View {
                             Label("Cheaper elsewhere", systemImage: "tag")
                         }
                         NavigationLink {
+                            SupplierScoresView()
+                        } label: {
+                            Label("Supplier scores", systemImage: "star.leadinghalf.filled")
+                        }
+                        NavigationLink {
                             SavingsView()
                         } label: {
                             Label("Money protected", systemImage: "shield.lefthalf.filled")
@@ -484,6 +489,17 @@ struct ReportDetailView: View {
                                     Text(Self.lineDetail(line))
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
+                                    if line.over > 0.005 && !line.excluded, let base = line.base {
+                                        Text(LineRow.sum(qty: line.qty, unit: line.unit, base: base, over: line.over))
+                                            .font(.caption.weight(.semibold))
+                                            .foregroundStyle(.red)
+                                            .monospacedDigit()
+                                    }
+                                    if !line.item.isEmpty && TextTools.norm(line.item) != TextTools.norm(line.desc) {
+                                        Text("On the invoice: \(line.desc)")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
                                 Spacer(minLength: 8)
                                 if line.over > 0.005 && !line.excluded {

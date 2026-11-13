@@ -221,6 +221,113 @@ enum PayDates {
     }
 }
 
+/// The supplier's profile: purchases, accuracy, a score out of 100 and a report to send or keep.
+struct SupplierProfileSection: View {
+    let account: SupplierAccount
+    let profile: SupplierProfile
+
+    @ObservedObject private var accounts = Accounts.shared
+    @AppStorage(SettingKey.business) private var business = ""
+    @AppStorage(SettingKey.colour) private var colourID = "green"
+    @State private var showScore = false
+    @State private var made: URL?
+
+    var body: some View {
+        Section {
+            Button {
+                showScore.toggle()
+            } label: {
+                HStack {
+                    ScoreBadge(score: profile.score)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Supplier score")
+                            .font(.subheadline.weight(.semibold))
+                        Text(profile.score == nil ? String(localized: "Needs \(SupplierProfile.minimumInvoices) checked invoices")
+                             : String(localized: "Prices, deliveries and invoice accuracy"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Image(systemName: showScore ? "chevron.up" : "chevron.down")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .buttonStyle(.plain)
+            if showScore {
+                percentRow("Charged the agreed price", profile.parts.invoiceAccuracy)
+                percentRow("Delivered in full", profile.parts.deliveryAccuracy)
+                percentRow("Prices that stayed the same (90 days)", profile.parts.priceStability)
+                percentRow("Cheapest for items you also buy elsewhere", profile.parts.priceCompetitiveness)
+            }
+            LabeledContent("Bought this month", value: Money.format(profile.purchasesThisMonth))
+            LabeledContent("Last month", value: Money.format(profile.purchasesLastMonth))
+            LabeledContent("Average invoice", value: Money.format(profile.averageInvoice))
+            if profile.disputed > 0 {
+                LabeledContent(profile.disputed == 1 ? String(localized: "1 invoice with a problem") : String(localized: "\(profile.disputed) invoices with a problem")) {
+                    Text(Money.format(Money.round2(profile.overcharged + profile.missing)))
+                        .foregroundStyle(.red)
+                }
+            }
+            if profile.creditsOwed > 0.005 {
+                LabeledContent("Credits still owed") {
+                    Text(Money.format(profile.creditsOwed)).foregroundStyle(.orange)
+                }
+            }
+            if let made {
+                ShareLink(item: made) {
+                    Label("Save or send the supplier report", systemImage: "square.and.arrow.up")
+                }
+            } else {
+                Button {
+                    made = report()
+                } label: {
+                    Label("Make a supplier report (PDF)", systemImage: "doc.richtext")
+                }
+            }
+        } header: {
+            Text("Profile")
+        }
+    }
+
+    private func percentRow(_ title: LocalizedStringKey, _ value: Double?) -> some View {
+        LabeledContent(title) {
+            Text(value.map { String(format: "%.0f%%", $0) } ?? "–")
+                .foregroundStyle(value.map { $0 >= 90 ? Color.green : $0 >= 70 ? Color.orange : Color.red } ?? Color.secondary)
+        }
+        .font(.footnote)
+    }
+
+    private func report() -> URL? {
+        let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: business, theme: Themes.named(colourID))
+        let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
+        return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
+    }
+}
+
+/// A supplier's score in a coloured circle.
+struct ScoreBadge: View {
+    let score: Int?
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(colour.opacity(0.15))
+            Text(score.map { "\($0)" } ?? "–")
+                .font(.subheadline.weight(.heavy))
+                .foregroundStyle(colour)
+        }
+        .frame(width: 40, height: 40)
+        .accessibilityLabel(score.map { String(localized: "Score \($0) out of 100") } ?? String(localized: "No score yet"))
+    }
+
+    private var colour: Color {
+        guard let score else { return .secondary }
+        return score >= 85 ? .green : score >= 65 ? .orange : .red
+    }
+}
+
 /// One supplier's account: balance, what's still open, payments, and the trusted switch.
 struct SupplierDetailView: View {
     let key: String
@@ -263,6 +370,10 @@ struct SupplierDetailView: View {
                         if account.balance < -0.005 {
                             Text("You've paid \(Money.format(-account.balance)) more than they invoiced. It comes off their next invoices.")
                         }
+                    }
+
+                    if !team.isStaff && !account.entries.isEmpty {
+                        SupplierProfileSection(account: account, profile: SupplierProfiles.make(account, all: reports.compactMap { $0.entry }))
                     }
 
                     // staff phones: payments, special prices and the trusted setting are the owner's

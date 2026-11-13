@@ -122,3 +122,51 @@ final class OverviewTests: XCTestCase {
         XCTAssertTrue(Search.find("  ", entries: entries, payments: payments, items: items).isEmpty)
     }
 }
+
+final class SupplierProfileTests: XCTestCase {
+    private let now = SupplierAccounts.day("2026-11-14")!
+
+    private func entry(_ id: String, _ supplier: String, _ saved: String, _ lines: [HistoryLine]) -> HistoryEntry {
+        let net = lines.reduce(0) { $0 + $1.qty * $1.unit }
+        let over = lines.reduce(0) { $0 + $1.over }
+        let excluded = lines.filter { $0.excluded }.reduce(0) { $0 + $1.qty * $1.unit }
+        return HistoryEntry(id: id, savedAt: saved + "T10:00:00Z", supplier: supplier, net: net, total: net, over: over,
+                            excluded: excluded, lines: lines)
+    }
+
+    private func l(_ name: String, _ qty: Double, _ unit: Double, base: Double, short: Double = 0, excluded: Bool = false) -> HistoryLine {
+        HistoryLine(qty: qty, desc: name, unit: unit, matchId: name, item: name, base: base,
+                    over: max(0, unit - base) * qty, excluded: excluded, short: short)
+    }
+
+    func testScoreAndFigures() {
+        let apex = [
+            entry("1", "Apex", "2026-09-10", [l("Oil", 1, 30, base: 30), l("Rice", 1, 20, base: 20), l("Salt", 1, 1, base: 1)]),
+            entry("2", "Apex", "2026-10-10", [l("Oil", 1, 30, base: 30), l("Rice", 1, 22, base: 20), l("Salt", 2, 1, base: 1, short: 1)]),
+            entry("3", "Apex", "2026-11-10", [l("Oil", 1, 30, base: 30), l("Rice", 1, 22, base: 20), l("Salt", 1, 1, base: 1, excluded: true)])
+        ]
+        let bravo = [entry("4", "Bravo", "2026-11-11", [l("Oil", 1, 28, base: 30), l("Rice", 1, 22, base: 22)])]
+        let all = apex + bravo
+        let account = SupplierAccounts.accounts(entries: all, payments: [], trusted: [], now: now).first { $0.id == "apex" }!
+        let p = SupplierProfiles.make(account, all: all, now: now)
+        XCTAssertEqual(p.invoices, 3)
+        XCTAssertEqual(p.purchasesThisMonth, 53)
+        XCTAssertEqual(p.purchasesLastMonth, 54)
+        XCTAssertEqual(p.overcharged, 4)
+        XCTAssertEqual(p.missing, 1)
+        XCTAssertEqual(p.disputed, 2)
+        // 9 lines, 8 priced and not missing, 2 of them over the agreed price
+        XCTAssertEqual(p.parts.invoiceAccuracy, 75)
+        // 9 lines: one short, one missing
+        XCTAssertEqual(p.parts.deliveryAccuracy, 77.8)
+        // oil, rice and salt bought lately; rice went up
+        XCTAssertEqual(p.parts.priceStability, 66.7)
+        // oil is cheaper at Bravo, rice costs the same: 1 of 2
+        XCTAssertEqual(p.parts.priceCompetitiveness, 50)
+        XCTAssertNotNil(p.score)
+        XCTAssertEqual(p.score, Int(((75 * 0.3 + 77.8 * 0.25 + 66.7 * 0.2 + 50 * 0.25) / 1.0).rounded()))
+        // Bravo has one invoice: too few for a score
+        let b = SupplierAccounts.accounts(entries: all, payments: [], trusted: [], now: now).first { $0.id == "bravo" }!
+        XCTAssertNil(SupplierProfiles.make(b, all: all, now: now).score)
+    }
+}
