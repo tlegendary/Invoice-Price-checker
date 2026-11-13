@@ -145,6 +145,9 @@ final class CheckSession: ObservableObject {
                 if details.number.isEmpty { details.number = found.number }
                 if details.date.isEmpty { details.date = found.date }
             }
+            // what was scanned, and in which currency: a delivery note, quote or order isn't a bill, and an invoice in
+            // another currency can't be checked against prices kept in this one – those are never saved on their own
+            let warning = sample ? "" : Self.documentWarning(outcome.rawText)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a credit note: it lowers what you owe that supplier, it isn't a new invoice
             if !sample, Insights.isCreditNote(outcome.rawText) {
@@ -177,9 +180,9 @@ final class CheckSession: ObservableObject {
                     job.draft.lines = firstLines
                     job.draft.totalOnly = true
                     job.status = .done
-                    job.message = total > 0 ? "" : String(localized: "Couldn't read the invoice total. Type it in.")
+                    job.message = total > 0 ? warning : String(localized: "Couldn't read the invoice total. Type it in.")
                 }
-                self.saveIfChecked(id, context: context)
+                if warning.isEmpty { self.saveIfChecked(id, context: context) }
                 return
             }
             // a name the user already corrected by hand is never second-guessed
@@ -212,13 +215,29 @@ final class CheckSession: ObservableObject {
                 job.draft.passes = outcome.passes
                 job.draft.lines = finalLines
                 job.status = .done
-                job.message = job.draft.lines.isEmpty ? Self.nothingReadMessage(problem) : ""
+                job.message = job.draft.lines.isEmpty ? Self.nothingReadMessage(problem) : warning
             }
             // also when Apple Intelligence found that none of the lines were products
             if finalLines.isEmpty { onNothingRead?() }
-            self.saveIfChecked(id, context: context)
+            if warning.isEmpty { self.saveIfChecked(id, context: context) }
         }
         return id
+    }
+
+    /// Why this scan shouldn't be saved as an invoice without a look ("" when it's an ordinary invoice in your currency).
+    nonisolated static func documentWarning(_ text: String) -> String {
+        var parts: [String] = []
+        switch DocumentFacts.kind(text) {
+        case .deliveryNote: parts.append(String(localized: "This looks like a delivery note, not an invoice. Check it before saving."))
+        case .quote: parts.append(String(localized: "This looks like a quote or pro forma, not an invoice. Check it before saving."))
+        case .order: parts.append(String(localized: "This looks like an order, not an invoice. Check it before saving."))
+        case .statement: parts.append(String(localized: "This looks like a statement. Check statements in Suppliers instead."))
+        case .receipt, .invoice, .creditNote: break
+        }
+        if let printed = DocumentFacts.currency(text), printed != Money.currency.code {
+            parts.append(String(localized: "This invoice is in \(printed), but your prices are in \(Money.currency.code). Check the prices before saving, or change the currency in Settings."))
+        }
+        return parts.joined(separator: " ")
     }
 
     /// Whether the lines add up to the printed net (or, when only that was read, the printed invoice total).

@@ -430,6 +430,25 @@ public enum InvoiceParser {
             }
         }
         if unit == nil {
+            // a discount column: quantity × price − discount = line total ("2.00 FISH BURGER 24.99 5.00 44.98"),
+            // or a discount in percent. The price kept is what was really paid for one, after the discount.
+            discount: for a in 0..<T.count where T[a] > 0 {
+                for d in (a + 1)..<T.count where T[d] > 0 {
+                    for b in (d + 1)..<T.count where T[b] > 0 {
+                        let gross = qty * T[a]
+                        let amount = abs(gross - T[d] - T[b]) < 0.06 ? T[d]
+                            : (T[d] < 100 && abs(gross * (1 - T[d] / 100) - T[b]) < 0.06 ? Money.round2(gross - T[b]) : nil)
+                        guard let amount, amount < gross else { continue }
+                        unit = T[b] / qty
+                        net = T[b]
+                        ni = b
+                        warn = CoreText.t("Discount of {1} taken off – the price shown is after the discount.", Money.format(amount))
+                        break discount
+                    }
+                }
+            }
+        }
+        if unit == nil {
             search2: for a in 0..<T.count {
                 for b in (a + 1)..<max(a + 1, T.count) {
                     if T[a] < 0.5 || T[b] <= T[a] { continue }

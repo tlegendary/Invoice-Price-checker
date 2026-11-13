@@ -98,11 +98,19 @@ public enum InvoiceDetails {
     static func isRealDate(_ value: String) -> Bool {
         let parts = value.split(whereSeparator: { "/.-".contains($0) }).compactMap { Int($0) }
         guard parts.count == 3 else { return true }   // month-name dates were checked by the pattern
-        if parts[0] >= 2000 { return (1...12).contains(parts[1]) && (1...31).contains(parts[2]) }
+        if parts[0] >= 2000 { return (1...12).contains(parts[1]) && (1...31).contains(parts[2]) && !farAhead(year: parts[0], month: parts[1]) }
         let year = parts[2] < 100 ? parts[2] + 2000 : parts[2]
         guard (2000...2099).contains(year) else { return false }
+        // an expiry or best-before date years ahead is never the invoice date
+        if farAhead(year: year, month: (1...12).contains(parts[1]) ? parts[1] : parts[0]) { return false }
         // day/month or month/day: either way both must fit
         return ((1...31).contains(parts[0]) && (1...12).contains(parts[1])) || ((1...12).contains(parts[0]) && (1...31).contains(parts[1]))
+    }
+
+    /// More than about three months after today.
+    static func farAhead(year: Int, month: Int, now: Date = Date()) -> Bool {
+        let today = Calendar(identifier: .gregorian).dateComponents([.year, .month], from: now)
+        return (year * 12 + month) - ((today.year ?? 2026) * 12 + (today.month ?? 1)) > 3
     }
 
     public static func invoiceDate(in text: String) -> String {

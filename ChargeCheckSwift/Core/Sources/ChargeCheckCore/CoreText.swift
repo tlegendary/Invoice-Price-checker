@@ -26,6 +26,7 @@ public enum CoreText {
         "Price was hard to read – worked out from the line total. Check.",
         "Couldn't confirm this price against the line total – check the price and quantity.",
         "Quantity and price were hard to read – check this line.",
+        "Discount of {1} taken off – the price shown is after the discount.",
         "Last month", "This month", "This tax year", "Last tax year", "All time",
         "Unknown supplier",
         "Hello{1},",
