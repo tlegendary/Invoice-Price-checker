@@ -81,7 +81,7 @@ private enum DetailsFinder {
     You read text taken from a photo of a supplier's invoice. It can be in English, Arabic, Kurdish, German or French, \
     and Arabic or Kurdish text may appear in reverse order. Labels such as "رقم الفاتورة" mean invoice number and \
     "التاريخ" or "تاريخ الفاتورة" mean date. Iraqi invoices often write the number with the year, like "57 - 2026": \
-    the invoice number is then 57. Copy values exactly as they appear; never invent them.
+    the invoice number is then 2026-57. Copy values exactly as they appear; never invent them.
     """
 
     static func run(_ text: String) async -> (number: String, date: String) {
@@ -95,7 +95,7 @@ private enum DetailsFinder {
             let plain = InvoiceParser.westernDigits(text)
             let number = InvoiceParser.westernDigits(reply.content.invoiceNumber).trimmingCharacters(in: .whitespacesAndNewlines)
             let date = InvoiceParser.westernDigits(reply.content.invoiceDate).trimmingCharacters(in: .whitespacesAndNewlines)
-            return (printed(number, in: plain) && InvoiceDetails.usableNumber(number) != nil ? number : "",
+            return (printed(number, in: plain) && InvoiceDetails.usableNumber(number) != nil ? InvoiceDetails.withYear(number, in: plain) : "",
                     printed(date, in: plain) && InvoiceDetails.usableDate(date) != nil ? date : "")
         } catch {
             return ("", "")

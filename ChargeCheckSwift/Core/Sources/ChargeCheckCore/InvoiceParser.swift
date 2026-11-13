@@ -672,6 +672,7 @@ public enum InvoiceParser {
         var invNo = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
         if invNo.isEmpty { invNo = Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) }
         if invNo.isEmpty { invNo = InvoiceDetails.invoiceNumber(in: text) }
+        else { invNo = InvoiceDetails.withYear(invNo, in: text) }
         return ParsedInvoice(
             supplier: supplier,
             invNo: invNo,

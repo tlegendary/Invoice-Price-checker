@@ -68,7 +68,7 @@ final class AnyLayoutTests: XCTestCase {
         let invoice = InvoiceParser.parseInvoice(leftToRight)
         XCTAssertNotEqual(invoice.printedTotal, 28718.9)
         XCTAssertNotEqual(invoice.printedTotal, 30527.58)
-        XCTAssertEqual(invoice.invNo, "57")
+        XCTAssertEqual(invoice.invNo, "2026-57")
         XCTAssertTrue(invoice.supplier.contains("Dilsagh"))
     }
 
