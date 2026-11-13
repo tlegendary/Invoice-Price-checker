@@ -190,8 +190,15 @@ final class CheckSession: ObservableObject {
             let checked = await SmartCheck.check(toCheck, supplier: outcome.invoice.supplier, book: book, progress: report)
             let checkedByID = Dictionary(checked.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             // lines Apple Intelligence called "not a product" are missing from `checked` and drop out here
-            let finalLines = firstLines.compactMap { line -> CheckLine? in
+            var finalLines = firstLines.compactMap { line -> CheckLine? in
                 sent.contains(line.id) ? checkedByID[line.id] : line
+            }
+            // Apple Intelligence never removes a real line: if the invoice only adds up with the lines it
+            // called "not a product", they are put back (a missed line made the invoice total too small)
+            let allLines = firstLines.map { checkedByID[$0.id] ?? $0 }
+            if allLines.count > finalLines.count,
+               !Self.addsUp(finalLines, invoice: outcome.invoice), Self.addsUp(allLines, invoice: outcome.invoice) {
+                finalLines = allLines
             }
             // nothing read from a photo: check whether it was too dark or blurry, to give a better tip
             let problem = finalLines.isEmpty && sourcePDF == nil ? pages.first.flatMap { ImageTools.problem(with: $0) } : nil
@@ -212,6 +219,18 @@ final class CheckSession: ObservableObject {
             self.saveIfChecked(id, context: context)
         }
         return id
+    }
+
+    /// Whether the lines add up to the printed net (or, when only that was read, the printed invoice total).
+    nonisolated static func addsUp(_ lines: [CheckLine], invoice: ParsedInvoice) -> Bool {
+        let net = Money.round2(lines.reduce(0) { $0 + Money.round2($1.qty * $1.unit) })
+        if let printed = invoice.printedNet, printed > 0 { return abs(net - printed) <= 0.05 }
+        guard let total = invoice.printedTotal, total > 0 else { return false }
+        let withVat = Money.round2(lines.reduce(0) { sum, line in
+            let n = Money.round2(line.qty * line.unit)
+            return sum + n + Money.round2(n * line.vat / 100)
+        })
+        return abs(withVat - total) <= 0.05
     }
 
     /// Whether Apple Intelligence should look at this line: no clear match, the two reads differed, or the name looks misread.

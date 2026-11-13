@@ -52,4 +52,21 @@ final class InvoiceDetailsTests: XCTestCase {
         XCTAssertNil(InvoiceDetails.usableNumber("06/11/2026"))
         XCTAssertNil(InvoiceDetails.usableNumber("1,234.56"))
     }
+
+    /// Invoice 82262 (photo slightly tilted): the number's box lands on the row above "Invoice No".
+    func testNumberOnTheRowAboveItsLabel() {
+        let text = """
+        APEX FOOD DISTRIBUTION LTD
+        INVOICE   Page 1   82262
+        UK FRIED CHICKEN (KINGS HEATH)   Invoice No
+        5   Invoice Date   10/11/2026
+        B14 7JJ   Account Ref   UK005
+        """
+        XCTAssertEqual(InvoiceParser.parseInvoice(text).invNo, "82262")
+        XCTAssertEqual(InvoiceParser.parseInvoice(text).date, "10/11/2026")
+    }
+
+    func testPostcodeIsNotTheInvoiceNumber() {
+        XCTAssertEqual(InvoiceDetails.invoiceNumber(in: "B14 7JJ   Invoice No\nUK   Order No"), "")
+    }
 }

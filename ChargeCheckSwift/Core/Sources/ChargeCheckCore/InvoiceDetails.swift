@@ -40,11 +40,13 @@ public enum InvoiceDetails {
                 if let value = usableNumber(found) { return value }
                 // read left to right, an Arabic invoice puts the number before its label
                 let before = Rx.group(line, "([0-9][0-9A-Za-z\\-/]{1,22})[^0-9A-Za-z\\n]{0,6}(?:" + label + ")", ci: true)
-                if Rx.test(label, "[\\u0600-\\u06FF]"), let value = usableNumber(before) { return value }
+                if Rx.test(line, "[\\u0600-\\u06FF]"), let value = usableNumber(before) { return value }
             }
             // a header box: the label on one row, the number on the row underneath
             if let value = underLabel(label, in: lines, pick: { usableNumber($0) }) { return value }
         }
+        // a tilted photo: "Invoice No" with its box just above or below, so the number lands on the next row
+        if let value = besideLabel(InvoiceParser.Words.invoiceNo, in: lines) { return value }
         return numberWithYear(in: lines)
     }
 
@@ -110,7 +112,7 @@ public enum InvoiceDetails {
             for line in lines {
                 if let value = usableDate(Rx.group(line, "(?:" + label + ")[^0-9A-Za-z\\n]{0,10}" + anyDate, ci: true)) { return value }
                 if let value = usableDate(Rx.group(line, anyDate + "[^0-9\\n]{0,6}(?:" + label + ")", ci: true)),
-                   Rx.test(label, "[\\u0600-\\u06FF]") { return value }
+                   Rx.test(line, "[\\u0600-\\u06FF]") { return value }
             }
             if let value = underLabel(label, in: lines, pick: { usableDate($0) }) { return value }
         }
@@ -122,6 +124,21 @@ public enum InvoiceDetails {
     }
 
     // MARK: - header boxes
+
+    /// The label ends its row with nothing after it; the number is the last cell of the row just above or below
+    /// (a slightly tilted photo puts the value box on a neighbouring row). Only plain numbers of 3+ digits count,
+    /// so a postcode or a page number is never taken.
+    static func besideLabel(_ label: String, in lines: [String]) -> String? {
+        for (index, line) in lines.enumerated() {
+            let cells = line.components(separatedBy: "   ").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+            guard let last = cells.last, Rx.test(last, "(?:" + label + ")\\W*$", ci: true) else { continue }
+            for near in [index - 1, index + 1] where lines.indices.contains(near) {
+                let other = lines[near].components(separatedBy: "   ").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+                if let value = other.last, Rx.test(value, "^[A-Za-z]{0,4}[-/]?[0-9]{3,}$"), let usable = usableNumber(value) { return usable }
+            }
+        }
+        return nil
+    }
 
     /// A label on a row with nothing usable after it, and its value on the next row or two.
     /// With several labels in one header row, the value is taken from the same column (by word position).
