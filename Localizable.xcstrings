@@ -5917,6 +5917,35 @@
         }
       }
     },
+    "Discount of {1} taken off – the price shown is after the discount." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم خصم {1} – السعر المعروض بعد الخصم."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "داشکاندنی {1} کرا – نرخەکە دوای داشکاندنە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rabatt von {1} abgezogen – der Preis ist nach Rabatt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remise de {1} déduite – le prix affiché est après remise."
+          }
+        }
+      }
+    },
     "Dollar ($)" : {
       "localizations" : {
         "ar" : {
@@ -17602,6 +17631,34 @@
         }
       }
     },
+    "This invoice is in %@, but your prices are in %@. Check the prices before saving, or change the currency in Settings." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هذه الفاتورة بعملة %1$@، لكن أسعارك بعملة %2$@. تحقق من الأسعار قبل الحفظ أو غيّر العملة من الإعدادات."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەم پسوولەیە بە %1$@ە، بەڵام نرخەکانت بە %2$@ن. پێش پاشەکەوت نرخەکان بپشکنە، یان دراو لە ڕێکخستنەکان بگۆڕە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Rechnung ist in %1$@, deine Preise sind in %2$@. Prüfe die Preise vor dem Speichern oder ändere die Währung in den Einstellungen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette facture est en %1$@, mais vos prix sont en %2$@. Vérifiez les prix avant d’enregistrer, ou changez la devise dans Réglages."
+          }
+        }
+      }
+    },
     "This is a different item" : {
       "localizations" : {
         "ar" : {
@@ -17626,6 +17683,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "C’est un autre article"
+          }
+        }
+      }
+    },
+    "This looks like a delivery note, not an invoice. Check it before saving." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدو هذا مذكرة تسليم وليس فاتورة. تحقق منه قبل الحفظ."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەمە وەک پسوولەی گەیاندن دیارە، نەک پسوولەی کڕین. پێش پاشەکەوت بیپشکنە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das sieht nach einem Lieferschein aus, nicht nach einer Rechnung. Vor dem Speichern prüfen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceci ressemble à un bon de livraison, pas à une facture. Vérifiez avant d’enregistrer."
+          }
+        }
+      }
+    },
+    "This looks like a quote or pro forma, not an invoice. Check it before saving." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدو هذا عرض سعر أو فاتورة مبدئية وليس فاتورة. تحقق منه قبل الحفظ."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەمە وەک نرخپێدان دیارە، نەک پسوولە. پێش پاشەکەوت بیپشکنە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das sieht nach einem Angebot oder einer Proforma aus, nicht nach einer Rechnung. Vor dem Speichern prüfen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceci ressemble à un devis ou une pro forma, pas à une facture. Vérifiez avant d’enregistrer."
+          }
+        }
+      }
+    },
+    "This looks like a statement. Check statements in Suppliers instead." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدو هذا كشف حساب. افحص كشوف الحساب من قسم الموردين."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەمە وەک کەشفی حیساب دیارە. کەشفەکان لە بەشی دابینکەران بپشکنە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das sieht nach einem Kontoauszug aus. Kontoauszüge unter Lieferanten prüfen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceci ressemble à un relevé. Vérifiez les relevés dans Fournisseurs."
+          }
+        }
+      }
+    },
+    "This looks like an order, not an invoice. Check it before saving." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدو هذا طلبية وليس فاتورة. تحقق منه قبل الحفظ."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەمە وەک داواکاری دیارە، نەک پسوولە. پێش پاشەکەوت بیپشکنە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das sieht nach einer Bestellung aus, nicht nach einer Rechnung. Vor dem Speichern prüfen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ceci ressemble à une commande, pas à une facture. Vérifiez avant d’enregistrer."
           }
         }
       }
