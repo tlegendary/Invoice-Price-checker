@@ -223,7 +223,7 @@ enum PDFMaker {
             page.space(6)
             var rows: [[String]] = []
             for line in entry.lines where line.over > 0.005 && !line.excluded {
-                rows.append([line.item.isEmpty ? line.desc : line.item, quantity(line.qty), Money.format(line.unit), line.base.map { Money.format($0) } ?? "", Money.format(line.over)])
+                rows.append([line.item.isEmpty ? line.desc : line.item, quantity(line.qty), Money.format(line.unit, supplier: entry.supplier), line.base.map { Money.format($0, supplier: entry.supplier) } ?? "", Money.format(line.over, supplier: entry.supplier)])
             }
             if !rows.isEmpty {
                 page.heading("Charged above the agreed price")
@@ -233,13 +233,13 @@ enum PDFMaker {
             if !missing.isEmpty {
                 page.heading("Missing or returned")
                 page.table(headers: ["Item", "Qty", "Price", "Amount"], widths: [5, 1, 1.6, 1.8], right: [1, 2, 3],
-                           rows: missing.map { [$0.item.isEmpty ? $0.desc : $0.item, quantity($0.qty), Money.format($0.unit), Money.format(Money.round2($0.qty * $0.unit))] })
+                           rows: missing.map { [$0.item.isEmpty ? $0.desc : $0.item, quantity($0.qty), Money.format($0.unit, supplier: entry.supplier), Money.format(Money.round2($0.qty * $0.unit), supplier: entry.supplier)] })
             }
             let amounts = entry.amountToPay
             page.space(6)
-            page.pair("Invoice total (with VAT)", Money.format(amounts.total))
-            page.pair("Credit requested (with VAT)", Money.format(amounts.less), bold: true)
-            page.pair("Amount we will pay", Money.format(amounts.pay), bold: true)
+            page.pair("Invoice total (with VAT)", Money.format(amounts.total, supplier: entry.supplier))
+            page.pair("Credit requested (with VAT)", Money.format(amounts.less, supplier: entry.supplier), bold: true)
+            page.pair("Amount we will pay", Money.format(amounts.pay, supplier: entry.supplier), bold: true)
         }
     }
 
@@ -247,23 +247,23 @@ enum PDFMaker {
     static func supplierReport(_ account: SupplierAccount, profile: SupplierProfile, due: [DueInvoice], business: String, theme: AppTheme) -> Data {
         make(title: "Supplier report", subtitle: account.name + " · " + stamp(business), theme: theme) { page in
             page.heading("Account")
-            page.pair("You owe", Money.format(account.balance), bold: true)
-            if account.opening != 0 { page.pair("Starting balance", Money.format(account.opening)) }
-            page.pair("Invoices", Money.format(account.invoiced))
-            if account.paid > 0.005 { page.pair("Payments", "−" + Money.format(account.paid)) }
-            if account.credits > 0.005 { page.pair("Credit notes", "−" + Money.format(account.credits)) }
-            if let last = account.lastPayment { page.pair("Last payment", Money.format(last.amount) + " · " + PayDates.show(last.date)) }
+            page.pair("You owe", Money.format(account.balance, supplier: account.name), bold: true)
+            if account.opening != 0 { page.pair("Starting balance", Money.format(account.opening, supplier: account.name)) }
+            page.pair("Invoices", Money.format(account.invoiced, supplier: account.name))
+            if account.paid > 0.005 { page.pair("Payments", "−" + Money.format(account.paid, supplier: account.name)) }
+            if account.credits > 0.005 { page.pair("Credit notes", "−" + Money.format(account.credits, supplier: account.name)) }
+            if let last = account.lastPayment { page.pair("Last payment", Money.format(last.amount, supplier: account.name) + " · " + PayDates.show(last.date)) }
 
             page.heading("Purchases")
             page.pair("Invoices checked", "\(profile.invoices)")
-            page.pair("This month", Money.format(profile.purchasesThisMonth))
-            page.pair("Last month", Money.format(profile.purchasesLastMonth))
-            page.pair("Average invoice", Money.format(profile.averageInvoice))
-            page.pair("All invoices", Money.format(profile.totalBought))
-            page.pair("Overcharged", Money.format(profile.overcharged))
-            page.pair("Missing or short", Money.format(profile.missing))
+            page.pair("This month", Money.format(profile.purchasesThisMonth, supplier: account.name))
+            page.pair("Last month", Money.format(profile.purchasesLastMonth, supplier: account.name))
+            page.pair("Average invoice", Money.format(profile.averageInvoice, supplier: account.name))
+            page.pair("All invoices", Money.format(profile.totalBought, supplier: account.name))
+            page.pair("Overcharged", Money.format(profile.overcharged, supplier: account.name))
+            page.pair("Missing or short", Money.format(profile.missing, supplier: account.name))
             page.pair("Invoices with a problem", "\(profile.disputed)")
-            if profile.creditsOwed > 0.005 { page.pair("Credits still owed", Money.format(profile.creditsOwed)) }
+            if profile.creditsOwed > 0.005 { page.pair("Credits still owed", Money.format(profile.creditsOwed, supplier: account.name)) }
 
             page.heading("Score")
             page.pair("Supplier score", profile.score.map { "\($0) / 100" } ?? L("Not enough invoices yet"), bold: true)
@@ -278,9 +278,9 @@ enum PDFMaker {
                 page.heading("Still to pay")
                 page.table(headers: ["Date", "Invoice no.", "Due", "To pay"], widths: [2, 2.5, 2.5, 2], right: [3],
                            rows: account.open.reversed().map { entry in
-                               [entry.date, entry.invNo, dueByID[entry.id].map { PayDates.show($0.dueDate) } ?? "", Money.format(entry.amountToPay.pay)]
+                               [entry.date, entry.invNo, dueByID[entry.id].map { PayDates.show($0.dueDate) } ?? "", Money.format(entry.amountToPay.pay, supplier: account.name)]
                            },
-                           footer: ["", "Total", "", Money.format(Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay }))])
+                           footer: ["", "Total", "", Money.format(Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay }), supplier: account.name)])
             }
             let paid = account.payments.filter { $0.amount > 0.005 }
             if !paid.isEmpty {
@@ -289,14 +289,14 @@ enum PDFMaker {
                            rows: paid.map { payment in
                                let kind = payment.kind == .credit ? L("Credit note") : payment.kind == .opening ? L("Older amount owed") : L("Payment")
                                return [PayDates.show(payment.date), kind, PayMethod.name(payment.method), payment.reference,
-                                       Money.format(payment.amount)]
+                                       Money.format(payment.amount, supplier: account.name)]
                            })
             }
             let rises = Insights.priceRises(account.entries)
             if !rises.isEmpty {
                 page.heading("Price rises")
                 page.table(headers: ["Date", "Item", "Before", "Now", "Change"], widths: [1.8, 4, 1.6, 1.6, 1.4], right: [2, 3, 4],
-                           rows: rises.prefix(40).map { [PayDates.show($0.when), $0.item, Money.format($0.from), Money.format($0.to),
+                           rows: rises.prefix(40).map { [PayDates.show($0.when), $0.item, Money.format($0.from, supplier: account.name), Money.format($0.to, supplier: account.name),
                                                          String(format: "+%.1f%%", $0.percent)] })
             }
             var lines: [[String]] = []
@@ -304,7 +304,7 @@ enum PDFMaker {
                 for line in entry.lines where (line.over > 0.005 && !line.excluded) || line.excluded || line.short > 0 {
                     let problem = line.excluded ? L("missing or returned") : line.short > 0 ? L("short") : L("overcharged")
                     let amount = line.excluded ? Money.round2(line.qty * line.unit) : line.short > 0 ? Money.round2(line.short * line.unit) : line.over
-                    lines.append([entry.date, entry.invNo, line.item.isEmpty ? line.desc : line.item, problem, Money.format(amount)])
+                    lines.append([entry.date, entry.invNo, line.item.isEmpty ? line.desc : line.item, problem, Money.format(amount, supplier: account.name)])
                 }
             }
             if !lines.isEmpty {

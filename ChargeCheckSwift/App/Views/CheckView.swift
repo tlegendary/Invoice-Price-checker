@@ -364,7 +364,7 @@ struct JobRow: View {
         let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
         if let note = job.creditNote {
             Label {
-                Text(String(localized: "Credit note · \(Money.format(note.amount))"))
+                Text(String(localized: "Credit note · \(Money.format(note.amount, supplier: job.draft.supplier))"))
             } icon: {
                 Image(systemName: "arrow.uturn.backward.circle.fill")
             }
@@ -372,7 +372,7 @@ struct JobRow: View {
             .foregroundStyle(note.amount > 0 ? Color.green : Color.orange)
         } else if job.draft.totalOnly {
             Label {
-                Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0))") : String(localized: "Trusted · type in the total"))
+                Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0, supplier: job.draft.supplier))") : String(localized: "Trusted · type in the total"))
             } icon: {
                 Image(systemName: "checkmark.shield.fill")
             }
@@ -387,7 +387,7 @@ struct JobRow: View {
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.orange)
         } else if totals.over > 0.005 {
-            Text("Overcharged \(Money.format(totals.over))")
+            Text("Overcharged \(Money.format(totals.over, supplier: job.draft.supplier))")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.red)
         } else {

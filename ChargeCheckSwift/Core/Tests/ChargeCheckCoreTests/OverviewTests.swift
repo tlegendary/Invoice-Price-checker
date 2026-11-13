@@ -164,9 +164,30 @@ final class SupplierProfileTests: XCTestCase {
         // oil is cheaper at Bravo, rice costs the same: 1 of 2
         XCTAssertEqual(p.parts.priceCompetitiveness, 50)
         XCTAssertNotNil(p.score)
-        XCTAssertEqual(p.score, Int(((75 * 0.3 + 77.8 * 0.25 + 66.7 * 0.2 + 50 * 0.25) / 1.0).rounded()))
+        // 75 × 0.3 + 77.8 × 0.25 + 66.7 × 0.2 + 50 × 0.25 = 67.8
+        XCTAssertEqual(p.score, 68)
         // Bravo has one invoice: too few for a score
         let b = SupplierAccounts.accounts(entries: all, payments: [], trusted: [], now: now).first { $0.id == "bravo" }!
         XCTAssertNil(SupplierProfiles.make(b, all: all, now: now).score)
+    }
+}
+
+final class SupplierCurrencyTests: XCTestCase {
+    func testDollarSupplierKeptApart() {
+        let now = SupplierAccounts.day("2026-11-14")!
+        let lines = [HistoryLine(qty: 1, desc: "Tomato", unit: 100)]
+        let entries = [
+            HistoryEntry(id: "1", savedAt: "2026-11-10T10:00:00Z", supplier: "Dilsagh", net: 1808.68, total: 1808.68, over: 0, lines: lines),
+            HistoryEntry(id: "2", savedAt: "2026-11-11T10:00:00Z", supplier: "Bazar", net: 250_000, total: 250_000, over: 0, lines: lines)
+        ]
+        let o = OverviewMaths.make(entries: entries, payments: [], trusted: [], currencies: ["dilsagh": "USD"], main: "IQD", now: now)
+        XCTAssertEqual(o.owed, 250_000)
+        XCTAssertEqual(o.spentThisMonth, 250_000)
+        XCTAssertEqual(o.owedOther["USD"], 1808.68)
+        XCTAssertEqual(Money.format(1808.68, code: "USD"), "$1808.68")
+        XCTAssertEqual(Money.format(250_000, code: "IQD"), "250,000 IQD")
+        // a supplier set to the main currency counts as usual
+        let same = OverviewMaths.make(entries: entries, payments: [], trusted: [], currencies: ["dilsagh": "IQD"], main: "IQD", now: now)
+        XCTAssertTrue(same.owedOther.isEmpty)
     }
 }

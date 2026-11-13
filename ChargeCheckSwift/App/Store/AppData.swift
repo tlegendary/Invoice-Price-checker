@@ -35,7 +35,8 @@ enum AppData {
         }
         return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans,
                           payments: Accounts.shared.payments, trusted: Accounts.shared.trusted,
-                          creditDays: Accounts.shared.creditDays.isEmpty ? nil : Accounts.shared.creditDays)
+                          creditDays: Accounts.shared.creditDays.isEmpty ? nil : Accounts.shared.creditDays,
+                          currencies: Accounts.shared.currencies.isEmpty ? nil : Accounts.shared.currencies)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -53,7 +54,8 @@ enum AppData {
             context.insert(StoredReport(entry: entry))
         }
         try? context.save()
-        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays, context: context)
+        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
+                                currencies: backup.currencies, context: context)
         Records.shared.log(.backupRestored, String(localized: "\(backup.baseline.count) prices, \(backup.history.count) invoices"))
 
         let defaults = UserDefaults.standard

@@ -19,7 +19,7 @@ struct HomeView: View {
         NavigationStack {
             let entries = reports.compactMap { $0.entry }
             let overview = OverviewMaths.make(entries: entries, payments: accounts.payments, trusted: accounts.trusted,
-                                              creditDays: accounts.creditDays)
+                                              creditDays: accounts.creditDays, currencies: accounts.currencies, main: Money.currency.code)
             List {
                 if !search.trimmingCharacters(in: .whitespaces).isEmpty {
                     SearchResultsSections(results: Search.find(search, entries: entries,
@@ -67,6 +67,10 @@ struct HomeView: View {
                          : String(localized: "Across \(o.suppliersOwed) suppliers"))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    ForEach(o.owedOther.keys.sorted(), id: \.self) { code in
+                        Text(String(localized: "Also owed in \(code)") + ": " + Money.format(o.owedOther[code] ?? 0, code: code))
+                            .font(.footnote.weight(.semibold))
+                    }
                 }
                 .padding(.vertical, 4)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -351,7 +355,7 @@ struct CreditsOwedView: View {
                                 .foregroundStyle(.secondary)
                         }
                         Spacer()
-                        Text(Money.format(entry.credit?.amount ?? 0))
+                        Text(Money.format(entry.credit?.amount ?? 0, supplier: entry.supplier))
                             .fontWeight(.semibold)
                             .foregroundStyle(.orange)
                     }
@@ -379,6 +383,7 @@ struct DuePaymentsView: View {
         let accountsList = SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments,
                                                      trusted: accounts.trusted)
         let due = DueDates.open(accounts: accountsList, creditDays: accounts.creditDays)
+        let homeDue = due.filter { accounts.otherCurrency($0.supplier) == nil }
         let overdue = due.filter { $0.daysLeft < 0 }
         let week = due.filter { $0.daysLeft >= 0 && $0.daysLeft <= 7 }
         let later = due.filter { $0.daysLeft > 7 }
@@ -392,12 +397,12 @@ struct DuePaymentsView: View {
             } else {
                 Section {
                     LabeledContent("Needed in the next 7 days") {
-                        Text(Money.format(DueDates.cashNeeded(due)))
+                        Text(Money.format(DueDates.cashNeeded(homeDue)))
                             .font(.title3.weight(.heavy))
                             .foregroundStyle(.tint)
                     }
                 } footer: {
-                    Text("Overdue invoices are included.")
+                    Text(homeDue.count == due.count ? "Overdue invoices are included." : "Overdue invoices are included. Suppliers who invoice in another currency are listed below but not added in.")
                 }
             }
             dueSection("Overdue", overdue)
@@ -435,7 +440,7 @@ struct DueRow: View {
                     .foregroundStyle(row.daysLeft < 0 ? Color.red : Color.secondary)
             }
             Spacer(minLength: 8)
-            Text(Money.format(row.amount))
+            Text(Money.format(row.amount, supplier: row.supplier))
                 .fontWeight(.semibold)
         }
     }
@@ -459,7 +464,8 @@ struct SavingsView: View {
 
     var body: some View {
         let entries = reports.compactMap { $0.entry }
-        let o = OverviewMaths.make(entries: entries, payments: accounts.payments, trusted: accounts.trusted)
+        let o = OverviewMaths.make(entries: entries, payments: accounts.payments, trusted: accounts.trusted,
+                                   currencies: accounts.currencies, main: Money.currency.code)
         let rises = Insights.priceRises(entries)
         List {
             Section {

@@ -102,7 +102,7 @@ public enum ReportMaths {
     }
 
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
-    public static func creditText(_ entry: HistoryEntry, business: String) -> String {
+    public static func creditText(_ entry: HistoryEntry, business: String, code: String? = nil) -> String {
         let t = CoreText.t
         var s = t("Hello{1},", entry.supplier.isEmpty ? "" : " " + entry.supplier) + "\n\n"
         s += t("I've checked the invoice below against our agreed prices and found the following differences:") + "\n\n"
@@ -110,19 +110,19 @@ public enum ReportMaths {
         func qty(_ q: Double) -> String { q == q.rounded() ? String(Int(q)) : String(q) }
         for line in entry.lines where !line.excluded && line.over > 0.005 {
             let name = line.desc.isEmpty ? line.item : line.desc
-            let base = line.base.map { t(", agreed {1}", Money.format($0)) } ?? ""
-            s += "• " + t("{1} x {2} – charged {3}{4}: {5}", qty(line.qty), name, Money.format(line.unit), base, Money.format(line.over)) + "\n"
+            let base = line.base.map { t(", agreed {1}", Money.format($0, code: code)) } ?? ""
+            s += "• " + t("{1} x {2} – charged {3}{4}: {5}", qty(line.qty), name, Money.format(line.unit, code: code), base, Money.format(line.over, code: code)) + "\n"
         }
         for line in entry.lines where line.excluded {
             let name = line.desc.isEmpty ? line.item : line.desc
-            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.qty), name, Money.format(Money.round2(line.qty * line.unit))) + "\n"
+            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.qty), name, Money.format(Money.round2(line.qty * line.unit), code: code)) + "\n"
         }
         for line in entry.lines where !line.excluded && line.short > 0 {
             let name = line.desc.isEmpty ? line.item : line.desc
-            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.short), name, Money.format(Money.round2(line.short * line.unit))) + "\n"
+            s += "• " + t("{1} x {2} – not received / returned: {3}", qty(line.short), name, Money.format(Money.round2(line.short * line.unit), code: code)) + "\n"
         }
         let less = entry.amountToPay.less
-        s += "\n" + t("Total to credit: {1}", Money.format(less)) + (entry.overVat > 0.005 ? t(" (incl. VAT)") : "") + "\n\n"
+        s += "\n" + t("Total to credit: {1}", Money.format(less, code: code)) + (entry.overVat > 0.005 ? t(" (incl. VAT)") : "") + "\n\n"
         s += t("Please could you issue a credit note for this amount.") + "\n\n" + t("Thank you,") + "\n" + (business.isEmpty ? "" : business)
         return s.trimmingCharacters(in: .whitespacesAndNewlines)
     }

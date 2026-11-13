@@ -18,10 +18,14 @@ final class Accounts: ObservableObject {
     /// Each supplier's credit period in days ("pay within 30 days"), keyed by SupplierAccounts.key. 0 = pay on delivery.
     @Published private(set) var creditDays: [String: Int] = [:]
     static let creditDaysKey = "suppliers.creditDays"
+    /// Suppliers who invoice in another currency than the app's: SupplierAccounts.key → "USD".
+    @Published private(set) var currencies: [String: String] = [:]
+    static let currenciesKey = SupplierCurrency.key
 
     private init() {
         trusted = UserDefaults.standard.stringArray(forKey: Self.trustedKey) ?? []
         creditDays = (UserDefaults.standard.dictionary(forKey: Self.creditDaysKey) as? [String: Int]) ?? [:]
+        currencies = (UserDefaults.standard.dictionary(forKey: Self.currenciesKey) as? [String: String]) ?? [:]
         if let url = Self.fileURL, let data = try? Data(contentsOf: url),
            let saved = try? JSONDecoder().decode([SupplierPayment].self, from: data) {
             payments = saved
@@ -59,6 +63,34 @@ final class Accounts: ObservableObject {
         UserDefaults.standard.set(creditDays, forKey: Self.creditDaysKey)
         changed(context)
         Records.shared.log(.supplierChanged, supplier + " · " + (days.map { String(localized: "pay within \($0) days") } ?? String(localized: "no due date")))
+    }
+
+    /// The currency this supplier invoices in (the app's own unless set).
+    func currency(for supplier: String) -> Currency {
+        guard let code = currencies[SupplierAccounts.key(supplier)], let found = Currency.all.first(where: { $0.code == code }) else {
+            return Money.currency
+        }
+        return found
+    }
+
+    /// The supplier's currency code when it differs from the app's, otherwise nil.
+    func otherCurrency(_ supplier: String) -> String? {
+        let code = currency(for: supplier).code
+        return code == Money.currency.code ? nil : code
+    }
+
+    func setCurrency(_ supplier: String, _ code: String?, context: ModelContext) {
+        let key = SupplierAccounts.key(supplier)
+        guard !key.isEmpty else { return }
+        currencies[key] = (code == nil || code == Money.currency.code) ? nil : code
+        UserDefaults.standard.set(currencies, forKey: Self.currenciesKey)
+        changed(context)
+        Records.shared.log(.supplierChanged, supplier + " · " + currency(for: supplier).code)
+    }
+
+    /// Accounts of the suppliers who use the app's own currency (what the totals and the widget add up).
+    func homeCurrencyAccounts(_ list: [SupplierAccount]) -> [SupplierAccount] {
+        list.filter { otherCurrency($0.name) == nil }
     }
 
     /// Unpaid invoices of suppliers with a credit period, soonest due first.
@@ -200,7 +232,12 @@ final class Accounts: ObservableObject {
     }
 
     /// From a backup.
-    func restore(payments: [SupplierPayment]?, trusted: [String]?, creditDays: [String: Int]? = nil, context: ModelContext) {
+    func restore(payments: [SupplierPayment]?, trusted: [String]?, creditDays: [String: Int]? = nil, currencies: [String: String]? = nil,
+                 context: ModelContext) {
+        if let currencies {
+            self.currencies = currencies
+            UserDefaults.standard.set(currencies, forKey: Self.currenciesKey)
+        }
         self.payments = payments ?? []
         self.trusted = trusted ?? []
         if let creditDays {
@@ -214,7 +251,7 @@ final class Accounts: ObservableObject {
     /// Anything changed: refresh the home screen widget.
     func changed(_ context: ModelContext) {
         CloudTeam.shared.scheduleScan()
-        WidgetData.write(WidgetSnapshot.make(accounts(context), currency: Money.currency.code))
+        WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code))
     }
 }
 
@@ -264,5 +301,22 @@ private extension UIImage {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
         return UIGraphicsImageRenderer(size: target, format: format).image { _ in draw(in: CGRect(origin: .zero, size: target)) }
+    }
+}
+
+enum SupplierCurrency {
+    static let key = "suppliers.currencies"
+
+    /// The supplier's currency code, if it was set (read straight from the settings, so it works anywhere).
+    static func code(_ supplier: String) -> String? {
+        guard !supplier.isEmpty, let map = UserDefaults.standard.dictionary(forKey: key) as? [String: String] else { return nil }
+        return map[SupplierAccounts.key(supplier)]
+    }
+}
+
+extension Money {
+    /// An amount in the currency this supplier invoices in (the app's own unless set).
+    static func format(_ value: Double, supplier: String) -> String {
+        format(value, code: SupplierCurrency.code(supplier))
     }
 }

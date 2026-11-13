@@ -67,6 +67,8 @@ public struct Overview: Equatable, Sendable {
     /// The supplier whose prices went up the most this month.
     public var risingSupplier: String?
     public var attention: [Attention]
+    /// What you owe suppliers who invoice in another currency, by currency code. Not in any figure above.
+    public var owedOther: [String: Double] = [:]
 
     /// "You may have lost" this month: price rises paid + credits still not back.
     public var lostThisMonth: Double { Money.round2(risesCost + creditsOwed) }
@@ -106,8 +108,25 @@ public enum OverviewMaths {
         return Money.round2(max(0, line.qty - line.short) * (rise.to - rise.from))
     }
 
-    public static func make(entries: [HistoryEntry], payments: [SupplierPayment], trusted: [String],
-                            creditDays: [String: Int] = [:], now: Date = Date()) -> Overview {
+    /// `currencies`: suppliers that invoice in another currency than `main` (keyed by SupplierAccounts.key).
+    /// Their money is kept out of the figures, so dinars and dollars are never added together; what you owe them is in `owedOther`.
+    public static func make(entries allEntries: [HistoryEntry], payments allPayments: [SupplierPayment], trusted: [String],
+                            creditDays: [String: Int] = [:], currencies: [String: String] = [:], main: String = "",
+                            now: Date = Date()) -> Overview {
+        func foreign(_ supplier: String) -> String? {
+            guard let code = currencies[SupplierAccounts.key(supplier)], code != main else { return nil }
+            return code
+        }
+        let entries = allEntries.filter { foreign($0.supplier) == nil }
+        let payments = allPayments.filter { foreign($0.supplier) == nil }
+        var owedOther: [String: Double] = [:]
+        if currencies.contains(where: { $0.value != main }) {
+            let theirs = SupplierAccounts.accounts(entries: allEntries.filter { foreign($0.supplier) != nil },
+                                                   payments: allPayments.filter { foreign($0.supplier) != nil }, trusted: trusted, now: now)
+            for account in theirs where account.balance > 0.005 {
+                if let code = foreign(account.name) { owedOther[code, default: 0] = Money.round2(owedOther[code, default: 0] + account.balance) }
+            }
+        }
         let today = SupplierAccounts.dayText(now)
         let month = String(today.prefix(7))
         let accounts = SupplierAccounts.accounts(entries: entries, payments: payments, trusted: trusted, now: now)
@@ -158,6 +177,7 @@ public enum OverviewMaths {
             creditsOwed: Money.round2(owedCredits.reduce(0) { $0 + $1.amount }),
             cheaperElsewhere: Money.round2(tips.reduce(0) { $0 + $1.savingMonth }),
             risingSupplier: bySupplier.values.max { $0.cost < $1.cost }?.name,
-            attention: attention)
+            attention: attention,
+            owedOther: owedOther)
     }
 }
