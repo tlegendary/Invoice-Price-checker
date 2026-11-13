@@ -169,6 +169,8 @@ public enum InvoiceParser {
             // dinars and similar: whole amounts, thousands grouped with , or .
             if Rx.test(s, "^[0-9]{1,3}([.,][0-9]{3})+$") || Rx.test(s, "^[0-9]{1,9}$"),
                let v = Double(s.replacingOccurrences(of: ",", with: "").replacingOccurrences(of: ".", with: "")) { return (v, true) }
+            // an invoice in another currency (dollars) still has pence/cents
+            if Rx.test(s, "^[0-9]{1,6}[.,][0-9]{1,2}$"), let v = Double(s.replacingOccurrences(of: ",", with: ".")) { return (v, true) }
             return nil
         }
         if Rx.test(s, "^[0-9]{1,3}([.,][0-9]{3})+[.,][0-9]{2}$") {
@@ -481,10 +483,79 @@ public enum InvoiceParser {
         return ParsedLine(qty: qty, desc: desc, raw: rawDesc, unit: unit ?? 0, vat: vat, warn: warn)
     }
 
+    // MARK: - any column order
+
+    /// A money or quantity amount in a table cell: "687.5", "2.33", "1,234.56", "1.234,56", "250". Nil for codes and dates.
+    static func cellNumber(_ token: String) -> Double? {
+        let s = stripToken(token)
+        guard Rx.test(s, "^[0-9]{1,7}([.,][0-9]{3})*([.,][0-9]{1,3})?$"), !Rx.test(s, "^0[0-9]") || s.hasPrefix("0.") || s.hasPrefix("0,") else { return nil }
+        if Rx.test(s, "^[0-9]{1,3}([.,][0-9]{3})+$") { return Double(s.filter { $0.isASCII && $0.isNumber }) }   // 1,234 = thousands
+        return Money.parse(s) ?? Double(s.replacingOccurrences(of: ",", with: "."))
+    }
+
+    /// A row of an invoice table in any column order – "BF02028B 2029-02-01 687.5 2.75 0 250 STELLA SHAMPOO 1" – as long as one
+    /// amount is another two multiplied (quantity × price = line total). Used when the usual "qty, name, price, total" reading
+    /// finds nothing, so ordinary invoices read exactly as before.
+    public static func parseTableRow(_ raw: String, known: Set<String> = []) -> ParsedLine? {
+        let tokens = raw.splitOnWhitespace()
+        guard tokens.count >= 4 else { return nil }
+        let isDate = { (t: String) in Rx.test(stripToken(t), "^([0-9]{4}[-/.][0-9]{1,2}[-/.][0-9]{1,2}|[0-9]{1,2}[-/.][0-9]{1,2}[-/.][0-9]{2,4})$") }
+        var numbers: [(index: Int, value: Double, whole: Bool)] = []
+        var runs: [[Int]] = []
+        var current: [Int] = []
+        for (i, token) in tokens.enumerated() {
+            if isDate(token) || Rx.test(stripToken(token), "^[0-9]{7,}$") {   // dates, phone numbers, barcodes
+                if !current.isEmpty { runs.append(current); current = [] }
+                continue
+            }
+            if let value = cellNumber(token) {
+                numbers.append((i, value, value == value.rounded()))
+                if !current.isEmpty { runs.append(current); current = [] }
+            } else if Rx.test(token, "\\p{L}") {
+                current.append(i)
+            } else if !current.isEmpty {
+                runs.append(current)
+                current = []
+            }
+        }
+        if !current.isEmpty { runs.append(current) }
+        // the item name: the run of words with the most letters (a batch code like "BF02028B" is a short run)
+        func letters(_ run: [Int]) -> Int { run.reduce(0) { $0 + tokens[$1].filter { $0.isLetter }.count } }
+        guard let nameRun = runs.max(by: { letters($0) < letters($1) }), letters(nameRun) >= 3 else { return nil }
+
+        // quantity × price = total, three different cells
+        var best: (q: Int, u: Int, t: Int, score: Double)?
+        for t in numbers where t.value > 0 {
+            for q in numbers where q.index != t.index && q.value > 0 && q.value <= 100_000 {
+                for u in numbers where u.index != t.index && u.index != q.index && u.value > 0 {
+                    guard abs(q.value * u.value - t.value) <= max(0.02, t.value * 0.0005) else { continue }
+                    // a bigger total is better; a whole-number quantity with a priced unit is better;
+                    // with two whole numbers the price is the one next to the total
+                    var score = t.value
+                    if q.whole && !u.whole { score += 0.5 }
+                    if q.whole == u.whole && abs(u.index - t.index) < abs(q.index - t.index) { score += 0.25 }
+                    if q.value == 1 && u.value == t.value { score -= 0.4 }
+                    if best == nil || score > best!.score { best = (q.index, u.index, t.index, score) }
+                }
+            }
+        }
+        guard let found = best, let qty = numbers.first(where: { $0.index == found.q })?.value,
+              let unit = numbers.first(where: { $0.index == found.u })?.value else { return nil }
+        let rawDesc = nameRun.map { tokens[$0] }.joined(separator: " ")
+        let cleaned = cleanDescription(rawDesc, known: known)
+        let desc = cleaned.isEmpty ? rawDesc : cleaned
+        guard Rx.test(desc, "\\p{L}{2}") else { return nil }
+        return ParsedLine(qty: qty, desc: desc, raw: rawDesc, unit: unit, vat: 0)
+    }
+
     // MARK: - the whole invoice
 
-    private static func printedAmount(_ text: String, _ pattern: String) -> Double? {
-        let found = Rx.group(text, pattern, ci: true)
+    private static func printedAmount(_ text: String, _ pattern: String, before label: String? = nil) -> Double? {
+        var found = Rx.group(text, pattern, ci: true)
+        if found.isEmpty, let label {
+            // read left to right, an Arabic invoice puts the amount before its label: "1,808.68  صافي الفاتورة:"
+            found = Rx.group(text, "([0-9][0-9.,]*[0-9])[^0-9\\n]{0,6}(?:" + label + ")", ci: true)
+        }
         if found.isEmpty { return nil }
         let digits = found.filter { ($0.isASCII && $0.isNumber) || $0 == "." || $0 == "," }
         if Money.currency.decimals == 0 || Set(digits.filter { $0 == "." || $0 == "," }).count == 2 { return Money.parse(digits) ?? 0 }
@@ -496,10 +567,22 @@ public enum InvoiceParser {
     /// other languages add their own words to the English ones.
     enum Words {
         private static func pick(_ en: String, _ others: [String: String]) -> String {
-            guard language != "en", let extra = others[language] else { return en }
+            guard language != "en", let extra = others[language] else { return en + always(en) }
             // inner brackets must not capture: the number is the only thing captured
             return en + "|" + extra.replacingOccurrences(of: "(", with: "(?:")
         }
+        /// Arabic invoices are common whatever language the app is set to (wholesalers in Iraq print Arabic headings over
+        /// English item names), so their invoice number, date and total words are always understood.
+        private static func always(_ en: String) -> String {
+            switch en {
+            case "invoice\\s*total": return "|" + arabicTotal
+            case "invoice\\s*no": return "|رقم الفاتورة|رقم القائمة"
+            case "invoice\\s*date": return "|تاريخ الفاتورة|التاريخ"
+            default: return ""
+            }
+        }
+        /// Never "الرصيد" (the account balance), which sits next to the total on many Arabic invoices.
+        static let arabicTotal = "صافي الفاتورة|صافي القائمة|اجمالي الفاتورة|إجمالي الفاتورة|احمالي الفاتورة|الإجمالي|الاجمالي|المجموع الكلي|المبلغ المستحق"
         static var skip: String {
             pick("total|invoice\\s*no|account|page\\s*[0-9]|quantity\\s+desc", [
                 "de": "summe|gesamt|rechnungs?\\s*(nr|nummer)|seite\\s*[0-9]|menge\\s+(bezeichnung|artikel)|netto|brutto|mwst|ust",
@@ -509,7 +592,7 @@ public enum InvoiceParser {
             ])
         }
         static var company: String {
-            pick("\\b(ltd|limited|wholesale|distribution|foods?)\\b", [
+            pick("\\b(ltd|limited|wholesale|distribution|foods?|company|trading)\\b", [
                 "de": "\\b(gmbh|ag|kg|großhandel|grosshandel|lebensmittel)\\b",
                 "fr": "\\b(sarl|sas|eurl|sa|alimentaire|grossiste)\\b",
                 "ar": "شركة|مؤسسة|مخازن",
@@ -556,18 +639,24 @@ public enum InvoiceParser {
         var out: [ParsedLine] = []
         for line in lines {
             if Rx.test(line, Words.skip, ci: true) { continue }
-            if let parsed = parseLine(line, known: known) { out.append(parsed) }
+            if let parsed = parseLine(line, known: known) ?? parseTableRow(line, known: known) { out.append(parsed) }
         }
         let supplierLine = lines.first { Rx.test($0, Words.company, ci: true) && !Rx.test($0, "fried chicken|fc\\b", ci: true) } ?? ""
         let supplier = String(Rx.replace(supplierLine, "[^\\p{L}0-9&().,' -]", "").trimmingCharacters(in: .whitespacesAndNewlines).prefix(60))
         var date = Rx.group(text, "(?:" + Words.date + ")[^0-9\\n]{0,10}([0-9]{1,2}[/.\\-][0-9]{1,2}[/.\\-][0-9]{2,4})", ci: true)
+        // year first: "2026-11-10" (beside its label, or before it when an Arabic invoice is read left to right)
+        if date.isEmpty { date = Rx.group(text, "(?:" + Words.date + ")[^0-9\\n]{0,10}(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})", ci: true) }
+        if date.isEmpty { date = Rx.group(text, "(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})[^0-9\\n]{0,6}(?:" + Words.date + ")", ci: true) }
         if date.isEmpty { date = Rx.group(text, language == "en" ? "([0-9]{2}/[0-9]{2}/[0-9]{4})" : "([0-9]{2}[/.][0-9]{2}[/.][0-9]{4})") }
         return ParsedInvoice(
             supplier: supplier,
-            invNo: Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{3,})", ci: true),
+            invNo: { () -> String in
+                let after = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
+                return after.isEmpty ? Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) : after
+            }(),
             date: date,
             printedNet: printedAmount(text, "(?:" + Words.net + ")[^0-9\\n]{0,40}([0-9.,]+)"),
-            printedTotal: printedAmount(text, "(?:" + Words.total + ")[^0-9\\n]{0,40}([0-9.,]+)"),
+            printedTotal: printedAmount(text, "(?:" + Words.total + ")[^0-9\\n]{0,40}([0-9.,]+)", before: Words.total),
             lines: out
         )
     }

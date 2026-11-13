@@ -54,7 +54,15 @@ public enum Money {
         var kept = plain.filter { ($0.isASCII && $0.isNumber) || $0 == "." || $0 == "," || $0 == "-" }
         let separators = kept.filter { $0 == "." || $0 == "," }
         if currency.decimals == 0 {
-            kept.removeAll { $0 == "." || $0 == "," }
+            // whole-number currencies: separators group thousands – unless the last one has just 1–2 digits after it
+            // ("1,808.68" on a dollar invoice read by someone who keeps prices in dinars)
+            if let last = kept.lastIndex(where: { $0 == "." || $0 == "," }),
+               (1...2).contains(kept.distance(from: kept.index(after: last), to: kept.endIndex)) {
+                let tail = kept[kept.index(after: last)...]
+                kept = String(kept[..<last].filter { $0 != "." && $0 != "," }) + "." + tail
+            } else {
+                kept.removeAll { $0 == "." || $0 == "," }
+            }
         } else if Set(separators).count == 2, let last = kept.lastIndex(where: { $0 == "." || $0 == "," }) {
             // "1.234,50" or "1,234.50": the last mark is the decimal point, the others group thousands
             let decimalMark = kept[last]
