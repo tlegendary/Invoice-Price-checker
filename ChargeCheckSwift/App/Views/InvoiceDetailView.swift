@@ -577,6 +577,11 @@ struct Hero: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
+            if !empty && !message.isEmpty {
+                Text(message)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.orange)
+            }
             if sample {
                 Text("Sample invoice with example prices. Nothing here is saved.")
                     .font(.caption)

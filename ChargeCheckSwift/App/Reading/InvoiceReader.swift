@@ -30,15 +30,15 @@ enum InvoiceReader {
     }
 
     /// Every piece of text on one picture, with where it sits (pixels, origin top-left).
-    static func pieces(in image: CGImage, words: [String], correct: Bool) -> [TextPiece] {
+    static func pieces(in image: CGImage, words: [String], correct: Bool, languages: [String]? = nil) -> [TextPiece] {
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = correct
-        let wanted = Regional.language.vision
+        let wanted = languages ?? Regional.language.vision
         let supported = (try? request.supportedRecognitionLanguages()) ?? ["en-US"]
         let usable = wanted.filter { supported.contains($0) }
         request.recognitionLanguages = usable.isEmpty ? ["en-US"] : usable
-        if Regional.language.id != "en" { request.automaticallyDetectsLanguage = usable.isEmpty }
+        if Regional.language.id != "en" || languages != nil { request.automaticallyDetectsLanguage = usable.isEmpty }
         request.minimumTextHeight = 0.006
         if correct && !words.isEmpty { request.customWords = words }
         let handler = VNImageRequestHandler(cgImage: image, orientation: .up, options: [:])
@@ -232,6 +232,29 @@ enum InvoiceReader {
         } else {
             merged.supplier = InvoiceParser.bestSupplier([merged.supplier], known: knownSuppliers)
         }
-        return ReadOutcome(invoice: merged, passes: passes, rawText: first.text)
+        var rawText = first.text
+        if merged.invNo.isEmpty || merged.date.isEmpty {
+            // the invoice number and date are usually at the top, often under Arabic labels that the
+            // English reader skips: read the top of the first page again in Arabic and English
+            progress(String(localized: "Finding the invoice number and date…"))
+            let header = headerText(finalPages)
+            if !header.isEmpty {
+                let found = InvoiceParser.parseInvoice(header)
+                if merged.invNo.isEmpty { merged.invNo = found.invNo }
+                if merged.date.isEmpty { merged.date = found.date }
+                rawText = header + "\n" + rawText
+            }
+        }
+        return ReadOutcome(invoice: merged, passes: passes, rawText: rawText)
+    }
+
+    /// The top of the first page read in Arabic and English (the invoice number and date live there).
+    static func headerText(_ pages: [UIImage]) -> String {
+        guard let image = pages.first?.cgImage else { return "" }
+        let top = image.cropping(to: CGRect(x: 0, y: 0, width: image.width, height: Int(Double(image.height) * 0.4))) ?? image
+        var languages = ["ar-SA", "ars-SA"]
+        for code in Regional.language.vision where !languages.contains(code) { languages.append(code) }
+        if !languages.contains("en-GB") { languages.append("en-GB") }
+        return InvoiceParser.rows(from: pieces(in: top, words: [], correct: true, languages: languages))
     }
 }

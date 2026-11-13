@@ -138,6 +138,16 @@ final class CheckSession: ObservableObject {
             let twice = UserDefaults.standard.integer(forKey: SettingKey.photoReads) != 1
             let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers,
                                                    doubleCheck: twice, progress: report)
+            // the invoice number and date: what the reader found, else Apple Intelligence looks for them
+            var details = (number: outcome.invoice.invNo, date: outcome.invoice.date)
+            if !sample, details.number.isEmpty || details.date.isEmpty {
+                let found = await SmartCheck.findDetails(in: outcome.rawText, progress: report)
+                if details.number.isEmpty { details.number = found.number }
+                if details.date.isEmpty { details.date = found.date }
+            }
+            // what was scanned, and in which currency: a delivery note, quote or order isn't a bill, and an invoice in
+            // another currency can't be checked against prices kept in this one – those are never saved on their own
+            let warning = sample ? "" : Self.documentWarning(outcome.rawText)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a credit note: it lowers what you owe that supplier, it isn't a new invoice
             if !sample, Insights.isCreditNote(outcome.rawText) {
@@ -145,12 +155,12 @@ final class CheckSession: ObservableObject {
                 let amount = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
                 self.update(id) { job in
                     job.draft.supplier = outcome.invoice.supplier
-                    job.draft.invNo = outcome.invoice.invNo
-                    job.draft.date = outcome.invoice.date
+                    job.draft.invNo = details.number
+                    job.draft.date = details.date
                     job.draft.printedTotal = amount > 0 ? amount : nil
                     job.draft.totalOnly = true
                     job.status = .done
-                    job.creditNote = CreditNoteResult(supplier: outcome.invoice.supplier, number: outcome.invoice.invNo,
+                    job.creditNote = CreditNoteResult(supplier: outcome.invoice.supplier, number: details.number,
                                                       amount: Money.round2(amount), invoiceID: nil, invoiceNo: "", paymentID: nil)
                 }
                 if amount > 0 { self.applyCreditNote(id, context: context) }
@@ -162,17 +172,17 @@ final class CheckSession: ObservableObject {
                 let total = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
                 self.update(id) { job in
                     job.draft.supplier = outcome.invoice.supplier
-                    job.draft.invNo = outcome.invoice.invNo
-                    job.draft.date = outcome.invoice.date
+                    job.draft.invNo = details.number
+                    job.draft.date = details.date
                     job.draft.printedNet = outcome.invoice.printedNet
                     job.draft.printedTotal = total > 0 ? total : nil
                     job.draft.passes = outcome.passes
                     job.draft.lines = firstLines
                     job.draft.totalOnly = true
                     job.status = .done
-                    job.message = total > 0 ? "" : String(localized: "Couldn't read the invoice total. Type it in.")
+                    job.message = total > 0 ? warning : String(localized: "Couldn't read the invoice total. Type it in.")
                 }
-                self.saveIfChecked(id, context: context)
+                if warning.isEmpty { self.saveIfChecked(id, context: context) }
                 return
             }
             // a name the user already corrected by hand is never second-guessed
@@ -183,28 +193,63 @@ final class CheckSession: ObservableObject {
             let checked = await SmartCheck.check(toCheck, supplier: outcome.invoice.supplier, book: book, progress: report)
             let checkedByID = Dictionary(checked.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
             // lines Apple Intelligence called "not a product" are missing from `checked` and drop out here
-            let finalLines = firstLines.compactMap { line -> CheckLine? in
+            var finalLines = firstLines.compactMap { line -> CheckLine? in
                 sent.contains(line.id) ? checkedByID[line.id] : line
+            }
+            // Apple Intelligence never removes a real line: if the invoice only adds up with the lines it
+            // called "not a product", they are put back (a missed line made the invoice total too small)
+            let allLines = firstLines.map { checkedByID[$0.id] ?? $0 }
+            if allLines.count > finalLines.count,
+               !Self.addsUp(finalLines, invoice: outcome.invoice), Self.addsUp(allLines, invoice: outcome.invoice) {
+                finalLines = allLines
             }
             // nothing read from a photo: check whether it was too dark or blurry, to give a better tip
             let problem = finalLines.isEmpty && sourcePDF == nil ? pages.first.flatMap { ImageTools.problem(with: $0) } : nil
             guard let self else { return }
             self.update(id) { job in
                 job.draft.supplier = outcome.invoice.supplier
-                job.draft.invNo = outcome.invoice.invNo
-                job.draft.date = outcome.invoice.date
+                job.draft.invNo = details.number
+                job.draft.date = details.date
                 job.draft.printedNet = outcome.invoice.printedNet
                 job.draft.printedTotal = outcome.invoice.printedTotal
                 job.draft.passes = outcome.passes
                 job.draft.lines = finalLines
                 job.status = .done
-                job.message = job.draft.lines.isEmpty ? Self.nothingReadMessage(problem) : ""
+                job.message = job.draft.lines.isEmpty ? Self.nothingReadMessage(problem) : warning
             }
             // also when Apple Intelligence found that none of the lines were products
             if finalLines.isEmpty { onNothingRead?() }
-            self.saveIfChecked(id, context: context)
+            if warning.isEmpty { self.saveIfChecked(id, context: context) }
         }
         return id
+    }
+
+    /// Why this scan shouldn't be saved as an invoice without a look ("" when it's an ordinary invoice in your currency).
+    nonisolated static func documentWarning(_ text: String) -> String {
+        var parts: [String] = []
+        switch DocumentFacts.kind(text) {
+        case .deliveryNote: parts.append(String(localized: "This looks like a delivery note, not an invoice. Check it before saving."))
+        case .quote: parts.append(String(localized: "This looks like a quote or pro forma, not an invoice. Check it before saving."))
+        case .order: parts.append(String(localized: "This looks like an order, not an invoice. Check it before saving."))
+        case .statement: parts.append(String(localized: "This looks like a statement. Check statements in Suppliers instead."))
+        case .receipt, .invoice, .creditNote: break
+        }
+        if let printed = DocumentFacts.currency(text), printed != Money.currency.code {
+            parts.append(String(localized: "This invoice is in \(printed), but your prices are in \(Money.currency.code). Check the prices before saving, or change the currency in Settings."))
+        }
+        return parts.joined(separator: " ")
+    }
+
+    /// Whether the lines add up to the printed net (or, when only that was read, the printed invoice total).
+    nonisolated static func addsUp(_ lines: [CheckLine], invoice: ParsedInvoice) -> Bool {
+        let net = Money.round2(lines.reduce(0) { $0 + Money.round2($1.qty * $1.unit) })
+        if let printed = invoice.printedNet, printed > 0 { return abs(net - printed) <= 0.05 }
+        guard let total = invoice.printedTotal, total > 0 else { return false }
+        let withVat = Money.round2(lines.reduce(0) { sum, line in
+            let n = Money.round2(line.qty * line.unit)
+            return sum + n + Money.round2(n * line.vat / 100)
+        })
+        return abs(withVat - total) <= 0.05
     }
 
     /// Whether Apple Intelligence should look at this line: no clear match, the two reads differed, or the name looks misread.

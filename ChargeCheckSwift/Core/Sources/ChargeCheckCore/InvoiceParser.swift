@@ -430,6 +430,25 @@ public enum InvoiceParser {
             }
         }
         if unit == nil {
+            // a discount column: quantity × price − discount = line total ("2.00 FISH BURGER 24.99 5.00 44.98"),
+            // or a discount in percent. The price kept is what was really paid for one, after the discount.
+            discount: for a in 0..<T.count where T[a] > 0 {
+                for d in (a + 1)..<T.count where T[d] > 0 {
+                    for b in (d + 1)..<T.count where T[b] > 0 {
+                        let gross = qty * T[a]
+                        let amount = abs(gross - T[d] - T[b]) < 0.06 ? T[d]
+                            : (T[d] < 100 && abs(gross * (1 - T[d] / 100) - T[b]) < 0.06 ? Money.round2(gross - T[b]) : nil)
+                        guard let amount, amount < gross else { continue }
+                        unit = T[b] / qty
+                        net = T[b]
+                        ni = b
+                        warn = CoreText.t("Discount of {1} taken off – the price shown is after the discount.", Money.format(amount))
+                        break discount
+                    }
+                }
+            }
+        }
+        if unit == nil {
             search2: for a in 0..<T.count {
                 for b in (a + 1)..<max(a + 1, T.count) {
                     if T[a] < 0.5 || T[b] <= T[a] { continue }
@@ -648,12 +667,14 @@ public enum InvoiceParser {
         if date.isEmpty { date = Rx.group(text, "(?:" + Words.date + ")[^0-9\\n]{0,10}(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})", ci: true) }
         if date.isEmpty { date = Rx.group(text, "(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})[^0-9\\n]{0,6}(?:" + Words.date + ")", ci: true) }
         if date.isEmpty { date = Rx.group(text, language == "en" ? "([0-9]{2}/[0-9]{2}/[0-9]{4})" : "([0-9]{2}[/.][0-9]{2}[/.][0-9]{4})") }
+        // other wordings, month names, header boxes, or a year-first date with its Arabic label not read
+        if date.isEmpty { date = InvoiceDetails.invoiceDate(in: text) }
+        var invNo = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
+        if invNo.isEmpty { invNo = Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) }
+        if invNo.isEmpty { invNo = InvoiceDetails.invoiceNumber(in: text) }
         return ParsedInvoice(
             supplier: supplier,
-            invNo: { () -> String in
-                let after = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
-                return after.isEmpty ? Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) : after
-            }(),
+            invNo: invNo,
             date: date,
             printedNet: printedAmount(text, "(?:" + Words.net + ")[^0-9\\n]{0,40}([0-9.,]+)"),
             printedTotal: printedAmount(text, "(?:" + Words.total + ")[^0-9\\n]{0,40}([0-9.,]+)", before: Words.total),

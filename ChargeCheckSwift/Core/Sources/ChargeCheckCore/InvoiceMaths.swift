@@ -283,6 +283,12 @@ public enum InvoiceMaths {
         let printed = invoice.printedNet ?? 0
         t.totalKnown = printed != 0
         t.totalOk = t.totalKnown && abs(printed - t.net) <= 0.05
+        // only the "Invoice Total" was read: check the lines (with VAT) against that, so a line the reader
+        // missed is still noticed instead of the invoice being saved with too small a total
+        if !t.totalKnown, let total = invoice.printedTotal, total > 0 {
+            t.totalKnown = true
+            t.totalOk = abs(total - t.total) <= 0.05
+        }
         for line in invoice.lines where !reasons(line, supplier: invoice.supplier, book: book, totalOk: t.totalOk).isEmpty { t.needLook += 1 }
         t.totalProblem = t.totalKnown && !t.totalOk && !invoice.totalAcknowledged
         return t
@@ -311,9 +317,19 @@ public enum InvoiceMaths {
                                 date: invoice.date, net: Money.round2(invoice.printedNet ?? total), total: total, over: 0,
                                 verified: true, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: [], totalOnly: true)
         }
+        // what the supplier billed is the printed invoice total, even if a line was missed or changed on the phone
+        let billed = printedBill(invoice)
         return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
-                            date: invoice.date, net: t.net, total: t.total, over: t.over, overVat: t.overVat, excluded: t.excluded,
+                            date: invoice.date, net: billed?.net ?? t.net, total: billed?.total ?? t.total, over: t.over, overVat: t.overVat, excluded: t.excluded,
                             verified: t.verified, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: lines)
+    }
+
+    /// The printed net and invoice total, when both were read and agree with each other
+    /// (the total is the net plus at most 25% VAT), so a misread total is never used.
+    public static func printedBill(_ invoice: InvoiceDraft) -> (net: Double, total: Double)? {
+        guard let net = invoice.printedNet, let total = invoice.printedTotal, net > 0, total > 0,
+              total >= net - 0.01, total <= net * 1.25 + 0.01 else { return nil }
+        return (Money.round2(net), Money.round2(total))
     }
 
     /// An invoice already in Reports that looks like the same one (so it is replaced, not saved twice).
