@@ -17,10 +17,10 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     static let roleKey = "team.role"
-    /// OFF since beta 16 (12 Nov 2026): the app crashed on opening on Ramyar's phone after builds 14/15. The likely cause is
+    /// Off in betas 16–17 while a launch crash was found (it was SwiftData + the iCloud entitlement, fixed in 17).
     /// iCloud's sync engine starting without the Push Notifications capability. While this is false, iCloud is never touched.
     /// Turn back on only together with the push entitlement (see MIGRATION.md, "Staff phones").
-    static let enabled = false
+    static let enabled = true
     /// Set while the sync engine is starting. If the app dies before it's cleared, sharing stays paused on the next launch
     /// instead of crashing again and again.
     private static let startingKey = "team.starting"

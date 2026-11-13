@@ -37,6 +37,8 @@ targets:
         com.apple.developer.icloud-container-identifiers: [iCloud.com.rjapps.invoicepricechecker]  # icloud
         com.apple.developer.icloud-services: [CloudKit]  # icloud
         com.apple.developer.icloud-container-environment: Production  # icloud
+        # iCloud tells the app about other phones' changes with silent pushes (Push Notifications ticked on the App ID, 13 Nov)
+        aps-environment: production  # icloud
     scheme:
       testTargets:
         - ChargeCheckTests
@@ -66,6 +68,7 @@ targets:
         # staff phones: the business is shared through this iCloud container; invite links open the app
         CCCloudContainer: iCloud.com.rjapps.invoicepricechecker
         CKSharingSupported: true
+        UIBackgroundModes: [remote-notification]
         # the widget opens the app on the Suppliers tab
         CFBundleURLTypes:
           - CFBundleURLName: com.rjapps.invoicepricechecker
