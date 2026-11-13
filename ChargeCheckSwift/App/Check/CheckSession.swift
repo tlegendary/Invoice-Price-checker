@@ -138,6 +138,13 @@ final class CheckSession: ObservableObject {
             let twice = UserDefaults.standard.integer(forKey: SettingKey.photoReads) != 1
             let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers,
                                                    doubleCheck: twice, progress: report)
+            // the invoice number and date: what the reader found, else Apple Intelligence looks for them
+            var details = (number: outcome.invoice.invNo, date: outcome.invoice.date)
+            if !sample, details.number.isEmpty || details.date.isEmpty {
+                let found = await SmartCheck.findDetails(in: outcome.rawText, progress: report)
+                if details.number.isEmpty { details.number = found.number }
+                if details.date.isEmpty { details.date = found.date }
+            }
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a credit note: it lowers what you owe that supplier, it isn't a new invoice
             if !sample, Insights.isCreditNote(outcome.rawText) {
@@ -145,12 +152,12 @@ final class CheckSession: ObservableObject {
                 let amount = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
                 self.update(id) { job in
                     job.draft.supplier = outcome.invoice.supplier
-                    job.draft.invNo = outcome.invoice.invNo
-                    job.draft.date = outcome.invoice.date
+                    job.draft.invNo = details.number
+                    job.draft.date = details.date
                     job.draft.printedTotal = amount > 0 ? amount : nil
                     job.draft.totalOnly = true
                     job.status = .done
-                    job.creditNote = CreditNoteResult(supplier: outcome.invoice.supplier, number: outcome.invoice.invNo,
+                    job.creditNote = CreditNoteResult(supplier: outcome.invoice.supplier, number: details.number,
                                                       amount: Money.round2(amount), invoiceID: nil, invoiceNo: "", paymentID: nil)
                 }
                 if amount > 0 { self.applyCreditNote(id, context: context) }
@@ -162,8 +169,8 @@ final class CheckSession: ObservableObject {
                 let total = outcome.invoice.printedTotal ?? outcome.invoice.printedNet ?? InvoiceMaths.linesTotal(outcome.invoice.lines)
                 self.update(id) { job in
                     job.draft.supplier = outcome.invoice.supplier
-                    job.draft.invNo = outcome.invoice.invNo
-                    job.draft.date = outcome.invoice.date
+                    job.draft.invNo = details.number
+                    job.draft.date = details.date
                     job.draft.printedNet = outcome.invoice.printedNet
                     job.draft.printedTotal = total > 0 ? total : nil
                     job.draft.passes = outcome.passes
@@ -191,8 +198,8 @@ final class CheckSession: ObservableObject {
             guard let self else { return }
             self.update(id) { job in
                 job.draft.supplier = outcome.invoice.supplier
-                job.draft.invNo = outcome.invoice.invNo
-                job.draft.date = outcome.invoice.date
+                job.draft.invNo = details.number
+                job.draft.date = details.date
                 job.draft.printedNet = outcome.invoice.printedNet
                 job.draft.printedTotal = outcome.invoice.printedTotal
                 job.draft.passes = outcome.passes

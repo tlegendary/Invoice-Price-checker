@@ -648,12 +648,14 @@ public enum InvoiceParser {
         if date.isEmpty { date = Rx.group(text, "(?:" + Words.date + ")[^0-9\\n]{0,10}(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})", ci: true) }
         if date.isEmpty { date = Rx.group(text, "(20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2})[^0-9\\n]{0,6}(?:" + Words.date + ")", ci: true) }
         if date.isEmpty { date = Rx.group(text, language == "en" ? "([0-9]{2}/[0-9]{2}/[0-9]{4})" : "([0-9]{2}[/.][0-9]{2}[/.][0-9]{4})") }
+        // other wordings, month names, header boxes, or a year-first date with its Arabic label not read
+        if date.isEmpty { date = InvoiceDetails.invoiceDate(in: text) }
+        var invNo = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
+        if invNo.isEmpty { invNo = Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) }
+        if invNo.isEmpty { invNo = InvoiceDetails.invoiceNumber(in: text) }
         return ParsedInvoice(
             supplier: supplier,
-            invNo: { () -> String in
-                let after = Rx.group(text, "(?:" + Words.invoiceNo + ")\\.?[^0-9\\n]{0,10}([0-9]{2,})", ci: true)
-                return after.isEmpty ? Rx.group(text, "([0-9]{2,})[^0-9\\n]{0,6}(?:" + Words.invoiceNo + ")", ci: true) : after
-            }(),
+            invNo: invNo,
             date: date,
             printedNet: printedAmount(text, "(?:" + Words.net + ")[^0-9\\n]{0,40}([0-9.,]+)"),
             printedTotal: printedAmount(text, "(?:" + Words.total + ")[^0-9\\n]{0,40}([0-9.,]+)", before: Words.total),

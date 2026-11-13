@@ -4139,6 +4139,62 @@
         }
       }
     },
+    "Finding the invoice number and date…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ البحث عن رقم الفاتورة والتاريخ…"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەڕان بەدوای ژمارە و بەرواری پسوولە…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnungsnummer und Datum werden gesucht …"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche du numéro et de la date de la facture…"
+          }
+        }
+      }
+    },
+    "Finding the invoice number and date with Apple Intelligence…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ البحث عن رقم الفاتورة والتاريخ باستخدام Apple Intelligence…"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەڕان بەدوای ژمارە و بەرواری پسوولە بە Apple Intelligence…"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnungsnummer und Datum werden mit Apple Intelligence gesucht …"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche du numéro et de la date avec Apple Intelligence…"
+          }
+        }
+      }
+    },
     "Checking…": {
       "localizations": {
         "ar": {

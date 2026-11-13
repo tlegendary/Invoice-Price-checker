@@ -50,9 +50,73 @@ enum SmartCheck {
         #endif
         return lines
     }
+
+    /// Asks Apple Intelligence to find the invoice number and date when the reader couldn't.
+    /// An answer is only used when it is really printed on the invoice, so nothing is made up.
+    static func findDetails(in text: String, progress: @Sendable (String) -> Void) async -> (number: String, date: String) {
+        guard canRun, !text.isEmpty else { return ("", "") }
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, *) {
+            progress(String(localized: "Finding the invoice number and date with Apple Intelligence…"))
+            return await DetailsFinder.run(text)
+        }
+        #endif
+        return ("", "")
+    }
 }
 
 #if canImport(FoundationModels)
+@available(iOS 26.0, *)
+@Generable
+struct SmartDetails {
+    @Guide(description: "The invoice number exactly as printed (for example 57, 82044 or INV-2041). Not a phone number, account number, batch number or amount. Empty if there is none.")
+    var invoiceNumber: String
+    @Guide(description: "The date the invoice was issued, copied exactly as printed (for example 2026-11-10 or 06/11/2026). Not a due, delivery or expiry date. Empty if there is none.")
+    var invoiceDate: String
+}
+
+@available(iOS 26.0, *)
+private enum DetailsFinder {
+    static let instructions = """
+    You read text taken from a photo of a supplier's invoice. It can be in English, Arabic, Kurdish, German or French, \
+    and Arabic or Kurdish text may appear in reverse order. Labels such as "رقم الفاتورة" mean invoice number and \
+    "التاريخ" or "تاريخ الفاتورة" mean date. Iraqi invoices often write the number with the year, like "57 - 2026": \
+    the invoice number is then 57. Copy values exactly as they appear; never invent them.
+    """
+
+    static func run(_ text: String) async -> (number: String, date: String) {
+        // the details are at the top (sometimes the bottom): keep the request small and quick
+        let lines = text.components(separatedBy: "\n").map { String($0.prefix(120)) }.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        let picked = lines.count > 40 ? Array(lines.prefix(30)) + Array(lines.suffix(8)) : lines
+        do {
+            let session = LanguageModelSession(instructions: instructions)
+            let reply = try await session.respond(to: "Invoice text:\n" + picked.joined(separator: "\n"), generating: SmartDetails.self,
+                                                  options: GenerationOptions(sampling: .greedy))
+            let plain = InvoiceParser.westernDigits(text)
+            let number = InvoiceParser.westernDigits(reply.content.invoiceNumber).trimmingCharacters(in: .whitespacesAndNewlines)
+            let date = InvoiceParser.westernDigits(reply.content.invoiceDate).trimmingCharacters(in: .whitespacesAndNewlines)
+            return (printed(number, in: plain) && InvoiceDetails.usableNumber(number) != nil ? number : "",
+                    printed(date, in: plain) && InvoiceDetails.usableDate(date) != nil ? date : "")
+        } catch {
+            return ("", "")
+        }
+    }
+
+    /// True when the value is on the invoice (spaces and letter case ignored).
+    private static func printed(_ value: String, in text: String) -> Bool {
+        guard !value.isEmpty else { return false }
+        let squeeze = { (s: String) in s.lowercased().filter { !$0.isWhitespace } }
+        let wanted = squeeze(value), whole = squeeze(text)
+        guard whole.contains(wanted) else { return false }
+        // a whole number on its own, not part of a longer one ("57", not the 57 inside 2057)
+        if wanted.allSatisfy({ $0.isASCII && $0.isNumber }) {
+            let pattern = "(?<![0-9])" + wanted + "(?![0-9])"
+            return text.range(of: pattern, options: .regularExpression) != nil
+        }
+        return true
+    }
+}
+
 @available(iOS 26.0, *)
 @Generable
 struct SmartLine {
