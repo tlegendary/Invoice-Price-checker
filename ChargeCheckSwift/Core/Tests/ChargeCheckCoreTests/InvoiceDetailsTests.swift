@@ -18,13 +18,13 @@ final class InvoiceDetailsTests: XCTestCase {
         BF02028B   2029-02-01   687.5   2.75   0   250   STELLA- HAIR GROW SHAMPOO   1
         """
         let invoice = InvoiceParser.parseInvoice(text)
-        XCTAssertEqual(invoice.invNo, "57")
+        XCTAssertEqual(invoice.invNo, "2026-57")
         XCTAssertEqual(invoice.date, "2026-11-10")
     }
 
     func testArabicLabelsRead() {
         let text = "2026 - 57   رقم الفاتورة:\n2026-11-10   التاريخ:\n09:51"
-        XCTAssertEqual(InvoiceParser.parseInvoice(text).invNo, "57")
+        XCTAssertEqual(InvoiceParser.parseInvoice(text).invNo, "2026-57")
         XCTAssertEqual(InvoiceParser.parseInvoice(text).date, "2026-11-10")
     }
 
@@ -68,5 +68,15 @@ final class InvoiceDetailsTests: XCTestCase {
 
     func testPostcodeIsNotTheInvoiceNumber() {
         XCTAssertEqual(InvoiceDetails.invoiceNumber(in: "B14 7JJ   Invoice No\nUK   Order No"), "")
+    }
+
+    /// Ramyar, 13 Nov 2026: the Dilsagh invoice number is 2026-57, not 57.
+    func testNumberKeepsItsYear() {
+        XCTAssertEqual(InvoiceParser.parseInvoice("رقم الفاتورة:   57 - 2026\nالتاريخ:   2026-11-10").invNo, "2026-57")
+        XCTAssertEqual(InvoiceDetails.withYear("57", in: "2026 - 57   رقم الفاتورة:"), "2026-57")
+        // a number next to a date, or on the next line, is left as it is
+        XCTAssertEqual(InvoiceDetails.withYear("11", in: "Date 2026-11-10"), "11")
+        XCTAssertEqual(InvoiceDetails.withYear("82044", in: "Invoice No 82044\n2026-11-10"), "82044")
+        XCTAssertEqual(InvoiceDetails.withYear("82044", in: "Invoice No   82044   12/11/2026"), "82044")
     }
 }

@@ -69,7 +69,8 @@ enum InvoiceReader {
         for page in pages {
             let picture = second ? page.highContrast() : page.cgImage
             guard let picture else { continue }
-            let rows = InvoiceParser.rows(from: pieces(in: picture, words: words, correct: !second))
+            // a curled page: follow each printed line so no item loses its prices to the row above
+            let rows = InvoiceParser.bestRows(from: pieces(in: picture, words: words, correct: !second), known: book.knownWords)
             if !rows.isEmpty { text += rows + "\n" }
         }
         return (InvoiceParser.parseInvoice(text, known: book.knownWords), text)

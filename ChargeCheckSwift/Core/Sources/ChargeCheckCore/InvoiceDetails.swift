@@ -50,16 +50,28 @@ public enum InvoiceDetails {
         return numberWithYear(in: lines)
     }
 
-    /// Iraqi wholesalers print the number with the year: "رقم الفاتورة: 57 - 2026". When the Arabic label wasn't read,
-    /// "57 - 2026" (or "2026 - 57" read left to right) near the top of the invoice is still the invoice number.
+    /// Iraqi wholesalers print the number with the year: "رقم الفاتورة: 57 - 2026" is invoice 2026-57.
+    /// When the Arabic label wasn't read, "57 - 2026" (or "2026 - 57" read left to right) near the top is still the number.
     static func numberWithYear(in lines: [String]) -> String {
         for line in lines.prefix(15) {
             let after = Rx.group(line, "(?<![0-9\\-/.])(?:20[0-9]{2})\\s*[-/]\\s*([0-9]{1,8})(?![0-9]|\\s*[-/.]\\s*[0-9])")
-            if !after.isEmpty, !Rx.test(after, "^20[0-9]{2}$"), (Int(after) ?? 0) > 0 { return after }
+            if !after.isEmpty, !Rx.test(after, "^20[0-9]{2}$"), (Int(after) ?? 0) > 0 { return withYear(after, in: line) }
             let before = Rx.group(line, "(?<![0-9\\-/.])([0-9]{1,8})\\s*[-/]\\s*20[0-9]{2}(?![0-9]|\\s*[-/.]\\s*[0-9])")
-            if !before.isEmpty, !Rx.test(before, "^20[0-9]{2}$"), (Int(before) ?? 0) > 0 { return before }
+            if !before.isEmpty, !Rx.test(before, "^20[0-9]{2}$"), (Int(before) ?? 0) > 0 { return withYear(before, in: line) }
         }
         return ""
+    }
+
+    /// The invoice number with its year when the invoice prints them together: "57" beside "- 2026" becomes "2026-57",
+    /// whichever way round the photo was read. A number that is part of a date is left alone.
+    public static func withYear(_ number: String, in text: String) -> String {
+        guard Rx.test(number, "^[0-9]{1,6}$") else { return number }
+        let n = NSRegularExpression.escapedPattern(for: number)
+        let lone = "(?![0-9]|[ \\t]*[-/.][ \\t]*[0-9])"
+        let start = "(?<![0-9\\-/.])"
+        var year = Rx.group(text, start + "(20[0-9]{2})[ \\t]*[-/][ \\t]*" + n + lone)
+        if year.isEmpty { year = Rx.group(text, start + n + "[ \\t]*[-/][ \\t]*(20[0-9]{2})" + lone) }
+        return year.isEmpty ? number : year + "-" + number
     }
 
     // MARK: - date
