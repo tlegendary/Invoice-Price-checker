@@ -567,9 +567,9 @@ public enum InvoiceParser {
     /// other languages add their own words to the English ones.
     enum Words {
         private static func pick(_ en: String, _ others: [String: String]) -> String {
-            guard language != "en", let extra = others[language] else { return en + always(en) }
             // inner brackets must not capture: the number is the only thing captured
-            return en + "|" + extra.replacingOccurrences(of: "(", with: "(?:")
+            let extra = language == "en" ? nil : others[language].map { "|" + $0.replacingOccurrences(of: "(", with: "(?:") }
+            return en + (extra ?? "") + always(en)
         }
         /// Arabic invoices are common whatever language the app is set to (wholesalers in Iraq print Arabic headings over
         /// English item names), so their invoice number, date and total words are always understood.
