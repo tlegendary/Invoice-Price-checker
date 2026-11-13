@@ -316,9 +316,11 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var payments: [SupplierPayment]?
     /// Suppliers whose invoices are only totalled, not price-checked.
     public var trusted: [String]?
+    /// Each supplier's credit period in days, keyed by SupplierAccounts.key.
+    public var creditDays: [String: Int]?
 
     public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
-                payments: [SupplierPayment]? = nil, trusted: [String]? = nil) {
+                payments: [SupplierPayment]? = nil, trusted: [String]? = nil, creditDays: [String: Int]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -328,9 +330,10 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.scans = scans
         self.payments = payments
         self.trusted = trusted
+        self.creditDays = creditDays
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -343,6 +346,7 @@ public struct BackupFile: Codable, Equatable, Sendable {
         scans = try? c.decode(ScanCredits.self, forKey: .scans)
         payments = try? c.decode([SupplierPayment].self, forKey: .payments)
         trusted = try? c.decode([String].self, forKey: .trusted)
+        creditDays = try? c.decode([String: Int].self, forKey: .creditDays)
     }
 
     public enum ReadError: Error { case notABackup }

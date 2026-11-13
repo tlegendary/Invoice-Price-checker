@@ -343,13 +343,37 @@ struct SupplierDetailView: View {
                         } footer: {
                             Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
                         }
+
+                        Section {
+                            Picker("Pay within", selection: Binding(
+                                get: { accounts.creditPeriod(account.name) ?? -1 },
+                                set: { accounts.setCreditPeriod(account.name, $0 < 0 ? nil : $0, context: context) }
+                            )) {
+                                Text("No due date").tag(-1)
+                                Text("On delivery").tag(0)
+                                ForEach([7, 14, 21, 28, 30, 45, 60, 90], id: \.self) { days in
+                                    Text("\(days) days").tag(days)
+                                }
+                            }
+                        } footer: {
+                            Text("Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home.")
+                        }
                     }
 
                     if !account.open.isEmpty {
+                        let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
+                                             uniquingKeysWith: { a, _ in a })
                         Section("Still to pay") {
                             ForEach(account.open) { entry in
                                 NavigationLink(value: ReportLink(id: entry.id)) {
-                                    InvoiceMoneyRow(entry: entry)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        InvoiceMoneyRow(entry: entry)
+                                        if let row = due[entry.id] {
+                                            Label(DueRow.when(row), systemImage: row.daysLeft < 0 ? "exclamationmark.circle.fill" : "calendar")
+                                                .font(.caption)
+                                                .foregroundStyle(row.daysLeft < 0 ? Color.red : Color.secondary)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -403,7 +427,7 @@ struct SupplierDetailView: View {
                             Button("Delete invoices and payments", role: .destructive) { deleteAll(account, payments: true) }
                             Button("Cancel", role: .cancel) {}
                         } message: {
-                            Text("This can't be undone. Save a backup in Settings first if you might need them. Deleting the payments too starts this supplier's balance from zero.")
+                            Text("They stay in More › Recently deleted for 30 days, so you can bring them back. Deleting the payments too starts this supplier's balance from zero.")
                         }
                     }
                 }
@@ -426,10 +450,7 @@ struct SupplierDetailView: View {
     private func deleteAll(_ account: SupplierAccount, payments: Bool) {
         let ids = Set(account.entries.map { $0.id })
         CloudTeam.shared.allowBulkDelete()
-        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
-            context.delete(stored)
-        }
-        try? context.save()
+        AppData.deleteReports(ids, context: context)
         // payments for exactly those invoices go with them, so the balance doesn't go below zero
         accounts.removePayments(supplier: account.name, onlyFor: payments ? nil : ids, context: context)
     }

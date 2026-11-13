@@ -82,24 +82,16 @@ struct SettingsView: View {
         return "ChargeCheck-backup_" + formatter.string(from: Date())
     }
 
+    /// Opened from the More tab, inside its navigation, rather than as a tab of its own.
+    var embedded = false
+
     var body: some View {
-        NavigationStack {
+        if embedded { content } else { NavigationStack { content } }
+    }
+
+    private var content: some View {
+        Group {
             Form {
-                Section {
-                    NavigationLink {
-                        TeamView()
-                    } label: {
-                        LabeledContent {
-                            Text(team.role == .owner ? String(localized: "Sharing on") : team.role == .staff ? String(localized: "Team member") : "")
-                        } label: {
-                            Label("Staff", systemImage: "person.2")
-                        }
-                    }
-                } footer: {
-                    if team.role == .none {
-                        Text("Let staff check invoices on their own iPhones.")
-                    }
-                }
                 Section {
                     Picker("Appearance", selection: $mode) {
                         Text("Automatic").tag("auto")
@@ -207,16 +199,8 @@ struct SettingsView: View {
                         TextField("Business name", text: $business)
                     } header: {
                         Text("Your business")
-                        NavigationLink {
-                            ShopsView()
-                        } label: {
-                            LabeledContent("Shops") {
-                                let shops = Shops.decode(shopData)
-                                Text(shops.isEmpty ? "One shop" : "\(shops.count)")
-                            }
-                        }
                     } footer: {
-                        Text("The name is shown at the top of reports and credit requests. Add your shops if you have more than one.")
+                        Text("The name is shown at the top of reports and credit requests.")
                     }
 
                     if AppLock.available || lockOn {

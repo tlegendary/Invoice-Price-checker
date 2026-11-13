@@ -93,19 +93,38 @@ struct ReportsView: View {
                             }
                         }
                     }
-                    paySection(pay)
-                    Section("Checked invoices") {
-                        ForEach(list) { entry in
-                            NavigationLink(value: entry.id) {
-                                ReportRow(entry: entry)
+                    Section {
+                        NavigationLink {
+                            PriceRisesView(supplier: nil)
+                        } label: {
+                            Label("Price rises", systemImage: "arrow.up.right")
+                        }
+                        NavigationLink {
+                            SupplierTipsView(tips: Insights.supplierTips(list))
+                        } label: {
+                            Label("Cheaper elsewhere", systemImage: "tag")
+                        }
+                        NavigationLink {
+                            SavingsView()
+                        } label: {
+                            Label("Money protected", systemImage: "shield.lefthalf.filled")
+                        }
+                        if !CloudTeam.shared.isStaff {
+                            NavigationLink {
+                                DuePaymentsView()
+                            } label: {
+                                Label("Payments due", systemImage: "calendar.badge.clock")
                             }
                         }
-                        .onDelete { offsets in
-                            for id in offsets.map({ list[$0].id }) { AppData.deleteReport(id, context: context) }
+                        NavigationLink {
+                            InvoiceHistoryView()
+                        } label: {
+                            Label("All checked invoices", systemImage: "tray.full")
                         }
-                        // staff phones: only the owner removes invoices
-                        .deleteDisabled(CloudTeam.shared.isStaff)
+                    } header: {
+                        Text("Insights")
                     }
+                    paySection(pay)
                 }
             }
             .navigationTitle("Reports")
@@ -124,6 +143,9 @@ struct ReportsView: View {
             }
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
+            }
+            .navigationDestination(for: ReportLink.self) { link in
+                ReportDetailView(reportID: link.id)
             }
             .task {
                 // the cloud check: open an overcharged invoice ("-demoCredit YES" marks its credit as asked for)
@@ -473,12 +495,12 @@ struct ReportDetailView: View {
                         }
                     }
                     Section {
-                        Button("Delete this report", role: .destructive) {
+                        Button("Delete this invoice", role: .destructive) {
                             guard !CloudTeam.shared.isStaff else { return }
                             confirmDelete = true
                         }
                     } footer: {
-                        Text("The copy of the original invoice in the Files app is kept.")
+                        Text("It stays in More › Recently deleted for 30 days. The copy of the original invoice in the Files app is kept.")
                     }
                 }
             } else {
@@ -488,7 +510,7 @@ struct ReportDetailView: View {
         .navigationTitle("Invoice")
         .navigationBarTitleDisplayMode(.inline)
         .quickLookPreview($preview)
-        .confirmationDialog("Delete this report?", isPresented: $confirmDelete, titleVisibility: .visible) {
+        .confirmationDialog("Delete this invoice?", isPresented: $confirmDelete, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 AppData.deleteReport(reportID, context: context)
                 dismiss()
@@ -529,6 +551,8 @@ struct ReportDetailView: View {
     }
 
     private func setCredit(_ entry: HistoryEntry, _ status: String?, amount: Double) {
+        Records.shared.log(status == CreditInfo.requested ? .creditAsked : status == CreditInfo.received ? .creditReceived : .creditCleared,
+                           RecordKeeping.subject(entry), amount: amount)
         let stamp = ISO8601DateFormatter().string(from: Date())
         let asked = entry.credit?.at
         AppData.updateReports([entry.id], context: context) { saved in

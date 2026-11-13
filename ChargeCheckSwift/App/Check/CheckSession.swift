@@ -373,7 +373,9 @@ final class CheckSession: ObservableObject {
         }
         var draft = job.draft
         if draft.shopId.isEmpty { draft.shopId = Shops.current }
+        let wasSaved = job.saved != nil
         let entry = AppData.saveReport(&draft, book: book, context: context)
+        Records.shared.log(wasSaved ? .invoiceUpdated : .invoiceSaved, RecordKeeping.subject(entry), amount: entry.total)
         if !draft.totalOnly {
             lowerPrices(draft, jobID: id, book: book, context: context)
             learnNames(draft, book: book, context: context)

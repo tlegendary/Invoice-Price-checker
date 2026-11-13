@@ -14,6 +14,7 @@ struct CheckView: View {
     @EnvironmentObject private var ads: AdService
     @Environment(\.modelContext) private var context
     @Query private var prices: [StoredPrice]
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
 
     @State private var path: [String] = []
     @State private var showScanner = false
@@ -121,7 +122,7 @@ struct CheckView: View {
                          : "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.")
                 }
                 if !session.jobs.isEmpty {
-                    Section("Invoices") {
+                    Section("Being checked") {
                         ForEach(session.jobs) { job in
                             NavigationLink(value: job.id) {
                                 JobRow(job: job, items: session.items(for: job, context: context))
@@ -133,10 +134,32 @@ struct CheckView: View {
                         }
                     }
                 }
+                if !reports.isEmpty {
+                    Section {
+                        ForEach(reports.prefix(5)) { stored in
+                            if let entry = stored.entry {
+                                NavigationLink(value: ReportLink(id: entry.id)) {
+                                    ReportRow(entry: entry)
+                                }
+                            }
+                        }
+                        NavigationLink {
+                            InvoiceHistoryView()
+                        } label: {
+                            Label(reports.count == 1 ? String(localized: "All checked invoices (1)") : String(localized: "All checked invoices (\(reports.count))"),
+                                  systemImage: "tray.full")
+                        }
+                    } header: {
+                        Text("Checked invoices")
+                    }
+                }
             }
-            .navigationTitle("ChargeCheck")
+            .navigationTitle("Invoices")
             .navigationDestination(for: String.self) { id in
                 InvoiceDetailView(jobID: id)
+            }
+            .navigationDestination(for: ReportLink.self) { link in
+                ReportDetailView(reportID: link.id)
             }
             .fullScreenCover(isPresented: $showScanner) {
                 DocumentScanner(

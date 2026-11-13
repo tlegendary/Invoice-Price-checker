@@ -15,9 +15,13 @@ final class Accounts: ObservableObject {
 
     @Published private(set) var payments: [SupplierPayment] = []
     @Published private(set) var trusted: [String] = []
+    /// Each supplier's credit period in days ("pay within 30 days"), keyed by SupplierAccounts.key. 0 = pay on delivery.
+    @Published private(set) var creditDays: [String: Int] = [:]
+    static let creditDaysKey = "suppliers.creditDays"
 
     private init() {
         trusted = UserDefaults.standard.stringArray(forKey: Self.trustedKey) ?? []
+        creditDays = (UserDefaults.standard.dictionary(forKey: Self.creditDaysKey) as? [String: Int]) ?? [:]
         if let url = Self.fileURL, let data = try? Data(contentsOf: url),
            let saved = try? JSONDecoder().decode([SupplierPayment].self, from: data) {
             payments = saved
@@ -43,6 +47,25 @@ final class Accounts: ObservableObject {
         SupplierAccounts.accounts(entries: AppData.entries(context), payments: payments, trusted: trusted)
     }
 
+    /// The supplier's credit period in days, or nil when none is set.
+    func creditPeriod(_ supplier: String) -> Int? {
+        creditDays[SupplierAccounts.key(supplier)]
+    }
+
+    func setCreditPeriod(_ supplier: String, _ days: Int?, context: ModelContext) {
+        let key = SupplierAccounts.key(supplier)
+        guard !key.isEmpty else { return }
+        creditDays[key] = days
+        UserDefaults.standard.set(creditDays, forKey: Self.creditDaysKey)
+        changed(context)
+        Records.shared.log(.supplierChanged, supplier + " · " + (days.map { String(localized: "pay within \($0) days") } ?? String(localized: "no due date")))
+    }
+
+    /// Unpaid invoices of suppliers with a credit period, soonest due first.
+    func due(_ context: ModelContext) -> [DueInvoice] {
+        DueDates.open(accounts: accounts(context), creditDays: creditDays)
+    }
+
     func isTrusted(_ supplier: String) -> Bool {
         SupplierAccounts.isTrusted(supplier, trusted: trusted)
     }
@@ -53,6 +76,27 @@ final class Accounts: ObservableObject {
         payments.append(payment)
         save()
         changed(context)
+        if payment.amount > 0.005 {
+            Records.shared.log(payment.kind == .credit ? .creditReceived : .paymentRecorded, payment.supplier, amount: payment.amount)
+        }
+    }
+
+    /// Puts back a payment from Recently deleted. A payment for ticked invoices marks them paid again.
+    func restorePayment(_ payment: SupplierPayment, context: ModelContext) {
+        guard !payments.contains(where: { $0.id == payment.id }) else { return }
+        payments.append(payment)
+        if !payment.invoiceIDs.isEmpty {
+            let stamp = ISO8601DateFormatter().string(from: Date())
+            AppData.updateReports(Set(payment.invoiceIDs), context: context) { if $0.paid == nil { $0.paid = stamp } }
+        }
+        save()
+        changed(context)
+    }
+
+    /// A receipt photo goes when its payment leaves Recently deleted.
+    func deleteReceiptFile(_ name: String) {
+        guard !payments.contains(where: { $0.receipt == name }), let url = receiptURL(name) else { return }
+        try? FileManager.default.removeItem(at: url)
     }
 
     // MARK: - receipts
@@ -80,7 +124,8 @@ final class Accounts: ObservableObject {
     func remove(_ id: String, context: ModelContext) {
         guard let payment = payments.first(where: { $0.id == id }) else { return }
         payments.removeAll { $0.id == id }
-        if let receipt = payment.receipt, let url = receiptURL(receipt) { try? FileManager.default.removeItem(at: url) }
+        // kept in Recently deleted for 30 days (with its receipt photo)
+        Records.shared.binPayment(payment)
         // a payment for ticked invoices: those invoices are unpaid again
         if !payment.invoiceIDs.isEmpty {
             AppData.updateReports(Set(payment.invoiceIDs), context: context) { $0.paid = nil }
@@ -97,8 +142,8 @@ final class Accounts: ObservableObject {
             guard let ids = invoiceIDs else { return true }
             return !payment.invoiceIDs.isEmpty && payment.invoiceIDs.allSatisfy { ids.contains($0) }
         }
-        for payment in gone {
-            if let receipt = payment.receipt, let url = receiptURL(receipt) { try? FileManager.default.removeItem(at: url) }
+        for payment in gone where payment.amount > 0.005 || payment.kind == .opening {
+            Records.shared.binPayment(payment)
         }
         let goneIDs = Set(gone.map { $0.id })
         payments.removeAll { goneIDs.contains($0.id) }
@@ -112,6 +157,7 @@ final class Accounts: ObservableObject {
         if on { trusted.append(supplier.trimmingCharacters(in: .whitespaces)) }
         save()
         changed(context)
+        Records.shared.log(.supplierChanged, supplier + " · " + (on ? String(localized: "trusted") : String(localized: "not trusted")))
     }
 
     /// Ticked invoices are paid: they're marked paid and one payment per supplier is recorded for them.
@@ -131,6 +177,9 @@ final class Accounts: ObservableObject {
         AppData.updateReports(Set(groups.values.flatMap { $0.map { $0.id } }), context: context) { $0.paid = stamp }
         save()
         changed(context)
+        for group in groups.values {
+            for entry in group { Records.shared.log(.markedPaid, RecordKeeping.subject(entry), amount: entry.amountToPay.pay) }
+        }
     }
 
     /// Undoes "mark as paid": the invoices are unpaid again and the payments recorded for them are taken back.
@@ -147,12 +196,17 @@ final class Accounts: ObservableObject {
         AppData.updateReports(ids, context: context) { $0.paid = nil }
         save()
         changed(context)
+        for entry in entries { Records.shared.log(.markedUnpaid, RecordKeeping.subject(entry), amount: entry.amountToPay.pay) }
     }
 
     /// From a backup.
-    func restore(payments: [SupplierPayment]?, trusted: [String]?, context: ModelContext) {
+    func restore(payments: [SupplierPayment]?, trusted: [String]?, creditDays: [String: Int]? = nil, context: ModelContext) {
         self.payments = payments ?? []
         self.trusted = trusted ?? []
+        if let creditDays {
+            self.creditDays = creditDays
+            UserDefaults.standard.set(creditDays, forKey: Self.creditDaysKey)
+        }
         save()
         changed(context)
     }
