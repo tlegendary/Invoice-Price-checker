@@ -2607,6 +2607,35 @@
         }
       }
     },
+    "Another name, e.g. hp10 box" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم آخر، مثلًا: علبة hp10"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ناوێکی تر، بۆ نموونە hp10 box"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anderer Name, z. B. hp10 Box"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autre nom, ex. boîte hp10"
+          }
+        }
+      }
+    },
     "App Store" : {
 
     },
@@ -5575,6 +5604,64 @@
         }
       }
     },
+    "Delete %@'s invoices?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف فواتير %@؟"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولەکانی %@ بسڕدرێنەوە؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechnungen von %@ löschen?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les factures de %@ ?"
+          }
+        }
+      }
+    },
+    "Delete all %lld of this supplier's invoices" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف كل فواتير هذا المورّد (%lld)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەموو %lld پسوولەی ئەم دابینکەرە بسڕەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle %lld Rechnungen dieses Lieferanten löschen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les %lld factures de ce fournisseur"
+          }
+        }
+      }
+    },
     "Delete all %lld prices?" : {
       "localizations" : {
         "ar" : {
@@ -5627,6 +5714,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer tous les prix"
+          }
+        }
+      }
+    },
+    "Delete invoices and payments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الفواتير والمدفوعات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولە و پارەدانەکان بسڕەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechnungen und Zahlungen löschen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer factures et paiements"
+          }
+        }
+      }
+    },
+    "Delete invoices, keep payments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الفواتير مع إبقاء المدفوعات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولەکان بسڕەوە، پارەدانەکان بهێڵەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechnungen löschen, Zahlungen behalten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les factures, garder les paiements"
           }
         }
       }
@@ -5739,6 +5884,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer ce rapport ?"
+          }
+        }
+      }
+    },
+    "Delete this supplier's invoice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف فاتورة هذا المورّد"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولەی ئەم دابینکەرە بسڕەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechnung dieses Lieferanten löschen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la facture de ce fournisseur"
           }
         }
       }
@@ -6106,6 +6280,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chaque ligne vérifiée deux fois."
+          }
+        }
+      }
+    },
+    "Every way suppliers write this item, one per line. The app recognises the item by any of them. When you pick the right item for a line it didn't recognise, that name is added here for you. Swipe left to remove one." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كل طريقة يكتب بها المورّدون هذا الصنف، واحدة في كل سطر. يتعرّف التطبيق على الصنف بأيٍّ منها. عندما تختار الصنف الصحيح لسطر لم يتعرّف عليه، يُضاف ذلك الاسم هنا تلقائيًا. اسحب لليسار للإزالة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەموو ئەو شێوانەی دابینکەران ئەم کاڵایە دەنووسن، هەر یەکە لە دێڕێکدا. ئەپەکە بە هەر یەکێکیان کاڵاکە دەناسێتەوە. کاتێک کاڵای ڕاست بۆ دێڕێکی نەناسراو هەڵدەبژێریت، ئەو ناوە خۆکارانە لێرە زیاد دەکرێت. بۆ لابردن بەرەو چەپ ڕابکێشە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede Schreibweise der Lieferanten für diesen Artikel, eine pro Zeile. Die App erkennt den Artikel an jeder davon. Wenn du für eine unbekannte Zeile den richtigen Artikel wählst, wird dieser Name hier automatisch ergänzt. Nach links wischen zum Entfernen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque façon dont les fournisseurs écrivent cet article, une par ligne. L’app reconnaît l’article avec n’importe laquelle. Quand vous choisissez le bon article pour une ligne non reconnue, ce nom est ajouté ici automatiquement. Balayez vers la gauche pour en retirer un."
           }
         }
       }
@@ -6855,6 +7058,7 @@
 
     },
     "How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10639,6 +10843,7 @@
       }
     },
     "On invoices as" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11259,6 +11464,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autre"
+          }
+        }
+      }
+    },
+    "Other names on invoices" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أسماء أخرى على الفواتير"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ناوەکانی تر لەسەر پسوولەکان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Namen auf Rechnungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autres noms sur les factures"
           }
         }
       }
@@ -17255,6 +17489,35 @@
         }
       }
     },
+    "This can't be undone. Save a backup in Settings first if you might need them. Deleting the payments too starts this supplier's balance from zero." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يمكن التراجع عن هذا. احفظ نسخة احتياطية من الإعدادات أولًا إن كنت قد تحتاجها. حذف المدفوعات أيضًا يبدأ رصيد هذا المورّد من الصفر."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەمە ناگەڕێتەوە. ئەگەر لەوانەیە پێویستت پێیان بێت، سەرەتا لە ڕێکخستنەکان باکئەپێک هەڵبگرە. سڕینەوەی پارەدانەکانیش باڵانسی ئەم دابینکەرە لە سفرەوە دەست پێدەکاتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das kann nicht rückgängig gemacht werden. Sichere vorher ein Backup in den Einstellungen, falls du sie noch brauchst. Werden auch die Zahlungen gelöscht, beginnt der Saldo dieses Lieferanten bei null."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est irréversible. Faites d’abord une sauvegarde dans Réglages si vous pourriez en avoir besoin. Supprimer aussi les paiements remet le solde de ce fournisseur à zéro."
+          }
+        }
+      }
+    },
     "This iPhone doesn't support Apple Intelligence (it needs an iPhone 15 Pro or newer)." : {
       "localizations" : {
         "ar" : {
@@ -19680,6 +19943,35 @@
         }
       }
     },
+    "Your prices and this supplier's special prices are kept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبقى أسعارك والأسعار الخاصة بهذا المورّد."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نرخەکانت و نرخە تایبەتەکانی ئەم دابینکەرە دەمێننەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Preise und die Sonderpreise dieses Lieferanten bleiben erhalten."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos prix et les prix spéciaux de ce fournisseur sont conservés."
+          }
+        }
+      }
+    },
     "Your prices are here" : {
       "localizations" : {
         "ar" : {
@@ -19991,6 +20283,7 @@
       }
     },
     "e.g. quater pounder, qtr pounder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
