@@ -183,12 +183,9 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Single chat (13 Nov 2026): **crash on opening found and fixed** (crash log from Ramyar, build 15). Cause: the iCloud
-  entitlement added in build 14 made SwiftData try CloudKit sync on the main store ("automatic"), which this schema can't do, so
-  no storage could open → `fatalError` in `AppStorageSetup.open()`. Builds 14, 15 and 16 all crash. Fix: `cloudKitDatabase: .none`
-  and `groupContainer: .none` in `ChargeCheckApp.swift` (must stay). Beta 17 = this fix only; widget and staff sharing still off.
-  Next, one per build after Ramyar confirms 17 opens: widget on, then staff sharing (needs Push Notifications on the App ID
-  and the CloudKit `Item` record type).
+- Single chat (13 Nov 2026): beta 17 = launch-crash fix. Ramyar did the CloudKit `Item` record type (deployed to Production) and
+  Push Notifications on the beta App ID. Branch `feature/sharing-back` turns the widget and staff sharing back on (push
+  entitlement + `remote-notification` added). Held until Ramyar confirms 17 opens.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
