@@ -16,7 +16,9 @@ struct CheckView: View {
     @Query private var prices: [StoredPrice]
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
 
-    @State private var path: [String] = []
+    /// A NavigationPath, not [String]: the list also opens saved invoices (`ReportLink`), which a [String] path
+    /// silently drops – tapping a checked invoice did nothing.
+    @State private var path = NavigationPath()
     @State private var showScanner = false
     @State private var showFiles = false
     @State private var picked: [PhotosPickerItem] = []
@@ -105,7 +107,7 @@ struct CheckView: View {
                         Label("Choose a PDF or file", systemImage: "folder")
                     }
                     Button {
-                        path = [session.addBlank()]
+                        path = NavigationPath([session.addBlank()])
                     } label: {
                         Label("Type by hand", systemImage: "keyboard")
                     }
@@ -217,6 +219,16 @@ struct CheckView: View {
             .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .image], allowsMultipleSelection: true) { result in
                 open(result)
             }
+            .onReceive(session.$scanRequest) { request in
+                // "Scan an invoice" on Home: camera, camera roll or files (a free user still needs a scan)
+                guard let request else { return }
+                session.scanRequest = nil
+                switch request {
+                case .camera: if DocumentScanner.isAvailable { gated { showScanner = true } }
+                case .photos: gated { showPhotos = true }
+                case .files: gated { showFiles = true }
+                }
+            }
             .onReceive(session.$openScanner) { wanted in
                 guard wanted else { return }
                 session.openScanner = false
@@ -260,7 +272,7 @@ struct CheckView: View {
             }
         }
         let id = session.read(pages: [image], context: context, sample: true)
-        if open { path = [id] }
+        if open { path = NavigationPath([id]) }
     }
 
     /// Reads invoices shared into the app (one scan each for a free user, as usual).
@@ -268,7 +280,7 @@ struct CheckView: View {
         let urls = session.incoming
         if urls.isEmpty { return }
         session.incoming = []
-        path = []
+        path = NavigationPath()
         gated {
             open(.success(urls))
             // "Copy to ChargeCheck" leaves a copy in the app's Inbox folder: not needed once read

@@ -41,6 +41,17 @@ enum Shops {
     static func name(_ id: String) -> String? {
         all.first { $0.id == id }?.name
     }
+
+    /// The name at the top of reports, credit requests and PDFs, taken from the shops (there is no separate
+    /// business name any more): the invoice's own shop, else the shop being viewed, else the shop new invoices go to,
+    /// else the business name saved by an earlier version. "" when there is none.
+    @MainActor
+    static func reportName(_ shopId: String = "") -> String {
+        for id in [shopId, LiveSettings.shared.shop, current] where !id.isEmpty {
+            if let name = name(id), !name.trimmingCharacters(in: .whitespaces).isEmpty { return name }
+        }
+        return UserDefaults.standard.string(forKey: SettingKey.business) ?? ""
+    }
 }
 
 /// Settings every screen follows as soon as they change (no need to close and open the app):

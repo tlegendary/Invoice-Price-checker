@@ -156,6 +156,13 @@ is ready and Ramyar says to switch.
 - **Cheaper prices are suggested, not applied (Ramyar, 14 Nov 2026).** When a fully checked invoice is cheaper than
   an agreed price, "Cheaper on this invoice" asks "Update my price" / "Keep my price"; nothing changes until Update.
   Settings: "Suggest a lower price when an invoice is cheaper" (same `prices.autoLower` setting, on by default).
+- **Scan from Home asks where from (14 Nov 2026):** Camera, Camera roll or Files (PDF or photo). Home sets
+  `CheckSession.scanRequest` (`ScanSource`) and switches to Invoices, which opens that picker through `gated {}`.
+- **Fixed: tapping a checked invoice on the Invoices tab did nothing.** Its path was `[String]`, which silently drops
+  `ReportLink`; it is a `NavigationPath` now.
+- **No separate business name any more.** The Settings field is gone; reports, credit requests and PDFs are named by
+  `Shops.reportName(shopId)`: the invoice's shop, else the shop being viewed, else the filing shop, else the old saved
+  business name.
 
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.

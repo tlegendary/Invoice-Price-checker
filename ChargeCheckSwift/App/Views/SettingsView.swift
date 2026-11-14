@@ -12,7 +12,6 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @AppStorage(SettingKey.mode) private var mode = "auto"
     @AppStorage(SettingKey.colour) private var colourID = "green"
-    @AppStorage(SettingKey.business) private var business = ""
 
     @State private var exportDocument: BackupDocument?
     @State private var showExporter = false
@@ -223,14 +222,6 @@ struct SettingsView: View {
 
                 // staff phones: the business, prices, data and backups are the owner's
                 if !team.isStaff {
-                    Section {
-                        TextField("Business name", text: $business)
-                    } header: {
-                        Text("Your business")
-                    } footer: {
-                        Text("The name is shown at the top of reports and credit requests.")
-                    }
-
                     if AppLock.available || lockOn {
                         Section {
                             Toggle("Lock with Face ID or passcode", isOn: Binding(
@@ -340,7 +331,7 @@ struct SettingsView: View {
                             }
                         ))
                         Button {
-                            let data = PDFMaker.priceList(AppData.items(context), business: business, theme: Themes.named(colourID))
+                            let data = PDFMaker.priceList(AppData.items(context), business: Shops.reportName(), theme: Themes.named(colourID))
                             showPricesShare = AppFiles.write(data, folder: "Exports", name: "ChargeCheck price list.pdf")
                         } label: {
                             Label("Price list as a PDF", systemImage: "doc.richtext")

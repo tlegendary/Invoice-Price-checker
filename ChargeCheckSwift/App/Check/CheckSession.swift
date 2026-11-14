@@ -2,6 +2,16 @@ import SwiftUI
 import SwiftData
 import ChargeCheckCore
 
+/// Where an invoice comes from when scanning starts on Home.
+enum ScanSource: Equatable {
+    /// The document camera.
+    case camera
+    /// The camera roll.
+    case photos
+    /// Files: a PDF or a photo.
+    case files
+}
+
 struct InvoiceJob: Identifiable, Equatable {
     enum Status: Equatable {
         case reading
@@ -95,6 +105,8 @@ final class CheckSession: ObservableObject {
     @Published var incoming: [URL] = []
     /// Siri / Shortcuts asked to scan an invoice: the Check tab opens the camera.
     @Published var openScanner = false
+    /// Where to get an invoice from, chosen on Home: the Invoices tab opens the camera, photos or files picker.
+    @Published var scanRequest: ScanSource?
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).

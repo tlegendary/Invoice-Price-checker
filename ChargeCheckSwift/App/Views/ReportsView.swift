@@ -381,7 +381,6 @@ struct ReportDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Query private var reports: [StoredReport]
-    @AppStorage(SettingKey.business) private var business = ""
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var preview: URL?
     @State private var confirmDelete = false
@@ -464,7 +463,7 @@ struct ReportDetailView: View {
                             }
                         }
                         if amounts.less > 0 {
-                            let message = ReportMaths.creditText(entry, business: business, code: Accounts.shared.otherCurrency(entry.supplier))
+                            let message = ReportMaths.creditText(entry, business: Shops.reportName(entry.shopId), code: Accounts.shared.otherCurrency(entry.supplier))
                             ShareLink(item: message, subject: Text("Credit request"), message: nil) {
                                 Label("Credit request message (WhatsApp, email…)", systemImage: "text.bubble")
                             }
@@ -601,7 +600,7 @@ struct ReportDetailView: View {
     }
 
     private func creditRequest(_ entry: HistoryEntry) -> URL? {
-        let data = PDFMaker.creditRequest(entry, business: business, theme: Themes.named(colourID))
+        let data = PDFMaker.creditRequest(entry, business: Shops.reportName(entry.shopId), theme: Themes.named(colourID))
         return AppFiles.write(data, folder: "Exports", name: "Credit request " + ReportMaths.copyName(for: entry) + ".pdf")
     }
 }
@@ -611,7 +610,6 @@ struct ExportView: View {
     @Environment(\.dismiss) private var dismiss
     let entries: [HistoryEntry]
 
-    @AppStorage(SettingKey.business) private var business = ""
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var period = ReportPeriod.lastMonth
     @State private var made: URL?
@@ -642,7 +640,7 @@ struct ExportView: View {
                 }
                 Section {
                     Button {
-                        let data = PDFMaker.report(chosen, period: period.title, business: business, theme: Themes.named(colourID))
+                        let data = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.named(colourID))
                         finish(AppFiles.write(data, folder: "Exports", name: name("pdf")))
                     } label: {
                         Label("Make a PDF", systemImage: "doc.richtext")
