@@ -1,6 +1,6 @@
-commit: 679a8d46e1228e775d6e91e890d5de5a54e76162
-result: success
-when: Sat Nov 14 05:34:14 UTC 2026
+commit: 6d3583288a63f7ad60d96e99373f1e468e67a9e2
+result: failure
+when: Sat Nov 14 06:05:31 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,15 +9,56 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
-stringsdata files:       55
+stringsdata files:       36
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
    |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
-** TEST BUILD SUCCEEDED **
+** TEST BUILD FAILED **
 /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:151:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/InvoiceDetailView.swift:50:107: error: extra argument 'shop' in call
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:649:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
-Backups ChargeCheck-backup.json Exports  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/B609661A-8875-4DAD-8D81-0DB84441EFD5/Documents/Backups: ChargeCheck-2026-11-14.json  /Users/runner/Library/Developer/CoreSimulator/Devices/4A57FB15-6E7C-49CC-BE93-450B18BD286E/data/Containers/Data/Application/B609661A-8875-4DAD-8D81-0DB84441EFD5/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf /tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+---- last lines ----
+SwiftDriver\ Compilation\ Requirements ChargeCheckTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheckTests -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-no
+
+SwiftDriverJobDiscovery normal arm64 Compiling StoreTests.swift (in target 'ChargeCheckTests' from project 'ChargeCheck')
+
+SwiftDriver\ Compilation ChargeCheckTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-Swift-Compilation -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheckTests -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/Ch
+
+SwiftMergeGeneratedHeaders /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/DerivedSources/ChargeCheckTests-Swift.h /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/Ch
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests-Swift.h -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/De
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeC
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Pric
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeChec
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-c
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeChec
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-c
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/a
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-
+
+SwiftDriverJobDiscovery normal arm64 Compiling RootView.swift, SampleInvoice.swift, SearchViews.swift, SettingsView.swift, ShopSwitcher.swift, Shops.swift, ShopsView.swift, Shortcuts.swift, SmartCheck.swift, SortCategoriesView.swift, Store.swift, StoredModels.swift, SuppliersView.swift, TeamView.swift, Theme.swift, GeneratedAssetSymbols.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+
+** TEST BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/InvoiceDetailView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+	SwiftCompile normal arm64 Compiling\ Accounts.swift,\ AdService.swift,\ AppConfig.swift,\ AppData.swift,\ AppLock.swift,\ BackupDocument.swift,\ ChargeCheckApp.swift,\ CheckSession.swift,\ CheckView.swift,\ CloudTeam.swift,\ DocumentScanner.swift,\ Files.swift,\ HomeView.swift,\ ImageTools.swift,\ InsightsViews.swift,\ InvoiceDetailView.swift,\ InvoiceHistoryView.swift /Users/runner/work/Invoice-
+	Building project ChargeCheck for testing with scheme ChargeCheck
+(3 failures)
