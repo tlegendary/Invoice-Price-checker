@@ -348,3 +348,32 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
   Cost = agreed price (shop's own, else supplier's own, else standard) ÷ pack × uses; food cost % of price without VAT.
   Free for everyone for now: whether it is part of Pro is Ramyar's call.
 
+## The twenty (beta 30)
+Where things are: Home (attention: budgets at 80%, agreed prices ending) · Invoices (iCloud warnings) ·
+Suppliers (Orders; a supplier: Make an order, Prices and credits) · Reports (VAT you paid, Spending by category,
+Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday summary, Problem reports).
+- Backup self-check (`BackupCheck`): each iCloud backup is read back; counts must match; failure shows on Invoices.
+- Problem reports (`CrashReports`, MetricKit): crash/freeze payloads in Files › ChargeCheck › Problem reports, 20 kept.
+- Cloud check `[langs]`: every main tab in en/ar/ckb/de/fr, doubled-length English, Arabic dark; fails if the app stops.
+- Speed tests (BigShopSpeedTests): 2,000 items / 10,000 invoices; name suggestions now read the list once (`NameIdeas.prepare`).
+- Share to ChargeCheck already existed (document types + onOpenURL). Photos shared from Photos/WhatsApp chats need a
+  share extension: needs a new App ID on Apple's side (not done).
+- Orders (`PurchaseOrder`, `OrderMaths`, `OrderStore` "orders.v1", backups `orders`): usual quantities, message to send,
+  ordered vs delivered (from the tick-off) vs invoiced.
+- VAT (`VATSummary`, calendar quarters by invoice date), spending by category (`Spending`), budgets (`Budget`,
+  `BudgetMaths`, `BudgetStore` "budgets.v1"), deals (`DealDates`, "deals.v1", reminder 14 days before), yearly cost of
+  rises (`RiseCost`), unit prices (`UnitPrices`, price rows), credit speed (`CreditSpeeds`, scores and supplier page),
+  biggest items in the supplier report PDF (`BigItems`). Backups carry `budgets` and `deals`.
+- Feature.budgets (Pro): spending by category and budgets. VAT is with exports (scan packs).
+- Siri: "What do I owe in ChargeCheck", "What's due this week in ChargeCheck" (`SiriFacts` saved on every change).
+- iPhone search (`InvoiceSearch`, CoreSpotlight, newest 500); tap opens the invoice (`CheckSession.openReportID`).
+- Monday summary (Pro, weeklyReminder): planned when leaving the app for the next Monday 9 am.
+- Credit photos (`CreditPhotos`): Invoices/Evidence/<invoice id>, compressed, to iCloud with copies, sent with the PDF.
+- Month pack (`MonthPack`): zip of PDF, CSV, Xero bills and every invoice copy and photo (NSFileCoordinator .forUploading).
+- Plans screen: what was caught in the last year (and credits back) next to the yearly price. Nothing estimated.
+- FIX: payment reminders refreshed only for Pro (inside the widget refresh); now for every plan.
+- Themes (Feature.themes, Pro): `AppLook` at the root and on every screen (`.themedScreen()` after each navigationTitle):
+  own colour (`LookKey.customColour`, PDFs too via `Themes.inUse`), background plain/soft colour/glow, text style
+  standard/rounded/classic, text size as iPhone/large/larger (a minimum, never smaller than the iPhone's), 5 presets.
+  The 8 colours and light/dark stay free. Pro ending falls back to green/plain without breaking anything.
+

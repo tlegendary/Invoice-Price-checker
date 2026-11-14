@@ -100,6 +100,7 @@ struct MoreView: View {
                 }
             }
             .navigationTitle("More")
+            .themedScreen()
             .navigationDestination(for: Page.self) { page in
                 switch page {
                 case .prices: PricesView(embedded: true)

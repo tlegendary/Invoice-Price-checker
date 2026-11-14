@@ -57,6 +57,7 @@ struct SortCategoriesView: View {
                 }
             }
             .navigationTitle("Sort into categories")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

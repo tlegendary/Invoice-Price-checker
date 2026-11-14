@@ -143,6 +143,7 @@ struct ReportsView: View {
                 }
             }
             .navigationTitle("Reports")
+            .themedScreen()
             .shopSwitcher()
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
@@ -378,6 +379,7 @@ struct PayChooseView: View {
                 }
             }
             .navigationTitle("Choose invoices to pay")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -549,6 +551,7 @@ struct ReportDetailView: View {
             }
         }
         .navigationTitle("Invoice")
+        .themedScreen()
         .navigationBarTitleDisplayMode(.inline)
         .quickLookPreview($preview)
         .confirmationDialog("Delete this invoice?", isPresented: $confirmDelete, titleVisibility: .visible) {
@@ -624,7 +627,7 @@ struct ReportDetailView: View {
     }
 
     private func creditRequest(_ entry: HistoryEntry) -> URL? {
-        let data = PDFMaker.creditRequest(entry, business: Shops.reportName(entry.shopId), theme: Themes.named(colourID))
+        let data = PDFMaker.creditRequest(entry, business: Shops.reportName(entry.shopId), theme: Themes.inUse(colourID))
         return AppFiles.write(data, folder: "Exports", name: "Credit request " + ReportMaths.copyName(for: entry) + ".pdf")
     }
 }
@@ -666,7 +669,7 @@ struct ExportView: View {
                 }
                 Section {
                     Button {
-                        let data = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.named(colourID))
+                        let data = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.inUse(colourID))
                         finish(AppFiles.write(data, folder: "Exports", name: name("pdf")))
                     } label: {
                         Label("Make a PDF", systemImage: "doc.richtext")
@@ -678,7 +681,7 @@ struct ExportView: View {
                         Label("Make a spreadsheet (CSV)", systemImage: "tablecells")
                     }
                     Button {
-                        let pdf = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.named(colourID))
+                        let pdf = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.inUse(colourID))
                         let csv = Data(("\u{FEFF}" + ReportMaths.reportCSV(chosen)).utf8)
                         let xero = Data(AccountingExport.xeroBills(chosen, creditDays: dueDays, options: exportOptions).utf8)
                         finish(MonthPack.make(chosen, title: name("zip").replacingOccurrences(of: ".zip", with: ""), pdf: pdf, csv: csv, xero: xero))
@@ -729,6 +732,7 @@ struct ExportView: View {
                 }
             }
             .navigationTitle("Export")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: period) {
                 made = nil

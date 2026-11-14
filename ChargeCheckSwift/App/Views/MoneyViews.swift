@@ -46,6 +46,7 @@ struct VATSummaryView: View {
             }
         }
         .navigationTitle("VAT you paid")
+        .themedScreen()
         .safeAreaInset(edge: .bottom) {
             Text("By each invoice's date, calendar quarters. Check the dates match your VAT periods. Invoices billed twice and other currencies are left out.")
                 .font(.caption)
@@ -127,6 +128,7 @@ struct CategorySpendView: View {
             }
         }
         .navigationTitle("Spending by category")
+        .themedScreen()
     }
 }
 
@@ -188,6 +190,7 @@ struct BudgetsView: View {
             }
         }
         .navigationTitle("Budgets")
+        .themedScreen()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
@@ -236,6 +239,7 @@ private struct BudgetEditView: View {
                 }
             }
             .navigationTitle("Budget")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -275,5 +279,6 @@ struct DealsEndingView: View {
             }
         }
         .navigationTitle("Agreed prices ending")
+        .themedScreen()
     }
 }

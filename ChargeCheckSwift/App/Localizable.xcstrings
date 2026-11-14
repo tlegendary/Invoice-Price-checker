@@ -5957,6 +5957,35 @@
         }
       }
     },
+    "As on my iPhone": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كما في الـ iPhone"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وەک لە iPhoneەکەم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie auf meinem iPhone"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme sur mon iPhone"
+          }
+        }
+      }
+    },
     "Ask me first": {
       "extractionState": "manual",
       "localizations": {
@@ -6180,6 +6209,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Facture moyenne"
+          }
+        }
+      }
+    },
+    "Background": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخلفية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پاشبنەما"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hintergrund"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fond"
           }
         }
       }
@@ -7445,6 +7503,35 @@
         }
       }
     },
+    "Changes every screen at once, and your reports use your colour. Larger text never goes below your iPhone's own text size setting.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يغيّر كل الشاشات دفعة واحدة، وتستخدم تقاريرك لونك. النص الأكبر لا يقل أبدًا عن إعداد حجم النص في الـ iPhone."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شاشەکان پێکەوە دەگۆڕێت، و ڕاپۆرتەکانت ڕەنگەکەت بەکاردەهێنن. نووسینی گەورەتر هەرگیز لە ڕێکخستنی قەبارەی نووسینی iPhoneەکەت بچووکتر نابێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ändert alle Bildschirme auf einmal, und deine Berichte nutzen deine Farbe. Größerer Text wird nie kleiner als die Textgröße deines iPhones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifie tous les écrans d'un coup, et vos rapports utilisent votre couleur. Le texte plus grand ne descend jamais sous la taille de texte de votre iPhone."
+          }
+        }
+      }
+    },
     "ChargeCheck": {
       "shouldTranslate": false
     },
@@ -8643,6 +8730,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choisissez « Tous les magasins » en haut pour voir toutes les factures."
+          }
+        }
+      }
+    },
+    "Classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلاسيكي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کلاسیک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klassisch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classique"
           }
         }
       }
@@ -11502,6 +11618,35 @@
         }
       }
     },
+    "Easy to read": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سهل القراءة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئاسان بۆ خوێندنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gut lesbar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facile à lire"
+          }
+        }
+      }
+    },
     "Edit": {
       "localizations": {
         "ar": {
@@ -12730,6 +12875,35 @@
         }
       }
     },
+    "Fresh": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منعش"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تازە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frisch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frais"
+          }
+        }
+      }
+    },
     "From": {
       "extractionState": "manual",
       "localizations": {
@@ -12898,6 +13072,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Passer à ChargeCheck Pro"
+          }
+        }
+      }
+    },
+    "Glow": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توهّج"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "درەوشانەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leuchten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo"
           }
         }
       }
@@ -15316,6 +15519,64 @@
         }
       }
     },
+    "Large": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەورە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groß"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand"
+          }
+        }
+      }
+    },
+    "Larger": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكبر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەورەتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus grand"
+          }
+        }
+      }
+    },
     "Last 90 days": {
       "extractionState": "manual",
       "localizations": {
@@ -17417,6 +17678,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nouvelle ligne"
+          }
+        }
+      }
+    },
+    "Night shift": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مناوبة ليلية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شەوانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nachtschicht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service de nuit"
           }
         }
       }
@@ -22680,6 +22970,35 @@
         }
       }
     },
+    "Plain": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سادە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlicht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uni"
+          }
+        }
+      }
+    },
     "Plan": {
       "localizations": {
         "ar": {
@@ -25219,6 +25538,35 @@
         }
       }
     },
+    "Rounded": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستدير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خڕ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgerundet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrondi"
+          }
+        }
+      }
+    },
     "Same invoice – update the saved one": {
       "extractionState": "manual",
       "localizations": {
@@ -27275,6 +27623,35 @@
         }
       }
     },
+    "Soft colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون ناعم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی نەرم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sanfte Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couleur douce"
+          }
+        }
+      }
+    },
     "Some things don't match": {
       "extractionState": "manual",
       "localizations": {
@@ -27845,6 +28222,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le personnel utilise ChargeCheck sur son propre iPhone. Il scanne et vérifie les factures de son magasin, et voit les rapports et ce qui est dû. Vous seul pouvez modifier les prix, enregistrer les paiements et changer les réglages."
+          }
+        }
+      }
+    },
+    "Standard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئاسایی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
           }
         }
       }
@@ -29421,6 +29827,64 @@
         }
       }
     },
+    "Text size": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم النص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قەبارەی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textgröße"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille du texte"
+          }
+        }
+      }
+    },
+    "Text style": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط النص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شێوازی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schriftstil"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style du texte"
+          }
+        }
+      }
+    },
     "Thank you": {
       "extractionState": "manual",
       "localizations": {
@@ -30440,6 +30904,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le zip contient le PDF, le tableur, les factures pour Xero et chaque photo ou PDF de facture de la période, prêt à envoyer à votre comptable."
+          }
+        }
+      }
+    },
+    "Themes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظاهر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕووکارەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designs"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thèmes"
           }
         }
       }
@@ -32908,6 +33401,35 @@
         }
       }
     },
+    "Warm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دافئ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەرم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warm"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaleureux"
+          }
+        }
+      }
+    },
     "Watch a short ad to scan 1 invoice": {
       "localizations": {
         "ar": {
@@ -34598,6 +35120,35 @@
         }
       }
     },
+    "Your colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی خۆت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre couleur"
+          }
+        }
+      }
+    },
     "Your data": {
       "localizations": {
         "ar": {
@@ -34794,6 +35345,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre mois en mots simples : vos dépenses, qui a surfacturé, ce qui a augmenté."
+          }
+        }
+      }
+    },
+    "Your own colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك الخاص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی تایبەتی خۆت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine eigene Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre propre couleur"
+          }
+        }
+      }
+    },
+    "Your own colour, backgrounds, text style and size": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك الخاص والخلفيات ونمط النص وحجمه"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی خۆت، پاشبنەماکان، شێواز و قەبارەی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigene Farbe, Hintergründe, Schriftstil und -größe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre couleur, fonds, style et taille du texte"
           }
         }
       }

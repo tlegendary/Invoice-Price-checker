@@ -28,6 +28,7 @@ struct SupplierTipsView: View {
             }
         }
         .navigationTitle("Cheaper elsewhere")
+        .themedScreen()
     }
 }
 
@@ -157,6 +158,7 @@ struct MonthlySummaryView: View {
             }
         }
         .navigationTitle("Monthly summary")
+        .themedScreen()
         .task(id: month) {
             guard summary.invoices > 0, written[month] == nil else { return }
             writing = true
@@ -247,6 +249,7 @@ struct PriceRisesView: View {
             }
         }
         .navigationTitle(supplier.map { String(localized: "Price rises – \($0)") } ?? String(localized: "Price rises"))
+        .themedScreen()
     }
 }
 
@@ -418,6 +421,7 @@ struct CompareShopsView: View {
             }
         }
         .navigationTitle("Compare shops")
+        .themedScreen()
     }
 
     private func metric<V: View>(_ title: LocalizedStringKey, _ rows: [ShopFigures], @ViewBuilder value: @escaping (ShopFigures) -> V) -> some View {
@@ -484,5 +488,6 @@ struct SupplierScoresView: View {
             }
         }
         .navigationTitle("Supplier scores")
+        .themedScreen()
     }
 }

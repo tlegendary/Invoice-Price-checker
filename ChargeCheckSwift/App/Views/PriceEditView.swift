@@ -206,6 +206,7 @@ struct PriceEditView: View {
                 }
             }
             .navigationTitle(isNew ? "Add a price" : "Edit price")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

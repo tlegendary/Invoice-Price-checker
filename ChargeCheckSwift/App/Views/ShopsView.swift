@@ -85,6 +85,7 @@ struct ShopsView: View {
             }
         }
         .navigationTitle("Your shops")
+        .themedScreen()
         .navigationBarTitleDisplayMode(.inline)
         .alert("Rename shop", isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
             TextField("Shop name", text: $renameText)

@@ -66,9 +66,9 @@ final class BigShopSpeedTests: XCTestCase {
     }
 
     func testNameSuggestionsForTheWholeList() {
-        let sample = Array(Self.items.prefix(200))
-        time("name suggestions, 200 items among 2,000", limit: 20) {
-            for item in sample { _ = NameIdeas.suggest(for: item, among: Self.items, limit: 4) }
+        time("name suggestions, all 2,000 items", limit: 20) {
+            let prepared = NameIdeas.prepare(Self.items)
+            for item in Self.items { _ = NameIdeas.suggest(for: item, prepared: prepared, limit: 4) }
         }
     }
 }

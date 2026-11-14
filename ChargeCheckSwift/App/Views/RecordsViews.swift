@@ -53,6 +53,7 @@ struct RecentlyDeletedView: View {
             }
         }
         .navigationTitle("Recently deleted")
+        .themedScreen()
         .onAppear { records.prune() }
         .confirmationDialog("Delete everything here for good?", isPresented: $confirmEmpty, titleVisibility: .visible) {
             Button("Delete all for good", role: .destructive) { records.emptyBin() }
@@ -151,6 +152,7 @@ struct ChangeHistoryView: View {
             }
         }
         .navigationTitle("History of changes")
+        .themedScreen()
         .searchable(text: $search)
     }
 }

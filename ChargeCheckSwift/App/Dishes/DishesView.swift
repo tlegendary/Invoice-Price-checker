@@ -49,6 +49,7 @@ struct DishesView: View {
             }
         }
         .navigationTitle("Cost per dish")
+        .themedScreen()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -185,6 +186,7 @@ struct DishEditView: View {
                 }
             }
             .navigationTitle(dish.name.isEmpty ? String(localized: "New dish") : dish.name)
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -273,6 +275,7 @@ struct ItemPicker: View {
             }
             .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always))
             .navigationTitle("Add an ingredient")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -132,6 +132,7 @@ struct PricesView: View {
                 }
             }
             .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : String(localized: "Prices"))
+            .themedScreen()
             .environment(\.editMode, $editMode)
             .safeAreaInset(edge: .bottom) {
                 if selecting {

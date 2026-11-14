@@ -61,6 +61,7 @@ struct HomeView: View {
                 }
             }
             .navigationTitle(title)
+            .themedScreen()
             .shopSwitcher()
             .confirmationDialog("Scan an invoice", isPresented: $choosingSource, titleVisibility: .visible) {
                 if DocumentScanner.isAvailable {
@@ -394,6 +395,7 @@ struct BilledTwiceView: View {
             }
         }
         .navigationTitle("Billed twice")
+        .themedScreen()
     }
 }
 
@@ -420,6 +422,7 @@ struct NotCheckedView: View {
             }
         }
         .navigationTitle("Not fully checked")
+        .themedScreen()
     }
 }
 
@@ -460,6 +463,7 @@ struct CreditsOwedView: View {
             }
         }
         .navigationTitle("Credits owed")
+        .themedScreen()
         .confirmationDialog("Write off this credit?", isPresented: Binding(get: { writeOff != nil }, set: { if !$0 { writeOff = nil } }),
                             titleVisibility: .visible, presenting: writeOff) { entry in
             Button("Write it off", role: .destructive) {
@@ -522,6 +526,7 @@ struct DuePaymentsView: View {
             dueSection("Later", later)
         }
         .navigationTitle("Payments due")
+        .themedScreen()
     }
 
     @ViewBuilder
@@ -624,6 +629,7 @@ struct SavingsView: View {
             }
         }
         .navigationTitle("Money protected")
+        .themedScreen()
     }
 
     private func savings(_ title: LocalizedStringKey, _ s: Savings) -> some View {

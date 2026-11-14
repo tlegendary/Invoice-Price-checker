@@ -168,6 +168,7 @@ struct SuppliersView: View {
                 }
             }
             .navigationTitle("Suppliers")
+            .themedScreen()
             .shopSwitcher()
             .toolbar {
                 if !team.isStaff {
@@ -356,7 +357,7 @@ struct SupplierProfileSection: View {
 
     private func report() -> URL? {
         let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
-        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.named(colourID),
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.inUse(colourID),
                                            all: Accounts.shared.inShop(reports.compactMap { $0.entry }))
         let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
         return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
@@ -681,6 +682,7 @@ struct SupplierDetailView: View {
                     }
                 }
                 .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : account.name)
+                .themedScreen()
                 .environment(\.editMode, $editMode)
                 .toolbar {
                     if selecting {
@@ -972,6 +974,7 @@ struct RecordPaymentView: View {
                 }
             }
             .navigationTitle(title)
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1034,6 +1037,7 @@ struct ReceiptView: View {
                 }
             }
             .navigationTitle(String(localized: "Receipt – \(payment.supplier)"))
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1113,6 +1117,7 @@ struct PayRunView: View {
                 }
             }
             .navigationTitle("Pay run")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1170,6 +1175,7 @@ struct PayInvoicesView: View {
                 }
             }
             .navigationTitle("Pay invoices")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1220,6 +1226,7 @@ struct AddSupplierView: View {
                 }
             }
             .navigationTitle("Add a supplier")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1306,6 +1313,7 @@ struct SupplierPricesView: View {
             }
         }
         .navigationTitle(String(localized: "Prices – \(supplier)"))
+        .themedScreen()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -1372,6 +1380,7 @@ struct SpecialPriceEditView: View {
                 }
             }
             .navigationTitle(supplier)
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1424,6 +1433,7 @@ struct PickItemView: View {
             }
             .searchable(text: $search, prompt: "Search your price list")
             .navigationTitle("Choose an item")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1491,6 +1501,7 @@ struct StatementCheckView: View {
                 }
             }
             .navigationTitle("Check a statement")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

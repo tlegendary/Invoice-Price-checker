@@ -97,8 +97,8 @@ struct RootView: View {
             tab = "invoices"
             session.incoming.append(url)
         }
-        .tint(Themes.named(colourID).accent(for: scheme))
-        .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
+        // colour, light or dark, text style and size – on every screen
+        .appLook()
         .task {
             CloudTeam.shared.start(context)
             CrashReports.shared.start()
@@ -234,7 +234,7 @@ struct RootView: View {
         }) {
             PaywallView(reason: upsell.feature)
                 .environmentObject(store)
-                .tint(Themes.named(colourID).accent(for: scheme))
+                .appLook()
         }
     }
 

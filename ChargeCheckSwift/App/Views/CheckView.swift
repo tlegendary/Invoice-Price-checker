@@ -201,6 +201,7 @@ struct CheckView: View {
                 }
             }
             .navigationTitle("Invoices")
+            .themedScreen()
             .task {
                 await AutoCloud.shared.prepare()
                 // the cloud check's screenshots run without iCloud

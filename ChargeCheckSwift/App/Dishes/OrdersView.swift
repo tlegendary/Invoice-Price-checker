@@ -35,6 +35,7 @@ struct OrdersView: View {
             section("Compared with the invoice", Array(done.prefix(30)))
         }
         .navigationTitle("Orders")
+        .themedScreen()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -143,6 +144,7 @@ private struct SupplierChoice: View {
                 }
             }
             .navigationTitle("Order from")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -209,6 +211,7 @@ struct OrderEditView: View {
                 }
             }
             .navigationTitle("Order")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -336,6 +339,7 @@ struct OrderDetailView: View {
                 }
             }
             .navigationTitle(order.supplier)
+            .themedScreen()
             .sheet(item: $editing) { order in
                 OrderEditView(order: order) { store.save($0) }
             }
@@ -427,6 +431,7 @@ private struct InvoiceChoice: View {
                 }
             }
             .navigationTitle("Which invoice?")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

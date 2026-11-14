@@ -58,6 +58,7 @@ struct NameSuggestionsView: View {
                 }
             }
             .navigationTitle("Other names")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -73,8 +74,9 @@ struct NameSuggestionsView: View {
             .task {
                 let all = items
                 let found = await Task.detached(priority: .userInitiated) {
-                    all.compactMap { item -> Row? in
-                        let ideas = NameIdeas.suggest(for: item, among: all, limit: 4)
+                    let prepared = NameIdeas.prepare(all)
+                    return all.compactMap { item -> Row? in
+                        let ideas = NameIdeas.suggest(for: item, prepared: prepared, limit: 4)
                         return ideas.isEmpty ? nil : Row(item: item, ideas: ideas)
                     }
                 }.value
