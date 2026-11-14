@@ -100,7 +100,7 @@ struct SuppliersView: View {
                                 GatedLink(.cheaperElsewhere) {
                                     SupplierTipsView(tips: tips)
                                 } label: {
-                                    Text("See all \(tips.count) cheaper items")
+                                    Text(tips.count == 1 ? String(localized: "See the cheaper item") : String(localized: "See all \(tips.count) cheaper items"))
                                 }
                             }
                         } header: {
