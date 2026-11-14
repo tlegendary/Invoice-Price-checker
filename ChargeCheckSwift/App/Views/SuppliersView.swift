@@ -166,7 +166,6 @@ struct SuppliersView: View {
                     }
                 }
             }
-            .refreshable { await team.refresh() }
             .navigationDestination(for: String.self) { key in
                 SupplierDetailView(key: key)
             }

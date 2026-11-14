@@ -52,24 +52,6 @@ struct MoreView: View {
                         Text("Your business")
                     }
                 }
-                Section {
-                    // staff phones, and owners already sharing, keep it; starting to share needs Pro
-                    if store.allows(.staff) || team.role != .none {
-                        NavigationLink(value: Page.staff) {
-                            LabeledContent {
-                                Text(team.role == .owner ? String(localized: "Sharing on") : team.role == .staff ? String(localized: "Team member") : "")
-                            } label: {
-                                Label("Staff", systemImage: "person.2")
-                            }
-                        }
-                    } else {
-                        LockedRow(feature: .staff) { Label("Staff", systemImage: "person.2") }
-                    }
-                } footer: {
-                    if team.role == .none {
-                        Text("Let staff check invoices on their own iPhones.")
-                    }
-                }
                 if !team.isStaff {
                     Section {
                         NavigationLink(value: Page.deleted) {

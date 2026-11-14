@@ -17,10 +17,10 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     static let roleKey = "team.role"
-    /// On since beta 17 (it was off in betas 16–17 while a launch crash was found: SwiftData + the iCloud entitlement).
-    /// iCloud's sync engine starting without the Push Notifications capability. While this is false, iCloud is never touched.
-    /// Turn back on only together with the push entitlement (see MIGRATION.md, "Staff phones").
-    static let enabled = true
+    /// Staff sharing was taken out (Ramyar, 14 Nov 2026: not needed). While this is false, iCloud is never touched and
+    /// nothing about sharing is shown. The code is kept so it could come back as a properly designed feature
+    /// (roles, a view per shop, who did what) – that would also need the iCloud and push entitlements again.
+    static let enabled = false
     /// Set while the sync engine is starting. If the app dies before it's cleared, sharing stays paused on the next launch
     /// instead of crashing again and again.
     private static let startingKey = "team.starting"
@@ -124,6 +124,16 @@ final class CloudTeam: NSObject, ObservableObject {
 
     /// Called once at launch with the app's data.
     func start(_ context: ModelContext) {
+        // sharing is switched off: a phone that had joined or started sharing in an earlier beta simply stops.
+        // Its own data stays on the phone; nothing in iCloud is changed or deleted.
+        guard Self.enabled else {
+            if role != .none {
+                setRole(.none)
+                forgetState()
+                UserDefaults.standard.removeObject(forKey: Self.zoneOwnerKey)
+            }
+            return
+        }
         // the saved data didn't open: this phone looks empty, so it must not take part in sharing at all
         guard !AppStorageSetup.failed else {
             status = String(localized: "Your saved data couldn't be opened, so sharing is paused on this phone.")
