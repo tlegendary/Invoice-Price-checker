@@ -82,6 +82,19 @@ def wrap(draw, text, font, width, rtl):
             line = word
     if line:
         lines.append(line)
+    if len(lines) == 2:
+        # two lines of about the same length, never one word left on its own
+        kwargs = {"direction": "rtl"} if rtl else {}
+        best = None
+        for cut in range(1, len(words)):
+            first, second = " ".join(words[:cut]), " ".join(words[cut:])
+            if second.startswith(("–", "-")):
+                continue  # a dash stays at the end of the first line
+            widest = max(draw.textlength(first, font=font, **kwargs), draw.textlength(second, font=font, **kwargs))
+            if widest <= width and (best is None or widest < best[0]):
+                best = (widest, [first, second])
+        if best:
+            lines = best[1]
     return lines
 
 
