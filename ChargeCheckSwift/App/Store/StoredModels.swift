@@ -12,7 +12,8 @@ final class StoredPrice {
     var supplier: String
     /// Invoice spellings, one per line.
     var aliasText: String
-    /// Special prices per supplier, as JSON.
+    /// Special prices per supplier, as JSON – and the item's shops and shop prices in the same field, so the saved
+    /// database didn't have to change for them (14 Nov 2026). Items without shops keep the old form (a plain list).
     var supplierPrices: Data?
     var unit: String?
 
@@ -23,13 +24,28 @@ final class StoredPrice {
         price = item.price
         supplier = item.supplier
         aliasText = item.aliases.joined(separator: "\n")
-        supplierPrices = StoredPrice.encode(item.sp)
+        supplierPrices = StoredPrice.encode(item)
         unit = item.unit
     }
 
-    static func encode(_ special: [SupplierPrice]) -> Data? {
-        if special.isEmpty { return nil }
-        return try? JSONEncoder().encode(special)
+    /// Supplier prices plus shops, for items that have shops.
+    private struct Extras: Codable {
+        var sp: [SupplierPrice]
+        var shops: [String]?
+        var shopPrices: [ShopPrice]?
+    }
+
+    static func encode(_ item: PriceItem) -> Data? {
+        if item.shops == nil && item.shopPrices == nil {
+            return item.sp.isEmpty ? nil : try? JSONEncoder().encode(item.sp)
+        }
+        return try? JSONEncoder().encode(Extras(sp: item.sp, shops: item.shops, shopPrices: item.shopPrices))
+    }
+
+    private static func decode(_ data: Data?) -> Extras {
+        guard let data else { return Extras(sp: []) }
+        if let list = try? JSONDecoder().decode([SupplierPrice].self, from: data) { return Extras(sp: list) }
+        return (try? JSONDecoder().decode(Extras.self, from: data)) ?? Extras(sp: [])
     }
 
     func update(from item: PriceItem) {
@@ -38,7 +54,7 @@ final class StoredPrice {
         price = item.price
         supplier = item.supplier
         aliasText = item.aliases.joined(separator: "\n")
-        supplierPrices = StoredPrice.encode(item.sp)
+        supplierPrices = StoredPrice.encode(item)
         unit = item.unit
     }
 
@@ -47,11 +63,11 @@ final class StoredPrice {
     }
 
     var item: PriceItem {
-        var special: [SupplierPrice] = []
-        if let data = supplierPrices, let decoded = try? JSONDecoder().decode([SupplierPrice].self, from: data) {
-            special = decoded
-        }
-        return PriceItem(id: uid, cat: cat, name: name, price: price, supplier: supplier, aliases: aliases, sp: special, unit: unit)
+        let extras = StoredPrice.decode(supplierPrices)
+        let shops = extras.shops?.filter { !$0.isEmpty }
+        let shopPrices = extras.shopPrices?.filter { !$0.shop.isEmpty && $0.p > 0 }
+        return PriceItem(id: uid, cat: cat, name: name, price: price, supplier: supplier, aliases: aliases, sp: extras.sp, unit: unit,
+                         shops: (shops?.isEmpty ?? true) ? nil : shops, shopPrices: (shopPrices?.isEmpty ?? true) ? nil : shopPrices)
     }
 }
 
@@ -79,6 +95,17 @@ final class StoredReport {
         over = entry.over
         paidAt = entry.paid.flatMap { StoredReport.parseDate($0) }
         payload = (try? JSONEncoder().encode(entry)) ?? Data()
+    }
+
+    func update(from entry: HistoryEntry) {
+        savedAt = StoredReport.parseDate(entry.savedAt) ?? Date()
+        supplier = entry.supplier
+        invNo = entry.invNo
+        dateText = entry.date
+        total = entry.total
+        over = entry.over
+        paidAt = entry.paid.flatMap { StoredReport.parseDate($0) }
+        payload = (try? JSONEncoder().encode(entry)) ?? payload
     }
 
     var entry: HistoryEntry? {

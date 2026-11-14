@@ -20,13 +20,24 @@ enum AppData {
     }
 
     /// Everything on this phone as one backup file.
-    static func backup(_ context: ModelContext) -> BackupFile {
+    static func backup(_ context: ModelContext, scans: ScanCredits? = nil) -> BackupFile {
         let defaults = UserDefaults.standard
         var settings = BackupSettings()
         settings.biz = defaults.string(forKey: SettingKey.business)
         settings.mode = defaults.string(forKey: SettingKey.mode)
         settings.color = defaults.string(forKey: SettingKey.colour)
-        return BackupFile(baseline: items(context), history: entries(context), settings: settings)
+        settings.keepCopy = defaults.string(forKey: SettingKey.keepCopies)
+        settings.tol = tolerance
+        let shops = Shops.all
+        if !shops.isEmpty {
+            settings.shops = shops
+            settings.shop = Shops.current
+        }
+        return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans,
+                          payments: Accounts.shared.payments, trusted: Accounts.shared.trusted,
+                          creditDays: Accounts.shared.creditDays.isEmpty ? nil : Accounts.shared.creditDays,
+                          currencies: Accounts.shared.currencies.isEmpty ? nil : Accounts.shared.currencies,
+                          dishes: DishStore.shared.dishes.isEmpty ? nil : DishStore.shared.dishes)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -44,23 +55,133 @@ enum AppData {
             context.insert(StoredReport(entry: entry))
         }
         try? context.save()
+        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
+                                currencies: backup.currencies, context: context)
+        DishStore.shared.restore(backup.dishes)
+        Records.shared.log(.backupRestored, String(localized: "\(backup.baseline.count) prices, \(backup.history.count) invoices"))
 
         let defaults = UserDefaults.standard
         if let settings = backup.settings {
             if let biz = settings.biz { defaults.set(biz, forKey: SettingKey.business) }
             if let mode = settings.mode, ["auto", "light", "dark"].contains(mode) { defaults.set(mode, forKey: SettingKey.mode) }
             if let colour = settings.color, Themes.all.contains(where: { $0.id == colour }) { defaults.set(colour, forKey: SettingKey.colour) }
+            if let copies = settings.keepCopy, ["phone", "ask", "off"].contains(copies) { defaults.set(copies, forKey: SettingKey.keepCopies) }
+            // up to 1,000 so a dinar tolerance (250 IQD, 1,000 IQD) comes back too
+            if let tol = settings.tol, tol >= 0.01, tol <= 1000 { defaults.set(tol, forKey: SettingKey.tolerance) }
+            if let shops = settings.shops, !shops.isEmpty {
+                Shops.all = shops
+                if let shop = settings.shop { defaults.set(shop, forKey: Shops.currentKey) }
+            }
+        }
+    }
+
+    /// Supplier names the user already has (from reports and the price list).
+    static func knownSuppliers(_ context: ModelContext) -> [String] {
+        var seen = Set<String>()
+        let names = entries(context).map { $0.supplier } + items(context).map { $0.supplier }
+        return names.map { TextTools.cleanSupplier($0) }.filter { $0.count > 2 && seen.insert($0).inserted }
+    }
+
+    /// How much above the agreed price counts as an overcharge (at least 1p).
+    static var tolerance: Double {
+        max(0.01, UserDefaults.standard.double(forKey: SettingKey.tolerance))
+    }
+
+    /// What the user said about an invoice that looks like one already saved.
+    enum DuplicateChoice: Equatable {
+        /// The same invoice scanned again: it updates the saved one.
+        case sameInvoice(HistoryEntry)
+        /// The supplier billed the same invoice twice: both are kept and this one is flagged.
+        case billedTwice(HistoryEntry)
+    }
+
+    /// A saved invoice that looks like this one (same supplier and date, and the same number – or, without a number,
+    /// the same amount – in the same shop). nil when there is none, or when this invoice was saved before.
+    static func possibleDuplicate(of draft: InvoiceDraft, book: PriceBook, context: ModelContext) -> HistoryEntry? {
+        let all = entries(context)
+        if all.contains(where: { $0.id == draft.id }) { return nil }
+        let net = draft.totalOnly ? (draft.printedNet ?? draft.printedTotal ?? 0) : InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
+        return InvoiceMaths.duplicate(of: draft, net: net, in: all)
+    }
+
+    /// Saves a checked invoice to Reports. An invoice that looks like a saved one is never replaced silently:
+    /// the caller asks first (`possibleDuplicate`) and passes what the user chose.
+    @discardableResult
+    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext,
+                           duplicate: DuplicateChoice? = nil) -> HistoryEntry {
+        let all = entries(context)
+        var existing = all.first { $0.id == draft.id }
+        var billedTwiceOf: String?
+        switch duplicate {
+        case .sameInvoice(let same)?:
+            if existing == nil, let current = all.first(where: { $0.id == same.id }) {
+                existing = current
+                draft.id = current.id
+            }
+        case .billedTwice(let first)?:
+            billedTwiceOf = first.id
+        case nil:
+            break
+        }
+        var entry = InvoiceMaths.historyEntry(draft, book: book, tolerance: tolerance, existing: existing)
+        // the currency is kept with the invoice, so its amounts never change meaning later
+        if entry.currency == nil { entry.currency = Accounts.shared.currency(for: draft.supplier).code }
+        if let billedTwiceOf { entry.duplicateOf = billedTwiceOf }
+        let id = entry.id
+        let descriptor = FetchDescriptor<StoredReport>(predicate: #Predicate<StoredReport> { $0.uid == id })
+        if let stored = (try? context.fetch(descriptor))?.first {
+            stored.update(from: entry)
+        } else {
+            context.insert(StoredReport(entry: entry))
+        }
+        try? context.save()
+        return entry
+    }
+
+    /// Changes saved reports (for example marks them paid) and keeps everything else about them.
+    static func updateReports(_ ids: Set<String>, context: ModelContext, _ change: (inout HistoryEntry) -> Void) {
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
+            guard var entry = stored.entry else { continue }
+            let savedAt = entry.savedAt
+            change(&entry)
+            entry.savedAt = savedAt
+            stored.update(from: entry)
+        }
+        try? context.save()
+    }
+
+    /// Deletes an invoice. It stays in More › Recently deleted for 30 days.
+    static func deleteReport(_ id: String, context: ModelContext) {
+        deleteReports([id], context: context)
+    }
+
+    static func deleteReports(_ ids: Set<String>, context: ModelContext) {
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
+            if let entry = stored.entry { Records.shared.binInvoice(entry) }
+            context.delete(stored)
+        }
+        try? context.save()
+    }
+
+    /// Deletes prices. They stay in More › Recently deleted for 30 days.
+    static func deletePrices(_ prices: [StoredPrice], context: ModelContext) {
+        for price in prices {
+            Records.shared.binPrice(price.item)
+            context.delete(price)
         }
     }
 
     /// Adds or updates one price.
-    static func save(_ item: PriceItem, in context: ModelContext) {
+    static func save(_ item: PriceItem, in context: ModelContext, logged: Bool = true) {
         let id = item.id
         let descriptor = FetchDescriptor<StoredPrice>(predicate: #Predicate<StoredPrice> { $0.uid == id })
         if let existing = (try? context.fetch(descriptor))?.first {
+            let old = existing.item.price
             existing.update(from: item)
+            if logged && abs(old - item.price) > 0.0001 { Records.shared.log(.priceChanged, item.name, amount: old, newAmount: item.price) }
         } else {
             context.insert(StoredPrice(item: item))
+            if logged { Records.shared.log(.priceAdded, item.name, newAmount: item.price) }
         }
     }
 
@@ -68,21 +189,21 @@ enum AppData {
     /// Documents folder. When the Swift version opens for the first time with nothing
     /// saved, it picks that up so prices and reports carry over.
     @discardableResult
-    static func importLegacyBackupIfNeeded(_ context: ModelContext) -> Int {
+    static func importLegacyBackupIfNeeded(_ context: ModelContext) -> BackupFile? {
         let defaults = UserDefaults.standard
-        if defaults.bool(forKey: legacyDoneKey) { return 0 }
+        if defaults.bool(forKey: legacyDoneKey) { return nil }
         let priceCount = (try? context.fetchCount(FetchDescriptor<StoredPrice>())) ?? 0
         let reportCount = (try? context.fetchCount(FetchDescriptor<StoredReport>())) ?? 0
         guard priceCount == 0, reportCount == 0 else {
             defaults.set(true, forKey: legacyDoneKey)
-            return 0
+            return nil
         }
-        guard let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return 0 }
+        guard let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         let file = folder.appendingPathComponent(legacyBackupName)
-        guard let data = try? Data(contentsOf: file), let backup = try? BackupFile.read(data) else { return 0 }
+        guard let data = try? Data(contentsOf: file), let backup = try? BackupFile.read(data) else { return nil }
         restore(backup, into: context)
         defaults.set(true, forKey: legacyDoneKey)
-        return backup.baseline.count
+        return backup
     }
 }
 
@@ -90,4 +211,20 @@ enum SettingKey {
     static let mode = "look.mode"
     static let colour = "look.colour"
     static let business = "business.name"
+    static let tolerance = "check.tolerance"
+    /// The user has seen the plans and chose to carry on with the free version.
+    static let choseFree = "access.choseFree"
+    static let keepCopies = "copies.mode"
+    static let cloudCopies = "copies.cloud"
+    static let reminder = "reminder.monthly"
+    static let paySkipped = "pay.skipped"
+    /// How many times each photo is read: 1 (faster) or 2 (double-checked). 2 unless the user chose 1.
+    static let photoReads = "check.photoReads"
+    /// Show "To pay" before VAT (for shops that aren't VAT registered).
+    static let payBeforeVat = "pay.beforeVat"
+    /// Lower an agreed price when a fully checked invoice is cheaper (on unless turned off).
+    static let autoLower = "prices.autoLower"
+    /// Add the names suppliers use to the price list when a checked invoice shows a new one (on unless switched off).
+    static let autoLearnNames = "prices.autoLearnNames"
+    static let lastRatingAsk = "rating.lastAsk"
 }

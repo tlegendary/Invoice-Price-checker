@@ -1,0 +1,8 @@
+Un tout nouveau ChargeCheck, entièrement repensé pour l'iPhone.
+
+• Lecture plus rapide et plus précise – chaque facture est lue deux fois
+• Comptes fournisseurs : ce que vous devez, paiements, avoirs et échéances
+• Plusieurs magasins : un seul ou tous
+• Alertes factures en double et hausses de prix
+• PDF de demande d'avoir et rapports pour votre comptable
+• Français, anglais, allemand, arabe et kurde

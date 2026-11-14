@@ -4,10 +4,14 @@ import UniformTypeIdentifiers
 import ChargeCheckCore
 
 struct SettingsView: View {
+    @Binding var showPaywall: Bool
+    @ObservedObject private var team = CloudTeam.shared
+
+    @EnvironmentObject private var store: Store
+    @EnvironmentObject private var ads: AdService
     @Environment(\.modelContext) private var context
     @AppStorage(SettingKey.mode) private var mode = "auto"
     @AppStorage(SettingKey.colour) private var colourID = "green"
-    @AppStorage(SettingKey.business) private var business = ""
 
     @State private var exportDocument: BackupDocument?
     @State private var showExporter = false
@@ -15,7 +19,83 @@ struct SettingsView: View {
     @State private var pendingRestore: BackupFile?
     @State private var notice: String?
 
-    private let supportEmail = "r93.hamad@gmail.com"
+    private let supportEmail = AppConfig.supportEmail
+    @State private var restoring = false
+    @AppStorage(SettingKey.keepCopies) private var keepCopies = "phone"
+    @AppStorage(SettingKey.cloudCopies) private var cloudCopies = true
+    @AppStorage(SettingKey.reminder) private var reminder = false
+    @AppStorage(DueReminder.settingKey) private var dueReminder = false
+    @AppStorage(CloudFolder.nameKey) private var cloudName = ""
+    @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
+    @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
+    @State private var showFolderPicker = false
+    /// iCloud Drive › ChargeCheck, used without choosing anything (signed in to iCloud).
+    @State private var cloudAvailable = AutoCloud.shared.available
+    @AppStorage(AutoCloud.settingKey) private var autoCloud = true
+    @AppStorage(SettingKey.autoLower) private var autoLower = true
+    @AppStorage(SettingKey.autoLearnNames) private var autoLearnNames = true
+    @AppStorage(AppLock.settingKey) private var lockOn = false
+    @AppStorage(SmartCheck.settingKey) private var smartCheck = true
+    @AppStorage(SettingKey.photoReads) private var photoReads = 2
+    @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
+    @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
+    @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
+    /// When a scanned invoice's items or supplier clearly belong to another shop than the one chosen.
+    @AppStorage(ShopFiling.key) private var autoFileShop = true
+    /// A currency waiting for "Change the currency?" to be confirmed.
+    @State private var pendingCurrency: String?
+    @AppStorage(Shops.listKey) private var shopData = Data()
+    @State private var showPricesShare: URL?
+
+    private func when(_ seconds: Double) -> String {
+        if seconds <= 0 { return String(localized: "not yet") }
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("d MMM HH:mm")
+        return formatter.string(from: Date(timeIntervalSince1970: seconds))
+    }
+
+    private func pickedFolder(_ result: Result<URL, Error>) {
+        guard case .success(let url) = result else { return }
+        guard let name = CloudFolder.choose(url) else {
+            notice = String(localized: "That folder couldn't be used. Please choose another one.")
+            return
+        }
+        cloudName = name
+        // a backup already in that folder (for example from your old phone) is offered when this phone is empty
+        let empty = AppData.items(context).isEmpty && AppData.entries(context).isEmpty
+        if empty, let found = CloudFolder.readBackup(), !found.baseline.isEmpty || !found.history.isEmpty {
+            pendingRestore = found
+        } else {
+            AutoBackup.run(context, scans: store.ledger.forBackup)
+            notice = String(localized: "Backups will now also be saved in \(name).")
+        }
+    }
+
+    /// The tolerance choices for the app's currency, plus the saved one if it isn't among them.
+    private var toleranceChoices: [Double] {
+        let choices = Regional.toleranceChoices(Currency.named(currencyCode))
+        return choices.contains(toleranceValue) ? choices : (choices + [toleranceValue]).sorted()
+    }
+
+    /// Changing the currency doesn't convert anything already saved, so it is confirmed when there is data.
+    private func askCurrency(_ code: String) {
+        guard code != currencyCode else { return }
+        let empty = AppData.items(context).isEmpty && AppData.entries(context).isEmpty && Accounts.shared.payments.isEmpty
+        if empty { changeCurrency(to: code) } else { pendingCurrency = code }
+    }
+
+    private func changeCurrency(to code: String) {
+        currencyCode = code
+        let choices = Regional.toleranceChoices(Currency.named(code))
+        if !choices.contains(toleranceValue) { toleranceValue = choices[0] }
+        Regional.apply()
+        LiveSettings.shared.moneyChanged()
+    }
+
+    private var planName: String {
+        store.subscribedProductID == Products.yearly ? String(localized: "Unlimited – yearly") : String(localized: "Unlimited – monthly")
+    }
 
     private var version: String {
         let info = Bundle.main.infoDictionary
@@ -30,8 +110,14 @@ struct SettingsView: View {
         return "ChargeCheck-backup_" + formatter.string(from: Date())
     }
 
+    /// Opened from the More tab, inside its navigation, rather than as a tab of its own.
+    var embedded = false
+
     var body: some View {
-        NavigationStack {
+        if embedded { content } else { NavigationStack { content } }
+    }
+
+    private var content: some View {
             Form {
                 Section {
                     Picker("Appearance", selection: $mode) {
@@ -57,7 +143,7 @@ struct SettingsView: View {
                                     }
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel(theme.name)
+                            .accessibilityLabel(L(theme.name))
                             .accessibilityAddTraits(colourID == theme.id ? .isSelected : [])
                         }
                     }
@@ -65,32 +151,244 @@ struct SettingsView: View {
                 } header: {
                     Text("Look")
                 } footer: {
-                    Text("\(Themes.named(colourID).name). Automatic follows your iPhone's light or dark setting.")
+                    Text("\(L(Themes.named(colourID).name)). Automatic follows your iPhone's light or dark setting.")
                 }
 
                 Section {
-                    TextField("Business name", text: $business)
+                    Picker("Invoices are in", selection: $invoiceLanguage) {
+                        ForEach(Regional.languages) { language in
+                            Text(language.name).tag(language.id)
+                        }
+                    }
+                    Picker("Currency", selection: Binding(get: { currencyCode }, set: { askCurrency($0) })) {
+                        ForEach(Currency.all) { currency in
+                            Text(Regional.currencyName(currency)).tag(currency.code)
+                        }
+                    }
+                    if let open = URL(string: UIApplication.openSettingsURLString) {
+                        Link("App language", destination: open)
+                    }
                 } header: {
-                    Text("Your business")
+                    Text("Language and money")
                 } footer: {
-                    Text("Shown at the top of reports and credit requests.")
+                    Text("Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language.")
                 }
+                .onChange(of: invoiceLanguage) { Regional.apply() }
 
                 Section {
-                    Button {
-                        save()
-                    } label: {
-                        Label("Save backup file", systemImage: "square.and.arrow.up")
+                    if store.isSubscribed {
+                        LabeledContent("Plan", value: planName)
+                        if let manage = AppConfig.manageSubscriptionsURL {
+                            Link("Manage or cancel subscription", destination: manage)
+                        }
+                    } else {
+                        LabeledContent("Plan", value: store.tier == .packs ? String(localized: "Scan packs (pack features unlocked)")
+                                                                          : String(localized: "Free version (1 ad per scan)"))
+                        LabeledContent("Scans left", value: "\(store.credits)")
+                        Button("Go unlimited or buy scans") {
+                            showPaywall = true
+                        }
                     }
-                    Button {
-                        showImporter = true
-                    } label: {
-                        Label("Restore backup", systemImage: "square.and.arrow.down")
+                    Button(restoring ? "Checking…" : "Restore purchases") {
+                        restoring = true
+                        Task {
+                            let found = await store.restore()
+                            restoring = false
+                            notice = found ? String(localized: "Your subscription is active.") : String(localized: "No active subscription was found for this Apple ID.")
+                        }
+                    }
+                    .disabled(restoring)
+                    if !store.isSubscribed && ads.privacyOptionsRequired {
+                        Button("Ad privacy choices") {
+                            Task { await ads.showPrivacyOptions() }
+                        }
+                    }
+                    if AppConfig.testBuild {
+                        // TEST BUILDS ONLY – remove before the App Store release
+                        Button("Test: add 5 free scans") {
+                            store.addTestScans(5)
+                        }
+                        Toggle("Test mode: use the free version", isOn: $store.testAsFree)
+                        Picker("Test: try the app as", selection: $store.testTier) {
+                            Text("What I bought").tag("")
+                            Text("Free").tag("free")
+                            Text("Scan packs").tag("packs")
+                            Text("Pro").tag("pro")
+                        }
+                        LabeledContent("Ads", value: ads.status)
+                        LabeledContent("App Store", value: store.loadStatus)
                     }
                 } header: {
-                    Text("Your data")
+                    Text("Your plan")
                 } footer: {
-                    Text("A backup holds your prices, reports and settings. Everything stays on this phone unless you save a backup somewhere else.")
+                    if AppConfig.testBuild {
+                        Text("Test mode is on: test ads are shown and nothing here is sent for review like this.")
+                    }
+                }
+
+                // staff phones: the business, prices, data and backups are the owner's
+                if !team.isStaff {
+                    if AppLock.available || lockOn {
+                        Section {
+                            Toggle("Lock with Face ID or passcode", isOn: Binding(
+                                get: { lockOn },
+                                set: { wanted in
+                                    // check it's the owner before turning the lock off or on
+                                    Task { if await AppLock.unlock() { lockOn = wanted } }
+                                }
+                            ))
+                        } footer: {
+                            Text("Asks for Face ID, Touch ID or your passcode each time ChargeCheck opens, so staff or family using this phone can't see your prices and payments.")
+                        }
+                    }
+                    Section {
+                        Picker("Ignore differences up to", selection: $toleranceValue) {
+                            ForEach(toleranceChoices, id: \.self) { value in
+                                Text(Money.format(value)).tag(value)
+                            }
+                        }
+                        Toggle("Suggest a lower price when an invoice is cheaper", isOn: $autoLower)
+                        Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
+                        if shopData.isEmpty == false && Shops.decode(shopData).count > 1 {
+                            Picker("Invoices for another shop", selection: $autoFileShop) {
+                                Text("File them there").tag(true)
+                                Text("Ask me first").tag(false)
+                            }
+                        }
+                    } header: {
+                        Text("Checking")
+                    } footer: {
+                        Text("You're asked first, and nothing changes unless you tap Update. Only for items already in your list, only on a fully checked invoice, and prices are never raised this way.")
+                            + Text(verbatim: "\n\n")
+                            + Text("Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices.")
+                    }
+
+                    Section {
+                        Picker("Read each photo", selection: $photoReads) {
+                            Text("Once (faster)").tag(1)
+                            Text("Twice (double-checked)").tag(2)
+                        }
+                        if !store.allows(.smartCheck) {
+                            LockedRow(feature: .smartCheck) { Text("Also check with Apple Intelligence") }
+                        } else if SmartCheck.status.isEmpty {
+                            Toggle("Also check with Apple Intelligence", isOn: $smartCheck)
+                        } else {
+                            // this iPhone can't run Apple Intelligence: shown off, and never used
+                            Toggle("Also check with Apple Intelligence", isOn: .constant(false))
+                                .disabled(true)
+                        }
+                    } header: {
+                        Text("How invoices are read")
+                    } footer: {
+                        let status = SmartCheck.status
+                        Text("Twice is safest: the photo is read two different ways and the app points out any line where the two reads differ. Once is about twice as fast.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price. It makes a scan slower.")
+                            + Text(verbatim: status.isEmpty ? "" : "\n\n" + status)
+                    }
+
+                    Section {
+                        Button {
+                            save()
+                        } label: {
+                            Label("Save backup file", systemImage: "square.and.arrow.up")
+                        }
+                        Button {
+                            showImporter = true
+                        } label: {
+                            Label("Restore backup", systemImage: "square.and.arrow.down")
+                        }
+                        LabeledContent("Automatic backup", value: when(lastBackup))
+                    } header: {
+                        Text("Your data")
+                    } footer: {
+                        Text("A backup holds your prices, reports and settings. One is kept automatically in the Files app › On My iPhone › ChargeCheck, with a copy for each of the last 14 days.")
+                    }
+
+                    Section {
+                        if cloudName.isEmpty {
+                            if cloudAvailable {
+                                Toggle("Save to iCloud automatically", isOn: $autoCloud)
+                                if autoCloud {
+                                    LabeledContent("Folder", value: "iCloud Drive › ChargeCheck")
+                                    LabeledContent("Last saved there", value: when(cloudSaved))
+                                    Toggle("Also save invoice copies there", isOn: $cloudCopies)
+                                }
+                            } else {
+                                Label("Sign in to iCloud on this iPhone (Settings › your name › iCloud) and everything is saved there automatically.",
+                                      systemImage: "exclamationmark.icloud")
+                                    .foregroundStyle(.orange)
+                            }
+                            Button {
+                                showFolderPicker = true
+                            } label: {
+                                Label(cloudAvailable ? "Use a different folder" : "Choose an iCloud Drive folder", systemImage: "folder")
+                            }
+                        } else {
+                            LabeledContent("Folder", value: cloudName)
+                            LabeledContent("Last saved there", value: when(cloudSaved))
+                            Toggle("Also save invoice copies there", isOn: $cloudCopies)
+                            Button("Change folder") { showFolderPicker = true }
+                            Button("Stop saving there", role: .destructive) {
+                                CloudFolder.forget()
+                                cloudName = ""
+                            }
+                        }
+                    } header: {
+                        Text("iCloud backup")
+                    } footer: {
+                        Text("Every backup and invoice copy is also saved in iCloud, with photos made smaller first. Safe even if you lose or change your phone: on a new iPhone, ChargeCheck offers to bring everything back. The last 30 days of backups are kept.")
+                    }
+                    .task {
+                        await AutoCloud.shared.prepare()
+                        cloudAvailable = AutoCloud.shared.available
+                    }
+                    .onChange(of: autoCloud) {
+                        if autoCloud { AutoBackup.run(context, scans: store.ledger.forBackup) }
+                    }
+
+                    Section {
+                        Picker("Invoice copies", selection: $keepCopies) {
+                            Text("Keep on this phone").tag("phone")
+                            Text("Keep + ask where else").tag("ask")
+                            Text("Don't keep copies").tag("off")
+                        }
+                        Toggle("Monthly reminder", isOn: Binding(
+                            get: { reminder },
+                            set: { isOn in
+                                Task {
+                                    let ok = await MonthlyReminder.set(isOn)
+                                    reminder = isOn && ok
+                                    if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
+                                }
+                            }
+                        ))
+                        Toggle("Payments due reminders", isOn: Binding(
+                            get: { dueReminder },
+                            set: { isOn in
+                                Task {
+                                    let ok = await DueReminder.set(isOn)
+                                    dueReminder = isOn && ok
+                                    if isOn && ok { Accounts.shared.changed(context) }
+                                    if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
+                                }
+                            }
+                        ))
+                        Button {
+                            let data = PDFMaker.priceList(AppData.items(context), business: Shops.reportName(), theme: Themes.named(colourID))
+                            showPricesShare = AppFiles.write(data, folder: "Exports", name: "ChargeCheck price list.pdf")
+                        } label: {
+                            Label("Price list as a PDF", systemImage: "doc.richtext")
+                        }
+                        if let showPricesShare {
+                            ShareLink(item: showPricesShare) {
+                                Label("Save or send the price list", systemImage: "square.and.arrow.up")
+                            }
+                        }
+                    } header: {
+                        Text("Invoices and reports")
+                    } footer: {
+                        Text("Copies of the original photo or PDF are kept in the Files app › ChargeCheck › Invoices, by month. The reminder arrives on the 1st of each month to send last month's report to your accountant.")
+                    }
+
                 }
 
                 Section("About") {
@@ -110,22 +408,48 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .fileExporter(isPresented: $showExporter, document: exportDocument, contentType: .json, defaultFilename: exportName) { result in
-                if case .failure = result { notice = "The backup couldn't be saved. Please try again." }
+                if case .failure = result { notice = String(localized: "The backup couldn't be saved. Please try again.") }
             }
             .fileImporter(isPresented: $showImporter, allowedContentTypes: [.json, .plainText]) { result in
                 open(result)
+            }
+            .background {
+                // a second file picker has to hang off a different view
+                Color.clear
+                    .fileImporter(isPresented: $showFolderPicker, allowedContentTypes: [.folder]) { result in
+                        pickedFolder(result)
+                    }
+            }
+            .confirmationDialog("Change the currency?", isPresented: Binding(
+                get: { pendingCurrency != nil },
+                set: { if !$0 { pendingCurrency = nil } }
+            ), titleVisibility: .visible, presenting: pendingCurrency) { code in
+                Button(Regional.currencyName(Currency.named(code))) { changeCurrency(to: code) }
+                Button("Cancel", role: .cancel) {}
+            } message: { _ in
+                Text("Amounts you've already saved are not converted: they will be shown in the new currency. Only change this if the wrong currency was chosen. For a supplier who invoices in another currency, set it on that supplier instead.")
             }
             .confirmationDialog("Restore this backup?", isPresented: Binding(
                 get: { pendingRestore != nil },
                 set: { if !$0 { pendingRestore = nil } }
             ), titleVisibility: .visible, presenting: pendingRestore) { backup in
                 Button("Replace what's on this phone", role: .destructive) {
+                    guard !AppStorageSetup.failed else {
+                        notice = String(localized: "Your saved data couldn't be opened, so nothing can be restored now. Close ChargeCheck and open it again.")
+                        return
+                    }
+                    // what's on the phone now is kept first, so restoring the wrong file can be undone
+                    AutoBackup.safetyCopy(context, scans: store.ledger.forBackup)
                     AppData.restore(backup, into: context)
-                    notice = "Backup restored."
+                    let scans = store.restoreScans(from: backup.scans)
+                    notice = scans > 0 ? String(localized: "Backup restored, with \(scans) unused scans.") : String(localized: "Backup restored.")
+                    AutoBackup.run(context, scans: store.ledger.forBackup)
                 }
                 Button("Cancel", role: .cancel) {}
             } message: { backup in
                 Text("\(backup.baseline.count) prices and \(backup.history.count) reports. This replaces the prices and reports on this phone.")
+                    + Text(verbatim: " ")
+                    + Text("A copy of what's on this phone now is kept first, in Files › ChargeCheck › Backups.")
             }
             .alert(notice ?? "", isPresented: Binding(
                 get: { notice != nil },
@@ -133,12 +457,11 @@ struct SettingsView: View {
             )) {
                 Button("OK", role: .cancel) {}
             }
-        }
     }
 
     private func save() {
-        guard let data = try? AppData.backup(context).encoded() else {
-            notice = "The backup couldn't be made. Please try again."
+        guard let data = try? AppData.backup(context, scans: store.ledger.forBackup).encoded() else {
+            notice = String(localized: "The backup couldn't be made. Please try again.")
             return
         }
         exportDocument = BackupDocument(data: data)
@@ -152,7 +475,7 @@ struct SettingsView: View {
             if scoped { url.stopAccessingSecurityScopedResource() }
         }
         guard let data = try? Data(contentsOf: url), let backup = try? BackupFile.read(data) else {
-            notice = "That isn't a ChargeCheck backup file."
+            notice = String(localized: "That isn't a ChargeCheck backup file.")
             return
         }
         pendingRestore = backup

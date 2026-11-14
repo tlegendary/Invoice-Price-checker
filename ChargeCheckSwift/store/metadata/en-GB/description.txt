@@ -1,0 +1,51 @@
+Suppliers make mistakes – and they rarely make them in your favour. ChargeCheck reads your supplier invoices and checks every line against the prices you agreed, so you stop paying for overcharges, missing items and price rises you never agreed to.
+
+SCAN AN INVOICE, SEE WHAT'S WRONG
+• Scan with the camera, choose a photo, or open a PDF from WhatsApp, Mail or Files
+• Every line is checked against your agreed price list
+• See exactly what you were overcharged, line by line, and what you should really pay
+• Missing, returned or short-delivered items are taken off what you pay
+• Pack-size warnings: a 5 kg bag charged at the 10 kg price is caught
+• The lines are checked against the total printed on the invoice, so nothing is misread unnoticed
+• When the app isn't sure which item a line is, it asks you – it never counts an overcharge it isn't sure of
+• Invoices are read on your iPhone and every invoice is read twice. Works offline.
+
+GET YOUR MONEY BACK
+• One tap makes a credit request PDF or a message for WhatsApp or email
+• Keep track of credits you asked for and credits received, with a reminder after two weeks
+• Check a supplier's monthly statement against your invoices
+
+KNOW WHAT YOU OWE
+• Supplier accounts: invoices, payments, credit notes and starting balances in one place
+• What you owe each supplier, what's due this week and what's overdue
+• Pay several invoices in one go and keep the receipt photo
+• Warned when a supplier bills the same invoice twice
+
+SPOT PRICE RISES
+• "Apex put chicken wings up 8% since last time" – see every price rise by supplier
+• See where the same item is cheaper from another supplier
+• Price history for every item
+
+FOR EVERY SHOP YOU RUN
+• Add your shops and see one shop or all of them – invoices, suppliers, payments and reports follow
+• Reports and CSV exports for your accountant, by month or any period
+• Home screen widget with what you owe
+
+MADE FOR YOUR BUSINESS
+• Reads invoices in English, Arabic, Kurdish, German and French
+• The app speaks English, Arabic, Kurdish (Sorani), German and French, right to left where it should be
+• Pounds, euros, dollars and Iraqi dinars
+• Face ID lock, light and dark mode
+• Automatic backups to your iPhone and to an iCloud Drive folder you choose
+• On iPhones with Apple Intelligence, an optional extra check of names that are hard to read
+
+FREE, PACKS OR PRO
+• Free: check invoices by watching one short ad per scan
+• Scan packs: scans without ads, plus full history, PDF and CSV exports, delivery and statement checks
+• Pro (monthly or yearly, 7-day free trial on monthly): unlimited scans and everything – price rises, cheaper elsewhere, supplier scores, due dates, several shops, the widget and more
+
+Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period. Payment is charged to your Apple Account. Manage or cancel in your Apple Account settings. Any unused part of a free trial ends when you subscribe.
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://tlegendary.github.io/privacy.html
+Support: https://tlegendary.github.io/support.html

@@ -60,3 +60,301 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: false   # internal testers get builds without Beta Review
+
+  # The Swift version, as a separate "ChargeCheck Beta" app in TestFlight, so the live app is never touched.
+  # It only builds when ChargeCheckSwift/.beta-build changes (so ordinary pushes cost nothing).
+  swift-beta:
+    name: ChargeCheck Beta (Swift) – TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: swift-rewrite
+          include: true
+          source: true
+      cancel_previous_builds: true
+    when:
+      changeset:
+        includes:
+          - 'ChargeCheckSwift/.beta-build'
+    integrations:
+      app_store_connect: AppStoreKey
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.rjapps.invoicepricechecker   # brings the distribution certificate; the beta profile is fetched below
+      xcode: latest
+    scripts:
+      - name: Make the Xcode project (beta name and bundle ID)
+        script: |
+          brew install xcodegen
+          cd ChargeCheckSwift
+          NEW=$(date -u +%Y%m%d%H%M)
+          echo "Build number: $NEW"
+          sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta/' project.yml
+          sed -i '' 's/CFBundleDisplayName: ChargeCheck$/CFBundleDisplayName: CC Beta/' project.yml
+          sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
+          # the widget and the app group get beta names too
+          sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.widget$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta.widget/' project.yml
+          sed -i '' 's/group.com.rjapps.invoicepricechecker\]/group.com.rjapps.invoicepricechecker.beta]/; s/CCAppGroup: group.com.rjapps.invoicepricechecker$/CCAppGroup: group.com.rjapps.invoicepricechecker.beta/' project.yml
+          # iCloud for staff phones: the beta has its own container
+          sed -i '' 's/iCloud.com.rjapps.invoicepricechecker\]/iCloud.com.rjapps.invoicepricechecker.beta]/; s/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker$/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker.beta/' project.yml
+          sed -i '' 's/^          iCloud.com.rjapps.invoicepricechecker:  # icloud$/          iCloud.com.rjapps.invoicepricechecker.beta:  # icloud/' project.yml
+          grep -n "iCloud.com" project.yml
+          # The widget needs an App Group set up by hand on developer.apple.com. Until that's done
+          # (Ramyar creates ChargeCheckSwift/.widget-ready), the beta is built without it.
+          if [ ! -f .widget-ready ]; then python3 tools/without-widget.py project.yml; fi
+          # Escape hatch: if signing ever fails over iCloud, create ChargeCheckSwift/.no-icloud to build without staff sharing.
+          if [ -f .no-icloud ]; then sed -i '' '/# icloud$/d' project.yml; echo "iCloud left out (.no-icloud)"; fi
+          grep -n "PRODUCT_BUNDLE_IDENTIFIER\|CFBundleDisplayName\|CURRENT_PROJECT_VERSION:\|group.com" project.yml
+          xcodegen generate
+      - name: Beta profile 1 - find the bundle ID and certificates
+        script: |
+          set -e
+          BETA=com.rjapps.invoicepricechecker.beta
+          grep -q "PRODUCT_BUNDLE_IDENTIFIER: $BETA" ChargeCheckSwift/project.yml   # never build this as the live app
+          cat > /tmp/ids.py <<'PY'
+          import json, sys
+          want = sys.argv[1] if len(sys.argv) > 1 else ""
+          data = json.load(sys.stdin)
+          data = data if isinstance(data, list) else data.get("data", [data])
+          out = []
+          for x in data:
+              attrs = x.get("attributes", x)
+              if want == "cert" and "DISTRIBUTION" not in str(attrs.get("certificateType", "")): continue
+              if want.startswith("name=") and attrs.get("name") != want[5:]: continue
+              out.append(x["id"])
+          print(" ".join(out))
+          PY
+          app-store-connect bundle-ids list --bundle-id-identifier "$BETA" --strict-match-identifier --json > /tmp/bid.json
+          app-store-connect certificates list --json > /tmp/certs.json
+          python3 /tmp/ids.py < /tmp/bid.json > /tmp/bid.txt
+          python3 /tmp/ids.py cert < /tmp/certs.json > /tmp/certs.txt
+          echo "Bundle: $(cat /tmp/bid.txt)  Certificates: $(cat /tmp/certs.txt)"
+          test -s /tmp/bid.txt && [ -n "$(cat /tmp/bid.txt)" ]
+          [ -n "$(cat /tmp/certs.txt)" ]
+      - name: Beta profile 2 - make it
+        script: |
+          set -e
+          NAME="ChargeCheck Beta CI"
+          # replace an older copy so it always matches the current certificates
+          app-store-connect profiles list --type IOS_APP_STORE --json > /tmp/profiles.json 2>/dev/null || echo "[]" > /tmp/profiles.json
+          for old in $(python3 /tmp/ids.py "name=$NAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
+          app-store-connect profiles create "$(cat /tmp/bid.txt)" --type IOS_APP_STORE --name "$NAME" --save --certificate-ids $(cat /tmp/certs.txt)
+          if [ -f ChargeCheckSwift/.widget-ready ]; then
+            WNAME="ChargeCheck Beta Widget CI"
+            app-store-connect bundle-ids list --bundle-id-identifier com.rjapps.invoicepricechecker.beta.widget --strict-match-identifier --json > /tmp/wbid.json
+            WBID=$(python3 /tmp/ids.py < /tmp/wbid.json)
+            echo "Widget bundle: $WBID"
+            [ -n "$WBID" ]
+            for old in $(python3 /tmp/ids.py "name=$WNAME" < /tmp/profiles.json); do app-store-connect profiles delete "$old" || true; done
+            app-store-connect profiles create "$WBID" --type IOS_APP_STORE --name "$WNAME" --save --certificate-ids $(cat /tmp/certs.txt)
+          fi
+      - name: Beta profile 3 - check it was saved
+        script: |
+          set -e
+          grep -la "invoicepricechecker.beta" "$HOME/Library/MobileDevice/Provisioning Profiles/"* "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/"* 2>/dev/null
+      - name: iCloud Drive in the beta profile?
+        script: |
+          # Automatic iCloud backup needs the beta App ID's iCloud container. If Apple's side doesn't have it,
+          # build without it rather than fail: backups then go to a folder the user picks, as before.
+          P=$(grep -la "ChargeCheck Beta CI" "$HOME/Library/MobileDevice/Provisioning Profiles/"* "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/"* 2>/dev/null | head -1)
+          if [ -n "$P" ] && security cms -D -i "$P" 2>/dev/null | grep -q "iCloud.com.rjapps.invoicepricechecker.beta"; then
+            echo "iCloud Drive: in the profile"
+          else
+            echo "iCloud Drive: NOT in the profile - building without automatic iCloud backup"
+            cd ChargeCheckSwift && sed -i '' '/# icloud$/d' project.yml && xcodegen generate
+          fi
+      - name: Set up signing
+        script: |
+          set -e
+          xcode-project use-profiles --project ChargeCheckSwift/ChargeCheck.xcodeproj
+          grep -c "ChargeCheck Beta CI" ChargeCheckSwift/ChargeCheck.xcodeproj/project.pbxproj
+      - name: Resolve Swift packages (with retries)
+        script: |
+          for i in 1 2 3; do
+            if xcodebuild -resolvePackageDependencies -project ChargeCheckSwift/ChargeCheck.xcodeproj -scheme ChargeCheck 2>&1 | tee /tmp/spm.log | tail -20; then
+              if ! grep -qi "error" /tmp/spm.log; then echo "Packages resolved"; break; fi
+            fi
+            rm -rf ~/Library/Caches/org.swift.swiftpm 2>/dev/null
+            sleep 20
+          done
+      - name: Build
+        ignore_failure: true
+        script: |
+          set +e
+          xcode-project build-ipa --project "ChargeCheckSwift/ChargeCheck.xcodeproj" --scheme "ChargeCheck" > /tmp/build-ipa.log 2>&1
+          CODE=$?
+          echo $CODE > /tmp/build-code
+          tail -60 /tmp/build-ipa.log
+          cat /tmp/xcodebuild_logs/*.log /tmp/build-ipa.log 2>/dev/null | grep -E "error:|error -|FAILED|rovision" | sort -u | cut -c1-400 > /tmp/errors.txt
+          cat /tmp/errors.txt | head -80
+          exit $CODE
+      # When the build fails, each step below turns red if that file has an error, so the GitHub check shows where.
+      - name: "Error in Accounts.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Accounts.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Accounts.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AdService.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/AdService.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AdService.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AppConfig.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/AppConfig.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AppConfig.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in AppData.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/AppData.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/AppData.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in BackupDocument.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/BackupDocument.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/BackupDocument.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ChargeCheckApp.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/ChargeCheckApp.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ChargeCheckApp.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ChargeCheckWidget.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/ChargeCheckWidget.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ChargeCheckWidget.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in CheckSession.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/CheckSession.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/CheckSession.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in CheckView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/CheckView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/CheckView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in DocumentScanner.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/DocumentScanner.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/DocumentScanner.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Files.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Files.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Files.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ImageTools.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/ImageTools.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ImageTools.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in InvoiceDetailView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/InvoiceDetailView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/InvoiceDetailView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in InvoiceReader.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/InvoiceReader.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/InvoiceReader.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in LineEditView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/LineEditView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/LineEditView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Localize.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Localize.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Localize.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in NeedScanSheet.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/NeedScanSheet.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/NeedScanSheet.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PDFMaker.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PDFMaker.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PDFMaker.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PasteListView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PasteListView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PasteListView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PaywallView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PaywallView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PaywallView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PriceEditView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PriceEditView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PriceEditView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PriceHistoryChart.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PriceHistoryChart.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PriceHistoryChart.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in PricesView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/PricesView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/PricesView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Regional.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Regional.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Regional.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ReportsView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/ReportsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ReportsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in RootView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/RootView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/RootView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SampleInvoice.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/SampleInvoice.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SampleInvoice.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SettingsView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/SettingsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SettingsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Shops.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Shops.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Shops.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in ShopsView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/ShopsView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/ShopsView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SmartCheck.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/SmartCheck.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SmartCheck.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SortCategoriesView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/SortCategoriesView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SortCategoriesView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Store.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Store.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Store.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in StoredModels.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/StoredModels.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/StoredModels.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in SuppliersView.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/SuppliersView.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/SuppliersView.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Theme.swift?"
+        ignore_failure: true
+        script: |
+          if grep -q '/Theme.swift:[0-9]*:[0-9]*: error' /tmp/errors.txt; then grep '/Theme.swift:' /tmp/errors.txt | head -20; exit 1; fi
+      - name: "Error in Core package?"
+        ignore_failure: true
+        script: |
+          if grep -Eq 'ChargeCheckCore/.*error' /tmp/errors.txt; then exit 1; fi
+      - name: "Error in signing or provisioning?"
+        ignore_failure: true
+        script: |
+          if grep -Eq '[Pp]rovisioning profile|[Ss]igning for|requires a development team' /tmp/errors.txt; then exit 1; fi
+      - name: "Error in other error?"
+        ignore_failure: true
+        script: |
+          if grep -Eq '^error:|: error:' /tmp/errors.txt; then exit 1; fi
+      - name: Stop if the build failed
+        script: exit $(cat /tmp/build-code)
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false   # internal testers only, no review
