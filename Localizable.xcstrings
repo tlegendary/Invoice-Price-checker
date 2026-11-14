@@ -2487,6 +2487,64 @@
         }
       }
     },
+    "A payment for this invoice is recorded today." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ستُسجَّل دفعة لهذه الفاتورة بتاريخ اليوم."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پارەدانێک بۆ ئەم پسوولەیە بە بەرواری ئەمڕۆ تۆمار دەکرێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diese Rechnung wird heute eine Zahlung erfasst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un paiement pour cette facture est enregistré aujourd'hui."
+          }
+        }
+      }
+    },
+    "A payment to %@ for this invoice is recorded today." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ستُسجَّل دفعة إلى %@ لهذه الفاتورة بتاريخ اليوم."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پارەدانێک بۆ %@ بۆ ئەم پسوولەیە بە بەرواری ئەمڕۆ تۆمار دەکرێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diese Rechnung wird heute eine Zahlung an %@ erfasst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un paiement à %@ pour cette facture est enregistré aujourd'hui."
+          }
+        }
+      }
+    },
     "A proper credit request to send your supplier, with every overcharge and missing item." : {
       "localizations" : {
         "ar" : {
@@ -3141,6 +3199,35 @@
         }
       }
     },
+    "Add all %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف الكل (%lld)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەمووی زیاد بکە (%lld)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle %lld hinzufügen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout ajouter (%lld)"
+          }
+        }
+      }
+    },
     "Add an older amount owed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3367,6 +3454,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouté à ce que vous lui devez dans Fournisseurs"
+          }
+        }
+      }
+    },
+    "Adds this name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يضيف هذا الاسم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەم ناوە زیاد دەکات"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügt diesen Namen hinzu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute ce nom"
           }
         }
       }
@@ -13246,6 +13362,35 @@
         }
       }
     },
+    "Mark as paid (%@)?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل تريد تسجيلها كمدفوعة (%@)؟"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وەک دراو تۆمار بکرێت (%@)؟"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als bezahlt markieren (%@)?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme payée (%@) ?"
+          }
+        }
+      }
+    },
     "Mark the credit as asked for, and ChargeCheck reminds you after %lld days if it hasn't arrived." : {
       "localizations" : {
         "ar" : {
@@ -14745,6 +14890,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune ligne avec un nom d’article et un prix. Mettez un article par ligne avec le prix à la fin."
+          }
+        }
+      }
+    },
+    "No more safe suggestions: other likely names could also be read as another item in your list." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد اقتراحات آمنة أخرى: قد تُقرأ الأسماء المحتملة الأخرى كصنف آخر في قائمتك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پێشنیاری سەلامەتی تر نییە: ناوە ئەگەرییەکانی تر دەکرێت وەک کاڵایەکی تری لیستەکەت بخوێندرێنەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine weiteren sicheren Vorschläge: Andere mögliche Namen könnten auch als anderer Artikel deiner Liste gelesen werden."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus de suggestions sûres : d'autres noms possibles pourraient aussi correspondre à un autre article de votre liste."
           }
         }
       }
@@ -23188,6 +23362,35 @@
         }
       }
     },
+    "Suggest other names" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اقترح أسماء أخرى"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ناوی تر پێشنیار بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Namen vorschlagen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggérer d'autres noms"
+          }
+        }
+      }
+    },
     "Summary" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -26746,6 +26949,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déverrouiller ChargeCheck"
+          }
+        }
+      }
+    },
+    "Unpaid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير مدفوع"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نەدراو"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbezahlt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non payée"
           }
         }
       }
