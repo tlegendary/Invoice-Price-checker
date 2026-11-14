@@ -1,6 +1,7 @@
 import Foundation
 import CoreSpotlight
 import UniformTypeIdentifiers
+import SwiftData
 import ChargeCheckCore
 
 /// Invoices in the iPhone's search (swipe down on the home screen): type a supplier or an invoice number,
@@ -28,6 +29,21 @@ enum InvoiceSearch {
         index.deleteSearchableItems(withDomainIdentifiers: [domain]) { _ in
             index.indexSearchableItems(Array(items)) { _ in }
         }
+    }
+
+    private static let countKey = "spotlight.count"
+    private static let whenKey = "spotlight.when"
+
+    /// Cheap check first (how many invoices, and at most once an hour otherwise), so saving stays quick.
+    @MainActor
+    static func refreshIfChanged(_ context: ModelContext) {
+        let count = (try? context.fetchCount(FetchDescriptor<StoredReport>())) ?? 0
+        let now = Date().timeIntervalSince1970
+        let defaults = UserDefaults.standard
+        guard count != defaults.integer(forKey: countKey) || now - defaults.double(forKey: whenKey) > 3600 else { return }
+        defaults.set(count, forKey: countKey)
+        defaults.set(now, forKey: whenKey)
+        refresh(AppData.entries(context))
     }
 
     static func clear() {
