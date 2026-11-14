@@ -64,7 +64,8 @@ enum AppData {
             if let mode = settings.mode, ["auto", "light", "dark"].contains(mode) { defaults.set(mode, forKey: SettingKey.mode) }
             if let colour = settings.color, Themes.all.contains(where: { $0.id == colour }) { defaults.set(colour, forKey: SettingKey.colour) }
             if let copies = settings.keepCopy, ["phone", "ask", "off"].contains(copies) { defaults.set(copies, forKey: SettingKey.keepCopies) }
-            if let tol = settings.tol, tol >= 0.01, tol <= 1 { defaults.set(tol, forKey: SettingKey.tolerance) }
+            // up to 1,000 so a dinar tolerance (250 IQD, 1,000 IQD) comes back too
+            if let tol = settings.tol, tol >= 0.01, tol <= 1000 { defaults.set(tol, forKey: SettingKey.tolerance) }
             if let shops = settings.shops, !shops.isEmpty {
                 Shops.all = shops
                 if let shop = settings.shop { defaults.set(shop, forKey: Shops.currentKey) }
@@ -84,20 +85,46 @@ enum AppData {
         max(0.01, UserDefaults.standard.double(forKey: SettingKey.tolerance))
     }
 
-    /// Saves a checked invoice to Reports. If the same invoice is already there
-    /// (same supplier, number and date) it is replaced, not saved twice.
+    /// What the user said about an invoice that looks like one already saved.
+    enum DuplicateChoice: Equatable {
+        /// The same invoice scanned again: it updates the saved one.
+        case sameInvoice(HistoryEntry)
+        /// The supplier billed the same invoice twice: both are kept and this one is flagged.
+        case billedTwice(HistoryEntry)
+    }
+
+    /// A saved invoice that looks like this one (same supplier and date, and the same number – or, without a number,
+    /// the same amount – in the same shop). nil when there is none, or when this invoice was saved before.
+    static func possibleDuplicate(of draft: InvoiceDraft, book: PriceBook, context: ModelContext) -> HistoryEntry? {
+        let all = entries(context)
+        if all.contains(where: { $0.id == draft.id }) { return nil }
+        let net = draft.totalOnly ? (draft.printedNet ?? draft.printedTotal ?? 0) : InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
+        return InvoiceMaths.duplicate(of: draft, net: net, in: all)
+    }
+
+    /// Saves a checked invoice to Reports. An invoice that looks like a saved one is never replaced silently:
+    /// the caller asks first (`possibleDuplicate`) and passes what the user chose.
     @discardableResult
-    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext) -> HistoryEntry {
+    static func saveReport(_ draft: inout InvoiceDraft, book: PriceBook, context: ModelContext,
+                           duplicate: DuplicateChoice? = nil) -> HistoryEntry {
         let all = entries(context)
         var existing = all.first { $0.id == draft.id }
-        if existing == nil {
-            let net = draft.totalOnly ? (draft.printedNet ?? draft.printedTotal ?? 0) : InvoiceMaths.totals(draft, book: book, tolerance: tolerance).net
-            if let same = InvoiceMaths.duplicate(of: draft, net: net, in: all) {
-                existing = same
-                draft.id = same.id
+        var billedTwiceOf: String?
+        switch duplicate {
+        case .sameInvoice(let same)?:
+            if existing == nil, let current = all.first(where: { $0.id == same.id }) {
+                existing = current
+                draft.id = current.id
             }
+        case .billedTwice(let first)?:
+            billedTwiceOf = first.id
+        case nil:
+            break
         }
-        let entry = InvoiceMaths.historyEntry(draft, book: book, tolerance: tolerance, existing: existing)
+        var entry = InvoiceMaths.historyEntry(draft, book: book, tolerance: tolerance, existing: existing)
+        // the currency is kept with the invoice, so its amounts never change meaning later
+        if entry.currency == nil { entry.currency = Accounts.shared.currency(for: draft.supplier).code }
+        if let billedTwiceOf { entry.duplicateOf = billedTwiceOf }
         let id = entry.id
         let descriptor = FetchDescriptor<StoredReport>(predicate: #Predicate<StoredReport> { $0.uid == id })
         if let stored = (try? context.fetch(descriptor))?.first {

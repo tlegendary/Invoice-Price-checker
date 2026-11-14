@@ -20,17 +20,13 @@ struct InvoiceHistoryView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var store: Store
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
-    @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var filter = Filter.all
-    @State private var shopFilter = ""
     @State private var search = ""
     @State private var confirmDelete: HistoryEntry?
 
-    private var shops: [ShopInfo] { Shops.decode(shopData) }
-
     private var shown: [HistoryEntry] {
-        var list = Plans.visible(reports.compactMap { $0.entry }, tier: store.tier)
-        if !shopFilter.isEmpty { list = list.filter { $0.shopId == shopFilter } }
+        // the shop being viewed (every shop under "All shops")
+        var list = Plans.visible(Accounts.shared.inShop(reports.compactMap { $0.entry }), tier: store.tier)
         switch filter {
         case .all: break
         case .toPay: list = list.filter { $0.paid == nil }
@@ -91,19 +87,7 @@ struct InvoiceHistoryView: View {
         }
         .navigationTitle("Checked invoices")
         .searchable(text: $search, prompt: "Supplier, number, item or amount")
-        .toolbar {
-            if !shops.isEmpty {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Picker("Shop", selection: $shopFilter) {
-                        Text("All shops").tag("")
-                        ForEach(shops, id: \.id) { shop in
-                            Text(shop.name).tag(shop.id)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
-            }
-        }
+        .shopSwitcher()
         .confirmationDialog("Delete this invoice?", isPresented: Binding(get: { confirmDelete != nil }, set: { if !$0 { confirmDelete = nil } }),
                             titleVisibility: .visible, presenting: confirmDelete) { entry in
             Button("Delete", role: .destructive) {

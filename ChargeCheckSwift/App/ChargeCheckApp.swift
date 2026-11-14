@@ -9,6 +9,7 @@ struct ChargeCheckApp: App {
 
     init() {
         Regional.apply()
+        LiveSettings.connect()
     }
 
     var body: some Scene {
@@ -22,6 +23,10 @@ struct ChargeCheckApp: App {
 /// Opens the app's saved data. If the saved data can't be opened the app still starts
 /// (with temporary storage) and tells the user, instead of crashing.
 enum AppStorageSetup {
+    /// The saved data couldn't be opened and the app is running on temporary storage. While this is true nothing is
+    /// written over the backups or sent to iCloud: an almost empty phone must never replace the real data.
+    private(set) static var failed = false
+
     static func open() -> (container: ModelContainer, failed: Bool) {
         let schema = Schema([StoredPrice.self, StoredReport.self])
         // IMPORTANT: `cloudKitDatabase: .none` and `groupContainer: .none` must stay.
@@ -33,6 +38,7 @@ enum AppStorageSetup {
         if let container = try? ModelContainer(for: schema, configurations: [onDisk]) {
             return (container, false)
         }
+        failed = true
         let memory = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, groupContainer: .none, cloudKitDatabase: .none)
         if let container = try? ModelContainer(for: schema, configurations: [memory]) {
             return (container, true)

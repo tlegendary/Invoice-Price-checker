@@ -18,13 +18,16 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            let entries = reports.compactMap { $0.entry }
-            let overview = OverviewMaths.make(entries: entries, payments: accounts.payments, trusted: accounts.trusted,
+            // the shop being viewed (or every shop)
+            let all = reports.compactMap { $0.entry }
+            let entries = accounts.inShop(all)
+            let payments = accounts.shopPayments(all)
+            let overview = OverviewMaths.make(entries: entries, payments: payments, trusted: accounts.trusted,
                                               creditDays: accounts.creditDays, currencies: accounts.currencies, main: Money.currency.code)
             List {
                 if !search.trimmingCharacters(in: .whitespaces).isEmpty {
                     SearchResultsSections(results: Search.find(search, entries: Plans.visible(entries, tier: store.tier),
-                                                               payments: team.isStaff ? [] : accounts.payments,
+                                                               payments: team.isStaff ? [] : payments,
                                                                items: team.isStaff ? [] : prices.map { $0.item }))
                 } else {
                     if !team.isStaff { owedSection(overview) }
@@ -36,6 +39,7 @@ struct HomeView: View {
                 }
             }
             .navigationTitle(business.isEmpty ? "ChargeCheck" : business)
+            .shopSwitcher()
             .searchable(text: $search, prompt: "Search invoices, suppliers, items, payments")
             .navigationDestination(for: ReportLink.self) { link in
                 ReportDetailView(reportID: link.id)
@@ -155,13 +159,14 @@ struct HomeView: View {
         switch kind {
         case .priceRises: return .priceRises
         case .overdue, .dueSoon: return .dueDates
-        case .notChecked, .creditsLate: return nil
+        case .notChecked, .creditsLate, .duplicates: return nil
         }
     }
 
     @ViewBuilder
     private func destination(_ kind: Attention.Kind) -> some View {
         switch kind {
+        case .duplicates: BilledTwiceView()
         case .notChecked: NotCheckedView()
         case .creditsLate: CreditsOwedView()
         case .overdue, .dueSoon: DuePaymentsView()
@@ -193,7 +198,7 @@ struct HomeView: View {
                 }
                 if o.cheaperElsewhere > 0.005 {
                     GatedLink(.cheaperElsewhere) {
-                        SupplierTipsView(tips: Insights.supplierTips(reports.compactMap { $0.entry }))
+                        SupplierTipsView(tips: Insights.supplierTips(accounts.inShop(reports.compactMap { $0.entry })))
                     } label: {
                         LabeledContent("Cheaper elsewhere, a month") {
                             Text(Money.format(o.cheaperElsewhere)).foregroundStyle(.green)
@@ -287,6 +292,7 @@ struct AttentionRow: View {
 
     private var icon: String {
         switch item.kind {
+        case .duplicates: return "doc.on.doc.fill"
         case .notChecked: return "exclamationmark.magnifyingglass"
         case .creditsLate: return "hourglass"
         case .overdue: return "exclamationmark.circle.fill"
@@ -297,7 +303,7 @@ struct AttentionRow: View {
 
     private var colour: Color {
         switch item.kind {
-        case .overdue: return .red
+        case .overdue, .duplicates: return .red
         case .priceRises, .creditsLate, .notChecked: return .orange
         case .dueSoon: return .blue
         }
@@ -306,6 +312,8 @@ struct AttentionRow: View {
     private var title: String {
         let n = item.count
         switch item.kind {
+        case .duplicates:
+            return n == 1 ? String(localized: "1 invoice billed twice") : String(localized: "\(n) invoices billed twice")
         case .notChecked:
             return n == 1 ? String(localized: "1 invoice not fully checked") : String(localized: "\(n) invoices not fully checked")
         case .creditsLate:
@@ -322,12 +330,38 @@ struct AttentionRow: View {
 
 // MARK: - lists the Home screen opens
 
+/// Invoices a supplier billed twice (flagged when they were scanned), not paid yet.
+struct BilledTwiceView: View {
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
+
+    var body: some View {
+        let list = Accounts.shared.inShop(reports.compactMap { $0.entry }).filter { $0.duplicateOf != nil && $0.paid == nil }
+        List {
+            if list.isEmpty {
+                ContentUnavailableView("No invoices billed twice", systemImage: "checkmark.seal")
+            }
+            Section {
+                ForEach(list) { entry in
+                    NavigationLink(value: ReportLink(id: entry.id)) {
+                        ReportRow(entry: entry)
+                    }
+                }
+            } footer: {
+                if !list.isEmpty {
+                    Text("When these were scanned you said the supplier had already billed the same invoice. Ask them to cancel one, then delete it or remove the warning.")
+                }
+            }
+        }
+        .navigationTitle("Billed twice")
+    }
+}
+
 /// Saved invoices that weren't fully checked.
 struct NotCheckedView: View {
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
 
     var body: some View {
-        let list = reports.compactMap { $0.entry }.filter { !$0.verified && !$0.totalOnly }
+        let list = Accounts.shared.inShop(reports.compactMap { $0.entry }).filter { !$0.verified && !$0.totalOnly }
         List {
             if list.isEmpty {
                 ContentUnavailableView("Every invoice is checked", systemImage: "checkmark.seal")
@@ -353,7 +387,7 @@ struct CreditsOwedView: View {
     @Query(sort: \StoredReport.savedAt) private var reports: [StoredReport]
 
     var body: some View {
-        let list = reports.compactMap { $0.entry }.filter { $0.credit?.isOwed ?? false }
+        let list = Accounts.shared.inShop(reports.compactMap { $0.entry }).filter { $0.credit?.isOwed ?? false }
         List {
             if list.isEmpty {
                 ContentUnavailableView("No credits owed", systemImage: "checkmark.seal")
@@ -394,7 +428,8 @@ struct DuePaymentsView: View {
     @ObservedObject private var accounts = Accounts.shared
 
     var body: some View {
-        let accountsList = SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments,
+        let all = reports.compactMap { $0.entry }
+        let accountsList = SupplierAccounts.accounts(entries: accounts.inShop(all), payments: accounts.shopPayments(all),
                                                      trusted: accounts.trusted)
         let due = DueDates.open(accounts: accountsList, creditDays: accounts.creditDays)
         let homeDue = due.filter { accounts.otherCurrency($0.supplier) == nil }
@@ -477,8 +512,9 @@ struct SavingsView: View {
     @ObservedObject private var accounts = Accounts.shared
 
     var body: some View {
-        let entries = reports.compactMap { $0.entry }
-        let o = OverviewMaths.make(entries: entries, payments: accounts.payments, trusted: accounts.trusted,
+        let all = reports.compactMap { $0.entry }
+        let entries = accounts.inShop(all)
+        let o = OverviewMaths.make(entries: entries, payments: accounts.shopPayments(all), trusted: accounts.trusted,
                                    currencies: accounts.currencies, main: Money.currency.code)
         let rises = Insights.priceRises(entries)
         List {

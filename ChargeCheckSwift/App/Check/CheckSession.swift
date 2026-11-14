@@ -22,6 +22,10 @@ struct InvoiceJob: Identifiable, Equatable {
     var copyPath: String?
     /// A supplier's credit note, not an invoice: it's never saved to Reports, it lowers what you owe them instead.
     var creditNote: CreditNoteResult?
+    /// A saved invoice this one looks like. It isn't saved until the user says whether it's the same invoice.
+    var possibleDuplicate: HistoryEntry?
+    /// The user's answer: true = the supplier billed twice (keep both), false = the same invoice (update it).
+    var billedTwice: Bool?
 }
 
 /// What happened to a scanned credit note.
@@ -245,13 +249,13 @@ final class CheckSession: ObservableObject {
     /// Whether the lines add up to the printed net (or, when only that was read, the printed invoice total).
     nonisolated static func addsUp(_ lines: [CheckLine], invoice: ParsedInvoice) -> Bool {
         let net = Money.round2(lines.reduce(0) { $0 + Money.round2($1.qty * $1.unit) })
-        if let printed = invoice.printedNet, printed > 0 { return abs(net - printed) <= 0.05 }
+        if let printed = invoice.printedNet, printed > 0 { return abs(net - printed) <= InvoiceMaths.totalAllowance(lines: lines.count, withVat: false) }
         guard let total = invoice.printedTotal, total > 0 else { return false }
         let withVat = Money.round2(lines.reduce(0) { sum, line in
             let n = Money.round2(line.qty * line.unit)
             return sum + n + Money.round2(n * line.vat / 100)
         })
-        return abs(withVat - total) <= 0.05
+        return abs(withVat - total) <= InvoiceMaths.totalAllowance(lines: lines.count, withVat: true)
     }
 
     /// Whether Apple Intelligence should look at this line: no clear match, the two reads differed, or the name looks misread.
@@ -362,6 +366,13 @@ final class CheckSession: ObservableObject {
         if let paymentID = note.paymentID { Accounts.shared.remove(paymentID, context: context) }
     }
 
+    /// The answer to "Is this the same invoice?": save it as an update of the saved one, or as a second bill.
+    func decideDuplicate(_ id: String, billedTwice: Bool, context: ModelContext) {
+        update(id) { $0.billedTwice = billedTwice }
+        // the question only comes up when the invoice was being saved, so it is saved now
+        saveIfChecked(id, context: context, anyway: true)
+    }
+
     func saveIfChecked(_ id: String, context: ModelContext, anyway: Bool = false) {
         guard let job = job(id), !job.isSample, job.status == .done else { return }
         let lines = job.draft.lines.filter { !$0.desc.trimmingCharacters(in: .whitespaces).isEmpty }
@@ -376,8 +387,24 @@ final class CheckSession: ObservableObject {
         var draft = job.draft
         if draft.shopId.isEmpty { draft.shopId = Shops.current }
         let wasSaved = job.saved != nil
-        let entry = AppData.saveReport(&draft, book: book, context: context)
-        Records.shared.log(wasSaved ? .invoiceUpdated : .invoiceSaved, RecordKeeping.subject(entry), amount: entry.total)
+        // an invoice that looks like one already saved: ask before saving (never replace it silently)
+        var choice: AppData.DuplicateChoice?
+        if !wasSaved {
+            if let other = job.possibleDuplicate, let twice = job.billedTwice {
+                choice = twice ? .billedTwice(other) : .sameInvoice(other)
+            } else if let other = AppData.possibleDuplicate(of: draft, book: book, context: context) {
+                update(id) { $0.possibleDuplicate = other }
+                return
+            } else if job.possibleDuplicate != nil {
+                // corrected (another number or date): it doesn't look like the saved invoice any more
+                update(id) { $0.possibleDuplicate = nil }
+            }
+        }
+        let entry = AppData.saveReport(&draft, book: book, context: context, duplicate: choice)
+        let subject = entry.duplicateOf == nil ? RecordKeeping.subject(entry) : RecordKeeping.subject(entry) + " · " + String(localized: "billed twice")
+        var updated = wasSaved
+        if case .sameInvoice? = choice { updated = true }
+        Records.shared.log(updated ? .invoiceUpdated : .invoiceSaved, subject, amount: entry.total)
         if !draft.totalOnly {
             lowerPrices(draft, jobID: id, book: book, context: context)
             learnNames(draft, book: book, context: context)

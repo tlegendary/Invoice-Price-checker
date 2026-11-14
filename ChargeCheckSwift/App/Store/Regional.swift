@@ -41,8 +41,29 @@ enum Regional {
         Currency.named(UserDefaults.standard.string(forKey: currencyKey) ?? deviceCurrency)
     }
 
+    /// The currency is chosen once and then kept, so amounts never change meaning when the iPhone's region changes.
+    /// A new install starts from the iPhone's region; a phone that already has ChargeCheck data (which was all kept
+    /// in pounds before currencies could be chosen) starts from pounds.
+    static func settleCurrency() {
+        let defaults = UserDefaults.standard
+        guard defaults.string(forKey: currencyKey) == nil else { return }
+        defaults.set(hasSavedData ? Currency.gbp.code : deviceCurrency, forKey: currencyKey)
+    }
+
+    private static var hasSavedData: Bool {
+        if UserDefaults.standard.data(forKey: "scan.ledger") != nil { return true }
+        guard let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return false }
+        return ["default.store", "payments.json"].contains { FileManager.default.fileExists(atPath: base.appendingPathComponent($0).path) }
+    }
+
+    /// "Ignore differences up to" choices that make sense in this currency (no pennies in dinars).
+    static func toleranceChoices(_ currency: Currency) -> [Double] {
+        currency.decimals == 0 ? [1, 250, 500, 1000] : [0.01, 0.02, 0.05, 0.1, 0.5, 1]
+    }
+
     /// Hands the choices to the reader and to every amount shown. Call at start-up and after a change.
     static func apply() {
+        settleCurrency()
         Translations.connect()
         InvoiceParser.language = language.id
         Money.currency = currency

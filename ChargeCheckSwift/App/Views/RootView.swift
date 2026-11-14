@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import StoreKit
+import ChargeCheckCore
 
 struct RootView: View {
     let storageProblem: Bool
@@ -20,6 +21,8 @@ struct RootView: View {
     @State private var carriedOver = 0
     @State private var showCarriedOver = false
     @State private var showPaywall = false
+    /// The saved data couldn't be opened: said straight away, on whichever tab the app opens.
+    @State private var showStorageProblem = false
     /// Settings › Lock with Face ID: the app is covered until unlocked, and again after leaving it.
     @State private var locked = AppLock.isOn
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
@@ -81,6 +84,16 @@ struct RootView: View {
                 carriedOver = legacy.baseline.count
                 showCarriedOver = carriedOver > 0
             }
+            if UserDefaults.standard.bool(forKey: "demoShops"), Shops.all.isEmpty {
+                // the cloud check: two shops, the sample invoices shared between them
+                Shops.all = [ShopInfo(id: "demo-1", name: "High Street"), ShopInfo(id: "demo-2", name: "Market Road")]
+                for (index, entry) in AppData.entries(context).enumerated() {
+                    AppData.updateReports([entry.id], context: context) { $0.shopId = index % 2 == 0 ? "demo-1" : "demo-2" }
+                }
+            }
+            if let shop = UserDefaults.standard.string(forKey: "demoView") {
+                LiveSettings.shared.view(shop: shop == "all" ? "" : shop)
+            }
             session.onSaved = {
                 Accounts.shared.changed(context)
                 AutoBackup.run(context, scans: store.ledger.forBackup)
@@ -113,6 +126,11 @@ struct RootView: View {
         }
         .onAppear {
             if locked { LockCover.shared.show { locked = false } }
+            if storageProblem { showStorageProblem = true }
+        }
+        .alert("Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again.",
+               isPresented: $showStorageProblem) {
+            Button("OK", role: .cancel) {}
         }
         .onChange(of: locked) {
             // the cover is a separate window, so it also hides a sheet that was left open

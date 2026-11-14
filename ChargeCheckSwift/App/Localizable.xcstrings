@@ -125,6 +125,64 @@
         }
       }
     },
+    "%@ invoice %@ of %@ for %@ is already saved.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة %1$@ رقم %2$@ بتاريخ %3$@ بمبلغ %4$@ محفوظة مسبقًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی %1$@ ژمارە %2$@ بە ڕێکەوتی %3$@ بە بڕی %4$@ پێشتر پاشەکەوت کراوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Rechnung %2$@ von %1$@ vom %3$@ über %4$@ ist schon gespeichert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La facture %2$@ de %1$@ du %3$@ de %4$@ est déjà enregistrée."
+          }
+        }
+      }
+    },
+    "%@ invoice of %@ for %@ is already saved.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة %1$@ بتاريخ %2$@ بمبلغ %3$@ محفوظة مسبقًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی %1$@ بە ڕێکەوتی %2$@ بە بڕی %3$@ پێشتر پاشەکەوت کراوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Rechnung von %1$@ vom %2$@ über %3$@ ist schon gespeichert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La facture de %1$@ du %2$@ de %3$@ est déjà enregistrée."
+          }
+        }
+      }
+    },
     "%@ is %@ cheaper than %@": {
       "extractionState": "manual",
       "localizations": {
@@ -526,6 +584,35 @@
         }
       }
     },
+    "%lld invoices billed twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فواتير فوترت مرتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پسوولە دوو جار نێردراون"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Rechnungen doppelt gestellt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld factures facturées deux fois"
+          }
+        }
+      }
+    },
     "%lld invoices due in the next 7 days": {
       "localizations": {
         "ar": {
@@ -917,6 +1004,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld paiements et avoirs correspondent"
+          }
+        }
+      }
+    },
+    "%lld payments aren't filed under a shop, so they only count under All shops.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld دفعات غير مسجّلة باسم متجر، لذلك تُحتسب فقط في كل المتاجر."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پارەدان بە هیچ دوکانێکەوە نەبەستراون، بۆیە تەنها لە هەموو دوکانەکان دەژمێردرێن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Zahlungen sind keiner Filiale zugeordnet und zählen deshalb nur unter Alle Filialen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld paiements ne sont rattachés à aucun magasin : ils ne comptent que dans Tous les magasins."
           }
         }
       }
@@ -1364,6 +1480,35 @@
         }
       }
     },
+    "1 invoice billed twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة واحدة فوترت مرتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 پسوولە دوو جار نێردراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Rechnung doppelt gestellt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 facture facturée deux fois"
+          }
+        }
+      }
+    },
     "1 invoice due in the next 7 days": {
       "localizations": {
         "ar": {
@@ -1642,6 +1787,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 facture plus ancienne"
+          }
+        }
+      }
+    },
+    "1 payment isn't filed under a shop, so it only counts under All shops.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دفعة واحدة غير مسجّلة باسم متجر، لذلك تُحتسب فقط في كل المتاجر."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 پارەدان بە هیچ دوکانێکەوە نەبەستراوە، بۆیە تەنها لە هەموو دوکانەکان دەژمێردرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Zahlung ist keiner Filiale zugeordnet und zählt deshalb nur unter Alle Filialen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 paiement n'est rattaché à aucun magasin : il ne compte que dans Tous les magasins."
           }
         }
       }
@@ -2016,6 +2190,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Une copie est déjà conservée dans l’app Fichiers › Sur mon iPhone › ChargeCheck › Invoices. Vous pouvez aussi l’enregistrer ailleurs ou l’envoyer."
+          }
+        }
+      }
+    },
+    "A copy of what's on this phone now is kept first, in Files › ChargeCheck › Backups.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحفظ أولًا نسخة مما على هذا الهاتف الآن، في الملفات › ChargeCheck › Backups."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سەرەتا کۆپییەک لەوەی ئێستا لەم مۆبایلەدایە هەڵدەگیرێت، لە Files › ChargeCheck › Backups."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorher wird eine Kopie dessen gespeichert, was jetzt auf diesem iPhone ist – unter Dateien › ChargeCheck › Backups."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une copie de ce qui se trouve sur ce téléphone est d'abord conservée, dans Fichiers › ChargeCheck › Backups."
           }
         }
       }
@@ -3272,6 +3475,64 @@
         }
       }
     },
+    "Already in your invoices?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موجودة مسبقًا في فواتيرك؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێشتر لە پسوولەکانتدا هەیە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schon in deinen Rechnungen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjà dans vos factures ?"
+          }
+        }
+      }
+    },
+    "Already saved? Open it to choose": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محفوظة مسبقًا؟ افتحها لتختار"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێشتر پاشەکەوت کراوە؟ بیکەرەوە بۆ هەڵبژاردن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schon gespeichert? Zum Auswählen öffnen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjà enregistrée ? Ouvrez-la pour choisir"
+          }
+        }
+      }
+    },
     "Also check with Apple Intelligence": {
       "localizations": {
         "ar": {
@@ -3553,6 +3814,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Montants TTC."
+          }
+        }
+      }
+    },
+    "Amounts you've already saved are not converted: they will be shown in the new currency. Only change this if the wrong currency was chosen. For a supplier who invoices in another currency, set it on that supplier instead.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تُحوَّل المبالغ التي حفظتها: ستظهر بالعملة الجديدة. غيّرها فقط إذا اختيرت العملة الخطأ. للمورّد الذي يصدر فواتيره بعملة أخرى، حدّدها في صفحة ذلك المورّد بدلًا من ذلك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەو بڕانەی پێشتر پاشەکەوتت کردوون ناگۆڕدرێن: بە دراوە نوێیەکە پیشان دەدرێن. تەنها ئەگەر دراوی هەڵە هەڵبژێردرابوو بیگۆڕە. بۆ دابینکەرێک کە بە دراوێکی تر پسوولە دەنێرێت، لەسەر ئەو دابینکەرە دیاری بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bereits gespeicherte Beträge werden nicht umgerechnet: Sie werden in der neuen Währung angezeigt. Ändere sie nur, wenn die falsche Währung gewählt wurde. Für einen Lieferanten, der in einer anderen Währung abrechnet, stelle sie stattdessen beim Lieferanten ein."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les montants déjà enregistrés ne sont pas convertis : ils seront affichés dans la nouvelle devise. Ne changez ceci que si la mauvaise devise a été choisie. Pour un fournisseur qui facture dans une autre devise, réglez-la plutôt sur ce fournisseur."
           }
         }
       }
@@ -3952,6 +4242,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Arrivé : %1$@ sur %2$@"
+          }
+        }
+      }
+    },
+    "Ask the supplier to cancel one of them, or delete this one once it's sorted out. It stays under Home › Needs attention until it's paid or the warning is removed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اطلب من المورّد إلغاء إحداهما، أو احذف هذه بعد تسوية الأمر. تبقى في الرئيسية › يحتاج إلى انتباه حتى تُدفع أو يُزال التنبيه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوا لە دابینکەر بکە یەکێکیان هەڵبوەشێنێتەوە، یان دوای چارەسەرکردن ئەمە بسڕەوە. لە سەرەکی › پێویستی بە سەرنجە دەمێنێتەوە تا دەدرێت یان ئاگادارکردنەوەکە لادەبرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitte den Lieferanten, eine davon zu stornieren, oder lösche diese, sobald es geklärt ist. Sie bleibt unter Start › Braucht Aufmerksamkeit, bis sie bezahlt oder die Warnung entfernt ist."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demandez au fournisseur d'en annuler une, ou supprimez celle-ci une fois réglé. Elle reste dans Accueil › À traiter jusqu'à son paiement ou le retrait de l'alerte."
           }
         }
       }
@@ -4437,6 +4756,35 @@
         }
       }
     },
+    "Billed twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فوترت مرتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو جار نێردراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelt gestellt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facturées deux fois"
+          }
+        }
+      }
+    },
     "Blue": {
       "extractionState": "manual",
       "localizations": {
@@ -4918,6 +5266,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Changer de dossier"
+          }
+        }
+      }
+    },
+    "Change the currency?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير العملة؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دراوەکە بگۆڕیت؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Währung ändern?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer de devise ?"
           }
         }
       }
@@ -10918,6 +11295,35 @@
         }
       }
     },
+    "It's a different invoice – remove the warning": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنها فاتورة مختلفة – أزل التنبيه"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەیەکی جیاوازە – ئاگادارکردنەوەکە لابە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es ist eine andere Rechnung – Warnung entfernen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C'est une autre facture – retirer l'alerte"
+          }
+        }
+      }
+    },
     "Item": {
       "localizations": {
         "ar": {
@@ -12842,6 +13248,35 @@
         }
       }
     },
+    "New invoices are filed under %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُسجَّل الفواتير الجديدة باسم %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولە نوێیەکان دەخرێنە سەر %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Rechnungen werden unter %@ abgelegt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les nouvelles factures sont classées dans %@."
+          }
+        }
+      }
+    },
     "New invoices are filed under the ticked shop. Swipe a shop to rename or remove it; its invoices stay in Reports.": {
       "localizations": {
         "ar": {
@@ -13291,6 +13726,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune facture"
+          }
+        }
+      }
+    },
+    "No invoices billed twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد فواتير مكررة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ پسوولەیەک دوو جار نەنێردراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine doppelten Rechnungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune facture en double"
           }
         }
       }
@@ -14147,6 +14611,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rien trouvé"
+          }
+        }
+      }
+    },
+    "Nothing is saved until you choose. A second bill stays under Home › Needs attention until it's paid or sorted out with the supplier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يُحفظ شيء حتى تختار. تبقى الفاتورة الثانية في الرئيسية › يحتاج إلى انتباه حتى تُدفع أو تُسوّى مع المورّد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ شتێک پاشەکەوت ناکرێت تا هەڵنەبژێریت. پسوولەی دووەم لە سەرەکی › پێویستی بە سەرنجە دەمێنێتەوە تا دەدرێت یان لەگەڵ دابینکەر چارەسەر دەکرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nichts wird gespeichert, bevor du wählst. Eine zweite Rechnung bleibt unter Start › Braucht Aufmerksamkeit, bis sie bezahlt oder mit dem Lieferanten geklärt ist."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien n'est enregistré avant votre choix. Une seconde facture reste dans Accueil › À traiter jusqu'à ce qu'elle soit payée ou réglée avec le fournisseur."
           }
         }
       }
@@ -15080,6 +15573,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrez l'app pour voir ce que vous devez à vos fournisseurs."
+          }
+        }
+      }
+    },
+    "Open the first bill": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الفاتورة الأولى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی یەکەم بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erste Rechnung öffnen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir la première facture"
           }
         }
       }
@@ -19274,6 +19796,35 @@
         }
       }
     },
+    "Same invoice – update the saved one": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة نفسها – حدّث المحفوظة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەمان پسوولەیە – ئەوەی پاشەکەوتکراوە نوێ بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieselbe Rechnung – die gespeicherte aktualisieren"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Même facture – mettre à jour celle enregistrée"
+          }
+        }
+      }
+    },
     "Sample invoice with example prices. Nothing here is saved.": {
       "localizations": {
         "ar": {
@@ -23311,6 +23862,64 @@
         }
       }
     },
+    "The supplier billed me twice – keep both": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المورّد أصدر الفاتورة مرتين – احتفظ بالاثنتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەر دوو جار پسوولەی بۆ ناردووم – هەردووکیان بهێڵەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Lieferant hat doppelt abgerechnet – beide behalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fournisseur a facturé deux fois – garder les deux"
+          }
+        }
+      }
+    },
+    "The supplier billed this invoice twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أصدر المورّد هذه الفاتورة مرتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەر ئەم پسوولەیەی دوو جار ناردووە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Lieferant hat diese Rechnung doppelt gestellt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le fournisseur a facturé cette facture deux fois"
+          }
+        }
+      }
+    },
     "The two reads of the photo didn't agree on this line.": {
       "extractionState": "manual",
       "localizations": {
@@ -23881,6 +24490,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cette année"
+          }
+        }
+      }
+    },
+    "Tick a shop to see only that shop everywhere – invoices, suppliers, what you owe, payments and reports – and to file new invoices under it. All shops shows everything. Swipe a shop to rename or remove it; its invoices are kept.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر متجرًا لترى هذا المتجر فقط في كل مكان – الفواتير والمورّدين وما تدين به والدفعات والتقارير – ولتُسجَّل الفواتير الجديدة باسمه. «كل المتاجر» يعرض كل شيء. اسحب متجرًا لإعادة تسميته أو حذفه؛ تبقى فواتيره محفوظة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوکانێک هەڵبژێرە بۆ ئەوەی لە هەموو شوێنێک تەنها ئەو دوکانە ببینیت – پسوولەکان، دابینکەرەکان، قەرزەکانت، پارەدانەکان و ڕاپۆرتەکان – و پسوولە نوێیەکان بخرێنە سەری. هەموو دوکانەکان هەموو شتێک پیشان دەدات. دوکانێک ڕابکێشە بۆ گۆڕینی ناو یان لابردنی؛ پسوولەکانی دەمێننەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hake eine Filiale an, um überall nur diese Filiale zu sehen – Rechnungen, Lieferanten, offene Beträge, Zahlungen und Berichte – und neue Rechnungen darunter abzulegen. Alle Filialen zeigt alles. Wische über eine Filiale, um sie umzubenennen oder zu entfernen; ihre Rechnungen bleiben erhalten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cochez un magasin pour ne voir que lui partout – factures, fournisseurs, ce que vous devez, paiements et rapports – et y classer les nouvelles factures. Tous les magasins affiche tout. Balayez un magasin pour le renommer ou le supprimer ; ses factures sont conservées."
           }
         }
       }
@@ -25535,6 +26173,35 @@
         }
       }
     },
+    "When these were scanned you said the supplier had already billed the same invoice. Ask them to cancel one, then delete it or remove the warning.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند مسح هذه الفواتير قلت إن المورّد أصدر الفاتورة نفسها من قبل. اطلب منه إلغاء إحداها، ثم احذفها أو أزل التنبيه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێک ئەمانە سکان کران گوتت دابینکەر پێشتر هەمان پسوولەی ناردووە. داوای لێ بکە یەکێکیان هەڵبوەشێنێتەوە، پاشان بیسڕەوە یان ئاگادارکردنەوەکە لابە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Scannen hast du angegeben, dass der Lieferant dieselbe Rechnung schon gestellt hatte. Bitte ihn, eine zu stornieren, und lösche sie dann oder entferne die Warnung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lors du scan, vous avez indiqué que le fournisseur avait déjà facturé la même facture. Demandez-lui d'en annuler une, puis supprimez-la ou retirez l'alerte."
+          }
+        }
+      }
+    },
     "When you buy the same item from two suppliers, ChargeCheck shows here if the other one is cheaper.": {
       "extractionState": "manual",
       "localizations": {
@@ -26670,6 +27337,64 @@
         }
       }
     },
+    "Your saved data couldn't be opened, so nothing can be restored now. Close ChargeCheck and open it again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح بياناتك المحفوظة، لذلك لا يمكن استعادة أي شيء الآن. أغلق ChargeCheck وافتحه مرة أخرى."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زانیارییە پاشەکەوتکراوەکانت نەکرانەوە، بۆیە ئێستا هیچ شتێک ناگەڕێندرێتەوە. ChargeCheck دابخە و دووبارە بیکەرەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine gespeicherten Daten konnten nicht geöffnet werden, deshalb kann jetzt nichts wiederhergestellt werden. Schließe ChargeCheck und öffne es erneut."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos données enregistrées n'ont pas pu être ouvertes : rien ne peut être restauré pour l'instant. Fermez ChargeCheck et rouvrez-le."
+          }
+        }
+      }
+    },
+    "Your saved data couldn't be opened, so sharing is paused on this phone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح بياناتك المحفوظة، لذلك أُوقفت المشاركة مؤقتًا على هذا الهاتف."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زانیارییە پاشەکەوتکراوەکانت نەکرانەوە، بۆیە هاوبەشکردن لەم مۆبایلەدا ڕاگیراوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine gespeicherten Daten konnten nicht geöffnet werden, deshalb ist das Teilen auf diesem iPhone pausiert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos données enregistrées n'ont pas pu être ouvertes : le partage est suspendu sur ce téléphone."
+          }
+        }
+      }
+    },
     "Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again.": {
       "localizations": {
         "ar": {
@@ -26835,6 +27560,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "demandé le %@"
+          }
+        }
+      }
+    },
+    "billed twice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فوترت مرتين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوو جار پسوولە کراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "doppelt abgerechnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "facturée deux fois"
           }
         }
       }

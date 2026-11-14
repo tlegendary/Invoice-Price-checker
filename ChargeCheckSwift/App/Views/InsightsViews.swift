@@ -79,7 +79,8 @@ struct MonthlySummaryView: View {
     }
 
     var body: some View {
-        let summary = Insights.month(month, entries: reports.compactMap { $0.entry }, payments: accounts.payments,
+        let all = reports.compactMap { $0.entry }
+        let summary = Insights.month(month, entries: accounts.inShop(all), payments: accounts.shopPayments(all),
                                      shops: Shops.all, trusted: accounts.trusted)
         let sentences = Insights.sentences(summary, monthName: Self.name(month))
         List {
@@ -200,7 +201,7 @@ struct PriceRisesView: View {
 
     var body: some View {
         let since = SupplierAccounts.dayText(Date().addingTimeInterval(-Double(days) * 86_400))
-        let all = Insights.priceRises(reports.compactMap { $0.entry }, since: since)
+        let all = Insights.priceRises(Accounts.shared.inShop(reports.compactMap { $0.entry }), since: since)
             .filter { rise in supplier.map { SupplierAccounts.key($0) == SupplierAccounts.key(rise.supplier) } ?? true }
         let groups = Dictionary(grouping: all) { SupplierAccounts.key($0.supplier) }
             .values.sorted { ($0.first?.supplier ?? "") < ($1.first?.supplier ?? "") }
@@ -414,8 +415,9 @@ struct SupplierScoresView: View {
     @ObservedObject private var accounts = Accounts.shared
 
     var body: some View {
-        let entries = reports.compactMap { $0.entry }
-        let list = SupplierAccounts.accounts(entries: entries, payments: accounts.payments, trusted: accounts.trusted)
+        let all = reports.compactMap { $0.entry }
+        let entries = accounts.inShop(all)
+        let list = SupplierAccounts.accounts(entries: entries, payments: accounts.shopPayments(all), trusted: accounts.trusted)
             .filter { !$0.trusted && !$0.entries.isEmpty }
             .map { (account: $0, profile: SupplierProfiles.make($0, all: entries)) }
             .sorted { ($0.profile.score ?? -1, $0.account.name) > ($1.profile.score ?? -1, $1.account.name) }
