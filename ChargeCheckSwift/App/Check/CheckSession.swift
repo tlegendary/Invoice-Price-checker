@@ -2,6 +2,16 @@ import SwiftUI
 import SwiftData
 import ChargeCheckCore
 
+/// Where an invoice comes from when scanning starts on Home.
+enum ScanSource: Equatable {
+    /// The document camera.
+    case camera
+    /// The camera roll.
+    case photos
+    /// Files: a PDF or a photo.
+    case files
+}
+
 struct InvoiceJob: Identifiable, Equatable {
     enum Status: Equatable {
         case reading
@@ -52,16 +62,19 @@ struct CreditNoteResult: Equatable {
     }
 }
 
+/// Items that were cheaper on a fully checked invoice than your agreed price. Nothing is changed until you say yes
+/// (Ramyar, 14 Nov 2026): a one-off offer must not quietly become your agreed price.
 struct LoweredPrices: Identifiable {
     let id = UUID()
     var changes: [PriceChange]
     var before: [PriceItem]
+    var supplier: String = ""
 
     var message: String {
         if changes.count == 1, let one = changes.first {
-            return String(localized: "Your price for \(one.name) was lowered from \(Money.format(one.from)) to \(Money.format(one.to)), the cheaper price on this invoice.")
+            return String(localized: "\(one.name) is \(Money.format(one.to)) on this invoice. Your price is \(Money.format(one.from)). Update your price?")
         }
-        return String(localized: "\(changes.count) of your prices were lowered to the cheaper prices on this invoice.")
+        return String(localized: "\(changes.count) items are cheaper on this invoice than your prices. Update them?")
     }
 }
 
@@ -92,6 +105,8 @@ final class CheckSession: ObservableObject {
     @Published var incoming: [URL] = []
     /// Siri / Shortcuts asked to scan an invoice: the Check tab opens the camera.
     @Published var openScanner = false
+    /// Where to get an invoice from, chosen on Home: the Invoices tab opens the camera, photos or files picker.
+    @Published var scanRequest: ScanSource?
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).
@@ -287,20 +302,24 @@ final class CheckSession: ObservableObject {
     }
 
     /// A cheaper price on a fully checked invoice becomes the agreed price. Never raised, never adds items,
-    /// and each item only once per invoice so "Undo" sticks.
+    /// and each item is asked about only once per invoice. Nothing changes until the user taps Update.
     private func lowerPrices(_ draft: InvoiceDraft, jobID: String, book: PriceBook, context: ModelContext) {
         if UserDefaults.standard.object(forKey: SettingKey.autoLower) as? Bool == false { return }
         guard InvoiceMaths.totals(draft, book: book, tolerance: AppData.tolerance).verified else { return }
         let changes = PriceTools.cheaper(in: draft, book: book).filter { loweredOnce.insert(jobID + "|" + $0.itemID).inserted }
-        var before: [PriceItem] = []
-        for change in changes {
-            guard let item = book.item(change.itemID) else { continue }
-            before.append(item)
-            AppData.save(PriceTools.setting(change.to, on: item, supplier: draft.supplier), in: context)
-        }
+        let before = changes.compactMap { book.item($0.itemID) }
         if before.isEmpty { return }
+        lowered = LoweredPrices(changes: changes.filter { change in before.contains { $0.id == change.itemID } },
+                                before: before, supplier: draft.supplier)
+    }
+
+    /// "Update my price": the agreed prices become the cheaper ones on the invoice (each change is in the history).
+    func acceptLowered(_ note: LoweredPrices, context: ModelContext) {
+        for change in note.changes {
+            guard let item = note.before.first(where: { $0.id == change.itemID }) else { continue }
+            AppData.save(PriceTools.setting(change.to, on: item, supplier: note.supplier), in: context)
+        }
         try? context.save()
-        lowered = LoweredPrices(changes: changes, before: before)
     }
 
     /// Suppliers call the same item different names. On a fully checked invoice, each new name of an item the app
@@ -316,11 +335,6 @@ final class CheckSession: ObservableObject {
         }
         if changed.isEmpty { return }
         for item in changed.values { AppData.save(item, in: context) }
-        try? context.save()
-    }
-
-    func undoLowered(_ note: LoweredPrices, context: ModelContext) {
-        for item in note.before { AppData.save(item, in: context) }
         try? context.save()
     }
 

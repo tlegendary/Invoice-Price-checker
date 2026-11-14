@@ -33,12 +33,8 @@ targets:
       path: App/ChargeCheck.entitlements
       properties:
         com.apple.security.application-groups: [group.com.rjapps.invoicepricechecker]  # widget
-        # iCloud for staff phones (CloudKit sharing). TestFlight and App Store builds always use the Production iCloud.
-        com.apple.developer.icloud-container-identifiers: [iCloud.com.rjapps.invoicepricechecker]  # icloud
-        com.apple.developer.icloud-services: [CloudKit]  # icloud
-        com.apple.developer.icloud-container-environment: Production  # icloud
-        # iCloud tells the app about other phones' changes with silent pushes (Push Notifications ticked on the App ID, 13 Nov)
-        aps-environment: production  # icloud
+        # Staff sharing through iCloud was taken out (Ramyar, 14 Nov 2026), so the app no longer asks for iCloud or push.
+        # Backups to an iCloud Drive folder don't need either: they go through the Files app.
     scheme:
       testTargets:
         - ChargeCheckTests
@@ -65,10 +61,6 @@ targets:
         CCTestBuild: true
         # shared with the home screen widget
         CCAppGroup: group.com.rjapps.invoicepricechecker
-        # staff phones: the business is shared through this iCloud container; invite links open the app
-        CCCloudContainer: iCloud.com.rjapps.invoicepricechecker
-        CKSharingSupported: true
-        UIBackgroundModes: [remote-notification]
         # the widget opens the app on the Suppliers tab
         CFBundleURLTypes:
           - CFBundleURLName: com.rjapps.invoicepricechecker

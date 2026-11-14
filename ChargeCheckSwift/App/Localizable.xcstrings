@@ -212,6 +212,35 @@
         }
       }
     },
+    "%@ is %@ on this invoice. Your price is %@. Update your price?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سعر %1$@ في هذه الفاتورة %2$@، وسعرك %3$@. هل تريد تحديث سعرك؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی %1$@ لەم پسوولەیەدا %2$@ە. نرخەکەی تۆ %3$@ە. نرخەکەت نوێ بکەیتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ kostet auf dieser Rechnung %2$@. Dein Preis ist %3$@. Deinen Preis anpassen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ est à %2$@ sur cette facture. Votre prix est de %3$@. Mettre à jour votre prix ?"
+          }
+        }
+      }
+    },
     "%@ per month. Payment is charged to your Apple ID when you confirm.": {
       "localizations": {
         "ar": {
@@ -807,6 +836,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld factures avec un problème"
+          }
+        }
+      }
+    },
+    "%lld items are cheaper on this invoice than your prices. Update them?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld أصناف أرخص في هذه الفاتورة من أسعارك. هل تريد تحديثها؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld کاڵا لەم پسوولەیەدا لە نرخەکانی تۆ هەرزانترن. نوێیان بکەیتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Artikel sind auf dieser Rechnung günstiger als deine Preise. Anpassen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld articles sont moins chers sur cette facture que vos prix. Les mettre à jour ?"
           }
         }
       }
@@ -5071,6 +5129,64 @@
         }
       }
     },
+    "Camera": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكاميرا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کامێرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamera"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appareil photo"
+          }
+        }
+      }
+    },
+    "Camera roll": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ألبوم الصور"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "ar": {
@@ -5672,6 +5788,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Moins cher ailleurs, par mois"
+          }
+        }
+      }
+    },
+    "Cheaper on this invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرخص في هذه الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەم پسوولەیەدا هەرزانترە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Günstiger auf dieser Rechnung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moins cher sur cette facture"
           }
         }
       }
@@ -9055,6 +9200,35 @@
         }
       }
     },
+    "Files (PDF or photo)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملفات (PDF أو صورة)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایلەکان (PDF یان وێنە)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dateien (PDF oder Foto)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichiers (PDF ou photo)"
+          }
+        }
+      }
+    },
     "Fill in every full balance": {
       "extractionState": "manual",
       "localizations": {
@@ -11516,6 +11690,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Séparez les factures de chaque magasin et comparez-les."
+          }
+        }
+      }
+    },
+    "Keep my price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبقِ سعري"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکەم بهێڵەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meinen Preis behalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garder mon prix"
+          }
+        }
+      }
+    },
+    "Keep my prices": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبقِ أسعاري"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکانم بهێڵەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Preise behalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garder mes prix"
           }
         }
       }
@@ -15432,6 +15664,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Utile seulement si vous avez plusieurs magasins. Chaque facture est classée sous un magasin, et les rapports peuvent montrer chaque magasin séparément. Vos prix sont partagés par tous les magasins."
+          }
+        }
+      }
+    },
+    "Only update if this is the normal price now, not a one-off offer.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّث فقط إذا كان هذا هو السعر المعتاد الآن، وليس عرضًا لمرة واحدة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تەنها نوێی بکەرەوە ئەگەر ئەمە ئێستا نرخی ئاسایییە، نەک داشکاندنێکی یەک جار."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passe ihn nur an, wenn das jetzt der normale Preis ist und kein einmaliges Angebot."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne mettez à jour que si c'est désormais le prix normal, pas une offre ponctuelle."
           }
         }
       }
@@ -20815,6 +21076,35 @@
         }
       }
     },
+    "Several shops and a home screen widget": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عدة متاجر وأداة الشاشة الرئيسية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چەند دوکانێک و ویجێتی شاشەی سەرەکی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Geschäfte und Home-Bildschirm-Widget"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plusieurs magasins et widget d'accueil"
+          }
+        }
+      }
+    },
     "Several shops, staff on their own iPhones, home screen widget": {
       "localizations": {
         "ar": {
@@ -22041,6 +22331,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "S’abonner"
+          }
+        }
+      }
+    },
+    "Suggest a lower price when an invoice is cheaper": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اقترح سعرًا أقل عندما تكون الفاتورة أرخص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێک پسوولەیەک هەرزانترە نرخی کەمتر پێشنیار بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niedrigeren Preis vorschlagen, wenn eine Rechnung günstiger ist"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposer un prix plus bas quand une facture est moins chère"
           }
         }
       }
@@ -25662,6 +25981,64 @@
         }
       }
     },
+    "Update my price": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّث سعري"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکەم نوێ بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meinen Preis anpassen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre à jour mon prix"
+          }
+        }
+      }
+    },
+    "Update my prices": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّث أسعاري"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکانم نوێ بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meine Preise anpassen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre à jour mes prix"
+          }
+        }
+      }
+    },
     "Use the corrected details": {
       "extractionState": "manual",
       "localizations": {
@@ -26795,6 +27172,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vous avez été surfacturé de {1} au total, dont {2} par {3}."
+          }
+        }
+      }
+    },
+    "You're asked first, and nothing changes unless you tap Update. Only for items already in your list, only on a fully checked invoice, and prices are never raised this way.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُطلب رأيك أولًا، ولا يتغيّر شيء ما لم تضغط تحديث. فقط للأصناف الموجودة في قائمتك، وفقط في فاتورة مفحوصة بالكامل، ولا تُرفع الأسعار بهذه الطريقة أبدًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سەرەتا لێت دەپرسرێت، و هیچ ناگۆڕێت تا نوێکردنەوە دانەگریت. تەنها بۆ ئەو کاڵایانەی لە لیستەکەتدان، تەنها لە پسوولەیەکی بە تەواوی پشکنراودا، و نرخەکان هەرگیز بەم شێوەیە بەرز ناکرێنەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du wirst zuerst gefragt, und nichts ändert sich, bevor du auf Anpassen tippst. Nur für Artikel in deiner Liste, nur bei einer ganz geprüften Rechnung, und Preise werden so nie erhöht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On vous demande d'abord, et rien ne change tant que vous n'appuyez pas sur Mettre à jour. Uniquement pour les articles de votre liste, uniquement sur une facture entièrement vérifiée, et les prix ne sont jamais augmentés ainsi."
           }
         }
       }

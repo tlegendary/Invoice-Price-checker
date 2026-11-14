@@ -13,8 +13,15 @@ struct HomeView: View {
     @Query(sort: \StoredPrice.name) private var prices: [StoredPrice]
     @ObservedObject private var accounts = Accounts.shared
     @ObservedObject private var team = CloudTeam.shared
-    @AppStorage(SettingKey.business) private var business = ""
     @State private var search = ""
+    /// "Scan an invoice": camera, camera roll or files.
+    @State private var choosingSource = false
+
+    /// Opens the Invoices tab, which opens the chosen picker (a free scan or an ad is still needed there).
+    private func scan(from source: ScanSource) {
+        tab = "invoices"
+        session.scanRequest = source
+    }
 
     var body: some View {
         NavigationStack {
@@ -38,8 +45,17 @@ struct HomeView: View {
                     savingsSection(overview)
                 }
             }
-            .navigationTitle(business.isEmpty ? "ChargeCheck" : business)
+            // the shop's name (or the shop new invoices go to); there is no separate business name any more
+            .navigationTitle(Shops.reportName().isEmpty ? "ChargeCheck" : Shops.reportName())
             .shopSwitcher()
+            .confirmationDialog("Scan an invoice", isPresented: $choosingSource, titleVisibility: .visible) {
+                if DocumentScanner.isAvailable {
+                    Button("Camera") { scan(from: .camera) }
+                }
+                Button("Camera roll") { scan(from: .photos) }
+                Button("Files (PDF or photo)") { scan(from: .files) }
+                Button("Cancel", role: .cancel) {}
+            }
             .searchable(text: $search, prompt: "Search invoices, suppliers, items, payments")
             .navigationDestination(for: ReportLink.self) { link in
                 ReportDetailView(reportID: link.id)
@@ -87,8 +103,7 @@ struct HomeView: View {
     private var scanSection: some View {
         Section {
             Button {
-                tab = "invoices"
-                session.openScanner = true
+                choosingSource = true
             } label: {
                 Label("Scan an invoice", systemImage: "doc.viewfinder")
                     .font(.headline)

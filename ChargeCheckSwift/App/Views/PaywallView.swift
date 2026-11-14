@@ -80,7 +80,7 @@ struct PaywallView: View {
                         benefit("Price-rise alerts and cheaper suppliers for the same item")
                         benefit("Supplier scores, profiles and supplier reports")
                         benefit("Payment due dates, pay runs and a weekly reminder")
-                        benefit("Several shops, staff on their own iPhones, home screen widget")
+                        benefit("Several shops and a home screen widget")
                         benefit("Apple Intelligence check and a monthly summary in plain words")
                         benefit("Everything in the scan packs too")
                     }

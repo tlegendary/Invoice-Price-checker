@@ -28,9 +28,30 @@ public enum Money {
     /// when the currency (or a supplier's currency) changes, instead of after the app is opened again.
     public static var willFormat: (() -> Void)?
 
-    /// Round to the currency's smallest unit (pennies, cents; whole dinars).
+    /// Round to two decimal places (pennies, cents), halves away from zero: 4.185 → 4.19, −1.005 → −1.01.
+    /// Whole-dinar amounts have nothing after the point, so they come back unchanged.
+    ///
+    /// Amounts are `Double`s, so a half penny the app works out (0.25 kg × £16.74 = 4.185) is often stored a hair
+    /// below the half (4.18499999…). The old rounding added `Double.ulpOfOne`, which is too small to lift anything of
+    /// 2 or more over the half, so about 1 in 22 half pennies (and about 1 in 60 weighed line totals) lost a penny,
+    /// and minus amounts rounded differently from the same amount plus. A value within a few steps of Double's
+    /// precision of a half penny is now treated as that half penny; every other value rounds exactly as before.
+    ///
+    /// Why that can't catch a real amount by mistake: everything the app rounds comes from quantities with at most
+    /// three decimals, prices with at most three and VAT rates with at most one, so a real amount that isn't a half
+    /// penny is at least 0.0001 of a penny away from one – a thousand times more than the 0.0000001 allowed here.
+    /// Already saved invoices and payments keep their saved amounts; only new calculations use this.
     public static func round2(_ value: Double) -> Double {
-        ((value + Double.ulpOfOne) * 100).rounded() / 100
+        guard value.isFinite else { return value }
+        let pennies = value * 100
+        // beyond this a Double can't hold fractions of a penny, so there is nothing to decide
+        guard abs(pennies) < 1e15 else { return pennies.rounded() / 100 }
+        let whole = pennies.rounded(.towardZero)
+        // how far arithmetic can push a stored half penny off the half: a few steps of precision at this size
+        let slack = min(0.001, max(1e-7, pennies.ulp * 8))
+        let rounded = abs(abs(pennies - whole) - 0.5) <= slack ? whole + (pennies < 0 ? -1 : 1) : pennies.rounded()
+        // never "-0": a tiny minus that rounds to nothing is plain zero (backups would otherwise save "-0")
+        return rounded == 0 ? 0 : rounded / 100
     }
 
     /// "£12.50", "12,50 €", "25,000 IQD" / "-£3.00"

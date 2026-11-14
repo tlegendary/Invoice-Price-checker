@@ -166,7 +166,6 @@ struct SuppliersView: View {
                     }
                 }
             }
-            .refreshable { await team.refresh() }
             .navigationDestination(for: String.self) { key in
                 SupplierDetailView(key: key)
             }
@@ -270,7 +269,6 @@ struct SupplierProfileSection: View {
     let profile: SupplierProfile
 
     @ObservedObject private var accounts = Accounts.shared
-    @AppStorage(SettingKey.business) private var business = ""
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var showScore = false
     @State private var made: URL?
@@ -343,7 +341,7 @@ struct SupplierProfileSection: View {
 
     private func report() -> URL? {
         let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
-        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: business, theme: Themes.named(colourID))
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.named(colourID))
         let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
         return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
     }
@@ -1323,7 +1321,6 @@ struct StatementCheckView: View {
 
     @Environment(\.dismiss) private var dismiss
     @ObservedObject private var accounts = Accounts.shared
-    @AppStorage(SettingKey.business) private var business = ""
     @State private var showScanner = false
     @State private var showFiles = false
     @State private var picked: [PhotosPickerItem] = []
@@ -1531,7 +1528,7 @@ struct StatementCheckView: View {
         if !r.allClear {
             Section {
                 Button {
-                    UIPasteboard.general.string = StatementCheck.query(r, supplier: account.name, business: business)
+                    UIPasteboard.general.string = StatementCheck.query(r, supplier: account.name, business: Shops.reportName())
                     copied = true
                 } label: {
                     Label(copied ? LocalizedStringKey("Copied") : LocalizedStringKey("Copy a message to the supplier"),

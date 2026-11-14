@@ -148,8 +148,27 @@ is ready and Ramyar says to switch.
   long invoices and whole dinars (`InvoiceMaths.totalAllowance`).
 - Not done on purpose: a SwiftData `VersionedSchema`. The stored models haven't changed, and adding one without a
   real-phone upgrade test could stop existing data opening. Add it together with the first real model change.
-- Staff sharing: `CloudTeam.enabled` is **true** (it was switched back on in beta 17); the note under "Staff phones"
-  saying it is off is out of date. Still not tested on two real phones; see the audit report (C3) before customers use it.
+- **Staff sharing taken out (Ramyar, 14 Nov 2026: "not needed").** `CloudTeam.enabled = false`, the Staff row is gone
+  from More, the plans screen no longer offers it, and the iCloud/push entitlements are out of `project.yml` (the app no
+  longer asks for iCloud). A phone that had started or joined sharing in an earlier beta just stops; its data stays on
+  the phone and nothing in iCloud is touched. The code (`Sharing/`, `Core/TeamSync.swift`) is kept in case it comes back
+  as a properly designed feature.
+- **Cheaper prices are suggested, not applied (Ramyar, 14 Nov 2026).** When a fully checked invoice is cheaper than
+  an agreed price, "Cheaper on this invoice" asks "Update my price" / "Keep my price"; nothing changes until Update.
+  Settings: "Suggest a lower price when an invoice is cheaper" (same `prices.autoLower` setting, on by default).
+- **Half pennies round up every time (Ramyar, 14 Nov 2026).** `Money.round2` used to lose a penny on about 1 in 22
+  half-penny amounts (0.25 kg × £16.74 = £4.185 gave £4.18) and rounded minus amounts differently from plus amounts.
+  Now a value within a hair of a half penny is rounded away from zero; everything else rounds as before; no "-0".
+  Checked against whole-number maths: every half penny to £2,000, ~770,000 weighed lines and line totals (core tests
+  `MoneyRoundingTests`). Saved invoices keep their amounts; the duplicate check allows a penny so an invoice saved
+  before this still matches. Still `Double`, not `Decimal` – moving to exact decimals remains on the roadmap.
+- **Scan from Home asks where from (14 Nov 2026):** Camera, Camera roll or Files (PDF or photo). Home sets
+  `CheckSession.scanRequest` (`ScanSource`) and switches to Invoices, which opens that picker through `gated {}`.
+- **Fixed: tapping a checked invoice on the Invoices tab did nothing.** Its path was `[String]`, which silently drops
+  `ReportLink`; it is a `NavigationPath` now.
+- **No separate business name any more.** The Settings field is gone; reports, credit requests and PDFs are named by
+  `Shops.reportName(shopId)`: the invoice's shop, else the shop being viewed, else the filing shop, else the old saved
+  business name.
 
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
