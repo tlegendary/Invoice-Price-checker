@@ -72,7 +72,7 @@ struct OrdersView: View {
     }
 
     private func gaps(_ order: PurchaseOrder) -> [OrderGap]? {
-        guard let id = order.invoiceID, let entry = reports.first(where: { $0.id == id })?.entry else { return nil }
+        guard let id = order.invoiceID, let entry = reports.first(where: { $0.uid == id })?.entry else { return nil }
         return OrderMaths.compare(order, with: entry)
     }
 }
