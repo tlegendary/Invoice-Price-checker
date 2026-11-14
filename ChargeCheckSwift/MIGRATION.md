@@ -1,5 +1,7 @@
 # ChargeCheck – moving to native Swift
 
+> **Read `STANDARDS.md` first.** It is Ramyar's master product, engineering and quality standard (14 Nov 2026) and applies to every change.
+
 The first version of ChargeCheck is a web app (HTML/JavaScript) inside an iPhone
 shell. It is being rewritten in Apple's own language, **Swift + SwiftUI**, in stages.
 The old version (on `main`) stays untouched and keeps working until the Swift one

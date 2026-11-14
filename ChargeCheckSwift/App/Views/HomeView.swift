@@ -501,7 +501,7 @@ struct SavingsView: View {
                     LabeledContent("Cheaper elsewhere, a month", value: Money.format(o.cheaperElsewhere))
                 }
             } footer: {
-                Text("Overcharges and missing goods are taken off what you pay each supplier. Credits received are the money suppliers sent back for them.")
+                Text("Found: overcharges and missing goods taken off what you pay or asked back from the supplier. Credits received: money suppliers have actually sent back. Cheaper elsewhere is an estimate, not money saved.")
             }
         }
         .navigationTitle("Money protected")

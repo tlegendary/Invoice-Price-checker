@@ -19,6 +19,7 @@ public enum CoreText {
         "Only found on the second read – make sure it's really on the invoice.",
         "Not in your price list – choose the matching item or mark it as not in your list.",
         "Not 100% sure this is “{1}”.",
+        "Not 100% sure this is “{1}”. If it is, you were overcharged {2}. Confirm the match to count it.",
         "Price is very different from your price ({1}) – wrong item or misread?",
         "Handwritten on this line: “{1}”. If it was missing or sent back, mark the line as missing or returned.",
         "The invoice says {1} but your item is {2} – check it's the same pack size.",

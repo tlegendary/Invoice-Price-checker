@@ -96,6 +96,14 @@ public struct LineResult: Equatable, Sendable {
     public var over: Double
     public var overVat: Double
     public var under: Double
+    /// A possible overcharge on a line whose item match isn't confirmed yet. It is not counted,
+    /// not taken off what you pay and not put in a credit request until the user confirms the match.
+    public var pendingOver: Double = 0
+
+    /// The match is unsure and nobody has confirmed it.
+    public static func unconfirmed(_ line: CheckLine) -> Bool {
+        !line.ok && !line.excluded && line.confident == false
+    }
 }
 
 public struct InvoiceTotals: Equatable, Sendable {
@@ -106,6 +114,9 @@ public struct InvoiceTotals: Equatable, Sendable {
     public var overVat = 0.0
     public var under = 0.0
     public var excluded = 0.0
+    /// Possible overcharges waiting for the user to confirm the item match (not counted in `over`).
+    public var pendingOver = 0.0
+    public var pendingLines = 0
     public var unmatched = 0
     /// Lines that need the user to look at them.
     public var needLook = 0
@@ -223,8 +234,14 @@ public enum InvoiceMaths {
             result.diff = Money.round2(line.unit - base)
             let tol = max(0.01, tolerance)
             if result.diff >= tol - 1e-9 {
-                result.over = Money.round2(result.diff * line.qty)
-                result.overVat = Money.round2(result.over * line.vat / 100)
+                let over = Money.round2(result.diff * line.qty)
+                if LineResult.unconfirmed(line) {
+                    // never claim an overcharge on a match we aren't sure of
+                    result.pendingOver = over
+                } else {
+                    result.over = over
+                    result.overVat = Money.round2(result.over * line.vat / 100)
+                }
             } else if result.diff <= -0.01 {
                 result.under = Money.round2(-result.diff * line.qty)
             }
@@ -245,7 +262,12 @@ public enum InvoiceMaths {
         if line.matchId == nil && !line.noBase { out.append(CoreText.t("Not in your price list – choose the matching item or mark it as not in your list.")) }
         if let item = book.item(line.matchId) {
             let base = item.basePrice(for: supplier)
-            if line.confident == false { out.append(CoreText.t("Not 100% sure this is “{1}”.", item.name)) }
+            if line.confident == false {
+                let possible = lineResult(line, supplier: supplier, book: book).pendingOver
+                out.append(possible > 0.005
+                    ? CoreText.t("Not 100% sure this is “{1}”. If it is, you were overcharged {2}. Confirm the match to count it.", item.name, Money.format(possible))
+                    : CoreText.t("Not 100% sure this is “{1}”.", item.name))
+            }
             if let sizes = PackSize.mismatch(invoice: line.desc, item: item.name) {
                 // the right product in a different pack: the agreed price doesn't apply as it stands
                 out.append(CoreText.t("The invoice says {1} but your item is {2} – check it's the same pack size.", sizes.invoice, sizes.item))
@@ -266,6 +288,10 @@ public enum InvoiceMaths {
             t.over += c.over
             t.overVat += c.overVat
             t.under += c.under
+            if c.pendingOver > 0.005 {
+                t.pendingOver += c.pendingOver
+                t.pendingLines += 1
+            }
             if line.excluded {
                 t.excluded += c.net
             } else {
@@ -279,6 +305,7 @@ public enum InvoiceMaths {
         t.overVat = Money.round2(t.overVat)
         t.under = Money.round2(t.under)
         t.excluded = Money.round2(t.excluded)
+        t.pendingOver = Money.round2(t.pendingOver)
         t.total = Money.round2(t.net + t.vat)
         let printed = invoice.printedNet ?? 0
         t.totalKnown = printed != 0
