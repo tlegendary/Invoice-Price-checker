@@ -37,6 +37,8 @@ struct SettingsView: View {
     @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
     @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
     @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
+    /// A currency waiting for "Change the currency?" to be confirmed.
+    @State private var pendingCurrency: String?
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var showPricesShare: URL?
 
@@ -63,6 +65,27 @@ struct SettingsView: View {
             AutoBackup.run(context, scans: store.ledger.forBackup)
             notice = String(localized: "Backups will now also be saved in \(name).")
         }
+    }
+
+    /// The tolerance choices for the app's currency, plus the saved one if it isn't among them.
+    private var toleranceChoices: [Double] {
+        let choices = Regional.toleranceChoices(Currency.named(currencyCode))
+        return choices.contains(toleranceValue) ? choices : (choices + [toleranceValue]).sorted()
+    }
+
+    /// Changing the currency doesn't convert anything already saved, so it is confirmed when there is data.
+    private func askCurrency(_ code: String) {
+        guard code != currencyCode else { return }
+        let empty = AppData.items(context).isEmpty && AppData.entries(context).isEmpty && Accounts.shared.payments.isEmpty
+        if empty { changeCurrency(to: code) } else { pendingCurrency = code }
+    }
+
+    private func changeCurrency(to code: String) {
+        currencyCode = code
+        let choices = Regional.toleranceChoices(Currency.named(code))
+        if !choices.contains(toleranceValue) { toleranceValue = choices[0] }
+        Regional.apply()
+        LiveSettings.shared.moneyChanged()
     }
 
     private var planName: String {
@@ -132,7 +155,7 @@ struct SettingsView: View {
                             Text(language.name).tag(language.id)
                         }
                     }
-                    Picker("Currency", selection: $currencyCode) {
+                    Picker("Currency", selection: Binding(get: { currencyCode }, set: { askCurrency($0) })) {
                         ForEach(Currency.all) { currency in
                             Text(Regional.currencyName(currency)).tag(currency.code)
                         }
@@ -146,7 +169,6 @@ struct SettingsView: View {
                     Text("Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language.")
                 }
                 .onChange(of: invoiceLanguage) { Regional.apply() }
-                .onChange(of: currencyCode) { Regional.apply() }
 
                 Section {
                     if store.isSubscribed {
@@ -224,10 +246,9 @@ struct SettingsView: View {
                     }
                     Section {
                         Picker("Ignore differences up to", selection: $toleranceValue) {
-                            Text(Money.format(0.01)).tag(0.01)
-                            Text(Money.format(0.02)).tag(0.02)
-                            Text(Money.format(0.05)).tag(0.05)
-                            Text(Money.format(0.1)).tag(0.1)
+                            ForEach(toleranceChoices, id: \.self) { value in
+                                Text(Money.format(value)).tag(value)
+                            }
                         }
                         Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
                         Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
@@ -366,11 +387,26 @@ struct SettingsView: View {
                         pickedFolder(result)
                     }
             }
+            .confirmationDialog("Change the currency?", isPresented: Binding(
+                get: { pendingCurrency != nil },
+                set: { if !$0 { pendingCurrency = nil } }
+            ), titleVisibility: .visible, presenting: pendingCurrency) { code in
+                Button(Regional.currencyName(Currency.named(code))) { changeCurrency(to: code) }
+                Button("Cancel", role: .cancel) {}
+            } message: { _ in
+                Text("Amounts you've already saved are not converted: they will be shown in the new currency. Only change this if the wrong currency was chosen. For a supplier who invoices in another currency, set it on that supplier instead.")
+            }
             .confirmationDialog("Restore this backup?", isPresented: Binding(
                 get: { pendingRestore != nil },
                 set: { if !$0 { pendingRestore = nil } }
             ), titleVisibility: .visible, presenting: pendingRestore) { backup in
                 Button("Replace what's on this phone", role: .destructive) {
+                    guard !AppStorageSetup.failed else {
+                        notice = String(localized: "Your saved data couldn't be opened, so nothing can be restored now. Close ChargeCheck and open it again.")
+                        return
+                    }
+                    // what's on the phone now is kept first, so restoring the wrong file can be undone
+                    AutoBackup.safetyCopy(context, scans: store.ledger.forBackup)
                     AppData.restore(backup, into: context)
                     let scans = store.restoreScans(from: backup.scans)
                     notice = scans > 0 ? String(localized: "Backup restored, with \(scans) unused scans.") : String(localized: "Backup restored.")
@@ -379,6 +415,8 @@ struct SettingsView: View {
                 Button("Cancel", role: .cancel) {}
             } message: { backup in
                 Text("\(backup.baseline.count) prices and \(backup.history.count) reports. This replaces the prices and reports on this phone.")
+                    + Text(verbatim: " ")
+                    + Text("A copy of what's on this phone now is kept first, in Files › ChargeCheck › Backups.")
             }
             .alert(notice ?? "", isPresented: Binding(
                 get: { notice != nil },

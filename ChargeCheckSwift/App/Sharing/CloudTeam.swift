@@ -17,7 +17,7 @@ final class CloudTeam: NSObject, ObservableObject {
     }
 
     static let roleKey = "team.role"
-    /// Off in betas 16–17 while a launch crash was found (it was SwiftData + the iCloud entitlement, fixed in 17).
+    /// On since beta 17 (it was off in betas 16–17 while a launch crash was found: SwiftData + the iCloud entitlement).
     /// iCloud's sync engine starting without the Push Notifications capability. While this is false, iCloud is never touched.
     /// Turn back on only together with the push entitlement (see MIGRATION.md, "Staff phones").
     static let enabled = true
@@ -124,6 +124,11 @@ final class CloudTeam: NSObject, ObservableObject {
 
     /// Called once at launch with the app's data.
     func start(_ context: ModelContext) {
+        // the saved data didn't open: this phone looks empty, so it must not take part in sharing at all
+        guard !AppStorageSetup.failed else {
+            status = String(localized: "Your saved data couldn't be opened, so sharing is paused on this phone.")
+            return
+        }
         self.context = context
         if UserDefaults.standard.bool(forKey: Self.wipeKey) {
             // an invite link opened the app before its data was ready: clear this phone's own data now

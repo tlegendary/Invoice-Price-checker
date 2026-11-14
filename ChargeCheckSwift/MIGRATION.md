@@ -122,6 +122,35 @@ is ready and Ramyar says to switch.
 - [x] Subscription checked again whenever the app comes back to the front
 - [ ] Try on a real phone: Face ID lock, Siri phrase, credit reminder notification
 
+## Audit fixes (14 Nov 2026, Ramyar approved; audit report in his Claude Docs)
+- **Shops kept apart.** One shop choice for the whole app (`LiveSettings.shop`, saved as `shops.view`; "" = All shops),
+  switched from the top bar of Home, Invoices, Suppliers and Reports or in More › Your shops. Home, invoice lists,
+  suppliers and balances, payments, due dates, price rises, monthly summary, exports and the widget all follow it.
+  Choosing a shop also files new invoices under it. Payments now have `shopId`; ticked-invoice payments take their
+  invoices' shop. Payments recorded before this (no shop, not tied to one shop's invoices) only count under All shops,
+  and Suppliers says so. Compare shops still shows every shop. Core: `ShopFilter` (tested).
+- **Changes show straight away.** `Money.format` calls `Money.willFormat`, which the app points at
+  `LiveSettings.moneyStamp` (Observation), so every screen showing an amount redraws when the currency or a supplier's
+  currency changes. The shop choice works the same way.
+- **Duplicate invoices are asked about, never replaced silently.** `AppData.possibleDuplicate` + "Already in your
+  invoices?" on the invoice: same invoice (updates the saved one) or "billed twice" (both kept, the second has
+  `duplicateOf` and shows under Home › Needs attention › Billed twice until paid or the warning is removed).
+  Invoices of two different shops are never treated as the same invoice.
+- **Undo paid keeps history.** `SupplierAccounts.undoPaid` takes back exactly what was paid per invoice at the time
+  (`invoiceAmounts`, saved with new ticked-invoice payments); every payment as it was goes to Recently deleted.
+- **Storage safety.** If the saved data can't be opened (`AppStorageSetup.failed`) the app says so at once, and no
+  automatic backup, iCloud folder copy, restore or staff sync runs, so temporary data never replaces real data.
+  Restoring a backup first keeps `Backups/Before-restore-….json` (last 5).
+- **Currency.** Chosen once and kept (`Regional.settleCurrency`): a phone that already had ChargeCheck data starts in
+  pounds, a new install from the iPhone's region; changing the region no longer changes it. Changing it in Settings
+  asks first when there is data. "Ignore differences up to" offers choices that suit the currency (IQD: 1, 250, 500,
+  1,000). New invoices and payments save their currency (`currency`). The printed-total check allows VAT rounding on
+  long invoices and whole dinars (`InvoiceMaths.totalAllowance`).
+- Not done on purpose: a SwiftData `VersionedSchema`. The stored models haven't changed, and adding one without a
+  real-phone upgrade test could stop existing data opening. Add it together with the first real model change.
+- Staff sharing: `CloudTeam.enabled` is **true** (it was switched back on in beta 17); the note under "Staff phones"
+  saying it is off is out of date. Still not tested on two real phones; see the audit report (C3) before customers use it.
+
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
 - Switch `CCTestBuild` to false (also hides the test-mode switch and uses real ads).
@@ -201,7 +230,7 @@ On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` an
 creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 
 ### Staff phones (features chat, 12 Nov 2026)
-- **Switched off since beta 16 (`CloudTeam.enabled = false`).** The launch crash turned out NOT to be the sync engine (see "Now
+- **(Out of date – it is switched on again, see "Audit fixes" above.) Switched off since beta 16 (`CloudTeam.enabled = false`).** The launch crash turned out NOT to be the sync engine (see "Now
   working on": SwiftData + iCloud entitlement). Sharing itself is still untested on a phone. Before turning it back on: add the
   push entitlement (`aps-environment`) and `remote-notification` background mode (Ramyar ticks Push Notifications on the beta
   App ID first), and the CloudKit record type `Item` must exist in Production. The start guard (`team.starting`) stays.

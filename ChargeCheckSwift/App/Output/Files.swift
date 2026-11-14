@@ -132,6 +132,8 @@ enum AutoBackup {
     static let lastKey = "backup.last"
 
     static func run(_ context: ModelContext, scans: ScanCredits?) {
+        // the saved data didn't open: what's on screen is temporary – never let it replace a real backup
+        guard !AppStorageSetup.failed else { return }
         let backup = AppData.backup(context, scans: scans)
         // nothing worth saving yet: never overwrite a good backup with an empty one
         if backup.baseline.isEmpty && backup.history.isEmpty && (scans?.n ?? 0) == 0 { return }
@@ -153,6 +155,24 @@ enum AutoBackup {
                 }
             }
         }
+    }
+
+    /// Before a backup replaces what's on the phone: a copy of what was there, in Files › ChargeCheck › Backups
+    /// ("Before-restore-…"), so a restore of the wrong file can be undone. The last 5 are kept.
+    static func safetyCopy(_ context: ModelContext, scans: ScanCredits?) {
+        guard !AppStorageSetup.failed else { return }
+        let backup = AppData.backup(context, scans: scans)
+        if backup.baseline.isEmpty && backup.history.isEmpty && (backup.payments ?? []).isEmpty { return }
+        guard let data = try? backup.encoded() else { return }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_GB_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd-HHmmss"
+        let name = "Before-restore-" + formatter.string(from: Date()) + ".json"
+        AppFiles.write(data, folder: "Backups", name: name)
+        guard let folder = AppFiles.documents?.appendingPathComponent("Backups", isDirectory: true),
+              let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path) else { return }
+        let copies = names.filter { $0.hasPrefix("Before-restore-") && $0.hasSuffix(".json") }.sorted()
+        for old in copies.dropLast(5) { try? FileManager.default.removeItem(at: folder.appendingPathComponent(old)) }
     }
 
     /// Keeps the last 14 daily backups.

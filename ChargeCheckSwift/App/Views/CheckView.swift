@@ -117,9 +117,16 @@ struct CheckView: View {
                         }
                     }
                 } footer: {
-                    Text(prices.isEmpty
-                         ? "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with."
-                         : "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.")
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(prices.isEmpty
+                             ? "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with."
+                             : "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.")
+                        // which shop new invoices go to (choose another with the shop button at the top)
+                        if let shop = Shops.name(LiveSettings.shared.shop.isEmpty ? Shops.current : LiveSettings.shared.shop) {
+                            Label("New invoices are filed under \(shop).", systemImage: "storefront")
+                                .fontWeight(.semibold)
+                        }
+                    }
                 }
                 if !session.jobs.isEmpty {
                     Section("Being checked") {
@@ -153,6 +160,7 @@ struct CheckView: View {
                 }
             }
             .navigationTitle("Invoices")
+            .shopSwitcher()
             .navigationDestination(for: String.self) { id in
                 InvoiceDetailView(jobID: id)
             }
@@ -360,7 +368,11 @@ struct JobRow: View {
 
     @ViewBuilder private var summary: some View {
         let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
-        if let note = job.creditNote {
+        if job.possibleDuplicate != nil && job.saved == nil && job.billedTwice == nil {
+            Label("Already saved? Open it to choose", systemImage: "doc.on.doc.fill")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.orange)
+        } else if let note = job.creditNote {
             Label {
                 Text(String(localized: "Credit note · \(Money.format(note.amount, supplier: job.draft.supplier))"))
             } icon: {

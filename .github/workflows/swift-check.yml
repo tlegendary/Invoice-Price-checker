@@ -109,6 +109,11 @@ jobs:
             shot 53-pack-reports 5 -startTab reports -test.tier packs
             shot 54-pro-supplier 7 -startTab suppliers -demoSupplier YES -test.tier pro
             shot 55-plans 6 -startTab home -test.tier free -showPaywall YES
+            # two shops: everything follows the chosen shop (Pro, so the shop screens aren't locked)
+            shot 60-shops-home-all 7 -startTab home -test.tier pro -demoShops YES -demoView all
+            shot 61-shops-home-one 6 -startTab home -test.tier pro -demoShops YES -demoView demo-1
+            shot 62-shops-suppliers-one 6 -startTab suppliers -test.tier pro -demoShops YES -demoView demo-1
+            shot 63-shops-reports-one 6 -startTab reports -test.tier pro -demoShops YES -demoView demo-2
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true

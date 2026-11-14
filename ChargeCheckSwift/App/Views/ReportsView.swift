@@ -18,16 +18,12 @@ struct ReportsView: View {
     @State private var undoPaid: Set<String> = []
 
     @AppStorage(Shops.listKey) private var shopData = Data()
-    /// "" = every shop
-    @State private var shopFilter = ""
-
     private var shops: [ShopInfo] { Shops.decode(shopData) }
 
+    /// The invoices of the shop being viewed (every shop under "All shops").
     private var entries: [HistoryEntry] {
         // suppliers who invoice in another currency aren't added into these totals
-        let all = reports.compactMap { $0.entry }.filter { Accounts.shared.otherCurrency($0.supplier) == nil }
-        if shopFilter.isEmpty || !shops.contains(where: { $0.id == shopFilter }) { return all }
-        return all.filter { $0.shopId == shopFilter }
+        Accounts.shared.inShop(reports.compactMap { $0.entry }).filter { Accounts.shared.otherCurrency($0.supplier) == nil }
     }
 
     private var skipped: Set<String> {
@@ -132,19 +128,7 @@ struct ReportsView: View {
                 }
             }
             .navigationTitle("Reports")
-            .toolbar {
-                if !shops.isEmpty {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Picker("Shop", selection: $shopFilter) {
-                            Text("All shops").tag("")
-                            ForEach(shops, id: \.id) { shop in
-                                Text(shop.name).tag(shop.id)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                    }
-                }
-            }
+            .shopSwitcher()
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
             }
@@ -168,7 +152,7 @@ struct ReportsView: View {
             }
             .sheet(isPresented: $showExport) {
                 // the accountant gets every invoice, whatever its currency
-                ExportView(entries: reports.compactMap { $0.entry }.filter { shopFilter.isEmpty || $0.shopId == shopFilter })
+                ExportView(entries: Accounts.shared.inShop(reports.compactMap { $0.entry }))
             }
             .confirmationDialog("Mark \(pay.selected.count == 1 ? "1 invoice" : "\(pay.selected.count) invoices") as paid (\(Money.format(pay.pay)))?",
                                 isPresented: $confirmPaid, titleVisibility: .visible) {
@@ -421,6 +405,26 @@ struct ReportDetailView: View {
             if let entry {
                 let amounts = entry.amountToPay
                 List {
+                    if let first = entry.duplicateOf {
+                        Section {
+                            Label("The supplier billed this invoice twice", systemImage: "doc.on.doc.fill")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.red)
+                            if reports.contains(where: { $0.uid == first }) {
+                                NavigationLink(value: ReportLink(id: first)) {
+                                    Text("Open the first bill")
+                                }
+                            }
+                            if !CloudTeam.shared.isStaff {
+                                Button("It's a different invoice – remove the warning") {
+                                    AppData.updateReports([entry.id], context: context) { $0.duplicateOf = nil }
+                                    Accounts.shared.changed(context)
+                                }
+                            }
+                        } footer: {
+                            Text("Ask the supplier to cancel one of them, or delete this one once it's sorted out. It stays under Home › Needs attention until it's paid or the warning is removed.")
+                        }
+                    }
                     Section {
                         LabeledContent("Supplier", value: entry.supplier)
                         if !entry.invNo.isEmpty { LabeledContent("Invoice no.", value: entry.invNo) }

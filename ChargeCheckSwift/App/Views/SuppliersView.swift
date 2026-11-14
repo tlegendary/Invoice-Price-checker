@@ -19,8 +19,10 @@ struct SuppliersView: View {
     @State private var notice: String?
     @State private var path = NavigationPath()
 
+    /// The suppliers of the shop being viewed (every shop under "All shops").
     private var list: [SupplierAccount] {
-        SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments, trusted: accounts.trusted)
+        let all = reports.compactMap { $0.entry }
+        return SupplierAccounts.accounts(entries: accounts.inShop(all), payments: accounts.shopPayments(all), trusted: accounts.trusted)
     }
 
     var body: some View {
@@ -31,7 +33,18 @@ struct SuppliersView: View {
             let owed = Money.round2(home.filter { $0.balance > 0.005 }.reduce(0) { $0 + $1.balance })
             let thisWeek = Money.round2(home.reduce(0) { $0 + $1.paidThisWeek })
             let other = OtherCurrencyTotals.make(all.filter { accounts.otherCurrency($0.name) != nil })
+            let unassigned = accounts.unassignedPayments(reports.compactMap { $0.entry })
             List {
+                if unassigned > 0 {
+                    Section {
+                        Label(unassigned == 1
+                              ? String(localized: "1 payment isn't filed under a shop, so it only counts under All shops.")
+                              : String(localized: "\(unassigned) payments aren't filed under a shop, so they only count under All shops."),
+                              systemImage: "info.circle")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
                 if all.isEmpty {
                     ContentUnavailableView {
                         Label("No suppliers yet", systemImage: "shippingbox")
@@ -141,6 +154,7 @@ struct SuppliersView: View {
                 }
             }
             .navigationTitle("Suppliers")
+            .shopSwitcher()
             .toolbar {
                 if !team.isStaff {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -373,8 +387,10 @@ struct SupplierDetailView: View {
     @State private var copied = false
     @State private var confirmDeleteAll = false
 
+    /// This supplier in the shop being viewed (every shop under "All shops").
     private var account: SupplierAccount? {
-        SupplierAccounts.accounts(entries: reports.compactMap { $0.entry }, payments: accounts.payments, trusted: accounts.trusted)
+        let all = reports.compactMap { $0.entry }
+        return SupplierAccounts.accounts(entries: accounts.inShop(all), payments: accounts.shopPayments(all), trusted: accounts.trusted)
             .first { $0.id == key }
     }
 
@@ -1410,7 +1426,7 @@ struct StatementCheckView: View {
         reading = true
         problem = nil
         let account = account
-        let payments = accounts.payments
+        let payments = account.payments
         Task {
             let outcome = await InvoiceReader.read(pages: pages, pdf: pdf, book: PriceBook([]), knownSuppliers: [], doubleCheck: false) { text in
                 Task { @MainActor in progress = text }

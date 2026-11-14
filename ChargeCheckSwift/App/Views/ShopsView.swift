@@ -14,6 +14,8 @@ struct ShopsView: View {
     private func store(_ list: [ShopInfo]) {
         shopData = Shops.encode(list)
         if !list.contains(where: { $0.id == current }) { current = list.first?.id ?? "" }
+        // a removed shop can't stay chosen on the other screens
+        LiveSettings.shared.checkShop()
     }
 
     private func add() {
@@ -26,17 +28,34 @@ struct ShopsView: View {
     }
 
     var body: some View {
+        let viewing = LiveSettings.shared.shop
         List {
             Section {
+                if !shops.isEmpty {
+                    Button {
+                        LiveSettings.shared.view(shop: "")
+                    } label: {
+                        HStack {
+                            Label("All shops", systemImage: "square.grid.2x2")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            if viewing.isEmpty {
+                                Image(systemName: "checkmark")
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+                }
                 ForEach(shops, id: \.id) { shop in
                     Button {
+                        LiveSettings.shared.view(shop: shop.id)
                         current = shop.id
                     } label: {
                         HStack {
                             Text(shop.name)
                                 .foregroundStyle(.primary)
                             Spacer()
-                            if Shops.current == shop.id || current == shop.id {
+                            if viewing == shop.id {
                                 Image(systemName: "checkmark")
                                     .fontWeight(.semibold)
                             }
@@ -62,7 +81,7 @@ struct ShopsView: View {
             } footer: {
                 Text(shops.isEmpty
                      ? "Only needed if you have more than one shop. Each invoice is filed under a shop, and Reports can show each shop on its own. Your prices are shared by all shops."
-                     : "New invoices are filed under the ticked shop. Swipe a shop to rename or remove it; its invoices stay in Reports.")
+                     : "Tick a shop to see only that shop everywhere – invoices, suppliers, what you owe, payments and reports – and to file new invoices under it. All shops shows everything. Swipe a shop to rename or remove it; its invoices are kept.")
             }
         }
         .navigationTitle("Your shops")

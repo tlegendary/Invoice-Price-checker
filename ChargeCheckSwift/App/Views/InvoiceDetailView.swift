@@ -144,6 +144,7 @@ struct InvoiceDetailView: View {
         let totals = InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance)
         let missing = job.draft.lines.filter { $0.matchId == nil && !$0.excluded && !$0.noBase && $0.unit > 0 && !$0.desc.isEmpty }.count
         List {
+            DuplicateQuestion(job: job)
             Section {
                 Hero(totals: totals, empty: job.draft.lines.isEmpty, message: job.message, sample: job.isSample, supplier: job.draft.supplier)
             }
@@ -450,6 +451,7 @@ struct TotalOnlyView: View {
 
     var body: some View {
         List {
+            DuplicateQuestion(job: job)
             Section {
                 VStack(spacing: 8) {
                     Image(systemName: "checkmark.shield.fill")
@@ -695,5 +697,56 @@ struct LineRow: View {
                 .foregroundStyle(.secondary)
                 .monospacedDigit()
         }
+    }
+}
+
+/// "Is this the same invoice?" – shown when a scanned invoice looks like one already saved. Nothing is saved or
+/// replaced until it's answered: the same invoice scanned again updates the saved one; a supplier billing the same
+/// invoice twice keeps both and puts it under Home › Needs attention.
+struct DuplicateQuestion: View {
+    let job: InvoiceJob
+
+    @EnvironmentObject private var session: CheckSession
+    @Environment(\.modelContext) private var context
+
+    var body: some View {
+        if let other = job.possibleDuplicate, job.saved == nil, job.billedTwice == nil {
+            Section {
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Already in your invoices?", systemImage: "doc.on.doc.fill")
+                        .font(.headline)
+                        .foregroundStyle(.orange)
+                    Text(describe(other))
+                        .font(.subheadline)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button {
+                        session.decideDuplicate(job.id, billedTwice: false, context: context)
+                    } label: {
+                        Text("Same invoice – update the saved one")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    Button {
+                        session.decideDuplicate(job.id, billedTwice: true, context: context)
+                    } label: {
+                        Text("The supplier billed me twice – keep both")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.red)
+                }
+                .padding(.vertical, 4)
+            } footer: {
+                Text("Nothing is saved until you choose. A second bill stays under Home › Needs attention until it's paid or sorted out with the supplier.")
+            }
+        }
+    }
+
+    private func describe(_ other: HistoryEntry) -> String {
+        let amount = Money.format(other.amountToPay.total, supplier: other.supplier)
+        if other.invNo.isEmpty {
+            return String(localized: "\(other.supplier) invoice of \(other.date) for \(amount) is already saved.")
+        }
+        return String(localized: "\(other.supplier) invoice \(other.invNo) of \(other.date) for \(amount) is already saved.")
     }
 }

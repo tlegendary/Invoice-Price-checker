@@ -47,8 +47,30 @@ final class Accounts: ObservableObject {
 
     // MARK: - reading
 
+    /// The suppliers of the shop being viewed (every shop when "All shops" is chosen).
     func accounts(_ context: ModelContext) -> [SupplierAccount] {
-        SupplierAccounts.accounts(entries: AppData.entries(context), payments: payments, trusted: trusted)
+        let all = AppData.entries(context)
+        return SupplierAccounts.accounts(entries: inShop(all), payments: shopPayments(all), trusted: trusted)
+    }
+
+    // MARK: - the shop being viewed
+
+    /// The shop every screen shows ("" = All shops). Reading it makes a screen redraw when it changes.
+    var viewingShop: String { LiveSettings.shared.shop }
+
+    /// The invoices of the shop being viewed.
+    func inShop(_ entries: [HistoryEntry]) -> [HistoryEntry] {
+        ShopFilter.entries(entries, shop: viewingShop)
+    }
+
+    /// The payments, credits and starting balances of the shop being viewed. `allEntries` = every invoice.
+    func shopPayments(_ allEntries: [HistoryEntry]) -> [SupplierPayment] {
+        ShopFilter.payments(payments, allEntries: allEntries, shop: viewingShop)
+    }
+
+    /// Payments recorded before shops were kept apart: they only count under "All shops".
+    func unassignedPayments(_ allEntries: [HistoryEntry]) -> Int {
+        viewingShop.isEmpty ? 0 : ShopFilter.unassigned(payments, allEntries: allEntries).count
     }
 
     /// The supplier's credit period in days, or nil when none is set.
@@ -85,6 +107,8 @@ final class Accounts: ObservableObject {
         currencies[key] = (code == nil || code == Money.currency.code) ? nil : code
         UserDefaults.standard.set(currencies, forKey: Self.currenciesKey)
         changed(context)
+        // every amount of this supplier is shown in the new currency straight away
+        LiveSettings.shared.moneyChanged()
         Records.shared.log(.supplierChanged, supplier + " · " + currency(for: supplier).code)
     }
 
@@ -105,6 +129,10 @@ final class Accounts: ObservableObject {
     // MARK: - changing
 
     func add(_ payment: SupplierPayment, context: ModelContext) {
+        var payment = payment
+        // a payment belongs to the shop being viewed (unless it pays ticked invoices: then it is theirs)
+        if payment.shopId == nil, payment.invoiceIDs.isEmpty, !viewingShop.isEmpty { payment.shopId = viewingShop }
+        if payment.currency == nil { payment.currency = currency(for: payment.supplier).code }
         payments.append(payment)
         save()
         changed(context)
@@ -196,15 +224,17 @@ final class Accounts: ObservableObject {
     func markPaid(_ entries: [HistoryEntry], date: Date = Date(), context: ModelContext) {
         let stamp = ISO8601DateFormatter().string(from: date)
         let day = SupplierAccounts.dayText(date)
+        // one payment per supplier and shop, so each shop's payments stay its own
         var groups: [String: [HistoryEntry]] = [:]
         var names: [String: String] = [:]
         for entry in entries where entry.paid == nil {
-            let key = SupplierAccounts.key(entry.supplier)
+            let key = SupplierAccounts.key(entry.supplier) + "\u{1F}" + entry.shopId
             groups[key, default: []].append(entry)
             names[key] = names[key] ?? entry.supplier
         }
         for (key, group) in groups {
-            payments.append(SupplierAccounts.payment(for: group, supplier: names[key] ?? key, date: day))
+            let name = names[key] ?? key
+            payments.append(SupplierAccounts.payment(for: group, supplier: name, date: day, currency: currency(for: name).code))
         }
         AppData.updateReports(Set(groups.values.flatMap { $0.map { $0.id } }), context: context) { $0.paid = stamp }
         save()
@@ -214,17 +244,14 @@ final class Accounts: ObservableObject {
         }
     }
 
-    /// Undoes "mark as paid": the invoices are unpaid again and the payments recorded for them are taken back.
+    /// Undoes "mark as paid": the invoices are unpaid again and the payments recorded for them are taken back –
+    /// exactly what was paid for them at the time. Each payment as it was goes to Recently deleted, so nothing is lost.
     func markUnpaid(_ ids: Set<String>, context: ModelContext) {
-        let entries = AppData.entries(context).filter { ids.contains($0.id) }
-        let amounts = Dictionary(entries.map { ($0.id, $0.amountToPay.pay) }, uniquingKeysWith: { first, _ in first })
-        for index in payments.indices.reversed() where !payments[index].invoiceIDs.isEmpty {
-            let gone = payments[index].invoiceIDs.filter { ids.contains($0) }
-            if gone.isEmpty { continue }
-            payments[index].invoiceIDs.removeAll { ids.contains($0) }
-            payments[index].amount = Money.round2(payments[index].amount - gone.reduce(0) { $0 + (amounts[$1] ?? 0) })
-            if payments[index].invoiceIDs.isEmpty || payments[index].amount <= 0.005 { payments.remove(at: index) }
-        }
+        let all = AppData.entries(context)
+        let entries = all.filter { ids.contains($0.id) }
+        let result = SupplierAccounts.undoPaid(ids, payments: payments, entries: all)
+        for old in result.before { Records.shared.binPayment(old) }
+        payments = result.payments
         AppData.updateReports(ids, context: context) { $0.paid = nil }
         save()
         changed(context)
@@ -248,13 +275,23 @@ final class Accounts: ObservableObject {
         changed(context)
     }
 
-    /// Anything changed: refresh the home screen widget.
+    /// Anything changed: send it to staff phones and refresh the home screen widget.
     func changed(_ context: ModelContext) {
+        widgetContext = context
         CloudTeam.shared.scheduleScan()
-        // the widget is part of Pro
-        WidgetData.write(PlanMirror.allows(.widget)
-                         ? WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code)
-                         : WidgetSnapshot.locked(currency: Money.currency.code))
+        refreshWidget()
+    }
+
+    private weak var widgetContext: ModelContext?
+
+    /// The widget shows the shop being viewed (or all shops), in the app's currency. It is part of Pro.
+    func refreshWidget() {
+        guard PlanMirror.allows(.widget) else {
+            WidgetData.write(WidgetSnapshot.locked(currency: Money.currency.code))
+            return
+        }
+        guard let context = widgetContext else { return }
+        WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code))
     }
 }
 

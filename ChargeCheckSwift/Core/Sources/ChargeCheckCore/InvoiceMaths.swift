@@ -309,16 +309,24 @@ public enum InvoiceMaths {
         t.total = Money.round2(t.net + t.vat)
         let printed = invoice.printedNet ?? 0
         t.totalKnown = printed != 0
-        t.totalOk = t.totalKnown && abs(printed - t.net) <= 0.05
+        t.totalOk = t.totalKnown && abs(printed - t.net) <= totalAllowance(lines: invoice.lines.count, withVat: false)
         // only the "Invoice Total" was read: check the lines (with VAT) against that, so a line the reader
         // missed is still noticed instead of the invoice being saved with too small a total
         if !t.totalKnown, let total = invoice.printedTotal, total > 0 {
             t.totalKnown = true
-            t.totalOk = abs(total - t.total) <= 0.05
+            t.totalOk = abs(total - t.total) <= totalAllowance(lines: invoice.lines.count, withVat: true)
         }
         for line in invoice.lines where !reasons(line, supplier: invoice.supplier, book: book, totalOk: t.totalOk).isEmpty { t.needLook += 1 }
         t.totalProblem = t.totalKnown && !t.totalOk && !invoice.totalAcknowledged
         return t
+    }
+
+    /// How far the lines may be from the printed total and still "add up". Suppliers round VAT line by line, so a long
+    /// invoice with VAT can be a few pennies out; dinars have no pennies, so whole dinars are allowed instead.
+    public static func totalAllowance(lines: Int, withVat: Bool) -> Double {
+        let n = Double(max(0, lines))
+        if Money.currency.decimals == 0 { return withVat ? max(1, n * 0.5) : 1 }
+        return withVat ? max(0.05, n * 0.005) : 0.05
     }
 
     /// The invoice as it is kept in Reports.
@@ -342,13 +350,15 @@ public enum InvoiceMaths {
             let total = Money.round2(invoice.printedTotal ?? invoice.printedNet ?? 0)
             return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
                                 date: invoice.date, net: Money.round2(invoice.printedNet ?? total), total: total, over: 0,
-                                verified: true, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: [], totalOnly: true)
+                                verified: true, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: [], totalOnly: true,
+                                currency: existing?.currency, duplicateOf: existing?.duplicateOf)
         }
         // what the supplier billed is the printed invoice total, even if a line was missed or changed on the phone
         let billed = printedBill(invoice)
         return HistoryEntry(id: existing?.id ?? invoice.id, shopId: invoice.shopId, supplier: invoice.supplier, invNo: invoice.invNo,
                             date: invoice.date, net: billed?.net ?? t.net, total: billed?.total ?? t.total, over: t.over, overVat: t.overVat, excluded: t.excluded,
-                            verified: t.verified, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: lines)
+                            verified: t.verified, paid: existing?.paid, file: existing?.file, credit: existing?.credit, lines: lines,
+                            currency: existing?.currency, duplicateOf: existing?.duplicateOf)
     }
 
     /// The printed net and invoice total, when both were read and agree with each other
@@ -359,10 +369,13 @@ public enum InvoiceMaths {
         return (Money.round2(net), Money.round2(total))
     }
 
-    /// An invoice already in Reports that looks like the same one (so it is replaced, not saved twice).
+    /// An invoice already in Reports that looks like the same one. The app then asks: the same invoice scanned again
+    /// (update it), or the supplier billing twice (keep both and flag it). Invoices of two different shops are never
+    /// the same invoice. Invoices already flagged as billed twice aren't matched again.
     public static func duplicate(of invoice: InvoiceDraft, net: Double, in history: [HistoryEntry]) -> HistoryEntry? {
         history.first { entry in
-            guard entry.id != invoice.id else { return false }
+            guard entry.id != invoice.id, entry.duplicateOf == nil else { return false }
+            if !entry.shopId.isEmpty && !invoice.shopId.isEmpty && entry.shopId != invoice.shopId { return false }
             guard TextTools.norm(entry.supplier) == TextTools.norm(invoice.supplier), entry.date == invoice.date else { return false }
             if !invoice.invNo.isEmpty { return entry.invNo == invoice.invNo }
             return net > 0 && abs(entry.net - net) < 0.01
