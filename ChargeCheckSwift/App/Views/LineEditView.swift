@@ -8,6 +8,8 @@ struct LineEditView: View {
     let isNew: Bool
     let supplier: String
     let items: [PriceItem]
+    /// The invoice's shop: its own prices are shown.
+    var shop: String = ""
     let isSample: Bool
     let onSave: (CheckLine) -> Void
     let onDelete: (() -> Void)?
@@ -85,7 +87,7 @@ struct LineEditView: View {
                 Section {
                     if let matched {
                         LabeledContent {
-                            Text(Money.format(matched.basePrice(for: supplier)))
+                            Text(Money.format(matched.basePrice(for: supplier, shop: shop)))
                         } label: {
                             Label(matched.name, systemImage: "checkmark.circle.fill")
                         }
@@ -106,7 +108,7 @@ struct LineEditView: View {
                                 HStack {
                                     Text(item.name)
                                     Spacer(minLength: 8)
-                                    Text(Money.format(item.basePrice(for: supplier)))
+                                    Text(Money.format(item.basePrice(for: supplier, shop: shop)))
                                         .foregroundStyle(.secondary)
                                 }
                             }

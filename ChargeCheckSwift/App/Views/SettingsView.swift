@@ -36,6 +36,8 @@ struct SettingsView: View {
     @AppStorage(Regional.languageKey) private var invoiceLanguage = Regional.deviceLanguage
     @AppStorage(Regional.currencyKey) private var currencyCode = Regional.deviceCurrency
     @AppStorage(SettingKey.tolerance) private var toleranceValue = 0.01
+    /// When a scanned invoice's items or supplier clearly belong to another shop than the one chosen.
+    @AppStorage(ShopFiling.key) private var autoFileShop = true
     /// A currency waiting for "Change the currency?" to be confirmed.
     @State private var pendingCurrency: String?
     @AppStorage(Shops.listKey) private var shopData = Data()
@@ -243,6 +245,12 @@ struct SettingsView: View {
                         }
                         Toggle("Suggest a lower price when an invoice is cheaper", isOn: $autoLower)
                         Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
+                        if shopData.isEmpty == false && Shops.decode(shopData).count > 1 {
+                            Picker("Invoices for another shop", selection: $autoFileShop) {
+                                Text("File them there").tag(true)
+                                Text("Ask me first").tag(false)
+                            }
+                        }
                     } header: {
                         Text("Checking")
                     } footer: {

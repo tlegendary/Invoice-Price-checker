@@ -162,6 +162,16 @@ is ready and Ramyar says to switch.
   Checked against whole-number maths: every half penny to £2,000, ~770,000 weighed lines and line totals (core tests
   `MoneyRoundingTests`). Saved invoices keep their amounts; the duplicate check allows a penny so an invoice saved
   before this still matches. Still `Double`, not `Decimal` – moving to exact decimals remains on the roadmap.
+- **Each shop its own items and prices; the app works out an invoice's shop (Ramyar, 14 Nov 2026).** Shops can be
+  different trades (food, a pharmacy). One price list; each item can be tagged with the shops that buy it
+  (`PriceItem.shops`, nil = every shop, so all older items are in every shop) and given a shop's own price
+  (`shopPrices`). Prices › the item › Shops. Prices follows the shop being viewed; new items (typed, pasted, or added
+  from an invoice) belong to that shop. Each invoice is checked against its shop's price (`PriceBook(items, shop:)`,
+  supplier's own price still first). After reading, `ShopDetect.guess` uses shop-only items on the invoice and where
+  the supplier's earlier invoices went: sure → filed under that shop with "Its items are on the price list of …";
+  unsure or Settings › "Invoices for another shop: Ask me first" → "Which shop is this for?" and nothing is saved
+  until answered. The invoice has a Shop picker. Stored without a database change: an item's shops and shop prices
+  ride in `StoredPrice.supplierPrices` (old form kept for items without shops). Core tests: `ShopPriceTests`.
 - **Scan from Home asks where from (14 Nov 2026):** Camera, Camera roll or Files (PDF or photo). Home sets
   `CheckSession.scanRequest` (`ScanSource`) and switches to Invoices, which opens that picker through `gated {}`.
 - **Fixed: tapping a checked invoice on the Invoices tab did nothing.** Its path was `[String]`, which silently drops

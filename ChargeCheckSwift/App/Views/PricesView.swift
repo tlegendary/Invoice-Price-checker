@@ -23,10 +23,17 @@ struct PricesView: View {
     @State private var showSort = false
     @State private var confirmDeleteAll = false
 
+    /// The items of the shop being viewed (every item under "All shops").
+    private var inShop: [StoredPrice] {
+        let shop = LiveSettings.shared.shop
+        if shop.isEmpty { return Array(prices) }
+        return prices.filter { $0.item.isIn(shop: shop) }
+    }
+
     private var shown: [StoredPrice] {
         let query = TextTools.norm(search)
-        if query.isEmpty { return prices }
-        return prices.filter {
+        if query.isEmpty { return inShop }
+        return inShop.filter {
             TextTools.norm($0.name + " " + $0.supplier + " " + $0.aliasText + " " + $0.cat).contains(query)
         }
     }
@@ -95,6 +102,7 @@ struct PricesView: View {
                 }
             }
             .navigationTitle("Prices")
+            .shopSwitcher()
             .task {
                 // the cloud check opens one item to look at its price history
                 if let id = UserDefaults.standard.string(forKey: "demoPrice"), let stored = prices.first(where: { $0.uid == id }) {
@@ -103,7 +111,7 @@ struct PricesView: View {
             }
             .searchable(text: $search, prompt: "Search \(prices.count) items")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button {
                             showPaste = true
@@ -129,7 +137,9 @@ struct PricesView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        draft = PriceDraft(item: PriceItem(name: "", price: 0), isNew: true)
+                        // a new item belongs to the shop being viewed (all shops under "All shops")
+                        let shop = LiveSettings.shared.shop
+                        draft = PriceDraft(item: PriceItem(name: "", price: 0, shops: shop.isEmpty ? nil : [shop]), isNew: true)
                     } label: {
                         Label("Add a price", systemImage: "plus")
                     }
@@ -145,7 +155,13 @@ struct PricesView: View {
             }
             .sheet(isPresented: $showPaste) {
                 PasteListView(existing: prices.map { $0.item }) { items in
-                    for item in items { AppData.save(item, in: context) }
+                    // new items belong to the shop being viewed; items already in the list keep their shops
+                    let shop = LiveSettings.shared.shop
+                    let known = Set(prices.map { $0.uid })
+                    for var item in items {
+                        if !shop.isEmpty, !known.contains(item.id), item.shops == nil { item.shops = [shop] }
+                        AppData.save(item, in: context)
+                    }
                 }
             }
             .sheet(isPresented: $showSort) {
@@ -172,6 +188,11 @@ struct PriceRow: View {
     private var subtitle: String {
         var parts: [String] = []
         if !price.supplier.isEmpty { parts.append(price.supplier) }
+        // with several shops: which shops buy it, when not all of them
+        if let tags = price.item.shops, Shops.all.count > 1 {
+            let names = tags.compactMap { Shops.name($0) }
+            if !names.isEmpty { parts.append(names.joined(separator: ", ")) }
+        }
         let spellings = price.aliases.filter { $0 != TextTools.norm(price.name) }
         if !spellings.isEmpty { parts.append(String(localized: "on invoices as: \(spellings.joined(separator: ", "))")) }
         return parts.joined(separator: " · ")
@@ -190,7 +211,8 @@ struct PriceRow: View {
                 }
             }
             Spacer(minLength: 12)
-            Text(Money.format(price.price))
+            // the shop being viewed: its own price if it has one
+            Text(Money.format(price.item.price(inShop: LiveSettings.shared.shop)))
                 .font(.body.weight(.bold))
                 .monospacedDigit()
         }

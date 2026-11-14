@@ -160,7 +160,7 @@ private enum Checker {
             for index in batch {
                 let line = lines[index]
                 var options = Matcher.suggestions(line.read.isEmpty ? line.desc : line.read, in: book.items, limit: 4)
-                for item in book.items where abs(item.basePrice(for: supplier) - line.unit) < 0.005 && !options.contains(where: { $0.id == item.id }) {
+                for item in book.items where abs(book.base(item, supplier: supplier) - line.unit) < 0.005 && !options.contains(where: { $0.id == item.id }) {
                     options.append(item)
                     if options.count >= 6 { break }
                 }
@@ -171,7 +171,7 @@ private enum Checker {
                     prompt += "  Choices: none\n"
                 } else {
                     for (n, item) in options.enumerated() {
-                        prompt += "  \(n + 1)) \(item.name) (agreed \(Money.format(item.basePrice(for: supplier))))\n"
+                        prompt += "  \(n + 1)) \(item.name) (agreed \(Money.format(book.base(item, supplier: supplier))))\n"
                     }
                 }
             }
@@ -182,7 +182,7 @@ private enum Checker {
                 for answer in reply.content.lines {
                     let index = answer.line - 1
                     guard batch.contains(index) else { continue }
-                    if apply(answer, to: &result[index], options: choices[index] ?? [], supplier: supplier) { notProducts.insert(index) }
+                    if apply(answer, to: &result[index], options: choices[index] ?? [], supplier: supplier, book: book) { notProducts.insert(index) }
                 }
             } catch {
                 // too long, refused or not ready: keep what the reader found for this batch
@@ -196,7 +196,7 @@ private enum Checker {
     }
 
     /// Returns true when Apple Intelligence says this is not a product line.
-    private static func apply(_ answer: SmartLine, to line: inout CheckLine, options: [PriceItem], supplier: String) -> Bool {
+    private static func apply(_ answer: SmartLine, to line: inout CheckLine, options: [PriceItem], supplier: String, book: PriceBook) -> Bool {
         let name = answer.name.trimmingCharacters(in: .whitespacesAndNewlines)
         if !name.isEmpty, !InvoiceParser.looksGarbled(name), name.count <= 80,
            InvoiceParser.looksGarbled(line.desc) || TextTools.similarity(name, line.desc) >= 0.3 {
@@ -210,7 +210,7 @@ private enum Checker {
             } else if line.matchId == nil || line.confident != true {
                 line.matchId = item.id
                 // sure only when the agreed price backs it up; otherwise the user is asked to confirm
-                line.confident = abs(item.basePrice(for: supplier) - line.unit) < 0.005
+                line.confident = abs(book.base(item, supplier: supplier) - line.unit) < 0.005
             }
         }
         return answer.notAProduct
