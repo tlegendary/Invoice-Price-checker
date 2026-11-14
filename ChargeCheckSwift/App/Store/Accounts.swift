@@ -244,6 +244,20 @@ final class Accounts: ObservableObject {
         }
     }
 
+    /// Files invoices under another shop ("" = no shop). Payments made for exactly those invoices go with them.
+    func moveInvoices(_ ids: Set<String>, to shop: String, context: ModelContext) {
+        guard !ids.isEmpty else { return }
+        AppData.updateReports(ids, context: context) { $0.shopId = shop }
+        for index in payments.indices where !payments[index].invoiceIDs.isEmpty && payments[index].invoiceIDs.allSatisfy({ ids.contains($0) }) {
+            payments[index].shopId = shop.isEmpty ? nil : shop
+        }
+        save()
+        changed(context)
+        let name = Shops.name(shop) ?? String(localized: "no shop")
+        Records.shared.log(.invoiceUpdated, ids.count == 1 ? String(localized: "1 invoice moved to \(name)")
+                                                           : String(localized: "\(ids.count) invoices moved to \(name)"))
+    }
+
     /// Undoes "mark as paid": the invoices are unpaid again and the payments recorded for them are taken back –
     /// exactly what was paid for them at the time. Each payment as it was goes to Recently deleted, so nothing is lost.
     func markUnpaid(_ ids: Set<String>, context: ModelContext) {

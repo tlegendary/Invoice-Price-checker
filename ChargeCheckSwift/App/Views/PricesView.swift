@@ -22,6 +22,28 @@ struct PricesView: View {
     @State private var showPaste = false
     @State private var showSort = false
     @State private var confirmDeleteAll = false
+    /// Select mode: tick items (or all of them) to delete them or change their shops.
+    @State private var editMode: EditMode = .inactive
+    @State private var selected: Set<String> = []
+    @State private var confirmDeleteSelected = false
+    @AppStorage(Shops.listKey) private var shopData = Data()
+
+    private var selecting: Bool { editMode.isEditing }
+
+    /// Changes the shops of the ticked items (moving to one shop drops other shops' own prices).
+    private func changeShops(_ change: (inout PriceItem) -> Void) {
+        let chosen = prices.filter { selected.contains($0.uid) }
+        for stored in chosen {
+            var item = stored.item
+            change(&item)
+            stored.update(from: item)
+        }
+        try? context.save()
+        Records.shared.log(.priceChanged, chosen.count == 1 ? String(localized: "Shops changed for 1 item")
+                                                            : String(localized: "Shops changed for \(chosen.count) items"))
+        selected = []
+        editMode = .inactive
+    }
 
     /// The items of the shop being viewed (every item under "All shops").
     private var inShop: [StoredPrice] {
@@ -65,7 +87,7 @@ struct PricesView: View {
     }
 
     private var content: some View {
-            List {
+            List(selection: $selected) {
                 if prices.isEmpty {
                     ContentUnavailableView {
                         Label("No prices yet", systemImage: "tag")
@@ -78,12 +100,17 @@ struct PricesView: View {
                 ForEach(groups) { group in
                     Section(L(group.cat)) {
                         ForEach(group.items) { price in
+                            if selecting {
+                                PriceRow(price: price)
+                                    .tag(price.uid)
+                            } else {
                             Button {
                                 draft = PriceDraft(item: price.item, isNew: false)
                             } label: {
                                 PriceRow(price: price)
                             }
                             .buttonStyle(.plain)
+                            .tag(price.uid)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     AppData.deletePrices([price], context: context)
@@ -97,12 +124,49 @@ struct PricesView: View {
                                 }
                                 .tint(.blue)
                             }
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle("Prices")
-            .shopSwitcher()
+            .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : String(localized: "Prices"))
+            .environment(\.editMode, $editMode)
+            .safeAreaInset(edge: .bottom) {
+                if selecting {
+                    SelectionBar(count: selected.count, shops: Shops.decode(shopData), deleteTitle: String(localized: "Delete"),
+                                 onMove: { shop in
+                                     changeShops { item in
+                                         item.shops = shop.isEmpty ? nil : [shop]
+                                         if !shop.isEmpty {
+                                             let kept = item.shopPrices?.filter { $0.shop == shop }
+                                             item.shopPrices = (kept?.isEmpty ?? true) ? nil : kept
+                                         }
+                                     }
+                                 },
+                                 onDelete: { confirmDeleteSelected = true },
+                                 onAdd: { shop in
+                                     let all = Shops.all.map { $0.id }
+                                     changeShops { item in
+                                         guard var tags = item.shops else { return }   // already in every shop
+                                         if !tags.contains(shop) { tags.append(shop) }
+                                         item.shops = all.allSatisfy({ tags.contains($0) }) ? nil : tags
+                                     }
+                                 },
+                                 allShopsTitle: String(localized: "Use in all shops"))
+                }
+            }
+            .confirmationDialog(selected.count == 1 ? String(localized: "Delete 1 item?") : String(localized: "Delete \(selected.count) items?"),
+                                isPresented: $confirmDeleteSelected, titleVisibility: .visible) {
+                Button("Delete", role: .destructive) {
+                    AppData.deletePrices(prices.filter { selected.contains($0.uid) }, context: context)
+                    try? context.save()
+                    selected = []
+                    editMode = .inactive
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Your reports are kept. Deleted prices can be brought back from More › Recently deleted for 30 days.")
+            }
             .task {
                 // the cloud check opens one item to look at its price history
                 if let id = UserDefaults.standard.string(forKey: "demoPrice"), let stored = prices.first(where: { $0.uid == id }) {
@@ -111,8 +175,29 @@ struct PricesView: View {
             }
             .searchable(text: $search, prompt: "Search \(prices.count) items")
             .toolbar {
+                if selecting {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(selected.count == shown.count && !shown.isEmpty ? String(localized: "Deselect all") : String(localized: "Select all")) {
+                            selected = selected.count == shown.count ? [] : Set(shown.map { $0.uid })
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Done") {
+                            editMode = .inactive
+                            selected = []
+                        }
+                        .fontWeight(.semibold)
+                    }
+                } else {
+                ToolbarItem(placement: .topBarLeading) { ShopSwitcher() }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        Button {
+                            editMode = .active
+                        } label: {
+                            Label("Select items", systemImage: "checkmark.circle")
+                        }
+                        .disabled(prices.isEmpty)
                         Button {
                             showPaste = true
                         } label: {
@@ -143,6 +228,7 @@ struct PricesView: View {
                     } label: {
                         Label("Add a price", systemImage: "plus")
                     }
+                }
                 }
             }
             .sheet(item: $draft) { current in

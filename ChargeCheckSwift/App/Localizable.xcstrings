@@ -699,6 +699,35 @@
         }
       }
     },
+    "%lld invoices moved to %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نُقلت %1$lld فواتير إلى %2$@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld پسوولە گوازرانەوە بۆ %2$@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld Rechnungen nach %2$@ verschoben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld factures déplacées vers %2$@"
+          }
+        }
+      }
+    },
     "%lld invoices not fully checked": {
       "localizations": {
         "ar": {
@@ -1325,6 +1354,35 @@
         }
       }
     },
+    "%lld selected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld محدد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld هەڵبژێردراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ausgewählt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sélectionnés"
+          }
+        }
+      }
+    },
     "%lld things to check": {
       "localizations": {
         "ar": {
@@ -1620,6 +1678,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 facture correspond"
+          }
+        }
+      }
+    },
+    "1 invoice moved to %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نُقلت فاتورة واحدة إلى %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 پسوولە گوازرایەوە بۆ %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Rechnung nach %@ verschoben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 facture déplacée vers %@"
           }
         }
       }
@@ -1987,6 +2074,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 facture scannée ouverte"
+          }
+        }
+      }
+    },
+    "1 selected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عنصر واحد محدد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 هەڵبژێردراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 ausgewählt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 sélectionné"
           }
         }
       }
@@ -3587,6 +3703,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Déjà enregistrée ? Ouvrez-la pour choisir"
+          }
+        }
+      }
+    },
+    "Also add to": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف أيضًا إلى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەروەها زیاد بکە بۆ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auch hinzufügen zu"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter aussi à"
           }
         }
       }
@@ -7953,6 +8098,122 @@
         }
       }
     },
+    "Delete %lld invoices?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف %lld فواتير؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پسوولە بسڕدرێنەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Rechnungen löschen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer %lld factures ?"
+          }
+        }
+      }
+    },
+    "Delete %lld items?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف %lld أصناف؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld کاڵا بسڕدرێنەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Artikel löschen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer %lld articles ?"
+          }
+        }
+      }
+    },
+    "Delete 1 invoice?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف فاتورة واحدة؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 پسوولە بسڕدرێتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Rechnung löschen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer 1 facture ?"
+          }
+        }
+      }
+    },
+    "Delete 1 item?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف صنف واحد؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 کاڵا بسڕدرێتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Artikel löschen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer 1 article ?"
+          }
+        }
+      }
+    },
     "Delete all %lld of this supplier's invoices": {
       "extractionState": "manual",
       "localizations": {
@@ -8459,6 +8720,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vérification de livraison"
+          }
+        }
+      }
+    },
+    "Deselect all": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء تحديد الكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ هەڵمەبژێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswahl aufheben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout désélectionner"
           }
         }
       }
@@ -13511,6 +13801,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Déplacer %lld"
+          }
+        }
+      }
+    },
+    "Move to": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بگوازرێتەوە بۆ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verschieben nach"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer vers"
+          }
+        }
+      }
+    },
+    "Move to shop": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى متجر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گواستنەوە بۆ دوکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Filiale verschieben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer vers un magasin"
           }
         }
       }
@@ -21110,6 +21458,35 @@
         }
       }
     },
+    "Select": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەڵبژاردن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner"
+          }
+        }
+      }
+    },
     "Select all": {
       "localizations": {
         "ar": {
@@ -21134,6 +21511,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tout sélectionner"
+          }
+        }
+      }
+    },
+    "Select items": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد أصناف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵا هەڵبژێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artikel auswählen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner des articles"
           }
         }
       }
@@ -21561,6 +21967,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Magasins"
+          }
+        }
+      }
+    },
+    "Shops changed for %lld items": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيرت متاجر %lld أصناف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوکانەکانی %lld کاڵا گۆڕدران"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filialen für %lld Artikel geändert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magasins modifiés pour %lld articles"
+          }
+        }
+      }
+    },
+    "Shops changed for 1 item": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيرت متاجر صنف واحد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوکانەکانی 1 کاڵا گۆڕدران"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filialen für 1 Artikel geändert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magasins modifiés pour 1 article"
           }
         }
       }
@@ -26300,6 +26764,35 @@
         }
       }
     },
+    "Use in all shops": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم في كل المتاجر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە هەموو دوکانەکان بەکاربهێنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In allen Filialen verwenden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser dans tous les magasins"
+          }
+        }
+      }
+    },
     "Use the corrected details": {
       "extractionState": "manual",
       "localizations": {
@@ -27178,6 +27671,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vous pouvez la récupérer pendant 30 jours dans Plus › Supprimés récemment."
+          }
+        }
+      }
+    },
+    "You can bring them back from More › Recently deleted for 30 days.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك استعادتها من المزيد › المحذوفة مؤخرًا خلال 30 يومًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دەتوانیت لە زیاتر › تازە سڕاوەکان تا 30 ڕۆژ بیانگەڕێنیتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du kannst sie 30 Tage lang unter Mehr › Zuletzt gelöscht wiederherstellen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous pouvez les récupérer dans Plus › Supprimés récemment pendant 30 jours."
           }
         }
       }
@@ -28895,6 +29417,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "pas d'échéance"
+          }
+        }
+      }
+    },
+    "no shop": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا متجر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بێ دوکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "keine Filiale"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "aucun magasin"
           }
         }
       }

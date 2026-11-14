@@ -172,6 +172,12 @@ is ready and Ramyar says to switch.
   unsure or Settings › "Invoices for another shop: Ask me first" → "Which shop is this for?" and nothing is saved
   until answered. The invoice has a Shop picker. Stored without a database change: an item's shops and shop prices
   ride in `StoredPrice.supplierPrices` (old form kept for items without shops). Core tests: `ShopPriceTests`.
+- **Select several (14 Nov 2026):** Checked invoices (Select) and Prices (••• › Select items): tick rows or Select all,
+  then Delete (to Recently deleted) or Move to shop. Moving invoices also moves payments made for exactly those invoices
+  (`Accounts.moveInvoices`). Price items can be moved to one shop, added to another, or set to all shops.
+- **App Store screenshots:** commit message `[shots]` runs the "App Store screenshots" job: largest iPhone, realistic
+  data from `tools/make-store-data.py` (dates relative to today), clean status bar, en/ar/de/fr; pictures land in
+  `store/` on the ci-logs branch. `-storeShots YES` hides the sample-invoice note.
 - **Scan from Home asks where from (14 Nov 2026):** Camera, Camera roll or Files (PDF or photo). Home sets
   `CheckSession.scanRequest` (`ScanSource`) and switches to Invoices, which opens that picker through `gated {}`.
 - **Fixed: tapping a checked invoice on the Invoices tab did nothing.** Its path was `[String]`, which silently drops

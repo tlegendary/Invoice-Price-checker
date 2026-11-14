@@ -9,7 +9,7 @@ struct LineEditView: View {
     let supplier: String
     let items: [PriceItem]
     /// The invoice's shop: its own prices are shown.
-    var shop: String = ""
+    let shop: String
     let isSample: Bool
     let onSave: (CheckLine) -> Void
     let onDelete: (() -> Void)?
@@ -20,7 +20,8 @@ struct LineEditView: View {
     @State private var search = ""
     @State private var showAll = false
 
-    init(draft: LineDraft, supplier: String, items: [PriceItem], isSample: Bool, onSave: @escaping (CheckLine) -> Void, onDelete: (() -> Void)?) {
+    init(draft: LineDraft, supplier: String, items: [PriceItem], shop: String = "", isSample: Bool, onSave: @escaping (CheckLine) -> Void, onDelete: (() -> Void)?) {
+        self.shop = shop
         self.isNew = draft.isNew
         self.supplier = supplier
         self.items = items

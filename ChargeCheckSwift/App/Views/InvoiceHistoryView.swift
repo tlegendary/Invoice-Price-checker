@@ -23,6 +23,13 @@ struct InvoiceHistoryView: View {
     @State private var filter = Filter.all
     @State private var search = ""
     @State private var confirmDelete: HistoryEntry?
+    /// Select mode: tick invoices (or all of them) to delete them or move them to another shop.
+    @State private var editMode: EditMode = .inactive
+    @State private var selected: Set<String> = []
+    @State private var confirmDeleteSelected = false
+    @AppStorage(Shops.listKey) private var shopData = Data()
+
+    private var selecting: Bool { editMode.isEditing }
 
     private var shown: [HistoryEntry] {
         // the shop being viewed (every shop under "All shops")
@@ -43,7 +50,7 @@ struct InvoiceHistoryView: View {
 
     var body: some View {
         let list = shown
-        List {
+        List(selection: $selected) {
             Section {
                 Picker("Show", selection: $filter) {
                     ForEach(Filter.allCases) { Text($0.title).tag($0) }
@@ -68,6 +75,7 @@ struct InvoiceHistoryView: View {
                     NavigationLink(value: ReportLink(id: entry.id)) {
                         ReportRow(entry: entry)
                     }
+                    .tag(entry.id)
                     .swipeActions(edge: .trailing) {
                         // staff phones: only the owner removes invoices
                         if !CloudTeam.shared.isStaff {
@@ -85,9 +93,58 @@ struct InvoiceHistoryView: View {
                 }
             }
         }
-        .navigationTitle("Checked invoices")
+        .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : String(localized: "Checked invoices"))
         .searchable(text: $search, prompt: "Supplier, number, item or amount")
-        .shopSwitcher()
+        .environment(\.editMode, $editMode)
+        .toolbar {
+            if selecting {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(selected.count == list.count && !list.isEmpty ? String(localized: "Deselect all") : String(localized: "Select all")) {
+                        selected = selected.count == list.count ? [] : Set(list.map { $0.id })
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        editMode = .inactive
+                        selected = []
+                    }
+                    .fontWeight(.semibold)
+                }
+            } else {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Select") { editMode = .active }
+                        .disabled(list.isEmpty)
+                }
+            }
+        }
+        .toolbar {
+            if !selecting {
+                ToolbarItem(placement: .topBarLeading) { ShopSwitcher() }
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            if selecting {
+                SelectionBar(count: selected.count, shops: Shops.decode(shopData), deleteTitle: String(localized: "Delete"),
+                             onMove: { shop in
+                                 Accounts.shared.moveInvoices(selected, to: shop, context: context)
+                                 selected = []
+                                 editMode = .inactive
+                             },
+                             onDelete: { confirmDeleteSelected = true })
+            }
+        }
+        .confirmationDialog(selected.count == 1 ? String(localized: "Delete 1 invoice?") : String(localized: "Delete \(selected.count) invoices?"),
+                            isPresented: $confirmDeleteSelected, titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                AppData.deleteReports(selected, context: context)
+                Accounts.shared.changed(context)
+                selected = []
+                editMode = .inactive
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("You can bring them back from More › Recently deleted for 30 days.")
+        }
         .confirmationDialog("Delete this invoice?", isPresented: Binding(get: { confirmDelete != nil }, set: { if !$0 { confirmDelete = nil } }),
                             titleVisibility: .visible, presenting: confirmDelete) { entry in
             Button("Delete", role: .destructive) {
@@ -97,5 +154,58 @@ struct InvoiceHistoryView: View {
         } message: { _ in
             Text("You can bring it back from More › Recently deleted for 30 days.")
         }
+    }
+}
+
+/// The bar under a list in select mode: move the ticked rows to a shop, or delete them.
+struct SelectionBar: View {
+    let count: Int
+    let shops: [ShopInfo]
+    let deleteTitle: String
+    /// "" = all shops / no shop, otherwise a shop's id.
+    let onMove: (String) -> Void
+    let onDelete: () -> Void
+    /// For the price list: "Add to" a shop as well as "Move to" (items can be in several shops).
+    var onAdd: ((String) -> Void)?
+    var allShopsTitle: String?
+
+    var body: some View {
+        HStack(spacing: 12) {
+            if shops.count > 1 {
+                Menu {
+                    if let allShopsTitle {
+                        Button(allShopsTitle) { onMove("") }
+                    }
+                    Section(String(localized: "Move to")) {
+                        ForEach(shops, id: \.id) { shop in
+                            Button(shop.name) { onMove(shop.id) }
+                        }
+                    }
+                    if let onAdd {
+                        Section(String(localized: "Also add to")) {
+                            ForEach(shops, id: \.id) { shop in
+                                Button(shop.name) { onAdd(shop.id) }
+                            }
+                        }
+                    }
+                } label: {
+                    Label("Move to shop", systemImage: "storefront")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .disabled(count == 0)
+            }
+            Button(role: .destructive, action: onDelete) {
+                Label(deleteTitle, systemImage: "trash")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .disabled(count == 0)
+        }
+        .controlSize(.large)
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(.bar)
     }
 }

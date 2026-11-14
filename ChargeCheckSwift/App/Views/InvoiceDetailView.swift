@@ -598,7 +598,8 @@ struct Hero: View {
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.orange)
             }
-            if sample {
+            // (the App Store screenshots leave the note out)
+            if sample && !UserDefaults.standard.bool(forKey: "storeShots") {
                 Text("Sample invoice with example prices. Nothing here is saved.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
