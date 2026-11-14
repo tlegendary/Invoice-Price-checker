@@ -76,18 +76,16 @@ struct ReportsView: View {
                         if received.count > 0 {
                             LabeledContent("Credits received", value: Money.format(received.amount))
                         }
-                        Button {
-                            showExport = true
-                        } label: {
+                        GatedButton(feature: .exports, action: { showExport = true }) {
                             Label("Export for your accountant", systemImage: "square.and.arrow.up")
                         }
-                        NavigationLink {
+                        GatedLink(.monthlySummary) {
                             MonthlySummaryView()
                         } label: {
                             Label("Monthly summary", systemImage: "text.alignleft")
                         }
                         if shops.count > 1 {
-                            NavigationLink {
+                            GatedLink(.shops) {
                                 CompareShopsView()
                             } label: {
                                 Label("Compare shops", systemImage: "storefront")
@@ -95,28 +93,28 @@ struct ReportsView: View {
                         }
                     }
                     Section {
-                        NavigationLink {
+                        GatedLink(.priceRises) {
                             PriceRisesView(supplier: nil)
                         } label: {
                             Label("Price rises", systemImage: "arrow.up.right")
                         }
-                        NavigationLink {
+                        GatedLink(.cheaperElsewhere) {
                             SupplierTipsView(tips: Insights.supplierTips(list))
                         } label: {
                             Label("Cheaper elsewhere", systemImage: "tag")
                         }
-                        NavigationLink {
+                        GatedLink(.supplierScores) {
                             SupplierScoresView()
                         } label: {
                             Label("Supplier scores", systemImage: "star.leadinghalf.filled")
                         }
-                        NavigationLink {
+                        GatedLink(.moneyLeaks) {
                             SavingsView()
                         } label: {
                             Label("Money protected", systemImage: "shield.lefthalf.filled")
                         }
                         if !CloudTeam.shared.isStaff {
-                            NavigationLink {
+                            GatedLink(.dueDates) {
                                 DuePaymentsView()
                             } label: {
                                 Label("Payments due", systemImage: "calendar.badge.clock")
@@ -394,6 +392,7 @@ struct PayChooseView: View {
 /// One saved invoice: its lines, the original photo or PDF, and a credit request for the supplier.
 struct ReportDetailView: View {
     let reportID: String
+    @EnvironmentObject private var store: Store
 
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -471,7 +470,11 @@ struct ReportDetailView: View {
                             } label: {
                                 Label(copied ? "Copied" : "Copy the credit request", systemImage: copied ? "checkmark" : "doc.on.doc")
                             }
-                            if let url = creditRequest(entry) {
+                            if !store.allows(.creditPDF) {
+                                LockedRow(feature: .creditPDF) {
+                                    Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
+                                }
+                            } else if let url = creditRequest(entry) {
                                 ShareLink(item: url) {
                                     Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
                                 }

@@ -7,6 +7,7 @@ import ChargeCheckCore
 /// Every supplier: what you owe them, what you paid this week, and their trusted setting.
 struct SuppliersView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var store: Store
     /// Staff phones see balances but can't record payments or change suppliers.
     @ObservedObject private var team = CloudTeam.shared
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
@@ -73,10 +74,12 @@ struct SuppliersView: View {
                     let monthRises = Insights.priceRises(reports.compactMap { $0.entry }, since: SupplierAccounts.dayText(Date().addingTimeInterval(-30 * 86_400)))
                     if !monthRises.isEmpty {
                         Section {
-                            ForEach(monthRises.prefix(2)) { rise in
-                                PriceRiseRow(rise: rise, showSupplier: true)
+                            if store.allows(.priceRises) {
+                                ForEach(monthRises.prefix(2)) { rise in
+                                    PriceRiseRow(rise: rise, showSupplier: true)
+                                }
                             }
-                            NavigationLink {
+                            GatedLink(.priceRises) {
                                 PriceRisesView(supplier: nil)
                             } label: {
                                 Text(monthRises.count == 1 ? String(localized: "See the price rise") : String(localized: "See all \(monthRises.count) price rises"))
@@ -88,11 +91,13 @@ struct SuppliersView: View {
                     let tips = Insights.supplierTips(reports.compactMap { $0.entry })
                     if !tips.isEmpty {
                         Section {
-                            ForEach(tips.prefix(2)) { tip in
-                                SupplierTipRow(tip: tip)
+                            if store.allows(.cheaperElsewhere) {
+                                ForEach(tips.prefix(2)) { tip in
+                                    SupplierTipRow(tip: tip)
+                                }
                             }
-                            if tips.count > 2 {
-                                NavigationLink {
+                            if tips.count > 2 || !store.allows(.cheaperElsewhere) {
+                                GatedLink(.cheaperElsewhere) {
                                     SupplierTipsView(tips: tips)
                                 } label: {
                                     Text("See all \(tips.count) cheaper items")
@@ -104,15 +109,18 @@ struct SuppliersView: View {
                     }
                     if owed > 0.005 && !team.isStaff {
                         Section {
-                            Button {
-                                showPayRun = true
-                            } label: {
+                            GatedButton(feature: .payRun, action: { showPayRun = true }) {
                                 Label("Pay run: pay several suppliers at once", systemImage: "list.bullet.rectangle")
                             }
                         }
                     }
                 }
                 Section {
+                    if !store.allows(.weeklyReminder) {
+                        LockedRow(feature: .weeklyReminder) {
+                            Text("Weekly payment day")
+                        }
+                    } else {
                     Picker("Weekly payment day", selection: Binding(get: { payDay }, set: { day in
                         payDay = day
                         Task {
@@ -126,6 +134,7 @@ struct SuppliersView: View {
                         ForEach(1...7, id: \.self) { day in
                             Text(Calendar.current.weekdaySymbols[day - 1]).tag(day)
                         }
+                    }
                     }
                 } footer: {
                     Text("A reminder at 9am on the day you pay your suppliers.")
@@ -351,6 +360,7 @@ struct ScoreBadge: View {
 /// One supplier's account: balance, what's still open, payments, and the trusted switch.
 struct SupplierDetailView: View {
     let key: String
+    @EnvironmentObject private var store: Store
 
     @Environment(\.modelContext) private var context
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
@@ -393,7 +403,15 @@ struct SupplierDetailView: View {
                     }
 
                     if !team.isStaff && !account.entries.isEmpty {
-                        SupplierProfileSection(account: account, profile: SupplierProfiles.make(account, all: reports.compactMap { $0.entry }))
+                        if store.allows(.supplierScores) {
+                            SupplierProfileSection(account: account, profile: SupplierProfiles.make(account, all: reports.compactMap { $0.entry }))
+                        } else {
+                            Section {
+                                LockedRow(feature: .supplierScores) {
+                                    Label("Supplier profile and score", systemImage: "star.leadinghalf.filled")
+                                }
+                            }
+                        }
                     }
 
                     // staff phones: payments, special prices and the trusted setting are the owner's
@@ -421,9 +439,7 @@ struct SupplierDetailView: View {
                             } label: {
                                 Label("Add an older amount owed", systemImage: "plus.circle")
                             }
-                            Button {
-                                showStatement = true
-                            } label: {
+                            GatedButton(feature: .statementCheck, action: { showStatement = true }) {
                                 Label("Check their statement", systemImage: "list.bullet.clipboard")
                             }
                             Button {
@@ -439,11 +455,13 @@ struct SupplierDetailView: View {
                         let rises = Insights.priceRises(account.entries, since: SupplierAccounts.dayText(Date().addingTimeInterval(-90 * 86_400)))
                         if !rises.isEmpty {
                             Section {
-                                ForEach(rises.prefix(3)) { rise in
-                                    PriceRiseRow(rise: rise, showSupplier: false)
+                                if store.allows(.priceRises) {
+                                    ForEach(rises.prefix(3)) { rise in
+                                        PriceRiseRow(rise: rise, showSupplier: false)
+                                    }
                                 }
-                                if rises.count > 3 {
-                                    NavigationLink {
+                                if rises.count > 3 || !store.allows(.priceRises) {
+                                    GatedLink(.priceRises) {
                                         PriceRisesView(supplier: account.name)
                                     } label: {
                                         Text("See all \(rises.count) price rises")
@@ -484,6 +502,9 @@ struct SupplierDetailView: View {
                                     Text(Regional.currencyName(currency)).tag(currency.code)
                                 }
                             }
+                            if !store.allows(.dueDates) {
+                                LockedRow(feature: .dueDates) { Text("Pay within") }
+                            } else {
                             Picker("Pay within", selection: Binding(
                                 get: { accounts.creditPeriod(account.name) ?? -1 },
                                 set: { accounts.setCreditPeriod(account.name, $0 < 0 ? nil : $0, context: context) }
@@ -493,6 +514,7 @@ struct SupplierDetailView: View {
                                 ForEach([7, 14, 21, 28, 30, 45, 60, 90], id: \.self) { days in
                                     Text("\(days) days").tag(days)
                                 }
+                            }
                             }
                         } footer: {
                             Text("Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home. A supplier who invoices in another currency is added up separately, never mixed with your own currency.")

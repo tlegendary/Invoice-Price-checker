@@ -155,7 +155,8 @@ struct SettingsView: View {
                             Link("Manage or cancel subscription", destination: manage)
                         }
                     } else {
-                        LabeledContent("Plan", value: String(localized: "Free version (1 ad per scan)"))
+                        LabeledContent("Plan", value: store.tier == .packs ? String(localized: "Scan packs (pack features unlocked)")
+                                                                          : String(localized: "Free version (1 ad per scan)"))
                         LabeledContent("Scans left", value: "\(store.credits)")
                         Button("Go unlimited or buy scans") {
                             showPaywall = true
@@ -181,6 +182,12 @@ struct SettingsView: View {
                             store.addTestScans(5)
                         }
                         Toggle("Test mode: use the free version", isOn: $store.testAsFree)
+                        Picker("Test: try the app as", selection: $store.testTier) {
+                            Text("What I bought").tag("")
+                            Text("Free").tag("free")
+                            Text("Scan packs").tag("packs")
+                            Text("Pro").tag("pro")
+                        }
                         LabeledContent("Ads", value: ads.status)
                         LabeledContent("App Store", value: store.loadStatus)
                     }
@@ -237,7 +244,9 @@ struct SettingsView: View {
                             Text("Once (faster)").tag(1)
                             Text("Twice (double-checked)").tag(2)
                         }
-                        if SmartCheck.status.isEmpty {
+                        if !store.allows(.smartCheck) {
+                            LockedRow(feature: .smartCheck) { Text("Also check with Apple Intelligence") }
+                        } else if SmartCheck.status.isEmpty {
                             Toggle("Also check with Apple Intelligence", isOn: $smartCheck)
                         } else {
                             // this iPhone can't run Apple Intelligence: shown off, and never used

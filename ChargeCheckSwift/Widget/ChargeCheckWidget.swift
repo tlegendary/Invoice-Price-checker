@@ -69,7 +69,15 @@ struct OwedView: View {
     }
 
     var body: some View {
-        if let snapshot = entry.snapshot {
+        if entry.snapshot?.locked == true {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("ChargeCheck Pro")
+                    .font(.caption.weight(.semibold))
+                Text("The widget is part of Pro. Open ChargeCheck to see the plans.")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        } else if let snapshot = entry.snapshot {
             switch family {
             case .accessoryInline:
                 Text("Owed \(money(snapshot.totalOwed))")

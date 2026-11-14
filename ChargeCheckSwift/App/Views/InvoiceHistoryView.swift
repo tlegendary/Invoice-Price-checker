@@ -18,6 +18,7 @@ struct InvoiceHistoryView: View {
     }
 
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var store: Store
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var filter = Filter.all
@@ -28,7 +29,7 @@ struct InvoiceHistoryView: View {
     private var shops: [ShopInfo] { Shops.decode(shopData) }
 
     private var shown: [HistoryEntry] {
-        var list = reports.compactMap { $0.entry }
+        var list = Plans.visible(reports.compactMap { $0.entry }, tier: store.tier)
         if !shopFilter.isEmpty { list = list.filter { $0.shopId == shopFilter } }
         switch filter {
         case .all: break
@@ -55,6 +56,16 @@ struct InvoiceHistoryView: View {
             }
             if list.isEmpty {
                 ContentUnavailableView("No invoices", systemImage: "tray")
+            }
+            let older = Plans.hidden(reports.compactMap { $0.entry }, tier: store.tier)
+            if older > 0 {
+                Section {
+                    LockedRow(feature: .fullHistory) {
+                        Label(older == 1 ? String(localized: "1 older invoice") : String(localized: "\(older) older invoices"), systemImage: "clock")
+                    }
+                } footer: {
+                    Text("The free version lists the last 30 days. Your balances still count every invoice.")
+                }
             }
             Section {
                 ForEach(list) { entry in

@@ -35,25 +35,35 @@ struct MoreView: View {
                                 Label("Price list", systemImage: "tag")
                             }
                         }
-                        NavigationLink(value: Page.shops) {
-                            LabeledContent {
-                                let shops = Shops.decode(shopData)
-                                Text(shops.isEmpty ? String(localized: "One shop") : "\(shops.count)")
-                            } label: {
-                                Label("Shops", systemImage: "storefront")
+                        // shops already added stay open; adding them needs Pro
+                        if store.allows(.shops) || !Shops.decode(shopData).isEmpty {
+                            NavigationLink(value: Page.shops) {
+                                LabeledContent {
+                                    let shops = Shops.decode(shopData)
+                                    Text(shops.isEmpty ? String(localized: "One shop") : "\(shops.count)")
+                                } label: {
+                                    Label("Shops", systemImage: "storefront")
+                                }
                             }
+                        } else {
+                            LockedRow(feature: .shops) { Label("Shops", systemImage: "storefront") }
                         }
                     } header: {
                         Text("Your business")
                     }
                 }
                 Section {
-                    NavigationLink(value: Page.staff) {
-                        LabeledContent {
-                            Text(team.role == .owner ? String(localized: "Sharing on") : team.role == .staff ? String(localized: "Team member") : "")
-                        } label: {
-                            Label("Staff", systemImage: "person.2")
+                    // staff phones, and owners already sharing, keep it; starting to share needs Pro
+                    if store.allows(.staff) || team.role != .none {
+                        NavigationLink(value: Page.staff) {
+                            LabeledContent {
+                                Text(team.role == .owner ? String(localized: "Sharing on") : team.role == .staff ? String(localized: "Team member") : "")
+                            } label: {
+                                Label("Staff", systemImage: "person.2")
+                            }
                         }
+                    } else {
+                        LockedRow(feature: .staff) { Label("Staff", systemImage: "person.2") }
                     }
                 } footer: {
                     if team.role == .none {
@@ -69,8 +79,12 @@ struct MoreView: View {
                                 Label("Recently deleted", systemImage: "trash")
                             }
                         }
-                        NavigationLink(value: Page.history) {
-                            Label("History of changes", systemImage: "clock.arrow.circlepath")
+                        if store.allows(.changeHistory) {
+                            NavigationLink(value: Page.history) {
+                                Label("History of changes", systemImage: "clock.arrow.circlepath")
+                            }
+                        } else {
+                            LockedRow(feature: .changeHistory) { Label("History of changes", systemImage: "clock.arrow.circlepath") }
                         }
                     } header: {
                         Text("Records")
@@ -84,9 +98,13 @@ struct MoreView: View {
                     }
                     if !store.isSubscribed && store.checkedEntitlements {
                         Button {
-                            showPaywall = true
+                            Upsell.shared.show(nil)
                         } label: {
-                            Label("Go unlimited", systemImage: "star.circle")
+                            LabeledContent {
+                                Text(store.tier == .packs ? String(localized: "Scan packs") : String(localized: "Free"))
+                            } label: {
+                                Label("Get ChargeCheck Pro", systemImage: "star.circle")
+                            }
                         }
                     }
                 }

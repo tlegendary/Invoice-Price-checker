@@ -5,6 +5,9 @@ import ChargeCheckCore
 /// The plans: yearly or monthly subscription (7-day free trial), scan packs, or carry on free with ads.
 /// It is a sheet with a close button; closing it carries on with the free version.
 struct PaywallView: View {
+    /// The locked feature that opened the plans, if any.
+    var reason: Feature?
+
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
@@ -43,21 +46,43 @@ struct PaywallView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
+                    if let reason {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack {
+                                Text(FeatureText.title(reason))
+                                    .font(.headline)
+                                PlanTag(tier: reason.tier)
+                            }
+                            Text(FeatureText.why(reason))
+                                .font(.subheadline)
+                            Text(reason.tier == .pro ? "Part of ChargeCheck Pro." : "Comes with any scan pack, and with Pro.")
+                                .font(.footnote.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(14)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.accentColor.opacity(0.10), in: RoundedRectangle(cornerRadius: 14))
+                    }
+
                     VStack(spacing: 6) {
-                        Text(store.trialAvailable ? "Start your 7-day free trial" : "Go unlimited")
+                        Text(store.trialAvailable ? "Try Pro free for 7 days" : "ChargeCheck Pro")
                             .font(.title.weight(.heavy))
                             .multilineTextAlignment(.center)
-                        Text("Stop paying more than your agreed prices.")
+                        Text("ChargeCheck pays for itself by finding money you would otherwise lose.")
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                     }
                     .frame(maxWidth: .infinity)
 
                     VStack(alignment: .leading, spacing: 10) {
-                        benefit("Scan photo or PDF invoices – read on your phone, works offline")
-                        benefit("Every invoice double-checked before you see the result")
-                        benefit("See exactly how much each supplier overcharged you")
                         benefit("Unlimited scans, no ads")
+                        benefit("Money leaks: price rises, missing credits and what you've saved")
+                        benefit("Price-rise alerts and cheaper suppliers for the same item")
+                        benefit("Supplier scores, profiles and supplier reports")
+                        benefit("Payment due dates, pay runs and a weekly reminder")
+                        benefit("Several shops, staff on their own iPhones, home screen widget")
+                        benefit("Apple Intelligence check and a monthly summary in plain words")
+                        benefit("Everything in the scan packs too")
                     }
 
                     if store.plans.isEmpty {
@@ -125,6 +150,9 @@ struct PaywallView: View {
                         Divider()
                         Text("Or buy scans – no subscription, no ads")
                             .font(.headline)
+                        Text("Any pack also unlocks, for good: your full invoice history, PDFs and exports for your accountant, credit request PDFs, and the delivery and statement checks.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
                         HStack(spacing: 8) {
                             ForEach(store.packs, id: \.id) { pack in
                                 packButton(pack)

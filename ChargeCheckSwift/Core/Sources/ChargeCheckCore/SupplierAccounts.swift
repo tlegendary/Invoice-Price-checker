@@ -222,6 +222,14 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public var suppliers: [Line]
     public var currency: String
     public var updated: Date
+    /// The widget is a Pro feature: true when the app isn't on Pro (it shows how to unlock it instead of figures).
+    public var locked: Bool?
+
+    public static func locked(currency: String, now: Date = Date()) -> WidgetSnapshot {
+        var snapshot = WidgetSnapshot(totalOwed: 0, paidThisWeek: 0, suppliers: [], currency: currency, updated: now)
+        snapshot.locked = true
+        return snapshot
+    }
 
     public init(totalOwed: Double, paidThisWeek: Double, suppliers: [Line], currency: String, updated: Date) {
         self.totalOwed = totalOwed

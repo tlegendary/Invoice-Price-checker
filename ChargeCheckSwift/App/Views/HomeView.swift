@@ -7,6 +7,7 @@ struct HomeView: View {
     @Binding var tab: String
 
     @EnvironmentObject private var session: CheckSession
+    @EnvironmentObject private var store: Store
     @Environment(\.modelContext) private var context
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @Query(sort: \StoredPrice.name) private var prices: [StoredPrice]
@@ -22,7 +23,7 @@ struct HomeView: View {
                                               creditDays: accounts.creditDays, currencies: accounts.currencies, main: Money.currency.code)
             List {
                 if !search.trimmingCharacters(in: .whitespaces).isEmpty {
-                    SearchResultsSections(results: Search.find(search, entries: entries,
+                    SearchResultsSections(results: Search.find(search, entries: Plans.visible(entries, tier: store.tier),
                                                                payments: team.isStaff ? [] : accounts.payments,
                                                                items: team.isStaff ? [] : prices.map { $0.item }))
                 } else {
@@ -134,14 +135,27 @@ struct HomeView: View {
                     .foregroundStyle(.green)
             }
             ForEach(items) { item in
-                NavigationLink {
-                    destination(item.kind)
-                } label: {
-                    AttentionRow(item: item)
+                if let locked = feature(for: item.kind), !store.allows(locked) {
+                    LockedRow(feature: locked) { AttentionRow(item: item) }
+                } else {
+                    NavigationLink {
+                        destination(item.kind)
+                    } label: {
+                        AttentionRow(item: item)
+                    }
                 }
             }
         } header: {
             Text("Needs attention")
+        }
+    }
+
+    /// The plan feature an attention row opens, if it's locked behind one.
+    private func feature(for kind: Attention.Kind) -> Feature? {
+        switch kind {
+        case .priceRises: return .priceRises
+        case .overdue, .dueSoon: return .dueDates
+        case .notChecked, .creditsLate: return nil
         }
     }
 
@@ -160,7 +174,7 @@ struct HomeView: View {
         if o.lostThisMonth > 0.005 || o.cheaperElsewhere > 0.005 {
             Section {
                 if o.risesCost > 0.005 {
-                    NavigationLink {
+                    GatedLink(.priceRises) {
                         PriceRisesView(supplier: nil)
                     } label: {
                         LabeledContent("Price rises this month") {
@@ -169,7 +183,7 @@ struct HomeView: View {
                     }
                 }
                 if o.creditsOwed > 0.005 {
-                    NavigationLink {
+                    GatedLink(.moneyLeaks) {
                         CreditsOwedView()
                     } label: {
                         LabeledContent("Credits not back yet") {
@@ -178,7 +192,7 @@ struct HomeView: View {
                     }
                 }
                 if o.cheaperElsewhere > 0.005 {
-                    NavigationLink {
+                    GatedLink(.cheaperElsewhere) {
                         SupplierTipsView(tips: Insights.supplierTips(reports.compactMap { $0.entry }))
                     } label: {
                         LabeledContent("Cheaper elsewhere, a month") {
@@ -198,7 +212,7 @@ struct HomeView: View {
 
     private func savingsSection(_ o: Overview) -> some View {
         Section {
-            NavigationLink {
+            GatedLink(.moneyLeaks) {
                 SavingsView()
             } label: {
                 VStack(alignment: .leading, spacing: 4) {

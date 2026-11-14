@@ -12,6 +12,7 @@ struct RootView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var phase
     @ObservedObject private var team = CloudTeam.shared
+    @ObservedObject private var upsell = Upsell.shared
     @Environment(\.requestReview) private var requestReview
     @StateObject private var session = CheckSession()
     @StateObject private var store = Store()
@@ -146,8 +147,21 @@ struct RootView: View {
         } message: {
             Text("\(carriedOver) prices and your reports were brought over from the previous version of the app.")
         }
-        .sheet(isPresented: $showPaywall, onDismiss: { choseFree = true }) {
-            PaywallView()
+        .onChange(of: upsell.open) {
+            if upsell.open {
+                upsell.open = false
+                showPaywall = true
+            }
+        }
+        .onChange(of: store.tier) { PlanMirror.set(store.tier) }
+        .onAppear { PlanMirror.set(store.tier) }
+        .sheet(isPresented: $showPaywall, onDismiss: {
+            choseFree = true
+            upsell.feature = nil
+            PlanMirror.set(store.tier)
+            Accounts.shared.changed(context)
+        }) {
+            PaywallView(reason: upsell.feature)
                 .environmentObject(store)
                 .tint(Themes.named(colourID).accent(for: scheme))
         }
