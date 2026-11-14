@@ -24,6 +24,7 @@ struct SettingsView: View {
     @AppStorage(SettingKey.keepCopies) private var keepCopies = "phone"
     @AppStorage(SettingKey.cloudCopies) private var cloudCopies = true
     @AppStorage(SettingKey.reminder) private var reminder = false
+    @AppStorage(DueReminder.settingKey) private var dueReminder = false
     @AppStorage(CloudFolder.nameKey) private var cloudName = ""
     @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
@@ -356,6 +357,17 @@ struct SettingsView: View {
                                 Task {
                                     let ok = await MonthlyReminder.set(isOn)
                                     reminder = isOn && ok
+                                    if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
+                                }
+                            }
+                        ))
+                        Toggle("Payments due reminders", isOn: Binding(
+                            get: { dueReminder },
+                            set: { isOn in
+                                Task {
+                                    let ok = await DueReminder.set(isOn)
+                                    dueReminder = isOn && ok
+                                    if isOn && ok { Accounts.shared.changed(context) }
                                     if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
                                 }
                             }

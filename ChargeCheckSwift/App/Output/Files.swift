@@ -404,3 +404,58 @@ enum MonthlyReminder {
         }
     }
 }
+
+/// "Payments due" reminders: at 9 am on each day something falls due, e.g. "2 invoices due today: Brakes, APEX · £300.30".
+/// Planned again for the next two weeks whenever invoices or payments change.
+enum DueReminder {
+    static let settingKey = "reminder.due"
+    private static let prefix = "chargecheck.due."
+
+    static var isOn: Bool { UserDefaults.standard.bool(forKey: settingKey) }
+
+    /// Turning it on asks for notifications. Returns false when they're not allowed.
+    static func set(_ on: Bool) async -> Bool {
+        UserDefaults.standard.set(false, forKey: settingKey)
+        await clear()
+        guard on else { return true }
+        guard (try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])) == true else { return false }
+        UserDefaults.standard.set(true, forKey: settingKey)
+        return true
+    }
+
+    private static func clear() async {
+        let center = UNUserNotificationCenter.current()
+        let ids = await center.pendingNotificationRequests().map { $0.identifier }.filter { $0.hasPrefix(prefix) }
+        center.removePendingNotificationRequests(withIdentifiers: ids)
+    }
+
+    static func refresh(_ dues: [DueInvoice], currencyOf: (DueInvoice) -> String) {
+        guard isOn else { return }
+        let plan = DueReminders.plan(dues, currencyOf: currencyOf)
+        Task {
+            await clear()
+            let center = UNUserNotificationCenter.current()
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_GB_POSIX")
+            formatter.dateFormat = "yyyy-MM-dd"
+            let now = Date()
+            for notice in plan {
+                guard let day = formatter.date(from: notice.day) else { continue }
+                var when = Calendar.current.dateComponents([.year, .month, .day], from: day)
+                when.hour = 9
+                // due today but 9 am has passed: no reminder (it's on Home already)
+                if let fire = Calendar.current.date(from: when), fire < now { continue }
+                let content = UNMutableNotificationContent()
+                content.title = notice.count == 1 ? String(localized: "1 invoice due today") : String(localized: "\(notice.count) invoices due today")
+                var body = notice.suppliers.prefix(3).joined(separator: ", ")
+                if notice.suppliers.count > 3 { body += " " + String(localized: "and others") }
+                if let amount = notice.amount, let code = notice.currency { body += " · " + Money.format(amount, code: code) }
+                content.body = body
+                content.sound = .default
+                let trigger = UNCalendarNotificationTrigger(dateMatching: when, repeats: false)
+                try? await center.add(UNNotificationRequest(identifier: prefix + notice.day, content: content, trigger: trigger))
+            }
+        }
+    }
+}
+

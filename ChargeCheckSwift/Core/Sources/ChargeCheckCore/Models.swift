@@ -189,6 +189,8 @@ public struct CreditInfo: Codable, Equatable, Sendable {
 
     public static let requested = "requested"
     public static let received = "received"
+    /// The supplier won't credit it: no longer owed, and never counted as money won back.
+    public static let writtenOff = "writtenOff"
 
     public init(status: String, amount: Double, at: String? = nil, paidAt: String? = nil) {
         self.status = status
@@ -377,10 +379,12 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var creditDays: [String: Int]?
     /// Suppliers who invoice in another currency: SupplierAccounts.key → "USD".
     public var currencies: [String: String]?
+    /// Dishes and their ingredients (cost per dish). Older versions of the app ignore this.
+    public var dishes: [Dish]?
 
     public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
                 payments: [SupplierPayment]? = nil, trusted: [String]? = nil, creditDays: [String: Int]? = nil,
-                currencies: [String: String]? = nil) {
+                currencies: [String: String]? = nil, dishes: [Dish]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -392,9 +396,10 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.trusted = trusted
         self.creditDays = creditDays
         self.currencies = currencies
+        self.dishes = dishes
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies, dishes }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -409,6 +414,7 @@ public struct BackupFile: Codable, Equatable, Sendable {
         trusted = try? c.decode([String].self, forKey: .trusted)
         creditDays = try? c.decode([String: Int].self, forKey: .creditDays)
         currencies = try? c.decode([String: String].self, forKey: .currencies)
+        dishes = try? c.decode([Dish].self, forKey: .dishes)
     }
 
     public enum ReadError: Error { case notABackup }

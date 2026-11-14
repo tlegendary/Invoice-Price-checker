@@ -560,6 +560,13 @@ struct ReportDetailView: View {
                     Label("Credit received", systemImage: "checkmark.circle")
                 }
                 Button("I haven't asked yet") { setCredit(entry, nil, amount: amount) }
+                Button("They won't credit it: write it off", role: .destructive) {
+                    setCredit(entry, CreditInfo.writtenOff, amount: credit.amount)
+                }
+            } else if let credit = entry.credit, credit.status == CreditInfo.writtenOff {
+                Label("Written off: \(Money.format(credit.amount, supplier: entry.supplier))", systemImage: "xmark.seal")
+                    .foregroundStyle(.secondary)
+                Button("Still owed after all") { setCredit(entry, CreditInfo.requested, amount: credit.amount) }
             } else {
                 Button {
                     setCredit(entry, CreditInfo.requested, amount: amount)
@@ -614,6 +621,8 @@ struct ExportView: View {
     @State private var period = ReportPeriod.lastMonth
     @State private var made: URL?
     @State private var problem: String?
+    /// The expense account the bills go to in Xero or QuickBooks.
+    @AppStorage("export.accountCode") private var accountCode = "310"
 
     private var chosen: [HistoryEntry] {
         ReportMaths.entries(entries, in: period, now: Date())
@@ -653,6 +662,31 @@ struct ExportView: View {
                     }
                 }
                 .disabled(chosen.isEmpty)
+                Section {
+                    Button {
+                        let csv = AccountingExport.xeroBills(chosen, creditDays: dueDays, options: exportOptions)
+                        finish(AppFiles.write(Data(csv.utf8), folder: "Exports", name: "Xero bills " + name("csv").replacingOccurrences(of: "ChargeCheck report ", with: "")))
+                    } label: {
+                        Label("Bills for Xero", systemImage: "building.columns")
+                    }
+                    Button {
+                        let csv = AccountingExport.quickBooksBills(chosen, creditDays: dueDays, options: exportOptions)
+                        finish(AppFiles.write(Data(csv.utf8), folder: "Exports", name: "QuickBooks bills " + name("csv").replacingOccurrences(of: "ChargeCheck report ", with: "")))
+                    } label: {
+                        Label("Bills for QuickBooks", systemImage: "building.columns")
+                    }
+                    LabeledContent("Expense account") {
+                        TextField("310", text: $accountCode)
+                            .multilineTextAlignment(.trailing)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                    }
+                } header: {
+                    Text("For your accounting software")
+                } footer: {
+                    Text("Each invoice as the supplier issued it (net and VAT), with what ChargeCheck caught in the description. In Xero: Purchases › Bills › Import, and choose tax exclusive. Bills billed twice are left out.")
+                }
+                .disabled(chosen.isEmpty)
                 if let made {
                     Section {
                         ShareLink(item: made) {
@@ -678,6 +712,15 @@ struct ExportView: View {
                 }
             }
         }
+    }
+
+    private var exportOptions: AccountingExport.Options {
+        let code = accountCode.trimmingCharacters(in: .whitespaces)
+        return AccountingExport.Options(accountCode: code.isEmpty ? "310" : code, mainCurrency: Money.currency.code)
+    }
+
+    private func dueDays(_ entry: HistoryEntry) -> Int {
+        Accounts.shared.creditPeriod(entry.supplier) ?? 0
     }
 
     private func finish(_ url: URL?) {

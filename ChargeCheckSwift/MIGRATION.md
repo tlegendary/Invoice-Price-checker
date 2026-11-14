@@ -330,3 +330,21 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 - Cloud keeps 30 daily backups (`CloudFolder.trim`). New or reinstalled phone with nothing saved: offers once to
   restore the iCloud backup (RootView). Invoices tab warns when not backed up to iCloud, or no backup there for 7 days.
 
+## Credits written off, payment reminders, whole-list names, Xero/QuickBooks, PDF price lists, cost per dish (beta 29)
+- `CreditInfo.writtenOff` ("writtenOff"): a credit the supplier refused. Not owed, not counted as won back.
+  Credits owed › swipe "Write off"; on the invoice "They won't credit it"; undo with "Still owed after all".
+  Money protected › "Credits you asked for": received / still owed / written off (main currency only).
+  Older app versions see the status as neither owed nor received.
+- Settings › "Payments due reminders" (off by default, asks for notifications): 9 am on each day something is due,
+  next 14 days, planned again on every change (`DueReminders.plan` in core, `DueReminder` in Files.swift).
+- Prices › More › "Suggest other names": `NameSuggestionsView`, up to 4 per item, all ticked, same safety rule.
+- Reports › Export › "For your accounting software": `AccountingExport.xeroBills` (Xero's exact bill import
+  columns, DD/MM/YYYY, tax exclusive, expense account default 310) and `quickBooksBills`. Each invoice as issued
+  (net + VAT); what was caught goes in the description; invoices billed twice are left out.
+- Paste a price list › "Open a price list (PDF, CSV or text)": a PDF's text (PDFKit) goes into the existing parser
+  for review. A scanned PDF (no text) says so.
+- Cost per dish (More › Cost per dish, and Prices › More): `Dish`/`DishPart`/`DishMaths`/`PackGuess` in core,
+  `DishStore` keeps them in UserDefaults "dishes.v1". Backups carry `dishes` (older backups/apps ignore it).
+  Cost = agreed price (shop's own, else supplier's own, else standard) ÷ pack × uses; food cost % of price without VAT.
+  Free for everyone for now: whether it is part of Pro is Ramyar's call.
+

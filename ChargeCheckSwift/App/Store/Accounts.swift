@@ -306,6 +306,14 @@ final class Accounts: ObservableObject {
         }
         guard let context = widgetContext else { return }
         WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code))
+        refreshDueReminders()
+    }
+
+    /// Payment reminders follow every change (all shops: a payment due is due whichever shop is on screen).
+    func refreshDueReminders() {
+        guard DueReminder.isOn, let context = widgetContext else { return }
+        let dues = DueDates.open(accounts: accounts(context), creditDays: creditDays)
+        DueReminder.refresh(dues) { [self] due in due.entry.currency ?? currency(for: due.supplier).code }
     }
 }
 

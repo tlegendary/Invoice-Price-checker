@@ -417,6 +417,8 @@ struct NotCheckedView: View {
 /// Credits asked for that haven't arrived yet, oldest first.
 struct CreditsOwedView: View {
     @Query(sort: \StoredReport.savedAt) private var reports: [StoredReport]
+    @Environment(\.modelContext) private var context
+    @State private var writeOff: HistoryEntry?
 
     var body: some View {
         let list = Accounts.shared.inShop(reports.compactMap { $0.entry }).filter { $0.credit?.isOwed ?? false }
@@ -440,9 +442,29 @@ struct CreditsOwedView: View {
                             .foregroundStyle(.orange)
                     }
                 }
+                .swipeActions(edge: .trailing) {
+                    if !CloudTeam.shared.isStaff {
+                        Button("Write off") { writeOff = entry }
+                            .tint(.gray)
+                    }
+                }
             }
         }
         .navigationTitle("Credits owed")
+        .confirmationDialog("Write off this credit?", isPresented: Binding(get: { writeOff != nil }, set: { if !$0 { writeOff = nil } }),
+                            titleVisibility: .visible, presenting: writeOff) { entry in
+            Button("Write it off", role: .destructive) {
+                let amount = entry.credit?.amount ?? 0
+                AppData.updateReports([entry.id], context: context) { saved in
+                    saved.credit = CreditInfo(status: CreditInfo.writtenOff, amount: amount, at: entry.credit?.at)
+                }
+                CreditReminder.cancel(for: entry.id)
+                Records.shared.log(.creditCleared, RecordKeeping.subject(entry) + " · " + String(localized: "written off"), amount: amount)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("For a credit the supplier won't give. It stops being chased and isn't counted as money won back. You can undo it on the invoice.")
+        }
     }
 
     private func askedText(_ entry: HistoryEntry) -> String {
@@ -563,6 +585,26 @@ struct SavingsView: View {
             }
             savings("This month", o.savedThisMonth)
             savings("Since you started", o.savedAllTime)
+            // what happened to the credits asked for (main currency only: amounts are never mixed)
+            let main = entries.filter { ($0.currency ?? accounts.currency(for: $0.supplier).code) == Money.currency.code }
+            let owed = ReportMaths.creditsOwed(main), got = ReportMaths.creditsReceived(main), lost = ReportMaths.creditsWrittenOff(main)
+            if owed.count + got.count + lost.count > 0 {
+                Section {
+                    LabeledContent("Received", value: Money.format(got.amount))
+                    NavigationLink {
+                        CreditsOwedView()
+                    } label: {
+                        LabeledContent("Still owed (\(owed.count))", value: Money.format(owed.amount))
+                    }
+                    if lost.count > 0 {
+                        LabeledContent("Written off (\(lost.count))", value: Money.format(lost.amount))
+                    }
+                } header: {
+                    Text("Credits you asked for")
+                } footer: {
+                    Text("Only credits received count as money won back. Written off: the supplier wouldn't credit it.")
+                }
+            }
             Section {
                 LabeledContent("Price rises spotted", value: "\(rises.count)")
                 if o.cheaperElsewhere > 0.005 {
