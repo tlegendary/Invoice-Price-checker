@@ -24,12 +24,17 @@ struct InvoiceHistoryView: View {
     @State private var search = ""
     @State private var confirmDelete: HistoryEntry?
     /// Select mode: tick invoices (or all of them) to delete them or move them to another shop.
-    @State private var editMode: EditMode = .inactive
+    @State private var editMode: EditMode
     @State private var selected: Set<String> = []
     @State private var confirmDeleteSelected = false
     @AppStorage(Shops.listKey) private var shopData = Data()
 
     private var selecting: Bool { editMode.isEditing }
+
+    /// `selecting`: open straight in select mode (the Invoices tab's Select button).
+    init(selecting: Bool = false) {
+        _editMode = State(initialValue: selecting ? .active : .inactive)
+    }
 
     private var shown: [HistoryEntry] {
         // the shop being viewed (every shop under "All shops")
@@ -169,11 +174,14 @@ struct SelectionBar: View {
     var onAdd: ((String) -> Void)?
     var allShopsTitle: String?
 
+    /// No shops yet (or only one): "Move to shop" offers to add them, in Your shops.
+    @State private var showShops = false
+
     var body: some View {
         HStack(spacing: 12) {
-            if shops.count > 1 {
-                Menu {
-                    if let allShopsTitle {
+            Menu {
+                if !shops.isEmpty {
+                    if let allShopsTitle, shops.count > 1 {
                         Button(allShopsTitle) { onMove("") }
                     }
                     Section(String(localized: "Move to")) {
@@ -181,20 +189,27 @@ struct SelectionBar: View {
                             Button(shop.name) { onMove(shop.id) }
                         }
                     }
-                    if let onAdd {
+                    if let onAdd, shops.count > 1 {
                         Section(String(localized: "Also add to")) {
                             ForEach(shops, id: \.id) { shop in
                                 Button(shop.name) { onAdd(shop.id) }
                             }
                         }
                     }
-                } label: {
-                    Label("Move to shop", systemImage: "storefront")
-                        .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.bordered)
-                .disabled(count == 0)
+                Section(shops.count < 2 ? String(localized: "Add your shops first, then move these to the right one.") : "") {
+                    Button {
+                        showShops = true
+                    } label: {
+                        Label(shops.isEmpty ? String(localized: "Add your shops") : String(localized: "Add a shop"), systemImage: "plus")
+                    }
+                }
+            } label: {
+                Label("Move to shop", systemImage: "storefront")
+                    .frame(maxWidth: .infinity)
             }
+            .buttonStyle(.bordered)
+            .disabled(count == 0)
             Button(role: .destructive, action: onDelete) {
                 Label(deleteTitle, systemImage: "trash")
                     .frame(maxWidth: .infinity)
@@ -207,5 +222,15 @@ struct SelectionBar: View {
         .padding(.horizontal)
         .padding(.vertical, 10)
         .background(.bar)
+        .sheet(isPresented: $showShops) {
+            NavigationStack {
+                ShopsView()
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { showShops = false }
+                        }
+                    }
+            }
+        }
     }
 }

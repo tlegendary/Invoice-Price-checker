@@ -175,6 +175,9 @@ is ready and Ramyar says to switch.
 - **Select several (14 Nov 2026):** Checked invoices (Select) and Prices (••• › Select items): tick rows or Select all,
   then Delete (to Recently deleted) or Move to shop. Moving invoices also moves payments made for exactly those invoices
   (`Accounts.moveInvoices`). Price items can be moved to one shop, added to another, or set to all shops.
+  Also (Ramyar couldn't find it, beta 27): "Select" in the header of Invoices › Checked invoices (opens the list in
+  select mode) and of a supplier's Still to pay / Paid invoices. "Move to shop" is always shown; with no shops (or
+  one) it offers "Add your shops" (Your shops in a sheet). The Invoices tab's recent list now follows the chosen shop.
 - **App Store screenshots:** commit message `[shots]` runs the "App Store screenshots" job: largest iPhone, realistic
   data from `tools/make-store-data.py` (dates relative to today), clean status bar, en/ar/de/fr; pictures land in
   `store/` on the ci-logs branch. `-storeShots YES` hides the sample-invoice note.

@@ -384,6 +384,13 @@ struct SupplierDetailView: View {
     @State private var showStatement = false
     @State private var copied = false
     @State private var confirmDeleteAll = false
+    /// Select mode: tick this supplier's invoices to delete them or move them to another shop.
+    @State private var editMode: EditMode = .inactive
+    @State private var selected: Set<String> = []
+    @State private var confirmDeleteSelected = false
+    @AppStorage(Shops.listKey) private var shopData = Data()
+
+    private var selecting: Bool { editMode.isEditing }
 
     /// This supplier in the shop being viewed (every shop under "All shops").
     private var account: SupplierAccount? {
@@ -395,7 +402,8 @@ struct SupplierDetailView: View {
     var body: some View {
         Group {
             if let account {
-                List {
+                List(selection: $selected) {
+                    if !selecting {
                     Section {
                         LabeledContent("You owe") {
                             Text(Money.format(account.balance, supplier: account.name))
@@ -535,10 +543,11 @@ struct SupplierDetailView: View {
                         }
                     }
 
+                    } // not selecting
                     if !account.open.isEmpty {
                         let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
                                              uniquingKeysWith: { a, _ in a })
-                        Section("Still to pay") {
+                        Section {
                             ForEach(account.open) { entry in
                                 NavigationLink(value: ReportLink(id: entry.id)) {
                                     VStack(alignment: .leading, spacing: 2) {
@@ -550,12 +559,23 @@ struct SupplierDetailView: View {
                                         }
                                     }
                                 }
+                                .tag(entry.id)
+                            }
+                        } header: {
+                            HStack {
+                                Text("Still to pay")
+                                Spacer()
+                                if !selecting && !team.isStaff {
+                                    Button("Select") { editMode = .active }
+                                        .font(.subheadline.weight(.semibold))
+                                        .textCase(nil)
+                                }
                             }
                         }
                     }
 
                     let shown = account.payments.filter { $0.amount > 0.005 }
-                    if !shown.isEmpty {
+                    if !shown.isEmpty && !selecting {
                         Section {
                             ForEach(shown) { payment in
                                 PaymentRow(payment: payment)
@@ -573,17 +593,28 @@ struct SupplierDetailView: View {
 
                     let paidOff = account.entries.filter { entry in !account.open.contains(where: { $0.id == entry.id }) }
                     if !paidOff.isEmpty {
-                        Section("Paid invoices") {
+                        Section {
                             ForEach(paidOff.prefix(30)) { entry in
                                 NavigationLink(value: ReportLink(id: entry.id)) {
                                     InvoiceMoneyRow(entry: entry)
+                                }
+                                .tag(entry.id)
+                            }
+                        } header: {
+                            HStack {
+                                Text("Paid invoices")
+                                Spacer()
+                                if !selecting && !team.isStaff && account.open.isEmpty {
+                                    Button("Select") { editMode = .active }
+                                        .font(.subheadline.weight(.semibold))
+                                        .textCase(nil)
                                 }
                             }
                         }
                     }
 
                     // owner only: clear this supplier out in one go instead of one invoice at a time
-                    if !team.isStaff && (!account.entries.isEmpty || !account.payments.isEmpty) {
+                    if !selecting && !team.isStaff && (!account.entries.isEmpty || !account.payments.isEmpty) {
                         Section {
                             Button(role: .destructive) {
                                 confirmDeleteAll = true
@@ -606,7 +637,49 @@ struct SupplierDetailView: View {
                         }
                     }
                 }
-                .navigationTitle(account.name)
+                .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : account.name)
+                .environment(\.editMode, $editMode)
+                .toolbar {
+                    if selecting {
+                        ToolbarItem(placement: .topBarLeading) {
+                            let all = Set(account.entries.map { $0.id })
+                            Button(selected == all && !all.isEmpty ? String(localized: "Deselect all") : String(localized: "Select all")) {
+                                selected = selected == all ? [] : all
+                            }
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Done") {
+                                editMode = .inactive
+                                selected = []
+                            }
+                            .fontWeight(.semibold)
+                        }
+                    }
+                }
+                .navigationBarBackButtonHidden(selecting)
+                .safeAreaInset(edge: .bottom) {
+                    if selecting {
+                        SelectionBar(count: selected.count, shops: Shops.decode(shopData), deleteTitle: String(localized: "Delete"),
+                                     onMove: { shop in
+                                         accounts.moveInvoices(selected, to: shop, context: context)
+                                         selected = []
+                                         editMode = .inactive
+                                     },
+                                     onDelete: { confirmDeleteSelected = true })
+                    }
+                }
+                .confirmationDialog(selected.count == 1 ? String(localized: "Delete 1 invoice?") : String(localized: "Delete \(selected.count) invoices?"),
+                                    isPresented: $confirmDeleteSelected, titleVisibility: .visible) {
+                    Button("Delete", role: .destructive) {
+                        AppData.deleteReports(selected, context: context)
+                        accounts.changed(context)
+                        selected = []
+                        editMode = .inactive
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("You can bring them back from More › Recently deleted for 30 days.")
+                }
                 .sheet(item: $addKind) { kind in
                     RecordPaymentView(supplier: account.name, kind: kind, suggested: max(0, account.balance))
                 }

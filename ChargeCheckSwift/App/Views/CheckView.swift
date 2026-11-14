@@ -143,9 +143,11 @@ struct CheckView: View {
                         }
                     }
                 }
-                if !reports.isEmpty {
+                let saved = Accounts.shared.inShop(reports.compactMap { $0.entry })
+                if !saved.isEmpty {
                     Section {
-                        ForEach(Plans.visible(reports.prefix(5).compactMap { $0.entry }, tier: store.tier)) { entry in
+                        // the shop being viewed (every shop under "All shops")
+                        ForEach(Plans.visible(Array(saved.prefix(5)), tier: store.tier)) { entry in
                             NavigationLink(value: ReportLink(id: entry.id)) {
                                 ReportRow(entry: entry)
                             }
@@ -153,11 +155,22 @@ struct CheckView: View {
                         NavigationLink {
                             InvoiceHistoryView()
                         } label: {
-                            Label(reports.count == 1 ? String(localized: "All checked invoices (1)") : String(localized: "All checked invoices (\(reports.count))"),
+                            Label(saved.count == 1 ? String(localized: "All checked invoices (1)") : String(localized: "All checked invoices (\(saved.count))"),
                                   systemImage: "tray.full")
                         }
                     } header: {
-                        Text("Checked invoices")
+                        HStack {
+                            Text("Checked invoices")
+                            Spacer()
+                            // select several: delete them or move them to another shop
+                            NavigationLink {
+                                InvoiceHistoryView(selecting: true)
+                            } label: {
+                                Text("Select")
+                                    .font(.subheadline.weight(.semibold))
+                                    .textCase(nil)
+                            }
+                        }
                     }
                 }
             }
