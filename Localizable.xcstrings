@@ -2425,6 +2425,9 @@
         }
       }
     },
+    "Also owed in %@" : {
+
+    },
     "Also save invoice copies there" : {
       "localizations" : {
         "ar" : {
@@ -6296,7 +6299,7 @@
     "Due in the next 7 days" : {
 
     },
-    "Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home." : {
+    "Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home. A supplier who invoices in another currency is added up separately, never mixed with your own currency." : {
 
     },
     "Edit" : {
@@ -8344,6 +8347,9 @@
           }
         }
       }
+    },
+    "Invoices in" : {
+
     },
     "Invoices saved, payments recorded, prices changed and anything deleted are listed here." : {
 
@@ -12256,6 +12262,9 @@
 
     },
     "Overdue invoices are included." : {
+
+    },
+    "Overdue invoices are included. Suppliers who invoice in another currency are listed below but not added in." : {
 
     },
     "Owed %@" : {
@@ -18028,6 +18037,7 @@
       }
     },
     "This invoice is in %@, but your prices are in %@. Check the prices before saving, or change the currency in Settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18051,6 +18061,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette facture est en %1$@, mais vos prix sont en %2$@. Vérifiez les prix avant d’enregistrer, ou changez la devise dans Réglages."
+          }
+        }
+      }
+    },
+    "This invoice is in %@, but your prices are in %@. Check the prices before saving, or set this supplier to %@ in Suppliers." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This invoice is in %1$@, but your prices are in %2$@. Check the prices before saving, or set this supplier to %3$@ in Suppliers."
           }
         }
       }
