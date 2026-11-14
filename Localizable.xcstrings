@@ -20821,7 +20821,37 @@
         }
       }
     },
+    "Several shops and a home screen widget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عدة متاجر وأداة الشاشة الرئيسية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چەند دوکانێک و ویجێتی شاشەی سەرەکی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehrere Geschäfte und Home-Bildschirm-Widget"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plusieurs magasins et widget d'accueil"
+          }
+        }
+      }
+    },
     "Several shops, staff on their own iPhones, home screen widget" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
