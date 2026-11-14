@@ -52,11 +52,32 @@ struct CheckView: View {
         return true
     }
 
+    @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
+    @State private var cloudOn = true
+
+    /// Nothing is reaching iCloud: not signed in, or no backup there for a week (offline, or iCloud full).
+    private var backupWarning: String? {
+        guard !reports.isEmpty else { return nil }
+        if !cloudOn {
+            return String(localized: "Your invoices aren't backed up to iCloud. Sign in to iCloud on this iPhone, or choose a folder in More › Settings.")
+        }
+        let days = Int((Date().timeIntervalSince1970 - cloudSaved) / 86_400)
+        if cloudSaved > 0 && days >= 7 {
+            return String(localized: "Last iCloud backup \(days) days ago. Check this iPhone is online and iCloud has space.")
+        }
+        return nil
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
             List {
                 if storageProblem {
                     Label("Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again.", systemImage: "exclamationmark.triangle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                }
+                if let warning = backupWarning {
+                    Label(warning, systemImage: "exclamationmark.icloud")
                         .font(.footnote)
                         .foregroundStyle(.orange)
                 }
@@ -176,6 +197,11 @@ struct CheckView: View {
                 }
             }
             .navigationTitle("Invoices")
+            .task {
+                await AutoCloud.shared.prepare()
+                // the cloud check's screenshots run without iCloud
+                cloudOn = CloudFolder.isOn || ProcessInfo.processInfo.arguments.contains { $0.hasPrefix("-demo") }
+            }
             .shopSwitcher()
             .navigationDestination(for: String.self) { id in
                 InvoiceDetailView(jobID: id)

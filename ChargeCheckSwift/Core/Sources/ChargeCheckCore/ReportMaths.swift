@@ -101,6 +101,12 @@ public enum ReportMaths {
         return (got.count, Money.round2(got.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
     }
 
+    /// Credits the supplier refused, written off: how many and how much.
+    public static func creditsWrittenOff(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
+        let lost = entries.filter { $0.credit?.status == CreditInfo.writtenOff }
+        return (lost.count, Money.round2(lost.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+    }
+
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).
     public static func creditText(_ entry: HistoryEntry, business: String, code: String? = nil) -> String {
         let t = CoreText.t

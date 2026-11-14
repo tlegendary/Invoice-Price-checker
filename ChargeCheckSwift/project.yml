@@ -33,8 +33,13 @@ targets:
       path: App/ChargeCheck.entitlements
       properties:
         com.apple.security.application-groups: [group.com.rjapps.invoicepricechecker]  # widget
-        # Staff sharing through iCloud was taken out (Ramyar, 14 Nov 2026), so the app no longer asks for iCloud or push.
-        # Backups to an iCloud Drive folder don't need either: they go through the Files app.
+        # Staff sharing through iCloud was taken out (Ramyar, 14 Nov 2026). iCloud is back only for iCloud Drive:
+        # backups and invoice copies saved automatically in iCloud Drive › ChargeCheck (no CloudKit, no push).
+        # The database stays local (ChargeCheckApp.swift: cloudKitDatabase: .none). Lines ending "# icloud" are
+        # removed by ChargeCheckSwift/.no-icloud if signing ever fails.
+        com.apple.developer.icloud-container-identifiers: [iCloud.com.rjapps.invoicepricechecker]  # icloud
+        com.apple.developer.ubiquity-container-identifiers: [iCloud.com.rjapps.invoicepricechecker]  # icloud
+        com.apple.developer.icloud-services: [CloudDocuments]  # icloud
     scheme:
       testTargets:
         - ChargeCheckTests
@@ -44,6 +49,12 @@ targets:
         CFBundleLocalizations: [en, ar, ckb, de, fr]
         CFBundleAllowMixedLocalizations: true
         CFBundleDisplayName: ChargeCheck
+        # shows the app's folder in iCloud Drive and the Files app as "ChargeCheck"
+        NSUbiquitousContainers:  # icloud
+          iCloud.com.rjapps.invoicepricechecker:  # icloud
+            NSUbiquitousContainerIsDocumentScopePublic: true  # icloud
+            NSUbiquitousContainerName: ChargeCheck  # icloud
+            NSUbiquitousContainerSupportedFolderLevels: Any  # icloud
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSRequiresIPhoneOS: true

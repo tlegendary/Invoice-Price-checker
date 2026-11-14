@@ -101,6 +101,8 @@ workflows:
           sed -i '' 's/group.com.rjapps.invoicepricechecker\]/group.com.rjapps.invoicepricechecker.beta]/; s/CCAppGroup: group.com.rjapps.invoicepricechecker$/CCAppGroup: group.com.rjapps.invoicepricechecker.beta/' project.yml
           # iCloud for staff phones: the beta has its own container
           sed -i '' 's/iCloud.com.rjapps.invoicepricechecker\]/iCloud.com.rjapps.invoicepricechecker.beta]/; s/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker$/CCCloudContainer: iCloud.com.rjapps.invoicepricechecker.beta/' project.yml
+          sed -i '' 's/^          iCloud.com.rjapps.invoicepricechecker:  # icloud$/          iCloud.com.rjapps.invoicepricechecker.beta:  # icloud/' project.yml
+          grep -n "iCloud.com" project.yml
           # The widget needs an App Group set up by hand on developer.apple.com. Until that's done
           # (Ramyar creates ChargeCheckSwift/.widget-ready), the beta is built without it.
           if [ ! -f .widget-ready ]; then python3 tools/without-widget.py project.yml; fi
@@ -154,6 +156,17 @@ workflows:
         script: |
           set -e
           grep -la "invoicepricechecker.beta" "$HOME/Library/MobileDevice/Provisioning Profiles/"* "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/"* 2>/dev/null
+      - name: iCloud Drive in the beta profile?
+        script: |
+          # Automatic iCloud backup needs the beta App ID's iCloud container. If Apple's side doesn't have it,
+          # build without it rather than fail: backups then go to a folder the user picks, as before.
+          P=$(grep -la "ChargeCheck Beta CI" "$HOME/Library/MobileDevice/Provisioning Profiles/"* "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/"* 2>/dev/null | head -1)
+          if [ -n "$P" ] && security cms -D -i "$P" 2>/dev/null | grep -q "iCloud.com.rjapps.invoicepricechecker.beta"; then
+            echo "iCloud Drive: in the profile"
+          else
+            echo "iCloud Drive: NOT in the profile - building without automatic iCloud backup"
+            cd ChargeCheckSwift && sed -i '' '/# icloud$/d' project.yml && xcodegen generate
+          fi
       - name: Set up signing
         script: |
           set -e

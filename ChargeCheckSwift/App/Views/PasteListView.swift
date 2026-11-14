@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
+import PDFKit
 import ChargeCheckCore
 
 /// Paste a price list from WhatsApp, an email or a spreadsheet: one item per line, price at the end.
@@ -13,6 +14,7 @@ struct PasteListView: View {
     @State private var text = ""
     @State private var supplier = ""
     @State private var showFiles = false
+    @State private var fileProblem: String?
 
     private var rows: [PriceListText.Row] { PriceListText.parse(text) }
 
@@ -26,7 +28,12 @@ struct PasteListView: View {
                     Button("Paste from clipboard") {
                         if let copied = UIPasteboard.general.string { text = copied }
                     }
-                    Button("Open a spreadsheet or text file (CSV)") {
+                    if let fileProblem {
+                        Text(fileProblem)
+                            .font(.footnote)
+                            .foregroundStyle(.orange)
+                    }
+                    Button("Open a price list (PDF, CSV or text)") {
                         showFiles = true
                     }
                 } header: {
@@ -57,13 +64,32 @@ struct PasteListView: View {
                     }
                 }
             }
-            .fileImporter(isPresented: $showFiles, allowedContentTypes: [.commaSeparatedText, .plainText]) { result in
+            .fileImporter(isPresented: $showFiles, allowedContentTypes: [.pdf, .commaSeparatedText, .plainText]) { result in
                 guard case .success(let url) = result else { return }
                 let scoped = url.startAccessingSecurityScopedResource()
                 defer {
                     if scoped { url.stopAccessingSecurityScopedResource() }
                 }
+                fileProblem = nil
                 guard let data = try? Data(contentsOf: url) else { return }
+                if url.pathExtension.lowercased() == "pdf" || data.starts(with: Array("%PDF".utf8)) {
+                    // a supplier's price list as a PDF: its text, page by page, one line per row
+                    guard let document = PDFDocument(data: data) else {
+                        fileProblem = String(localized: "That PDF couldn't be opened.")
+                        return
+                    }
+                    let pages = (0..<document.pageCount).compactMap { document.page(at: $0)?.string }
+                    let found = pages.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+                    if found.isEmpty {
+                        fileProblem = String(localized: "This PDF is a scanned picture, so there's no text to read. Ask the supplier for the PDF they made on a computer, or a spreadsheet.")
+                    } else {
+                        text = found
+                        if PriceListText.parse(found).isEmpty {
+                            fileProblem = String(localized: "No prices were found in this PDF. Check each line has an item and a price.")
+                        }
+                    }
+                    return
+                }
                 text = String(data: data, encoding: .utf8) ?? String(decoding: data, as: UTF8.self)
             }
             .navigationTitle("Paste a price list")

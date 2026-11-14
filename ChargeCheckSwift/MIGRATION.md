@@ -313,3 +313,38 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 - Every invoice list (Invoices tab, All checked invoices, a supplier's Still to pay / Paid): swipe right to pay
   (asks once with the amount, then `Accounts.markPaid`), on a paid one swipe right for "Unpaid"
   (`markUnpaid`); swipe left to delete (Recently deleted keeps it 30 days).
+
+## Automatic iCloud backup, compressed photos (beta 29)
+- iCloud Drive › ChargeCheck is used automatically (no folder to pick) when the phone is signed in to iCloud:
+  `AutoCloud` finds the app's ubiquity container off the main thread. A folder the user picked still wins.
+  Settings › iCloud backup › "Save to iCloud automatically" can turn it off.
+- Entitlements (project.yml, lines tagged `# icloud`): iCloud container + ubiquity container, service CloudDocuments
+  only (no CloudKit: the SwiftData store stays local, `cloudKitDatabase: .none`). NSUbiquitousContainers names the
+  folder "ChargeCheck". Beta uses iCloud.com.rjapps.invoicepricechecker.beta (codemagic sed).
+- Codemagic step "iCloud Drive in the beta profile?": if the profile has no container, the `# icloud` lines are
+  dropped and the beta is built without automatic iCloud (no failed build). LIVE APP: the live App ID needs the
+  iCloud capability with container iCloud.com.rjapps.invoicepricechecker before release.
+- New invoice copies: long side 1800 px, JPEG 0.6 (was 2200 px, 0.85), about a quarter of the size; multi-page
+  PDFs hold the compressed pages. Older copies on the phone are not touched; their cloud copy is compressed if
+  over 700 KB (`CloudCopies.catchUp`, 40 per backup, remembers what was sent per folder).
+- Cloud keeps 30 daily backups (`CloudFolder.trim`). New or reinstalled phone with nothing saved: offers once to
+  restore the iCloud backup (RootView). Invoices tab warns when not backed up to iCloud, or no backup there for 7 days.
+
+## Credits written off, payment reminders, whole-list names, Xero/QuickBooks, PDF price lists, cost per dish (beta 29)
+- `CreditInfo.writtenOff` ("writtenOff"): a credit the supplier refused. Not owed, not counted as won back.
+  Credits owed › swipe "Write off"; on the invoice "They won't credit it"; undo with "Still owed after all".
+  Money protected › "Credits you asked for": received / still owed / written off (main currency only).
+  Older app versions see the status as neither owed nor received.
+- Settings › "Payments due reminders" (off by default, asks for notifications): 9 am on each day something is due,
+  next 14 days, planned again on every change (`DueReminders.plan` in core, `DueReminder` in Files.swift).
+- Prices › More › "Suggest other names": `NameSuggestionsView`, up to 4 per item, all ticked, same safety rule.
+- Reports › Export › "For your accounting software": `AccountingExport.xeroBills` (Xero's exact bill import
+  columns, DD/MM/YYYY, tax exclusive, expense account default 310) and `quickBooksBills`. Each invoice as issued
+  (net + VAT); what was caught goes in the description; invoices billed twice are left out.
+- Paste a price list › "Open a price list (PDF, CSV or text)": a PDF's text (PDFKit) goes into the existing parser
+  for review. A scanned PDF (no text) says so.
+- Cost per dish (More › Cost per dish, and Prices › More): `Dish`/`DishPart`/`DishMaths`/`PackGuess` in core,
+  `DishStore` keeps them in UserDefaults "dishes.v1". Backups carry `dishes` (older backups/apps ignore it).
+  Cost = agreed price (shop's own, else supplier's own, else standard) ÷ pack × uses; food cost % of price without VAT.
+  Free for everyone for now: whether it is part of Pro is Ramyar's call.
+

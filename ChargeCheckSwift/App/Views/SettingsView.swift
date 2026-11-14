@@ -24,10 +24,14 @@ struct SettingsView: View {
     @AppStorage(SettingKey.keepCopies) private var keepCopies = "phone"
     @AppStorage(SettingKey.cloudCopies) private var cloudCopies = true
     @AppStorage(SettingKey.reminder) private var reminder = false
+    @AppStorage(DueReminder.settingKey) private var dueReminder = false
     @AppStorage(CloudFolder.nameKey) private var cloudName = ""
     @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
     @State private var showFolderPicker = false
+    /// iCloud Drive › ChargeCheck, used without choosing anything (signed in to iCloud).
+    @State private var cloudAvailable = AutoCloud.shared.available
+    @AppStorage(AutoCloud.settingKey) private var autoCloud = true
     @AppStorage(SettingKey.autoLower) private var autoLower = true
     @AppStorage(SettingKey.autoLearnNames) private var autoLearnNames = true
     @AppStorage(AppLock.settingKey) private var lockOn = false
@@ -301,10 +305,22 @@ struct SettingsView: View {
 
                     Section {
                         if cloudName.isEmpty {
+                            if cloudAvailable {
+                                Toggle("Save to iCloud automatically", isOn: $autoCloud)
+                                if autoCloud {
+                                    LabeledContent("Folder", value: "iCloud Drive › ChargeCheck")
+                                    LabeledContent("Last saved there", value: when(cloudSaved))
+                                    Toggle("Also save invoice copies there", isOn: $cloudCopies)
+                                }
+                            } else {
+                                Label("Sign in to iCloud on this iPhone (Settings › your name › iCloud) and everything is saved there automatically.",
+                                      systemImage: "exclamationmark.icloud")
+                                    .foregroundStyle(.orange)
+                            }
                             Button {
                                 showFolderPicker = true
                             } label: {
-                                Label("Choose an iCloud Drive folder", systemImage: "icloud")
+                                Label(cloudAvailable ? "Use a different folder" : "Choose an iCloud Drive folder", systemImage: "folder")
                             }
                         } else {
                             LabeledContent("Folder", value: cloudName)
@@ -319,7 +335,14 @@ struct SettingsView: View {
                     } header: {
                         Text("iCloud backup")
                     } footer: {
-                        Text("Choose a folder once (for example make a “ChargeCheck” folder in iCloud Drive) and every backup is also saved there. Safe even if you lose or change your phone.")
+                        Text("Every backup and invoice copy is also saved in iCloud, with photos made smaller first. Safe even if you lose or change your phone: on a new iPhone, ChargeCheck offers to bring everything back. The last 30 days of backups are kept.")
+                    }
+                    .task {
+                        await AutoCloud.shared.prepare()
+                        cloudAvailable = AutoCloud.shared.available
+                    }
+                    .onChange(of: autoCloud) {
+                        if autoCloud { AutoBackup.run(context, scans: store.ledger.forBackup) }
                     }
 
                     Section {
@@ -334,6 +357,17 @@ struct SettingsView: View {
                                 Task {
                                     let ok = await MonthlyReminder.set(isOn)
                                     reminder = isOn && ok
+                                    if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
+                                }
+                            }
+                        ))
+                        Toggle("Payments due reminders", isOn: Binding(
+                            get: { dueReminder },
+                            set: { isOn in
+                                Task {
+                                    let ok = await DueReminder.set(isOn)
+                                    dueReminder = isOn && ok
+                                    if isOn && ok { Accounts.shared.changed(context) }
                                     if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
                                 }
                             }

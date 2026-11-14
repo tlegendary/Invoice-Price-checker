@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history
+        case prices, shops, staff, settings, deleted, history, dishes
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -16,6 +16,7 @@ struct MoreView: View {
     @Query private var prices: [StoredPrice]
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var path: [Page]
+    @ObservedObject private var dishes = DishStore.shared
 
     init(showPaywall: Binding<Bool>, open: Page? = nil) {
         _showPaywall = showPaywall
@@ -33,6 +34,13 @@ struct MoreView: View {
                                 Text("\(prices.count)")
                             } label: {
                                 Label("Price list", systemImage: "tag")
+                            }
+                        }
+                        NavigationLink(value: Page.dishes) {
+                            LabeledContent {
+                                if !dishes.dishes.isEmpty { Text("\(dishes.dishes.count)") }
+                            } label: {
+                                Label("Cost per dish", systemImage: "fork.knife")
                             }
                         }
                         // shops already added stay open; adding them needs Pro
@@ -96,6 +104,7 @@ struct MoreView: View {
                 switch page {
                 case .prices: PricesView(embedded: true)
                 case .shops: ShopsView()
+                case .dishes: DishesView()
                 case .staff: TeamView()
                 case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
                 case .deleted: RecentlyDeletedView()
