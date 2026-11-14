@@ -175,6 +175,9 @@ is ready and Ramyar says to switch.
 - **Select several (14 Nov 2026):** Checked invoices (Select) and Prices (••• › Select items): tick rows or Select all,
   then Delete (to Recently deleted) or Move to shop. Moving invoices also moves payments made for exactly those invoices
   (`Accounts.moveInvoices`). Price items can be moved to one shop, added to another, or set to all shops.
+  Also (Ramyar couldn't find it, beta 27): "Select" in the header of Invoices › Checked invoices (opens the list in
+  select mode) and of a supplier's Still to pay / Paid invoices. "Move to shop" is always shown; with no shops (or
+  one) it offers "Add your shops" (Your shops in a sheet). The Invoices tab's recent list now follows the chosen shop.
 - **App Store screenshots:** commit message `[shots]` runs the "App Store screenshots" job: largest iPhone, realistic
   data from `tools/make-store-data.py` (dates relative to today), clean status bar, en/ar/de/fr; pictures land in
   `store/` on the ci-logs branch. `-storeShots YES` hides the sample-invoice note.
@@ -300,3 +303,13 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 - Never send the Swift version to the App Store (the live app) until Ramyar says yes.
 - Do not change prices, products, trial length, ad frequency or AdMob IDs without asking.
 - No phone number anywhere. Contact is email only.
+
+## Suggest other names; swipe to pay or delete an invoice (beta 28)
+- Price item editor › Other names on invoices › "Suggest other names": likely supplier spellings (no pack size,
+  product code on its own, common shorthand such as qtr/pdr/chkn/veg), tap one or "Add all". Core `NameIdeas`;
+  a name is never offered if it could also be read as another item (same rule as the matcher, shorthand read
+  as the full word), so it can't cause new "which item?" questions. Matching ignores word order already.
+  `Matcher.aliasFits` is the one shared rule. No data change: names go into the existing aliases.
+- Every invoice list (Invoices tab, All checked invoices, a supplier's Still to pay / Paid): swipe right to pay
+  (asks once with the amount, then `Accounts.markPaid`), on a paid one swipe right for "Unpaid"
+  (`markUnpaid`); swipe left to delete (Recently deleted keeps it 30 days).

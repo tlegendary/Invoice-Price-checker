@@ -29,9 +29,8 @@ public enum Matcher {
 
     static func score(d: String, dt: [String], _ p: Prepared) -> Double {
         var best = 0.0
-        for words in p.aliasWords {
-            let all = words.allSatisfy { w in dt.contains(where: { TextTools.tokenEqual($0, w) }) || d.contains(w) }
-            if all { best = max(best, 1 + Double(words.joined().count) / 100) }
+        for words in p.aliasWords where aliasFits(words, d: d, dt: dt) {
+            best = max(best, 1 + Double(words.joined().count) / 100)
         }
         if best > 0 { return best }
         let it = p.nameTokens
@@ -39,6 +38,11 @@ public enum Matcher {
         var hit = 0
         for t in dt where it.contains(where: { TextTools.tokenEqual($0, t) }) { hit += 1 }
         return Double(2 * hit) / Double(dt.count + it.count)
+    }
+
+    /// An "other name" fits a line when every one of its words is in it.
+    static func aliasFits(_ words: [String], d: String, dt: [String]) -> Bool {
+        !words.isEmpty && words.allSatisfy { w in dt.contains(where: { TextTools.tokenEqual($0, w) }) || d.contains(w) }
     }
 
     public static func match(_ description: String, in items: [PriceItem]) -> MatchResult {
