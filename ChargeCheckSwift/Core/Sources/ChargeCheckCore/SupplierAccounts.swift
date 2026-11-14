@@ -26,11 +26,23 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
     public var reference: String
     /// File name of a photo or screenshot of the receipt, kept by the app.
     public var receipt: String?
+    /// The shop this payment belongs to (nil = not tied to a shop: payments recorded before shops were separated,
+    /// or recorded while "All shops" was chosen). Payments tied to invoices also belong to those invoices' shop.
+    public var shopId: String?
+    /// The currency the amount is in ("GBP", "IQD" …), saved with new payments so the amount never changes meaning.
+    public var currency: String?
+    /// For a payment of ticked invoices: what was paid for each invoice at the time, so undoing one takes back
+    /// exactly what was paid for it (even if the invoice was corrected later).
+    public var invoiceAmounts: [String: Double]?
+
+    /// The shop id, "" when none.
+    public var shop: String { shopId ?? "" }
 
     public static let methods = ["transfer", "cash", "card", "cheque"]
 
     public init(id: String = UUID().uuidString, supplier: String, amount: Double, date: String, kind: Kind = .payment,
-                note: String = "", invoiceIDs: [String] = [], method: String = "", reference: String = "", receipt: String? = nil) {
+                note: String = "", invoiceIDs: [String] = [], method: String = "", reference: String = "", receipt: String? = nil,
+                shopId: String? = nil, currency: String? = nil, invoiceAmounts: [String: Double]? = nil) {
         self.id = id
         self.supplier = supplier
         self.amount = amount
@@ -41,9 +53,14 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
         self.method = method
         self.reference = reference
         self.receipt = receipt
+        self.shopId = shopId
+        self.currency = currency
+        self.invoiceAmounts = invoiceAmounts
     }
 
-    enum CodingKeys: String, CodingKey { case id, supplier, amount, date, kind, note, invoiceIDs, method, reference, receipt }
+    enum CodingKeys: String, CodingKey {
+        case id, supplier, amount, date, kind, note, invoiceIDs, method, reference, receipt, shopId, currency, invoiceAmounts
+    }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -57,6 +74,9 @@ public struct SupplierPayment: Codable, Identifiable, Equatable, Sendable {
         method = c.flexString(.method) ?? ""
         reference = c.flexString(.reference) ?? ""
         receipt = c.flexString(.receipt)
+        shopId = c.flexString(.shopId).flatMap { $0.isEmpty ? nil : $0 }
+        currency = c.flexString(.currency)
+        invoiceAmounts = try? c.decode([String: Double].self, forKey: .invoiceAmounts)
     }
 }
 
@@ -196,10 +216,46 @@ public enum SupplierAccounts {
         }
     }
 
-    /// Paying ticked invoices: one payment for the lot, tied to them.
-    public static func payment(for invoices: [HistoryEntry], supplier: String, date: String) -> SupplierPayment {
-        SupplierPayment(supplier: supplier, amount: Money.round2(invoices.reduce(0) { $0 + $1.amountToPay.pay }), date: date,
-                        invoiceIDs: invoices.map { $0.id })
+    /// Paying ticked invoices: one payment for the lot, tied to them. It remembers what was paid for each invoice,
+    /// and belongs to the invoices' shop when they all come from one shop.
+    public static func payment(for invoices: [HistoryEntry], supplier: String, date: String, currency: String? = nil) -> SupplierPayment {
+        var amounts: [String: Double] = [:]
+        for invoice in invoices { amounts[invoice.id] = invoice.amountToPay.pay }
+        let shops = Set(invoices.map { $0.shopId })
+        let shop = shops.count == 1 ? shops.first ?? "" : ""
+        return SupplierPayment(supplier: supplier, amount: Money.round2(invoices.reduce(0) { $0 + $1.amountToPay.pay }), date: date,
+                               invoiceIDs: invoices.map { $0.id }, shopId: shop.isEmpty ? nil : shop, currency: currency,
+                               invoiceAmounts: amounts)
+    }
+
+    /// Undoing "paid" on some invoices. A payment for those invoices only is taken back whole; a payment that also
+    /// covered other invoices keeps them and is lowered by what was paid for the undone ones *at the time*
+    /// (`invoiceAmounts`; older payments without it use the invoice's amount now).
+    /// `before` holds every payment as it was before it was changed or removed, for Recently deleted (the history).
+    public static func undoPaid(_ ids: Set<String>, payments: [SupplierPayment], entries: [HistoryEntry])
+        -> (payments: [SupplierPayment], before: [SupplierPayment]) {
+        let now = Dictionary(entries.map { ($0.id, $0.amountToPay.pay) }, uniquingKeysWith: { first, _ in first })
+        var out: [SupplierPayment] = []
+        var before: [SupplierPayment] = []
+        for payment in payments {
+            let gone = payment.invoiceIDs.filter { ids.contains($0) }
+            guard !gone.isEmpty else {
+                out.append(payment)
+                continue
+            }
+            before.append(payment)
+            let left = payment.invoiceIDs.filter { !ids.contains($0) }
+            if left.isEmpty { continue }
+            let takenBack = gone.reduce(0.0) { $0 + (payment.invoiceAmounts?[$1] ?? now[$1] ?? 0) }
+            let remaining = Money.round2(payment.amount - takenBack)
+            guard remaining > 0.005 else { continue }
+            var kept = payment
+            kept.invoiceIDs = left
+            kept.amount = remaining
+            kept.invoiceAmounts = payment.invoiceAmounts?.filter { !ids.contains($0.key) }
+            out.append(kept)
+        }
+        return (out, before)
     }
 }
 

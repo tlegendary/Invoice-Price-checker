@@ -24,6 +24,10 @@ public enum Money {
     /// The currency the user chose (set by the app at start-up and when the setting changes).
     public static var currency: Currency = .gbp
 
+    /// Called each time an amount is written out. The app uses it so a screen showing amounts redraws straight away
+    /// when the currency (or a supplier's currency) changes, instead of after the app is opened again.
+    public static var willFormat: (() -> Void)?
+
     /// Round to the currency's smallest unit (pennies, cents; whole dinars).
     public static func round2(_ value: Double) -> Double {
         ((value + Double.ulpOfOne) * 100).rounded() / 100
@@ -40,8 +44,10 @@ public enum Money {
     }
 
     public static func format(_ value: Double, in c: Currency) -> String {
-        let sign = value < 0 ? "-" : ""
+        willFormat?()
         var number = String(format: "%.\(c.decimals)f", abs(value))
+        // "-0 IQD": a tiny minus that rounds to nothing has no sign
+        let sign = value < 0 && number.contains(where: { $0 != "0" && $0 != "." }) ? "-" : ""
         if c.decimals == 0 {
             // whole amounts are long: group the thousands
             var grouped = ""

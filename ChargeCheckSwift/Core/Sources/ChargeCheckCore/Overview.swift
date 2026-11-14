@@ -24,6 +24,8 @@ public struct Savings: Equatable, Sendable {
 /// Something on the Home screen that needs the owner.
 public struct Attention: Identifiable, Equatable, Sendable {
     public enum Kind: String, Sendable {
+        /// Invoices the supplier billed twice (flagged when they were scanned), not paid yet.
+        case duplicates
         /// Saved invoices that weren't fully checked.
         case notChecked
         /// Credits asked for more than two weeks ago that haven't arrived.
@@ -145,6 +147,11 @@ public enum OverviewMaths {
         let tips = Insights.supplierTips(entries, now: now)
 
         var attention: [Attention] = []
+        let twice = entries.filter { $0.duplicateOf != nil && $0.paid == nil }
+        if !twice.isEmpty {
+            attention.append(Attention(kind: .duplicates, count: twice.count,
+                                       amount: Money.round2(twice.reduce(0) { $0 + $1.amountToPay.pay })))
+        }
         let unchecked = entries.filter { !$0.verified && !$0.totalOnly }
         if !unchecked.isEmpty { attention.append(Attention(kind: .notChecked, count: unchecked.count, amount: 0)) }
         let late = SupplierAccounts.dayText(now.addingTimeInterval(-14 * 86_400))

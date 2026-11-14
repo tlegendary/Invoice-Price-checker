@@ -184,11 +184,16 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
     public var lines: [HistoryLine]
     /// A trusted supplier's invoice: only the total was read, the prices weren't checked.
     public var totalOnly: Bool
+    /// The currency of the amounts ("GBP", "IQD" …), saved with new invoices so they never change meaning.
+    /// nil on invoices saved before this was kept.
+    public var currency: String?
+    /// The supplier billed this invoice twice: the id of the saved invoice it repeats. Shown under Needs attention.
+    public var duplicateOf: String?
 
     public init(id: String = UUID().uuidString, savedAt: String = ISO8601DateFormatter().string(from: Date()), shopId: String = "",
                 supplier: String, invNo: String = "", date: String = "", net: Double, total: Double, over: Double, overVat: Double = 0,
                 excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine],
-                totalOnly: Bool = false) {
+                totalOnly: Bool = false, currency: String? = nil, duplicateOf: String? = nil) {
         self.id = id
         self.savedAt = savedAt
         self.shopId = shopId
@@ -206,10 +211,13 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         self.credit = credit
         self.lines = lines
         self.totalOnly = totalOnly
+        self.currency = currency
+        self.duplicateOf = duplicateOf
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines, totalOnly
+        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines, totalOnly,
+             currency, duplicateOf
     }
 
     public init(from decoder: Decoder) throws {
@@ -231,6 +239,8 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         credit = try? c.decode(CreditInfo.self, forKey: .credit)
         lines = (try? c.decode([HistoryLine].self, forKey: .lines)) ?? []
         totalOnly = c.flexBool(.totalOnly) ?? false
+        currency = c.flexString(.currency)
+        duplicateOf = c.flexString(.duplicateOf).flatMap { $0.isEmpty ? nil : $0 }
     }
 
     /// What to send the supplier: the invoice total less overcharges and missing items (VAT included).
