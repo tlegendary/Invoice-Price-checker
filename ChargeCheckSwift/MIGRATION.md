@@ -313,3 +313,20 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 - Every invoice list (Invoices tab, All checked invoices, a supplier's Still to pay / Paid): swipe right to pay
   (asks once with the amount, then `Accounts.markPaid`), on a paid one swipe right for "Unpaid"
   (`markUnpaid`); swipe left to delete (Recently deleted keeps it 30 days).
+
+## Automatic iCloud backup, compressed photos (beta 29)
+- iCloud Drive › ChargeCheck is used automatically (no folder to pick) when the phone is signed in to iCloud:
+  `AutoCloud` finds the app's ubiquity container off the main thread. A folder the user picked still wins.
+  Settings › iCloud backup › "Save to iCloud automatically" can turn it off.
+- Entitlements (project.yml, lines tagged `# icloud`): iCloud container + ubiquity container, service CloudDocuments
+  only (no CloudKit: the SwiftData store stays local, `cloudKitDatabase: .none`). NSUbiquitousContainers names the
+  folder "ChargeCheck". Beta uses iCloud.com.rjapps.invoicepricechecker.beta (codemagic sed).
+- Codemagic step "iCloud Drive in the beta profile?": if the profile has no container, the `# icloud` lines are
+  dropped and the beta is built without automatic iCloud (no failed build). LIVE APP: the live App ID needs the
+  iCloud capability with container iCloud.com.rjapps.invoicepricechecker before release.
+- New invoice copies: long side 1800 px, JPEG 0.6 (was 2200 px, 0.85), about a quarter of the size; multi-page
+  PDFs hold the compressed pages. Older copies on the phone are not touched; their cloud copy is compressed if
+  over 700 KB (`CloudCopies.catchUp`, 40 per backup, remembers what was sent per folder).
+- Cloud keeps 30 daily backups (`CloudFolder.trim`). New or reinstalled phone with nothing saved: offers once to
+  restore the iCloud backup (RootView). Invoices tab warns when not backed up to iCloud, or no backup there for 7 days.
+

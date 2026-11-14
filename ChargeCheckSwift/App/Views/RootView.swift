@@ -41,6 +41,22 @@ struct RootView: View {
         }
     }
 
+    /// A backup found in iCloud on a phone with nothing on it yet (new or reinstalled).
+    @State private var cloudRestore: BackupFile?
+    private static let restoreOfferedKey = "cloud.restoreOffered"
+
+    /// New iPhone (or the app reinstalled): when nothing is saved here yet and iCloud has a backup, offer it once.
+    private func offerCloudRestore() async {
+        guard !AppStorageSetup.failed, CloudFolder.isOn, !UserDefaults.standard.bool(forKey: Self.restoreOfferedKey),
+              UserDefaults.standard.object(forKey: "demoScan") == nil,
+              AppData.items(context).isEmpty, AppData.entries(context).isEmpty else { return }
+        let found = await Task.detached(priority: .userInitiated) { CloudFolder.readBackup() }.value
+        guard let found, !found.baseline.isEmpty || !found.history.isEmpty else { return }
+        // still empty (nothing was added while it downloaded)
+        guard AppData.items(context).isEmpty, AppData.entries(context).isEmpty else { return }
+        cloudRestore = found
+    }
+
     var body: some View {
         TabView(selection: $tab) {
             HomeView(tab: $tab)
@@ -78,6 +94,7 @@ struct RootView: View {
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {
             CloudTeam.shared.start(context)
+            await AutoCloud.shared.prepare()
             if let legacy = AppData.importLegacyBackupIfNeeded(context) {
                 // prices, reports and unused scans from the previous version of the app
                 store.adoptLegacyScans(legacy.scans?.n ?? 0)
@@ -111,6 +128,7 @@ struct RootView: View {
                 AutoBackup.run(context, scans: store.ledger.forBackup)
             }
             Accounts.shared.changed(context)
+            await offerCloudRestore()
             store.start()
             await store.refresh()
             if IntentInbox.takeScanRequest() {
@@ -145,6 +163,7 @@ struct RootView: View {
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
             if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if phase == .active { Task { await AutoCloud.shared.prepare() } }
             if phase == .active { Task { await CloudTeam.shared.refresh() } }
             if phase == .background && AppLock.isOn { locked = true }
             if phase == .active && IntentInbox.takeScanRequest() {
@@ -153,6 +172,20 @@ struct RootView: View {
             }
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
             if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
+        }
+        .confirmationDialog("Bring back your data from iCloud?", isPresented: Binding(get: { cloudRestore != nil }, set: { if !$0 { cloudRestore = nil } }),
+                            titleVisibility: .visible, presenting: cloudRestore) { backup in
+            Button("Restore") {
+                UserDefaults.standard.set(true, forKey: Self.restoreOfferedKey)
+                AppData.restore(backup, into: context)
+                _ = store.restoreScans(from: backup.scans)
+                Accounts.shared.changed(context)
+            }
+            Button("Start fresh", role: .cancel) {
+                UserDefaults.standard.set(true, forKey: Self.restoreOfferedKey)
+            }
+        } message: { backup in
+            Text("Your backup was found in iCloud: \(backup.baseline.count) prices and \(backup.history.count) invoices.")
         }
         .alert("Cheaper on this invoice", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
             if note.changes.count == 1 {

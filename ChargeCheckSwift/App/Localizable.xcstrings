@@ -5363,6 +5363,35 @@
         }
       }
     },
+    "Bring back your data from iCloud?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد استعادة بياناتك من iCloud؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داتاکانت لە iCloud بگەڕێنیتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Daten aus iCloud zurückholen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Récupérer vos données depuis iCloud ?"
+          }
+        }
+      }
+    },
     "Burgundy": {
       "extractionState": "manual",
       "localizations": {
@@ -9353,6 +9382,35 @@
         }
       }
     },
+    "Every backup and invoice copy is also saved in iCloud, with photos made smaller first. Safe even if you lose or change your phone: on a new iPhone, ChargeCheck offers to bring everything back. The last 30 days of backups are kept.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحفظ كل نسخة احتياطية وكل نسخة فاتورة في iCloud أيضًا، بعد تصغير الصور. آمنة حتى لو فقدت هاتفك أو غيّرته: على iPhone جديد يعرض ChargeCheck استعادة كل شيء. تُحفظ نسخ آخر 30 يومًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو باکئەپێک و کۆپی پسوولەیەک لە iCloud ـیش پاشەکەوت دەکرێت، دوای بچووککردنەوەی وێنەکان. سەلامەتە تەنانەت ئەگەر مۆبایلەکەت ون بکەیت یان بیگۆڕیت: لە iPhoneێکی نوێدا ChargeCheck پێشنیاری گەڕاندنەوەی هەموو شتێک دەکات. باکئەپی ٣٠ ڕۆژی کۆتایی دەهێڵرێتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jede Sicherung und jede Rechnungskopie wird auch in iCloud gespeichert, Fotos vorher verkleinert. Sicher, auch wenn du dein Handy verlierst oder wechselst: Auf einem neuen iPhone bietet ChargeCheck an, alles zurückzuholen. Die Sicherungen der letzten 30 Tage bleiben erhalten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaque sauvegarde et chaque copie de facture est aussi enregistrée dans iCloud, photos réduites d'abord. En sécurité même si vous perdez ou changez de téléphone : sur un nouvel iPhone, ChargeCheck propose de tout récupérer. Les sauvegardes des 30 derniers jours sont conservées."
+          }
+        }
+      }
+    },
     "Every invoice double-checked before you see the result": {
       "extractionState": "stale",
       "localizations": {
@@ -12557,6 +12615,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "90 derniers jours"
+          }
+        }
+      }
+    },
+    "Last iCloud backup %lld days ago. Check this iPhone is online and iCloud has space.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر نسخة احتياطية في iCloud قبل %lld يومًا. تأكد من اتصال الـ iPhone بالإنترنت ومن وجود مساحة في iCloud."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆتا باکئەپی iCloud %lld ڕۆژ لەمەوبەر. دڵنیابە ئەم iPhoneـە ئۆنلاینە و iCloud شوێنی هەیە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte iCloud-Sicherung vor %lld Tagen. Prüfe, ob das iPhone online ist und iCloud Platz hat."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière sauvegarde iCloud il y a %lld jours. Vérifiez que l'iPhone est en ligne et qu'iCloud a de l'espace."
           }
         }
       }
@@ -21180,6 +21267,35 @@
         }
       }
     },
+    "Save to iCloud automatically": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحفظ في iCloud تلقائيًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خۆکارانە لە iCloud پاشەکەوت بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisch in iCloud sichern"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer automatiquement dans iCloud"
+          }
+        }
+      }
+    },
     "Saved in Reports": {
       "localizations": {
         "ar": {
@@ -22433,6 +22549,35 @@
         }
       }
     },
+    "Sign in to iCloud on this iPhone (Settings › your name › iCloud) and everything is saved there automatically.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجّل الدخول إلى iCloud على هذا الـ iPhone (الإعدادات › اسمك › iCloud) وسيُحفظ كل شيء هناك تلقائيًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەم iPhoneـە بچۆ ژوورەوەی iCloud (ڕێکخستنەکان › ناوەکەت › iCloud) و هەموو شتێک خۆکارانە لەوێ پاشەکەوت دەکرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melde dich auf diesem iPhone bei iCloud an (Einstellungen › dein Name › iCloud), dann wird alles automatisch dort gesichert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous à iCloud sur cet iPhone (Réglages › votre nom › iCloud) et tout y est enregistré automatiquement."
+          }
+        }
+      }
+    },
     "Signed out of iCloud. Sharing is paused.": {
       "extractionState": "manual",
       "localizations": {
@@ -23030,6 +23175,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Commencer l’essai gratuit"
+          }
+        }
+      }
+    },
+    "Start fresh": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابدأ من جديد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە سەرەتاوە دەست پێبکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu beginnen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repartir de zéro"
           }
         }
       }
@@ -27083,6 +27257,35 @@
         }
       }
     },
+    "Use a different folder": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم مجلدًا آخر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بوخچەیەکی تر بەکاربهێنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anderen Ordner verwenden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser un autre dossier"
+          }
+        }
+      }
+    },
     "Use in all shops": {
       "extractionState": "manual",
       "localizations": {
@@ -28480,6 +28683,35 @@
         }
       }
     },
+    "Your backup was found in iCloud: %lld prices and %lld invoices.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عُثر على نسختك الاحتياطية في iCloud: %lld سعرًا و%lld فاتورة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باکئەپەکەت لە iCloud دۆزرایەوە: %lld نرخ و %lld پسوولە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Sicherung wurde in iCloud gefunden: %lld Preise und %lld Rechnungen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre sauvegarde a été trouvée dans iCloud : %lld prix et %lld factures."
+          }
+        }
+      }
+    },
     "Your business": {
       "localizations": {
         "ar": {
@@ -28532,6 +28764,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vos données"
+          }
+        }
+      }
+    },
+    "Your invoices aren't backed up to iCloud. Sign in to iCloud on this iPhone, or choose a folder in More › Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فواتيرك غير محفوظة في iCloud. سجّل الدخول إلى iCloud على هذا الـ iPhone، أو اختر مجلدًا من المزيد › الإعدادات."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکانت لە iCloud باکئەپ نەکراون. لەم iPhoneـە بچۆ ژوورەوەی iCloud، یان لە زیاتر › ڕێکخستنەکان بوخچەیەک هەڵبژێرە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Rechnungen werden nicht in iCloud gesichert. Melde dich auf diesem iPhone bei iCloud an oder wähle einen Ordner unter Mehr › Einstellungen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos factures ne sont pas sauvegardées dans iCloud. Connectez-vous à iCloud sur cet iPhone ou choisissez un dossier dans Plus › Réglages."
           }
         }
       }
