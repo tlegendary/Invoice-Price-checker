@@ -16,6 +16,9 @@ struct PriceEditView: View {
     @State private var newAlias = ""
     @State private var newCategory = ""
     @Query private var reports: [StoredReport]
+    @Query private var storedPrices: [StoredPrice]
+    /// "Suggest other names": likely supplier spellings to add with a tap (nil until asked).
+    @State private var ideas: [String]?
     @AppStorage(Shops.listKey) private var shopData = Data()
     /// The shops that buy this item (empty = every shop).
     @State private var shopTags: Set<String>
@@ -155,11 +158,39 @@ struct PriceEditView: View {
                             .buttonStyle(.borderless)
                             .disabled(TextTools.norm(newAlias).isEmpty)
                     }
+                    if let ideas {
+                        if ideas.isEmpty {
+                            Text("No more safe suggestions: other likely names could also be read as another item in your list.")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(ideas, id: \.self) { idea in
+                                Button {
+                                    addIdeas([idea])
+                                } label: {
+                                    Label(idea, systemImage: "plus.circle.fill")
+                                }
+                                .accessibilityHint(Text("Adds this name"))
+                            }
+                            if ideas.count > 1 {
+                                Button("Add all \(ideas.count)") { addIdeas(ideas) }
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    } else {
+                        Button {
+                            suggestNames()
+                        } label: {
+                            Label("Suggest other names", systemImage: "sparkles")
+                        }
+                        .disabled(TextTools.norm(item.name).isEmpty)
+                    }
                 } header: {
                     Text("Other names on invoices")
                 } footer: {
                     Text("Every way suppliers write this item, one per line. The app recognises the item by any of them. When you pick the right item for a line it didn't recognise, that name is added here for you. Swipe left to remove one.")
                 }
+                .onChange(of: item.name) { _, _ in ideas = nil }
                 if !history.isEmpty {
                     Section("Price history") {
                         PriceHistoryChart(points: history, agreed: price ?? item.price)
@@ -221,6 +252,19 @@ struct PriceEditView: View {
     }
 
     /// Adds the typed name (commas split several at once).
+    /// Likely ways a supplier writes this item, never one that could also be another item in the list.
+    private func suggestNames() {
+        var current = item
+        current.aliases = aliasList
+        let others = storedPrices.map { $0.item }.filter { $0.id != item.id }
+        ideas = NameIdeas.suggest(for: current, among: others + [current])
+    }
+
+    private func addIdeas(_ names: [String]) {
+        for name in names where !aliasList.contains(name) { aliasList.append(name) }
+        ideas?.removeAll { names.contains($0) }
+    }
+
     private func addAlias() {
         for part in newAlias.split(whereSeparator: { $0 == "," || $0 == "\n" }) {
             let name = TextTools.norm(String(part))

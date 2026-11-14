@@ -560,6 +560,7 @@ struct SupplierDetailView: View {
                                     }
                                 }
                                 .tag(entry.id)
+                                .invoiceSwipes(entry)
                             }
                         } header: {
                             HStack {
@@ -599,6 +600,7 @@ struct SupplierDetailView: View {
                                     InvoiceMoneyRow(entry: entry)
                                 }
                                 .tag(entry.id)
+                                .invoiceSwipes(entry)
                             }
                         } header: {
                             HStack {

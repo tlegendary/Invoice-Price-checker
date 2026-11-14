@@ -151,6 +151,7 @@ struct CheckView: View {
                             NavigationLink(value: ReportLink(id: entry.id)) {
                                 ReportRow(entry: entry)
                             }
+                            .invoiceSwipes(entry)
                         }
                         NavigationLink {
                             InvoiceHistoryView()

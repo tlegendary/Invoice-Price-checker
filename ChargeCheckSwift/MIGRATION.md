@@ -303,3 +303,13 @@ creating `ChargeCheckSwift/.widget-ready`; Codemagic then builds and signs it.
 - Never send the Swift version to the App Store (the live app) until Ramyar says yes.
 - Do not change prices, products, trial length, ad frequency or AdMob IDs without asking.
 - No phone number anywhere. Contact is email only.
+
+## Suggest other names; swipe to pay or delete an invoice (beta 28)
+- Price item editor › Other names on invoices › "Suggest other names": likely supplier spellings (no pack size,
+  product code on its own, common shorthand such as qtr/pdr/chkn/veg), tap one or "Add all". Core `NameIdeas`;
+  a name is never offered if it could also be read as another item (same rule as the matcher, shorthand read
+  as the full word), so it can't cause new "which item?" questions. Matching ignores word order already.
+  `Matcher.aliasFits` is the one shared rule. No data change: names go into the existing aliases.
+- Every invoice list (Invoices tab, All checked invoices, a supplier's Still to pay / Paid): swipe right to pay
+  (asks once with the amount, then `Accounts.markPaid`), on a paid one swipe right for "Unpaid"
+  (`markUnpaid`); swipe left to delete (Recently deleted keeps it 30 days).

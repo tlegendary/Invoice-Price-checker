@@ -22,7 +22,6 @@ struct InvoiceHistoryView: View {
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @State private var filter = Filter.all
     @State private var search = ""
-    @State private var confirmDelete: HistoryEntry?
     /// Select mode: tick invoices (or all of them) to delete them or move them to another shop.
     @State private var editMode: EditMode
     @State private var selected: Set<String> = []
@@ -81,16 +80,7 @@ struct InvoiceHistoryView: View {
                         ReportRow(entry: entry)
                     }
                     .tag(entry.id)
-                    .swipeActions(edge: .trailing) {
-                        // staff phones: only the owner removes invoices
-                        if !CloudTeam.shared.isStaff {
-                            Button(role: .destructive) {
-                                confirmDelete = entry
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        }
-                    }
+                    .invoiceSwipes(entry)
                 }
             } footer: {
                 if !list.isEmpty {
@@ -150,16 +140,74 @@ struct InvoiceHistoryView: View {
         } message: {
             Text("You can bring them back from More › Recently deleted for 30 days.")
         }
-        .confirmationDialog("Delete this invoice?", isPresented: Binding(get: { confirmDelete != nil }, set: { if !$0 { confirmDelete = nil } }),
-                            titleVisibility: .visible, presenting: confirmDelete) { entry in
-            Button("Delete", role: .destructive) {
-                AppData.deleteReport(entry.id, context: context)
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: { _ in
-            Text("You can bring it back from More › Recently deleted for 30 days.")
-        }
     }
+}
+
+/// Every invoice list: swipe right to pay (or, on a paid one, to mark it unpaid again), swipe left to delete.
+/// Paying asks once with the amount, so a swipe on the wrong row can't record a payment by itself.
+struct InvoiceSwipes: ViewModifier {
+    let entry: HistoryEntry
+    @Environment(\.modelContext) private var context
+    @State private var confirmPay = false
+    @State private var confirmDelete = false
+
+    func body(content: Content) -> some View {
+        // staff phones: only the owner pays or removes invoices
+        let owner = !CloudTeam.shared.isStaff
+        let pay = entry.amountToPay.pay
+        content
+            .swipeActions(edge: .leading, allowsFullSwipe: entry.paid == nil) {
+                if owner {
+                    if entry.paid == nil {
+                        Button {
+                            confirmPay = true
+                        } label: {
+                            Label("Pay", systemImage: "banknote")
+                        }
+                        .tint(.green)
+                    } else {
+                        Button {
+                            Accounts.shared.markUnpaid([entry.id], context: context)
+                        } label: {
+                            Label("Unpaid", systemImage: "arrow.uturn.backward")
+                        }
+                        .tint(.orange)
+                    }
+                }
+            }
+            .swipeActions(edge: .trailing) {
+                if owner {
+                    Button(role: .destructive) {
+                        confirmDelete = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
+            }
+            .confirmationDialog(String(localized: "Mark as paid (\(Money.format(pay, supplier: entry.supplier)))?"),
+                                isPresented: $confirmPay, titleVisibility: .visible) {
+                Button("Mark as paid") {
+                    Accounts.shared.markPaid([entry], context: context)
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text(entry.supplier.isEmpty ? String(localized: "A payment for this invoice is recorded today.")
+                                            : String(localized: "A payment to \(entry.supplier) for this invoice is recorded today."))
+            }
+            .confirmationDialog("Delete this invoice?", isPresented: $confirmDelete, titleVisibility: .visible) {
+                Button("Delete", role: .destructive) {
+                    AppData.deleteReport(entry.id, context: context)
+                    Accounts.shared.changed(context)
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("You can bring it back from More › Recently deleted for 30 days.")
+            }
+    }
+}
+
+extension View {
+    func invoiceSwipes(_ entry: HistoryEntry) -> some View { modifier(InvoiceSwipes(entry: entry)) }
 }
 
 /// The bar under a list in select mode: move the ticked rows to a shop, or delete them.
