@@ -235,6 +235,9 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
   Any pack bought = no ads, full history, PDFs/exports, delivery + statement check. Pro = unlimited + money leaks,
   price rises, cheaper elsewhere, scores, due dates/pay run, several shops, staff, widget, Apple Intelligence, history.
   Locked items stay visible with a Pro tag. Existing subscribers keep everything.
+- Weekly improvement (14 Nov 2026, branch `claude/money-rounding-half-pennies`, waiting for Ramyar's review): `Money.round2`
+  now rounds half pennies up every time (0.25 kg × £16.74 = £4.19, not £4.18) and minus amounts the same as plus amounts.
+  Only amounts within a hair of a half penny change; `MoneyRoundingTests` checks ~970,000 cases against whole-number maths.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container
