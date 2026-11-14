@@ -250,12 +250,12 @@ struct SettingsView: View {
                                 Text(Money.format(value)).tag(value)
                             }
                         }
-                        Toggle("Lower my prices when an invoice is cheaper", isOn: $autoLower)
+                        Toggle("Suggest a lower price when an invoice is cheaper", isOn: $autoLower)
                         Toggle("Learn the names suppliers use", isOn: $autoLearnNames)
                     } header: {
                         Text("Checking")
                     } footer: {
-                        Text("Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.")
+                        Text("You're asked first, and nothing changes unless you tap Update. Only for items already in your list, only on a fully checked invoice, and prices are never raised this way.")
                             + Text(verbatim: "\n\n")
                             + Text("Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices.")
                     }

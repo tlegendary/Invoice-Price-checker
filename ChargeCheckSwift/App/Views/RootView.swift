@@ -154,11 +154,16 @@ struct RootView: View {
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
             if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
         }
-        .alert("Price lowered", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
-            Button("Undo") { session.undoLowered(note, context: context) }
-            Button("OK", role: .cancel) {}
+        .alert("Cheaper on this invoice", isPresented: Binding(get: { session.lowered != nil }, set: { if !$0 { session.lowered = nil } }), presenting: session.lowered) { note in
+            if note.changes.count == 1 {
+                Button("Update my price") { session.acceptLowered(note, context: context) }
+                Button("Keep my price", role: .cancel) {}
+            } else {
+                Button("Update my prices") { session.acceptLowered(note, context: context) }
+                Button("Keep my prices", role: .cancel) {}
+            }
         } message: { note in
-            Text(note.message + " " + String(localized: "You can turn this off in Settings."))
+            Text(note.message + " " + String(localized: "Only update if this is the normal price now, not a one-off offer."))
         }
         .alert("Your prices are here", isPresented: $showCarriedOver) {
             Button("OK", role: .cancel) {}

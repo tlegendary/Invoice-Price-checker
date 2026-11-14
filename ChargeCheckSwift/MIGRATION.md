@@ -153,6 +153,9 @@ is ready and Ramyar says to switch.
   longer asks for iCloud). A phone that had started or joined sharing in an earlier beta just stops; its data stays on
   the phone and nothing in iCloud is touched. The code (`Sharing/`, `Core/TeamSync.swift`) is kept in case it comes back
   as a properly designed feature.
+- **Cheaper prices are suggested, not applied (Ramyar, 14 Nov 2026).** When a fully checked invoice is cheaper than
+  an agreed price, "Cheaper on this invoice" asks "Update my price" / "Keep my price"; nothing changes until Update.
+  Settings: "Suggest a lower price when an invoice is cheaper" (same `prices.autoLower` setting, on by default).
 
 ## Before going live – must remove
 - "Test: add 5 free scans" button (Settings, test builds only; `Store.addTestScans`). Added 11 Nov 2026 at Ramyar's request for his own testing.
