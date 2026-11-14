@@ -727,9 +727,6 @@
         }
       }
     },
-    "%lld items cost more than last time" : {
-
-    },
     "%lld lines" : {
       "localizations" : {
         "ar" : {
@@ -841,9 +838,6 @@
           }
         }
       }
-    },
-    "%lld older invoices" : {
-
     },
     "%lld payments and credits match" : {
       "extractionState" : "manual",
@@ -1515,9 +1509,6 @@
         }
       }
     },
-    "1 item costs more than last time" : {
-
-    },
     "1 line" : {
       "localizations" : {
         "ar" : {
@@ -1545,9 +1536,6 @@
           }
         }
       }
-    },
-    "1 older invoice" : {
-
     },
     "1 payment or credit matches" : {
       "extractionState" : "manual",
@@ -1981,12 +1969,6 @@
         }
       }
     },
-    "A full report on one supplier to keep or take to a meeting." : {
-
-    },
-    "A proper credit request to send your supplier, with every overcharge and missing item." : {
-
-    },
     "A reminder at 9am on the day you pay your suppliers." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2015,12 +1997,6 @@
           }
         }
       }
-    },
-    "A reminder on the day you pay your suppliers." : {
-
-    },
-    "A score out of 100 for each supplier: prices, deliveries and invoice accuracy." : {
-
     },
     "About" : {
       "localizations" : {
@@ -3446,9 +3422,6 @@
         }
       }
     },
-    "Any pack also unlocks, for good: your full invoice history, PDFs and exports for your accountant, credit request PDFs, and the delivery and statement checks." : {
-
-    },
     "App Store" : {
       "shouldTranslate" : false
     },
@@ -3535,15 +3508,6 @@
           }
         }
       }
-    },
-    "Apple Intelligence check" : {
-
-    },
-    "Apple Intelligence check and a monthly summary in plain words" : {
-
-    },
-    "Apple Intelligence double-checks names and matches on your iPhone." : {
-
     },
     "Apple Intelligence is still downloading. It will be used once it's ready." : {
       "localizations" : {
@@ -4657,9 +4621,6 @@
     "ChargeCheck" : {
       "shouldTranslate" : false
     },
-    "ChargeCheck Pro" : {
-
-    },
     "ChargeCheck has caught" : {
       "localizations" : {
         "ar" : {
@@ -4715,9 +4676,6 @@
           }
         }
       }
-    },
-    "ChargeCheck pays for itself by finding money you would otherwise lose." : {
-
     },
     "ChargeCheck reads the statement and ticks it off against %@'s invoices and your payments. It doesn't use a scan." : {
       "extractionState" : "manual",
@@ -5772,12 +5730,6 @@
         }
       }
     },
-    "Comes with any scan pack" : {
-
-    },
-    "Comes with any scan pack, and with Pro." : {
-
-    },
     "Compare shops" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6435,9 +6387,6 @@
         }
       }
     },
-    "Credit periods for each supplier, with overdue invoices and the cash you need this week." : {
-
-    },
     "Credit received" : {
       "localizations" : {
         "ar" : {
@@ -6551,9 +6500,6 @@
           }
         }
       }
-    },
-    "Credit request PDFs" : {
-
     },
     "Credit request for the supplier (PDF)" : {
       "localizations" : {
@@ -7462,9 +7408,6 @@
         }
       }
     },
-    "Delivery check" : {
-
-    },
     "Discount of {1} taken off – the price shown is after the discount." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7863,7 +7806,6 @@
       }
     },
     "Every invoice double-checked before you see the result" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8033,9 +7975,6 @@
         }
       }
     },
-    "Everything in the scan packs too" : {
-
-    },
     "Everything is already in the right place." : {
       "localizations" : {
         "ar" : {
@@ -8177,9 +8116,6 @@
           }
         }
       }
-    },
-    "Exports for your accountant" : {
-
     },
     "Fill in every full balance" : {
       "extractionState" : "manual",
@@ -8351,9 +8287,6 @@
         }
       }
     },
-    "Free" : {
-
-    },
     "Free version" : {
       "localizations" : {
         "ar" : {
@@ -8497,9 +8430,6 @@
         }
       }
     },
-    "Full invoice history" : {
-
-    },
     "Fully checked" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8528,9 +8458,6 @@
           }
         }
       }
-    },
-    "Get ChargeCheck Pro" : {
-
     },
     "Go unlimited" : {
       "localizations" : {
@@ -8843,9 +8770,6 @@
           }
         }
       }
-    },
-    "Home screen widget" : {
-
     },
     "How invoices are read" : {
       "localizations" : {
@@ -10377,9 +10301,6 @@
         }
       }
     },
-    "Items another supplier sells you for less, and what switching would save a month." : {
-
-    },
     "Keep + ask where else" : {
       "localizations" : {
         "ar" : {
@@ -10436,9 +10357,6 @@
         }
       }
     },
-    "Keep each shop's invoices apart and compare them." : {
-
-    },
     "Keep on this phone" : {
       "localizations" : {
         "ar" : {
@@ -10466,9 +10384,6 @@
           }
         }
       }
-    },
-    "Know straight away when a supplier charges more than last time." : {
-
     },
     "Language and money" : {
       "localizations" : {
@@ -11691,12 +11606,6 @@
           }
         }
       }
-    },
-    "Money leaks and savings" : {
-
-    },
-    "Money leaks: price rises, missing credits and what you've saved" : {
-
     },
     "Money protected" : {
       "localizations" : {
@@ -15186,15 +15095,6 @@
         }
       }
     },
-    "PACK" : {
-
-    },
-    "PDF and spreadsheet reports for any period, ready to send to your accountant." : {
-
-    },
-    "PRO" : {
-
-    },
     "Packaging" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15367,9 +15267,6 @@
           }
         }
       }
-    },
-    "Part of ChargeCheck Pro." : {
-
     },
     "Part of the difference is the %@ of overcharges and missing items you took off their invoices." : {
       "extractionState" : "manual",
@@ -15601,9 +15498,6 @@
         }
       }
     },
-    "Pay several suppliers at once and record every payment in one go." : {
-
-    },
     "Pay the whole balance: %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15718,12 +15612,6 @@
           }
         }
       }
-    },
-    "Payment due dates" : {
-
-    },
-    "Payment due dates, pay runs and a weekly reminder" : {
-
     },
     "Payment for %lld invoices" : {
       "extractionState" : "manual",
@@ -16805,12 +16693,6 @@
         }
       }
     },
-    "Price-rise alerts" : {
-
-    },
-    "Price-rise alerts and cheaper suppliers for the same item" : {
-
-    },
     "Prices" : {
       "localizations" : {
         "ar" : {
@@ -17037,12 +16919,6 @@
           }
         }
       }
-    },
-    "Pro" : {
-
-    },
-    "Pro feature" : {
-
     },
     "Problem" : {
       "extractionState" : "stale",
@@ -18520,9 +18396,6 @@
         }
       }
     },
-    "Scan a supplier's statement and see anything that doesn't match your records." : {
-
-    },
     "Scan an invoice" : {
       "localizations" : {
         "ar" : {
@@ -18551,14 +18424,7 @@
         }
       }
     },
-    "Scan packs" : {
-
-    },
-    "Scan packs (pack features unlocked)" : {
-
-    },
     "Scan photo or PDF invoices – read on your phone, works offline" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18843,7 +18709,6 @@
       }
     },
     "See exactly how much each supplier overcharged you" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18899,9 +18764,6 @@
           }
         }
       }
-    },
-    "See what price rises and missing credits cost you each month, and everything ChargeCheck caught." : {
-
     },
     "Select all" : {
       "localizations" : {
@@ -19101,12 +18963,6 @@
           }
         }
       }
-    },
-    "Several shops" : {
-
-    },
-    "Several shops, staff on their own iPhones, home screen widget" : {
-
     },
     "Share your shops with staff" : {
       "extractionState" : "manual",
@@ -19765,12 +19621,6 @@
         }
       }
     },
-    "Staff check invoices on their own iPhones and everything comes to yours." : {
-
-    },
-    "Staff on their own iPhones" : {
-
-    },
     "Staff phones lose access straight away. Your own data stays on this phone." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -19974,7 +19824,6 @@
       }
     },
     "Start your 7-day free trial" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20030,9 +19879,6 @@
           }
         }
       }
-    },
-    "Statement check" : {
-
     },
     "Statement – %@ – %@" : {
       "extractionState" : "manual",
@@ -20093,7 +19939,6 @@
       }
     },
     "Stop paying more than your agreed prices." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20378,12 +20223,6 @@
         }
       }
     },
-    "Supplier profile and score" : {
-
-    },
-    "Supplier profiles and scores" : {
-
-    },
     "Supplier removed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -20442,9 +20281,6 @@
         }
       }
     },
-    "Supplier report PDF" : {
-
-    },
     "Supplier score" : {
       "localizations" : {
         "ar" : {
@@ -20500,9 +20336,6 @@
           }
         }
       }
-    },
-    "Supplier scores, profiles and supplier reports" : {
-
     },
     "Supplier setting changed" : {
       "localizations" : {
@@ -21103,9 +20936,6 @@
         }
       }
     },
-    "Test: try the app as" : {
-
-    },
     "Thank you," : {
       "extractionState" : "manual",
       "localizations" : {
@@ -21444,12 +21274,6 @@
           }
         }
       }
-    },
-    "The free version lists the last 30 days. Your balances still count every invoice." : {
-
-    },
-    "The free version shows the last 30 days. Any scan pack keeps every invoice, for good." : {
-
     },
     "The invoice says {1} but your item is {2} – check it's the same pack size." : {
       "extractionState" : "manual",
@@ -21905,9 +21729,6 @@
           }
         }
       }
-    },
-    "The widget is part of Pro. Open ChargeCheck to see the plans." : {
-
     },
     "These invoices have no VAT" : {
       "localizations" : {
@@ -22455,9 +22276,6 @@
         }
       }
     },
-    "Tick off what arrived; anything short comes off what you pay." : {
-
-    },
     "To" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -22918,9 +22736,6 @@
           }
         }
       }
-    },
-    "Try Pro free for 7 days" : {
-
     },
     "Try a sample invoice" : {
       "localizations" : {
@@ -23827,12 +23642,6 @@
         }
       }
     },
-    "Weekly payment reminder" : {
-
-    },
-    "What I bought" : {
-
-    },
     "What you owe" : {
       "localizations" : {
         "ar" : {
@@ -23860,9 +23669,6 @@
           }
         }
       }
-    },
-    "What you owe and to whom, on your home screen." : {
-
     },
     "What you owe them now (optional)" : {
       "extractionState" : "manual",
@@ -24007,9 +23813,6 @@
           }
         }
       }
-    },
-    "Who saved, paid, changed or deleted what, and when." : {
-
     },
     "With VAT it would be %@ (VAT %@)" : {
       "localizations" : {
@@ -24721,9 +24524,6 @@
           }
         }
       }
-    },
-    "Your month in plain words: what you spent, who overcharged, what went up." : {
-
     },
     "Your payments missing from the statement" : {
       "extractionState" : "manual",
