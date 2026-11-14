@@ -37,7 +37,8 @@ enum AppData {
                           payments: Accounts.shared.payments, trusted: Accounts.shared.trusted,
                           creditDays: Accounts.shared.creditDays.isEmpty ? nil : Accounts.shared.creditDays,
                           currencies: Accounts.shared.currencies.isEmpty ? nil : Accounts.shared.currencies,
-                          dishes: DishStore.shared.dishes.isEmpty ? nil : DishStore.shared.dishes)
+                          dishes: DishStore.shared.dishes.isEmpty ? nil : DishStore.shared.dishes,
+                          orders: OrderStore.shared.orders.isEmpty ? nil : OrderStore.shared.orders)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -58,6 +59,7 @@ enum AppData {
         Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
                                 currencies: backup.currencies, context: context)
         DishStore.shared.restore(backup.dishes)
+        OrderStore.shared.restore(backup.orders)
         Records.shared.log(.backupRestored, String(localized: "\(backup.baseline.count) prices, \(backup.history.count) invoices"))
 
         let defaults = UserDefaults.standard

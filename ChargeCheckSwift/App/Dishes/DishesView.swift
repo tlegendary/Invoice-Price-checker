@@ -248,7 +248,7 @@ private struct PartRow: View {
 }
 
 /// Choose an item from the price list.
-private struct ItemPicker: View {
+struct ItemPicker: View {
     let items: [PriceItem]
     let onPick: (PriceItem) -> Void
     @Environment(\.dismiss) private var dismiss

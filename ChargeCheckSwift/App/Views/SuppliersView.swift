@@ -120,6 +120,20 @@ struct SuppliersView: View {
                             Label("Cheaper elsewhere", systemImage: "tag")
                         }
                     }
+                    Section {
+                        NavigationLink {
+                            OrdersView()
+                        } label: {
+                            LabeledContent {
+                                let waiting = OrderStore.shared.orders.filter { $0.invoiceID == nil }.count
+                                if waiting > 0 { Text("\(waiting)") }
+                            } label: {
+                                Label("Orders", systemImage: "cart")
+                            }
+                        }
+                    } footer: {
+                        Text("Send an order, then compare it with what arrived and what you were billed.")
+                    }
                     if owed > 0.005 && !team.isStaff {
                         Section {
                             GatedButton(feature: .payRun, action: { showPayRun = true }) {
@@ -377,6 +391,7 @@ struct SupplierDetailView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @Query private var prices: [StoredPrice]
+    @State private var newOrder: PurchaseOrder?
     @ObservedObject private var accounts = Accounts.shared
     @ObservedObject private var team = CloudTeam.shared
     @State private var addKind: SupplierPayment.Kind?
@@ -439,6 +454,11 @@ struct SupplierDetailView: View {
                     // staff phones: payments, special prices and the trusted setting are the owner's
                     if !team.isStaff {
                         Section {
+                            Button {
+                                newOrder = OrderEditView.newOrder(for: account.name, entries: reports.compactMap { $0.entry })
+                            } label: {
+                                Label("Make an order", systemImage: "cart.badge.plus")
+                            }
                             Button {
                                 addKind = .payment
                             } label: {
@@ -681,6 +701,9 @@ struct SupplierDetailView: View {
                     Button("Cancel", role: .cancel) {}
                 } message: {
                     Text("You can bring them back from More › Recently deleted for 30 days.")
+                }
+                .sheet(item: $newOrder) { order in
+                    OrderEditView(order: order) { OrderStore.shared.save($0) }
                 }
                 .sheet(item: $addKind) { kind in
                     RecordPaymentView(supplier: account.name, kind: kind, suggested: max(0, account.balance))
