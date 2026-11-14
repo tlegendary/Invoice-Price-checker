@@ -562,6 +562,11 @@ struct Hero: View {
                 Text(totals.over > 0.005 ? "Overcharged \(Money.format(totals.over, supplier: supplier)) so far. Tap the orange lines to confirm them." : "Tap the orange lines to confirm them.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+                if totals.pendingOver > 0.005 {
+                    Text("Possibly \(Money.format(totals.pendingOver, supplier: supplier)) more on unsure matches. It only counts once you confirm the item.")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.orange)
+                }
             } else if totals.over > 0.005 {
                 Text("Overcharged")
                     .font(.subheadline.weight(.semibold))
