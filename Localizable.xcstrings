@@ -2997,6 +2997,35 @@
         }
       }
     },
+    "Add a shop" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف متجرًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوکانێک زیاد بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filiale hinzufügen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un magasin"
+          }
+        }
+      }
+    },
     "Add a shop, e.g. High Street" : {
       "localizations" : {
         "ar" : {
@@ -3197,6 +3226,35 @@
         }
       }
     },
+    "Add your shops" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف متاجرك"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوکانەکانت زیاد بکە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filialen anlegen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter vos magasins"
+          }
+        }
+      }
+    },
     "Add your shops first" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3222,6 +3280,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajoutez d’abord vos magasins"
+          }
+        }
+      }
+    },
+    "Add your shops first, then move these to the right one." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف متاجرك أولًا، ثم انقل هذه إلى المتجر الصحيح."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سەرەتا دوکانەکانت زیاد بکە، پاشان ئەمانە بگوازەرەوە بۆ دوکانی دروست."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege zuerst deine Filialen an und verschiebe diese dann in die richtige."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez d'abord vos magasins, puis déplacez-les dans le bon."
           }
         }
       }
