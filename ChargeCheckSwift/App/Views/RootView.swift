@@ -94,6 +94,7 @@ struct RootView: View {
         .preferredColorScheme(mode == "light" ? .light : (mode == "dark" ? .dark : nil))
         .task {
             CloudTeam.shared.start(context)
+            CrashReports.shared.start()
             await AutoCloud.shared.prepare()
             if let legacy = AppData.importLegacyBackupIfNeeded(context) {
                 // prices, reports and unused scans from the previous version of the app

@@ -310,6 +310,7 @@ struct SettingsView: View {
                                 if autoCloud {
                                     LabeledContent("Folder", value: "iCloud Drive › ChargeCheck")
                                     LabeledContent("Last saved there", value: when(cloudSaved))
+                                    LabeledContent("Checked it opens", value: when(UserDefaults.standard.double(forKey: BackupCheck.checkedKey)))
                                     Toggle("Also save invoice copies there", isOn: $cloudCopies)
                                 }
                             } else {
@@ -389,6 +390,27 @@ struct SettingsView: View {
                         Text("Copies of the original photo or PDF are kept in the Files app › ChargeCheck › Invoices, by month. The reminder arrives on the 1st of each month to send last month's report to your accountant.")
                     }
 
+                }
+
+                Section {
+                    let reports = CrashReports.files
+                    if reports.isEmpty {
+                        Label("No problems reported", systemImage: "checkmark.seal")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ShareLink(items: reports) {
+                            Label(reports.count == 1 ? String(localized: "Send 1 problem report") : String(localized: "Send \(reports.count) problem reports"),
+                                  systemImage: "ladybug")
+                        }
+                        Button("Clear problem reports", role: .destructive) {
+                            CrashReports.clear()
+                            notice = String(localized: "Problem reports cleared.")
+                        }
+                    }
+                } header: {
+                    Text("Problem reports")
+                } footer: {
+                    Text("If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices.")
                 }
 
                 Section("About") {

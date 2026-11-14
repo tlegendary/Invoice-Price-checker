@@ -6889,6 +6889,35 @@
         }
       }
     },
+    "Checked it opens": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم التحقق من فتحها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشکنرا کە دەکرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geprüft, dass sie sich öffnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouverture vérifiée"
+          }
+        }
+      }
+    },
     "Checking": {
       "localizations": {
         "ar": {
@@ -7338,6 +7367,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Effacer"
+          }
+        }
+      }
+    },
+    "Clear problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امسح تقارير المشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە بسڕەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte löschen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer les rapports de problème"
           }
         }
       }
@@ -11637,6 +11695,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "C’est vérifié – tout va bien"
+          }
+        }
+      }
+    },
+    "If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا أُغلق ChargeCheck من تلقاء نفسه أو تجمّد، يكتب iOS تقريرًا بعد يوم تقريبًا. أرسله إلينا لإصلاح المشكلة. لا يحتوي على فواتير أو أسعار."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەگەر ChargeCheck خۆی داخرا یان وەستا، iOS نزیکەی ڕۆژێک دواتر ڕاپۆرتێک دەنووسێت. بۆمانی بنێرە تا چاک بکرێت. هیچ پسوولە یان نرخێکی تێدا نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn ChargeCheck sich von selbst schließt oder hängt, schreibt iOS etwa einen Tag später einen Bericht. Schick ihn uns, damit es behoben werden kann. Er enthält keine Rechnungen oder Preise."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si ChargeCheck se ferme tout seul ou se fige, iOS rédige un rapport environ un jour plus tard. Envoyez-le-nous pour qu'il soit corrigé. Il ne contient ni factures ni prix."
           }
         }
       }
@@ -16071,6 +16158,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas encore de prix."
+          }
+        }
+      }
+    },
+    "No problems reported": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مشاكل مُبلّغ عنها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ کێشەیەک ڕاپۆرت نەکراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Probleme gemeldet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun problème signalé"
           }
         }
       }
@@ -21008,6 +21124,64 @@
         }
       }
     },
+    "Problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقارير المشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapports de problème"
+          }
+        }
+      }
+    },
+    "Problem reports cleared.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم مسح تقارير المشاكل."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە سڕانەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte gelöscht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapports de problème effacés."
+          }
+        }
+      }
+    },
     "Problems": {
       "localizations": {
         "ar": {
@@ -23250,6 +23424,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envoyer"
+          }
+        }
+      }
+    },
+    "Send %lld problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل %lld تقارير مشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ڕاپۆرتی کێشە بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Problemberichte senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer %lld rapports de problème"
+          }
+        }
+      }
+    },
+    "Send 1 problem report": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل تقرير مشكلة واحد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ ڕاپۆرتی کێشە بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Problembericht senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer 1 rapport de problème"
           }
         }
       }
@@ -30533,6 +30765,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vos articles ont déjà les noms habituels, ou un autre nom se confondrait trop facilement avec un autre article."
+          }
+        }
+      }
+    },
+    "Your last iCloud backup couldn't be opened again. It will be saved again next time you leave the app; if this stays, check iCloud has space.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح آخر نسخة احتياطية في iCloud مرة أخرى. ستُحفظ من جديد عند خروجك من التطبيق؛ إن استمر ذلك، تأكد من وجود مساحة في iCloud."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆتا باکئەپی iCloud دووبارە نەکرایەوە. جارێکی تر پاشەکەوت دەکرێت کاتێک لە ئەپەکە دەردەچیت؛ ئەگەر بەردەوام بوو، دڵنیابە iCloud شوێنی هەیە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine letzte iCloud-Sicherung ließ sich nicht wieder öffnen. Sie wird beim nächsten Verlassen der App neu gespeichert; bleibt das so, prüfe, ob iCloud Platz hat."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre dernière sauvegarde iCloud n'a pas pu être rouverte. Elle sera enregistrée à nouveau en quittant l'app ; si cela persiste, vérifiez l'espace iCloud."
           }
         }
       }

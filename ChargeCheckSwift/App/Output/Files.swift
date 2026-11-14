@@ -192,6 +192,25 @@ enum CloudFolder {
     }
 }
 
+/// After each iCloud backup: the file is read back and opened, and must hold everything that was saved.
+/// A backup that can't be opened is worse than none (it looks safe), so a failure shows on the Invoices tab.
+enum BackupCheck {
+    static let checkedKey = "backup.checked"
+    static let failedKey = "backup.checkFailed"
+
+    static func verify(expecting prices: Int, invoices: Int) {
+        let back = CloudFolder.readBackup()
+        let good = back.map { $0.baseline.count == prices && $0.history.count == invoices } ?? false
+        let now = Date().timeIntervalSince1970
+        if good {
+            UserDefaults.standard.set(now, forKey: checkedKey)
+            UserDefaults.standard.removeObject(forKey: failedKey)
+        } else {
+            UserDefaults.standard.set(now, forKey: failedKey)
+        }
+    }
+}
+
 /// Keeps an up-to-date backup in the app's folder (and the chosen iCloud folder) without the user doing anything.
 @MainActor
 enum AutoBackup {
@@ -204,6 +223,7 @@ enum AutoBackup {
         // nothing worth saving yet: never overwrite a good backup with an empty one
         if backup.baseline.isEmpty && backup.history.isEmpty && (scans?.n ?? 0) == 0 { return }
         guard let data = try? backup.encoded() else { return }
+        let prices = backup.baseline.count, invoices = backup.history.count
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_GB_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
@@ -219,6 +239,7 @@ enum AutoBackup {
                     CloudFolder.write(data, folder: "Backups", name: daily)
                     CloudFolder.trim(folder: "Backups", prefix: "ChargeCheck-", keep: 30)
                     UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: CloudFolder.lastSavedKey)
+                    BackupCheck.verify(expecting: prices, invoices: invoices)
                 }
                 // invoice copies the cloud doesn't have yet (older ones, or ones saved while offline)
                 CloudCopies.catchUp()
