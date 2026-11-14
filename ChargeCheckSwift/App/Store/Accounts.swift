@@ -251,7 +251,10 @@ final class Accounts: ObservableObject {
     /// Anything changed: refresh the home screen widget.
     func changed(_ context: ModelContext) {
         CloudTeam.shared.scheduleScan()
-        WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code))
+        // the widget is part of Pro
+        WidgetData.write(PlanMirror.allows(.widget)
+                         ? WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code)
+                         : WidgetSnapshot.locked(currency: Money.currency.code))
     }
 }
 

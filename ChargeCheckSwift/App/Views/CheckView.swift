@@ -136,11 +136,9 @@ struct CheckView: View {
                 }
                 if !reports.isEmpty {
                     Section {
-                        ForEach(reports.prefix(5)) { stored in
-                            if let entry = stored.entry {
-                                NavigationLink(value: ReportLink(id: entry.id)) {
-                                    ReportRow(entry: entry)
-                                }
+                        ForEach(Plans.visible(reports.prefix(5).compactMap { $0.entry }, tier: store.tier)) { entry in
+                            NavigationLink(value: ReportLink(id: entry.id)) {
+                                ReportRow(entry: entry)
                             }
                         }
                         NavigationLink {

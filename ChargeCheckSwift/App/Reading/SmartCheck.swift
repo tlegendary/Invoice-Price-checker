@@ -39,9 +39,9 @@ enum SmartCheck {
 
     static var canRun: Bool { isOn && status.isEmpty }
 
-    /// Checks the lines of one invoice. Returns them unchanged if Apple Intelligence can't run.
+    /// Checks the lines of one invoice (Pro). Returns them unchanged if Apple Intelligence can't run.
     static func check(_ lines: [CheckLine], supplier: String, book: PriceBook, progress: @Sendable (String) -> Void) async -> [CheckLine] {
-        guard canRun, !lines.isEmpty else { return lines }
+        guard canRun, PlanMirror.allows(.smartCheck), !lines.isEmpty else { return lines }
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             progress(String(localized: "Checking with Apple Intelligence…"))

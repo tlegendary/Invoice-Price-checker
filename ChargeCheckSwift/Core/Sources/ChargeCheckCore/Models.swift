@@ -296,10 +296,13 @@ public struct BackupSettings: Codable, Equatable, Sendable {
 public struct ScanCredits: Codable, Equatable, Sendable {
     public var n: Int
     public var dev: String?
+    /// A scan pack was bought on that phone.
+    public var bought: Bool?
 
-    public init(n: Int, dev: String?) {
+    public init(n: Int, dev: String?, bought: Bool? = nil) {
         self.n = n
         self.dev = dev
+        self.bought = bought
     }
 }
 

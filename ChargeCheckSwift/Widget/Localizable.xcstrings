@@ -91,6 +91,9 @@
     "ChargeCheck": {
       "shouldTranslate": false
     },
+    "ChargeCheck Pro": {
+      "shouldTranslate": false
+    },
     "How much you owe your suppliers, and to whom.": {
       "extractionState": "manual",
       "localizations": {
@@ -232,6 +235,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Payé cette semaine"
+          }
+        }
+      }
+    },
+    "The widget is part of Pro. Open ChargeCheck to see the plans.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأداة جزء من Pro. افتح ChargeCheck لرؤية الخطط."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ویجێتەکە بەشێکە لە Pro. ChargeCheck بکەرەوە بۆ بینینی پلانەکان."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Widget gehört zu Pro. Öffne ChargeCheck, um die Pläne zu sehen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le widget fait partie de Pro. Ouvrez ChargeCheck pour voir les formules."
           }
         }
       }

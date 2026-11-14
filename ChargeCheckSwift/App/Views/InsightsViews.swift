@@ -168,7 +168,7 @@ struct MonthlySummaryView: View {
 /// Turns the month's figures into a few friendly sentences with Apple Intelligence (iOS 26). It never adds numbers of its own.
 enum SummaryWriter {
     static func write(_ facts: [String]) async -> String? {
-        guard SmartCheck.status.isEmpty, !facts.isEmpty else { return nil }
+        guard SmartCheck.status.isEmpty, PlanMirror.allows(.monthlySummary), !facts.isEmpty else { return nil }
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
             let language = Locale.current.localizedString(forLanguageCode: Locale.current.language.languageCode?.identifier ?? "en") ?? "English"
@@ -262,12 +262,21 @@ struct PriceRiseRow: View {
 /// On an invoice being checked: what went up since the last time you bought it from this supplier.
 struct PriceRiseSection: View {
     let rises: [PriceRise]
+    @EnvironmentObject private var store: Store
 
     var body: some View {
         if !rises.isEmpty {
             Section {
-                ForEach(rises) { rise in
-                    PriceRiseRow(rise: rise, showSupplier: false)
+                if store.allows(.priceRises) {
+                    ForEach(rises) { rise in
+                        PriceRiseRow(rise: rise, showSupplier: false)
+                    }
+                } else {
+                    // the free version and scan packs see that prices went up, Pro sees which and by how much
+                    LockedRow(feature: .priceRises) {
+                        Text(rises.count == 1 ? String(localized: "1 item costs more than last time") : String(localized: "\(rises.count) items cost more than last time"))
+                            .font(.subheadline.weight(.semibold))
+                    }
                 }
             } header: {
                 Label("Up since last time", systemImage: "arrow.up.right")

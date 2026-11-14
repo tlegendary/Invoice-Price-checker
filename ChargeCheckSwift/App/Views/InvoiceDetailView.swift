@@ -205,9 +205,7 @@ struct InvoiceDetailView: View {
                                                             history: reports.compactMap { $0.entry }, excluding: job.draft.id))
             }
             Section {
-                Button {
-                    checkingDelivery = true
-                } label: {
+                GatedButton(feature: .deliveryCheck, action: { checkingDelivery = true }) {
                     Label("Check the delivery", systemImage: "shippingbox.and.arrow.backward")
                 }
             } footer: {

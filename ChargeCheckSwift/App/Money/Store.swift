@@ -27,12 +27,18 @@ final class Store: ObservableObject {
         didSet { defaults.set(testAsFree, forKey: Keys.testAsFree) }
     }
 
+    /// Test builds only: try the app as "free", "packs" or "pro" without buying ("" = what was really bought).
+    @Published var testTier: String {
+        didSet { defaults.set(testTier, forKey: Keys.testTier) }
+    }
+
     private let defaults: UserDefaults
     private var updates: Task<Void, Never>?
 
     private enum Keys {
         static let ledger = "scan.ledger"
         static let testAsFree = "test.asFree"
+        static let testTier = "test.tier"
     }
 
     init(defaults: UserDefaults = .standard) {
@@ -43,11 +49,30 @@ final class Store: ObservableObject {
             ledger = ScanLedger()
         }
         testAsFree = defaults.bool(forKey: Keys.testAsFree)
+        testTier = defaults.string(forKey: Keys.testTier) ?? ""
         saveLedger()
     }
 
     var isSubscribed: Bool {
-        subscribedProductID != nil && !(AppConfig.testBuild && testAsFree)
+        if AppConfig.testBuild {
+            if testTier == "pro" { return true }
+            if testTier == "free" || testTier == "packs" { return false }
+        }
+        return subscribedProductID != nil && !(AppConfig.testBuild && testAsFree)
+    }
+
+    /// Free, scan packs (any pack bought, ever) or Pro (a subscription).
+    var tier: Tier {
+        if isSubscribed { return .pro }
+        if AppConfig.testBuild {
+            if testTier == "packs" { return .packs }
+            if testTier == "free" { return .free }
+        }
+        return ledger.hasBought ? .packs : .free
+    }
+
+    func allows(_ feature: Feature) -> Bool {
+        Plans.allows(feature, tier: tier)
     }
 
     var credits: Int { ledger.credits }

@@ -24,6 +24,11 @@ public struct ScanLedger: Codable, Equatable, Sendable {
     /// A random name for this phone, kept in backups so restoring a backup on the
     /// same phone can't be used to get used scans back.
     public let device: String
+    /// A scan pack was bought (on this phone, or on the phone a backup came from). Unlocks the pack features for good.
+    public private(set) var bought: Bool?
+
+    /// Bought a pack at some point: the scans may be used up, the pack features stay.
+    public var hasBought: Bool { bought == true || !seenTransactions.isEmpty }
 
     public init(device: String = ScanLedger.newDeviceID(), credits: Int = 0) {
         self.device = device
@@ -44,6 +49,7 @@ public struct ScanLedger: Codable, Equatable, Sendable {
             seenTransactions.append(transactionID)
             if seenTransactions.count > 300 { seenTransactions.removeFirst(seenTransactions.count - 300) }
         }
+        bought = true
         credits += scans
         return scans
     }
@@ -69,6 +75,8 @@ public struct ScanLedger: Codable, Equatable, Sendable {
     /// Unused scans from a backup made on a different phone. Returns how many were added.
     @discardableResult
     public mutating func restore(from scans: ScanCredits?) -> Int {
+        // a pack bought before carries over to a new phone, even with no scans left
+        if scans?.bought == true { bought = true }
         guard let scans, scans.n > 0, scans.dev != device, scans.n > credits else { return 0 }
         let added = scans.n - credits
         credits = scans.n
@@ -77,10 +85,12 @@ public struct ScanLedger: Codable, Equatable, Sendable {
 
     /// Unused scans carried over from the first version of the app on this phone (done once).
     public mutating func adopt(legacyCredits: Int) {
+        // scans left in the old app were paid for: those users keep the pack features
+        if legacyCredits > 0 { bought = true }
         credits = max(credits, legacyCredits)
     }
 
     public var forBackup: ScanCredits {
-        ScanCredits(n: credits, dev: device)
+        ScanCredits(n: credits, dev: device, bought: hasBought ? true : nil)
     }
 }
