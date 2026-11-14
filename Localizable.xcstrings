@@ -8851,6 +8851,34 @@
         }
       }
     },
+    "Found: overcharges and missing goods taken off what you pay or asked back from the supplier. Credits received: money suppliers have actually sent back. Cheaper elsewhere is an estimate, not money saved." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المكتشف: المبالغ الزائدة والبضائع الناقصة المخصومة مما تدفعه أو المطالب بها من المورد. الإشعارات الدائنة المستلمة: المال الذي أعاده الموردون فعلًا. «أرخص في مكان آخر» تقدير وليس مالًا موفّرًا."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دۆزراوە: نرخی زیادە و کاڵای نەگەیشتوو کە لەوەی دەیدەیت کەمکراونەتەوە یان لە دابینکەر داواکراونەتەوە. گەڕاندنەوەی وەرگیراو: ئەو پارەیەی دابینکەران بەڕاستی گەڕاندوویانەتەوە. «لە شوێنی تر هەرزانترە» خەمڵاندنە، پارەی پاشەکەوتکراو نییە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefunden: Überberechnungen und fehlende Ware, die von deiner Zahlung abgezogen oder beim Lieferanten zurückgefordert wurden. Erhaltene Gutschriften: Geld, das Lieferanten tatsächlich zurückgeschickt haben. „Woanders günstiger“ ist eine Schätzung, kein gespartes Geld."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repéré : surfacturations et marchandises manquantes déduites de vos paiements ou réclamées au fournisseur. Avoirs reçus : l'argent réellement renvoyé par les fournisseurs. « Moins cher ailleurs » est une estimation, pas de l'argent économisé."
+          }
+        }
+      }
+    },
     "Free" : {
       "localizations" : {
         "ar" : {
@@ -13728,6 +13756,35 @@
         }
       }
     },
+    "Not 100% sure this is “{1}”. If it is, you were overcharged {2}. Confirm the match to count it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لست متأكدًا 100% أن هذا «{1}». إن كان كذلك فقد دفعت {2} زيادة. أكّد المطابقة لاحتسابها."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بە تەواوی دڵنیا نین ئەمە «{1}»ـە. ئەگەر وابێت، {2} زیادەت لێ وەرگیراوە. هاوتاکردنەکە پشتڕاست بکەرەوە بۆ ئەوەی بژمێردرێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht 100 % sicher, dass das „{1}“ ist. Falls ja, wurden dir {2} zu viel berechnet. Bestätige die Zuordnung, damit es zählt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas sûr à 100 % que ce soit « {1} ». Si c'est le cas, vous avez été surfacturé de {2}. Confirmez la correspondance pour le compter."
+          }
+        }
+      }
+    },
     "Not enough invoices yet" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15687,6 +15744,7 @@
       }
     },
     "Overcharges and missing goods are taken off what you pay each supplier. Credits received are the money suppliers sent back for them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17111,6 +17169,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus %@ de TVA. Chaque ligne vérifiée deux fois."
+          }
+        }
+      }
+    },
+    "Possibly %@ more on unsure matches. It only counts once you confirm the item." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ربما %@ إضافية على مطابقات غير مؤكدة. لا تُحتسب إلا بعد تأكيد الصنف."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لەوانەیە %@ زیاتر لەسەر هاوتاکردنە نادڵنیاکان. تەنها دوای پشتڕاستکردنەوەی کاڵاکە دەژمێردرێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Möglicherweise %@ mehr bei unsicheren Zuordnungen. Es zählt erst, wenn du den Artikel bestätigst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peut-être %@ de plus sur des correspondances incertaines. Cela ne compte qu'une fois l'article confirmé."
           }
         }
       }
@@ -19867,6 +19953,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voyez exactement combien chaque fournisseur vous a surfacturé"
+          }
+        }
+      }
+    },
+    "See the cheaper item" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعرض الصنف الأرخص"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاڵا هەرزانترەکە ببینە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den günstigeren Artikel ansehen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir l'article moins cher"
           }
         }
       }
