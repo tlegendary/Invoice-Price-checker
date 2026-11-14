@@ -86,3 +86,32 @@ final class MoneyRoundingTests: XCTestCase {
         XCTAssertTrue(wrong.isEmpty, wrong.joined(separator: "; "))
     }
 }
+
+/// The rounding as the invoice check uses it: line totals, VAT, and an invoice saved before the rounding fix.
+final class MoneyRoundingInUseTests: XCTestCase {
+    override func setUp() { Money.currency = .gbp }
+
+    func testNoMinusZero() {
+        XCTAssertEqual(Money.round2(-0.004).sign, .plus)
+        XCTAssertEqual(Money.round2(-0.0).sign, .plus)
+        let json = String(decoding: try! JSONEncoder().encode([Money.round2(-0.001)]), as: UTF8.self)
+        XCTAssertEqual(json, "[0]")
+    }
+
+    func testWeighedLineAndItsVat() {
+        let book = PriceBook([PriceItem(id: "mince", name: "Lamb mince", price: 16.74)])
+        let line = CheckLine(qty: 0.25, desc: "Lamb mince", unit: 16.74, vat: 20, matchId: "mince", confident: true)
+        let result = InvoiceMaths.lineResult(line, supplier: "", book: book)
+        XCTAssertEqual(result.net, 4.19)                       // 4.185, a quarter kilo
+        XCTAssertEqual(result.vat, 0.84)                       // 20% of 4.19 = 0.838
+        XCTAssertEqual(Money.round2(0.9 * 5 / 100), 0.05)      // 5% VAT on 90p = 4.5p
+    }
+
+    func testInvoiceSavedBeforeTheFixIsStillFoundAsTheSameInvoice() {
+        // saved by an earlier version a penny lower (4.18), the same invoice now adds up to 4.19
+        let saved = HistoryEntry(id: "old", supplier: "Butcher", date: "14/11/2026", net: 4.18, total: 4.18, over: 0, lines: [])
+        let again = InvoiceDraft(supplier: "Butcher", date: "14/11/2026")
+        XCTAssertEqual(InvoiceMaths.duplicate(of: again, net: 4.19, in: [saved])?.id, "old")
+        XCTAssertNil(InvoiceMaths.duplicate(of: again, net: 4.21, in: [saved]))
+    }
+}

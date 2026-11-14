@@ -156,6 +156,12 @@ is ready and Ramyar says to switch.
 - **Cheaper prices are suggested, not applied (Ramyar, 14 Nov 2026).** When a fully checked invoice is cheaper than
   an agreed price, "Cheaper on this invoice" asks "Update my price" / "Keep my price"; nothing changes until Update.
   Settings: "Suggest a lower price when an invoice is cheaper" (same `prices.autoLower` setting, on by default).
+- **Half pennies round up every time (Ramyar, 14 Nov 2026).** `Money.round2` used to lose a penny on about 1 in 22
+  half-penny amounts (0.25 kg × £16.74 = £4.185 gave £4.18) and rounded minus amounts differently from plus amounts.
+  Now a value within a hair of a half penny is rounded away from zero; everything else rounds as before; no "-0".
+  Checked against whole-number maths: every half penny to £2,000, ~770,000 weighed lines and line totals (core tests
+  `MoneyRoundingTests`). Saved invoices keep their amounts; the duplicate check allows a penny so an invoice saved
+  before this still matches. Still `Double`, not `Decimal` – moving to exact decimals remains on the roadmap.
 - **Scan from Home asks where from (14 Nov 2026):** Camera, Camera roll or Files (PDF or photo). Home sets
   `CheckSession.scanRequest` (`ScanSource`) and switches to Invoices, which opens that picker through `gated {}`.
 - **Fixed: tapping a checked invoice on the Invoices tab did nothing.** Its path was `[String]`, which silently drops
@@ -235,9 +241,6 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
   Any pack bought = no ads, full history, PDFs/exports, delivery + statement check. Pro = unlimited + money leaks,
   price rises, cheaper elsewhere, scores, due dates/pay run, several shops, staff, widget, Apple Intelligence, history.
   Locked items stay visible with a Pro tag. Existing subscribers keep everything.
-- Weekly improvement (14 Nov 2026, branch `claude/money-rounding-half-pennies`, waiting for Ramyar's review): `Money.round2`
-  now rounds half pennies up every time (0.25 kg × £16.74 = £4.19, not £4.18) and minus amounts the same as plus amounts.
-  Only amounts within a hair of a half penny change; `MoneyRoundingTests` checks ~970,000 cases against whole-number maths.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container

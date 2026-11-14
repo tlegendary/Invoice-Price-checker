@@ -378,7 +378,9 @@ public enum InvoiceMaths {
             if !entry.shopId.isEmpty && !invoice.shopId.isEmpty && entry.shopId != invoice.shopId { return false }
             guard TextTools.norm(entry.supplier) == TextTools.norm(invoice.supplier), entry.date == invoice.date else { return false }
             if !invoice.invNo.isEmpty { return entry.invNo == invoice.invNo }
-            return net > 0 && abs(entry.net - net) < 0.01
+            // within a penny: an invoice saved by an earlier version can be a penny apart from the same invoice now
+            // (half pennies are rounded up correctly since 14 Nov 2026)
+            return net > 0 && abs(entry.net - net) < 0.015
         }
     }
 }
