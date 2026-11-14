@@ -16,6 +16,13 @@ struct PriceEditView: View {
     @State private var newAlias = ""
     @State private var newCategory = ""
     @Query private var reports: [StoredReport]
+    @AppStorage(Shops.listKey) private var shopData = Data()
+    /// The shops that buy this item (empty = every shop).
+    @State private var shopTags: Set<String>
+    /// Each shop's own price as typed ("" = the agreed price above).
+    @State private var shopPriceText: [String: String]
+
+    private var allShops: [ShopInfo] { Shops.decode(shopData) }
 
     private var history: [PricePoint] {
         isNew ? [] : PriceTools.history(of: item.id, in: reports.compactMap { $0.entry })
@@ -31,6 +38,20 @@ struct PriceEditView: View {
         _item = State(initialValue: draft.item)
         _priceText = State(initialValue: draft.item.price > 0 ? String(format: "%.2f", draft.item.price) : "")
         _aliasList = State(initialValue: draft.item.aliases)
+        _shopTags = State(initialValue: Set(draft.item.shops ?? []))
+        var texts: [String: String] = [:]
+        for own in draft.item.shopPrices ?? [] { texts[own.shop] = String(format: "%.\(Money.currency.decimals)f", own.p) }
+        _shopPriceText = State(initialValue: texts)
+    }
+
+    private func inShop(_ id: String) -> Bool { shopTags.isEmpty || shopTags.contains(id) }
+
+    /// Ticking or unticking a shop. Every shop ticked is the same as "all shops"; at least one stays ticked.
+    private func setShop(_ id: String, _ on: Bool) {
+        var tags = shopTags.isEmpty ? Set(allShops.map { $0.id }) : shopTags
+        if on { tags.insert(id) } else { tags.remove(id) }
+        guard !tags.isEmpty else { return }
+        shopTags = tags.count >= allShops.count ? [] : tags
     }
 
     private var price: Double? {
@@ -62,6 +83,33 @@ struct PriceEditView: View {
                         }
                     }
                     TextField("Or type a new category", text: $newCategory)
+                }
+                if allShops.count > 1 {
+                    Section {
+                        Toggle("All shops", isOn: Binding(get: { shopTags.isEmpty }, set: { if $0 { shopTags = [] } }))
+                        ForEach(allShops, id: \.id) { shop in
+                            Toggle(shop.name, isOn: Binding(get: { inShop(shop.id) }, set: { setShop(shop.id, $0) }))
+                            if inShop(shop.id) {
+                                HStack {
+                                    Text("Price in \(shop.name)")
+                                        .foregroundStyle(.secondary)
+                                    Spacer()
+                                    Text(Money.currency.symbol)
+                                        .foregroundStyle(.secondary)
+                                    TextField(price.map { Money.format($0) } ?? String(localized: "Same price"),
+                                              text: Binding(get: { shopPriceText[shop.id] ?? "" }, set: { shopPriceText[shop.id] = $0 }))
+                                        .keyboardType(.decimalPad)
+                                        .multilineTextAlignment(.trailing)
+                                        .frame(maxWidth: 110)
+                                }
+                                .font(.subheadline)
+                            }
+                        }
+                    } header: {
+                        Text("Shops")
+                    } footer: {
+                        Text("Which of your shops buy this item, and a shop's own price if it pays a different one (leave it empty for the agreed price above). Each shop's invoices are checked against its own price, and the items on an invoice tell the app which shop it's for.")
+                    }
                 }
                 Section {
                     ForEach(item.sp.indices, id: \.self) { index in
@@ -158,6 +206,16 @@ struct PriceEditView: View {
         result.sp = item.sp
             .map { SupplierPrice(s: $0.s.trimmingCharacters(in: .whitespaces), p: Money.round2($0.p)) }
             .filter { !$0.s.isEmpty && $0.p > 0 }
+        // shops: only ones that still exist; every shop = all shops (nil), so new shops get the item too
+        let known = allShops.map { $0.id }
+        let tags = known.filter { shopTags.contains($0) }
+        result.shops = (tags.isEmpty || tags.count == known.count) ? nil : tags
+        let own = known.compactMap { id -> ShopPrice? in
+            guard inShop(id), let typed = shopPriceText[id], let value = Money.parse(typed), value > 0 else { return nil }
+            let rounded = Money.round2(value)
+            return abs(rounded - price) < 0.005 ? nil : ShopPrice(shop: id, p: rounded)
+        }
+        result.shopPrices = known.isEmpty ? item.shopPrices : (own.isEmpty ? nil : own)
         onSave(result)
         dismiss()
     }

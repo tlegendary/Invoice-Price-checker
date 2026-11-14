@@ -16,6 +16,21 @@ struct HomeView: View {
     @State private var search = ""
     /// "Scan an invoice": camera, camera roll or files.
     @State private var choosingSource = false
+    /// The cloud check opens the price rises with "-demoRises YES" (App Store screenshots).
+    @State private var demoRises = UserDefaults.standard.bool(forKey: "demoRises")
+
+    /// The shop being viewed; under "All shops" with several shops, the app's name (or a business name saved by an
+    /// earlier version) – never one shop's name, which would look like only that shop is shown.
+    private var title: String {
+        let shop = LiveSettings.shared.shop
+        if let name = Shops.name(shop), !shop.isEmpty { return name }
+        if Shops.all.count > 1 {
+            let business = UserDefaults.standard.string(forKey: SettingKey.business) ?? ""
+            return business.isEmpty ? "ChargeCheck" : business
+        }
+        let name = Shops.reportName()
+        return name.isEmpty ? "ChargeCheck" : name
+    }
 
     /// Opens the Invoices tab, which opens the chosen picker (a free scan or an ad is still needed there).
     private func scan(from source: ScanSource) {
@@ -45,8 +60,7 @@ struct HomeView: View {
                     savingsSection(overview)
                 }
             }
-            // the shop's name (or the shop new invoices go to); there is no separate business name any more
-            .navigationTitle(Shops.reportName().isEmpty ? "ChargeCheck" : Shops.reportName())
+            .navigationTitle(title)
             .shopSwitcher()
             .confirmationDialog("Scan an invoice", isPresented: $choosingSource, titleVisibility: .visible) {
                 if DocumentScanner.isAvailable {
@@ -62,6 +76,9 @@ struct HomeView: View {
             }
             .navigationDestination(for: String.self) { key in
                 SupplierDetailView(key: key)
+            }
+            .navigationDestination(isPresented: $demoRises) {
+                PriceRisesView(supplier: nil)
             }
         }
     }

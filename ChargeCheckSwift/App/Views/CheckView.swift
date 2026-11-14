@@ -379,8 +379,13 @@ struct JobRow: View {
     }
 
     @ViewBuilder private var summary: some View {
-        let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
-        if job.possibleDuplicate != nil && job.saved == nil && job.billedTwice == nil {
+        let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items, shop: job.isSample ? "" : (job.draft.shopId.isEmpty ? CheckSession.chosenShop : job.draft.shopId)),
+                                         tolerance: AppData.tolerance)
+        if job.shopQuestion != nil {
+            Label("Which shop? Open it to choose", systemImage: "storefront")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.orange)
+        } else if job.possibleDuplicate != nil && job.saved == nil && job.billedTwice == nil {
             Label("Already saved? Open it to choose", systemImage: "doc.on.doc.fill")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.orange)

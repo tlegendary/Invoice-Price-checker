@@ -37,7 +37,7 @@ struct InvoiceDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    content(job, book: PriceBook(items(job)))
+                    content(job, book: PriceBook(items(job), shop: session.shop(of: job)))
                 }
             } else {
                 ContentUnavailableView("Invoice removed", systemImage: "doc.text")
@@ -47,7 +47,7 @@ struct InvoiceDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $editing) { draft in
             if let job {
-                LineEditView(draft: draft, supplier: job.draft.supplier, items: items(job), isSample: job.isSample,
+                LineEditView(draft: draft, supplier: job.draft.supplier, items: items(job), shop: session.shop(of: job), isSample: job.isSample,
                              onSave: { saveLine($0, original: draft) },
                              onDelete: deleteAction(for: draft))
             }
@@ -113,6 +113,9 @@ struct InvoiceDetailView: View {
                 let name = line.desc.trimmingCharacters(in: .whitespaces)
                 if name.isEmpty || line.unit <= 0 { continue }
                 var item = PriceItem(cat: "Other", name: name.capitalized, price: Money.round2(line.unit), supplier: draft.supplier, aliases: [TextTools.norm(name)])
+                // with several shops, a new item belongs to this invoice's shop (so its next invoices are recognised as that shop's)
+                let shop = session.shop(of: job)
+                if Shops.all.count > 1, !shop.isEmpty { item.shops = [shop] }
                 item.cat = Categoriser.suggest(for: item, in: all) ?? "Other"
                 all.append(item)
                 AppData.save(item, in: context)
@@ -144,6 +147,7 @@ struct InvoiceDetailView: View {
         let totals = InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance)
         let missing = job.draft.lines.filter { $0.matchId == nil && !$0.excluded && !$0.noBase && $0.unit > 0 && !$0.desc.isEmpty }.count
         List {
+            ShopQuestion(job: job)
             DuplicateQuestion(job: job)
             Section {
                 Hero(totals: totals, empty: job.draft.lines.isEmpty, message: job.message, sample: job.isSample, supplier: job.draft.supplier)
@@ -161,6 +165,7 @@ struct InvoiceDetailView: View {
                     TextField("dd/mm/yyyy", text: Binding(get: { job.draft.date }, set: { value in change { $0.date = value } }))
                         .multilineTextAlignment(.trailing)
                 }
+                ShopRow(job: job)
             }
             Section {
                 ForEach(job.draft.lines) { line in
@@ -451,6 +456,7 @@ struct TotalOnlyView: View {
 
     var body: some View {
         List {
+            ShopQuestion(job: job)
             DuplicateQuestion(job: job)
             Section {
                 VStack(spacing: 8) {
@@ -592,7 +598,8 @@ struct Hero: View {
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.orange)
             }
-            if sample {
+            // (the App Store screenshots leave the note out)
+            if sample && !UserDefaults.standard.bool(forKey: "storeShots") {
                 Text("Sample invoice with example prices. Nothing here is saved.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -748,5 +755,84 @@ struct DuplicateQuestion: View {
             return String(localized: "\(other.supplier) invoice of \(other.date) for \(amount) is already saved.")
         }
         return String(localized: "\(other.supplier) invoice \(other.invNo) of \(other.date) for \(amount) is already saved.")
+    }
+}
+
+/// The invoice's shop, with a way to change it, when there are several shops. Says so when the app picked it.
+struct ShopRow: View {
+    let job: InvoiceJob
+
+    @EnvironmentObject private var session: CheckSession
+    @Environment(\.modelContext) private var context
+    @AppStorage(Shops.listKey) private var shopData = Data()
+
+    var body: some View {
+        let shops = Shops.decode(shopData)
+        if !job.isSample, shops.count > 1 {
+            Picker("Shop", selection: Binding(get: { session.shop(of: job) }, set: { session.chooseShop(job.id, $0, context: context) })) {
+                ForEach(shops, id: \.id) { shop in
+                    Text(shop.name).tag(shop.id)
+                }
+            }
+            if let moved = job.shopMoved, moved.shop == session.shop(of: job), let name = Shops.name(moved.shop) {
+                Label(ShopQuestion.why(moved, shop: name, supplier: job.draft.supplier), systemImage: "storefront")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+}
+
+/// "Which shop is this for?" – the items or supplier point to another shop than the one chosen, and the app isn't
+/// sure (or Settings says to ask). Nothing is saved until it's answered.
+struct ShopQuestion: View {
+    let job: InvoiceJob
+
+    @EnvironmentObject private var session: CheckSession
+    @Environment(\.modelContext) private var context
+
+    /// Why the app thinks the invoice is for that shop.
+    static func why(_ guess: ShopGuess, shop: String, supplier: String) -> String {
+        let who = supplier.isEmpty ? String(localized: "this supplier") : supplier
+        switch guess.reason {
+        case .items: return String(localized: "Its items are on the price list of \(shop).")
+        case .supplier: return String(localized: "Invoices from \(who) are always for \(shop).")
+        case .itemsAndSupplier: return String(localized: "Its items and its supplier both belong to \(shop).")
+        }
+    }
+
+    var body: some View {
+        if let guess = job.shopQuestion, let suggested = Shops.name(guess.shop) {
+            let chosen = session.shop(of: job)
+            Section {
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Which shop is this for?", systemImage: "storefront")
+                        .font(.headline)
+                        .foregroundStyle(.orange)
+                    Text(Self.why(guess, shop: suggested, supplier: job.draft.supplier))
+                        .font(.subheadline)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button {
+                        session.chooseShop(job.id, guess.shop, context: context)
+                    } label: {
+                        Text(suggested)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    if let current = Shops.name(chosen), chosen != guess.shop {
+                        Button {
+                            session.chooseShop(job.id, chosen, context: context)
+                        } label: {
+                            Text(current)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
+                .padding(.vertical, 4)
+            } footer: {
+                Text("It's saved once you choose. You can change the shop on the invoice at any time.")
+            }
+        }
     }
 }

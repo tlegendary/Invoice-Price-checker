@@ -43,6 +43,25 @@ public struct SupplierPrice: Codable, Equatable, Hashable, Sendable {
     }
 }
 
+/// A price agreed for one shop that differs from the item's standard price ("the pharmacy pays £3.20").
+public struct ShopPrice: Codable, Equatable, Hashable, Sendable {
+    public var shop: String
+    public var p: Double
+
+    public init(shop: String, p: Double) {
+        self.shop = shop
+        self.p = p
+    }
+
+    enum CodingKeys: String, CodingKey { case shop, p }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        shop = c.flexString(.shop) ?? ""
+        p = c.flexDouble(.p) ?? 0
+    }
+}
+
 /// One line of the agreed price list.
 public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
     public var id: String
@@ -54,9 +73,15 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
     public var aliases: [String]
     public var sp: [SupplierPrice]
     public var unit: String?
+    /// The shops this item is bought for. nil or empty = every shop (all items saved before shops had their own
+    /// lists). Shops can be different trades (food, medicine), so each keeps to its own items.
+    public var shops: [String]?
+    /// Prices agreed for one shop that differ from the standard price.
+    public var shopPrices: [ShopPrice]?
 
     public init(id: String = UUID().uuidString, cat: String = "Other", name: String, price: Double,
-                supplier: String = "", aliases: [String] = [], sp: [SupplierPrice] = [], unit: String? = nil) {
+                supplier: String = "", aliases: [String] = [], sp: [SupplierPrice] = [], unit: String? = nil,
+                shops: [String]? = nil, shopPrices: [ShopPrice]? = nil) {
         self.id = id
         self.cat = cat
         self.name = name
@@ -65,9 +90,11 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
         self.aliases = aliases
         self.sp = sp
         self.unit = unit
+        self.shops = shops
+        self.shopPrices = shopPrices
     }
 
-    enum CodingKeys: String, CodingKey { case id, cat, name, price, supplier, aliases, sp, unit }
+    enum CodingKeys: String, CodingKey { case id, cat, name, price, supplier, aliases, sp, unit, shops, shopPrices }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -80,11 +107,28 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
         aliases = (try? c.decode([String].self, forKey: .aliases)) ?? []
         sp = (try? c.decode([SupplierPrice].self, forKey: .sp)) ?? []
         unit = c.flexString(.unit)
+        let tags = (try? c.decode([String].self, forKey: .shops))?.filter { !$0.isEmpty }
+        shops = (tags?.isEmpty ?? true) ? nil : tags
+        let own = (try? c.decode([ShopPrice].self, forKey: .shopPrices))?.filter { !$0.shop.isEmpty && $0.p > 0 }
+        shopPrices = (own?.isEmpty ?? true) ? nil : own
     }
 
-    /// The price to compare with: this supplier's agreed price if there is one, otherwise the standard price.
-    public func basePrice(for supplierName: String) -> Double {
-        sp.first(where: { TextTools.sameSupplier($0.s, supplierName) })?.p ?? price
+    /// Whether this item is bought for that shop ("" = all shops: every item counts).
+    public func isIn(shop: String) -> Bool {
+        guard !shop.isEmpty, let shops, !shops.isEmpty else { return true }
+        return shops.contains(shop)
+    }
+
+    /// The item's price in one shop: that shop's own price if it has one, otherwise the standard price.
+    public func price(inShop shop: String) -> Double {
+        guard !shop.isEmpty else { return price }
+        return shopPrices?.first(where: { $0.shop == shop })?.p ?? price
+    }
+
+    /// The price to compare with: this supplier's agreed price if there is one, otherwise the shop's own price,
+    /// otherwise the standard price.
+    public func basePrice(for supplierName: String, shop: String = "") -> Double {
+        sp.first(where: { TextTools.sameSupplier($0.s, supplierName) })?.p ?? price(inShop: shop)
     }
 }
 

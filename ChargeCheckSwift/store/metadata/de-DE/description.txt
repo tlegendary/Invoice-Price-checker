@@ -1,0 +1,51 @@
+Lieferanten machen Fehler – und selten zu deinen Gunsten. ChargeCheck liest deine Lieferantenrechnungen und prüft jede Zeile gegen die vereinbarten Preise. So zahlst du keine überhöhten Preise, fehlenden Artikel und Preiserhöhungen mehr, denen du nie zugestimmt hast.
+
+RECHNUNG SCANNEN, FEHLER SEHEN
+• Mit der Kamera scannen, ein Foto wählen oder ein PDF aus WhatsApp, Mail oder Dateien öffnen
+• Jede Zeile wird mit deiner vereinbarten Preisliste verglichen
+• Sieh genau, was zu viel berechnet wurde – Zeile für Zeile – und was du wirklich zahlen musst
+• Fehlende, zurückgegebene oder zu wenig gelieferte Artikel werden abgezogen
+• Packungsgrößen-Warnung: ein 5-kg-Sack zum 10-kg-Preis fällt sofort auf
+• Die Zeilen werden mit der gedruckten Rechnungssumme abgeglichen, damit kein Lesefehler unbemerkt bleibt
+• Ist sich die App bei einem Artikel nicht sicher, fragt sie nach – unsichere Überzahlungen zählt sie nie
+• Rechnungen werden auf dem iPhone gelesen, jede zweimal. Funktioniert offline.
+
+HOL DIR DEIN GELD ZURÜCK
+• Mit einem Tipp: Gutschriftanfrage als PDF oder Nachricht für WhatsApp oder E-Mail
+• Angefragte und erhaltene Gutschriften im Blick, mit Erinnerung nach zwei Wochen
+• Den Monatsauszug eines Lieferanten mit deinen Rechnungen abgleichen
+
+WISSEN, WAS DU SCHULDEST
+• Lieferantenkonten: Rechnungen, Zahlungen, Gutschriften und Anfangssalden an einem Ort
+• Offene Beträge je Lieferant, was diese Woche fällig ist und was überfällig ist
+• Mehrere Rechnungen auf einmal bezahlen und das Belegfoto speichern
+• Warnung, wenn ein Lieferant dieselbe Rechnung zweimal stellt
+
+PREISERHÖHUNGEN ERKENNEN
+• Jede Preiserhöhung je Lieferant seit dem letzten Mal
+• Sieh, wo derselbe Artikel bei einem anderen Lieferanten günstiger ist
+• Preisverlauf für jeden Artikel
+
+FÜR JEDE DEINER FILIALEN
+• Filialen anlegen und eine oder alle anzeigen – Rechnungen, Lieferanten, Zahlungen und Berichte folgen
+• Berichte und CSV-Exporte für den Steuerberater, monatlich oder für jeden Zeitraum
+• Home-Bildschirm-Widget mit deinen offenen Beträgen
+
+FÜR DEIN GESCHÄFT GEMACHT
+• Liest Rechnungen auf Deutsch, Englisch, Französisch, Arabisch und Kurdisch
+• App auf Deutsch, Englisch, Französisch, Arabisch und Kurdisch (Sorani)
+• Euro, Pfund, Dollar und Irakischer Dinar
+• Face-ID-Sperre, heller und dunkler Modus
+• Automatische Backups auf dem iPhone und in einem iCloud-Drive-Ordner deiner Wahl
+• Auf iPhones mit Apple Intelligence: optionale Zusatzprüfung schwer lesbarer Namen
+
+GRATIS, PAKETE ODER PRO
+• Gratis: Rechnungen prüfen mit einer kurzen Werbung pro Scan
+• Scan-Pakete: Scans ohne Werbung, dazu vollständiger Verlauf, PDF- und CSV-Exporte, Liefer- und Auszugsprüfung
+• Pro (monatlich oder jährlich, 7 Tage gratis beim Monatsabo): unbegrenzte Scans und alle Funktionen
+
+Abos verlängern sich automatisch, wenn sie nicht mindestens 24 Stunden vor Ende des Zeitraums gekündigt werden. Die Zahlung erfolgt über deinen Apple Account. Verwalten oder kündigen in den Einstellungen deines Apple Accounts.
+
+Nutzungsbedingungen: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Datenschutz: https://tlegendary.github.io/privacy.html
+Support: https://tlegendary.github.io/support.html

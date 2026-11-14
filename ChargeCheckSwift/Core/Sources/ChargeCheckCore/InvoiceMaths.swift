@@ -148,6 +148,8 @@ final class Once<Value: Sendable>: @unchecked Sendable {
 
 public struct PriceBook: Sendable {
     public let items: [PriceItem]
+    /// The shop the invoice is for: its own prices are the ones compared with ("" = standard prices).
+    public let shop: String
     private let byID: [String: PriceItem]
     private let words: Once<Set<String>>
     private let ready: Once<[Matcher.Prepared]>
@@ -158,8 +160,9 @@ public struct PriceBook: Sendable {
     public var prepared: [Matcher.Prepared] { ready.get }
 
     /// Cheap to make: screens build one just to look items up. The heavier lists above wait until a scan needs them.
-    public init(_ items: [PriceItem]) {
+    public init(_ items: [PriceItem], shop: String = "") {
         self.items = items
+        self.shop = shop
         var map: [String: PriceItem] = [:]
         for item in items { map[item.id] = item }
         byID = map
@@ -170,6 +173,11 @@ public struct PriceBook: Sendable {
     public func item(_ id: String?) -> PriceItem? {
         guard let id else { return nil }
         return byID[id]
+    }
+
+    /// The agreed price of an item on this invoice: the supplier's own price, else this shop's, else the standard one.
+    public func base(_ item: PriceItem, supplier: String) -> Double {
+        item.basePrice(for: supplier, shop: shop)
     }
 }
 
@@ -216,7 +224,7 @@ public enum InvoiceMaths {
     /// the one whose name is closest, and only when the name gives it some support.
     static func matchByPrice(_ desc: String, unit: Double, supplier: String, book: PriceBook) -> String? {
         guard unit > 0 else { return nil }
-        let same = book.items.filter { abs($0.basePrice(for: supplier) - unit) < 0.005 }
+        let same = book.items.filter { abs(book.base($0, supplier: supplier) - unit) < 0.005 }
         if same.count == 1 { return same[0].id }
         guard same.count > 1, !desc.isEmpty else { return nil }
         let scored = same.map { ($0.id, Matcher.score(desc, item: $0)) }.sorted { $0.1 > $1.1 }
@@ -228,7 +236,7 @@ public enum InvoiceMaths {
         let item = book.item(line.matchId)
         let net = Money.round2(line.qty * line.unit)
         let vat = Money.round2(net * line.vat / 100)
-        let base = item?.basePrice(for: supplier)
+        let base = item.map { book.base($0, supplier: supplier) }
         var result = LineResult(item: item, net: net, vat: vat, base: base, diff: 0, over: 0, overVat: 0, under: 0)
         if let base, !line.excluded {
             result.diff = Money.round2(line.unit - base)
@@ -261,7 +269,7 @@ public enum InvoiceMaths {
         if line.onlySecondRead { out.append(CoreText.t("Only found on the second read – make sure it's really on the invoice.")) }
         if line.matchId == nil && !line.noBase { out.append(CoreText.t("Not in your price list – choose the matching item or mark it as not in your list.")) }
         if let item = book.item(line.matchId) {
-            let base = item.basePrice(for: supplier)
+            let base = book.base(item, supplier: supplier)
             if line.confident == false {
                 let possible = lineResult(line, supplier: supplier, book: book).pendingOver
                 out.append(possible > 0.005

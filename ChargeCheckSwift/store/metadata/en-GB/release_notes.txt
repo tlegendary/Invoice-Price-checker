@@ -1,0 +1,8 @@
+A brand-new ChargeCheck, rebuilt for iPhone from the ground up.
+
+• Faster, more accurate invoice reading – every invoice is read twice
+• Supplier accounts: what you owe, payments, credits and due dates
+• Several shops: see one shop or all of them
+• Billed-twice and price-rise alerts
+• Credit request PDFs and reports for your accountant
+• English, Arabic, Kurdish, German and French

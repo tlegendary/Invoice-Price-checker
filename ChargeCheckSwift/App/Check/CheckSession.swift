@@ -36,6 +36,19 @@ struct InvoiceJob: Identifiable, Equatable {
     var possibleDuplicate: HistoryEntry?
     /// The user's answer: true = the supplier billed twice (keep both), false = the same invoice (update it).
     var billedTwice: Bool?
+    /// The items or supplier point to another shop than the one chosen and the app isn't sure (or was told to ask):
+    /// it isn't saved until the user picks the shop.
+    var shopQuestion: ShopGuess?
+    /// The app filed it under another shop than the one chosen, because its items or supplier said so (shown with
+    /// a way to change it).
+    var shopMoved: ShopGuess?
+}
+
+/// Settings › Checking › "Invoices for another shop": file them there by themselves, or ask first.
+enum ShopFiling {
+    static let key = "shops.autoFile"
+    /// On unless switched off: an invoice whose items or supplier clearly belong to another shop is filed there.
+    static var automatic: Bool { UserDefaults.standard.object(forKey: key) as? Bool ?? true }
 }
 
 /// What happened to a scanned credit note.
@@ -69,6 +82,8 @@ struct LoweredPrices: Identifiable {
     var changes: [PriceChange]
     var before: [PriceItem]
     var supplier: String = ""
+    /// The shop of the invoice: a shop with its own price gets that price lowered, not the standard one.
+    var shop: String = ""
 
     var message: String {
         if changes.count == 1, let one = changes.first {
@@ -141,6 +156,7 @@ final class CheckSession: ObservableObject {
         jobs.insert(InvoiceJob(id: id, status: .reading, message: "Waiting…", draft: InvoiceDraft(), isSample: sample,
                                thumbnail: pages.first?.thumbnail(), saved: nil, pages: sample ? [] : pages, sourcePDF: sourcePDF), at: 0)
         let items = sample ? SampleInvoice.prices : AppData.items(context)
+        let filingShop = sample ? "" : Self.chosenShop
         let suppliers = sample ? [] : AppData.knownSuppliers(context)
         let fixes = sample ? [:] : NameFixes.all()
         let trustedList = sample ? [] : Accounts.shared.trusted
@@ -152,7 +168,7 @@ final class CheckSession: ObservableObject {
         }
         queue = Task { [weak self] in
             await previous?.value
-            let book = PriceBook(items)
+            let book = PriceBook(items, shop: filingShop)
             // Settings › Checking: read each photo once (faster) or twice (double-checked)
             let twice = UserDefaults.standard.integer(forKey: SettingKey.photoReads) != 1
             let outcome = await InvoiceReader.read(pages: pages, pdf: sourcePDF, book: book, knownSuppliers: suppliers,
@@ -201,6 +217,7 @@ final class CheckSession: ObservableObject {
                     job.status = .done
                     job.message = total > 0 ? warning : String(localized: "Couldn't read the invoice total. Type it in.")
                 }
+                self.fileShop(id, context: context)
                 if warning.isEmpty { self.saveIfChecked(id, context: context) }
                 return
             }
@@ -238,9 +255,56 @@ final class CheckSession: ObservableObject {
             }
             // also when Apple Intelligence found that none of the lines were products
             if finalLines.isEmpty { onNothingRead?() }
+            self.fileShop(id, context: context)
             if warning.isEmpty { self.saveIfChecked(id, context: context) }
         }
         return id
+    }
+
+    /// The shop new invoices go to: the shop being viewed, or under "All shops" the last shop chosen.
+    static var chosenShop: String {
+        LiveSettings.shared.shop.isEmpty ? Shops.current : LiveSettings.shared.shop
+    }
+
+    /// The shop of an invoice being checked (the chosen shop until one is set).
+    func shop(of job: InvoiceJob) -> String {
+        job.isSample ? "" : (job.draft.shopId.isEmpty ? Self.chosenShop : job.draft.shopId)
+    }
+
+    /// Which shop a scanned invoice goes to: the chosen shop, unless its items or its supplier clearly say another.
+    /// Sure and allowed (Settings) → filed there, with a note. Not sure, or told to ask → the user is asked first.
+    private func fileShop(_ id: String, context: ModelContext) {
+        guard let job = job(id), !job.isSample, job.draft.shopId.isEmpty, job.creditNote == nil else { return }
+        let chosen = Self.chosenShop
+        let shops = Shops.all.map { $0.id }
+        guard shops.count > 1,
+              let guess = ShopDetect.guess(matched: job.draft.lines.map { $0.matchId }, supplier: job.draft.supplier,
+                                           items: AppData.items(context), history: AppData.entries(context), shops: shops),
+              guess.shop != chosen else {
+            update(id) { $0.draft.shopId = chosen }
+            return
+        }
+        if guess.sure && ShopFiling.automatic {
+            update(id) {
+                $0.draft.shopId = guess.shop
+                $0.shopMoved = guess
+            }
+        } else {
+            update(id) {
+                $0.draft.shopId = chosen
+                $0.shopQuestion = guess
+            }
+        }
+    }
+
+    /// The user picked the shop (answering "Which shop is this for?", or changing it on the invoice).
+    func chooseShop(_ id: String, _ shop: String, context: ModelContext) {
+        update(id) {
+            $0.draft.shopId = shop
+            $0.shopQuestion = nil
+            if $0.shopMoved?.shop != shop { $0.shopMoved = nil }
+        }
+        saveIfChecked(id, context: context)
     }
 
     /// Why this scan shouldn't be saved as an invoice without a look ("" when it's an ordinary invoice in your currency).
@@ -310,14 +374,14 @@ final class CheckSession: ObservableObject {
         let before = changes.compactMap { book.item($0.itemID) }
         if before.isEmpty { return }
         lowered = LoweredPrices(changes: changes.filter { change in before.contains { $0.id == change.itemID } },
-                                before: before, supplier: draft.supplier)
+                                before: before, supplier: draft.supplier, shop: draft.shopId)
     }
 
     /// "Update my price": the agreed prices become the cheaper ones on the invoice (each change is in the history).
     func acceptLowered(_ note: LoweredPrices, context: ModelContext) {
         for change in note.changes {
             guard let item = note.before.first(where: { $0.id == change.itemID }) else { continue }
-            AppData.save(PriceTools.setting(change.to, on: item, supplier: note.supplier), in: context)
+            AppData.save(PriceTools.setting(change.to, on: item, supplier: note.supplier, shop: note.shop), in: context)
         }
         try? context.save()
     }
@@ -391,7 +455,9 @@ final class CheckSession: ObservableObject {
         guard let job = job(id), !job.isSample, job.status == .done else { return }
         let lines = job.draft.lines.filter { !$0.desc.trimmingCharacters(in: .whitespaces).isEmpty }
         guard job.saved != job.draft, job.creditNote == nil else { return }
-        let book = PriceBook(AppData.items(context))
+        // waiting for "Which shop is this for?"
+        guard job.shopQuestion == nil else { return }
+        let book = PriceBook(AppData.items(context), shop: shop(of: job))
         if job.draft.totalOnly {
             guard (job.draft.printedTotal ?? job.draft.printedNet ?? 0) > 0 else { return }
         } else {
@@ -399,7 +465,7 @@ final class CheckSession: ObservableObject {
             if !anyway && !InvoiceMaths.totals(job.draft, book: book, tolerance: AppData.tolerance).verified { return }
         }
         var draft = job.draft
-        if draft.shopId.isEmpty { draft.shopId = Shops.current }
+        if draft.shopId.isEmpty { draft.shopId = Self.chosenShop }
         let wasSaved = job.saved != nil
         // an invoice that looks like one already saved: ask before saving (never replace it silently)
         var choice: AppData.DuplicateChoice?
