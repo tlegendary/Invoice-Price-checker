@@ -727,6 +727,34 @@
         }
       }
     },
+    "%lld items cost more than last time" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld أصناف أغلى من المرة الماضية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld کاڵا لە جاری پێشوو گرانترن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Artikel kosten mehr als letztes Mal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld articles coûtent plus cher que la dernière fois"
+          }
+        }
+      }
+    },
     "%lld lines" : {
       "localizations" : {
         "ar" : {
@@ -835,6 +863,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld de vos prix ont été baissés aux prix moins chers de cette facture."
+          }
+        }
+      }
+    },
+    "%lld older invoices" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld فواتير أقدم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld پسوولەی کۆنتر"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld ältere Rechnungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld factures plus anciennes"
           }
         }
       }
@@ -1509,6 +1565,34 @@
         }
       }
     },
+    "1 item costs more than last time" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صنف واحد أغلى من المرة الماضية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 کاڵا لە جاری پێشوو گرانترە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Artikel kostet mehr als letztes Mal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 article coûte plus cher que la dernière fois"
+          }
+        }
+      }
+    },
     "1 line" : {
       "localizations" : {
         "ar" : {
@@ -1533,6 +1617,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1 ligne"
+          }
+        }
+      }
+    },
+    "1 older invoice" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فاتورة أقدم واحدة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 پسوولەی کۆنتر"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 ältere Rechnung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 facture plus ancienne"
           }
         }
       }
@@ -1969,6 +2081,62 @@
         }
       }
     },
+    "A full report on one supplier to keep or take to a meeting." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقرير كامل عن مورد واحد لتحتفظ به أو تأخذه إلى اجتماع."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڕاپۆرتێکی تەواو لەسەر یەک دابینکەر بۆ هەڵگرتن یان بردن بۆ کۆبوونەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein vollständiger Bericht über einen Lieferanten zum Aufbewahren oder für ein Gespräch."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un rapport complet sur un fournisseur, à garder ou à apporter en réunion."
+          }
+        }
+      }
+    },
+    "A proper credit request to send your supplier, with every overcharge and missing item." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طلب إشعار دائن كامل لمورّدك، بكل مبلغ زائد وكل صنف ناقص."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "داواکارییەکی گەڕاندنەوەی تەواو بۆ دابینکەرەکەت، بە هەموو نرخی زیادە و کاڵای نەگەیشتوو."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine richtige Gutschriftanforderung für deinen Lieferanten, mit jeder Überberechnung und jedem fehlenden Artikel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une vraie demande d'avoir pour votre fournisseur, avec chaque surfacturation et article manquant."
+          }
+        }
+      }
+    },
     "A reminder at 9am on the day you pay your suppliers." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1994,6 +2162,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un rappel à 9 h le jour où vous payez vos fournisseurs."
+          }
+        }
+      }
+    },
+    "A reminder on the day you pay your suppliers." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تذكير في اليوم الذي تدفع فيه لمورديك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بیرخستنەوەیەک لەو ڕۆژەی پارە بە دابینکەرانت دەدەیت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Erinnerung an dem Tag, an dem du deine Lieferanten bezahlst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un rappel le jour où vous payez vos fournisseurs."
+          }
+        }
+      }
+    },
+    "A score out of 100 for each supplier: prices, deliveries and invoice accuracy." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقييم من 100 لكل مورد: الأسعار والتسليم ودقة الفواتير."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خاڵێک لە 100 بۆ هەر دابینکەرێک: نرخ، گەیاندن و وردی پسوولە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Bewertung von 100 für jeden Lieferanten: Preise, Lieferungen und Rechnungsgenauigkeit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un score sur 100 pour chaque fournisseur : prix, livraisons et exactitude des factures."
           }
         }
       }
@@ -3422,6 +3646,34 @@
         }
       }
     },
+    "Any pack also unlocks, for good: your full invoice history, PDFs and exports for your accountant, credit request PDFs, and the delivery and statement checks." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كل باقة تفتح أيضًا وإلى الأبد: سجل فواتيرك الكامل، وملفات PDF والتصدير لمحاسبك، وطلبات الإشعار الدائن بصيغة PDF، وفحص التسليم وكشف الحساب."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەر پاکێجێک هەروەها بە یەکجاری دەیکاتەوە: مێژووی تەواوی پسوولەکانت، PDF و هەناردە بۆ ژمێریارەکەت، داواکاری گەڕاندنەوە بە PDF، و پشکنینی گەیاندن و کەشفی حساب."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedes Paket schaltet außerdem dauerhaft frei: deinen ganzen Rechnungsverlauf, PDFs und Exporte für deinen Steuerberater, Gutschrift-PDFs sowie Liefer- und Kontoauszugsprüfung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque pack débloque aussi, définitivement : tout l'historique des factures, les PDF et exports pour votre comptable, les demandes d'avoir en PDF, et les vérifications de livraison et de relevé."
+          }
+        }
+      }
+    },
     "App Store" : {
       "shouldTranslate" : false
     },
@@ -3505,6 +3757,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apparence"
+          }
+        }
+      }
+    },
+    "Apple Intelligence check" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فحص Apple Intelligence"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشکنینی Apple Intelligence"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence-Prüfung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification Apple Intelligence"
+          }
+        }
+      }
+    },
+    "Apple Intelligence check and a monthly summary in plain words" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فحص Apple Intelligence وملخص شهري بكلمات بسيطة"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشکنینی Apple Intelligence و پوختەی مانگانە بە زمانێکی سادە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence-Prüfung und eine Monatsübersicht in einfachen Worten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification Apple Intelligence et un résumé mensuel en mots simples"
+          }
+        }
+      }
+    },
+    "Apple Intelligence double-checks names and matches on your iPhone." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يعيد Apple Intelligence فحص الأسماء والمطابقات على جهازك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence ناو و هاوتاکردنەکان لەسەر ئایفۆنەکەت دووبارە دەپشکنێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence prüft Namen und Zuordnungen auf deinem iPhone nach."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence revérifie les noms et correspondances sur votre iPhone."
           }
         }
       }
@@ -4621,6 +4957,9 @@
     "ChargeCheck" : {
       "shouldTranslate" : false
     },
+    "ChargeCheck Pro" : {
+      "shouldTranslate" : false
+    },
     "ChargeCheck has caught" : {
       "localizations" : {
         "ar" : {
@@ -4673,6 +5012,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ChargeCheck est verrouillé"
+          }
+        }
+      }
+    },
+    "ChargeCheck pays for itself by finding money you would otherwise lose." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يدفع ChargeCheck ثمنه بنفسه بإيجاد المال الذي كنت ستخسره."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck پارەی خۆی دەداتەوە بە دۆزینەوەی ئەو پارەیەی کە ئەگینا لەدەستت دەدا."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck bezahlt sich selbst, indem es Geld findet, das du sonst verlieren würdest."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck se rembourse en trouvant l'argent que vous perdriez sinon."
           }
         }
       }
@@ -5730,6 +6097,62 @@
         }
       }
     },
+    "Comes with any scan pack" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوفر مع أي باقة مسح"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لەگەڵ هەر پاکێجێکی سکان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei jedem Scan-Paket dabei"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclus avec tout pack de scans"
+          }
+        }
+      }
+    },
+    "Comes with any scan pack, and with Pro." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوفر مع أي باقة مسح ومع Pro."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لەگەڵ هەر پاکێجێکی سکان و لەگەڵ Pro."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei jedem Scan-Paket und bei Pro dabei."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclus avec tout pack de scans, et avec Pro."
+          }
+        }
+      }
+    },
     "Compare shops" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6387,6 +6810,34 @@
         }
       }
     },
+    "Credit periods for each supplier, with overdue invoices and the cash you need this week." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مدة سداد لكل مورد، مع الفواتير المتأخرة والنقد الذي تحتاجه هذا الأسبوع."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ماوەی پارەدان بۆ هەر دابینکەرێک، لەگەڵ پسوولە دواکەوتووەکان و ئەو پارەیەی ئەم هەفتە پێویستتە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zahlungsziele für jeden Lieferanten, mit überfälligen Rechnungen und dem Geld, das du diese Woche brauchst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Délais de paiement par fournisseur, avec les factures en retard et l'argent nécessaire cette semaine."
+          }
+        }
+      }
+    },
     "Credit received" : {
       "localizations" : {
         "ar" : {
@@ -6497,6 +6948,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Demande d’avoir"
+          }
+        }
+      }
+    },
+    "Credit request PDFs" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طلبات إشعار دائن PDF"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "داواکاری گەڕاندنەوە بە PDF"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gutschrift-PDFs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demandes d'avoir en PDF"
           }
         }
       }
@@ -7408,6 +7887,34 @@
         }
       }
     },
+    "Delivery check" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فحص التسليم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشکنینی گەیاندن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferprüfung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification de livraison"
+          }
+        }
+      }
+    },
     "Discount of {1} taken off – the price shown is after the discount." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7806,6 +8313,7 @@
       }
     },
     "Every invoice double-checked before you see the result" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7975,6 +8483,34 @@
         }
       }
     },
+    "Everything in the scan packs too" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وكل ما في باقات المسح أيضًا"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەموو ئەوەی لە پاکێجەکانی سکانیشدایە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auch alles aus den Scan-Paketen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout ce qu'offrent aussi les packs de scans"
+          }
+        }
+      }
+    },
     "Everything is already in the right place." : {
       "localizations" : {
         "ar" : {
@@ -8113,6 +8649,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export pour votre comptable"
+          }
+        }
+      }
+    },
+    "Exports for your accountant" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصدير لمحاسبك"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەناردە بۆ ژمێریارەکەت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporte für deinen Steuerberater"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exports pour votre comptable"
           }
         }
       }
@@ -8287,6 +8851,34 @@
         }
       }
     },
+    "Free" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مجاني"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەخۆڕایی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kostenlos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratuit"
+          }
+        }
+      }
+    },
     "Free version" : {
       "localizations" : {
         "ar" : {
@@ -8430,6 +9022,34 @@
         }
       }
     },
+    "Full invoice history" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سجل الفواتير الكامل"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مێژووی تەواوی پسوولەکان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganzer Rechnungsverlauf"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique complet des factures"
+          }
+        }
+      }
+    },
     "Fully checked" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8455,6 +9075,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entièrement vérifiée"
+          }
+        }
+      }
+    },
+    "Get ChargeCheck Pro" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احصل على ChargeCheck Pro"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck Pro وەربگرە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ChargeCheck Pro holen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer à ChargeCheck Pro"
           }
         }
       }
@@ -8767,6 +9415,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accueil"
+          }
+        }
+      }
+    },
+    "Home screen widget" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أداة الشاشة الرئيسية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویجێتی شاشەی سەرەکی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home-Bildschirm-Widget"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget d'écran d'accueil"
           }
         }
       }
@@ -10301,6 +10977,34 @@
         }
       }
     },
+    "Items another supplier sells you for less, and what switching would save a month." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أصناف يبيعها مورد آخر بسعر أقل، وما يوفره التبديل شهريًا."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەو کاڵایانەی دابینکەرێکی تر هەرزانتر دەیانفرۆشێت، و گۆڕین مانگانە چەند پاشەکەوت دەکات."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artikel, die ein anderer Lieferant günstiger verkauft, und was ein Wechsel pro Monat sparen würde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Articles qu'un autre fournisseur vend moins cher, et ce qu'un changement ferait économiser par mois."
+          }
+        }
+      }
+    },
     "Keep + ask where else" : {
       "localizations" : {
         "ar" : {
@@ -10357,6 +11061,34 @@
         }
       }
     },
+    "Keep each shop's invoices apart and compare them." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افصل فواتير كل متجر وقارن بينها."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوولەکانی هەر دوکانێک جیا بکەرەوە و بەراوردیان بکە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halte die Rechnungen jedes Geschäfts getrennt und vergleiche sie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Séparez les factures de chaque magasin et comparez-les."
+          }
+        }
+      }
+    },
     "Keep on this phone" : {
       "localizations" : {
         "ar" : {
@@ -10381,6 +11113,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Garder sur ce téléphone"
+          }
+        }
+      }
+    },
+    "Know straight away when a supplier charges more than last time." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعرف فورًا عندما يطلب مورد أكثر من المرة الماضية."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یەکسەر بزانە کاتێک دابینکەرێک لە جاری پێشوو زیاتر وەردەگرێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfahre sofort, wenn ein Lieferant mehr verlangt als letztes Mal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sachez tout de suite quand un fournisseur facture plus que la dernière fois."
           }
         }
       }
@@ -11603,6 +12363,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fuites d'argent"
+          }
+        }
+      }
+    },
+    "Money leaks and savings" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسرب الأموال والتوفير"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دزەکردنی پارە و پاشەکەوت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geldlecks und Ersparnisse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuites d'argent et économies"
+          }
+        }
+      }
+    },
+    "Money leaks: price rises, missing credits and what you've saved" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسرب الأموال: ارتفاع الأسعار والإشعارات الدائنة الناقصة وما وفّرته"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دزەکردنی پارە: بەرزبوونەوەی نرخ، گەڕاندنەوەی نەگەیشتوو و ئەوەی پاشەکەوتت کردووە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geldlecks: Preiserhöhungen, fehlende Gutschriften und was du gespart hast"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuites d'argent : hausses de prix, avoirs manquants et ce que vous avez économisé"
           }
         }
       }
@@ -15095,6 +15911,40 @@
         }
       }
     },
+    "PACK" : {
+      "shouldTranslate" : false
+    },
+    "PDF and spreadsheet reports for any period, ready to send to your accountant." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقارير PDF وجداول لأي فترة، جاهزة لإرسالها إلى محاسبك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڕاپۆرتی PDF و خشتە بۆ هەر ماوەیەک، ئامادە بۆ ناردن بۆ ژمێریارەکەت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF- und Tabellenberichte für jeden Zeitraum, fertig für deinen Steuerberater."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapports PDF et tableur pour toute période, prêts pour votre comptable."
+          }
+        }
+      }
+    },
+    "PRO" : {
+      "shouldTranslate" : false
+    },
     "Packaging" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15264,6 +16114,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Payé cette semaine"
+          }
+        }
+      }
+    },
+    "Part of ChargeCheck Pro." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جزء من ChargeCheck Pro."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەشێکە لە ChargeCheck Pro."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teil von ChargeCheck Pro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclus dans ChargeCheck Pro."
           }
         }
       }
@@ -15498,6 +16376,34 @@
         }
       }
     },
+    "Pay several suppliers at once and record every payment in one go." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ادفع لعدة موردين معًا وسجّل كل الدفعات دفعة واحدة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پارە بە چەند دابینکەرێک پێکەوە بدە و هەموو پارەدانەکان بە یەکجار تۆمار بکە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezahle mehrere Lieferanten auf einmal und erfasse jede Zahlung in einem Schritt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payez plusieurs fournisseurs à la fois et enregistrez tous les paiements d'un coup."
+          }
+        }
+      }
+    },
     "Pay the whole balance: %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15609,6 +16515,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paiement"
+          }
+        }
+      }
+    },
+    "Payment due dates" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تواريخ استحقاق الدفع"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرواری پارەدان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fälligkeiten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échéances de paiement"
+          }
+        }
+      }
+    },
+    "Payment due dates, pay runs and a weekly reminder" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تواريخ الاستحقاق والدفع الجماعي وتذكير أسبوعي"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بەرواری پارەدان، پارەدانی کۆمەڵ و بیرخستنەوەی هەفتانە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fälligkeiten, Sammelzahlungen und eine wöchentliche Erinnerung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échéances, paiements groupés et rappel hebdomadaire"
           }
         }
       }
@@ -16693,6 +17655,62 @@
         }
       }
     },
+    "Price-rise alerts" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنبيهات ارتفاع الأسعار"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئاگاداری بەرزبوونەوەی نرخ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungs-Hinweise"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes de hausse de prix"
+          }
+        }
+      }
+    },
+    "Price-rise alerts and cheaper suppliers for the same item" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنبيهات ارتفاع الأسعار وموردون أرخص للصنف نفسه"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئاگاداری بەرزبوونەوەی نرخ و دابینکەری هەرزانتر بۆ هەمان کاڵا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preiserhöhungs-Hinweise und günstigere Lieferanten für denselben Artikel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes de hausse et fournisseurs moins chers pour le même article"
+          }
+        }
+      }
+    },
     "Prices" : {
       "localizations" : {
         "ar" : {
@@ -16916,6 +17934,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Politique de confidentialité"
+          }
+        }
+      }
+    },
+    "Pro" : {
+      "shouldTranslate" : false
+    },
+    "Pro feature" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ميزة Pro"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تایبەتمەندی Pro"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro-Funktion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonction Pro"
           }
         }
       }
@@ -18396,6 +19445,34 @@
         }
       }
     },
+    "Scan a supplier's statement and see anything that doesn't match your records." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امسح كشف حساب المورد وشاهد كل ما لا يطابق سجلاتك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کەشفی حسابی دابینکەرێک سکان بکە و هەر شتێک ببینە کە لەگەڵ تۆمارەکانت ناگونجێت."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne den Kontoauszug eines Lieferanten und sieh alles, was nicht zu deinen Unterlagen passt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scannez le relevé d'un fournisseur et voyez ce qui ne correspond pas à vos données."
+          }
+        }
+      }
+    },
     "Scan an invoice" : {
       "localizations" : {
         "ar" : {
@@ -18424,7 +19501,64 @@
         }
       }
     },
+    "Scan packs" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باقات المسح"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پاکێجەکانی سکان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan-Pakete"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Packs de scans"
+          }
+        }
+      }
+    },
+    "Scan packs (pack features unlocked)" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باقات المسح (ميزات الباقة مفتوحة)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پاکێجەکانی سکان (تایبەتمەندییەکانی پاکێج کراوەن)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan-Pakete (Paket-Funktionen frei)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Packs de scans (fonctions des packs débloquées)"
+          }
+        }
+      }
+    },
     "Scan photo or PDF invoices – read on your phone, works offline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18709,6 +19843,7 @@
       }
     },
     "See exactly how much each supplier overcharged you" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18761,6 +19896,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voir la hausse de prix"
+          }
+        }
+      }
+    },
+    "See what price rises and missing credits cost you each month, and everything ChargeCheck caught." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعرف ما تكلفك ارتفاعات الأسعار والإشعارات الدائنة الناقصة كل شهر، وكل ما اكتشفه ChargeCheck."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ببینە بەرزبوونەوەی نرخ و گەڕاندنەوەی نەگەیشتوو هەر مانگێک چەندت لێ دەکەوێت، و هەموو ئەوەی ChargeCheck دۆزیویەتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sieh, was Preiserhöhungen und fehlende Gutschriften dich jeden Monat kosten, und alles, was ChargeCheck entdeckt hat."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyez ce que les hausses de prix et avoirs manquants vous coûtent chaque mois, et tout ce que ChargeCheck a repéré."
           }
         }
       }
@@ -18960,6 +20123,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Several shops" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عدة متاجر"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چەند دوکانێک"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehrere Geschäfte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plusieurs magasins"
+          }
+        }
+      }
+    },
+    "Several shops, staff on their own iPhones, home screen widget" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عدة متاجر، الموظفون على أجهزتهم، أداة الشاشة الرئيسية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چەند دوکانێک، کارمەندان لەسەر ئایفۆنی خۆیان، ویجێتی شاشەی سەرەکی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehrere Geschäfte, Mitarbeiter auf eigenen iPhones, Home-Bildschirm-Widget"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plusieurs magasins, employés sur leur propre iPhone, widget d'accueil"
           }
         }
       }
@@ -19621,6 +20840,62 @@
         }
       }
     },
+    "Staff check invoices on their own iPhones and everything comes to yours." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يفحص الموظفون الفواتير على أجهزتهم ويصل كل شيء إلى جهازك."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەندان پسوولەکان لەسەر ئایفۆنی خۆیان دەپشکنن و هەموو شتێک دێتە سەر ئایفۆنەکەی تۆ."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter prüfen Rechnungen auf eigenen iPhones und alles kommt auf deines."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos employés vérifient les factures sur leur iPhone et tout arrive sur le vôtre."
+          }
+        }
+      }
+    },
+    "Staff on their own iPhones" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الموظفون على أجهزتهم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەندان لەسەر ئایفۆنی خۆیان"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitarbeiter auf eigenen iPhones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Employés sur leur propre iPhone"
+          }
+        }
+      }
+    },
     "Staff phones lose access straight away. Your own data stays on this phone." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -19824,6 +21099,7 @@
       }
     },
     "Start your 7-day free trial" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19876,6 +21152,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Solde de départ"
+          }
+        }
+      }
+    },
+    "Statement check" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فحص كشف الحساب"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشکنینی کەشفی حساب"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontoauszugsprüfung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification de relevé"
           }
         }
       }
@@ -19939,6 +21243,7 @@
       }
     },
     "Stop paying more than your agreed prices." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20223,6 +21528,62 @@
         }
       }
     },
+    "Supplier profile and score" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملف المورد وتقييمه"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرۆفایل و خاڵی دابینکەر"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferantenprofil und Bewertung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil et score du fournisseur"
+          }
+        }
+      }
+    },
+    "Supplier profiles and scores" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملفات الموردين وتقييماتهم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرۆفایل و خاڵی دابینکەران"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferantenprofile und Bewertungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profils et scores des fournisseurs"
+          }
+        }
+      }
+    },
     "Supplier removed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -20281,6 +21642,34 @@
         }
       }
     },
+    "Supplier report PDF" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقرير المورد PDF"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڕاپۆرتی دابینکەر بە PDF"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferantenbericht als PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapport fournisseur PDF"
+          }
+        }
+      }
+    },
     "Supplier score" : {
       "localizations" : {
         "ar" : {
@@ -20333,6 +21722,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scores des fournisseurs"
+          }
+        }
+      }
+    },
+    "Supplier scores, profiles and supplier reports" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقييمات الموردين وملفاتهم وتقاريرهم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خاڵ، پرۆفایل و ڕاپۆرتی دابینکەران"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferantenbewertungen, Profile und Berichte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scores, profils et rapports des fournisseurs"
           }
         }
       }
@@ -20936,6 +22353,34 @@
         }
       }
     },
+    "Test: try the app as" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختبار: جرّب التطبيق كـ"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاقیکردنەوە: بەرنامەکە تاقی بکەرەوە وەک"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test: App ausprobieren als"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test : essayer l'app en"
+          }
+        }
+      }
+    },
     "Thank you," : {
       "extractionState" : "manual",
       "localizations" : {
@@ -21271,6 +22716,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La version gratuite vous donne un scan pour chaque pub regardée jusqu’au bout."
+          }
+        }
+      }
+    },
+    "The free version lists the last 30 days. Your balances still count every invoice." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعرض النسخة المجانية آخر 30 يومًا. أرصدتك تحسب كل الفواتير."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وەشانی بەخۆڕایی 30 ڕۆژی کۆتایی پیشان دەدات. باڵانسەکانت هێشتا هەموو پسوولەکان دەژمێرن."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die kostenlose Version zeigt die letzten 30 Tage. Deine Kontostände zählen trotzdem jede Rechnung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version gratuite affiche les 30 derniers jours. Vos soldes comptent toujours toutes les factures."
+          }
+        }
+      }
+    },
+    "The free version shows the last 30 days. Any scan pack keeps every invoice, for good." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعرض النسخة المجانية آخر 30 يومًا. أي باقة مسح تحفظ كل الفواتير إلى الأبد."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وەشانی بەخۆڕایی 30 ڕۆژی کۆتایی پیشان دەدات. هەر پاکێجێکی سکان هەموو پسوولەکان بە یەکجاری دەهێڵێتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die kostenlose Version zeigt die letzten 30 Tage. Jedes Scan-Paket behält dauerhaft jede Rechnung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version gratuite affiche les 30 derniers jours. Tout pack de scans garde chaque facture, définitivement."
           }
         }
       }
@@ -21726,6 +23227,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les deux lectures de la photo ne concordent pas sur cette ligne."
+          }
+        }
+      }
+    },
+    "The widget is part of Pro. Open ChargeCheck to see the plans." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأداة جزء من Pro. افتح ChargeCheck لرؤية الخطط."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویجێتەکە بەشێکە لە Pro. ChargeCheck بکەرەوە بۆ بینینی پلانەکان."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Widget gehört zu Pro. Öffne ChargeCheck, um die Pläne zu sehen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le widget fait partie de Pro. Ouvrez ChargeCheck pour voir les formules."
           }
         }
       }
@@ -22276,6 +23805,34 @@
         }
       }
     },
+    "Tick off what arrived; anything short comes off what you pay." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حدّد ما وصل؛ أي نقص يُخصم مما تدفعه."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەوەی گەیشتووە دیاری بکە؛ هەر کەمییەک لەوەی دەیدەیت کەم دەکرێتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hake ab, was angekommen ist; Fehlendes wird von deiner Zahlung abgezogen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cochez ce qui est arrivé ; ce qui manque est déduit de votre paiement."
+          }
+        }
+      }
+    },
     "To" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -22733,6 +24290,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fiable · saisissez le total"
+          }
+        }
+      }
+    },
+    "Try Pro free for 7 days" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جرّب Pro مجانًا 7 أيام"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro بۆ 7 ڕۆژ بەخۆڕایی تاقی بکەرەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro 7 Tage kostenlos testen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essayez Pro gratuitement 7 jours"
           }
         }
       }
@@ -23642,6 +25227,62 @@
         }
       }
     },
+    "Weekly payment reminder" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تذكير دفع أسبوعي"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بیرخستنەوەی پارەدانی هەفتانە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wöchentliche Zahlungserinnerung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel de paiement hebdomadaire"
+          }
+        }
+      }
+    },
+    "What I bought" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما اشتريته"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئەوەی کڕیومە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ich gekauft habe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que j'ai acheté"
+          }
+        }
+      }
+    },
     "What you owe" : {
       "localizations" : {
         "ar" : {
@@ -23666,6 +25307,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ce que vous devez"
+          }
+        }
+      }
+    },
+    "What you owe and to whom, on your home screen." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما تدين به ولمن، على شاشتك الرئيسية."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چەند قەرزداریت و بە کێ، لەسەر شاشەی سەرەکی."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was du schuldest und wem, auf deinem Home-Bildschirm."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que vous devez et à qui, sur votre écran d'accueil."
           }
         }
       }
@@ -23810,6 +25479,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De qui viennent ces prix ?"
+          }
+        }
+      }
+    },
+    "Who saved, paid, changed or deleted what, and when." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من حفظ أو دفع أو غيّر أو حذف ماذا، ومتى."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کێ چی پاشەکەوت کرد، پارەی دا، گۆڕی یان سڕییەوە، و کەی."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wer was gespeichert, bezahlt, geändert oder gelöscht hat, und wann."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui a enregistré, payé, modifié ou supprimé quoi, et quand."
           }
         }
       }
@@ -24521,6 +26218,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Votre liste"
+          }
+        }
+      }
+    },
+    "Your month in plain words: what you spent, who overcharged, what went up." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شهرك بكلمات بسيطة: ما صرفته، ومن بالغ في السعر، وما ارتفع."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مانگەکەت بە زمانێکی سادە: چیت خەرج کرد، کێ نرخی زیادەی وەرگرت، چی گران بوو."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Monat in einfachen Worten: was du ausgegeben hast, wer zu viel berechnet hat, was teurer wurde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre mois en mots simples : vos dépenses, qui a surfacturé, ce qui a augmenté."
           }
         }
       }
