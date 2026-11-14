@@ -75,6 +75,11 @@ struct ReportsView: View {
                         GatedButton(feature: .exports, action: { showExport = true }) {
                             Label("Export for your accountant", systemImage: "square.and.arrow.up")
                         }
+                        GatedLink(.exports) {
+                            VATSummaryView()
+                        } label: {
+                            Label("VAT you paid", systemImage: "percent")
+                        }
                         GatedLink(.monthlySummary) {
                             MonthlySummaryView()
                         } label: {
@@ -103,6 +108,16 @@ struct ReportsView: View {
                             SupplierScoresView()
                         } label: {
                             Label("Supplier scores", systemImage: "star.leadinghalf.filled")
+                        }
+                        GatedLink(.budgets) {
+                            CategorySpendView()
+                        } label: {
+                            Label("Spending by category", systemImage: "chart.bar.xaxis")
+                        }
+                        GatedLink(.budgets) {
+                            BudgetsView()
+                        } label: {
+                            Label("Budgets", systemImage: "gauge.with.dots.needle.33percent")
                         }
                         GatedLink(.moneyLeaks) {
                             SavingsView()

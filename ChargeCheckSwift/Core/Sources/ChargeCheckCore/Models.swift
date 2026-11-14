@@ -383,10 +383,14 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var dishes: [Dish]?
     /// Orders sent to suppliers. Older versions of the app ignore this.
     public var orders: [PurchaseOrder]?
+    /// Monthly budgets, and when each supplier's agreed prices end (supplier name → "yyyy-MM-dd").
+    public var budgets: [Budget]?
+    public var deals: [String: String]?
 
     public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
                 payments: [SupplierPayment]? = nil, trusted: [String]? = nil, creditDays: [String: Int]? = nil,
-                currencies: [String: String]? = nil, dishes: [Dish]? = nil, orders: [PurchaseOrder]? = nil) {
+                currencies: [String: String]? = nil, dishes: [Dish]? = nil, orders: [PurchaseOrder]? = nil,
+                budgets: [Budget]? = nil, deals: [String: String]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -400,9 +404,11 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.currencies = currencies
         self.dishes = dishes
         self.orders = orders
+        self.budgets = budgets
+        self.deals = deals
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies, dishes, orders }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies, dishes, orders, budgets, deals }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -419,6 +425,8 @@ public struct BackupFile: Codable, Equatable, Sendable {
         currencies = try? c.decode([String: String].self, forKey: .currencies)
         dishes = try? c.decode([Dish].self, forKey: .dishes)
         orders = try? c.decode([PurchaseOrder].self, forKey: .orders)
+        budgets = try? c.decode([Budget].self, forKey: .budgets)
+        deals = try? c.decode([String: String].self, forKey: .deals)
     }
 
     public enum ReadError: Error { case notABackup }

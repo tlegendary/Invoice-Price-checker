@@ -244,7 +244,8 @@ enum PDFMaker {
     }
 
     /// One supplier: their account, score, open invoices, payments, price rises and overcharges.
-    static func supplierReport(_ account: SupplierAccount, profile: SupplierProfile, due: [DueInvoice], business: String, theme: AppTheme) -> Data {
+    static func supplierReport(_ account: SupplierAccount, profile: SupplierProfile, due: [DueInvoice], business: String, theme: AppTheme,
+                               all: [HistoryEntry] = []) -> Data {
         make(title: "Supplier report", subtitle: account.name + " · " + stamp(business), theme: theme) { page in
             page.heading("Account")
             page.pair("You owe", Money.format(account.balance, supplier: account.name), bold: true)
@@ -290,6 +291,17 @@ enum PDFMaker {
                                let kind = payment.kind == .credit ? L("Credit note") : payment.kind == .opening ? L("Older amount owed") : L("Payment")
                                return [PayDates.show(payment.date), kind, PayMethod.name(payment.method), payment.reference,
                                        Money.format(payment.amount, supplier: account.name)]
+                           })
+            }
+            // for renegotiating: what you buy from them in a year, and who sells it for less
+            let big = BigItems.of(supplier: account.name, entries: all.isEmpty ? account.entries : all)
+            if !big.isEmpty {
+                page.heading("Your biggest items (a year at your current rate)")
+                page.table(headers: ["Item", "A year", "Price now", "Spend a year", "Cheaper elsewhere"], widths: [3.6, 1.3, 1.6, 1.9, 2.6], right: [1, 2, 3],
+                           rows: big.map { item in
+                               let elsewhere = item.cheapestElsewhere.map { Money.format($0, supplier: account.name) + " · " + (item.elsewhereSupplier ?? "") } ?? "–"
+                               return [item.name, "\(Int(item.yearlyQuantity))", Money.format(item.lastPrice, supplier: account.name),
+                                       Money.format(item.yearlySpend, supplier: account.name), elsewhere]
                            })
             }
             let rises = Insights.priceRises(account.entries)

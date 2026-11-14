@@ -205,6 +205,12 @@ struct PriceRisesView: View {
             .filter { rise in supplier.map { SupplierAccounts.key($0) == SupplierAccounts.key(rise.supplier) } ?? true }
         let groups = Dictionary(grouping: all) { SupplierAccounts.key($0.supplier) }
             .values.sorted { ($0.first?.supplier ?? "") < ($1.first?.supplier ?? "") }
+        let entries = Accounts.shared.inShop(reports.compactMap { $0.entry })
+        // what each rise costs a year at the rate you buy (only the latest rise per item counts)
+        let latest = Dictionary(grouping: all) { SupplierAccounts.key($0.supplier) + "|" + TextTools.norm($0.item) }
+            .compactMap { $0.value.max { $0.when < $1.when } }
+        let yearly = Dictionary(latest.compactMap { rise in RiseCost.yearly(rise, entries: entries).map { (rise.id, $0) } }, uniquingKeysWith: { a, _ in a })
+        let total = Money.round2(yearly.values.reduce(0, +))
         List {
             Section {
                 Picker("Period", selection: $days) {
@@ -213,6 +219,17 @@ struct PriceRisesView: View {
                     Text("1 year").tag(365)
                 }
                 .pickerStyle(.segmented)
+                if total > 0.005 {
+                    LabeledContent("These rises cost you a year") {
+                        Text(Money.format(total))
+                            .fontWeight(.bold)
+                            .foregroundStyle(.red)
+                    }
+                }
+            } footer: {
+                if total > 0.005 {
+                    Text("At the rate you bought each item over the last 90 days. Worth raising with the supplier.")
+                }
             }
             if all.isEmpty {
                 ContentUnavailableView {
@@ -224,7 +241,7 @@ struct PriceRisesView: View {
             ForEach(groups, id: \.first?.id) { rises in
                 Section(rises.first?.supplier ?? "") {
                     ForEach(rises) { rise in
-                        PriceRiseRow(rise: rise, showSupplier: false)
+                        PriceRiseRow(rise: rise, showSupplier: false, yearly: yearly[rise.id])
                     }
                 }
             }
@@ -236,6 +253,8 @@ struct PriceRisesView: View {
 struct PriceRiseRow: View {
     let rise: PriceRise
     let showSupplier: Bool
+    /// What this rise costs a year at the usual quantity, when known.
+    var yearly: Double? = nil
 
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
@@ -246,6 +265,11 @@ struct PriceRiseRow: View {
                     .filter { !$0.isEmpty }.joined(separator: " · "))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+                if let yearly, yearly > 0.005 {
+                    Text("≈ \(Money.format(yearly)) a year")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.red)
+                }
             }
             Spacer(minLength: 8)
             Text("+\(rise.percent.formatted(.number.precision(.fractionLength(0...1))))%")
@@ -439,6 +463,18 @@ struct SupplierScoresView: View {
                                 Text(row.profile.invoices == 1 ? String(localized: "1 invoice") : String(localized: "\(row.profile.invoices) invoices"))
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
+                                // how quickly they put mistakes right
+                                let speed = CreditSpeeds.of(row.account.entries)
+                                if let days = speed.averageDays {
+                                    Text("Credits in \(days.formatted(.number.precision(.fractionLength(0...1)))) days on average")
+                                        .font(.footnote)
+                                        .foregroundStyle(days > 14 ? .orange : .secondary)
+                                }
+                                if speed.late > 0 {
+                                    Text(speed.late == 1 ? String(localized: "1 credit waiting over 2 weeks") : String(localized: "\(speed.late) credits waiting over 2 weeks"))
+                                        .font(.footnote)
+                                        .foregroundStyle(.orange)
+                                }
                             }
                         }
                     }

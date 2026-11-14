@@ -128,6 +128,8 @@ enum FeatureText {
         case .smartCheck: return String(localized: "Apple Intelligence check")
         case .monthlySummary: return String(localized: "Monthly summary")
         case .changeHistory: return String(localized: "History of changes")
+        case .budgets: return String(localized: "Budgets and spending by category")
+        case .themes: return String(localized: "Themes for the whole app")
         }
     }
 
@@ -152,6 +154,8 @@ enum FeatureText {
         case .smartCheck: return String(localized: "Apple Intelligence double-checks names and matches on your iPhone.")
         case .monthlySummary: return String(localized: "Your month in plain words: what you spent, who overcharged, what went up.")
         case .changeHistory: return String(localized: "Who saved, paid, changed or deleted what, and when.")
+        case .budgets: return String(localized: "A monthly limit per supplier or category, a warning at 80%, and where the money goes each month.")
+        case .themes: return String(localized: "Choose the app's colours, backgrounds, card style and text size, on every screen.")
         }
     }
 }

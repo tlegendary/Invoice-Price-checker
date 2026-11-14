@@ -282,6 +282,7 @@ struct SupplierProfileSection: View {
     let account: SupplierAccount
     let profile: SupplierProfile
 
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @ObservedObject private var accounts = Accounts.shared
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var showScore = false
@@ -355,7 +356,8 @@ struct SupplierProfileSection: View {
 
     private func report() -> URL? {
         let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
-        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.named(colourID))
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.named(colourID),
+                                           all: Accounts.shared.inShop(reports.compactMap { $0.entry }))
         let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
         return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
     }
@@ -632,6 +634,25 @@ struct SupplierDetailView: View {
                                         .textCase(nil)
                                 }
                             }
+                        }
+                    }
+
+                    if !selecting && !team.isStaff {
+                        Section {
+                            DealDateRow(supplier: account.name)
+                            let speed = CreditSpeeds.of(account.entries)
+                            if let days = speed.averageDays {
+                                LabeledContent("Credits arrive in", value: String(localized: "\(days.formatted(.number.precision(.fractionLength(0...1)))) days on average"))
+                            }
+                            if speed.late > 0 {
+                                LabeledContent("Credits waiting over 2 weeks") {
+                                    Text("\(speed.late)").foregroundStyle(.orange)
+                                }
+                            }
+                        } header: {
+                            Text("Prices and credits")
+                        } footer: {
+                            Text("Set when their agreed prices end: you get a reminder two weeks before, to renegotiate with their supplier report.")
                         }
                     }
 
@@ -1656,3 +1677,25 @@ struct StatementCheckView: View {
         }
     }
 }
+
+/// "Prices agreed until": the day a supplier's agreed prices end (Home warns two weeks before).
+struct DealDateRow: View {
+    let supplier: String
+    @ObservedObject private var store = BudgetStore.shared
+
+    var body: some View {
+        let day = store.deal(for: supplier)
+        Toggle("Prices agreed until a date", isOn: Binding(
+            get: { day != nil },
+            set: { on in
+                let inThreeMonths = Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
+                store.setDeal(supplier, until: on ? SupplierAccounts.dayText(inThreeMonths) : nil)
+            }
+        ))
+        if let day, let date = SupplierAccounts.day(day) {
+            DatePicker("Until", selection: Binding(get: { date }, set: { store.setDeal(supplier, until: SupplierAccounts.dayText($0)) }),
+                       displayedComponents: .date)
+        }
+    }
+}
+

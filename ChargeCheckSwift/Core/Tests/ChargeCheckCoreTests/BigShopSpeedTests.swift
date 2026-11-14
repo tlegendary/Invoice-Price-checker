@@ -46,7 +46,7 @@ final class BigShopSpeedTests: XCTestCase {
 
     func testHomeOverview() {
         time("home overview, 10,000 invoices", limit: 10) {
-            _ = Overview.make(entries: Self.entries, payments: [], trusted: [])
+            _ = OverviewMaths.make(entries: Self.entries, payments: [], trusted: [])
         }
     }
 

@@ -164,7 +164,8 @@ struct HomeView: View {
 
     @ViewBuilder
     private func attentionSection(_ o: Overview) -> some View {
-        let items = o.attention.filter { !team.isStaff || $0.kind == .notChecked }
+        let extra = BudgetStore.shared.attention(entries: accounts.inShop(reports.compactMap { $0.entry }), items: prices.map { $0.item })
+        let items = (o.attention + extra).filter { !team.isStaff || $0.kind == .notChecked }
         Section {
             if items.isEmpty {
                 Label("Nothing needs your attention", systemImage: "checkmark.seal.fill")
@@ -191,7 +192,7 @@ struct HomeView: View {
         switch kind {
         case .priceRises: return .priceRises
         case .overdue, .dueSoon: return .dueDates
-        case .notChecked, .creditsLate, .duplicates: return nil
+        case .notChecked, .creditsLate, .duplicates, .overBudget, .dealsEnding: return nil
         }
     }
 
@@ -203,6 +204,8 @@ struct HomeView: View {
         case .creditsLate: CreditsOwedView()
         case .overdue, .dueSoon: DuePaymentsView()
         case .priceRises: PriceRisesView(supplier: nil)
+        case .overBudget: BudgetsView()
+        case .dealsEnding: DealsEndingView()
         }
     }
 
@@ -330,13 +333,15 @@ struct AttentionRow: View {
         case .overdue: return "exclamationmark.circle.fill"
         case .dueSoon: return "calendar.badge.clock"
         case .priceRises: return "arrow.up.right"
+        case .overBudget: return "gauge.with.dots.needle.67percent"
+        case .dealsEnding: return "calendar.badge.exclamationmark"
         }
     }
 
     private var colour: Color {
         switch item.kind {
         case .overdue, .duplicates: return .red
-        case .priceRises, .creditsLate, .notChecked: return .orange
+        case .priceRises, .creditsLate, .notChecked, .overBudget, .dealsEnding: return .orange
         case .dueSoon: return .blue
         }
     }
@@ -356,6 +361,10 @@ struct AttentionRow: View {
             return n == 1 ? String(localized: "1 invoice due in the next 7 days") : String(localized: "\(n) invoices due in the next 7 days")
         case .priceRises:
             return n == 1 ? String(localized: "1 price rise this month") : String(localized: "\(n) price rises this month")
+        case .overBudget:
+            return n == 1 ? String(localized: "1 budget nearly used this month") : String(localized: "\(n) budgets nearly used this month")
+        case .dealsEnding:
+            return n == 1 ? String(localized: "1 supplier's agreed prices end soon") : String(localized: "\(n) suppliers' agreed prices end soon")
         }
     }
 }

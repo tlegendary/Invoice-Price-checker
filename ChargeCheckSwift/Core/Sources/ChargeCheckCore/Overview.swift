@@ -36,6 +36,10 @@ public struct Attention: Identifiable, Equatable, Sendable {
         case dueSoon
         /// Price rises this month.
         case priceRises
+        /// Budgets at 80% or more of this month's limit (added by the app, which keeps the budgets).
+        case overBudget
+        /// Agreed prices ending within two weeks, or ended (added by the app).
+        case dealsEnding
     }
     public var id: String { kind.rawValue }
     public var kind: Kind
