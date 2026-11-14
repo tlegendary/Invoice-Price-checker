@@ -42,7 +42,7 @@ public enum PriceTools {
             // a different pack size is not the same item
             guard PackSize.mismatch(invoice: line.desc, item: item.name) == nil else { continue }
             // a price far from the agreed one suggests the wrong item, unless the user confirmed the line
-            let base = item.basePrice(for: draft.supplier)
+            let base = book.base(item, supplier: draft.supplier)
             if !line.ok && base > 0 && abs(line.unit - base) / base > 0.35 { continue }
             // never give two items the same name
             let taken = book.items.contains { other in
@@ -73,7 +73,7 @@ public enum PriceTools {
         var order: [String] = []
         for line in invoice.lines {
             guard !line.excluded, line.unit > 0, line.confident == true || line.ok, let item = book.item(line.matchId) else { continue }
-            let base = item.basePrice(for: invoice.supplier)
+            let base = book.base(item, supplier: invoice.supplier)
             let unit = Money.round2(line.unit)
             guard unit < base - 0.005 else { continue }
             if let known = best[item.id] {
@@ -86,11 +86,14 @@ public enum PriceTools {
         return order.compactMap { best[$0] }
     }
 
-    /// The item with its agreed price changed: this supplier's own price if it has one, otherwise the standard price.
-    public static func setting(_ price: Double, on item: PriceItem, supplier: String) -> PriceItem {
+    /// The item with its agreed price changed: this supplier's own price if it has one, otherwise the shop's own
+    /// price if the shop has one, otherwise the standard price.
+    public static func setting(_ price: Double, on item: PriceItem, supplier: String, shop: String = "") -> PriceItem {
         var result = item
         if let index = result.sp.firstIndex(where: { TextTools.sameSupplier($0.s, supplier) }) {
             result.sp[index].p = Money.round2(price)
+        } else if !shop.isEmpty, let index = result.shopPrices?.firstIndex(where: { $0.shop == shop }) {
+            result.shopPrices?[index].p = Money.round2(price)
         } else {
             result.price = Money.round2(price)
         }
