@@ -1,6 +1,6 @@
-commit: 0b426e23e2a4522d9002c88ef69e27dc74da2bdf
-result: cancelled
-when: Sat Nov 14 22:07:24 UTC 2026
+commit: a78ba21088684ca3d3c12ecedf201db1f536a132
+result: failure
+when: Sat Nov 14 22:14:05 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,57 +9,51 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
-stringsdata files:       59
+stringsdata files:       23
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
-   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
-** TEST BUILD SUCCEEDED **
-/Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:184:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:237:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:14: warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:40: warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+** TEST BUILD FAILED **
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/OrdersView.swift:74:82: error: referencing operator function '==' on 'StringProtocol' requires that 'PersistentIdentifier' conform to 'StringProtocol'
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:724:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:768:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 ---- last lines ----
-
-ExtractAppIntentsMetadata (in target 'ChargeCheckTests' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/PDFMaker.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.dI0VSP/Metal.xctoolchain --module-name ChargeCheckTests --sdk-root /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPh
-2026-11-14 22:04:04.043 appintentsmetadataprocessor[16249:47462] Starting appintentsmetadataprocessor export
-2026-11-14 22:04:04.403 appintentsmetadataprocessor[16249:47462] Extracted no relevant App Intents symbols, skipping writing output
+    
 
-CopySwiftLibs /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PasteListView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/ChargeCheckTests --scan-folder /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.
-Ignoring --strip-bitcode because --sign was not passed
+    
 
-AppIntentsSSUTraining (in target 'ChargeCheckTests' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PaywallView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/Info.plist --temp-dir-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-chec
-2026-11-14 22:04:04.458 appintentsnltrainingprocessor[16250:47484] Parsing options for appintentsnltrainingprocessor
-2026-11-14 22:04:04.461 appintentsnltrainingprocessor[16250:47484] No AppShortcuts found - Skipping.
+    
 
-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PlanViews.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+    
 
-Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PriceEditView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+    
 
-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PriceHistoryChart.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+    
 
-Validate /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PricesView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-validationUtility /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app -shallow-bundle -infoplist-subpath Info.plist
+    
 
-Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/Records.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+    
 
-** TEST BUILD SUCCEEDED **
+** TEST BUILD FAILED **
 
+
+The following build commands failed:
+	SwiftCompile normal arm64 Compiling\ InvoiceDetailView.swift,\ InvoiceHistoryView.swift,\ InvoiceReader.swift,\ LineEditView.swift,\ Localize.swift,\ MoneyViews.swift,\ MoreView.swift,\ NameSuggestionsView.swift,\ NeedScanSheet.swift,\ OrderStore.swift,\ OrdersView.swift,\ PDFMaker.swift,\ PasteListView.swift,\ PaywallView.swift,\ PlanViews.swift,\ PriceEditView.swift,\ PriceHistoryChart.swift,\ 
+	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/OrdersView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+	Building project ChargeCheck for testing with scheme ChargeCheck
+(3 failures)
