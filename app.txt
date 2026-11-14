@@ -1,6 +1,6 @@
-commit: b1f330fb2b6dad113cfca3461f66920fd1e4cde8
+commit: d3da8769ad18b2cfbbc9518bcb50c36c0d157384
 result: cancelled
-when: Sat Nov 14 05:05:24 UTC 2026
+when: Sat Nov 14 05:13:49 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -19,14 +19,14 @@ stringsdata files:       55
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:151:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:650:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:649:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 ---- last lines ----
 
 ExtractAppIntentsMetadata (in target 'ChargeCheckTests' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.Z64VPw/Metal.xctoolchain --module-name ChargeCheckTests --sdk-root /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPh
-2026-11-14 05:01:06.150 appintentsmetadataprocessor[11103:34895] Starting appintentsmetadataprocessor export
-2026-11-14 05:01:06.451 appintentsmetadataprocessor[11103:34895] Extracted no relevant App Intents symbols, skipping writing output
+    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.7003.10.YoJK4w/Metal.xctoolchain --module-name ChargeCheckTests --sdk-root /Applications/Xcode_26.3.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPh
+2026-11-14 05:12:38.858 appintentsmetadataprocessor[11822:36762] Starting appintentsmetadataprocessor export
+2026-11-14 05:12:39.256 appintentsmetadataprocessor[11822:36762] Extracted no relevant App Intents symbols, skipping writing output
 
 CopySwiftLibs /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
@@ -36,8 +36,8 @@ Ignoring --strip-bitcode because --sign was not passed
 AppIntentsSSUTraining (in target 'ChargeCheckTests' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/Info.plist --temp-dir-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-chec
-2026-11-14 05:01:06.492 appintentsnltrainingprocessor[11108:34913] Parsing options for appintentsnltrainingprocessor
-2026-11-14 05:01:06.495 appintentsnltrainingprocessor[11108:34913] No AppShortcuts found - Skipping.
+2026-11-14 05:12:39.367 appintentsnltrainingprocessor[11884:36903] Parsing options for appintentsnltrainingprocessor
+2026-11-14 05:12:39.368 appintentsnltrainingprocessor[11884:36903] No AppShortcuts found - Skipping.
 
 RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
