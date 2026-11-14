@@ -273,6 +273,11 @@ struct CheckView: View {
                 case .files: gated { showFiles = true }
                 }
             }
+            .onReceive(session.$openReportID) { id in
+                guard let id else { return }
+                session.openReportID = nil
+                path = NavigationPath([ReportLink(id: id)])
+            }
             .onReceive(session.$openScanner) { wanted in
                 guard wanted else { return }
                 session.openScanner = false

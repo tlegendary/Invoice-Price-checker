@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreSpotlight
 import SwiftData
 import StoreKit
 import ChargeCheckCore
@@ -78,6 +79,12 @@ struct RootView: View {
         .environmentObject(session)
         .environmentObject(store)
         .environmentObject(ads)
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            // an invoice tapped in the iPhone's search
+            guard let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
+            tab = "invoices"
+            session.openReportID = id
+        }
         .onOpenURL { url in
             // the home screen widget
             if url.scheme == "chargecheck" {
@@ -163,7 +170,10 @@ struct RootView: View {
         }
         .onChange(of: phase) {
             // leaving the app: make sure the automatic backup is up to date
-            if phase != .active { AutoBackup.run(context, scans: store.ledger.forBackup) }
+            if phase != .active {
+                AutoBackup.run(context, scans: store.ledger.forBackup)
+                MondaySummary.plan(context)
+            }
             if phase == .active { Task { await AutoCloud.shared.prepare() } }
             if phase == .active { Task { await CloudTeam.shared.refresh() } }
             if phase == .background && AppLock.isOn { locked = true }

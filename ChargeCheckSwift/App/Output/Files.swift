@@ -480,3 +480,64 @@ enum DueReminder {
     }
 }
 
+
+/// "Monday summary" (Pro): at 9 am each Monday, last week in one line, e.g.
+/// "Last week: £84.20 caught · 3 price rises. This week: £1,240 due to 4 suppliers."
+/// The figures are worked out when you leave the app, for the coming Monday.
+@MainActor
+enum MondaySummary {
+    static let settingKey = "reminder.monday"
+    private static let id = "chargecheck.monday"
+
+    static var isOn: Bool { UserDefaults.standard.bool(forKey: settingKey) }
+
+    static func set(_ on: Bool, context: ModelContext) async -> Bool {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+        UserDefaults.standard.set(false, forKey: settingKey)
+        guard on else { return true }
+        guard (try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])) == true else { return false }
+        UserDefaults.standard.set(true, forKey: settingKey)
+        plan(context)
+        return true
+    }
+
+    /// The next Monday at 9 am (today, if it's Monday before 9).
+    static func nextMonday(after now: Date = Date()) -> Date? {
+        var parts = DateComponents()
+        parts.weekday = 2
+        parts.hour = 9
+        return Calendar.current.nextDate(after: now, matching: parts, matchingPolicy: .nextTime)
+    }
+
+    static func plan(_ context: ModelContext) {
+        guard isOn, PlanMirror.allows(.weeklyReminder), let monday = nextMonday() else { return }
+        let entries = AppData.entries(context)
+        let weekAgo = SupplierAccounts.dayText(monday.addingTimeInterval(-7 * 86_400))
+        let mondayDay = SupplierAccounts.dayText(monday), weekOn = SupplierAccounts.dayText(monday.addingTimeInterval(7 * 86_400))
+        let main = Money.currency.code
+        let accounts = Accounts.shared
+        let lastWeek = entries.filter { String($0.savedAt.prefix(10)) >= weekAgo && String($0.savedAt.prefix(10)) < mondayDay
+            && ($0.currency ?? accounts.currency(for: $0.supplier).code) == main }
+        let caught = Money.round2(lastWeek.reduce(0) { $0 + $1.over + $1.excluded })
+        let rises = Insights.priceRises(entries, since: weekAgo).count
+        let due = DueDates.open(accounts: accounts.accounts(context), creditDays: accounts.creditDays)
+            .filter { $0.dueDate < weekOn && ($0.entry.currency ?? accounts.currency(for: $0.supplier).code) == main }
+        let dueTotal = Money.round2(due.reduce(0) { $0 + $1.amount })
+        let suppliers = Set(due.map { SupplierAccounts.key($0.supplier) }).count
+
+        var first = [String(localized: "Last week: \(Money.format(caught)) caught")]
+        if rises > 0 { first.append(rises == 1 ? String(localized: "1 price rise") : String(localized: "\(rises) price rises")) }
+        let second = dueTotal > 0.005
+            ? (suppliers == 1 ? String(localized: "This week: \(Money.format(dueTotal)) due to 1 supplier.")
+                              : String(localized: "This week: \(Money.format(dueTotal)) due to \(suppliers) suppliers."))
+            : String(localized: "Nothing due this week.")
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "Your week in ChargeCheck")
+        content.body = first.joined(separator: " · ") + ". " + second
+        content.sound = .default
+        let when = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: monday)
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [id])
+        center.add(UNNotificationRequest(identifier: id, content: content, trigger: UNCalendarNotificationTrigger(dateMatching: when, repeats: false)))
+    }
+}

@@ -122,6 +122,8 @@ final class CheckSession: ObservableObject {
     @Published var openScanner = false
     /// Where to get an invoice from, chosen on Home: the Invoices tab opens the camera, photos or files picker.
     @Published var scanRequest: ScanSource?
+    /// Open this saved invoice on the Invoices tab (tapped in the iPhone's search).
+    @Published var openReportID: String?
     /// A copy of an invoice the user may want to save somewhere else too ("ask" setting).
     @Published var offerCopy: URL?
     /// Agreed prices that were just lowered to a cheaper invoice price (with what they were, to undo).

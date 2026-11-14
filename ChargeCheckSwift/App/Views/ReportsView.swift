@@ -497,6 +497,8 @@ struct ReportDetailView: View {
                                     Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
                                 }
                             }
+                            // proof: photos of damaged, wrong or missing goods, sent with the request
+                            CreditPhotosRows(entryID: entry.id, pdf: store.allows(.creditPDF) ? creditRequest(entry) : nil)
                         }
                     }
                     if amounts.less > 0 {
@@ -675,6 +677,16 @@ struct ExportView: View {
                     } label: {
                         Label("Make a spreadsheet (CSV)", systemImage: "tablecells")
                     }
+                    Button {
+                        let pdf = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.named(colourID))
+                        let csv = Data(("\u{FEFF}" + ReportMaths.reportCSV(chosen)).utf8)
+                        let xero = Data(AccountingExport.xeroBills(chosen, creditDays: dueDays, options: exportOptions).utf8)
+                        finish(MonthPack.make(chosen, title: name("zip").replacingOccurrences(of: ".zip", with: ""), pdf: pdf, csv: csv, xero: xero))
+                    } label: {
+                        Label("Everything in one file (zip)", systemImage: "doc.zipper")
+                    }
+                } footer: {
+                    Text("The zip holds the PDF, the spreadsheet, bills for Xero and every invoice photo or PDF for the period, ready to email to your accountant.")
                 }
                 .disabled(chosen.isEmpty)
                 Section {
