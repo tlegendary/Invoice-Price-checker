@@ -1,6 +1,6 @@
-commit: a78ba21088684ca3d3c12ecedf201db1f536a132
+commit: ce26985933ec8c4631e7b4b6d03d63b4370d2991
 result: failure
-when: Sat Nov 14 22:14:05 UTC 2026
+when: Sat Nov 14 22:19:13 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,51 +9,51 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: 4A57FB15-6E7C-49CC-BE93-450B18BD286E
-stringsdata files:       23
+stringsdata files:       14
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
 ** TEST BUILD FAILED **
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/OrdersView.swift:74:82: error: referencing operator function '==' on 'StringProtocol' requires that 'PersistentIdentifier' conform to 'StringProtocol'
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/OrdersView.swift:75:82: error: referencing operator function '==' on 'StringProtocol' requires that 'PersistentIdentifier' conform to 'StringProtocol'
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:768:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:770:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 ---- last lines ----
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/PDFMaker.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+    
+
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/DishStore.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PasteListView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/DishesView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PaywallView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Check/DocumentScanner.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PlanViews.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PriceEditView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/HomeView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PriceHistoryChart.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/ImageTools.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/PricesView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/InsightsViews.swift (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     
 
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/Records.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    
+SwiftDriverJobDiscovery normal arm64 Emitting module for ChargeCheck (in target 'ChargeCheck' from project 'ChargeCheck')
 
 ** TEST BUILD FAILED **
 
 
 The following build commands failed:
-	SwiftCompile normal arm64 Compiling\ InvoiceDetailView.swift,\ InvoiceHistoryView.swift,\ InvoiceReader.swift,\ LineEditView.swift,\ Localize.swift,\ MoneyViews.swift,\ MoreView.swift,\ NameSuggestionsView.swift,\ NeedScanSheet.swift,\ OrderStore.swift,\ OrdersView.swift,\ PDFMaker.swift,\ PasteListView.swift,\ PaywallView.swift,\ PlanViews.swift,\ PriceEditView.swift,\ PriceHistoryChart.swift,\ 
+	SwiftCompile normal arm64 Compiling\ InvoiceDetailView.swift,\ InvoiceHistoryView.swift,\ InvoiceReader.swift,\ InvoiceSearch.swift,\ LineEditView.swift,\ Localize.swift,\ MoneyViews.swift,\ MonthPack.swift,\ MoreView.swift,\ NameSuggestionsView.swift,\ NeedScanSheet.swift,\ OrderStore.swift,\ OrdersView.swift,\ PDFMaker.swift,\ PasteListView.swift,\ PaywallView.swift,\ PlanViews.swift,\ PriceEdi
 	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Dishes/OrdersView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
 	Building project ChargeCheck for testing with scheme ChargeCheck
 (3 failures)
