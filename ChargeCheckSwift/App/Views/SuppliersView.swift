@@ -1426,7 +1426,7 @@ struct StatementCheckView: View {
         reading = true
         problem = nil
         let account = account
-        let payments = account?.payments ?? []
+        let payments = account.payments
         Task {
             let outcome = await InvoiceReader.read(pages: pages, pdf: pdf, book: PriceBook([]), knownSuppliers: [], doubleCheck: false) { text in
                 Task { @MainActor in progress = text }
