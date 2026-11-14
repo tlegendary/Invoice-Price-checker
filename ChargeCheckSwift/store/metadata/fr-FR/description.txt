@@ -1,0 +1,51 @@
+Les fournisseurs se trompent – et rarement en votre faveur. ChargeCheck lit vos factures fournisseurs et vérifie chaque ligne par rapport aux prix convenus. Vous arrêtez de payer les surfacturations, les articles manquants et les hausses de prix que vous n'avez jamais acceptées.
+
+SCANNEZ, VOYEZ CE QUI NE VA PAS
+• Scannez avec l'appareil photo, choisissez une photo ou ouvrez un PDF depuis WhatsApp, Mail ou Fichiers
+• Chaque ligne est comparée à votre liste de prix convenus
+• Voyez exactement ce qui a été surfacturé, ligne par ligne, et ce que vous devez vraiment payer
+• Les articles manquants, retournés ou livrés en moins sont déduits
+• Alerte de conditionnement : un sac de 5 kg facturé au prix du 10 kg est repéré
+• Les lignes sont comparées au total imprimé sur la facture, pour qu'aucune erreur de lecture ne passe inaperçue
+• Si l'app n'est pas sûre d'un article, elle vous demande – elle ne compte jamais une surfacturation incertaine
+• Les factures sont lues sur votre iPhone, chacune deux fois. Fonctionne hors ligne.
+
+RÉCUPÉREZ VOTRE ARGENT
+• En un geste : une demande d'avoir en PDF ou un message pour WhatsApp ou e-mail
+• Suivez les avoirs demandés et reçus, avec un rappel après deux semaines
+• Comparez le relevé mensuel d'un fournisseur à vos factures
+
+SACHEZ CE QUE VOUS DEVEZ
+• Comptes fournisseurs : factures, paiements, avoirs et soldes d'ouverture au même endroit
+• Ce que vous devez à chaque fournisseur, ce qui est dû cette semaine et ce qui est en retard
+• Payez plusieurs factures d'un coup et gardez la photo du reçu
+• Alerte quand un fournisseur facture deux fois la même facture
+
+REPÉREZ LES HAUSSES DE PRIX
+• Chaque hausse de prix par fournisseur depuis la dernière fois
+• Voyez où le même article est moins cher chez un autre fournisseur
+• Historique des prix de chaque article
+
+POUR CHACUN DE VOS MAGASINS
+• Ajoutez vos magasins et affichez-en un ou tous – factures, fournisseurs, paiements et rapports suivent
+• Rapports et exports CSV pour votre comptable, par mois ou sur toute période
+• Widget d'écran d'accueil avec ce que vous devez
+
+PENSÉ POUR VOTRE COMMERCE
+• Lit les factures en français, anglais, allemand, arabe et kurde
+• App en français, anglais, allemand, arabe et kurde (sorani)
+• Euro, livre, dollar et dinar irakien
+• Verrouillage Face ID, mode clair et sombre
+• Sauvegardes automatiques sur l'iPhone et dans un dossier iCloud Drive de votre choix
+• Sur les iPhone avec Apple Intelligence : vérification supplémentaire facultative des noms difficiles à lire
+
+GRATUIT, PACKS OU PRO
+• Gratuit : vérifiez vos factures en regardant une courte pub par scan
+• Packs de scans : scans sans pub, historique complet, exports PDF et CSV, contrôle des livraisons et des relevés
+• Pro (mensuel ou annuel, 7 jours d'essai gratuit sur le mensuel) : scans illimités et toutes les fonctions
+
+Les abonnements se renouvellent automatiquement sauf annulation au moins 24 heures avant la fin de la période en cours. Le paiement est débité de votre compte Apple. Gérez ou annulez dans les réglages de votre compte Apple.
+
+Conditions d'utilisation : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Confidentialité : https://tlegendary.github.io/privacy.html
+Assistance : https://tlegendary.github.io/support.html

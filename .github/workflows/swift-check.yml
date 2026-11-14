@@ -186,10 +186,25 @@ jobs:
             shot 3-suppliers 6 -startTab suppliers
             shot 4-supplier 7 -startTab suppliers -demoSupplier YES
             shot 5-credit 8 -startTab reports -demoReport YES -demoCredit YES
-            shot 6-price 7 -startTab prices -demoPrice wings
+            shot 6-price 7 -startTab home -demoRises YES
             shot 7-shop 6 -startTab home -demoView s-high
             shot 8-reports 6 -startTab reports -demoView all
             echo "$L: $(ls /tmp/store | grep -c "^$L-") pictures" | tee -a /tmp/store.log
+            # App Store preview video (English): short clips of the real app, joined afterwards
+            if [ "$L" = "en" ]; then
+              clip() { name="$1"; secs="$2"; shift; shift
+                xcrun simctl io "$UDID" recordVideo --codec=h264 --force "/tmp/store/clip-$name.mov" > /dev/null 2>&1 &
+                REC=$!; sleep 1
+                xcrun simctl launch "$UDID" $ID $COMMON "$@" >/dev/null; sleep "$secs"
+                kill -INT $REC; wait $REC 2>/dev/null || true
+                xcrun simctl terminate "$UDID" $ID; sleep 1; }
+              clip 1-scan 26 -demoScan YES
+              clip 2-home 5 -startTab home -demoView all
+              clip 3-suppliers 5 -startTab suppliers
+              clip 4-credit 6 -startTab reports -demoReport YES -demoCredit YES
+              clip 5-rises 5 -startTab home -demoRises YES
+              ls -la /tmp/store/clip-* | tee -a /tmp/store.log
+            fi
           done
       - name: Keep the pictures
         if: always()
