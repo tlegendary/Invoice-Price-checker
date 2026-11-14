@@ -54,7 +54,7 @@ struct InvoiceDetailView: View {
         }
         .sheet(isPresented: $checkingDelivery) {
             if let job {
-                DeliveryCheckView(lines: job.draft.lines) { received in
+                DeliveryCheckView(lines: job.draft.lines, supplier: job.draft.supplier) { received in
                     change { draft in
                         for index in draft.lines.indices {
                             if let got = received[draft.lines[index].id] {
@@ -145,7 +145,7 @@ struct InvoiceDetailView: View {
         let missing = job.draft.lines.filter { $0.matchId == nil && !$0.excluded && !$0.noBase && $0.unit > 0 && !$0.desc.isEmpty }.count
         List {
             Section {
-                Hero(totals: totals, empty: job.draft.lines.isEmpty, message: job.message, sample: job.isSample)
+                Hero(totals: totals, empty: job.draft.lines.isEmpty, message: job.message, sample: job.isSample, supplier: job.draft.supplier)
             }
             Section("Invoice") {
                 LabeledContent("Supplier") {
@@ -167,9 +167,12 @@ struct InvoiceDetailView: View {
                         editing = LineDraft(line: line, isNew: false)
                     } label: {
                         LineRow(line: line, result: InvoiceMaths.lineResult(line, supplier: job.draft.supplier, book: book, tolerance: AppData.tolerance),
-                                reasons: InvoiceMaths.reasons(line, supplier: job.draft.supplier, book: book, totalOk: totals.totalOk))
+                                reasons: InvoiceMaths.reasons(line, supplier: job.draft.supplier, book: book, totalOk: totals.totalOk),
+                                supplier: job.draft.supplier)
                     }
                     .buttonStyle(.plain)
+                    // lines the reader isn't sure about are shaded amber until you've looked at them
+                    .listRowBackground(LineRow.unsure(line) ? Color.orange.opacity(0.10) : nil)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             deleteLine(line.id)
@@ -212,20 +215,20 @@ struct InvoiceDetailView: View {
             }
 
             Section("Totals") {
-                LabeledContent("Net", value: Money.format(totals.net))
-                LabeledContent("VAT", value: Money.format(totals.vat))
-                LabeledContent("Invoice total", value: Money.format(totals.total))
+                LabeledContent("Net", value: Money.format(totals.net, supplier: job.draft.supplier))
+                LabeledContent("VAT", value: Money.format(totals.vat, supplier: job.draft.supplier))
+                LabeledContent("Invoice total", value: Money.format(totals.total, supplier: job.draft.supplier))
                 if totals.excluded > 0 {
-                    LabeledContent("Missing or returned", value: Money.format(totals.excluded))
+                    LabeledContent("Missing or returned", value: Money.format(totals.excluded, supplier: job.draft.supplier))
                 }
                 if totals.over > 0.005 {
                     LabeledContent("Overcharged") {
-                        Text(Money.format(totals.over))
+                        Text(Money.format(totals.over, supplier: job.draft.supplier))
                             .fontWeight(.bold)
                             .foregroundStyle(.red)
                     }
                     LabeledContent("You should pay") {
-                        Text(Money.format(Money.round2(totals.total - totals.over - totals.overVat)))
+                        Text(Money.format(Money.round2(totals.total - totals.over - totals.overVat), supplier: job.draft.supplier))
                             .fontWeight(.bold)
                     }
                 }
@@ -236,7 +239,7 @@ struct InvoiceDetailView: View {
                             .foregroundStyle(.green)
                     } else {
                         VStack(alignment: .leading, spacing: 6) {
-                            Label("The lines add up to \(Money.format(totals.net)) but the invoice says \(Money.format(job.draft.printedNet ?? 0)). A line may be missing or misread.", systemImage: "exclamationmark.triangle.fill")
+                            Label("The lines add up to \(Money.format(totals.net, supplier: job.draft.supplier)) but the invoice says \(Money.format(job.draft.printedNet ?? 0, supplier: job.draft.supplier)). A line may be missing or misread.", systemImage: "exclamationmark.triangle.fill")
                                 .font(.footnote)
                                 .foregroundStyle(.orange)
                             if !job.draft.totalAcknowledged {
@@ -278,6 +281,7 @@ struct InvoiceDetailView: View {
 /// Tick off what arrived, line by line.
 struct DeliveryCheckView: View {
     let lines: [CheckLine]
+    var supplier = ""
     let save: ([String: Double]) -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -320,7 +324,7 @@ struct DeliveryCheckView: View {
                     Text("Tap an item to switch between all arrived and none arrived, or use − and + for part of it.")
                 }
                 Section {
-                    LabeledContent("Short", value: Money.format(shortValue))
+                    LabeledContent("Short", value: Money.format(shortValue, supplier: supplier))
                         .fontWeight(.semibold)
                     Button("Everything arrived") {
                         for line in lines { received[line.id] = line.qty }
@@ -370,7 +374,7 @@ struct CreditNoteView: View {
                         .foregroundStyle(.green)
                     Text("Credit note")
                         .font(.headline)
-                    Text(Money.format(note.amount))
+                    Text(Money.format(note.amount, supplier: note.supplier))
                         .font(.largeTitle.weight(.heavy))
                     Text(note.message)
                         .font(.footnote)
@@ -453,7 +457,7 @@ struct TotalOnlyView: View {
                     Image(systemName: "checkmark.shield.fill")
                         .font(.system(size: 34))
                         .foregroundStyle(.green)
-                    Text(Money.format(job.draft.printedTotal ?? 0))
+                    Text(Money.format(job.draft.printedTotal ?? 0, supplier: job.draft.supplier))
                         .font(.largeTitle.weight(.heavy))
                     Text("Trusted supplier: only the total was read. The prices weren't checked.")
                         .font(.footnote)
@@ -542,6 +546,7 @@ struct Hero: View {
     let empty: Bool
     let message: String
     let sample: Bool
+    var supplier = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -556,24 +561,24 @@ struct Hero: View {
                 Label(totals.reviewCount == 1 ? "1 thing to check" : "\(totals.reviewCount) things to check", systemImage: "exclamationmark.circle.fill")
                     .font(.headline)
                     .foregroundStyle(.orange)
-                Text(totals.over > 0.005 ? "Overcharged \(Money.format(totals.over)) so far. Tap the orange lines to confirm them." : "Tap the orange lines to confirm them.")
+                Text(totals.over > 0.005 ? "Overcharged \(Money.format(totals.over, supplier: supplier)) so far. Tap the orange lines to confirm them." : "Tap the orange lines to confirm them.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else if totals.over > 0.005 {
                 Text("Overcharged")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.red)
-                Text(Money.format(totals.over))
+                Text(Money.format(totals.over, supplier: supplier))
                     .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .foregroundStyle(.red)
-                Text(totals.overVat > 0 ? "Plus \(Money.format(totals.overVat)) VAT on top. Every line double-checked." : "Every line double-checked.")
+                Text(totals.overVat > 0 ? "Plus \(Money.format(totals.overVat, supplier: supplier)) VAT on top. Every line double-checked." : "Every line double-checked.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else {
                 Label("All prices match", systemImage: "checkmark.seal.fill")
                     .font(.headline)
                     .foregroundStyle(.green)
-                Text(totals.under > 0.005 ? "You paid \(Money.format(totals.under)) less than your agreed prices." : "Nothing was charged above your agreed prices.")
+                Text(totals.under > 0.005 ? "You paid \(Money.format(totals.under, supplier: supplier)) less than your agreed prices." : "Nothing was charged above your agreed prices.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
@@ -596,6 +601,7 @@ struct LineRow: View {
     let line: CheckLine
     let result: LineResult
     let reasons: [String]
+    var supplier = ""
 
     private func quantity(_ value: Double) -> String {
         value == value.rounded() ? String(Int(value)) : String(format: "%.2f", value)
@@ -610,6 +616,23 @@ struct LineRow: View {
                 Text(detail)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+                if Self.unsure(line) && reasons.isEmpty {
+                    Label("Check this match", systemImage: "questionmark.circle")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.orange)
+                }
+                if !line.read.isEmpty && TextTools.norm(line.read) != TextTools.norm(line.desc) {
+                    Text("On the invoice: \(line.read)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
+                if !line.excluded, result.over > 0.005, let base = result.base {
+                    Text(Self.sum(qty: line.qty, unit: line.unit, base: base, over: result.over, supplier: supplier))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.red)
+                        .monospacedDigit()
+                }
                 ForEach(reasons, id: \.self) { reason in
                     Text(reason)
                         .font(.footnote)
@@ -622,12 +645,24 @@ struct LineRow: View {
         .contentShape(Rectangle())
     }
 
+    /// The reader wasn't sure: an uncertain match, the two reads differed, or only one read found the line.
+    static func unsure(_ line: CheckLine) -> Bool {
+        guard !line.ok, !line.excluded else { return false }
+        return line.confident == false || line.disagree || line.onlySecondRead
+    }
+
+    /// How the overcharge was worked out: "(£32.00 − £30.00) × 2 = £4.00".
+    static func sum(qty: Double, unit: Double, base: Double, over: Double, supplier: String = "") -> String {
+        let q = qty == qty.rounded() ? String(Int(qty)) : String(format: "%.2f", qty)
+        return "(\(Money.format(unit, supplier: supplier)) − \(Money.format(base, supplier: supplier))) × \(q) = \(Money.format(over, supplier: supplier))"
+    }
+
     private var detail: String {
-        var text = "\(quantity(line.qty)) × \(Money.format(line.unit))"
+        var text = "\(quantity(line.qty)) × \(Money.format(line.unit, supplier: supplier))"
         if line.excluded { return text + " · " + String(localized: "missing or returned") }
         if line.short > 0 { text += " · " + String(localized: "\(quantity(line.short)) didn't arrive") }
         if let item = result.item, let base = result.base {
-            text += " · " + String(localized: "your price \(Money.format(base))")
+            text += " · " + String(localized: "your price \(Money.format(base, supplier: supplier))")
             if TextTools.norm(item.name) != TextTools.norm(line.desc) { text += " (\(item.name))" }
         } else if line.noBase {
             text += " · " + String(localized: "not in your price list")
@@ -644,7 +679,7 @@ struct LineRow: View {
             Image(systemName: "exclamationmark.circle.fill")
                 .foregroundStyle(.orange)
         } else if result.over > 0.005 {
-            Text("+" + Money.format(result.over))
+            Text("+" + Money.format(result.over, supplier: supplier))
                 .font(.subheadline.weight(.bold))
                 .foregroundStyle(.red)
                 .monospacedDigit()
@@ -652,7 +687,7 @@ struct LineRow: View {
             Image(systemName: "checkmark.circle.fill")
                 .foregroundStyle(.green)
         } else {
-            Text(Money.format(result.net))
+            Text(Money.format(result.net, supplier: supplier))
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .monospacedDigit()

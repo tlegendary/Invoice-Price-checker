@@ -22,28 +22,38 @@ struct RootView: View {
     /// Settings › Lock with Face ID: the app is covered until unlocked, and again after leaving it.
     @State private var locked = AppLock.isOn
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
-    @State private var tab = UserDefaults.standard.string(forKey: "startTab") ?? "check"
+    @State private var tab = RootView.firstTab
+    /// "-startTab prices" / "settings" open those pages inside More.
+    private static let startPage = UserDefaults.standard.string(forKey: "startTab").flatMap { MoreView.Page(rawValue: $0) }
+
+    private static var firstTab: String {
+        let wanted = UserDefaults.standard.string(forKey: "startTab") ?? ""
+        if UserDefaults.standard.string(forKey: "demoScan") != nil { return "invoices" }
+        switch wanted {
+        case "check", "invoices": return "invoices"
+        case "reports", "suppliers", "home", "more": return wanted
+        case "": return "home"
+        default: return MoreView.Page(rawValue: wanted) != nil ? "more" : "home"
+        }
+    }
 
     var body: some View {
         TabView(selection: $tab) {
+            HomeView(tab: $tab)
+                .tabItem { Label("Home", systemImage: "house") }
+                .tag("home")
             CheckView(storageProblem: storageProblem, showPaywall: $showPaywall)
-                .tabItem { Label("Check", systemImage: "doc.text.viewfinder") }
-                .tag("check")
-            // staff phones: prices are the owner's
-            if !team.isStaff {
-                PricesView()
-                    .tabItem { Label("Prices", systemImage: "tag") }
-                    .tag("prices")
-            }
-            ReportsView()
-                .tabItem { Label("Reports", systemImage: "chart.bar") }
-                .tag("reports")
+                .tabItem { Label("Invoices", systemImage: "doc.text.viewfinder") }
+                .tag("invoices")
             SuppliersView()
                 .tabItem { Label("Suppliers", systemImage: "shippingbox") }
                 .tag("suppliers")
-            SettingsView(showPaywall: $showPaywall)
-                .tabItem { Label("Settings", systemImage: "gearshape") }
-                .tag("settings")
+            ReportsView()
+                .tabItem { Label("Reports", systemImage: "chart.bar") }
+                .tag("reports")
+            MoreView(showPaywall: $showPaywall, open: Self.startPage)
+                .tabItem { Label("More", systemImage: "ellipsis.circle") }
+                .tag("more")
         }
         .environmentObject(session)
         .environmentObject(store)
@@ -57,7 +67,7 @@ struct RootView: View {
             // an invoice shared into ChargeCheck
             let kind = url.pathExtension.lowercased()
             guard url.isFileURL, ["pdf", "jpg", "jpeg", "png", "heic", "heif"].contains(kind) else { return }
-            tab = "check"
+            tab = "invoices"
             session.incoming.append(url)
         }
         .tint(Themes.named(colourID).accent(for: scheme))
@@ -91,7 +101,7 @@ struct RootView: View {
             await store.refresh()
             if IntentInbox.takeScanRequest() {
                 // opened by Siri / Shortcuts: "Check an invoice"
-                tab = "check"
+                tab = "invoices"
                 session.openScanner = true
             }
             // first open without a subscription: show the plans once. Closing them carries on with the free version.
@@ -109,7 +119,7 @@ struct RootView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: IntentInbox.notification)) { _ in
             if IntentInbox.takeScanRequest() {
-                tab = "check"
+                tab = "invoices"
                 session.openScanner = true
             }
         }
@@ -119,7 +129,7 @@ struct RootView: View {
             if phase == .active { Task { await CloudTeam.shared.refresh() } }
             if phase == .background && AppLock.isOn { locked = true }
             if phase == .active && IntentInbox.takeScanRequest() {
-                tab = "check"
+                tab = "invoices"
                 session.openScanner = true
             }
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile

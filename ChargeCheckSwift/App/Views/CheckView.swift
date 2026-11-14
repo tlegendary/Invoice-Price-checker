@@ -14,6 +14,7 @@ struct CheckView: View {
     @EnvironmentObject private var ads: AdService
     @Environment(\.modelContext) private var context
     @Query private var prices: [StoredPrice]
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
 
     @State private var path: [String] = []
     @State private var showScanner = false
@@ -121,7 +122,7 @@ struct CheckView: View {
                          : "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.")
                 }
                 if !session.jobs.isEmpty {
-                    Section("Invoices") {
+                    Section("Being checked") {
                         ForEach(session.jobs) { job in
                             NavigationLink(value: job.id) {
                                 JobRow(job: job, items: session.items(for: job, context: context))
@@ -133,10 +134,32 @@ struct CheckView: View {
                         }
                     }
                 }
+                if !reports.isEmpty {
+                    Section {
+                        ForEach(reports.prefix(5)) { stored in
+                            if let entry = stored.entry {
+                                NavigationLink(value: ReportLink(id: entry.id)) {
+                                    ReportRow(entry: entry)
+                                }
+                            }
+                        }
+                        NavigationLink {
+                            InvoiceHistoryView()
+                        } label: {
+                            Label(reports.count == 1 ? String(localized: "All checked invoices (1)") : String(localized: "All checked invoices (\(reports.count))"),
+                                  systemImage: "tray.full")
+                        }
+                    } header: {
+                        Text("Checked invoices")
+                    }
+                }
             }
-            .navigationTitle("ChargeCheck")
+            .navigationTitle("Invoices")
             .navigationDestination(for: String.self) { id in
                 InvoiceDetailView(jobID: id)
+            }
+            .navigationDestination(for: ReportLink.self) { link in
+                ReportDetailView(reportID: link.id)
             }
             .fullScreenCover(isPresented: $showScanner) {
                 DocumentScanner(
@@ -341,7 +364,7 @@ struct JobRow: View {
         let totals = InvoiceMaths.totals(job.draft, book: PriceBook(items), tolerance: AppData.tolerance)
         if let note = job.creditNote {
             Label {
-                Text(String(localized: "Credit note · \(Money.format(note.amount))"))
+                Text(String(localized: "Credit note · \(Money.format(note.amount, supplier: job.draft.supplier))"))
             } icon: {
                 Image(systemName: "arrow.uturn.backward.circle.fill")
             }
@@ -349,7 +372,7 @@ struct JobRow: View {
             .foregroundStyle(note.amount > 0 ? Color.green : Color.orange)
         } else if job.draft.totalOnly {
             Label {
-                Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0))") : String(localized: "Trusted · type in the total"))
+                Text((job.draft.printedTotal ?? 0) > 0 ? String(localized: "Trusted · total \(Money.format(job.draft.printedTotal ?? 0, supplier: job.draft.supplier))") : String(localized: "Trusted · type in the total"))
             } icon: {
                 Image(systemName: "checkmark.shield.fill")
             }
@@ -364,7 +387,7 @@ struct JobRow: View {
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.orange)
         } else if totals.over > 0.005 {
-            Text("Overcharged \(Money.format(totals.over))")
+            Text("Overcharged \(Money.format(totals.over, supplier: job.draft.supplier))")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.red)
         } else {

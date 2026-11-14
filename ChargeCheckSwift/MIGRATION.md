@@ -183,9 +183,14 @@ Tick an item when it is merged and the cloud check is green. Don't start an item
 - [ ] F8. Home-screen widget: amount to pay and credits still owed
 
 ### Now working on
-- Single chat (13 Nov 2026): beta 17 = launch-crash fix. Ramyar did the CloudKit `Item` record type (deployed to Production) and
-  Push Notifications on the beta App ID. Branch `feature/sharing-back` turns the widget and staff sharing back on (push
-  entitlement + `remote-notification` added). Held until Ramyar confirms 17 opens.
+- Single chat (14 Nov 2026), Ramyar's review list: five tabs (Home · Invoices · Suppliers · Reports · More), Home overview
+  (owed, spent, caught, money leaks, money protected, needs attention), search everything, Pay within + due dates,
+  Recently deleted (30 days) + history of changes, supplier profiles + score + supplier report PDF, right-to-left PDFs,
+  unsure lines shaded amber with the printed text and the overcharge sum, a currency per supplier (never added to your own).
+- Next (Ramyar said yes, 14 Nov): Free / Scan packs / Pro split. Free = check with one ad per scan, last 30 days.
+  Any pack bought = no ads, full history, PDFs/exports, delivery + statement check. Pro = unlimited + money leaks,
+  price rises, cheaper elsewhere, scores, due dates/pay run, several shops, staff, widget, Apple Intelligence, history.
+  Locked items stay visible with a Pro tag. Existing subscribers keep everything.
 
 ### Apple setup done (Ramyar, 12 Nov 2026)
 On developer.apple.com: App Group `group.com.rjapps.invoicepricechecker.beta` and iCloud container

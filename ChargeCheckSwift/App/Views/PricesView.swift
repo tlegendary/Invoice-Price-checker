@@ -46,12 +46,18 @@ struct PricesView: View {
         if current.isNew { return nil }
         let id = current.item.id
         return {
-            if let stored = prices.first(where: { $0.uid == id }) { context.delete(stored) }
+            if let stored = prices.first(where: { $0.uid == id }) { AppData.deletePrices([stored], context: context) }
         }
     }
 
+    /// Opened from the More tab, inside its navigation, rather than as a tab of its own.
+    var embedded = false
+
     var body: some View {
-        NavigationStack {
+        if embedded { content } else { NavigationStack { content } }
+    }
+
+    private var content: some View {
             List {
                 if prices.isEmpty {
                     ContentUnavailableView {
@@ -73,7 +79,7 @@ struct PricesView: View {
                             .buttonStyle(.plain)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
-                                    context.delete(price)
+                                    AppData.deletePrices([price], context: context)
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }
@@ -151,13 +157,12 @@ struct PricesView: View {
             }
             .confirmationDialog("Delete all \(prices.count) prices?", isPresented: $confirmDeleteAll, titleVisibility: .visible) {
                 Button("Delete all prices", role: .destructive) {
-                    for price in prices { context.delete(price) }
+                    AppData.deletePrices(Array(prices), context: context)
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("Your reports are kept. This can't be undone, so save a backup first in Settings.")
+                Text("Your reports are kept. Deleted prices can be brought back from More › Recently deleted for 30 days.")
             }
-        }
     }
 }
 

@@ -368,7 +368,7 @@ final class CloudTeam: NSObject, ObservableObject {
                 if let stored = (try? context.fetch(descriptor))?.first { stored.update(from: entry) } else { context.insert(StoredReport(entry: entry)) }
             case .price:
                 guard let item = TeamSync.decodePrice(data) else { continue }
-                AppData.save(item, in: context)
+                AppData.save(item, in: context, logged: false)
             case .payment:
                 guard let payment = TeamSync.decodePayment(data) else { continue }
                 payments.removeAll { $0.id == payment.id }

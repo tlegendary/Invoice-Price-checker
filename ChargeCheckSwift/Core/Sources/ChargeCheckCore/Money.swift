@@ -31,7 +31,15 @@ public enum Money {
 
     /// "£12.50", "12,50 €", "25,000 IQD" / "-£3.00"
     public static func format(_ value: Double) -> String {
-        let c = currency
+        format(value, in: currency)
+    }
+
+    /// The same in another currency (a supplier who invoices in dollars while you keep accounts in dinars).
+    public static func format(_ value: Double, code: String?) -> String {
+        format(value, in: code.flatMap { code in Currency.all.first { $0.code == code } } ?? currency)
+    }
+
+    public static func format(_ value: Double, in c: Currency) -> String {
         let sign = value < 0 ? "-" : ""
         var number = String(format: "%.\(c.decimals)f", abs(value))
         if c.decimals == 0 {

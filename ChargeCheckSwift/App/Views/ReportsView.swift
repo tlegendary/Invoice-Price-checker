@@ -24,7 +24,8 @@ struct ReportsView: View {
     private var shops: [ShopInfo] { Shops.decode(shopData) }
 
     private var entries: [HistoryEntry] {
-        let all = reports.compactMap { $0.entry }
+        // suppliers who invoice in another currency aren't added into these totals
+        let all = reports.compactMap { $0.entry }.filter { Accounts.shared.otherCurrency($0.supplier) == nil }
         if shopFilter.isEmpty || !shops.contains(where: { $0.id == shopFilter }) { return all }
         return all.filter { $0.shopId == shopFilter }
     }
@@ -93,19 +94,43 @@ struct ReportsView: View {
                             }
                         }
                     }
-                    paySection(pay)
-                    Section("Checked invoices") {
-                        ForEach(list) { entry in
-                            NavigationLink(value: entry.id) {
-                                ReportRow(entry: entry)
+                    Section {
+                        NavigationLink {
+                            PriceRisesView(supplier: nil)
+                        } label: {
+                            Label("Price rises", systemImage: "arrow.up.right")
+                        }
+                        NavigationLink {
+                            SupplierTipsView(tips: Insights.supplierTips(list))
+                        } label: {
+                            Label("Cheaper elsewhere", systemImage: "tag")
+                        }
+                        NavigationLink {
+                            SupplierScoresView()
+                        } label: {
+                            Label("Supplier scores", systemImage: "star.leadinghalf.filled")
+                        }
+                        NavigationLink {
+                            SavingsView()
+                        } label: {
+                            Label("Money protected", systemImage: "shield.lefthalf.filled")
+                        }
+                        if !CloudTeam.shared.isStaff {
+                            NavigationLink {
+                                DuePaymentsView()
+                            } label: {
+                                Label("Payments due", systemImage: "calendar.badge.clock")
                             }
                         }
-                        .onDelete { offsets in
-                            for id in offsets.map({ list[$0].id }) { AppData.deleteReport(id, context: context) }
+                        NavigationLink {
+                            InvoiceHistoryView()
+                        } label: {
+                            Label("All checked invoices", systemImage: "tray.full")
                         }
-                        // staff phones: only the owner removes invoices
-                        .deleteDisabled(CloudTeam.shared.isStaff)
+                    } header: {
+                        Text("Insights")
                     }
+                    paySection(pay)
                 }
             }
             .navigationTitle("Reports")
@@ -125,6 +150,9 @@ struct ReportsView: View {
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
             }
+            .navigationDestination(for: ReportLink.self) { link in
+                ReportDetailView(reportID: link.id)
+            }
             .task {
                 // the cloud check: open an overcharged invoice ("-demoCredit YES" marks its credit as asked for)
                 guard UserDefaults.standard.bool(forKey: "demoReport"), demoPath.isEmpty,
@@ -141,7 +169,8 @@ struct ReportsView: View {
                 PayChooseView(entries: pay.unpaid, skippedText: $skippedText)
             }
             .sheet(isPresented: $showExport) {
-                ExportView(entries: list)
+                // the accountant gets every invoice, whatever its currency
+                ExportView(entries: reports.compactMap { $0.entry }.filter { shopFilter.isEmpty || $0.shopId == shopFilter })
             }
             .confirmationDialog("Mark \(pay.selected.count == 1 ? "1 invoice" : "\(pay.selected.count) invoices") as paid (\(Money.format(pay.pay)))?",
                                 isPresented: $confirmPaid, titleVisibility: .visible) {
@@ -265,10 +294,10 @@ struct ReportRow: View {
                     .lineLimit(1)
                 Spacer(minLength: 12)
                 if entry.totalOnly {
-                    Text(Money.format(entry.total))
+                    Text(Money.format(entry.total, supplier: entry.supplier))
                         .font(.subheadline.weight(.bold))
                 } else {
-                    Text(entry.over > 0.005 ? Money.format(entry.over) : L("OK"))
+                    Text(entry.over > 0.005 ? Money.format(entry.over, supplier: entry.supplier) : L("OK"))
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(entry.over > 0.005 ? Color.red : Color.green)
                 }
@@ -286,7 +315,7 @@ struct ReportRow: View {
         if entry.totalOnly {
             parts.append(String(localized: "trusted supplier, prices not checked"))
         } else {
-            parts.append(String(localized: "total \(Money.format(entry.total))"))
+            parts.append(String(localized: "total \(Money.format(entry.total, supplier: entry.supplier))"))
         }
         if entry.paid != nil { parts.append(String(localized: "paid")) }
         if !entry.verified { parts.append(String(localized: "not fully checked")) }
@@ -377,9 +406,9 @@ struct ReportDetailView: View {
 
     private var entry: HistoryEntry? { reports.first { $0.uid == reportID }?.entry }
 
-    static func lineDetail(_ line: HistoryLine) -> String {
-        var parts = ["\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit))"]
-        if let base = line.base { parts.append(String(localized: "your price \(Money.format(base))")) }
+    static func lineDetail(_ line: HistoryLine, supplier: String = "") -> String {
+        var parts = ["\(PDFMaker.quantity(line.qty)) × \(Money.format(line.unit, supplier: supplier))"]
+        if let base = line.base { parts.append(String(localized: "your price \(Money.format(base, supplier: supplier))")) }
         if line.excluded {
             parts.append(String(localized: "missing or returned"))
         } else if line.short > 0 {
@@ -397,15 +426,15 @@ struct ReportDetailView: View {
                         LabeledContent("Supplier", value: entry.supplier)
                         if !entry.invNo.isEmpty { LabeledContent("Invoice no.", value: entry.invNo) }
                         if !entry.date.isEmpty { LabeledContent("Date", value: entry.date) }
-                        LabeledContent("Invoice total", value: Money.format(amounts.total))
+                        LabeledContent("Invoice total", value: Money.format(amounts.total, supplier: entry.supplier))
                         if amounts.less > 0 {
                             LabeledContent("Overcharged / missing") {
-                                Text("−" + Money.format(amounts.less))
+                                Text("−" + Money.format(amounts.less, supplier: entry.supplier))
                                     .foregroundStyle(.red)
                             }
                         }
                         LabeledContent("To pay") {
-                            Text(Money.format(amounts.pay))
+                            Text(Money.format(amounts.pay, supplier: entry.supplier))
                                 .fontWeight(.bold)
                         }
                         Toggle("Paid", isOn: Binding(
@@ -432,7 +461,7 @@ struct ReportDetailView: View {
                             }
                         }
                         if amounts.less > 0 {
-                            let message = ReportMaths.creditText(entry, business: business)
+                            let message = ReportMaths.creditText(entry, business: business, code: Accounts.shared.otherCurrency(entry.supplier))
                             ShareLink(item: message, subject: Text("Credit request"), message: nil) {
                                 Label("Credit request message (WhatsApp, email…)", systemImage: "text.bubble")
                             }
@@ -459,13 +488,24 @@ struct ReportDetailView: View {
                                     Text(line.item.isEmpty ? line.desc : line.item)
                                         .font(.subheadline.weight(.semibold))
                                         .strikethrough(line.excluded)
-                                    Text(Self.lineDetail(line))
+                                    Text(Self.lineDetail(line, supplier: entry.supplier))
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
+                                    if line.over > 0.005 && !line.excluded, let base = line.base {
+                                        Text(LineRow.sum(qty: line.qty, unit: line.unit, base: base, over: line.over, supplier: entry.supplier))
+                                            .font(.caption.weight(.semibold))
+                                            .foregroundStyle(.red)
+                                            .monospacedDigit()
+                                    }
+                                    if !line.item.isEmpty && TextTools.norm(line.item) != TextTools.norm(line.desc) {
+                                        Text("On the invoice: \(line.desc)")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
                                 Spacer(minLength: 8)
                                 if line.over > 0.005 && !line.excluded {
-                                    Text("+" + Money.format(line.over))
+                                    Text("+" + Money.format(line.over, supplier: entry.supplier))
                                         .font(.subheadline.weight(.bold))
                                         .foregroundStyle(.red)
                                 }
@@ -473,12 +513,12 @@ struct ReportDetailView: View {
                         }
                     }
                     Section {
-                        Button("Delete this report", role: .destructive) {
+                        Button("Delete this invoice", role: .destructive) {
                             guard !CloudTeam.shared.isStaff else { return }
                             confirmDelete = true
                         }
                     } footer: {
-                        Text("The copy of the original invoice in the Files app is kept.")
+                        Text("It stays in More › Recently deleted for 30 days. The copy of the original invoice in the Files app is kept.")
                     }
                 }
             } else {
@@ -488,7 +528,7 @@ struct ReportDetailView: View {
         .navigationTitle("Invoice")
         .navigationBarTitleDisplayMode(.inline)
         .quickLookPreview($preview)
-        .confirmationDialog("Delete this report?", isPresented: $confirmDelete, titleVisibility: .visible) {
+        .confirmationDialog("Delete this invoice?", isPresented: $confirmDelete, titleVisibility: .visible) {
             Button("Delete", role: .destructive) {
                 AppData.deleteReport(reportID, context: context)
                 dismiss()
@@ -502,11 +542,11 @@ struct ReportDetailView: View {
     private func creditSection(_ entry: HistoryEntry, amount: Double) -> some View {
         Section {
             if let credit = entry.credit, credit.status == CreditInfo.received {
-                Label("Credit of \(Money.format(credit.amount)) received", systemImage: "checkmark.seal.fill")
+                Label("Credit of \(Money.format(credit.amount, supplier: entry.supplier)) received", systemImage: "checkmark.seal.fill")
                     .foregroundStyle(.green)
                 Button("Not received after all") { setCredit(entry, nil, amount: amount) }
             } else if let credit = entry.credit, credit.isOwed {
-                Label(String(localized: "Asked for \(Money.format(credit.amount))") + (credit.at.map { " · " + shortDate($0) } ?? ""), systemImage: "hourglass")
+                Label(String(localized: "Asked for \(Money.format(credit.amount, supplier: entry.supplier))") + (credit.at.map { " · " + shortDate($0) } ?? ""), systemImage: "hourglass")
                     .foregroundStyle(.orange)
                 Button {
                     setCredit(entry, CreditInfo.received, amount: credit.amount)
@@ -529,6 +569,8 @@ struct ReportDetailView: View {
     }
 
     private func setCredit(_ entry: HistoryEntry, _ status: String?, amount: Double) {
+        Records.shared.log(status == CreditInfo.requested ? .creditAsked : status == CreditInfo.received ? .creditReceived : .creditCleared,
+                           RecordKeeping.subject(entry), amount: amount)
         let stamp = ISO8601DateFormatter().string(from: Date())
         let asked = entry.credit?.at
         AppData.updateReports([entry.id], context: context) { saved in

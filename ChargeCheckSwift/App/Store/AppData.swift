@@ -34,7 +34,9 @@ enum AppData {
             settings.shop = Shops.current
         }
         return BackupFile(baseline: items(context), history: entries(context), settings: settings, scans: scans,
-                          payments: Accounts.shared.payments, trusted: Accounts.shared.trusted)
+                          payments: Accounts.shared.payments, trusted: Accounts.shared.trusted,
+                          creditDays: Accounts.shared.creditDays.isEmpty ? nil : Accounts.shared.creditDays,
+                          currencies: Accounts.shared.currencies.isEmpty ? nil : Accounts.shared.currencies)
     }
 
     /// Replaces what is on this phone with the backup.
@@ -52,7 +54,9 @@ enum AppData {
             context.insert(StoredReport(entry: entry))
         }
         try? context.save()
-        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, context: context)
+        Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
+                                currencies: backup.currencies, context: context)
+        Records.shared.log(.backupRestored, String(localized: "\(backup.baseline.count) prices, \(backup.history.count) invoices"))
 
         let defaults = UserDefaults.standard
         if let settings = backup.settings {
@@ -117,19 +121,38 @@ enum AppData {
         try? context.save()
     }
 
+    /// Deletes an invoice. It stays in More › Recently deleted for 30 days.
     static func deleteReport(_ id: String, context: ModelContext) {
-        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where stored.uid == id { context.delete(stored) }
+        deleteReports([id], context: context)
+    }
+
+    static func deleteReports(_ ids: Set<String>, context: ModelContext) {
+        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
+            if let entry = stored.entry { Records.shared.binInvoice(entry) }
+            context.delete(stored)
+        }
         try? context.save()
     }
 
+    /// Deletes prices. They stay in More › Recently deleted for 30 days.
+    static func deletePrices(_ prices: [StoredPrice], context: ModelContext) {
+        for price in prices {
+            Records.shared.binPrice(price.item)
+            context.delete(price)
+        }
+    }
+
     /// Adds or updates one price.
-    static func save(_ item: PriceItem, in context: ModelContext) {
+    static func save(_ item: PriceItem, in context: ModelContext, logged: Bool = true) {
         let id = item.id
         let descriptor = FetchDescriptor<StoredPrice>(predicate: #Predicate<StoredPrice> { $0.uid == id })
         if let existing = (try? context.fetch(descriptor))?.first {
+            let old = existing.item.price
             existing.update(from: item)
+            if logged && abs(old - item.price) > 0.0001 { Records.shared.log(.priceChanged, item.name, amount: old, newAmount: item.price) }
         } else {
             context.insert(StoredPrice(item: item))
+            if logged { Records.shared.log(.priceAdded, item.name, newAmount: item.price) }
         }
     }
 

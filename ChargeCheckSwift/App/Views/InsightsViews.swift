@@ -398,3 +398,44 @@ struct CompareShopsView: View {
         }
     }
 }
+
+/// Every supplier with enough invoices, best score first.
+struct SupplierScoresView: View {
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
+    @ObservedObject private var accounts = Accounts.shared
+
+    var body: some View {
+        let entries = reports.compactMap { $0.entry }
+        let list = SupplierAccounts.accounts(entries: entries, payments: accounts.payments, trusted: accounts.trusted)
+            .filter { !$0.trusted && !$0.entries.isEmpty }
+            .map { (account: $0, profile: SupplierProfiles.make($0, all: entries)) }
+            .sorted { ($0.profile.score ?? -1, $0.account.name) > ($1.profile.score ?? -1, $1.account.name) }
+        List {
+            if list.isEmpty {
+                ContentUnavailableView("No suppliers yet", systemImage: "shippingbox")
+            }
+            Section {
+                ForEach(list.indices, id: \.self) { index in
+                    let row = list[index]
+                    NavigationLink {
+                        SupplierDetailView(key: row.account.id)
+                    } label: {
+                        HStack(spacing: 12) {
+                            ScoreBadge(score: row.profile.score)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(row.account.name)
+                                    .font(.subheadline.weight(.semibold))
+                                Text(row.profile.invoices == 1 ? String(localized: "1 invoice") : String(localized: "\(row.profile.invoices) invoices"))
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+            } footer: {
+                Text("Out of 100: how often they charge your agreed price, deliver in full, keep prices steady, and how their prices compare with your other suppliers. Trusted suppliers aren't scored.")
+            }
+        }
+        .navigationTitle("Supplier scores")
+    }
+}

@@ -25,8 +25,11 @@ struct SuppliersView: View {
     var body: some View {
         NavigationStack(path: $path) {
             let all = list
-            let owed = Money.round2(all.filter { $0.balance > 0.005 }.reduce(0) { $0 + $1.balance })
-            let thisWeek = Money.round2(all.reduce(0) { $0 + $1.paidThisWeek })
+            // suppliers who invoice in another currency are added up on their own
+            let home = accounts.homeCurrencyAccounts(all)
+            let owed = Money.round2(home.filter { $0.balance > 0.005 }.reduce(0) { $0 + $1.balance })
+            let thisWeek = Money.round2(home.reduce(0) { $0 + $1.paidThisWeek })
+            let other = OtherCurrencyTotals.make(all.filter { accounts.otherCurrency($0.name) != nil })
             List {
                 if all.isEmpty {
                     ContentUnavailableView {
@@ -42,6 +45,9 @@ struct SuppliersView: View {
                                 .foregroundStyle(.tint)
                         }
                         LabeledContent("Paid this week", value: Money.format(thisWeek))
+                        ForEach(other, id: \.code) { row in
+                            LabeledContent(String(localized: "Also owed in \(row.code)"), value: Money.format(row.owed, code: row.code))
+                        }
                     }
                     Section {
                         ForEach(all) { account in
@@ -192,7 +198,7 @@ struct SupplierRow: View {
                     .lineLimit(2)
             }
             Spacer(minLength: 8)
-            Text(Money.format(account.balance))
+            Text(Money.format(account.balance, supplier: account.name))
                 .fontWeight(.bold)
                 .foregroundStyle(account.balance > 0.005 ? Color.primary : Color.green)
         }
@@ -207,9 +213,23 @@ struct SupplierRow: View {
             parts.append(String(localized: "nothing owed"))
         }
         if let last = account.lastPayment {
-            parts.append(String(localized: "last paid \(Money.format(last.amount)) on \(PayDates.show(last.date))"))
+            parts.append(String(localized: "last paid \(Money.format(last.amount, supplier: account.name)) on \(PayDates.show(last.date))"))
         }
         return parts.joined(separator: " · ")
+    }
+}
+
+/// What you owe suppliers in each other currency.
+enum OtherCurrencyTotals {
+    struct Row { let code: String; let owed: Double }
+
+    @MainActor static func make(_ accounts: [SupplierAccount]) -> [Row] {
+        var totals: [String: Double] = [:]
+        for account in accounts where account.balance > 0.005 {
+            guard let code = Accounts.shared.otherCurrency(account.name) else { continue }
+            totals[code, default: 0] += account.balance
+        }
+        return totals.keys.sorted().map { Row(code: $0, owed: Money.round2(totals[$0] ?? 0)) }
     }
 }
 
@@ -218,6 +238,113 @@ enum PayDates {
     static func show(_ text: String) -> String {
         guard let date = SupplierAccounts.day(text) else { return text }
         return date.formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+/// The supplier's profile: purchases, accuracy, a score out of 100 and a report to send or keep.
+struct SupplierProfileSection: View {
+    let account: SupplierAccount
+    let profile: SupplierProfile
+
+    @ObservedObject private var accounts = Accounts.shared
+    @AppStorage(SettingKey.business) private var business = ""
+    @AppStorage(SettingKey.colour) private var colourID = "green"
+    @State private var showScore = false
+    @State private var made: URL?
+
+    var body: some View {
+        Section {
+            Button {
+                showScore.toggle()
+            } label: {
+                HStack {
+                    ScoreBadge(score: profile.score)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Supplier score")
+                            .font(.subheadline.weight(.semibold))
+                        Text(profile.score == nil ? String(localized: "Needs \(SupplierProfile.minimumInvoices) checked invoices")
+                             : String(localized: "Prices, deliveries and invoice accuracy"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Image(systemName: showScore ? "chevron.up" : "chevron.down")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .buttonStyle(.plain)
+            if showScore {
+                percentRow("Charged the agreed price", profile.parts.invoiceAccuracy)
+                percentRow("Delivered in full", profile.parts.deliveryAccuracy)
+                percentRow("Prices that stayed the same (90 days)", profile.parts.priceStability)
+                percentRow("Cheapest for items you also buy elsewhere", profile.parts.priceCompetitiveness)
+            }
+            LabeledContent("Bought this month", value: Money.format(profile.purchasesThisMonth, supplier: account.name))
+            LabeledContent("Last month", value: Money.format(profile.purchasesLastMonth, supplier: account.name))
+            LabeledContent("Average invoice", value: Money.format(profile.averageInvoice, supplier: account.name))
+            if profile.disputed > 0 {
+                LabeledContent(profile.disputed == 1 ? String(localized: "1 invoice with a problem") : String(localized: "\(profile.disputed) invoices with a problem")) {
+                    Text(Money.format(Money.round2(profile.overcharged + profile.missing), supplier: account.name))
+                        .foregroundStyle(.red)
+                }
+            }
+            if profile.creditsOwed > 0.005 {
+                LabeledContent("Credits still owed") {
+                    Text(Money.format(profile.creditsOwed, supplier: account.name)).foregroundStyle(.orange)
+                }
+            }
+            if let made {
+                ShareLink(item: made) {
+                    Label("Save or send the supplier report", systemImage: "square.and.arrow.up")
+                }
+            } else {
+                Button {
+                    made = report()
+                } label: {
+                    Label("Make a supplier report (PDF)", systemImage: "doc.richtext")
+                }
+            }
+        } header: {
+            Text("Profile")
+        }
+    }
+
+    private func percentRow(_ title: LocalizedStringKey, _ value: Double?) -> some View {
+        LabeledContent(title) {
+            Text(value.map { String(format: "%.0f%%", $0) } ?? "–")
+                .foregroundStyle(value.map { $0 >= 90 ? Color.green : $0 >= 70 ? Color.orange : Color.red } ?? Color.secondary)
+        }
+        .font(.footnote)
+    }
+
+    private func report() -> URL? {
+        let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: business, theme: Themes.named(colourID))
+        let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
+        return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
+    }
+}
+
+/// A supplier's score in a coloured circle.
+struct ScoreBadge: View {
+    let score: Int?
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(colour.opacity(0.15))
+            Text(score.map { "\($0)" } ?? "–")
+                .font(.subheadline.weight(.heavy))
+                .foregroundStyle(colour)
+        }
+        .frame(width: 40, height: 40)
+        .accessibilityLabel(score.map { String(localized: "Score \($0) out of 100") } ?? String(localized: "No score yet"))
+    }
+
+    private var colour: Color {
+        guard let score else { return .secondary }
+        return score >= 85 ? .green : score >= 65 ? .orange : .red
     }
 }
 
@@ -247,22 +374,26 @@ struct SupplierDetailView: View {
                 List {
                     Section {
                         LabeledContent("You owe") {
-                            Text(Money.format(account.balance))
+                            Text(Money.format(account.balance, supplier: account.name))
                                 .font(.title.weight(.heavy))
                                 .foregroundStyle(account.balance > 0.005 ? AnyShapeStyle(.tint) : AnyShapeStyle(Color.green))
                         }
-                        if account.opening != 0 { LabeledContent("Starting balance", value: Money.format(account.opening)) }
-                        LabeledContent("Invoices", value: Money.format(account.invoiced))
+                        if account.opening != 0 { LabeledContent("Starting balance", value: Money.format(account.opening, supplier: account.name)) }
+                        LabeledContent("Invoices", value: Money.format(account.invoiced, supplier: account.name))
                         if account.settledOutside > 0.005 {
-                            LabeledContent("Marked paid before", value: "−" + Money.format(account.settledOutside))
+                            LabeledContent("Marked paid before", value: "−" + Money.format(account.settledOutside, supplier: account.name))
                         }
-                        if account.paid > 0.005 { LabeledContent("Payments", value: "−" + Money.format(account.paid)) }
-                        if account.credits > 0.005 { LabeledContent("Credit notes", value: "−" + Money.format(account.credits)) }
-                        LabeledContent("Paid this week", value: Money.format(account.paidThisWeek))
+                        if account.paid > 0.005 { LabeledContent("Payments", value: "−" + Money.format(account.paid, supplier: account.name)) }
+                        if account.credits > 0.005 { LabeledContent("Credit notes", value: "−" + Money.format(account.credits, supplier: account.name)) }
+                        LabeledContent("Paid this week", value: Money.format(account.paidThisWeek, supplier: account.name))
                     } footer: {
                         if account.balance < -0.005 {
-                            Text("You've paid \(Money.format(-account.balance)) more than they invoiced. It comes off their next invoices.")
+                            Text("You've paid \(Money.format(-account.balance, supplier: account.name)) more than they invoiced. It comes off their next invoices.")
                         }
+                    }
+
+                    if !team.isStaff && !account.entries.isEmpty {
+                        SupplierProfileSection(account: account, profile: SupplierProfiles.make(account, all: reports.compactMap { $0.entry }))
                     }
 
                     // staff phones: payments, special prices and the trusted setting are the owner's
@@ -343,13 +474,45 @@ struct SupplierDetailView: View {
                         } footer: {
                             Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
                         }
+
+                        Section {
+                            Picker("Invoices in", selection: Binding(
+                                get: { accounts.currency(for: account.name).code },
+                                set: { accounts.setCurrency(account.name, $0, context: context) }
+                            )) {
+                                ForEach(Currency.all) { currency in
+                                    Text(Regional.currencyName(currency)).tag(currency.code)
+                                }
+                            }
+                            Picker("Pay within", selection: Binding(
+                                get: { accounts.creditPeriod(account.name) ?? -1 },
+                                set: { accounts.setCreditPeriod(account.name, $0 < 0 ? nil : $0, context: context) }
+                            )) {
+                                Text("No due date").tag(-1)
+                                Text("On delivery").tag(0)
+                                ForEach([7, 14, 21, 28, 30, 45, 60, 90], id: \.self) { days in
+                                    Text("\(days) days").tag(days)
+                                }
+                            }
+                        } footer: {
+                            Text("Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home. A supplier who invoices in another currency is added up separately, never mixed with your own currency.")
+                        }
                     }
 
                     if !account.open.isEmpty {
+                        let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
+                                             uniquingKeysWith: { a, _ in a })
                         Section("Still to pay") {
                             ForEach(account.open) { entry in
                                 NavigationLink(value: ReportLink(id: entry.id)) {
-                                    InvoiceMoneyRow(entry: entry)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        InvoiceMoneyRow(entry: entry)
+                                        if let row = due[entry.id] {
+                                            Label(DueRow.when(row), systemImage: row.daysLeft < 0 ? "exclamationmark.circle.fill" : "calendar")
+                                                .font(.caption)
+                                                .foregroundStyle(row.daysLeft < 0 ? Color.red : Color.secondary)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -403,7 +566,7 @@ struct SupplierDetailView: View {
                             Button("Delete invoices and payments", role: .destructive) { deleteAll(account, payments: true) }
                             Button("Cancel", role: .cancel) {}
                         } message: {
-                            Text("This can't be undone. Save a backup in Settings first if you might need them. Deleting the payments too starts this supplier's balance from zero.")
+                            Text("They stay in More › Recently deleted for 30 days, so you can bring them back. Deleting the payments too starts this supplier's balance from zero.")
                         }
                     }
                 }
@@ -426,10 +589,7 @@ struct SupplierDetailView: View {
     private func deleteAll(_ account: SupplierAccount, payments: Bool) {
         let ids = Set(account.entries.map { $0.id })
         CloudTeam.shared.allowBulkDelete()
-        for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] where ids.contains(stored.uid) {
-            context.delete(stored)
-        }
-        try? context.save()
+        AppData.deleteReports(ids, context: context)
         // payments for exactly those invoices go with them, so the balance doesn't go below zero
         accounts.removePayments(supplier: account.name, onlyFor: payments ? nil : ids, context: context)
     }
@@ -439,13 +599,13 @@ struct SupplierDetailView: View {
         var lines = [String(localized: "Statement – \(account.name) – \(today)"), ""]
         for entry in account.open.reversed() {
             let number = entry.invNo.isEmpty ? L("Invoice") : String(localized: "Invoice \(entry.invNo)")
-            lines.append("• " + number + (entry.date.isEmpty ? "" : " · " + entry.date) + " · " + Money.format(entry.amountToPay.pay))
+            lines.append("• " + number + (entry.date.isEmpty ? "" : " · " + entry.date) + " · " + Money.format(entry.amountToPay.pay, supplier: account.name))
         }
         if let last = account.lastPayment {
             lines.append("")
-            lines.append(String(localized: "Last payment: \(Money.format(last.amount)) on \(PayDates.show(last.date))"))
+            lines.append(String(localized: "Last payment: \(Money.format(last.amount, supplier: account.name)) on \(PayDates.show(last.date))"))
         }
-        lines.append(String(localized: "Balance owed: \(Money.format(account.balance))"))
+        lines.append(String(localized: "Balance owed: \(Money.format(account.balance, supplier: account.name))"))
         return lines.joined(separator: "\n")
     }
 }
@@ -467,7 +627,7 @@ struct InvoiceMoneyRow: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Text(Money.format(entry.amountToPay.pay))
+            Text(Money.format(entry.amountToPay.pay, supplier: entry.supplier))
                 .fontWeight(.semibold)
         }
     }
@@ -502,7 +662,7 @@ struct PaymentRow: View {
                 .buttonStyle(.borderless)
                 .accessibilityLabel("Show the receipt")
             }
-            Text((payment.kind == .opening ? "+" : "−") + Money.format(payment.amount))
+            Text((payment.kind == .opening ? "+" : "−") + Money.format(payment.amount, supplier: payment.supplier))
                 .fontWeight(.semibold)
                 .foregroundStyle(payment.kind == .opening ? Color.primary : Color.green)
         }
@@ -637,7 +797,7 @@ struct RecordPaymentView: View {
                     Text(supplier)
                 } footer: {
                     if kind == .payment && suggested > 0.005 {
-                        Button("Pay the whole balance: \(Money.format(suggested))") {
+                        Button("Pay the whole balance: \(Money.format(suggested, supplier: supplier))") {
                             amountText = String(format: "%.\(Money.currency.decimals)f", suggested)
                         }
                         .font(.footnote.weight(.semibold))
@@ -759,7 +919,7 @@ struct PayRunView: View {
                                 Text(account.name)
                                     .font(.subheadline.weight(.semibold))
                                     .lineLimit(1)
-                                Text("Owed \(Money.format(account.balance))")
+                                Text("Owed \(Money.format(account.balance, supplier: account.name))")
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                             }
@@ -847,7 +1007,7 @@ struct PayInvoicesView: View {
                         }
                     }
                 } footer: {
-                    Text("\(chosen.count) of \(open.count) selected · pay \(Money.format(total))")
+                    Text("\(chosen.count) of \(open.count) selected · pay \(Money.format(total, supplier: supplier))")
                         .font(.subheadline.weight(.semibold))
                 }
                 Section {
@@ -968,7 +1128,7 @@ struct SupplierPricesView: View {
                                 }
                                 Spacer(minLength: 8)
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text(Money.format(row.special))
+                                    Text(Money.format(row.special, supplier: supplier))
                                         .fontWeight(.bold)
                                         .foregroundStyle(.primary)
                                     if abs(row.difference) > 0.005 {
@@ -1254,11 +1414,11 @@ struct StatementCheckView: View {
                     .foregroundStyle(.orange)
             }
             if let theirs = r.theirBalance {
-                LabeledContent("They say you owe", value: Money.format(theirs))
+                LabeledContent("They say you owe", value: Money.format(theirs, supplier: account.name))
             }
-            LabeledContent("ChargeCheck says", value: Money.format(r.yourBalance))
+            LabeledContent("ChargeCheck says", value: Money.format(r.yourBalance, supplier: account.name))
             if let theirs = r.theirBalance, theirs - r.yourBalance > 0.05, r.takenOff > 0.005 {
-                Text("Part of the difference is the \(Money.format(r.takenOff)) of overcharges and missing items you took off their invoices.")
+                Text("Part of the difference is the \(Money.format(r.takenOff, supplier: account.name)) of overcharges and missing items you took off their invoices.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
@@ -1268,8 +1428,8 @@ struct StatementCheckView: View {
                 ForEach(r.amountDiffers) { item in
                     LabeledContent {
                         VStack(alignment: .trailing) {
-                            Text(Money.format(item.line.amount)).foregroundStyle(.orange)
-                            Text("yours \(Money.format(item.yours))").font(.caption).foregroundStyle(.secondary)
+                            Text(Money.format(item.line.amount, supplier: account.name)).foregroundStyle(.orange)
+                            Text("yours \(Money.format(item.yours, supplier: account.name))").font(.caption).foregroundStyle(.secondary)
                         }
                     } label: {
                         statementLabel(item.line)
@@ -1280,7 +1440,7 @@ struct StatementCheckView: View {
         if !r.notInReports.isEmpty {
             Section {
                 ForEach(r.notInReports) { line in
-                    LabeledContent { Text(Money.format(line.amount)).foregroundStyle(.red) } label: { statementLabel(line) }
+                    LabeledContent { Text(Money.format(line.amount, supplier: account.name)).foregroundStyle(.red) } label: { statementLabel(line) }
                 }
             } header: {
                 Text("Not in your Reports")
@@ -1298,7 +1458,7 @@ struct StatementCheckView: View {
         if !r.paymentsUnknown.isEmpty {
             Section {
                 ForEach(r.paymentsUnknown) { line in
-                    LabeledContent { Text(Money.format(line.amount)) } label: { statementLabel(line) }
+                    LabeledContent { Text(Money.format(line.amount, supplier: account.name)) } label: { statementLabel(line) }
                 }
             } header: {
                 Text("Payments and credits you have no record of")

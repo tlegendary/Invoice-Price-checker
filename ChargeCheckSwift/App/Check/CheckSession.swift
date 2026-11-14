@@ -147,7 +147,7 @@ final class CheckSession: ObservableObject {
             }
             // what was scanned, and in which currency: a delivery note, quote or order isn't a bill, and an invoice in
             // another currency can't be checked against prices kept in this one – those are never saved on their own
-            let warning = sample ? "" : Self.documentWarning(outcome.rawText)
+            let warning = sample ? "" : Self.documentWarning(outcome.rawText, supplier: outcome.invoice.supplier)
             let firstLines = outcome.invoice.lines.map { InvoiceMaths.makeLine($0, book: book, nameFixes: fixes, supplier: outcome.invoice.supplier) }
             // a credit note: it lowers what you owe that supplier, it isn't a new invoice
             if !sample, Insights.isCreditNote(outcome.rawText) {
@@ -225,7 +225,7 @@ final class CheckSession: ObservableObject {
     }
 
     /// Why this scan shouldn't be saved as an invoice without a look ("" when it's an ordinary invoice in your currency).
-    nonisolated static func documentWarning(_ text: String) -> String {
+    nonisolated static func documentWarning(_ text: String, supplier: String = "") -> String {
         var parts: [String] = []
         switch DocumentFacts.kind(text) {
         case .deliveryNote: parts.append(String(localized: "This looks like a delivery note, not an invoice. Check it before saving."))
@@ -234,8 +234,10 @@ final class CheckSession: ObservableObject {
         case .statement: parts.append(String(localized: "This looks like a statement. Check statements in Suppliers instead."))
         case .receipt, .invoice, .creditNote: break
         }
-        if let printed = DocumentFacts.currency(text), printed != Money.currency.code {
-            parts.append(String(localized: "This invoice is in \(printed), but your prices are in \(Money.currency.code). Check the prices before saving, or change the currency in Settings."))
+        // a supplier set to invoice in that currency (Suppliers › the supplier › Invoices in) is expected
+        let expected = SupplierCurrency.code(supplier) ?? Money.currency.code
+        if let printed = DocumentFacts.currency(text), printed != expected {
+            parts.append(String(localized: "This invoice is in \(printed), but your prices are in \(expected). Check the prices before saving, or set this supplier to \(printed) in Suppliers."))
         }
         return parts.joined(separator: " ")
     }
@@ -373,7 +375,9 @@ final class CheckSession: ObservableObject {
         }
         var draft = job.draft
         if draft.shopId.isEmpty { draft.shopId = Shops.current }
+        let wasSaved = job.saved != nil
         let entry = AppData.saveReport(&draft, book: book, context: context)
+        Records.shared.log(wasSaved ? .invoiceUpdated : .invoiceSaved, RecordKeeping.subject(entry), amount: entry.total)
         if !draft.totalOnly {
             lowerPrices(draft, jobID: id, book: book, context: context)
             learnNames(draft, book: book, context: context)

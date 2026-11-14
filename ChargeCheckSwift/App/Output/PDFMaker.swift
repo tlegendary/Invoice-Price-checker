@@ -12,6 +12,8 @@ final class PDFPage {
     private let context: UIGraphicsPDFRendererContext
     private(set) var y: CGFloat = 0
     private var pageNumber = 0
+    /// Arabic and Kurdish: the page reads right to left (text on the right, tables mirrored).
+    let rtl: Bool = Locale.Language(identifier: Bundle.main.preferredLocalizations.first ?? "en").characterDirection == .rightToLeft
 
     var width: CGFloat { PDFPage.size.width - margin * 2 }
 
@@ -35,7 +37,7 @@ final class PDFPage {
         } else {
             y = margin
         }
-        let footer = "ChargeCheck · page \(pageNumber)"
+        let footer = "ChargeCheck · " + String(localized: "page \(pageNumber)")
         draw(footer, at: CGPoint(x: margin, y: PDFPage.size.height - 26), font: .systemFont(ofSize: 8), colour: .gray, width: width, alignment: .right)
     }
 
@@ -45,7 +47,8 @@ final class PDFPage {
 
     private func draw(_ text: String, at point: CGPoint, font: UIFont, colour: UIColor, width: CGFloat, alignment: NSTextAlignment = .left, wraps: Bool = false) {
         let style = NSMutableParagraphStyle()
-        style.alignment = alignment
+        style.alignment = rtl ? (alignment == .left ? .right : alignment == .right ? .left : alignment) : alignment
+        if rtl { style.baseWritingDirection = .rightToLeft }
         style.lineBreakMode = wraps ? .byWordWrapping : .byTruncatingTail
         let attributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: colour, .paragraphStyle: style]
         let height = wraps ? 2000 : font.lineHeight + 2
@@ -81,7 +84,7 @@ final class PDFPage {
         let label = L(label)
         room(18)
         let font: UIFont = bold ? .boldSystemFont(ofSize: 11) : .systemFont(ofSize: 10)
-        draw(label, at: CGPoint(x: margin, y: y), font: font, colour: .black, width: width * 0.65)
+        draw(label, at: CGPoint(x: rtl ? margin + width * 0.35 : margin, y: y), font: font, colour: .black, width: width * 0.65)
         draw(value, at: CGPoint(x: margin, y: y), font: font, colour: .black, width: width, alignment: .right)
         y += 17
     }
@@ -101,7 +104,9 @@ final class PDFPage {
             }
             var x = margin
             for (index, cell) in cells.enumerated() where index < columns.count {
-                draw(cell, at: CGPoint(x: x + 4, y: y + 3), font: font, colour: colour, width: columns[index] - 8, alignment: right.contains(index) ? .right : .left)
+                // right to left: the first column starts on the right
+                let left = rtl ? margin + width - (x - margin) - columns[index] : x
+                draw(cell, at: CGPoint(x: left + 4, y: y + 3), font: font, colour: colour, width: columns[index] - 8, alignment: right.contains(index) ? .right : .left)
                 x += columns[index]
             }
             y += rowHeight
@@ -218,7 +223,7 @@ enum PDFMaker {
             page.space(6)
             var rows: [[String]] = []
             for line in entry.lines where line.over > 0.005 && !line.excluded {
-                rows.append([line.item.isEmpty ? line.desc : line.item, quantity(line.qty), Money.format(line.unit), line.base.map { Money.format($0) } ?? "", Money.format(line.over)])
+                rows.append([line.item.isEmpty ? line.desc : line.item, quantity(line.qty), Money.format(line.unit, supplier: entry.supplier), line.base.map { Money.format($0, supplier: entry.supplier) } ?? "", Money.format(line.over, supplier: entry.supplier)])
             }
             if !rows.isEmpty {
                 page.heading("Charged above the agreed price")
@@ -228,13 +233,84 @@ enum PDFMaker {
             if !missing.isEmpty {
                 page.heading("Missing or returned")
                 page.table(headers: ["Item", "Qty", "Price", "Amount"], widths: [5, 1, 1.6, 1.8], right: [1, 2, 3],
-                           rows: missing.map { [$0.item.isEmpty ? $0.desc : $0.item, quantity($0.qty), Money.format($0.unit), Money.format(Money.round2($0.qty * $0.unit))] })
+                           rows: missing.map { [$0.item.isEmpty ? $0.desc : $0.item, quantity($0.qty), Money.format($0.unit, supplier: entry.supplier), Money.format(Money.round2($0.qty * $0.unit), supplier: entry.supplier)] })
             }
             let amounts = entry.amountToPay
             page.space(6)
-            page.pair("Invoice total (with VAT)", Money.format(amounts.total))
-            page.pair("Credit requested (with VAT)", Money.format(amounts.less), bold: true)
-            page.pair("Amount we will pay", Money.format(amounts.pay), bold: true)
+            page.pair("Invoice total (with VAT)", Money.format(amounts.total, supplier: entry.supplier))
+            page.pair("Credit requested (with VAT)", Money.format(amounts.less, supplier: entry.supplier), bold: true)
+            page.pair("Amount we will pay", Money.format(amounts.pay, supplier: entry.supplier), bold: true)
+        }
+    }
+
+    /// One supplier: their account, score, open invoices, payments, price rises and overcharges.
+    static func supplierReport(_ account: SupplierAccount, profile: SupplierProfile, due: [DueInvoice], business: String, theme: AppTheme) -> Data {
+        make(title: "Supplier report", subtitle: account.name + " · " + stamp(business), theme: theme) { page in
+            page.heading("Account")
+            page.pair("You owe", Money.format(account.balance, supplier: account.name), bold: true)
+            if account.opening != 0 { page.pair("Starting balance", Money.format(account.opening, supplier: account.name)) }
+            page.pair("Invoices", Money.format(account.invoiced, supplier: account.name))
+            if account.paid > 0.005 { page.pair("Payments", "−" + Money.format(account.paid, supplier: account.name)) }
+            if account.credits > 0.005 { page.pair("Credit notes", "−" + Money.format(account.credits, supplier: account.name)) }
+            if let last = account.lastPayment { page.pair("Last payment", Money.format(last.amount, supplier: account.name) + " · " + PayDates.show(last.date)) }
+
+            page.heading("Purchases")
+            page.pair("Invoices checked", "\(profile.invoices)")
+            page.pair("This month", Money.format(profile.purchasesThisMonth, supplier: account.name))
+            page.pair("Last month", Money.format(profile.purchasesLastMonth, supplier: account.name))
+            page.pair("Average invoice", Money.format(profile.averageInvoice, supplier: account.name))
+            page.pair("All invoices", Money.format(profile.totalBought, supplier: account.name))
+            page.pair("Overcharged", Money.format(profile.overcharged, supplier: account.name))
+            page.pair("Missing or short", Money.format(profile.missing, supplier: account.name))
+            page.pair("Invoices with a problem", "\(profile.disputed)")
+            if profile.creditsOwed > 0.005 { page.pair("Credits still owed", Money.format(profile.creditsOwed, supplier: account.name)) }
+
+            page.heading("Score")
+            page.pair("Supplier score", profile.score.map { "\($0) / 100" } ?? L("Not enough invoices yet"), bold: true)
+            func percent(_ value: Double?) -> String { value.map { String(format: "%.0f%%", $0) } ?? "–" }
+            page.pair("Charged the agreed price", percent(profile.parts.invoiceAccuracy))
+            page.pair("Delivered in full", percent(profile.parts.deliveryAccuracy))
+            page.pair("Prices that stayed the same (90 days)", percent(profile.parts.priceStability))
+            page.pair("Cheapest for items you also buy elsewhere", percent(profile.parts.priceCompetitiveness))
+
+            if !account.open.isEmpty {
+                let dueByID = Dictionary(due.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+                page.heading("Still to pay")
+                page.table(headers: ["Date", "Invoice no.", "Due", "To pay"], widths: [2, 2.5, 2.5, 2], right: [3],
+                           rows: account.open.reversed().map { entry in
+                               [entry.date, entry.invNo, dueByID[entry.id].map { PayDates.show($0.dueDate) } ?? "", Money.format(entry.amountToPay.pay, supplier: account.name)]
+                           },
+                           footer: ["", "Total", "", Money.format(Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay }), supplier: account.name)])
+            }
+            let paid = account.payments.filter { $0.amount > 0.005 }
+            if !paid.isEmpty {
+                page.heading("Payments and credits")
+                page.table(headers: ["Date", "Type", "Method", "Reference", "Amount"], widths: [1.8, 2, 1.6, 2.4, 1.8], right: [4],
+                           rows: paid.map { payment in
+                               let kind = payment.kind == .credit ? L("Credit note") : payment.kind == .opening ? L("Older amount owed") : L("Payment")
+                               return [PayDates.show(payment.date), kind, PayMethod.name(payment.method), payment.reference,
+                                       Money.format(payment.amount, supplier: account.name)]
+                           })
+            }
+            let rises = Insights.priceRises(account.entries)
+            if !rises.isEmpty {
+                page.heading("Price rises")
+                page.table(headers: ["Date", "Item", "Before", "Now", "Change"], widths: [1.8, 4, 1.6, 1.6, 1.4], right: [2, 3, 4],
+                           rows: rises.prefix(40).map { [PayDates.show($0.when), $0.item, Money.format($0.from, supplier: account.name), Money.format($0.to, supplier: account.name),
+                                                         String(format: "+%.1f%%", $0.percent)] })
+            }
+            var lines: [[String]] = []
+            for entry in account.entries {
+                for line in entry.lines where (line.over > 0.005 && !line.excluded) || line.excluded || line.short > 0 {
+                    let problem = line.excluded ? L("missing or returned") : line.short > 0 ? L("short") : L("overcharged")
+                    let amount = line.excluded ? Money.round2(line.qty * line.unit) : line.short > 0 ? Money.round2(line.short * line.unit) : line.over
+                    lines.append([entry.date, entry.invNo, line.item.isEmpty ? line.desc : line.item, problem, Money.format(amount, supplier: account.name)])
+                }
+            }
+            if !lines.isEmpty {
+                page.heading("Problems found")
+                page.table(headers: ["Date", "Invoice no.", "Item", "Problem", "Amount"], widths: [1.6, 1.8, 3.8, 2, 1.6], right: [4], rows: Array(lines.prefix(80)))
+            }
         }
     }
 
