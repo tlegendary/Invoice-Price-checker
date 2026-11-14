@@ -33,7 +33,7 @@ final class Records: ObservableObject {
 
     private static func write<T: Encodable>(_ value: T, _ name: String) {
         guard let url = url(name), let data = try? JSONEncoder().encode(value) else { return }
-        try? data.write(to: url, options: [.atomic, .completeFileProtection])
+        try? data.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
     }
 
     private func saveBin() { Self.write(bin, "bin.json") }

@@ -19868,6 +19868,34 @@
         }
       }
     },
+    "See the cheaper item": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعرض الصنف الأرخص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵا هەرزانترەکە ببینە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Den günstigeren Artikel ansehen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir l'article moins cher"
+          }
+        }
+      }
+    },
     "See the price rise": {
       "extractionState": "manual",
       "localizations": {

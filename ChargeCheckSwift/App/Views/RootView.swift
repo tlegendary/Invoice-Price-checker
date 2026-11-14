@@ -153,7 +153,11 @@ struct RootView: View {
                 showPaywall = true
             }
         }
-        .onChange(of: store.tier) { PlanMirror.set(store.tier) }
+        .onChange(of: store.tier) {
+            PlanMirror.set(store.tier)
+            // the widget unlocks (or locks) as soon as the plan is known
+            Accounts.shared.changed(context)
+        }
         .onAppear { PlanMirror.set(store.tier) }
         .sheet(isPresented: $showPaywall, onDismiss: {
             choseFree = true
