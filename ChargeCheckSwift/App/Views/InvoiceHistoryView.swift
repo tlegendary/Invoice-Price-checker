@@ -89,6 +89,7 @@ struct InvoiceHistoryView: View {
             }
         }
         .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : String(localized: "Checked invoices"))
+        .themedScreen()
         .searchable(text: $search, prompt: "Supplier, number, item or amount")
         .environment(\.editMode, $editMode)
         .toolbar {

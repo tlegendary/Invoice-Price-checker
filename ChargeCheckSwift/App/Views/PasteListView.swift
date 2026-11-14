@@ -93,6 +93,7 @@ struct PasteListView: View {
                 text = String(data: data, encoding: .utf8) ?? String(decoding: data, as: UTF8.self)
             }
             .navigationTitle("Paste a price list")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

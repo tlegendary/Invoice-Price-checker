@@ -132,6 +132,7 @@ struct PricesView: View {
                 }
             }
             .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : String(localized: "Prices"))
+            .themedScreen()
             .environment(\.editMode, $editMode)
             .safeAreaInset(edge: .bottom) {
                 if selecting {
@@ -297,6 +298,20 @@ struct PricesView: View {
     }
 }
 
+/// "£5.00 / kg", "£1.50 / litre", "5p each" – the fair way to compare pack sizes and suppliers.
+enum UnitPriceText {
+    static func text(_ unit: UnitPrice) -> String {
+        switch unit.unit {
+        case .kg: return String(localized: "\(Money.format(unit.value)) / kg")
+        case .litre: return String(localized: "\(Money.format(unit.value)) / litre")
+        case .each:
+            // small things (cups, napkins) read better per 100
+            return unit.value < 1 ? String(localized: "\(Money.format(Money.round2(unit.value * 100))) per 100")
+                                  : String(localized: "\(Money.format(unit.value)) each")
+        }
+    }
+}
+
 struct PriceRow: View {
     let price: StoredPrice
 
@@ -327,9 +342,18 @@ struct PriceRow: View {
             }
             Spacer(minLength: 12)
             // the shop being viewed: its own price if it has one
-            Text(Money.format(price.item.price(inShop: LiveSettings.shared.shop)))
-                .font(.body.weight(.bold))
-                .monospacedDigit()
+            let value = price.item.price(inShop: LiveSettings.shared.shop)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(Money.format(value))
+                    .font(.body.weight(.bold))
+                    .monospacedDigit()
+                if let unit = UnitPrices.of(name: price.name, price: value) {
+                    Text(UnitPriceText.text(unit))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
         }
         .contentShape(Rectangle())
     }

@@ -69,6 +69,64 @@
         }
       }
     },
+    "%@ / kg": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / كغ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / کگم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / kg"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / kg"
+          }
+        }
+      }
+    },
+    "%@ / litre": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / لتر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / لیتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / Liter"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ / litre"
+          }
+        }
+      }
+    },
     "%@ a month": {
       "localizations": {
         "ar": {
@@ -125,6 +183,35 @@
         }
       }
     },
+    "%@ days on average": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ يومًا في المتوسط"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ڕۆژ بە تێکڕایی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "durchschnittlich %@ Tagen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ jours en moyenne"
+          }
+        }
+      }
+    },
     "%@ didn't arrive": {
       "extractionState": "manual",
       "localizations": {
@@ -150,6 +237,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ pas arrivé(s)"
+          }
+        }
+      }
+    },
+    "%@ each": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ للقطعة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ دانەیەک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ pro Stück"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ l'unité"
           }
         }
       }
@@ -270,6 +386,93 @@
         }
       }
     },
+    "%@ of %@ this month": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ من %@ هذا الشهر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ لە %@ ئەم مانگە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ von %@ diesen Monat"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sur %@ ce mois-ci"
+          }
+        }
+      }
+    },
+    "%@ of it has already come back as credits.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عاد منها %@ بالفعل كأرصدة دائنة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ی لێی پێشتر وەک کرێدیت گەڕاوەتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Davon sind %@ schon als Gutschriften zurückgekommen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sont déjà revenus sous forme d'avoirs."
+          }
+        }
+      }
+    },
+    "%@ per 100": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ لكل 100"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ بۆ هەر ١٠٠"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ pro 100"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ les 100"
+          }
+        }
+      }
+    },
     "%@ per month. Payment is charged to your Apple ID when you confirm.": {
       "localizations": {
         "ar": {
@@ -351,6 +554,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ déduit de ce que vous devez à %2$@."
+          }
+        }
+      }
+    },
+    "%@ · %lld items": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld أصناف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld کاڵا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld Artikel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %lld articles"
+          }
+        }
+      }
+    },
+    "%@ · 1 item": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · صنف واحد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · ١ کاڵا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · 1 Artikel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · 1 article"
           }
         }
       }
@@ -474,6 +735,64 @@
     "%lld": {
       "shouldTranslate": false
     },
+    "%lld are overdue: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld متأخرة: %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld دواکەوتوون: %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sind überfällig: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sont en retard : %@."
+          }
+        }
+      }
+    },
+    "%lld budgets nearly used this month": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ميزانيات قاربت على النفاد هذا الشهر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld بودجە ئەم مانگە نزیکن تەواو بن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Budgets diesen Monat fast aufgebraucht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld budgets presque épuisés ce mois-ci"
+          }
+        }
+      }
+    },
     "%lld credits not back after 2 weeks": {
       "localizations": {
         "ar": {
@@ -530,6 +849,35 @@
         }
       }
     },
+    "%lld credits waiting over 2 weeks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld أرصدة تنتظر أكثر من أسبوعين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld کرێدیت زیاتر لە دوو هەفتەیە چاوەڕوانن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Gutschriften seit über 2 Wochen offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld avoirs en attente depuis plus de 2 semaines"
+          }
+        }
+      }
+    },
     "%lld days": {
       "localizations": {
         "ar": {
@@ -582,6 +930,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore %lld jours"
+          }
+        }
+      }
+    },
+    "%lld differences": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld اختلافات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld جیاوازی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Abweichungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld écarts"
           }
         }
       }
@@ -667,6 +1044,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld factures"
+          }
+        }
+      }
+    },
+    "%lld invoices are due this week: %@, to %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فواتير مستحقة هذا الأسبوع: %@، لـ %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld پسوولە ئەم هەفتەیە کاتی پارەدانیانە: %@، بۆ %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Rechnungen sind diese Woche fällig: %@, an %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld factures sont dues cette semaine : %@, à %@."
           }
         }
       }
@@ -1239,6 +1645,35 @@
         }
       }
     },
+    "%lld price rises": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld زيادات أسعار"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld بەرزبوونەوەی نرخ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Preiserhöhungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld hausses de prix"
+          }
+        }
+      }
+    },
     "%lld price rises this month": {
       "localizations": {
         "ar": {
@@ -1470,6 +1905,35 @@
         }
       }
     },
+    "%lld suppliers' agreed prices end soon": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار %lld موردين المتفق عليها تنتهي قريبًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخە ڕێککەوتووەکانی %lld دابینکەر بەم زووانە کۆتایی دێن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die vereinbarten Preise von %lld Lieferanten enden bald"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les prix convenus de %lld fournisseurs prennent bientôt fin"
+          }
+        }
+      }
+    },
     "%lld things to check": {
       "localizations": {
         "ar": {
@@ -1571,6 +2035,35 @@
     "1": {
       "shouldTranslate": false
     },
+    "1 budget nearly used this month": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ميزانية واحدة قاربت على النفاد هذا الشهر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ بودجە ئەم مانگە نزیکە تەواو بێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Budget diesen Monat fast aufgebraucht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 budget presque épuisé ce mois-ci"
+          }
+        }
+      }
+    },
     "1 credit not back after 2 weeks": {
       "localizations": {
         "ar": {
@@ -1627,6 +2120,35 @@
         }
       }
     },
+    "1 credit waiting over 2 weeks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رصيد واحد ينتظر أكثر من أسبوعين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ کرێدیت زیاتر لە دوو هەفتەیە چاوەڕوانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Gutschrift seit über 2 Wochen offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 avoir en attente depuis plus de 2 semaines"
+          }
+        }
+      }
+    },
     "1 day left": {
       "localizations": {
         "ar": {
@@ -1651,6 +2173,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore 1 jour"
+          }
+        }
+      }
+    },
+    "1 difference": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختلاف واحد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ جیاوازی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Abweichung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 écart"
           }
         }
       }
@@ -1794,6 +2345,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 facture à payer aujourd'hui"
+          }
+        }
+      }
+    },
+    "1 invoice is due this week: %@ to %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة واحدة مستحقة هذا الأسبوع: %@ لـ %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ پسوولە ئەم هەفتەیە کاتی پارەدانیەتی: %@ بۆ %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Rechnung ist diese Woche fällig: %@ an %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 facture est due cette semaine : %@ à %@."
           }
         }
       }
@@ -1997,6 +2577,35 @@
         }
       }
     },
+    "1 is overdue: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "واحدة متأخرة: %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ دواکەوتووە: %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 ist überfällig: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 est en retard : %@."
+          }
+        }
+      }
+    },
     "1 item costs more than last time": {
       "localizations": {
         "ar": {
@@ -2139,6 +2748,35 @@
         }
       }
     },
+    "1 price rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادة سعر واحدة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ بەرزبوونەوەی نرخ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Preiserhöhung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 hausse de prix"
+          }
+        }
+      }
+    },
     "1 price rise this month": {
       "localizations": {
         "ar": {
@@ -2248,6 +2886,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 sélectionné"
+          }
+        }
+      }
+    },
+    "1 supplier's agreed prices end soon": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار مورد واحد المتفق عليها تنتهي قريبًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخە ڕێککەوتووەکانی ١ دابینکەر بەم زووانە کۆتایی دێن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die vereinbarten Preise von 1 Lieferanten enden bald"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les prix convenus d'1 fournisseur prennent bientôt fin"
           }
         }
       }
@@ -2628,6 +3295,93 @@
         }
       }
     },
+    "A good time to agree the next prices. Their supplier report shows your biggest items and cheaper prices elsewhere.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقت مناسب للاتفاق على الأسعار القادمة. يُظهر تقرير المورد أكبر أصنافك والأسعار الأرخص لدى غيره."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێکی باشە بۆ ڕێککەوتن لەسەر نرخەکانی داهاتوو. ڕاپۆرتی دابینکەرەکە گەورەترین کاڵاکانت و نرخی هەرزانتر لە شوێنی تر پیشان دەدات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein guter Zeitpunkt, die nächsten Preise zu vereinbaren. Der Lieferantenbericht zeigt deine größten Artikel und günstigere Preise anderswo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un bon moment pour convenir des prochains prix. Le rapport fournisseur montre vos plus gros articles et les prix moins chers ailleurs."
+          }
+        }
+      }
+    },
+    "A month": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شهريًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مانگانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Monat"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Par mois"
+          }
+        }
+      }
+    },
+    "A monthly limit per supplier or category, a warning at 80%, and where the money goes each month.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سقف شهري لكل مورد أو فئة، وتنبيه عند 80%، وأين يذهب المال كل شهر."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنووری مانگانە بۆ هەر دابینکەرێک یان پۆلێک، ئاگادارکردنەوە لە ٨٠٪، و پارەکە هەر مانگێک بۆ کوێ دەچێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Monatslimit pro Lieferant oder Kategorie, eine Warnung bei 80 % und wohin das Geld jeden Monat geht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une limite mensuelle par fournisseur ou catégorie, une alerte à 80 %, et où va l'argent chaque mois."
+          }
+        }
+      }
+    },
     "A payment for this invoice is recorded today.": {
       "extractionState": "manual",
       "localizations": {
@@ -2795,6 +3549,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Un score sur 100 pour chaque fournisseur : prix, livraisons et exactitude des factures."
+          }
+        }
+      }
+    },
+    "A year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنويًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ساڵانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Par an"
           }
         }
       }
@@ -3107,6 +3890,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter 1 nouvel article à ma liste de prix"
+          }
+        }
+      }
+    },
+    "Add a budget": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف ميزانية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بودجەیەک زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budget hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un budget"
           }
         }
       }
@@ -3485,6 +4297,35 @@
         }
       }
     },
+    "Add an item": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف صنفًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵایەک زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artikel hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un article"
+          }
+        }
+      }
+    },
     "Add an older amount owed": {
       "extractionState": "manual",
       "localizations": {
@@ -3510,6 +4351,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter un ancien montant dû"
+          }
+        }
+      }
+    },
+    "Add more photos": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف صورًا أخرى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەی زیاتر زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Fotos hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter d'autres photos"
+          }
+        }
+      }
+    },
+    "Add photos of the problem": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف صورًا للمشكلة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەی کێشەکە زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos des Problems hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter des photos du problème"
           }
         }
       }
@@ -3566,6 +4465,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajoutez les prix convenus avec vos fournisseurs. Touchez + pour en ajouter un, ou utilisez le menu ••• pour coller toute une liste."
+          }
+        }
+      }
+    },
+    "Add what you need. Next time, ChargeCheck starts the order with what you usually buy from them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف ما تحتاجه. في المرة القادمة يبدأ ChargeCheck الطلبية بما تشتريه منهم عادةً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەوەی پێویستتە زیادی بکە. جاری داهاتوو، ChargeCheck داواکارییەکە بەوە دەست پێدەکات کە بەزۆری لێیان دەکڕیت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge hinzu, was du brauchst. Beim nächsten Mal beginnt ChargeCheck die Bestellung mit dem, was du dort üblicherweise kaufst."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez ce qu'il vous faut. La prochaine fois, ChargeCheck commencera la commande avec vos achats habituels chez eux."
           }
         }
       }
@@ -3912,6 +4840,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Liste des prix convenus"
+          }
+        }
+      }
+    },
+    "Agreed prices ending": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار متفق عليها تنتهي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخە ڕێککەوتووەکان کۆتایی دێن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vereinbarte Preise enden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix convenus qui prennent fin"
           }
         }
       }
@@ -4629,6 +5586,35 @@
         }
       }
     },
+    "Another supplier": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مورد آخر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەرێکی تر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anderer Lieferant"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autre fournisseur"
+          }
+        }
+      }
+    },
     "Any pack also unlocks, for good: your full invoice history, PDFs and exports for your accountant, credit request PDFs, and the delivery and statement checks.": {
       "localizations": {
         "ar": {
@@ -4913,6 +5899,35 @@
         }
       }
     },
+    "Arrived and billed as ordered": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وصلت وفُوترت كما طُلبت"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وەک داواکرابوو گەیشت و پارەی لێوەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie bestellt geliefert und berechnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reçue et facturée comme commandée"
+          }
+        }
+      }
+    },
     "Arrived: %@ of %@": {
       "extractionState": "manual",
       "localizations": {
@@ -4938,6 +5953,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Arrivé : %1$@ sur %2$@"
+          }
+        }
+      }
+    },
+    "As on my iPhone": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كما في الـ iPhone"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وەک لە iPhoneەکەم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie auf meinem iPhone"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme sur mon iPhone"
           }
         }
       }
@@ -5056,6 +6100,35 @@
         }
       }
     },
+    "At the rate you bought each item over the last 90 days. Worth raising with the supplier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بحسب معدل شرائك لكل صنف في آخر 90 يومًا. يستحق أن تناقشه مع المورد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەپێی ڕێژەی کڕینی هەر کاڵایەک لە ٩٠ ڕۆژی ڕابردوودا. شایەنی ئەوەیە لەگەڵ دابینکەر باسی بکەیت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bei deiner Kaufmenge jedes Artikels in den letzten 90 Tagen. Lohnt sich, beim Lieferanten anzusprechen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Au rythme d'achat de chaque article sur les 90 derniers jours. À évoquer avec le fournisseur."
+          }
+        }
+      }
+    },
     "Automatic": {
       "localizations": {
         "ar": {
@@ -5136,6 +6209,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Facture moyenne"
+          }
+        }
+      }
+    },
+    "Background": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخلفية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پاشبنەما"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hintergrund"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fond"
           }
         }
       }
@@ -5453,6 +6555,35 @@
         }
       }
     },
+    "Before VAT, by each invoice's date. Missing or returned items aren't counted. Give items a category in your price list to sort them here.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة، حسب تاريخ كل فاتورة. لا تُحتسب الأصناف الناقصة أو المرتجعة. أعطِ الأصناف فئة في قائمة أسعارك لترتيبها هنا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش باج، بەپێی بەرواری هەر پسوولەیەک. کاڵا نەگەیشتوو یان گەڕاوەکان ناژمێردرێن. بۆ ڕیزکردنیان لێرە، لە لیستی نرخەکەتدا پۆلێک بدە بە کاڵاکان."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor MwSt., nach dem Datum jeder Rechnung. Fehlende oder zurückgegebene Artikel zählen nicht. Gib Artikeln in deiner Preisliste eine Kategorie, um sie hier zu sortieren."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA, selon la date de chaque facture. Les articles manquants ou retournés ne comptent pas. Donnez une catégorie aux articles de votre liste de prix pour les classer ici."
+          }
+        }
+      }
+    },
     "Being checked": {
       "localizations": {
         "ar": {
@@ -5477,6 +6608,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "En cours de vérification"
+          }
+        }
+      }
+    },
+    "Billed %@, only %@ arrived": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فُوتر %@، ووصل %@ فقط"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پارەی %@ لێوەرگیرا، تەنها %@ گەیشت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ berechnet, nur %@ geliefert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ facturé(s), seulement %@ reçu(s)"
           }
         }
       }
@@ -5740,6 +6900,93 @@
         }
       }
     },
+    "Budget": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزانية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بودجە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budget"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budget"
+          }
+        }
+      }
+    },
+    "Budgets": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزانيات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بودجەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets"
+          }
+        }
+      }
+    },
+    "Budgets and spending by category": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزانيات والإنفاق حسب الفئة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بودجەکان و خەرجی بەپێی پۆل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets und Ausgaben nach Kategorie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets et dépenses par catégorie"
+          }
+        }
+      }
+    },
     "Burgundy": {
       "extractionState": "manual",
       "localizations": {
@@ -5821,6 +7068,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Acheter des scans ou passer en illimité – sans pub"
+          }
+        }
+      }
+    },
+    "By each invoice's date, calendar quarters. Check the dates match your VAT periods. Invoices billed twice and other currencies are left out.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حسب تاريخ كل فاتورة، أرباع السنة الميلادية. تأكد أن التواريخ تطابق فترات ضريبتك. الفواتير المكررة والعملات الأخرى مستبعدة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەپێی بەرواری هەر پسوولەیەک، چارەکەکانی ساڵ. دڵنیابە بەروارەکان لەگەڵ ماوەکانی باجەکەت دەگونجێن. پسوولە دووبارەکان و دراوەکانی تر دەرهێنراون."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach dem Datum jeder Rechnung, Kalenderquartale. Prüfe, ob die Daten zu deinen MwSt.-Zeiträumen passen. Doppelte Rechnungen und andere Währungen bleiben draußen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon la date de chaque facture, par trimestres civils. Vérifiez que les dates correspondent à vos périodes de TVA. Les factures en double et les autres devises sont exclues."
           }
         }
       }
@@ -6169,6 +7445,35 @@
         }
       }
     },
+    "Change the order": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غيّر الطلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەکە بگۆڕە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellung ändern"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier la commande"
+          }
+        }
+      }
+    },
     "Change the receipt photo": {
       "extractionState": "manual",
       "localizations": {
@@ -6198,11 +7503,69 @@
         }
       }
     },
+    "Changes every screen at once, and your reports use your colour. Larger text never goes below your iPhone's own text size setting.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يغيّر كل الشاشات دفعة واحدة، وتستخدم تقاريرك لونك. النص الأكبر لا يقل أبدًا عن إعداد حجم النص في الـ iPhone."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شاشەکان پێکەوە دەگۆڕێت، و ڕاپۆرتەکانت ڕەنگەکەت بەکاردەهێنن. نووسینی گەورەتر هەرگیز لە ڕێکخستنی قەبارەی نووسینی iPhoneەکەت بچووکتر نابێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ändert alle Bildschirme auf einmal, und deine Berichte nutzen deine Farbe. Größerer Text wird nie kleiner als die Textgröße deines iPhones."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifie tous les écrans d'un coup, et vos rapports utilisent votre couleur. Le texte plus grand ne descend jamais sous la taille de texte de votre iPhone."
+          }
+        }
+      }
+    },
     "ChargeCheck": {
       "shouldTranslate": false
     },
     "ChargeCheck Pro": {
       "shouldTranslate": false
+    },
+    "ChargeCheck caught %@ on your invoices": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتشف ChargeCheck %@ في فواتيرك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck %@ ی لە پسوولەکانتدا دۆزییەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck hat %@ auf deinen Rechnungen gefunden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ChargeCheck a relevé %@ sur vos factures"
+          }
+        }
+      }
     },
     "ChargeCheck has caught": {
       "localizations": {
@@ -6889,6 +8252,35 @@
         }
       }
     },
+    "Checked it opens": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم التحقق من فتحها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشکنرا کە دەکرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geprüft, dass sie sich öffnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouverture vérifiée"
+          }
+        }
+      }
+    },
     "Checking": {
       "localizations": {
         "ar": {
@@ -7228,6 +8620,64 @@
         }
       }
     },
+    "Choose the app's colours, backgrounds, card style and text size, on every screen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ألوان التطبيق وخلفياته ونمط البطاقات وحجم النص، في كل الشاشات."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگەکان، پاشبنەماکان، شێوازی کارتەکان و قەبارەی نووسینی ئەپەکە هەڵبژێرە، لە هەموو شاشەکاندا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle Farben, Hintergründe, Kartenstil und Textgröße der App, auf jedem Bildschirm."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez les couleurs, fonds, style des cartes et taille du texte de l'app, sur chaque écran."
+          }
+        }
+      }
+    },
+    "Choose the invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەکە هەڵبژێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung wählen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir la facture"
+          }
+        }
+      }
+    },
     "Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language.": {
       "localizations": {
         "ar": {
@@ -7280,6 +8730,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choisissez « Tous les magasins » en haut pour voir toutes les factures."
+          }
+        }
+      }
+    },
+    "Classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلاسيكي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کلاسیک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klassisch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classique"
           }
         }
       }
@@ -7338,6 +8817,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Effacer"
+          }
+        }
+      }
+    },
+    "Clear problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امسح تقارير المشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە بسڕەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte löschen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer les rapports de problème"
           }
         }
       }
@@ -7451,6 +8959,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Comparer les magasins"
+          }
+        }
+      }
+    },
+    "Compare with invoice %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قارن مع الفاتورة %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەراورد بکە لەگەڵ پسوولەی %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit Rechnung %@ vergleichen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comparer avec la facture %@"
+          }
+        }
+      }
+    },
+    "Compared with the invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت المقارنة مع الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ پسوولەکە بەراورد کرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit der Rechnung verglichen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comparée à la facture"
           }
         }
       }
@@ -8511,6 +10077,64 @@
         }
       }
     },
+    "Credits arrive in": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصل الأرصدة خلال"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کرێدیتەکان دەگەن لە ماوەی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschriften kommen in"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les avoirs arrivent en"
+          }
+        }
+      }
+    },
+    "Credits in %@ days on average": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأرصدة خلال %@ يومًا في المتوسط"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کرێدیت لە %@ ڕۆژدا بە تێکڕایی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschriften in durchschnittlich %@ Tagen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoirs en %@ jours en moyenne"
+          }
+        }
+      }
+    },
     "Credits not back yet": {
       "localizations": {
         "ar": {
@@ -8620,6 +10244,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avoirs encore dus"
+          }
+        }
+      }
+    },
+    "Credits waiting over 2 weeks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرصدة تنتظر أكثر من أسبوعين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کرێدیتی چاوەڕوان زیاتر لە دوو هەفتە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschriften seit über 2 Wochen offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avoirs en attente depuis plus de 2 semaines"
           }
         }
       }
@@ -9307,6 +10960,64 @@
         }
       }
     },
+    "Delete this order": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احذف هذه الطلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم داواکارییە بسڕەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Bestellung löschen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer cette commande"
+          }
+        }
+      }
+    },
+    "Delete this order?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد حذف هذه الطلبية؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم داواکارییە بسڕیتەوە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Bestellung löschen?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer cette commande ?"
+          }
+        }
+      }
+    },
     "Delete this report": {
       "extractionState": "stale",
       "localizations": {
@@ -9418,6 +11129,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les factures, paiements et prix supprimés peuvent être récupérés pendant 30 jours."
+          }
+        }
+      }
+    },
+    "Delivered comes from ticking off the delivery on the invoice. Billed but not delivered: ask for a credit from the invoice.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المُسلّم يأتي من تأشير التسليم على الفاتورة. مُفوتر ولم يُسلّم: اطلب رصيدًا دائنًا من صفحة الفاتورة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەیەنراو لە نیشانەکردنی گەیاندنەکە لەسەر پسوولەکەوە دێت. پارەی لێوەرگیراوە بەڵام نەگەیشتووە: لە پسوولەکەوە داوای کرێدیت بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geliefert stammt aus dem Abhaken der Lieferung auf der Rechnung. Berechnet, aber nicht geliefert: Fordere über die Rechnung eine Gutschrift an."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Livré vient du pointage de la livraison sur la facture. Facturé mais non livré : demandez un avoir depuis la facture."
           }
         }
       }
@@ -9878,6 +11618,35 @@
         }
       }
     },
+    "Easy to read": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سهل القراءة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئاسان بۆ خوێندنەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gut lesbar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facile à lire"
+          }
+        }
+      }
+    },
     "Edit": {
       "localizations": {
         "ar": {
@@ -9930,6 +11699,93 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modifier le prix"
+          }
+        }
+      }
+    },
+    "Ended %lld days ago": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهت منذ %lld يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ڕۆژ لەمەوبەر کۆتایی هات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor %lld Tagen beendet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminé il y a %lld jours"
+          }
+        }
+      }
+    },
+    "Ends in %lld days": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتهي بعد %lld يومًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوای %lld ڕۆژ کۆتایی دێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endet in %lld Tagen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prend fin dans %lld jours"
+          }
+        }
+      }
+    },
+    "Ends today": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتهي اليوم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەمڕۆ کۆتایی دێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endet heute"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prend fin aujourd'hui"
           }
         }
       }
@@ -10158,6 +12014,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tout est arrivé"
+          }
+        }
+      }
+    },
+    "Everything arrived and was billed as ordered.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وصل كل شيء وفُوتر كما طُلب."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شتێک گەیشت و وەک داواکرابوو پارەی لێوەرگیرا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles wurde wie bestellt geliefert und berechnet."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout est arrivé et a été facturé comme commandé."
+          }
+        }
+      }
+    },
+    "Everything in one file (zip)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل شيء في ملف واحد (zip)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شتێک لە یەک فایلدا (zip)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles in einer Datei (zip)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout dans un seul fichier (zip)"
           }
         }
       }
@@ -10618,6 +12532,35 @@
         }
       }
     },
+    "For a category": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لفئة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ پۆلێک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Für eine Kategorie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour une catégorie"
+          }
+        }
+      }
+    },
     "For a credit the supplier won't give. It stops being chased and isn't counted as money won back. You can undo it on the invoice.": {
       "extractionState": "manual",
       "localizations": {
@@ -10643,6 +12586,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pour un avoir que le fournisseur ne donnera pas. Il n'est plus relancé et ne compte pas comme argent récupéré. Vous pouvez annuler depuis la facture."
+          }
+        }
+      }
+    },
+    "For a supplier": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لمورد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ دابینکەرێک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Für einen Lieferanten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour un fournisseur"
+          }
+        }
+      }
+    },
+    "For delivery": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للتوصيل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ گەیاندن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lieferung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour livraison"
           }
         }
       }
@@ -10874,6 +12875,35 @@
         }
       }
     },
+    "Fresh": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منعش"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تازە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frisch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frais"
+          }
+        }
+      }
+    },
     "From": {
       "extractionState": "manual",
       "localizations": {
@@ -11042,6 +13072,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Passer à ChargeCheck Pro"
+          }
+        }
+      }
+    },
+    "Glow": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توهّج"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "درەوشانەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leuchten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo"
           }
         }
       }
@@ -11641,6 +13700,64 @@
         }
       }
     },
+    "I've sent it": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسلتها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناردم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesendet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je l'ai envoyée"
+          }
+        }
+      }
+    },
+    "If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا أُغلق ChargeCheck من تلقاء نفسه أو تجمّد، يكتب iOS تقريرًا بعد يوم تقريبًا. أرسله إلينا لإصلاح المشكلة. لا يحتوي على فواتير أو أسعار."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەگەر ChargeCheck خۆی داخرا یان وەستا، iOS نزیکەی ڕۆژێک دواتر ڕاپۆرتێک دەنووسێت. بۆمانی بنێرە تا چاک بکرێت. هیچ پسوولە یان نرخێکی تێدا نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn ChargeCheck sich von selbst schließt oder hängt, schreibt iOS etwa einen Tag später einen Bericht. Schick ihn uns, damit es behoben werden kann. Er enthält keine Rechnungen oder Preise."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si ChargeCheck se ferme tout seul ou se fige, iOS rédige un rapport environ un jour plus tard. Envoyez-le-nous pour qu'il soit corrigé. Il ne contient ni factures ni prix."
+          }
+        }
+      }
+    },
     "Ignore differences up to": {
       "localizations": {
         "ar": {
@@ -11694,6 +13811,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "En résumé"
+          }
+        }
+      }
+    },
+    "In the last year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في السنة الأخيرة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ساڵی ڕابردوودا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im letzten Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur la dernière année"
           }
         }
       }
@@ -13373,6 +15519,64 @@
         }
       }
     },
+    "Large": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەورە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groß"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand"
+          }
+        }
+      }
+    },
+    "Larger": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكبر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەورەتر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus grand"
+          }
+        }
+      }
+    },
     "Last 90 days": {
       "extractionState": "manual",
       "localizations": {
@@ -13456,6 +15660,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mois dernier"
+          }
+        }
+      }
+    },
+    "Last month %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشهر الماضي %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مانگی ڕابردوو %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzter Monat %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mois dernier %@"
           }
         }
       }
@@ -13628,6 +15861,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Exercice fiscal précédent"
+          }
+        }
+      }
+    },
+    "Last week: %@ caught": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسبوع الماضي: اكتُشف %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەفتەی ڕابردوو: %@ دۆزرایەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzte Woche: %@ gefunden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semaine dernière : %@ relevés"
           }
         }
       }
@@ -14171,6 +16433,64 @@
         }
       }
     },
+    "Make an order": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنشئ طلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەک دروست بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellung erstellen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créer une commande"
+          }
+        }
+      }
+    },
+    "Make an order from what you usually buy and send it by WhatsApp, text or email. When the invoice comes, ChargeCheck compares what you ordered, what arrived and what you were billed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنشئ طلبية مما تشتريه عادةً وأرسلها عبر واتساب أو رسالة أو بريد. عند وصول الفاتورة، يقارن ChargeCheck ما طلبته وما وصل وما دفعت ثمنه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەک لەوەی بەزۆری دەیکڕیت دروست بکە و بە واتسئاپ، نامە یان ئیمەیڵ بینێرە. کاتێک پسوولەکە دێت، ChargeCheck بەراوردی ئەوەی داواتکرد، ئەوەی گەیشت و ئەوەی پارەی لێوەرگیرا دەکات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstelle eine Bestellung aus dem, was du üblicherweise kaufst, und sende sie per WhatsApp, SMS oder E-Mail. Kommt die Rechnung, vergleicht ChargeCheck Bestelltes, Geliefertes und Berechnetes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créez une commande à partir de vos achats habituels et envoyez-la par WhatsApp, SMS ou e-mail. À l'arrivée de la facture, ChargeCheck compare ce que vous avez commandé, reçu et payé."
+          }
+        }
+      }
+    },
     "Manage or cancel subscription": {
       "localizations": {
         "ar": {
@@ -14622,6 +16942,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manquant/retourné"
+          }
+        }
+      }
+    },
+    "Monday summary": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملخص الاثنين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کورتەی دووشەممە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montagsübersicht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Résumé du lundi"
           }
         }
       }
@@ -15333,6 +17682,35 @@
         }
       }
     },
+    "Night shift": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مناوبة ليلية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شەوانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nachtschicht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Service de nuit"
+          }
+        }
+      }
+    },
     "No": {
       "extractionState": "manual",
       "localizations": {
@@ -15358,6 +17736,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Non"
+          }
+        }
+      }
+    },
+    "No VAT yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا ضريبة بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا هیچ باجێک نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore de TVA"
           }
         }
       }
@@ -15443,6 +17850,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune pub n’est disponible pour le moment, aucun scan n’a donc été ajouté. Vérifiez votre connexion et réessayez. (%@)"
+          }
+        }
+      }
+    },
+    "No agreed prices ending soon": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا أسعار متفق عليها تنتهي قريبًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ نرخێکی ڕێککەوتوو بەم زووانە کۆتایی نایەت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine vereinbarten Preise enden bald"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun prix convenu ne prend fin bientôt"
+          }
+        }
+      }
+    },
+    "No budgets yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا ميزانيات بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا هیچ بودجەیەک نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Budgets"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun budget pour l'instant"
           }
         }
       }
@@ -15788,6 +18253,35 @@
         }
       }
     },
+    "No invoices from this supplier yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا فواتير من هذا المورد بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا هیچ پسوولەیەک لەم دابینکەرەوە نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Rechnungen von diesem Lieferanten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune facture de ce fournisseur pour l'instant"
+          }
+        }
+      }
+    },
     "No invoices were checked in {1}.": {
       "extractionState": "manual",
       "localizations": {
@@ -15960,6 +18454,35 @@
         }
       }
     },
+    "No orders yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا طلبيات بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا هیچ داواکارییەک نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Bestellungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune commande pour l'instant"
+          }
+        }
+      }
+    },
     "No price rises": {
       "extractionState": "manual",
       "localizations": {
@@ -16071,6 +18594,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas encore de prix."
+          }
+        }
+      }
+    },
+    "No problems reported": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مشاكل مُبلّغ عنها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ کێشەیەک ڕاپۆرت نەکراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Probleme gemeldet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun problème signalé"
           }
         }
       }
@@ -16590,6 +19142,35 @@
         }
       }
     },
+    "Not on your order, billed %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ليس في طلبيتك، فُوتر %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە داواکارییەکەتدا نییە، پارەی %@ لێوەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht bestellt, %@ berechnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas dans votre commande, %@ facturé(s)"
+          }
+        }
+      }
+    },
     "Not received after all": {
       "localizations": {
         "ar": {
@@ -16647,6 +19228,35 @@
         }
       }
     },
+    "Not this invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ليست هذه الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم پسوولەیە نا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht diese Rechnung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas cette facture"
+          }
+        }
+      }
+    },
     "Note (optional)": {
       "extractionState": "manual",
       "localizations": {
@@ -16672,6 +19282,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Note (facultatif)"
+          }
+        }
+      }
+    },
+    "Note for the supplier": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة للمورد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تێبینی بۆ دابینکەر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinweis für den Lieferanten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note pour le fournisseur"
           }
         }
       }
@@ -16705,6 +19344,35 @@
         }
       }
     },
+    "Nothing bought this month yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تشترِ شيئًا هذا الشهر بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا ئەم مانگە هیچ نەکڕاوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diesen Monat noch nichts gekauft"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien acheté ce mois-ci pour l'instant"
+          }
+        }
+      }
+    },
     "Nothing deleted": {
       "localizations": {
         "ar": {
@@ -16733,6 +19401,35 @@
         }
       }
     },
+    "Nothing due this week.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق هذا الأسبوع."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم هەفتەیە هیچ شتێک نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Woche nichts fällig."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien de dû cette semaine."
+          }
+        }
+      }
+    },
     "Nothing found": {
       "localizations": {
         "ar": {
@@ -16757,6 +19454,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rien trouvé"
+          }
+        }
+      }
+    },
+    "Nothing is due this week.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق هذا الأسبوع."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم هەفتەیە هیچ شتێک کاتی پارەدانی نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Woche ist nichts fällig."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien n'est dû cette semaine."
           }
         }
       }
@@ -17640,6 +20366,35 @@
         }
       }
     },
+    "Open ChargeCheck once so it can work this out.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح ChargeCheck مرة ليحسب ذلك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارێک ChargeCheck بکەرەوە تا ئەمە بژمێرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffne ChargeCheck einmal, damit es das ausrechnen kann."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez ChargeCheck une fois pour qu'il le calcule."
+          }
+        }
+      }
+    },
     "Open ChargeCheck › Reports › Export to send it to your accountant.": {
       "localizations": {
         "ar": {
@@ -17977,6 +20732,238 @@
           "stringUnit": {
             "state": "translated",
             "value": "Orange"
+          }
+        }
+      }
+    },
+    "Order": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکاری"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commande"
+          }
+        }
+      }
+    },
+    "Order deleted": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُذفت الطلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەکە سڕایەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellung gelöscht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commande supprimée"
+          }
+        }
+      }
+    },
+    "Order from": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اطلب من"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوا بکە لە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellen bei"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commander chez"
+          }
+        }
+      }
+    },
+    "Ordered %@, billed %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طُلب %@، فُوتر %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ داواکرا، پارەی %@ لێوەرگیرا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ bestellt, %@ berechnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ commandé(s), %@ facturé(s)"
+          }
+        }
+      }
+    },
+    "Ordered %@, not on the invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طُلب %@، وليس في الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ داواکرا، لە پسوولەکەدا نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ bestellt, nicht auf der Rechnung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ commandé(s), absent de la facture"
+          }
+        }
+      }
+    },
+    "Ordered %@, only %@ came": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طُلب %@، ووصل %@ فقط"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ داواکرا، تەنها %@ هات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ bestellt, nur %@ gekommen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ commandé(s), seulement %@ arrivé(s)"
+          }
+        }
+      }
+    },
+    "Ordered, delivered and billed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المطلوب والمُسلّم والمُفوتر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکراو، گەیەنراو و پارە لێوەرگیراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellt, geliefert und berechnet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commandé, livré et facturé"
+          }
+        }
+      }
+    },
+    "Orders": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطلبيات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commandes"
           }
         }
       }
@@ -18547,6 +21534,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les surfacturations et marchandises manquantes sont déduites de ce que vous payez. Les avoirs reçus sont l'argent que les fournisseurs ont renvoyé pour cela."
+          }
+        }
+      }
+    },
+    "Overcharges and missing items on invoices you checked.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبالغ زائدة وأصناف ناقصة في الفواتير التي فحصتها."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زیادە پارە و کاڵا نەگەیشتووەکان لەو پسوولانەی پشکنیت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überberechnungen und fehlende Artikel auf geprüften Rechnungen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surfacturations et articles manquants sur les factures vérifiées."
           }
         }
       }
@@ -19812,6 +22828,35 @@
         }
       }
     },
+    "Photo of the problem": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة المشكلة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەی کێشەکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto des Problems"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photo du problème"
+          }
+        }
+      }
+    },
     "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice.": {
       "localizations": {
         "ar": {
@@ -19921,6 +22966,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rose"
+          }
+        }
+      }
+    },
+    "Plain": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سادە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlicht"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uni"
           }
         }
       }
@@ -20407,6 +23481,35 @@
         }
       }
     },
+    "Price now": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر الآن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی ئێستا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preis jetzt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix actuel"
+          }
+        }
+      }
+    },
     "Price restored": {
       "localizations": {
         "ar": {
@@ -20749,6 +23852,35 @@
         }
       }
     },
+    "Prices agreed until a date": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار متفق عليها حتى تاريخ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخی ڕێککەوتوو تا بەروارێک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preise bis zu einem Datum vereinbart"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix convenus jusqu'à une date"
+          }
+        }
+      }
+    },
     "Prices agreed with this supplier that differ from your standard prices.": {
       "extractionState": "manual",
       "localizations": {
@@ -20778,6 +23910,35 @@
         }
       }
     },
+    "Prices and credits": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسعار والأرصدة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکان و کرێدیتەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preise und Gutschriften"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prix et avoirs"
+          }
+        }
+      }
+    },
     "Prices are only lowered for items already in your list, only on a fully checked invoice, and never raised. You can undo it each time.": {
       "localizations": {
         "ar": {
@@ -20802,6 +23963,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les prix ne sont baissés que pour les articles déjà dans votre liste, uniquement sur une facture entièrement vérifiée, et jamais augmentés. Vous pouvez annuler à chaque fois."
+          }
+        }
+      }
+    },
+    "Prices from %@ end in 2 weeks": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسعار %@ تنتهي بعد أسبوعين"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نرخەکانی %@ دوای دوو هەفتە کۆتایی دێن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Preise von %@ enden in 2 Wochen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les prix de %@ prennent fin dans 2 semaines"
           }
         }
       }
@@ -20951,6 +24141,35 @@
     "Pro": {
       "shouldTranslate": false
     },
+    "Pro costs %@ a year.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكلفة Pro هي %@ سنويًا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro ساڵانە %@ ە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro kostet %@ im Jahr."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro coûte %@ par an."
+          }
+        }
+      }
+    },
     "Pro feature": {
       "localizations": {
         "ar": {
@@ -21004,6 +24223,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Problème"
+          }
+        }
+      }
+    },
+    "Problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقارير المشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapports de problème"
+          }
+        }
+      }
+    },
+    "Problem reports cleared.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم مسح تقارير المشاكل."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕاپۆرتەکانی کێشە سڕانەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Problemberichte gelöscht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rapports de problème effacés."
           }
         }
       }
@@ -21866,6 +25143,35 @@
         }
       }
     },
+    "Remove the photo": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أزل الصورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکە لاببە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto entfernen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer la photo"
+          }
+        }
+      }
+    },
     "Remove the receipt": {
       "extractionState": "manual",
       "localizations": {
@@ -22232,6 +25538,35 @@
         }
       }
     },
+    "Rounded": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستدير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خڕ"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgerundet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrondi"
+          }
+        }
+      }
+    },
     "Same invoice – update the saved one": {
       "extractionState": "manual",
       "localizations": {
@@ -22567,6 +25902,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enregistrée dans les rapports"
+          }
+        }
+      }
+    },
+    "Says what you owe your suppliers, and to whom the most.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يخبرك بما تدين به لمورّديك، ولمن الأكثر."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دەڵێت چەندت قەرزی دابینکەرەکانتە، و زۆرترین بۆ کێیە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sagt dir, was du deinen Lieferanten schuldest und wem am meisten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indique ce que vous devez à vos fournisseurs, et à qui le plus."
+          }
+        }
+      }
+    },
+    "Says which supplier invoices are due in the next 7 days, and any overdue.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يخبرك بفواتير الموردين المستحقة خلال 7 أيام، وأي متأخرة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دەڵێت کام پسوولەی دابینکەران لە ٧ ڕۆژی داهاتوودا کاتی پارەدانیانە، و هەر دواکەوتوویەک."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sagt dir, welche Lieferantenrechnungen in den nächsten 7 Tagen fällig sind, und welche überfällig."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indique les factures fournisseurs dues dans les 7 prochains jours, et celles en retard."
           }
         }
       }
@@ -23254,6 +26647,151 @@
         }
       }
     },
+    "Send %lld problem reports": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل %lld تقارير مشاكل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ڕاپۆرتی کێشە بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Problemberichte senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer %lld rapports de problème"
+          }
+        }
+      }
+    },
+    "Send 1 problem report": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل تقرير مشكلة واحد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "١ ڕاپۆرتی کێشە بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Problembericht senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer 1 rapport de problème"
+          }
+        }
+      }
+    },
+    "Send an order, then compare it with what arrived and what you were billed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل طلبية، ثم قارنها بما وصل وما فُوتر عليك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەک بنێرە، پاشان بەراوردی بکە لەگەڵ ئەوەی گەیشت و ئەوەی پارەی لێوەرگیرا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sende eine Bestellung und vergleiche sie dann mit Lieferung und Rechnung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyez une commande, puis comparez-la avec ce qui est arrivé et facturé."
+          }
+        }
+      }
+    },
+    "Send it by WhatsApp, text or email, then tap I've sent it. When the invoice is checked, compare it here.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسلها عبر واتساب أو رسالة أو بريد، ثم اضغط أرسلتها. بعد فحص الفاتورة، قارنها هنا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بە واتسئاپ، نامە یان ئیمەیڵ بینێرە، پاشان کرتە لە ناردم بکە. کاتێک پسوولەکە پشکنرا، لێرە بەراوردی بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sende sie per WhatsApp, SMS oder E-Mail und tippe dann auf Gesendet. Ist die Rechnung geprüft, vergleiche sie hier."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyez-la par WhatsApp, SMS ou e-mail, puis touchez Je l'ai envoyée. Une fois la facture vérifiée, comparez-la ici."
+          }
+        }
+      }
+    },
+    "Send the credit request with photos": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل طلب الرصيد الدائن مع الصور"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داوای کرێدیتەکە لەگەڵ وێنەکان بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gutschriftsanforderung mit Fotos senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer la demande d'avoir avec les photos"
+          }
+        }
+      }
+    },
     "Send the invite by WhatsApp, Messages or email. Staff need ChargeCheck Beta from TestFlight first (add them as testers in App Store Connect). You can remove anyone from the same screen.": {
       "extractionState": "manual",
       "localizations": {
@@ -23279,6 +26817,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envoyez l’invitation par WhatsApp, Messages ou e-mail. Le personnel doit d’abord installer ChargeCheck Beta via TestFlight (ajoutez-le comme testeur dans App Store Connect). Vous pouvez retirer quelqu’un depuis le même écran."
+          }
+        }
+      }
+    },
+    "Send the order": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل الطلبية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییەکە بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestellung senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer la commande"
           }
         }
       }
@@ -23311,6 +26878,35 @@
         }
       }
     },
+    "Send the photos": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل الصور"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنەکان بنێرە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer les photos"
+          }
+        }
+      }
+    },
     "Send this summary": {
       "extractionState": "manual",
       "localizations": {
@@ -23336,6 +26932,93 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envoyer ce résumé"
+          }
+        }
+      }
+    },
+    "Set a monthly limit for a supplier or a category. Home warns you when 80% is used.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّد سقفًا شهريًا لمورد أو فئة. تنبهك الصفحة الرئيسية عند استخدام 80%."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنووری مانگانە بۆ دابینکەرێک یان پۆلێک دابنێ. سەرەکی ئاگادارت دەکاتەوە کاتێک ٨٠٪ بەکارهات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lege ein Monatslimit für einen Lieferanten oder eine Kategorie fest. Die Startseite warnt dich bei 80 %."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixez une limite mensuelle pour un fournisseur ou une catégorie. L'accueil vous avertit à 80 %."
+          }
+        }
+      }
+    },
+    "Set the date a supplier's prices end on their page in Suppliers.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّد تاريخ انتهاء أسعار المورد من صفحته في الموردين."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەرواری کۆتایی نرخەکانی دابینکەرێک لە پەڕەکەیدا لە دابینکەران دابنێ."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lege das Enddatum der Preise eines Lieferanten auf seiner Seite unter Lieferanten fest."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indiquez la date de fin des prix d'un fournisseur sur sa page dans Fournisseurs."
+          }
+        }
+      }
+    },
+    "Set when their agreed prices end: you get a reminder two weeks before, to renegotiate with their supplier report.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّد متى تنتهي أسعارهم المتفق عليها: يصلك تذكير قبل أسبوعين لإعادة التفاوض بتقرير المورد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دیاری بکە نرخە ڕێککەوتووەکانیان کەی کۆتایی دێن: دوو هەفتە پێشتر بیرخستنەوەیەکت پێدەگات، بۆ دووبارە دانوستان بە ڕاپۆرتی دابینکەر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lege fest, wann ihre vereinbarten Preise enden: Du bekommst zwei Wochen vorher eine Erinnerung, um mit dem Lieferantenbericht neu zu verhandeln."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indiquez quand leurs prix convenus prennent fin : un rappel arrive deux semaines avant, pour renégocier avec le rapport fournisseur."
           }
         }
       }
@@ -23449,6 +27132,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plusieurs magasins, employés sur leur propre iPhone, widget d'accueil"
+          }
+        }
+      }
+    },
+    "Share the spreadsheet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شارك جدول البيانات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خشتەکە هاوبەش بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabelle teilen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager le tableur"
           }
         }
       }
@@ -23911,6 +27623,35 @@
         }
       }
     },
+    "Soft colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون ناعم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی نەرم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sanfte Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couleur douce"
+          }
+        }
+      }
+    },
     "Some things don't match": {
       "extractionState": "manual",
       "localizations": {
@@ -24054,6 +27795,35 @@
         }
       }
     },
+    "Spend a year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإنفاق سنويًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خەرجی ساڵانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgaben im Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dépense par an"
+          }
+        }
+      }
+    },
     "Spend checked": {
       "localizations": {
         "ar": {
@@ -24111,6 +27881,64 @@
         }
       }
     },
+    "Spending by category": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإنفاق حسب الفئة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خەرجی بەپێی پۆل"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgaben nach Kategorie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dépenses par catégorie"
+          }
+        }
+      }
+    },
+    "Spending is grouped by the categories in your price list.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُجمَّع الإنفاق حسب فئات قائمة أسعارك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خەرجی بەپێی پۆلەکانی لیستی نرخەکەت کۆدەکرێتەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Ausgaben werden nach den Kategorien deiner Preisliste gruppiert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les dépenses sont regroupées selon les catégories de votre liste de prix."
+          }
+        }
+      }
+    },
     "Spent": {
       "extractionState": "manual",
       "localizations": {
@@ -24164,6 +27992,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dépensé ce mois-ci"
+          }
+        }
+      }
+    },
+    "Spreadsheet for this quarter": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جدول بيانات لهذا الربع"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خشتە بۆ ئەم چارەکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabelle für dieses Quartal"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tableur de ce trimestre"
           }
         }
       }
@@ -24369,6 +28226,35 @@
         }
       }
     },
+    "Standard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئاسایی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        }
+      }
+    },
     "Standard price": {
       "extractionState": "manual",
       "localizations": {
@@ -24509,6 +28395,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Commencez vos 7 jours d’essai gratuit"
+          }
+        }
+      }
+    },
+    "Started with what you usually buy from them. Change the amounts, or set one to 0 to leave it out.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدأت بما تشتريه منهم عادةً. غيّر الكميات، أو اجعل إحداها 0 لاستبعادها."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەوە دەستی پێکرد کە بەزۆری لێیان دەکڕیت. بڕەکان بگۆڕە، یان یەکێک بکە بە 0 بۆ لابردنی."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Begonnen mit dem, was du dort üblicherweise kaufst. Ändere die Mengen oder setze eine auf 0, um sie wegzulassen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencée avec vos achats habituels chez eux. Modifiez les quantités, ou mettez-en une à 0 pour l'exclure."
           }
         }
       }
@@ -25427,6 +29342,35 @@
         }
       }
     },
+    "Suppliers: invoice totals with VAT (what you pay them). Categories: before VAT, from your price list's categories.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموردون: إجمالي الفواتير مع الضريبة (ما تدفعه لهم). الفئات: قبل الضريبة، من فئات قائمة أسعارك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەران: کۆی پسوولەکان لەگەڵ باج (ئەوەی پێیان دەدەیت). پۆلەکان: پێش باج، لە پۆلەکانی لیستی نرخەکەت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lieferanten: Rechnungsbeträge mit MwSt. (was du ihnen zahlst). Kategorien: vor MwSt., aus den Kategorien deiner Preisliste."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fournisseurs : totaux des factures TTC (ce que vous leur payez). Catégories : hors TVA, selon votre liste de prix."
+          }
+        }
+      }
+    },
     "Support": {
       "localizations": {
         "ar": {
@@ -25879,6 +29823,93 @@
           "stringUnit": {
             "state": "translated",
             "value": "Test : essayer l'app en"
+          }
+        }
+      }
+    },
+    "Text size": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم النص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قەبارەی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textgröße"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille du texte"
+          }
+        }
+      }
+    },
+    "Text style": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط النص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شێوازی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schriftstil"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style du texte"
+          }
+        }
+      }
+    },
+    "Thank you": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكرًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سوپاس"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danke"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Merci"
           }
         }
       }
@@ -26848,6 +30879,93 @@
         }
       }
     },
+    "The zip holds the PDF, the spreadsheet, bills for Xero and every invoice photo or PDF for the period, ready to email to your accountant.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتوي ملف zip على PDF وجدول البيانات وفواتير Xero وكل صورة أو PDF للفواتير في الفترة، جاهزًا لإرساله إلى محاسبك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فایلی zip ـەکە PDF، خشتەکە، پسوولەکانی Xero و هەموو وێنە یان PDFی پسوولەکانی ئەو ماوەیەی تێدایە، ئامادەیە بۆ ناردن بۆ ژمێریارەکەت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Zip-Datei enthält das PDF, die Tabelle, Rechnungen für Xero und jedes Rechnungsfoto oder -PDF des Zeitraums, bereit zum Mailen an deine Steuerberatung."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le zip contient le PDF, le tableur, les factures pour Xero et chaque photo ou PDF de facture de la période, prêt à envoyer à votre comptable."
+          }
+        }
+      }
+    },
+    "Themes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظاهر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕووکارەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designs"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thèmes"
+          }
+        }
+      }
+    },
+    "Themes for the whole app": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظاهر للتطبيق كله"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕووکار بۆ هەموو ئەپەکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designs für die ganze App"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thèmes pour toute l'app"
+          }
+        }
+      }
+    },
     "These invoices have no VAT": {
       "localizations": {
         "ar": {
@@ -26872,6 +30990,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ces factures n’ont pas de TVA"
+          }
+        }
+      }
+    },
+    "These rises cost you a year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكلّفك هذه الزيادات سنويًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم بەرزبوونەوانە ساڵانە ئەوەندەت تێدەچێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Erhöhungen kosten dich im Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces hausses vous coûtent par an"
           }
         }
       }
@@ -27394,6 +31541,64 @@
         }
       }
     },
+    "This week: %@ due to %lld suppliers.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الأسبوع: %@ مستحقة لـ %lld موردين."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم هەفتەیە: %@ بۆ %lld دابینکەر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Woche: %@ fällig an %lld Lieferanten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette semaine : %@ dus à %lld fournisseurs."
+          }
+        }
+      }
+    },
+    "This week: %@ due to 1 supplier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الأسبوع: %@ مستحقة لمورد واحد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم هەفتەیە: %@ بۆ ١ دابینکەر."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Woche: %@ fällig an 1 Lieferanten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette semaine : %@ dus à 1 fournisseur."
+          }
+        }
+      }
+    },
     "This year": {
       "extractionState": "manual",
       "localizations": {
@@ -27562,6 +31767,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "À payer"
+          }
+        }
+      }
+    },
+    "To send": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للإرسال"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ ناردن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À envoyer"
           }
         }
       }
@@ -28591,6 +32825,35 @@
         }
       }
     },
+    "Until": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حتى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bis"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jusqu'au"
+          }
+        }
+      }
+    },
     "Up since last time": {
       "extractionState": "manual",
       "localizations": {
@@ -28674,6 +32937,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mettre à jour mes prix"
+          }
+        }
+      }
+    },
+    "Use": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەکاربهێنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verwenden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser"
           }
         }
       }
@@ -28965,6 +33257,64 @@
         }
       }
     },
+    "VAT on the invoices you check is added up here, quarter by quarter.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُجمع هنا ضريبة الفواتير التي تفحصها، ربعًا بعد ربع."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باجی ئەو پسوولانەی دەیانپشکنیت لێرە کۆدەکرێتەوە، چارەک بە چارەک."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die MwSt. der geprüften Rechnungen wird hier Quartal für Quartal addiert."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La TVA des factures vérifiées est additionnée ici, trimestre par trimestre."
+          }
+        }
+      }
+    },
+    "VAT you paid": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الضريبة التي دفعتها"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەو باجەی دات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gezahlte MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TVA payée"
+          }
+        }
+      }
+    },
     "Version": {
       "localizations": {
         "ar": {
@@ -28989,6 +33339,93 @@
           "stringUnit": {
             "state": "translated",
             "value": "Version"
+          }
+        }
+      }
+    },
+    "Waiting for %@'s invoice. Check it as usual, then come back here.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بانتظار فاتورة %@. افحصها كالمعتاد، ثم عد إلى هنا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چاوەڕێی پسوولەی %@. وەک هەمیشە بیپشکنە، پاشان بگەڕێوە ئێرە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warten auf die Rechnung von %@. Prüfe sie wie gewohnt und komm dann hierher zurück."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En attente de la facture de %@. Vérifiez-la comme d'habitude, puis revenez ici."
+          }
+        }
+      }
+    },
+    "Waiting for the invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بانتظار الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چاوەڕێی پسوولەکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warten auf die Rechnung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En attente de la facture"
+          }
+        }
+      }
+    },
+    "Warm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دافئ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەرم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warm"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaleureux"
           }
         }
       }
@@ -29191,6 +33628,35 @@
         }
       }
     },
+    "What do I owe?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كم أدين؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چەندم قەرزە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was schulde ich?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combien je dois ?"
+          }
+        }
+      }
+    },
     "What you owe": {
       "localizations": {
         "ar": {
@@ -29305,6 +33771,35 @@
         }
       }
     },
+    "What's due this week?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ما المستحق هذا الأسبوع؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم هەفتەیە چی کاتی پارەدانیەتی؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Was ist diese Woche fällig?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qu'est-ce qui est dû cette semaine ?"
+          }
+        }
+      }
+    },
     "When a supplier charges more than the last time you bought the same item from them, it shows here.": {
       "extractionState": "manual",
       "localizations": {
@@ -29330,6 +33825,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quand un fournisseur facture plus cher que la dernière fois pour le même article, cela apparaît ici."
+          }
+        }
+      }
+    },
+    "When the invoice comes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند وصول الفاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێک پسوولەکە دێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn die Rechnung kommt"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À l'arrivée de la facture"
           }
         }
       }
@@ -29388,6 +33912,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quand vous achetez le même article chez deux fournisseurs, ChargeCheck indique ici si l’autre est moins cher."
+          }
+        }
+      }
+    },
+    "Which invoice?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي فاتورة؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کام پسوولە؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welche Rechnung?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quelle facture ?"
           }
         }
       }
@@ -29907,6 +34460,35 @@
         }
       }
     },
+    "You don't owe %@ anything.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تدين لـ %@ بشيء."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچت قەرزی %@ نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du schuldest %@ nichts."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous ne devez rien à %@."
+          }
+        }
+      }
+    },
     "You don't owe any supplier": {
       "localizations": {
         "ar": {
@@ -29931,6 +34513,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vous ne devez rien aux fournisseurs"
+          }
+        }
+      }
+    },
+    "You don't owe any suppliers anything.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تدين لأي مورد بشيء."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچت قەرزی هیچ دابینکەرێک نییە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du schuldest keinem Lieferanten etwas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous ne devez rien à aucun fournisseur."
           }
         }
       }
@@ -30074,6 +34685,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vous devez"
+          }
+        }
+      }
+    },
+    "You owe %@ %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدين لـ %@ بمبلغ %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قەرزی %@ـت %@ە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du schuldest %@ %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous devez %2$@ à %1$@."
+          }
+        }
+      }
+    },
+    "You owe %@ to %lld suppliers. The most is %@: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدين بـ %@ لـ %lld موردين. الأكبر %@: %@."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ قەرزی %lld دابینکەرتە. زۆرترین %@: %@."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du schuldest %@ an %lld Lieferanten. Am meisten %@: %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous devez %@ à %lld fournisseurs. Le plus : %@, %@."
           }
         }
       }
@@ -30394,6 +35063,35 @@
         }
       }
     },
+    "Your biggest items (a year at your current rate)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكبر أصنافك (سنويًا بمعدلك الحالي)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەورەترین کاڵاکانت (ساڵێک بە ڕێژەی ئێستات)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine größten Artikel (ein Jahr beim aktuellen Tempo)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos plus gros articles (sur un an au rythme actuel)"
+          }
+        }
+      }
+    },
     "Your business": {
       "localizations": {
         "ar": {
@@ -30418,6 +35116,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre entreprise"
+          }
+        }
+      }
+    },
+    "Your colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی خۆت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre couleur"
           }
         }
       }
@@ -30537,6 +35264,35 @@
         }
       }
     },
+    "Your last iCloud backup couldn't be opened again. It will be saved again next time you leave the app; if this stays, check iCloud has space.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح آخر نسخة احتياطية في iCloud مرة أخرى. ستُحفظ من جديد عند خروجك من التطبيق؛ إن استمر ذلك، تأكد من وجود مساحة في iCloud."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆتا باکئەپی iCloud دووبارە نەکرایەوە. جارێکی تر پاشەکەوت دەکرێت کاتێک لە ئەپەکە دەردەچیت؛ ئەگەر بەردەوام بوو، دڵنیابە iCloud شوێنی هەیە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine letzte iCloud-Sicherung ließ sich nicht wieder öffnen. Sie wird beim nächsten Verlassen der App neu gespeichert; bleibt das so, prüfe, ob iCloud Platz hat."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre dernière sauvegarde iCloud n'a pas pu être rouverte. Elle sera enregistrée à nouveau en quittant l'app ; si cela persiste, vérifiez l'espace iCloud."
+          }
+        }
+      }
+    },
     "Your list": {
       "localizations": {
         "ar": {
@@ -30589,6 +35345,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre mois en mots simples : vos dépenses, qui a surfacturé, ce qui a augmenté."
+          }
+        }
+      }
+    },
+    "Your own colour": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك الخاص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی تایبەتی خۆت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine eigene Farbe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre propre couleur"
+          }
+        }
+      }
+    },
+    "Your own colour, backgrounds, text style and size": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لونك الخاص والخلفيات ونمط النص وحجمه"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەنگی خۆت، پاشبنەماکان، شێواز و قەبارەی نووسین"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigene Farbe, Hintergründe, Schriftstil und -größe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre couleur, fonds, style et taille du texte"
           }
         }
       }
@@ -31103,6 +35917,64 @@
         }
       }
     },
+    "Your suppliers": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مورّدوك"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دابینکەرەکانت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Lieferanten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos fournisseurs"
+          }
+        }
+      }
+    },
+    "Your week in ChargeCheck": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسبوعك في ChargeCheck"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەفتەکەت لە ChargeCheck"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Woche in ChargeCheck"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre semaine dans ChargeCheck"
+          }
+        }
+      }
+    },
     "and others": {
       "extractionState": "manual",
       "localizations": {
@@ -31454,6 +36326,35 @@
         }
       }
     },
+    "e.g. Please deliver before 11am": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثلًا: يُرجى التوصيل قبل 11 صباحًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ نموونە: تکایە پێش کاتژمێر ١١ی بەیانی بیگەیەنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "z. B. Bitte vor 11 Uhr liefern"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ex. Merci de livrer avant 11 h"
+          }
+        }
+      }
+    },
     "e.g. quater pounder, qtr pounder": {
       "extractionState": "stale",
       "localizations": {
@@ -31536,6 +36437,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Problème iCloud : %@"
+          }
+        }
+      }
+    },
+    "invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "facture"
           }
         }
       }
@@ -32224,6 +37154,35 @@
         }
       }
     },
+    "photo": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێنە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "photo"
+          }
+        }
+      }
+    },
     "short": {
       "extractionState": "stale",
       "localizations": {
@@ -32718,6 +37677,35 @@
     },
     "–": {
       "shouldTranslate": false
+    },
+    "≈ %@ a year": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ سنويًا"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ لە ساڵێکدا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ im Jahr"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ par an"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

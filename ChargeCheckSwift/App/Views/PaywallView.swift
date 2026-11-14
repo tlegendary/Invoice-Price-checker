@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import SwiftData
 import ChargeCheckCore
 
 /// The plans: yearly or monthly subscription (7-day free trial), scan packs, or carry on free with ads.
@@ -11,6 +12,7 @@ struct PaywallView: View {
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @State private var selected = Products.yearly
     @State private var busy = false
     @State private var notice: String?
@@ -40,6 +42,44 @@ struct PaywallView: View {
         case (false, false): start = String(localized: "\(price) per month. Payment is charged to your Apple ID when you confirm.")
         }
         return start + " " + String(localized: "Your subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel any time in your App Store account settings.")
+    }
+
+    /// What ChargeCheck found for this business in the last year, next to what Pro costs. Only what was
+    /// actually on checked invoices counts, and credits received are shown apart: nothing is estimated.
+    @ViewBuilder
+    private var valueCard: some View {
+        let since = SupplierAccounts.dayText(Date().addingTimeInterval(-365 * 86_400))
+        let main = Money.currency.code
+        let year = reports.compactMap { $0.entry }.filter {
+            String($0.savedAt.prefix(10)) >= since && $0.duplicateOf == nil
+                && ($0.currency ?? Accounts.shared.currency(for: $0.supplier).code) == main
+        }
+        let caught = Money.round2(year.reduce(0) { $0 + $1.over + $1.excluded })
+        let back = ReportMaths.creditsReceived(year).amount
+        if caught > 0.005 {
+            VStack(alignment: .leading, spacing: 6) {
+                Label("In the last year", systemImage: "shield.lefthalf.filled")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                Text("ChargeCheck caught \(Money.format(caught)) on your invoices")
+                    .font(.headline)
+                if back > 0.005 {
+                    Text("\(Money.format(back)) of it has already come back as credits.")
+                        .font(.subheadline)
+                }
+                if let yearly = store.yearly {
+                    Text("Pro costs \(yearly.displayPrice) a year.")
+                        .font(.subheadline.weight(.semibold))
+                }
+                Text("Overcharges and missing items on invoices you checked.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.green.opacity(0.10), in: RoundedRectangle(cornerRadius: 14))
+            .accessibilityElement(children: .combine)
+        }
     }
 
     var body: some View {
@@ -73,6 +113,8 @@ struct PaywallView: View {
                             .multilineTextAlignment(.center)
                     }
                     .frame(maxWidth: .infinity)
+
+                    valueCard
 
                     VStack(alignment: .leading, spacing: 10) {
                         benefit("Unlimited scans, no ads")

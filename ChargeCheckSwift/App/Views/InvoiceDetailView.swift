@@ -44,6 +44,7 @@ struct InvoiceDetailView: View {
             }
         }
         .navigationTitle(job?.draft.supplier.isEmpty == false ? (job?.draft.supplier ?? "") : "Invoice")
+        .themedScreen()
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $editing) { draft in
             if let job {
@@ -336,6 +337,7 @@ struct DeliveryCheckView: View {
                 }
             }
             .navigationTitle("Check the delivery")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -75,6 +75,11 @@ struct ReportsView: View {
                         GatedButton(feature: .exports, action: { showExport = true }) {
                             Label("Export for your accountant", systemImage: "square.and.arrow.up")
                         }
+                        GatedLink(.exports) {
+                            VATSummaryView()
+                        } label: {
+                            Label("VAT you paid", systemImage: "percent")
+                        }
                         GatedLink(.monthlySummary) {
                             MonthlySummaryView()
                         } label: {
@@ -104,6 +109,16 @@ struct ReportsView: View {
                         } label: {
                             Label("Supplier scores", systemImage: "star.leadinghalf.filled")
                         }
+                        GatedLink(.budgets) {
+                            CategorySpendView()
+                        } label: {
+                            Label("Spending by category", systemImage: "chart.bar.xaxis")
+                        }
+                        GatedLink(.budgets) {
+                            BudgetsView()
+                        } label: {
+                            Label("Budgets", systemImage: "gauge.with.dots.needle.33percent")
+                        }
                         GatedLink(.moneyLeaks) {
                             SavingsView()
                         } label: {
@@ -128,6 +143,7 @@ struct ReportsView: View {
                 }
             }
             .navigationTitle("Reports")
+            .themedScreen()
             .shopSwitcher()
             .navigationDestination(for: String.self) { id in
                 ReportDetailView(reportID: id)
@@ -363,6 +379,7 @@ struct PayChooseView: View {
                 }
             }
             .navigationTitle("Choose invoices to pay")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -482,6 +499,8 @@ struct ReportDetailView: View {
                                     Label("Credit request for the supplier (PDF)", systemImage: "doc.richtext")
                                 }
                             }
+                            // proof: photos of damaged, wrong or missing goods, sent with the request
+                            CreditPhotosRows(entryID: entry.id, pdf: store.allows(.creditPDF) ? creditRequest(entry) : nil)
                         }
                     }
                     if amounts.less > 0 {
@@ -532,6 +551,7 @@ struct ReportDetailView: View {
             }
         }
         .navigationTitle("Invoice")
+        .themedScreen()
         .navigationBarTitleDisplayMode(.inline)
         .quickLookPreview($preview)
         .confirmationDialog("Delete this invoice?", isPresented: $confirmDelete, titleVisibility: .visible) {
@@ -607,7 +627,7 @@ struct ReportDetailView: View {
     }
 
     private func creditRequest(_ entry: HistoryEntry) -> URL? {
-        let data = PDFMaker.creditRequest(entry, business: Shops.reportName(entry.shopId), theme: Themes.named(colourID))
+        let data = PDFMaker.creditRequest(entry, business: Shops.reportName(entry.shopId), theme: Themes.inUse(colourID))
         return AppFiles.write(data, folder: "Exports", name: "Credit request " + ReportMaths.copyName(for: entry) + ".pdf")
     }
 }
@@ -649,7 +669,7 @@ struct ExportView: View {
                 }
                 Section {
                     Button {
-                        let data = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.named(colourID))
+                        let data = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.inUse(colourID))
                         finish(AppFiles.write(data, folder: "Exports", name: name("pdf")))
                     } label: {
                         Label("Make a PDF", systemImage: "doc.richtext")
@@ -660,6 +680,16 @@ struct ExportView: View {
                     } label: {
                         Label("Make a spreadsheet (CSV)", systemImage: "tablecells")
                     }
+                    Button {
+                        let pdf = PDFMaker.report(chosen, period: period.title, business: Shops.reportName(), theme: Themes.inUse(colourID))
+                        let csv = Data(("\u{FEFF}" + ReportMaths.reportCSV(chosen)).utf8)
+                        let xero = Data(AccountingExport.xeroBills(chosen, creditDays: dueDays, options: exportOptions).utf8)
+                        finish(MonthPack.make(chosen, title: name("zip").replacingOccurrences(of: ".zip", with: ""), pdf: pdf, csv: csv, xero: xero))
+                    } label: {
+                        Label("Everything in one file (zip)", systemImage: "doc.zipper")
+                    }
+                } footer: {
+                    Text("The zip holds the PDF, the spreadsheet, bills for Xero and every invoice photo or PDF for the period, ready to email to your accountant.")
                 }
                 .disabled(chosen.isEmpty)
                 Section {
@@ -702,6 +732,7 @@ struct ExportView: View {
                 }
             }
             .navigationTitle("Export")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: period) {
                 made = nil

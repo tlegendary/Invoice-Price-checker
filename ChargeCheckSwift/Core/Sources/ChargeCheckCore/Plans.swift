@@ -18,7 +18,9 @@ public enum Feature: String, CaseIterable, Identifiable, Sendable {
     case fullHistory, exports, creditPDF, deliveryCheck, statementCheck
     // Pro only
     case moneyLeaks, priceRises, cheaperElsewhere, supplierScores, supplierReport, dueDates, payRun,
-         weeklyReminder, shops, staff, widget, smartCheck, monthlySummary, changeHistory
+         weeklyReminder, shops, staff, widget, smartCheck, monthlySummary, changeHistory,
+         // budgets and spending by category; the app's look on every screen
+         budgets, themes
 
     public var id: String { rawValue }
 

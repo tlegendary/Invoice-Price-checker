@@ -39,6 +39,7 @@ struct TeamView: View {
             }
         }
         .navigationTitle("Staff")
+        .themedScreen()
         .refreshable { await team.refresh() }
         .sheet(isPresented: $showInvite) {
             if let share {

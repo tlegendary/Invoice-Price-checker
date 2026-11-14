@@ -142,6 +142,7 @@ struct LineEditView: View {
                 }
             }
             .navigationTitle(isNew ? "Add a line" : "Check this line")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

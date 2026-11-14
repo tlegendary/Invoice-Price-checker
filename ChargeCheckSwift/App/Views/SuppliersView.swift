@@ -120,6 +120,20 @@ struct SuppliersView: View {
                             Label("Cheaper elsewhere", systemImage: "tag")
                         }
                     }
+                    Section {
+                        NavigationLink {
+                            OrdersView()
+                        } label: {
+                            LabeledContent {
+                                let waiting = OrderStore.shared.orders.filter { $0.invoiceID == nil }.count
+                                if waiting > 0 { Text("\(waiting)") }
+                            } label: {
+                                Label("Orders", systemImage: "cart")
+                            }
+                        }
+                    } footer: {
+                        Text("Send an order, then compare it with what arrived and what you were billed.")
+                    }
                     if owed > 0.005 && !team.isStaff {
                         Section {
                             GatedButton(feature: .payRun, action: { showPayRun = true }) {
@@ -154,6 +168,7 @@ struct SuppliersView: View {
                 }
             }
             .navigationTitle("Suppliers")
+            .themedScreen()
             .shopSwitcher()
             .toolbar {
                 if !team.isStaff {
@@ -268,6 +283,7 @@ struct SupplierProfileSection: View {
     let account: SupplierAccount
     let profile: SupplierProfile
 
+    @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @ObservedObject private var accounts = Accounts.shared
     @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var showScore = false
@@ -341,7 +357,8 @@ struct SupplierProfileSection: View {
 
     private func report() -> URL? {
         let due = DueDates.open(accounts: [account], creditDays: accounts.creditDays)
-        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.named(colourID))
+        let data = PDFMaker.supplierReport(account, profile: profile, due: due, business: Shops.reportName(), theme: Themes.inUse(colourID),
+                                           all: Accounts.shared.inShop(reports.compactMap { $0.entry }))
         let safe = account.name.components(separatedBy: CharacterSet(charactersIn: "/\\:?%*|\"<>")).joined(separator: " ")
         return AppFiles.write(data, folder: "Exports", name: "Supplier report " + safe + ".pdf")
     }
@@ -377,6 +394,7 @@ struct SupplierDetailView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \StoredReport.savedAt, order: .reverse) private var reports: [StoredReport]
     @Query private var prices: [StoredPrice]
+    @State private var newOrder: PurchaseOrder?
     @ObservedObject private var accounts = Accounts.shared
     @ObservedObject private var team = CloudTeam.shared
     @State private var addKind: SupplierPayment.Kind?
@@ -439,6 +457,11 @@ struct SupplierDetailView: View {
                     // staff phones: payments, special prices and the trusted setting are the owner's
                     if !team.isStaff {
                         Section {
+                            Button {
+                                newOrder = OrderEditView.newOrder(for: account.name, entries: reports.compactMap { $0.entry })
+                            } label: {
+                                Label("Make an order", systemImage: "cart.badge.plus")
+                            }
                             Button {
                                 addKind = .payment
                             } label: {
@@ -615,6 +638,25 @@ struct SupplierDetailView: View {
                         }
                     }
 
+                    if !selecting && !team.isStaff {
+                        Section {
+                            DealDateRow(supplier: account.name)
+                            let speed = CreditSpeeds.of(account.entries)
+                            if let days = speed.averageDays {
+                                LabeledContent("Credits arrive in", value: String(localized: "\(days.formatted(.number.precision(.fractionLength(0...1)))) days on average"))
+                            }
+                            if speed.late > 0 {
+                                LabeledContent("Credits waiting over 2 weeks") {
+                                    Text("\(speed.late)").foregroundStyle(.orange)
+                                }
+                            }
+                        } header: {
+                            Text("Prices and credits")
+                        } footer: {
+                            Text("Set when their agreed prices end: you get a reminder two weeks before, to renegotiate with their supplier report.")
+                        }
+                    }
+
                     // owner only: clear this supplier out in one go instead of one invoice at a time
                     if !selecting && !team.isStaff && (!account.entries.isEmpty || !account.payments.isEmpty) {
                         Section {
@@ -640,6 +682,7 @@ struct SupplierDetailView: View {
                     }
                 }
                 .navigationTitle(selecting ? (selected.count == 1 ? String(localized: "1 selected") : String(localized: "\(selected.count) selected")) : account.name)
+                .themedScreen()
                 .environment(\.editMode, $editMode)
                 .toolbar {
                     if selecting {
@@ -681,6 +724,9 @@ struct SupplierDetailView: View {
                     Button("Cancel", role: .cancel) {}
                 } message: {
                     Text("You can bring them back from More › Recently deleted for 30 days.")
+                }
+                .sheet(item: $newOrder) { order in
+                    OrderEditView(order: order) { OrderStore.shared.save($0) }
                 }
                 .sheet(item: $addKind) { kind in
                     RecordPaymentView(supplier: account.name, kind: kind, suggested: max(0, account.balance))
@@ -928,6 +974,7 @@ struct RecordPaymentView: View {
                 }
             }
             .navigationTitle(title)
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -990,6 +1037,7 @@ struct ReceiptView: View {
                 }
             }
             .navigationTitle(String(localized: "Receipt – \(payment.supplier)"))
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1069,6 +1117,7 @@ struct PayRunView: View {
                 }
             }
             .navigationTitle("Pay run")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1126,6 +1175,7 @@ struct PayInvoicesView: View {
                 }
             }
             .navigationTitle("Pay invoices")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1176,6 +1226,7 @@ struct AddSupplierView: View {
                 }
             }
             .navigationTitle("Add a supplier")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1262,6 +1313,7 @@ struct SupplierPricesView: View {
             }
         }
         .navigationTitle(String(localized: "Prices – \(supplier)"))
+        .themedScreen()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -1328,6 +1380,7 @@ struct SpecialPriceEditView: View {
                 }
             }
             .navigationTitle(supplier)
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1380,6 +1433,7 @@ struct PickItemView: View {
             }
             .searchable(text: $search, prompt: "Search your price list")
             .navigationTitle("Choose an item")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1447,6 +1501,7 @@ struct StatementCheckView: View {
                 }
             }
             .navigationTitle("Check a statement")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1633,3 +1688,25 @@ struct StatementCheckView: View {
         }
     }
 }
+
+/// "Prices agreed until": the day a supplier's agreed prices end (Home warns two weeks before).
+struct DealDateRow: View {
+    let supplier: String
+    @ObservedObject private var store = BudgetStore.shared
+
+    var body: some View {
+        let day = store.deal(for: supplier)
+        Toggle("Prices agreed until a date", isOn: Binding(
+            get: { day != nil },
+            set: { on in
+                let inThreeMonths = Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
+                store.setDeal(supplier, until: on ? SupplierAccounts.dayText(inThreeMonths) : nil)
+            }
+        ))
+        if let day, let date = SupplierAccounts.day(day) {
+            DatePicker("Until", selection: Binding(get: { date }, set: { store.setDeal(supplier, until: SupplierAccounts.dayText($0)) }),
+                       displayedComponents: .date)
+        }
+    }
+}
+

@@ -53,6 +53,7 @@ struct CheckView: View {
     }
 
     @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
+    @AppStorage(BackupCheck.failedKey) private var backupFailed = 0.0
     @State private var cloudOn = true
 
     /// Nothing is reaching iCloud: not signed in, or no backup there for a week (offline, or iCloud full).
@@ -60,6 +61,9 @@ struct CheckView: View {
         guard !reports.isEmpty else { return nil }
         if !cloudOn {
             return String(localized: "Your invoices aren't backed up to iCloud. Sign in to iCloud on this iPhone, or choose a folder in More › Settings.")
+        }
+        if backupFailed > 0 {
+            return String(localized: "Your last iCloud backup couldn't be opened again. It will be saved again next time you leave the app; if this stays, check iCloud has space.")
         }
         let days = Int((Date().timeIntervalSince1970 - cloudSaved) / 86_400)
         if cloudSaved > 0 && days >= 7 {
@@ -197,6 +201,7 @@ struct CheckView: View {
                 }
             }
             .navigationTitle("Invoices")
+            .themedScreen()
             .task {
                 await AutoCloud.shared.prepare()
                 // the cloud check's screenshots run without iCloud
@@ -268,6 +273,11 @@ struct CheckView: View {
                 case .photos: gated { showPhotos = true }
                 case .files: gated { showFiles = true }
                 }
+            }
+            .onReceive(session.$openReportID) { id in
+                guard let id else { return }
+                session.openReportID = nil
+                path = NavigationPath([ReportLink(id: id)])
             }
             .onReceive(session.$openScanner) { wanted in
                 guard wanted else { return }

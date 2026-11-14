@@ -46,7 +46,25 @@ public enum NameIdeas {
         return word.allSatisfy { $0.isLetter || $0.isNumber }
     }
 
+    /// The price list read once, for suggesting names for many items in a row (Prices › Suggest other names).
+    public struct Prepared: Sendable {
+        let texts: [(id: String, d: String, dt: [String])]
+    }
+
+    public static func prepare(_ items: [PriceItem]) -> Prepared {
+        Prepared(texts: items.flatMap { other in
+            ([other.name] + other.aliases).map { text -> (id: String, d: String, dt: [String]) in
+                let full = canon(TextTools.norm(text).split(separator: " ").map(String.init)).joined(separator: " ")
+                return (other.id, full, TextTools.tokens(full))
+            }
+        })
+    }
+
     public static func suggest(for item: PriceItem, among items: [PriceItem], limit: Int = 8) -> [String] {
+        suggest(for: item, prepared: prepare(items), limit: limit)
+    }
+
+    public static func suggest(for item: PriceItem, prepared: Prepared, limit: Int = 8) -> [String] {
         let words = TextTools.norm(item.name).split(separator: " ").map(String.init)
         guard !words.isEmpty else { return [] }
         let plain = words.filter { !isSize($0) && !TextTools.stopWords.contains($0) }
@@ -73,13 +91,7 @@ public enum NameIdeas {
         if all != base { ideas.append(all) }
 
         let own = Set([TextTools.norm(item.name)] + item.aliases.map { TextTools.norm($0) })
-        let others = items.filter { $0.id != item.id }
-            .map { other in
-                ([other.name] + other.aliases).map { text -> (String, [String]) in
-                    let full = canon(TextTools.norm(text).split(separator: " ").map(String.init)).joined(separator: " ")
-                    return (full, TextTools.tokens(full))
-                }
-            }
+        let others = prepared.texts.filter { $0.id != item.id }
         var out: [String] = []
         for idea in ideas {
             let text = idea.joined(separator: " ")
@@ -89,7 +101,7 @@ public enum NameIdeas {
             guard meaningful.count >= 2 || (meaningful.count == 1 && (isCode(meaningful[0]) || meaningful[0].count >= 8)) else { continue }
             // it must not fit any other item (its name or one of its other names)
             let full = canon(idea)
-            let clash = others.contains { texts in texts.contains { Matcher.aliasFits(full, d: $0.0, dt: $0.1) } }
+            let clash = others.contains { Matcher.aliasFits(full, d: $0.d, dt: $0.dt) }
             if clash { continue }
             out.append(text)
             if out.count == limit { break }

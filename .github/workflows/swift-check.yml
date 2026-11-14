@@ -39,6 +39,7 @@ jobs:
       - name: Build, run the tests and take screenshots in an iPhone simulator
         env:
           RUN_STORE_TESTS: ${{ contains(github.event.head_commit.message, '[store]') }}
+          RUN_LANG_SWEEP: ${{ contains(github.event.head_commit.message, '[langs]') }}
         run: |
           if [ ! -f ChargeCheckSwift/project.yml ]; then echo "No app project yet" | tee /tmp/app.log; exit 0; fi
           brew install xcodegen 2>&1 | tail -2
@@ -114,6 +115,28 @@ jobs:
             shot 61-shops-home-one 6 -startTab home -test.tier pro -demoShops YES -demoView demo-1
             shot 62-shops-suppliers-one 6 -startTab suppliers -test.tier pro -demoShops YES -demoView demo-1
             shot 63-shops-reports-one 6 -startTab reports -test.tier pro -demoShops YES -demoView demo-2
+            # [langs]: every main screen in all five languages (Arabic and Kurdish right to left), plus English with
+            # every text doubled in length to show where words would be cut off. Fails if the app stops on any of them.
+            if [ "$RUN_LANG_SWEEP" = "true" ]; then
+              CRASHED=0
+              alive() { sleep "$1"; xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$ID"; }
+              sweep() { L="$1"; LOC="$2"; shift; shift
+                for TAB in home check suppliers reports more prices settings dishes; do
+                  xcrun simctl launch "$UDID" $ID -startTab $TAB -test.tier pro -AppleLanguages "($L)" -AppleLocale $LOC "$@" >/dev/null
+                  if alive 6; then
+                    xcrun simctl io "$UDID" screenshot "/tmp/shot-L-$L-$TAB$SUFFIX.png" >/dev/null 2>&1
+                  else
+                    echo "STOPPED: $L $TAB $*" | tee -a /tmp/app.log; CRASHED=$((CRASHED+1))
+                  fi
+                  xcrun simctl terminate "$UDID" $ID 2>/dev/null; sleep 1
+                done; }
+              SUFFIX=""
+              sweep en en_GB; sweep ar ar_IQ; sweep ckb ckb_IQ; sweep de de_DE; sweep fr fr_FR
+              SUFFIX="-long"; sweep en en_GB -NSDoubleLocalizedStrings YES
+              SUFFIX="-dark"; sweep ar ar_IQ -look.mode dark
+              echo "Language sweep: $CRASHED screens stopped" | tee -a /tmp/app.log
+              if [ $CRASHED -gt 0 ]; then exit 1; fi
+            fi
             # the PDFs and the automatic backup the app wrote
             ls -R "$DATA/Documents" | tr '\n' ' ' | cut -c1-600 | tee -a /tmp/app.log
             cp "$DATA/Documents/Exports/"*.pdf /tmp/ 2>/dev/null || true

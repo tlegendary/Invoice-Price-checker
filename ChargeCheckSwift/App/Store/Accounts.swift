@@ -300,19 +300,34 @@ final class Accounts: ObservableObject {
 
     /// The widget shows the shop being viewed (or all shops), in the app's currency. It is part of Pro.
     func refreshWidget() {
+        guard let context = widgetContext else {
+            if !PlanMirror.allows(.widget) { WidgetData.write(WidgetSnapshot.locked(currency: Money.currency.code)) }
+            return
+        }
+        // worked out once, then used for the reminders, Siri's answers and the widget (whatever the plan)
+        let all = accounts(context)
+        refreshDueReminders(all)
+        saveSiriFacts(all)
+        InvoiceSearch.refreshIfChanged(context)
         guard PlanMirror.allows(.widget) else {
             WidgetData.write(WidgetSnapshot.locked(currency: Money.currency.code))
             return
         }
-        guard let context = widgetContext else { return }
-        WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(accounts(context)), currency: Money.currency.code))
-        refreshDueReminders()
+        WidgetData.write(WidgetSnapshot.make(homeCurrencyAccounts(all), currency: Money.currency.code))
+    }
+
+    /// What Siri answers "what do I owe?" and "what's due this week?" from.
+    func saveSiriFacts(_ all: [SupplierAccount]) {
+        let owed = all.filter { $0.balance > 0.005 }.map { SiriFacts.Owed(name: $0.name, amount: $0.balance, currency: currency(for: $0.name).code) }
+        let due = DueDates.open(accounts: all, creditDays: creditDays).filter { $0.daysLeft < 7 }
+            .map { SiriFacts.Due(supplier: $0.supplier, amount: $0.amount, currency: $0.entry.currency ?? currency(for: $0.supplier).code, daysLeft: $0.daysLeft) }
+        SiriFacts.save(SiriFacts(owed: owed, due: due, currency: Money.currency.code))
     }
 
     /// Payment reminders follow every change (all shops: a payment due is due whichever shop is on screen).
-    func refreshDueReminders() {
-        guard DueReminder.isOn, let context = widgetContext else { return }
-        let dues = DueDates.open(accounts: accounts(context), creditDays: creditDays)
+    func refreshDueReminders(_ all: [SupplierAccount]) {
+        guard DueReminder.isOn else { return }
+        let dues = DueDates.open(accounts: all, creditDays: creditDays)
         DueReminder.refresh(dues) { [self] due in due.entry.currency ?? currency(for: due.supplier).code }
     }
 }

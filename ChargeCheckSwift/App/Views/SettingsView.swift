@@ -12,6 +12,10 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @AppStorage(SettingKey.mode) private var mode = "auto"
     @AppStorage(SettingKey.colour) private var colourID = "green"
+    @AppStorage(LookKey.customColour) private var customHex = 0
+    @AppStorage(LookKey.background) private var lookBackground = "plain"
+    @AppStorage(LookKey.font) private var lookFont = "standard"
+    @AppStorage(LookKey.size) private var lookSize = "standard"
 
     @State private var exportDocument: BackupDocument?
     @State private var showExporter = false
@@ -25,6 +29,7 @@ struct SettingsView: View {
     @AppStorage(SettingKey.cloudCopies) private var cloudCopies = true
     @AppStorage(SettingKey.reminder) private var reminder = false
     @AppStorage(DueReminder.settingKey) private var dueReminder = false
+    @AppStorage(MondaySummary.settingKey) private var mondaySummary = false
     @AppStorage(CloudFolder.nameKey) private var cloudName = ""
     @AppStorage(CloudFolder.lastSavedKey) private var cloudSaved = 0.0
     @AppStorage(AutoBackup.lastKey) private var lastBackup = 0.0
@@ -151,7 +156,69 @@ struct SettingsView: View {
                 } header: {
                     Text("Look")
                 } footer: {
-                    Text("\(L(Themes.named(colourID).name)). Automatic follows your iPhone's light or dark setting.")
+                    Text("\(colourID == Themes.customID ? String(localized: "Your colour") : L(Themes.named(colourID).name)). Automatic follows your iPhone's light or dark setting.")
+                }
+
+                // Pro: the look of every screen
+                Section {
+                    if store.allows(.themes) {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(LookPreset.all) { preset in
+                                    Button {
+                                        colourID = preset.colour
+                                        mode = preset.mode
+                                        lookBackground = preset.background
+                                        lookFont = preset.font
+                                        lookSize = preset.size
+                                    } label: {
+                                        VStack(spacing: 6) {
+                                            let theme = Themes.named(preset.colour)
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(LinearGradient(colors: [theme.dark, theme.main], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                                .frame(width: 64, height: 44)
+                                                .overlay(Text("Aa").font(.headline.weight(.bold)).fontDesign(preset.font == "serif" ? .serif : (preset.font == "rounded" ? .rounded : .default)).foregroundStyle(.white))
+                                            Text(preset.name)
+                                                .font(.caption)
+                                                .foregroundStyle(.primary)
+                                        }
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        }
+                        ColorPicker("Your own colour", selection: Binding(
+                            get: { customHex > 0 ? Color(hex: UInt32(customHex)) : Themes.named(colourID).main },
+                            set: { colour in
+                                customHex = Int(colour.hexValue)
+                                colourID = Themes.customID
+                            }
+                        ), supportsOpacity: false)
+                        Picker("Background", selection: $lookBackground) {
+                            Text("Plain").tag("plain")
+                            Text("Soft colour").tag("tint")
+                            Text("Glow").tag("glow")
+                        }
+                        Picker("Text style", selection: $lookFont) {
+                            Text("Standard").tag("standard")
+                            Text("Rounded").tag("rounded")
+                            Text("Classic").tag("serif")
+                        }
+                        Picker("Text size", selection: $lookSize) {
+                            Text("As on my iPhone").tag("standard")
+                            Text("Large").tag("large")
+                            Text("Larger").tag("larger")
+                        }
+                    } else {
+                        LockedRow(feature: .themes) {
+                            Label("Your own colour, backgrounds, text style and size", systemImage: "paintpalette")
+                        }
+                    }
+                } header: {
+                    Text("Themes")
+                } footer: {
+                    Text("Changes every screen at once, and your reports use your colour. Larger text never goes below your iPhone's own text size setting.")
                 }
 
                 Section {
@@ -310,6 +377,7 @@ struct SettingsView: View {
                                 if autoCloud {
                                     LabeledContent("Folder", value: "iCloud Drive › ChargeCheck")
                                     LabeledContent("Last saved there", value: when(cloudSaved))
+                                    LabeledContent("Checked it opens", value: when(UserDefaults.standard.double(forKey: BackupCheck.checkedKey)))
                                     Toggle("Also save invoice copies there", isOn: $cloudCopies)
                                 }
                             } else {
@@ -361,6 +429,20 @@ struct SettingsView: View {
                                 }
                             }
                         ))
+                        if store.allows(.weeklyReminder) {
+                            Toggle("Monday summary", isOn: Binding(
+                                get: { mondaySummary },
+                                set: { isOn in
+                                    Task {
+                                        let ok = await MondaySummary.set(isOn, context: context)
+                                        mondaySummary = isOn && ok
+                                        if isOn && !ok { notice = String(localized: "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder.") }
+                                    }
+                                }
+                            ))
+                        } else {
+                            LockedRow(feature: .weeklyReminder) { Text("Monday summary") }
+                        }
                         Toggle("Payments due reminders", isOn: Binding(
                             get: { dueReminder },
                             set: { isOn in
@@ -373,7 +455,7 @@ struct SettingsView: View {
                             }
                         ))
                         Button {
-                            let data = PDFMaker.priceList(AppData.items(context), business: Shops.reportName(), theme: Themes.named(colourID))
+                            let data = PDFMaker.priceList(AppData.items(context), business: Shops.reportName(), theme: Themes.inUse(colourID))
                             showPricesShare = AppFiles.write(data, folder: "Exports", name: "ChargeCheck price list.pdf")
                         } label: {
                             Label("Price list as a PDF", systemImage: "doc.richtext")
@@ -389,6 +471,27 @@ struct SettingsView: View {
                         Text("Copies of the original photo or PDF are kept in the Files app › ChargeCheck › Invoices, by month. The reminder arrives on the 1st of each month to send last month's report to your accountant.")
                     }
 
+                }
+
+                Section {
+                    let reports = CrashReports.files
+                    if reports.isEmpty {
+                        Label("No problems reported", systemImage: "checkmark.seal")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ShareLink(items: reports) {
+                            Label(reports.count == 1 ? String(localized: "Send 1 problem report") : String(localized: "Send \(reports.count) problem reports"),
+                                  systemImage: "ladybug")
+                        }
+                        Button("Clear problem reports", role: .destructive) {
+                            CrashReports.clear()
+                            notice = String(localized: "Problem reports cleared.")
+                        }
+                    }
+                } header: {
+                    Text("Problem reports")
+                } footer: {
+                    Text("If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices.")
                 }
 
                 Section("About") {
@@ -407,6 +510,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .themedScreen()
             .fileExporter(isPresented: $showExporter, document: exportDocument, contentType: .json, defaultFilename: exportName) { result in
                 if case .failure = result { notice = String(localized: "The backup couldn't be saved. Please try again.") }
             }
