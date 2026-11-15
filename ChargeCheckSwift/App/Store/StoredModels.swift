@@ -33,13 +33,15 @@ final class StoredPrice {
         var sp: [SupplierPrice]
         var shops: [String]?
         var shopPrices: [ShopPrice]?
+        /// How it's sold at the till (selling price, pack size, barcodes, reorder level).
+        var till: TillInfo?
     }
 
     static func encode(_ item: PriceItem) -> Data? {
-        if item.shops == nil && item.shopPrices == nil {
+        if item.shops == nil && item.shopPrices == nil && item.till == nil {
             return item.sp.isEmpty ? nil : try? JSONEncoder().encode(item.sp)
         }
-        return try? JSONEncoder().encode(Extras(sp: item.sp, shops: item.shops, shopPrices: item.shopPrices))
+        return try? JSONEncoder().encode(Extras(sp: item.sp, shops: item.shops, shopPrices: item.shopPrices, till: item.till))
     }
 
     private static func decode(_ data: Data?) -> Extras {
@@ -67,7 +69,8 @@ final class StoredPrice {
         let shops = extras.shops?.filter { !$0.isEmpty }
         let shopPrices = extras.shopPrices?.filter { !$0.shop.isEmpty && $0.p > 0 }
         return PriceItem(id: uid, cat: cat, name: name, price: price, supplier: supplier, aliases: aliases, sp: extras.sp, unit: unit,
-                         shops: (shops?.isEmpty ?? true) ? nil : shops, shopPrices: (shopPrices?.isEmpty ?? true) ? nil : shopPrices)
+                         shops: (shops?.isEmpty ?? true) ? nil : shops, shopPrices: (shopPrices?.isEmpty ?? true) ? nil : shopPrices,
+                         till: extras.till)
     }
 }
 

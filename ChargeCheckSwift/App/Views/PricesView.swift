@@ -22,7 +22,6 @@ struct PricesView: View {
     @State private var showPaste = false
     @State private var showSort = false
     @State private var showNames = false
-    @State private var showDishes = false
     @State private var confirmDeleteAll = false
     /// Select mode: tick items (or all of them) to delete them or change their shops.
     @State private var editMode: EditMode = .inactive
@@ -218,11 +217,6 @@ struct PricesView: View {
                             Label("Suggest other names", systemImage: "sparkles")
                         }
                         .disabled(prices.isEmpty)
-                        Button {
-                            showDishes = true
-                        } label: {
-                            Label("Cost per dish", systemImage: "fork.knife")
-                        }
                         Divider()
                         Button(role: .destructive) {
                             confirmDeleteAll = true
@@ -262,16 +256,6 @@ struct PricesView: View {
                         if !shop.isEmpty, !known.contains(item.id), item.shops == nil { item.shops = [shop] }
                         AppData.save(item, in: context)
                     }
-                }
-            }
-            .sheet(isPresented: $showDishes) {
-                NavigationStack {
-                    DishesView()
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Done") { showDishes = false }
-                            }
-                        }
                 }
             }
             .sheet(isPresented: $showNames) {

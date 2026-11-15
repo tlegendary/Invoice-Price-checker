@@ -336,3 +336,27 @@ public enum BigItems {
         }.sorted { $0.yearlySpend > $1.yearlySpend }.prefix(limit).map { $0 }
     }
 }
+
+// MARK: - Pack sizes
+
+/// How many are in a pack, guessed from the item's name
+/// ("Quarter Pounder 48x113g" → 48, "Cups 4x50" → 200, "Napkins x500" → 500, "Wings 10kg" → 1). Always editable.
+public enum PackGuess {
+    public static func count(in name: String) -> Double {
+        let words = TextTools.norm(name).split(separator: " ").map(String.init)
+        for word in words.reversed() {
+            // "48x113g": 48 of 113 g; "4x50": 4 sleeves of 50
+            let sides = word.split(separator: "x", omittingEmptySubsequences: false).map(String.init)
+            if sides.count == 2, let left = Double(sides[0]), left >= 1 {
+                if let right = Double(sides[1]), right >= 1 { return min(left * right, 10_000) }
+                if !sides[1].isEmpty, sides[1].first?.isNumber == true { return min(left, 10_000) }
+            }
+            if sides.count == 2, sides[0].isEmpty, let right = Double(sides[1]), right >= 1 { return min(right, 10_000) }
+            // "100pcs", "12pk"
+            for unit in ["pcs", "pc", "pk", "pack"] where word.hasSuffix(unit) {
+                if let n = Double(word.dropLast(unit.count)), n >= 1 { return min(n, 10_000) }
+            }
+        }
+        return 1
+    }
+}

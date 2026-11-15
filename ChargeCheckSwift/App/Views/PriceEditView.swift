@@ -19,6 +19,8 @@ struct PriceEditView: View {
     @Query private var storedPrices: [StoredPrice]
     /// "Suggest other names": likely supplier spellings to add with a tap (nil until asked).
     @State private var ideas: [String]?
+    /// "Sell at the till" (selling price, pack size, barcodes, reorder level).
+    @State private var till: TillInfo
     @AppStorage(Shops.listKey) private var shopData = Data()
     /// The shops that buy this item (empty = every shop).
     @State private var shopTags: Set<String>
@@ -40,6 +42,7 @@ struct PriceEditView: View {
         self.onDelete = onDelete
         _item = State(initialValue: draft.item)
         _priceText = State(initialValue: draft.item.price > 0 ? String(format: "%.2f", draft.item.price) : "")
+        _till = State(initialValue: draft.item.till ?? TillInfo())
         _aliasList = State(initialValue: draft.item.aliases)
         _shopTags = State(initialValue: Set(draft.item.shops ?? []))
         var texts: [String: String] = [:]
@@ -144,6 +147,7 @@ struct PriceEditView: View {
                 } footer: {
                     Text("A different price agreed with one supplier. Invoices from that supplier are checked against it. Swipe left to remove one.")
                 }
+                TillFields(till: $till, name: item.name, packPrice: price)
                 Section {
                     ForEach(aliasList.indices, id: \.self) { index in
                         Text(aliasList[index])
@@ -226,6 +230,13 @@ struct PriceEditView: View {
         result.name = item.name.trimmingCharacters(in: .whitespaces)
         result.price = price
         result.supplier = item.supplier.trimmingCharacters(in: .whitespaces)
+        var sold = till
+        if let sell = sold.sell { sold.sell = sell > 0 ? Money.round2(sell) : nil }
+        if let low = sold.low, low < 0 { sold.low = nil }
+        if let packs = sold.orderPacks, packs <= 0 { sold.orderPacks = nil }
+        // a pack size the same as the name says isn't stored, so renaming the item keeps it right
+        if let perPack = sold.perPack, perPack == PackGuess.count(in: result.name) { sold.perPack = nil }
+        result.till = sold.isEmpty ? nil : sold
         let typed = newCategory.trimmingCharacters(in: .whitespaces)
         if !typed.isEmpty { result.cat = typed }
         var seen = Set<String>()

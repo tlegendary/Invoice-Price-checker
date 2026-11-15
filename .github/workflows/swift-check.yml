@@ -121,7 +121,7 @@ jobs:
               CRASHED=0
               alive() { sleep "$1"; xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$ID"; }
               sweep() { L="$1"; LOC="$2"; shift; shift
-                for TAB in home check suppliers reports more prices settings dishes; do
+                for TAB in home check suppliers reports more prices settings; do
                   xcrun simctl launch "$UDID" $ID -startTab $TAB -test.tier pro -AppleLanguages "($L)" -AppleLocale $LOC "$@" >/dev/null
                   if alive 6; then
                     xcrun simctl io "$UDID" screenshot "/tmp/shot-L-$L-$TAB$SUFFIX.png" >/dev/null 2>&1

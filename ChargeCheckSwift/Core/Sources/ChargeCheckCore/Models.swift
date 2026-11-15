@@ -78,10 +78,12 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
     public var shops: [String]?
     /// Prices agreed for one shop that differ from the standard price.
     public var shopPrices: [ShopPrice]?
+    /// Selling at the till: price, units per pack, barcodes, reorder level (nil = not sold at the till).
+    public var till: TillInfo?
 
     public init(id: String = UUID().uuidString, cat: String = "Other", name: String, price: Double,
                 supplier: String = "", aliases: [String] = [], sp: [SupplierPrice] = [], unit: String? = nil,
-                shops: [String]? = nil, shopPrices: [ShopPrice]? = nil) {
+                shops: [String]? = nil, shopPrices: [ShopPrice]? = nil, till: TillInfo? = nil) {
         self.id = id
         self.cat = cat
         self.name = name
@@ -92,9 +94,10 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
         self.unit = unit
         self.shops = shops
         self.shopPrices = shopPrices
+        self.till = (till?.isEmpty ?? true) ? nil : till
     }
 
-    enum CodingKeys: String, CodingKey { case id, cat, name, price, supplier, aliases, sp, unit, shops, shopPrices }
+    enum CodingKeys: String, CodingKey { case id, cat, name, price, supplier, aliases, sp, unit, shops, shopPrices, till }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -111,6 +114,8 @@ public struct PriceItem: Codable, Identifiable, Equatable, Hashable, Sendable {
         shops = (tags?.isEmpty ?? true) ? nil : tags
         let own = (try? c.decode([ShopPrice].self, forKey: .shopPrices))?.filter { !$0.shop.isEmpty && $0.p > 0 }
         shopPrices = (own?.isEmpty ?? true) ? nil : own
+        let sold = try? c.decode(TillInfo.self, forKey: .till)
+        till = (sold?.isEmpty ?? true) ? nil : sold
     }
 
     /// Whether this item is bought for that shop ("" = all shops: every item counts).
@@ -379,18 +384,18 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var creditDays: [String: Int]?
     /// Suppliers who invoice in another currency: SupplierAccounts.key → "USD".
     public var currencies: [String: String]?
-    /// Dishes and their ingredients (cost per dish). Older versions of the app ignore this.
-    public var dishes: [Dish]?
     /// Orders sent to suppliers. Older versions of the app ignore this.
     public var orders: [PurchaseOrder]?
     /// Monthly budgets, and when each supplier's agreed prices end (supplier name → "yyyy-MM-dd").
     public var budgets: [Budget]?
     public var deals: [String: String]?
+    /// The till's stock counts (the sales themselves are files of their own, in iCloud next to the backup).
+    public var stockCounts: [StockCount]?
 
     public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
                 payments: [SupplierPayment]? = nil, trusted: [String]? = nil, creditDays: [String: Int]? = nil,
-                currencies: [String: String]? = nil, dishes: [Dish]? = nil, orders: [PurchaseOrder]? = nil,
-                budgets: [Budget]? = nil, deals: [String: String]? = nil) {
+                currencies: [String: String]? = nil, orders: [PurchaseOrder]? = nil,
+                budgets: [Budget]? = nil, deals: [String: String]? = nil, stockCounts: [StockCount]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -402,13 +407,13 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.trusted = trusted
         self.creditDays = creditDays
         self.currencies = currencies
-        self.dishes = dishes
         self.orders = orders
         self.budgets = budgets
         self.deals = deals
+        self.stockCounts = stockCounts
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies, dishes, orders, budgets, deals }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted, creditDays, currencies, orders, budgets, deals, stockCounts }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -423,10 +428,10 @@ public struct BackupFile: Codable, Equatable, Sendable {
         trusted = try? c.decode([String].self, forKey: .trusted)
         creditDays = try? c.decode([String: Int].self, forKey: .creditDays)
         currencies = try? c.decode([String: String].self, forKey: .currencies)
-        dishes = try? c.decode([Dish].self, forKey: .dishes)
         orders = try? c.decode([PurchaseOrder].self, forKey: .orders)
         budgets = try? c.decode([Budget].self, forKey: .budgets)
         deals = try? c.decode([String: String].self, forKey: .deals)
+        stockCounts = try? c.decode([StockCount].self, forKey: .stockCounts)
     }
 
     public enum ReadError: Error { case notABackup }

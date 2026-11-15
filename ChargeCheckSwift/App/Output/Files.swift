@@ -192,6 +192,30 @@ enum CloudFolder {
     }
 }
 
+extension CloudFolder {
+    /// Every file in a folder there (for the till's sales on a new phone). Files not downloaded yet are fetched.
+    static func readAll(folder sub: String) -> [(name: String, data: Data)] {
+        guard let root = folder() else { return [] }
+        let scoped = root.startAccessingSecurityScopedResource()
+        defer {
+            if scoped { root.stopAccessingSecurityScopedResource() }
+        }
+        let directory = root.appendingPathComponent(sub, isDirectory: true)
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path) else { return [] }
+        let plain = Set(names.map { $0.hasPrefix(".") && $0.hasSuffix(".icloud") ? String($0.dropFirst().dropLast(7)) : $0 })
+        var out: [(name: String, data: Data)] = []
+        for name in plain.sorted() where name.hasSuffix(".json") {
+            let target = directory.appendingPathComponent(name)
+            try? FileManager.default.startDownloadingUbiquitousItem(at: target)
+            var error: NSError?
+            NSFileCoordinator(filePresenter: nil).coordinate(readingItemAt: target, options: [], error: &error) { url in
+                if let data = try? Data(contentsOf: url) { out.append((name, data)) }
+            }
+        }
+        return out
+    }
+}
+
 /// After each iCloud backup: the file is read back and opened, and must hold everything that was saved.
 /// A backup that can't be opened is worse than none (it looks safe), so a failure shows on the Invoices tab.
 enum BackupCheck {
