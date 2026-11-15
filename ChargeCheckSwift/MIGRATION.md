@@ -377,3 +377,24 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
   standard/rounded/classic, text size as iPhone/large/larger (a minimum, never smaller than the iPhone's), 5 presets.
   The 8 colours and light/dark stay free. Pro ending falls back to green/plain without breaking anything.
 
+## Cost per dish removed; the till (beta 31)
+- Ramyar doesn't sell dishes: Cost per dish taken out (Dish, DishMaths, DishStore, screens, backup `dishes`).
+  `PackGuess` stays (unit prices, the till). Old backups that contain `dishes` still open (the key is ignored).
+  App/Dishes folder renamed App/Planning (orders, budgets, till).
+- Till on iPhone/iPad (Home › Open the till; More › Till › Sales and profit, Stock; Reports › Till sales and profit).
+  - Items: `PriceItem.till` (`TillInfo`: sell, perPack, barcodes, vat, low, orderPacks), saved in StoredPrice's
+    extras blob – no database change. Item editor › Sell at the till / Barcodes / Stock. Barcode camera: VisionKit.
+  - Sales: `Sale`/`SaleLine` (cost per unit snapshotted at the sale), one JSON file per month in Documents/Till/Sales,
+    copied to iCloud (Till/Sales) after each sale; restoring a backup pulls them back (`TillStore.pullFromCloud`).
+  - Stock is worked out, never typed after the first count: last `StockCount` + deliveries ticked off on checked
+    invoices (packs × units per pack, short/missing left out, by savedAt) − sales (`StockMaths.levels`). Editing or
+    deleting an invoice or refunding a sale corrects it. Counts are in backups (`stockCounts`).
+  - Low stock after a sale: the item's supplier gets lines added to a not-yet-sent order (`OrderStore.addToDraft`),
+    plus one notification; never sent by itself. Stock › "Order the items running low" does the same by hand.
+  - Profit = price without VAT − unit cost (agreed price for the shop ÷ units per pack). Lines without a cost are
+    left out and counted. Refunds are whole sales with the quantities reversed. History logs refunds and stock
+    counts (not every sale).
+  - Payments: cash (change), card on your own card machine, other. Tap to Pay on iPhone NOT built: needs a payment
+    provider account (SumUp/Stripe…) and Apple's Tap to Pay entitlement – Ramyar's decision and paid service.
+  - Free for now (Pro or not is Ramyar's call). Receipts: text to send, or AirPrint.
+

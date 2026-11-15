@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history, dishes
+        case prices, shops, staff, settings, deleted, history, sales, stock
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -16,7 +16,6 @@ struct MoreView: View {
     @Query private var prices: [StoredPrice]
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var path: [Page]
-    @ObservedObject private var dishes = DishStore.shared
 
     init(showPaywall: Binding<Bool>, open: Page? = nil) {
         _showPaywall = showPaywall
@@ -26,6 +25,14 @@ struct MoreView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                Section("Till") {
+                    NavigationLink(value: Page.sales) {
+                        Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis")
+                    }
+                    NavigationLink(value: Page.stock) {
+                        Label("Stock", systemImage: "shippingbox")
+                    }
+                }
                 // staff phones: prices, shops and records are the owner's
                 if !team.isStaff {
                     Section {
@@ -36,13 +43,7 @@ struct MoreView: View {
                                 Label("Price list", systemImage: "tag")
                             }
                         }
-                        NavigationLink(value: Page.dishes) {
-                            LabeledContent {
-                                if !dishes.dishes.isEmpty { Text("\(dishes.dishes.count)") }
-                            } label: {
-                                Label("Cost per dish", systemImage: "fork.knife")
-                            }
-                        }
+
                         // shops already added stay open; adding them needs Pro
                         if store.allows(.shops) || !Shops.decode(shopData).isEmpty {
                             NavigationLink(value: Page.shops) {
@@ -105,7 +106,8 @@ struct MoreView: View {
                 switch page {
                 case .prices: PricesView(embedded: true)
                 case .shops: ShopsView()
-                case .dishes: DishesView()
+                case .sales: SalesView()
+                case .stock: StockView()
                 case .staff: TeamView()
                 case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
                 case .deleted: RecentlyDeletedView()

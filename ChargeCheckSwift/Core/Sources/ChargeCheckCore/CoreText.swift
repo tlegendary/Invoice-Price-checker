@@ -15,7 +15,7 @@ public enum CoreText {
 
     /// Every key, so the app can check its translations are complete.
     public static let keys: [String] = [
-        "Order", "For delivery", "Thank you",
+        "Order", "For delivery", "Thank you", "Receipt", "Refund", "VAT included", "Cash", "Change given",
         "VAT", "Total",
         "The two reads of the photo didn't agree on this line.",
         "Only found on the second read – make sure it's really on the invoice.",

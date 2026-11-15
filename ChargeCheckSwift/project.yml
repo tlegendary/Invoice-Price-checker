@@ -124,7 +124,7 @@ targets:
           - SKAdNetworkIdentifier: 8c4e2ghe7u.skadnetwork
           - SKAdNetworkIdentifier: 3rd42ekr43.skadnetwork
           - SKAdNetworkIdentifier: 3qcr597p9d.skadnetwork
-        NSCameraUsageDescription: ChargeCheck uses the camera to scan your supplier invoices so it can check the prices. Scans stay on your phone.
+        NSCameraUsageDescription: ChargeCheck uses the camera to scan your supplier invoices so it can check the prices, and to read barcodes at the till. Scans stay on your phone.
         LSSupportsOpeningDocumentsInPlace: true
         # invoices shared from WhatsApp, Mail or Files ("Open in ChargeCheck")
         CFBundleDocumentTypes:

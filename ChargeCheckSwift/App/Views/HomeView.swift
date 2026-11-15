@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var search = ""
     /// "Scan an invoice": camera, camera roll or files.
     @State private var choosingSource = false
+    @State private var showTill = false
+    @ObservedObject private var till = TillStore.shared
     /// The cloud check opens the price rises with "-demoRises YES" (App Store screenshots).
     @State private var demoRises = UserDefaults.standard.bool(forKey: "demoRises")
 
@@ -38,6 +40,37 @@ struct HomeView: View {
         session.scanRequest = source
     }
 
+    /// The till: open it, with today's takings in this shop.
+    private var tillSection: some View {
+        let today = ISO8601DateFormatter().string(from: Calendar.current.startOfDay(for: Date()))
+        let shop = LiveSettings.shared.shop
+        let sales = till.sales.filter { $0.at >= today && (shop.isEmpty || $0.shop == shop) }
+        let summary = SaleMaths.summary(sales)
+        return Section {
+            Button {
+                showTill = true
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "cart.fill")
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                        .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 10))
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Open the till").font(.headline)
+                        Text(summary.sales == 0 ? String(localized: "No sales yet today")
+                             : String(localized: "Today: \(Money.format(summary.takings)) from \(summary.sales) sales"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+                }
+            }
+            .foregroundStyle(.primary)
+        }
+    }
+
     var body: some View {
         NavigationStack {
             // the shop being viewed (or every shop)
@@ -53,6 +86,7 @@ struct HomeView: View {
                                                                items: team.isStaff ? [] : prices.map { $0.item }))
                 } else {
                     if !team.isStaff { owedSection(overview) }
+                    tillSection
                     scanSection
                     figuresSection(overview)
                     attentionSection(overview)
@@ -63,6 +97,9 @@ struct HomeView: View {
             .navigationTitle(title)
             .themedScreen()
             .shopSwitcher()
+            .fullScreenCover(isPresented: $showTill) {
+                TillView()
+            }
             .confirmationDialog("Scan an invoice", isPresented: $choosingSource, titleVisibility: .visible) {
                 if DocumentScanner.isAvailable {
                     Button("Camera") { scan(from: .camera) }
