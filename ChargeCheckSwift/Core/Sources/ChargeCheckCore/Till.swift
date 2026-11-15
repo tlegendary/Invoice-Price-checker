@@ -130,7 +130,7 @@ public enum SaleMaths {
     public static func change(tendered: Double, total: Double) -> Double { Money.round2(max(0, tendered - total)) }
 
     public static func summary(_ sales: [Sale]) -> SalesSummary {
-        var takings = 0.0, vat = 0.0, profit = 0.0, costedNet = 0.0, unknown = 0
+        var takings = 0.0, vatTotal = 0.0, profit = 0.0, costedNet = 0.0, unknown = 0
         var byPayment: [PaymentKind: Double] = [:]
         for sale in sales {
             byPayment[sale.payment, default: 0] += sale.total
@@ -138,7 +138,7 @@ public enum SaleMaths {
                 let gross = line.qty * line.price
                 let lineVat = vat(of: line)
                 takings += gross
-                vat += lineVat
+                vatTotal += lineVat
                 if let cost = line.cost {
                     costedNet += gross - lineVat
                     profit += gross - lineVat - cost * line.qty
@@ -149,7 +149,7 @@ public enum SaleMaths {
         }
         let margin: Double? = abs(costedNet) > 0.005 ? (profit / costedNet * 1000).rounded() / 10 : nil
         return SalesSummary(sales: sales.filter { $0.refundOf == nil }.count, refunds: sales.filter { $0.refundOf != nil }.count,
-                            takings: Money.round2(takings), vat: Money.round2(vat), net: Money.round2(takings - vat),
+                            takings: Money.round2(takings), vat: Money.round2(vatTotal), net: Money.round2(takings - vatTotal),
                             profit: Money.round2(profit), margin: margin, unknownCost: unknown,
                             byPayment: byPayment.mapValues { Money.round2($0) })
     }
@@ -177,8 +177,8 @@ public enum SaleMaths {
             text += "\(qty) × \(line.name)  " + Money.format(Money.round2(line.qty * line.price), code: currency) + "\n"
         }
         text += "\n" + CoreText.t("Total") + "  " + Money.format(sale.total, code: currency)
-        let vat = Money.round2(sale.lines.reduce(0) { $0 + vat(of: $1) })
-        if abs(vat) > 0.005 { text += "\n" + CoreText.t("VAT included") + "  " + Money.format(vat, code: currency) }
+        let included = Money.round2(sale.lines.reduce(0) { $0 + vat(of: $1) })
+        if abs(included) > 0.005 { text += "\n" + CoreText.t("VAT included") + "  " + Money.format(included, code: currency) }
         if let tendered = sale.tendered, sale.payment == .cash {
             text += "\n" + CoreText.t("Cash") + "  " + Money.format(tendered, code: currency)
             text += "\n" + CoreText.t("Change given") + "  " + Money.format(change(tendered: tendered, total: sale.total), code: currency)
