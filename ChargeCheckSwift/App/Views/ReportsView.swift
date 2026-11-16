@@ -75,7 +75,7 @@ struct ReportsView: View {
                         GatedButton(feature: .exports, action: { showExport = true }) {
                             Label("Export for your accountant", systemImage: "square.and.arrow.up")
                         }
-                        NavigationLink {
+                        GatedLink(.till) {
                             SalesView()
                         } label: {
                             Label("Till sales and profit", systemImage: "cart")

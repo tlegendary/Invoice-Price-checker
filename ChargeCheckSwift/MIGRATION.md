@@ -414,4 +414,7 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
 - Sales and profit: best sellers, by category, hour, cashier; sales CSV (`SalesReports`). Stock › swipe right: stock
   that came without an invoice (`TillStore.addStock`). History: end of day, cash in/out.
 - Still not built: card payments on the iPhone (needs a provider account and Apple's Tap to Pay entitlement).
+- The till is Pro (`Feature.till`): Home's Open the till, More › Till, Reports › Till sales and profit are locked
+  without it. Orders stay free. Codemagic swift-beta: cancel_previous_builds false (Beta 32 was cancelled when the
+  merge commit's webhook arrived after the beta commit's).
 

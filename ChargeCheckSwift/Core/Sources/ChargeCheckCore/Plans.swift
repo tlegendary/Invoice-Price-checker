@@ -20,7 +20,9 @@ public enum Feature: String, CaseIterable, Identifiable, Sendable {
     case moneyLeaks, priceRises, cheaperElsewhere, supplierScores, supplierReport, dueDates, payRun,
          weeklyReminder, shops, staff, widget, smartCheck, monthlySummary, changeHistory,
          // budgets and spending by category; the app's look on every screen
-         budgets, themes
+         budgets, themes,
+         // the till: selling, stock from sales, cashiers, end of day
+         till
 
     public var id: String { rawValue }
 
