@@ -398,3 +398,20 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
     provider account (SumUp/Stripe…) and Apple's Tap to Pay entitlement – Ramyar's decision and paid service.
   - Free for now (Pro or not is Ramyar's call). Receipts: text to send, or AirPrint.
 
+## A full till (beta 32)
+- Sell the pack as bought: `TillInfo.packSell`; a sale line carries `units` (24 for a case) – stock takes
+  `qty × units`, cost is the pack's. Tiles show "Pack of N · £x".
+- Own products: `TillInfo.tillOnly` – PriceBook drops them (and the line editor's matcher), so they're never matched
+  to supplier invoices. Till settings › Import products (CSV: header names in en/de/fr, `ProductImport.parse`;
+  existing items by barcode, else name, get the till price instead of a copy; stock becomes a count) or Add a product.
+- Till: category tabs, line sheet (qty, price, money off amount/%), basket discount shared across lines
+  (`SaleMaths.shareDiscount`), multi-buy (`TillInfo.multiQty/multiPrice`, `offerDiscount`), Challenge 25 prompt
+  (`ageCheck`), park/recall (UserDefaults "till.parked"), split cash + card (`Sale.split`), part refunds
+  (`SaleMaths.refund(quantities:)`, `refundable`), cashiers with a 4-digit PIN (SHA-256 kept, never the PIN).
+- Cash: opening float, cash in, cash out (`CashEvent`), end of day X/Z with counted vs expected (`CashDay`, `DayReport`).
+  Files: Till/Cash.json, Till/Days.json, Till/Settings.json (cashiers, receipt header/footer/VAT number), copied to
+  iCloud and pulled back on restore with the sales.
+- Sales and profit: best sellers, by category, hour, cashier; sales CSV (`SalesReports`). Stock › swipe right: stock
+  that came without an invoice (`TillStore.addStock`). History: end of day, cash in/out.
+- Still not built: card payments on the iPhone (needs a provider account and Apple's Tap to Pay entitlement).
+

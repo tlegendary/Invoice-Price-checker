@@ -29,6 +29,13 @@ struct TillFields: View {
             Stepper(value: Binding(get: { perPack }, set: { till.perPack = $0 }), in: 1...10_000) {
                 LabeledContent("Units in a pack", value: perPack.formatted())
             }
+            if perPack > 1 {
+                LabeledContent("Price for the whole pack") {
+                    TextField("Not sold by the pack", value: $till.packSell, format: .number.precision(.fractionLength(0...2)))
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
             if let packPrice, packPrice > 0 {
                 let cost = packPrice / perPack
                 LabeledContent("Cost of one", value: Money.format(Money.round2(cost)))
@@ -41,11 +48,38 @@ struct TillFields: View {
                             .foregroundStyle(profit < 0 ? .red : .green)
                     }
                 }
+                if let pack = till.packSell, pack > 0 {
+                    let net = pack / (1 + (till.vat ?? 0) / 100)
+                    LabeledContent("Profit on the pack") {
+                        Text(Money.format(Money.round2(net - packPrice)))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(net - packPrice < 0 ? .red : .green)
+                    }
+                }
             }
+            Toggle("Only sold at the till", isOn: Binding(get: { till.tillOnly == true }, set: { till.tillOnly = $0 ? true : nil }))
+            Toggle("Ask for ID (Challenge 25)", isOn: Binding(get: { till.ageCheck == true }, set: { till.ageCheck = $0 ? true : nil }))
         } header: {
             Text("Sell at the till")
         } footer: {
-            Text("You buy it by the pack and sell it one at a time. Profit is the price without VAT, less what one costs you.")
+            Text("You buy it by the pack and sell it one at a time, or the whole pack too. Profit is the price without VAT, less what it costs you. Only sold at the till: never matched to supplier invoices (your own products); its price above is what one costs you.")
+        }
+
+        Section {
+            Stepper(value: Binding(get: { till.multiQty ?? 0 }, set: { till.multiQty = $0 < 2 ? nil : $0 }), in: 0...50) {
+                LabeledContent("Buy", value: (till.multiQty ?? 0) < 2 ? String(localized: "No offer") : (till.multiQty ?? 0).formatted())
+            }
+            if (till.multiQty ?? 0) >= 2 {
+                LabeledContent("For") {
+                    TextField(Money.format(0), value: $till.multiPrice, format: .number.precision(.fractionLength(0...2)))
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
+        } header: {
+            Text("Multi-buy offer")
+        } footer: {
+            Text("For example 3 for £2. Taken off at the till for every full set.")
         }
 
         Section {
