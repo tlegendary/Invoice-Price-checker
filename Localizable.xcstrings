@@ -31041,6 +31041,35 @@
         }
       }
     },
+    "Sell from your iPhone or iPad: stock that follows every sale, supplier orders when it runs low, profit per sale, cashiers and end-of-day reports." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بِع من الـ iPhone أو الـ iPad: مخزون يتبع كل بيع، وطلبيات للموردين عند النفاد، وربح كل بيع، وكاشيرون، وتقارير نهاية اليوم."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لە iPhone یان iPadـەوە بفرۆشە: کۆگایەک کە دوای هەر فرۆشێک دەکەوێت، داواکاری بۆ دابینکەران کاتێک کەم دەبێتەوە، قازانجی هەر فرۆشێک، کاشێرەکان و ڕاپۆرتی کۆتایی ڕۆژ."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkaufe vom iPhone oder iPad: Bestand, der jedem Verkauf folgt, Lieferantenbestellungen bei Knappheit, Gewinn pro Verkauf, Kassierer und Tagesabschlüsse."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vendez depuis votre iPhone ou iPad : un stock qui suit chaque vente, des commandes fournisseurs quand il baisse, le bénéfice par vente, des caissiers et des rapports de fin de journée."
+          }
+        }
+      }
+    },
     "Selling price" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -35885,6 +35914,35 @@
         }
       }
     },
+    "The till" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الكاشير"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاشێر"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kasse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La caisse"
+          }
+        }
+      }
+    },
     "The two reads of the photo didn't agree on this line." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -36976,6 +37034,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages de la caisse et produits"
+          }
+        }
+      }
+    },
+    "Till, stock and sales" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الكاشير والمخزون والمبيعات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاشێر، کۆگا و فرۆش"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kasse, Bestand und Verkäufe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caisse, stock et ventes"
           }
         }
       }
