@@ -168,7 +168,7 @@ struct LineEditView: View {
             result.disagree = false
         }
         if isNew && result.matchId == nil && !result.noBase {
-            let match = Matcher.match(result.desc, in: items)
+            let match = Matcher.match(result.desc, in: items.filter { !$0.isTillOnly })
             result.matchId = match.itemID
             result.confident = match.itemID == nil ? nil : match.confident
         }
