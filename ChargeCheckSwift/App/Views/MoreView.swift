@@ -26,14 +26,21 @@ struct MoreView: View {
         NavigationStack(path: $path) {
             List {
                 Section("Till") {
-                    NavigationLink(value: Page.sales) {
-                        Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis")
-                    }
-                    NavigationLink(value: Page.stock) {
-                        Label("Stock", systemImage: "shippingbox")
-                    }
-                    NavigationLink(value: Page.tillSettings) {
-                        Label("Till settings and products", systemImage: "gearshape.2")
+                    if store.allows(.till) {
+                        NavigationLink(value: Page.sales) {
+                            Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis")
+                        }
+                        NavigationLink(value: Page.stock) {
+                            Label("Stock", systemImage: "shippingbox")
+                        }
+                        NavigationLink(value: Page.tillSettings) {
+                            Label("Till settings and products", systemImage: "gearshape.2")
+                        }
+                    } else {
+                        // Pro: the plans screen explains what the till does
+                        LockedRow(feature: .till) {
+                            Label("Till, stock and sales", systemImage: "cart")
+                        }
                     }
                 }
                 // staff phones: prices, shops and records are the owner's

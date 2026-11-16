@@ -130,6 +130,7 @@ enum FeatureText {
         case .changeHistory: return String(localized: "History of changes")
         case .budgets: return String(localized: "Budgets and spending by category")
         case .themes: return String(localized: "Themes for the whole app")
+        case .till: return String(localized: "The till")
         }
     }
 
@@ -156,6 +157,7 @@ enum FeatureText {
         case .changeHistory: return String(localized: "Who saved, paid, changed or deleted what, and when.")
         case .budgets: return String(localized: "A monthly limit per supplier or category, a warning at 80%, and where the money goes each month.")
         case .themes: return String(localized: "Choose the app's colours, backgrounds, card style and text size, on every screen.")
+        case .till: return String(localized: "Sell from your iPhone or iPad: stock that follows every sale, supplier orders when it runs low, profit per sale, cashiers and end-of-day reports.")
         }
     }
 }

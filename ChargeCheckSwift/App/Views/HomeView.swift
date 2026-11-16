@@ -47,7 +47,7 @@ struct HomeView: View {
         let sales = till.sales.filter { $0.at >= today && (shop.isEmpty || $0.shop == shop) }
         let summary = SaleMaths.summary(sales)
         return Section {
-            Button {
+            GatedButton(feature: .till) {
                 showTill = true
             } label: {
                 HStack(spacing: 12) {
