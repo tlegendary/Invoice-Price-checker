@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history, sales, stock
+        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -31,6 +31,9 @@ struct MoreView: View {
                     }
                     NavigationLink(value: Page.stock) {
                         Label("Stock", systemImage: "shippingbox")
+                    }
+                    NavigationLink(value: Page.tillSettings) {
+                        Label("Till settings and products", systemImage: "gearshape.2")
                     }
                 }
                 // staff phones: prices, shops and records are the owner's
@@ -108,6 +111,7 @@ struct MoreView: View {
                 case .shops: ShopsView()
                 case .sales: SalesView()
                 case .stock: StockView()
+                case .tillSettings: TillSettingsView()
                 case .staff: TeamView()
                 case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
                 case .deleted: RecentlyDeletedView()

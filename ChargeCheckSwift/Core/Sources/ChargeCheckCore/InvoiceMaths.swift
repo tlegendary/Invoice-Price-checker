@@ -161,6 +161,8 @@ public struct PriceBook: Sendable {
 
     /// Cheap to make: screens build one just to look items up. The heavier lists above wait until a scan needs them.
     public init(_ items: [PriceItem], shop: String = "") {
+        // till-only products are never bought on a supplier invoice, so they're never matched to one
+        let items = items.filter { !$0.isTillOnly }
         self.items = items
         self.shop = shop
         var map: [String: PriceItem] = [:]

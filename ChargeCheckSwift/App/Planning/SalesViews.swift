@@ -6,8 +6,11 @@ import ChargeCheckCore
 struct SalesView: View {
     @ObservedObject private var till = TillStore.shared
     @AppStorage(Shops.listKey) private var shopData = Data()
+    @Query private var prices: [StoredPrice]
     @State private var period = 0
     @State private var opened: Sale?
+    @State private var breakdown = 0
+    @State private var exported: URL?
 
     private var shop: String { LiveSettings.shared.shop }
 
@@ -59,6 +62,50 @@ struct SalesView: View {
                      ? String(localized: "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold). \(summary.unknownCost) lines had no cost, so they're left out of it.")
                      : String(localized: "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold)."))
             }
+            if !shown.isEmpty {
+                Section {
+                    Picker("Show", selection: $breakdown) {
+                        Text("Items").tag(0)
+                        Text("Categories").tag(1)
+                        Text("Hours").tag(2)
+                        Text("Cashiers").tag(3)
+                    }
+                    .pickerStyle(.segmented)
+                    let rows: [SalesRow] = {
+                        switch breakdown {
+                        case 1: return SalesReports.byCategory(shown, items: prices.map { $0.item }, other: String(localized: "Other"))
+                        case 2: return SalesReports.byHour(shown)
+                        case 3: return SalesReports.byCashier(shown, nobody: String(localized: "No cashier"))
+                        default: return SalesReports.byItem(shown)
+                        }
+                    }()
+                    ForEach(rows.prefix(breakdown == 2 ? 24 : 15)) { row in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(row.name).font(.subheadline)
+                                Text(String(localized: "\(row.qty.formatted()) sold") + (row.profit.map { " · " + String(localized: "profit \(Money.format($0))") } ?? ""))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Text(Money.format(row.takings)).fontWeight(.semibold).monospacedDigit()
+                        }
+                    }
+                    if let exported {
+                        ShareLink(item: exported) {
+                            Label("Share the spreadsheet", systemImage: "square.and.arrow.up")
+                        }
+                    } else {
+                        Button {
+                            exported = AppFiles.write(Data(("\u{FEFF}" + SalesReports.csv(shown)).utf8), folder: "Exports", name: "Sales \(SupplierAccounts.dayText(Date())).csv")
+                        } label: {
+                            Label("Sales spreadsheet (CSV)", systemImage: "tablecells")
+                        }
+                    }
+                } header: {
+                    Text("Best sellers and more")
+                }
+            }
             Section("Sales") {
                 if shown.isEmpty {
                     Text("No sales yet.").foregroundStyle(.secondary)
@@ -88,6 +135,16 @@ struct SalesView: View {
         }
         .navigationTitle("Sales and profit")
         .themedScreen()
+        .onChange(of: period) { exported = nil }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    TillSettingsView()
+                } label: {
+                    Label("Till settings", systemImage: "gearshape")
+                }
+            }
+        }
         .sheet(item: $opened) { sale in
             SaleDetailView(sale: sale)
         }
@@ -117,8 +174,10 @@ struct SaleDetailView: View {
     @ObservedObject private var till = TillStore.shared
     @State private var confirmRefund = false
     @State private var refunded: Sale?
+    @State private var choosing = false
+    @State private var picked: [String: Double] = [:]
 
-    private var text: String { SaleMaths.receipt(sale, shopName: Shops.reportName(sale.shop), currency: Money.currency.code) }
+    private var text: String { TillReceipt.text(sale) }
 
     var body: some View {
         NavigationStack {
@@ -141,8 +200,32 @@ struct SaleDetailView: View {
                             Label("Refunded", systemImage: "checkmark")
                                 .foregroundStyle(.secondary)
                         } else {
-                            Button("Refund this sale", role: .destructive) { confirmRefund = true }
+                            Button("Refund everything left", role: .destructive) { confirmRefund = true }
+                            if sale.lines.count > 1 || (sale.lines.first?.qty ?? 0) > 1 {
+                                Button("Refund some items") {
+                                    picked = [:]
+                                    choosing = true
+                                }
+                            }
                         }
+                    }
+                }
+                if choosing {
+                    let left = till.refundable(sale)
+                    Section {
+                        ForEach(sale.lines.filter { (left[$0.id] ?? 0) > 0 }) { line in
+                            Stepper(value: Binding(get: { picked[line.id] ?? 0 }, set: { picked[line.id] = $0 }),
+                                    in: 0...(left[line.id] ?? 0)) {
+                                LabeledContent(line.name, value: "\((picked[line.id] ?? 0).formatted()) / \((left[line.id] ?? 0).formatted())")
+                            }
+                        }
+                        Button("Refund these", role: .destructive) {
+                            refunded = till.refund(sale, quantities: picked, context: context)
+                            choosing = false
+                        }
+                        .disabled(!picked.values.contains { $0 > 0 })
+                    } header: {
+                        Text("What's coming back?")
                     }
                 }
             }
@@ -155,7 +238,7 @@ struct SaleDetailView: View {
                 }
             }
             .confirmationDialog("Refund \(Money.format(sale.total))?", isPresented: $confirmRefund, titleVisibility: .visible) {
-                Button("Refund", role: .destructive) { refunded = till.refund(sale, context: context) }
+                Button("Refund", role: .destructive) { refunded = till.refund(sale, quantities: nil, context: context) }
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Give the money back by \(SalesText.payment(sale.payment).lowercased()). The items go back into stock.")
@@ -177,6 +260,8 @@ struct StockView: View {
     @State private var counting: StockLevel?
     @State private var countText = ""
     @State private var notice: String?
+    @State private var adding: StockLevel?
+    @State private var addText = ""
 
     var body: some View {
         let shops = Shops.decode(shopData)
@@ -237,16 +322,36 @@ struct StockView: View {
                             }
                         }
                         .foregroundStyle(.primary)
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                adding = level
+                                addText = ""
+                            } label: {
+                                Label("Stock in", systemImage: "plus")
+                            }
+                            .tint(.green)
+                        }
                     }
                 } footer: {
                     if !levels.isEmpty {
-                        Text("In single units. Stock = your last count + deliveries ticked off on checked invoices − sales. Below zero means it needs counting.")
+                        Text("In single units. Stock = your last count + deliveries ticked off on checked invoices − sales. Below zero means it needs counting. Tap to count; swipe right to add stock that came without an invoice.")
                     }
                 }
             }
         }
         .navigationTitle("Stock")
         .themedScreen()
+        .alert("Stock came in", isPresented: Binding(get: { adding != nil }, set: { if !$0 { adding = nil } }), presenting: adding) { level in
+            TextField("0", text: $addText).keyboardType(.decimalPad)
+            Button("Add") {
+                if let value = Double(addText.replacingOccurrences(of: ",", with: ".")), value > 0, let shop {
+                    till.addStock(value, level: level, shop: shop)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { level in
+            Text("How many \(level.name) came in without a checked invoice, in single units?")
+        }
         .alert("Count on the shelf", isPresented: Binding(get: { counting != nil }, set: { if !$0 { counting = nil } }), presenting: counting) { level in
             TextField("0", text: $countText).keyboardType(.decimalPad)
             Button("Save") {

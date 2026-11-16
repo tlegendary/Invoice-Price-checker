@@ -301,6 +301,10 @@ struct PriceRow: View {
 
     private var subtitle: String {
         var parts: [String] = []
+        let item = price.item
+        // own products: never on a supplier invoice
+        if item.isTillOnly { parts.append(String(localized: "Till only")) }
+        if let sell = item.till?.sell, sell > 0 { parts.append(String(localized: "sells \(Money.format(sell))")) }
         if !price.supplier.isEmpty { parts.append(price.supplier) }
         // with several shops: which shops buy it, when not all of them
         if let tags = price.item.shops, Shops.all.count > 1 {
@@ -308,7 +312,7 @@ struct PriceRow: View {
             if !names.isEmpty { parts.append(names.joined(separator: ", ")) }
         }
         let spellings = price.aliases.filter { $0 != TextTools.norm(price.name) }
-        if !spellings.isEmpty { parts.append(String(localized: "on invoices as: \(spellings.joined(separator: ", "))")) }
+        if !spellings.isEmpty && !item.isTillOnly { parts.append(String(localized: "on invoices as: \(spellings.joined(separator: ", "))")) }
         return parts.joined(separator: " · ")
     }
 

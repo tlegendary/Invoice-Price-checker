@@ -213,6 +213,8 @@ enum ChangeText {
         case .binEmptied: return String(localized: "Recently deleted emptied")
         case .tillRefund: return String(localized: "Till refund")
         case .stockCounted: return String(localized: "Stock counted")
+        case .tillClosed: return String(localized: "End of day")
+        case .cashMoved: return String(localized: "Cash in or out")
         }
     }
 
@@ -236,6 +238,8 @@ enum ChangeText {
         case .supplierChanged: return "shippingbox"
         case .tillRefund: return "arrow.uturn.backward.square"
         case .stockCounted: return "shippingbox.and.arrow.backward"
+        case .tillClosed: return "lock.rectangle.stack"
+        case .cashMoved: return "banknote"
         }
     }
 

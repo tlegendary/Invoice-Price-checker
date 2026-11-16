@@ -234,6 +234,8 @@ struct PriceEditView: View {
         if let sell = sold.sell { sold.sell = sell > 0 ? Money.round2(sell) : nil }
         if let low = sold.low, low < 0 { sold.low = nil }
         if let packs = sold.orderPacks, packs <= 0 { sold.orderPacks = nil }
+        if let pack = sold.packSell { sold.packSell = pack > 0 ? Money.round2(pack) : nil }
+        if sold.offer == nil { sold.multiQty = nil; sold.multiPrice = nil }
         // a pack size the same as the name says isn't stored, so renaming the item keeps it right
         if let perPack = sold.perPack, perPack == PackGuess.count(in: result.name) { sold.perPack = nil }
         result.till = sold.isEmpty ? nil : sold
