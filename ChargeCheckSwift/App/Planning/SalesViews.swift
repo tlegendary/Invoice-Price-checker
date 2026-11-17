@@ -15,6 +15,94 @@ struct SalesView: View {
 
     private var shop: String { LiveSettings.shared.shop }
 
+    private func breakdownSection(_ shown: [Sale]) -> some View {
+        Section {
+            Picker("Show", selection: $breakdown) {
+                Text("Items").tag(0)
+                Text("Categories").tag(1)
+                Text("Hours").tag(2)
+                Text("Cashiers").tag(3)
+            }
+            .pickerStyle(.segmented)
+            let rows: [SalesRow] = {
+                switch breakdown {
+                case 1: return SalesReports.byCategory(shown, items: prices.map { $0.item }, other: String(localized: "Other"))
+                case 2: return SalesReports.byHour(shown)
+                case 3: return SalesReports.byCashier(shown, nobody: String(localized: "No cashier"))
+                default: return SalesReports.byItem(shown)
+                }
+            }()
+            ForEach(rows.prefix(breakdown == 2 ? 24 : 15)) { row in
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(row.name).font(.subheadline)
+                        Text(String(localized: "\(row.qty.formatted()) sold") + (row.profit.map { " · " + String(localized: "profit \(Money.format($0))") } ?? ""))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Text(Money.format(row.takings)).fontWeight(.semibold).monospacedDigit()
+                }
+            }
+            if let exported {
+                ShareLink(item: exported) {
+                    Label("Share the spreadsheet", systemImage: "square.and.arrow.up")
+                }
+            } else {
+                Button {
+                    exported = AppFiles.write(Data(("\u{FEFF}" + SalesReports.csv(shown)).utf8), folder: "Exports", name: "Sales \(SupplierAccounts.dayText(Date())).csv")
+                } label: {
+                    Label("Sales spreadsheet (CSV)", systemImage: "tablecells")
+                }
+            }
+        } header: {
+            Text("Best sellers and more")
+        }
+    }
+
+    @ViewBuilder
+    private func salesSection(_ shown: [Sale]) -> some View {
+        Section("Sales") {
+            if shown.isEmpty {
+                Text("No sales yet.").foregroundStyle(.secondary)
+            }
+            ForEach(shown.prefix(200)) { sale in
+                Button {
+                    opened = sale
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(heading(sale))
+                                .font(.subheadline.weight(.semibold))
+                            Text(detail(sale))
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Text(Money.format(sale.total))
+                            .fontWeight(.semibold)
+                            .monospacedDigit()
+                            .foregroundStyle(sale.total < 0 ? .red : .primary)
+                    }
+                }
+                .foregroundStyle(.primary)
+            }
+        }
+    }
+
+    private func heading(_ sale: Sale) -> String {
+        let number = till.number(sale)
+        return sale.refundOf == nil ? String(localized: "Sale \(number)") : String(localized: "Refund \(number)")
+    }
+
+    /// "2 Nov 10:15 · Cash · Sara · refunded"
+    private func detail(_ sale: Sale) -> String {
+        var parts = [SalesText.time(sale.at), SalesText.paid(sale)]
+        if let cashier = sale.cashier, !cashier.isEmpty { parts.append(cashier) }
+        if till.isRefunded(sale) { parts.append(String(localized: "refunded")) }
+        return parts.joined(separator: " · ")
+    }
+
     /// This shop's sales in the period, or every one that matches what's searched for.
     private func visible(since: String) -> [Sale] {
         var out: [Sale] = []
@@ -92,77 +180,8 @@ struct SalesView: View {
                      ? String(localized: "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold). \(summary.unknownCost) lines had no cost, so they're left out of it.")
                      : String(localized: "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold)."))
             }
-            if !shown.isEmpty {
-                Section {
-                    Picker("Show", selection: $breakdown) {
-                        Text("Items").tag(0)
-                        Text("Categories").tag(1)
-                        Text("Hours").tag(2)
-                        Text("Cashiers").tag(3)
-                    }
-                    .pickerStyle(.segmented)
-                    let rows: [SalesRow] = {
-                        switch breakdown {
-                        case 1: return SalesReports.byCategory(shown, items: prices.map { $0.item }, other: String(localized: "Other"))
-                        case 2: return SalesReports.byHour(shown)
-                        case 3: return SalesReports.byCashier(shown, nobody: String(localized: "No cashier"))
-                        default: return SalesReports.byItem(shown)
-                        }
-                    }()
-                    ForEach(rows.prefix(breakdown == 2 ? 24 : 15)) { row in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(row.name).font(.subheadline)
-                                Text(String(localized: "\(row.qty.formatted()) sold") + (row.profit.map { " · " + String(localized: "profit \(Money.format($0))") } ?? ""))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Text(Money.format(row.takings)).fontWeight(.semibold).monospacedDigit()
-                        }
-                    }
-                    if let exported {
-                        ShareLink(item: exported) {
-                            Label("Share the spreadsheet", systemImage: "square.and.arrow.up")
-                        }
-                    } else {
-                        Button {
-                            exported = AppFiles.write(Data(("\u{FEFF}" + SalesReports.csv(shown)).utf8), folder: "Exports", name: "Sales \(SupplierAccounts.dayText(Date())).csv")
-                        } label: {
-                            Label("Sales spreadsheet (CSV)", systemImage: "tablecells")
-                        }
-                    }
-                } header: {
-                    Text("Best sellers and more")
-                }
-            }
-            Section("Sales") {
-                if shown.isEmpty {
-                    Text("No sales yet.").foregroundStyle(.secondary)
-                }
-                ForEach(shown.prefix(200)) { sale in
-                    Button {
-                        opened = sale
-                    } label: {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(sale.refundOf == nil ? String(localized: "Sale \(till.number(sale))") : String(localized: "Refund \(till.number(sale))"))
-                                    .font(.subheadline.weight(.semibold))
-                                Text(SalesText.time(sale.at) + " · " + SalesText.paid(sale) + (sale.cashier.map { " · " + $0 } ?? "")
-                                     + (till.isRefunded(sale) ? " · " + String(localized: "refunded") : ""))
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Text(Money.format(sale.total))
-                                .fontWeight(.semibold)
-                                .monospacedDigit()
-                                .foregroundStyle(sale.total < 0 ? .red : .primary)
-                        }
-                    }
-                    .foregroundStyle(.primary)
-                }
-            }
+            if !shown.isEmpty { breakdownSection(shown) }
+            salesSection(shown)
         }
         .navigationTitle("Sales and profit")
         .searchable(text: $search, prompt: Text("Receipt, item, batch or customer"))
