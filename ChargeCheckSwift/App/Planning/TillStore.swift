@@ -162,10 +162,10 @@ final class TillStore: ObservableObject {
         let clockFiles = group("Clock", as: [ClockEvent].self)
         ownClock = clockFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         clock = TillSync.mergeIDs(clockFiles.map { $0.value })
-        for till in cashFiles.compactMap { $0.till } + countFiles.compactMap { $0.till } + batchFiles.compactMap { $0.till }
-            + customerFiles.compactMap { $0.till } + clockFiles.compactMap { $0.till } + group("Till", as: TillIdentity.self).compactMap { $0.till } {
-            tills.insert(till)
-        }
+        var seen: [String?] = cashFiles.map { $0.till } + countFiles.map { $0.till } + batchFiles.map { $0.till }
+        seen += customerFiles.map { $0.till } + clockFiles.map { $0.till }
+        seen += group("Till", as: TillIdentity.self).map { $0.till }
+        for till in seen.compactMap({ $0 }) { tills.insert(till) }
         if let settings = group("Settings", as: TillSettingsFile.self).first(where: { $0.till == nil })?.value {
             cashiers = settings.cashiers
             receipt = settings.receipt

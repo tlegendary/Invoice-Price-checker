@@ -418,3 +418,40 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
   without it. Orders stay free. Codemagic swift-beta: cancel_previous_builds false (Beta 32 was cancelled when the
   merge commit's webhook arrived after the beta commit's).
 
+
+## Everything a shop till has (beta 34)
+- Several tills (P0 fix): before, every device wrote "Sales YYYY-MM.json" and two devices overwrote each other's
+  month in iCloud. Now each device is a till with a letter (`TillStore.code`, given on first use after looking at
+  the other tills' files; "Till ~A.json" names the device, so a clash shows a warning) and writes only its own files:
+  "Sales 2026-11 ~A.json", "Cash ~A.json", "Days ~A.json", "Counts ~A.json", "Batches ~A.json", "Customers ~A.json",
+  "Clock ~A.json". Old files without a letter are read and never rewritten (`TillSync`). The till reads the other
+  tills' recent files every 30 s while open, on coming back to the app and from Till settings (all months).
+  Settings.json is shared (newest wins). Each till has its own drawer, float and Z (`CashDay.report(till:)`).
+  Extra till (Till settings): takes the main iPhone's price list from Till/Products.json; only the main iPhone
+  drafts supplier orders (also for the other tills' sales). Needs iCloud backup on, or the same chosen folder.
+- Roles: `Cashier.role` owner/manager/cashier (`TillRoles`). Nothing locks until someone is a manager or the owner.
+  Cashiers can do what Till settings › What cashiers can do allows (default: amount, take items off, cash in,
+  float, gift cards, account); the rest asks for a manager's PIN (`Gate.check`, `ManagerPinSheet`), recorded on the
+  sale (`Sale.approvedBy`) and in Records. Till settings need a manager, or the phone's Face ID/passcode (so the
+  owner can't be locked out). Taking items off a sale and opening the drawer without a sale are logged.
+- Weight: `TillInfo.byWeight` (sell = price a kg, stock in kg, perPack = kg in a sack). Weight sheet (grams or kg),
+  scale labels (EAN-13 starting 2, `ScaleBarcode`, price or weight per Till settings).
+- Batches: `TillInfo.batches`, `StockBatch` (code, use-by, qty) added in Till › Expiry dates; what's left is worked
+  out from stock, shortest-dated sold first (`BatchMaths`); the till warns before selling an expired batch and puts
+  the batch on the line and receipt; Sales search finds a batch.
+- Meal deals: `MealDeal` with parts (items and/or categories), in Till settings; `DealMaths` takes the dearest
+  items that fit, only when cheaper, as many times as fit; multi-buys apply to what's left.
+- Customers: `Customer` (phone, email, account limit); points (`LoyaltySettings`, off by default), account (tab)
+  paid later (`PaymentKind.tab`, paid off as `CashEvent.tabPaid`, cash goes in the drawer), receipts by email.
+  Gift cards: sold at the till (12-digit code with check digit), not takings until spent (`SalesSummary.giftSold`),
+  spent with `PaymentKind.gift`; refunds go back onto the card/account/points. More › Customers, Gift cards.
+- Staff hours: clock in/out (`ClockEvent`, `Shifts.hours`), from the till menu or More › Staff hours.
+- Hardware: receipt printer over Bluetooth LE or network (port 9100), ESC/POS, the receipt printed as a picture so
+  every language prints (`EscPos.raster`, `ReceiptImage`), auto print, cash drawer kick on cash sales and
+  "Open the drawer". Customer screen: another iPhone/iPad (More › Till › Be the customer screen) joins the till
+  over Multipeer (Wi-Fi/Bluetooth, encrypted), or "Show the customer" on the till. Info.plist: Bluetooth and local
+  network descriptions, Bonjour _cc-screen.
+- Not built: Tap to Pay (needs a card company account and Apple's entitlement), an HDMI/AirPlay customer display,
+  "classic" Bluetooth printers (iOS apps can't use them without Apple's MFi programme).
+- Tested: core logic in TillPlusTests (Linux CI). Not tested on a device: printers, drawer, customer screen,
+  two real tills over iCloud.
