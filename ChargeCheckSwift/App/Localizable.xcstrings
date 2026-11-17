@@ -39746,6 +39746,35 @@
         }
       }
     },
+    "Test version only: every Pro feature works without buying. Turn it off to see the app as you bought it. Customers never see this switch.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في النسخة التجريبية فقط: تعمل كل ميزات Pro بدون شراء. أطفئه لترى التطبيق كما اشتريته. الزبائن لا يرون هذا المفتاح أبداً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تەنها لە وەشانی تاقیکردنەوەدا: هەموو تایبەتمەندییەکانی Pro بێ کڕین کار دەکەن. بیکوژێنەرەوە بۆ بینینی ئەپەکە وەک ئەوەی کڕیوتە. کڕیاران هەرگیز ئەم دوگمەیە نابینن."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur in der Testversion: Alle Pro-Funktionen gehen ohne Kauf. Ausschalten, um die App so zu sehen, wie du sie gekauft hast. Kunden sehen diesen Schalter nie."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version de test uniquement : toutes les fonctions Pro marchent sans achat. Désactivez-le pour voir l'app telle que vous l'avez achetée. Les clients ne voient jamais ce bouton."
+          }
+        }
+      }
+    },
     "Test: add 5 free scans": {
       "extractionState": "manual",
       "localizations": {
@@ -43929,6 +43958,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Déverrouiller ChargeCheck"
+          }
+        }
+      }
+    },
+    "Unlock everything": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح كل الميزات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو شتێک بکەرەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles freischalten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout débloquer"
           }
         }
       }

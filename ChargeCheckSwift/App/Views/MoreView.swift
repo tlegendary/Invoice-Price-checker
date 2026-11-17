@@ -26,6 +26,17 @@ struct MoreView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if AppConfig.testBuild {
+                    // TEST BUILDS ONLY (TestFlight): never shown in the App Store version
+                    Section {
+                        Toggle(isOn: Binding(get: { store.testTier == "pro" }, set: { store.testTier = $0 ? "pro" : "" })) {
+                            Label("Unlock everything", systemImage: "lock.open.fill")
+                        }
+                        .tint(.purple)
+                    } footer: {
+                        Text("Test version only: every Pro feature works without buying. Turn it off to see the app as you bought it. Customers never see this switch.")
+                    }
+                }
                 Section("Till") {
                     if store.allows(.till) {
                         NavigationLink(value: Page.sales) {
