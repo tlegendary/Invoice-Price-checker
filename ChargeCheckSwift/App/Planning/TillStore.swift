@@ -134,7 +134,7 @@ final class TillStore: ObservableObject {
     /// Every file of a kind in the Till folder: "Cash.json" (from before tills had letters) and "Cash ~A.json"…
     private func group<T: Decodable>(_ base: String, as: T.Type) -> [(till: String?, value: T)] {
         guard let directory = Self.tillDirectory, let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path) else { return [] }
-        return names.sorted().compactMap { name -> (String?, T)? in
+        return names.sorted().compactMap { name -> (till: String?, value: T)? in
             guard name == base + ".json" || name.hasPrefix(base + " ~"), name.hasSuffix(".json"),
                   let data = try? Data(contentsOf: directory.appendingPathComponent(name)),
                   let value = try? JSONDecoder().decode(T.self, from: data) else { return nil }
@@ -144,26 +144,26 @@ final class TillStore: ObservableObject {
 
     private func loadExtras() {
         let cashFiles = group("Cash", as: [CashEvent].self)
-        cash = TillSync.mergeIDs(cashFiles.map(\.value))
-        days = TillSync.mergeIDs(group("Days", as: [DayReport].self).map(\.value))
+        cash = TillSync.mergeIDs(cashFiles.map { $0.value })
+        days = TillSync.mergeIDs(group("Days", as: [DayReport].self).map { $0.value })
         let countFiles = group("Counts", as: [StockCount].self)
         ownCounts = countFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
-        var countLists = countFiles.map(\.value)
+        var countLists = countFiles.map { $0.value }
         if let data = UserDefaults.standard.data(forKey: Self.countsKey), let saved = try? JSONDecoder().decode([StockCount].self, from: data) {
             countLists.append(saved)
         }
         counts = TillSync.mergeCounts(countLists)
         let batchFiles = group("Batches", as: [StockBatch].self)
         ownBatches = batchFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
-        batches = TillSync.mergeIDs(batchFiles.map(\.value))
+        batches = TillSync.mergeIDs(batchFiles.map { $0.value })
         let customerFiles = group("Customers", as: [Customer].self)
         ownCustomers = customerFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
-        customers = Self.latest(customerFiles.map(\.value))
+        customers = Self.latest(customerFiles.map { $0.value })
         let clockFiles = group("Clock", as: [ClockEvent].self)
         ownClock = clockFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
-        clock = TillSync.mergeIDs(clockFiles.map(\.value))
-        for till in cashFiles.compactMap(\.till) + countFiles.compactMap(\.till) + batchFiles.compactMap(\.till)
-            + customerFiles.compactMap(\.till) + clockFiles.compactMap(\.till) + group("Till", as: TillIdentity.self).compactMap(\.till) {
+        clock = TillSync.mergeIDs(clockFiles.map { $0.value })
+        for till in cashFiles.compactMap { $0.till } + countFiles.compactMap { $0.till } + batchFiles.compactMap { $0.till }
+            + customerFiles.compactMap { $0.till } + clockFiles.compactMap { $0.till } + group("Till", as: TillIdentity.self).compactMap { $0.till } {
             tills.insert(till)
         }
         if let settings = group("Settings", as: TillSettingsFile.self).first(where: { $0.till == nil })?.value {
@@ -437,7 +437,7 @@ final class TillStore: ObservableObject {
         clock.filter { $0.person == person }.max { $0.at < $1.at }?.start == true
     }
 
-    func clock(_ person: String, shop: String, start: Bool) {
+    func punch(_ person: String, shop: String, start: Bool) {
         ensureCode()
         let event = ClockEvent(person: person, shop: shop, at: Self.now(), start: start, till: code)
         ownClock.append(event)

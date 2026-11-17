@@ -420,7 +420,7 @@ struct TillView: View {
                         if let person = till.cashier?.name {
                             let isIn = till.isClockedIn(person)
                             Button {
-                                till.clock(person, shop: shop ?? "", start: !isIn)
+                                till.punch(person, shop: shop ?? "", start: !isIn)
                             } label: {
                                 Label(isIn ? String(localized: "Clock out \(person)") : String(localized: "Clock in \(person)"), systemImage: "clock")
                             }

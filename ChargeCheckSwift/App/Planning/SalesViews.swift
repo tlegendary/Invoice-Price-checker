@@ -15,14 +15,33 @@ struct SalesView: View {
 
     private var shop: String { LiveSettings.shared.shop }
 
+    /// This shop's sales in the period, or every one that matches what's searched for.
+    private func visible(since: String) -> [Sale] {
+        var out: [Sale] = []
+        for sale in till.sales {
+            if !shop.isEmpty && sale.shop != shop { continue }
+            if search.isEmpty {
+                if sale.at >= since { out.append(sale) }
+            } else if matches(sale) {
+                out.append(sale)
+            }
+        }
+        return out
+    }
+
     /// A receipt number, a batch, a gift card, a customer or an item.
     private func matches(_ sale: Sale) -> Bool {
         let q = TextTools.norm(search)
         guard !q.isEmpty else { return true }
         if till.number(sale).lowercased() == search.lowercased().trimmingCharacters(in: .whitespaces) { return true }
         if let name = till.customer(sale.customer)?.name, TextTools.norm(name).contains(q) { return true }
-        return sale.lines.contains { TextTools.norm($0.name).contains(q) || ($0.batch.map { TextTools.norm($0) == q } ?? false) }
-            || sale.payments.contains { $0.ref == search.filter(\.isNumber) && !search.filter(\.isNumber).isEmpty }
+        for line in sale.lines {
+            if TextTools.norm(line.name).contains(q) { return true }
+            if let batch = line.batch, TextTools.norm(batch) == q { return true }
+        }
+        let digits = search.filter(\.isNumber)
+        if digits.isEmpty { return false }
+        return sale.payments.contains { $0.ref == digits }
     }
 
     private var since: String {
@@ -37,7 +56,7 @@ struct SalesView: View {
     }
 
     var body: some View {
-        let shown = till.sales.filter { (search.isEmpty ? $0.at >= since : true) && (shop.isEmpty || $0.shop == shop) && matches($0) }
+        let shown = visible(since: since)
         let summary = SaleMaths.summary(shown)
         List {
             Section {

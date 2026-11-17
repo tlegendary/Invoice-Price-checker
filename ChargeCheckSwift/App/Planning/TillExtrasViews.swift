@@ -405,7 +405,7 @@ struct ShiftsView: View {
                             .foregroundStyle(isIn ? Color.green : Color.primary)
                         Spacer()
                         Button(isIn ? String(localized: "Clock out") : String(localized: "Clock in")) {
-                            till.clock(person, shop: LiveSettings.shared.shop, start: !isIn)
+                            till.punch(person, shop: LiveSettings.shared.shop, start: !isIn)
                         }
                         .buttonStyle(.bordered)
                     }
@@ -443,7 +443,7 @@ struct ShiftsView: View {
             TextField("Name", text: $typed)
             Button("Clock in") {
                 let name = typed.trimmingCharacters(in: .whitespaces)
-                if !name.isEmpty { till.clock(name, shop: LiveSettings.shared.shop, start: true) }
+                if !name.isEmpty { till.punch(name, shop: LiveSettings.shared.shop, start: true) }
                 typed = ""
             }
             Button("Cancel", role: .cancel) { typed = "" }
