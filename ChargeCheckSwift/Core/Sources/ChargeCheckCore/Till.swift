@@ -24,10 +24,15 @@ public struct TillInfo: Codable, Equatable, Hashable, Sendable {
     /// Multi-buy offer: `multiQty` for `multiPrice` (3 for £2).
     public var multiQty: Double?
     public var multiPrice: Double?
+    /// Sold by weight: `sell` is the price of 1 kg, stock is kept in kg (`perPack` = kg in a sack or box).
+    public var byWeight: Bool?
+    /// Keeps batches with expiry dates (medicines, short-dated food): warns before an expired one is sold.
+    public var batches: Bool?
 
     public init(sell: Double? = nil, perPack: Double? = nil, barcodes: [String]? = nil, vat: Double? = nil,
                 low: Double? = nil, orderPacks: Double? = nil, packSell: Double? = nil, tillOnly: Bool? = nil,
-                ageCheck: Bool? = nil, multiQty: Double? = nil, multiPrice: Double? = nil) {
+                ageCheck: Bool? = nil, multiQty: Double? = nil, multiPrice: Double? = nil, byWeight: Bool? = nil,
+                batches: Bool? = nil) {
         self.sell = sell
         self.perPack = perPack
         self.barcodes = barcodes
@@ -39,11 +44,14 @@ public struct TillInfo: Codable, Equatable, Hashable, Sendable {
         self.ageCheck = ageCheck
         self.multiQty = multiQty
         self.multiPrice = multiPrice
+        self.byWeight = byWeight
+        self.batches = batches
     }
 
     public var isEmpty: Bool {
         sell == nil && perPack == nil && (barcodes ?? []).isEmpty && vat == nil && low == nil && orderPacks == nil
             && packSell == nil && tillOnly != true && ageCheck != true && multiQty == nil && multiPrice == nil
+            && byWeight != true && batches != true
     }
 
     /// A multi-buy that actually saves something.
@@ -65,6 +73,9 @@ extension PriceItem {
     /// Only sold at the till (not on supplier invoices).
     public var isTillOnly: Bool { till?.tillOnly == true }
 
+    /// Sold by the kg.
+    public var isByWeight: Bool { till?.byWeight == true }
+
     public func hasBarcode(_ code: String) -> Bool {
         let wanted = code.trimmingCharacters(in: .whitespaces)
         return !wanted.isEmpty && (till?.barcodes ?? []).contains(wanted)
@@ -75,6 +86,15 @@ extension PriceItem {
 
 public enum PaymentKind: String, Codable, CaseIterable, Sendable {
     case cash, card, other
+    /// On the customer's account, paid later.
+    case tab
+    /// A gift card or voucher (its code in `SalePayment.ref`).
+    case gift
+    /// Loyalty points spent.
+    case points
+
+    /// Money in the drawer or the bank on the day (a tab, a gift card or points are not).
+    public var isMoney: Bool { self == .cash || self == .card || self == .other }
 }
 
 public struct SaleLine: Codable, Equatable, Identifiable, Sendable {
@@ -93,9 +113,18 @@ public struct SaleLine: Codable, Equatable, Identifiable, Sendable {
     public var units: Double?
     /// Money taken off this line (a discount, a multi-buy, a share of a basket discount). Negative on a refund.
     public var discount: Double?
+    /// Weighed: `qty` is kg, `price` is the price of 1 kg.
+    public var weighed: Bool?
+    /// The batch it came from (medicines, short-dated food).
+    public var batch: String?
+    /// A gift card sold: its code. Not goods: no VAT, no stock, not takings until it's spent.
+    public var giftCard: String?
+    /// The meal deal it was part of.
+    public var deal: String?
 
     public init(id: String = UUID().uuidString, itemID: String? = nil, name: String, qty: Double, price: Double, vat: Double = 0,
-                cost: Double? = nil, units: Double? = nil, discount: Double? = nil) {
+                cost: Double? = nil, units: Double? = nil, discount: Double? = nil, weighed: Bool? = nil, batch: String? = nil,
+                giftCard: String? = nil, deal: String? = nil) {
         self.id = id
         self.itemID = itemID
         self.name = name
@@ -105,6 +134,10 @@ public struct SaleLine: Codable, Equatable, Identifiable, Sendable {
         self.cost = cost
         self.units = units
         self.discount = discount
+        self.weighed = weighed
+        self.batch = batch
+        self.giftCard = giftCard
+        self.deal = deal
     }
 
     /// What was charged for the line.
@@ -116,9 +149,12 @@ public struct SaleLine: Codable, Equatable, Identifiable, Sendable {
 public struct SalePayment: Codable, Equatable, Sendable {
     public var kind: PaymentKind
     public var amount: Double
-    public init(kind: PaymentKind, amount: Double) {
+    /// The gift card's code, or the customer whose tab or points paid.
+    public var ref: String?
+    public init(kind: PaymentKind, amount: Double, ref: String? = nil) {
         self.kind = kind
         self.amount = amount
+        self.ref = ref
     }
 }
 
@@ -139,9 +175,16 @@ public struct Sale: Codable, Equatable, Identifiable, Sendable {
     public var cashier: String?
     /// Paid partly one way, partly another (cash + card). nil = all by `payment`.
     public var split: [SalePayment]?
+    /// Which till (device) took it: "A", "B"… Receipt numbers count up per till.
+    public var till: String?
+    /// The customer (their id), for points, a tab or an emailed receipt.
+    public var customer: String?
+    /// The manager who allowed something the cashier can't do alone (a refund, a discount).
+    public var approvedBy: String?
 
     public init(id: String = UUID().uuidString, number: Int, shop: String, at: String, lines: [SaleLine], payment: PaymentKind,
-                tendered: Double? = nil, refundOf: String? = nil, cashier: String? = nil, split: [SalePayment]? = nil) {
+                tendered: Double? = nil, refundOf: String? = nil, cashier: String? = nil, split: [SalePayment]? = nil,
+                till: String? = nil, customer: String? = nil, approvedBy: String? = nil) {
         self.id = id
         self.number = number
         self.shop = shop
@@ -152,6 +195,15 @@ public struct Sale: Codable, Equatable, Identifiable, Sendable {
         self.refundOf = refundOf
         self.cashier = cashier
         self.split = split
+        self.till = till
+        self.customer = customer
+        self.approvedBy = approvedBy
+    }
+
+    /// "B-153" with several tills, "153" with one.
+    public var receiptNumber: String {
+        if let till, !till.isEmpty { return till + "-\(number)" }
+        return "\(number)"
     }
 
     public var total: Double { Money.round2(lines.reduce(0) { $0 + $1.gross }) }
@@ -179,6 +231,8 @@ public struct SalesSummary: Equatable, Sendable {
     /// Lines sold without a known cost (left out of the profit).
     public var unknownCost: Int
     public var byPayment: [PaymentKind: Double]
+    /// Gift cards sold (money taken for them, not takings: they're takings when they're spent).
+    public var giftSold: Double = 0
 }
 
 public enum SaleMaths {
@@ -188,12 +242,16 @@ public enum SaleMaths {
     public static func change(tendered: Double, total: Double) -> Double { Money.round2(max(0, tendered - total)) }
 
     public static func summary(_ sales: [Sale]) -> SalesSummary {
-        var takings = 0.0, vatTotal = 0.0, profit = 0.0, costedNet = 0.0, unknown = 0
+        var takings = 0.0, vatTotal = 0.0, profit = 0.0, costedNet = 0.0, unknown = 0, giftSold = 0.0
         var byPayment: [PaymentKind: Double] = [:]
         for sale in sales {
             for part in sale.payments { byPayment[part.kind, default: 0] += part.amount }
             for line in sale.lines {
                 let gross = line.gross
+                if line.giftCard != nil {
+                    giftSold += gross
+                    continue
+                }
                 let lineVat = vat(of: line)
                 takings += gross
                 vatTotal += lineVat
@@ -209,7 +267,7 @@ public enum SaleMaths {
         return SalesSummary(sales: sales.filter { $0.refundOf == nil }.count, refunds: sales.filter { $0.refundOf != nil }.count,
                             takings: Money.round2(takings), vat: Money.round2(vatTotal), net: Money.round2(takings - vatTotal),
                             profit: Money.round2(profit), margin: margin, unknownCost: unknown,
-                            byPayment: byPayment.mapValues { Money.round2($0) })
+                            byPayment: byPayment.mapValues { Money.round2($0) }, giftSold: Money.round2(giftSold))
     }
 
     /// The refund of a whole sale: the same lines with the quantities taken back, same payment.
@@ -222,19 +280,27 @@ public enum SaleMaths {
     /// are the caller's to check). Discounts come back in proportion. Paid back the way the sale was paid.
     public static func refund(of sale: Sale, quantities: [String: Double], number: Int, at: String, cashier: String? = nil) -> Sale {
         let lines = sale.lines.compactMap { line -> SaleLine? in
-            guard let back = quantities[line.id], back > 0, line.qty > 0 else { return nil }
+            guard line.giftCard == nil, let back = quantities[line.id], back > 0, line.qty > 0 else { return nil }
             let qty = min(back, line.qty)
             let share = (line.discount ?? 0) * qty / line.qty
             return SaleLine(itemID: line.itemID, name: line.name, qty: -qty, price: line.price, vat: line.vat, cost: line.cost,
-                            units: line.units, discount: share == 0 ? nil : -Money.round2(share))
+                            units: line.units, discount: share == 0 ? nil : -Money.round2(share), weighed: line.weighed,
+                            batch: line.batch, deal: line.deal)
         }
-        return Sale(number: number, shop: sale.shop, at: at, lines: lines, payment: sale.split == nil ? sale.payment : .cash,
-                    refundOf: sale.id, cashier: cashier)
+        var refund = Sale(number: number, shop: sale.shop, at: at, lines: lines, payment: sale.split == nil ? sale.payment : .cash,
+                          refundOf: sale.id, cashier: cashier, customer: sale.customer)
+        // paid with one gift card, tab or points: it goes back there
+        let parts = sale.payments
+        if parts.count == 1, let ref = parts[0].ref {
+            refund.payment = parts[0].kind
+            refund.split = [SalePayment(kind: parts[0].kind, amount: refund.total, ref: ref)]
+        }
+        return refund
     }
 
     /// How many of each line are still refundable, after earlier refunds of this sale.
     public static func refundable(_ sale: Sale, refunds: [Sale]) -> [String: Double] {
-        var left = Dictionary(sale.lines.map { ($0.id, $0.qty) }, uniquingKeysWith: { a, _ in a })
+        var left = Dictionary(sale.lines.filter { $0.giftCard == nil }.map { ($0.id, $0.qty) }, uniquingKeysWith: { a, _ in a })
         for refund in refunds where refund.refundOf == sale.id {
             for line in refund.lines {
                 // refund lines are new ids: match back by item and price, the first that still has some left
@@ -278,6 +344,17 @@ public enum SaleMaths {
         return Money.round2(sell / (1 + vat / 100) - item.unitCost(shop: shop))
     }
 
+    public static func payName(_ kind: PaymentKind) -> String {
+        switch kind {
+        case .cash: return CoreText.t("Cash")
+        case .card: return CoreText.t("Card")
+        case .other: return CoreText.t("Other")
+        case .tab: return CoreText.t("On account")
+        case .gift: return CoreText.t("Gift card")
+        case .points: return CoreText.t("Points")
+        }
+    }
+
     /// A short text receipt (to send or print).
     public static func receipt(_ sale: Sale, shopName: String, currency: String, header: String = "", footer: String = "",
                                vatNumber: String = "") -> String {
@@ -286,10 +363,16 @@ public enum SaleMaths {
         if !top.isEmpty { text += top + "\n" }
         let vatNo = vatNumber.trimmingCharacters(in: .whitespaces)
         if !vatNo.isEmpty { text += CoreText.t("VAT no.") + " " + vatNo + "\n" }
-        text += (sale.refundOf == nil ? CoreText.t("Receipt") : CoreText.t("Refund")) + " #\(sale.number) · " + String(sale.at.prefix(16)).replacingOccurrences(of: "T", with: " ") + "\n\n"
+        text += (sale.refundOf == nil ? CoreText.t("Receipt") : CoreText.t("Refund")) + " #\(sale.receiptNumber) · " + String(sale.at.prefix(16)).replacingOccurrences(of: "T", with: " ") + "\n\n"
         for line in sale.lines {
-            let qty = line.qty == line.qty.rounded() ? String(Int(line.qty)) : String(line.qty)
-            text += "\(qty) × \(line.name)  " + Money.format(Money.round2(line.qty * line.price), code: currency) + "\n"
+            if line.weighed == true {
+                text += line.name + "  " + Money.format(Money.round2(line.qty * line.price), code: currency) + "\n"
+                text += "   " + Weight.text(line.qty) + " @ " + Money.format(line.price, code: currency) + "/kg\n"
+            } else {
+                let qty = line.qty == line.qty.rounded() ? String(Int(line.qty)) : String(line.qty)
+                text += "\(qty) × \(line.name)  " + Money.format(Money.round2(line.qty * line.price), code: currency) + "\n"
+            }
+            if let batch = line.batch, !batch.isEmpty { text += "   " + CoreText.t("Batch") + " " + batch + "\n" }
             if let off = line.discount, abs(off) > 0.005 {
                 text += "   " + CoreText.t("Discount") + "  −" + Money.format(abs(off), code: currency) + "\n"
             }
@@ -297,8 +380,8 @@ public enum SaleMaths {
         text += "\n" + CoreText.t("Total") + "  " + Money.format(sale.total, code: currency)
         let included = Money.round2(sale.lines.reduce(0) { $0 + vat(of: $1) })
         if abs(included) > 0.005 { text += "\n" + CoreText.t("VAT included") + "  " + Money.format(included, code: currency) }
-        if let split = sale.split, split.count > 1 {
-            for part in split { text += "\n" + CoreText.t(part.kind == .cash ? "Cash" : (part.kind == .card ? "Card" : "Other")) + "  " + Money.format(part.amount, code: currency) }
+        if sale.payments.count > 1 || !sale.payments.allSatisfy({ $0.kind.isMoney }) {
+            for part in sale.payments { text += "\n" + payName(part.kind) + "  " + Money.format(part.amount, code: currency) }
         }
         if let tendered = sale.tendered, sale.payments.contains(where: { $0.kind == .cash }) {
             text += "\n" + CoreText.t("Cash") + "  " + Money.format(tendered, code: currency)
@@ -479,6 +562,10 @@ public struct CashEvent: Codable, Equatable, Identifiable, Sendable {
         case paidIn
         /// Cash taken out (paid a delivery driver, bought milk).
         case paidOut
+        /// A customer paying off their tab (`ref` = the customer; `card` when it wasn't cash).
+        case tabPaid
+        /// The drawer opened without a sale (logged, and needs a manager when cashiers can't).
+        case noSale
     }
     public var id: String
     public var shop: String
@@ -487,8 +574,16 @@ public struct CashEvent: Codable, Equatable, Identifiable, Sendable {
     public var amount: Double
     public var note: String
     public var cashier: String?
+    /// Which till's drawer.
+    public var till: String?
+    /// The customer, for a tab paid off.
+    public var ref: String?
+    /// Paid by card, not into the drawer.
+    public var card: Bool?
+    public var approvedBy: String?
 
-    public init(id: String = UUID().uuidString, shop: String, at: String, kind: Kind, amount: Double, note: String = "", cashier: String? = nil) {
+    public init(id: String = UUID().uuidString, shop: String, at: String, kind: Kind, amount: Double, note: String = "", cashier: String? = nil,
+                till: String? = nil, ref: String? = nil, card: Bool? = nil, approvedBy: String? = nil) {
         self.id = id
         self.shop = shop
         self.at = at
@@ -496,6 +591,10 @@ public struct CashEvent: Codable, Equatable, Identifiable, Sendable {
         self.amount = amount
         self.note = note
         self.cashier = cashier
+        self.till = till
+        self.ref = ref
+        self.card = card
+        self.approvedBy = approvedBy
     }
 }
 
@@ -522,6 +621,15 @@ public struct DayReport: Codable, Equatable, Identifiable, Sendable {
     /// Counted in the drawer at the end (nil when not counted).
     public var counted: Double?
     public var closedBy: String?
+    /// Which till's drawer this report is for (nil: the only till).
+    public var till: String?
+    /// Put on customers' tabs, paid with gift cards or points (goods sold, but no money yet).
+    public var tab: Double?
+    public var gift: Double?
+    public var points: Double?
+    /// Gift cards sold, and tabs paid off (in cash: in `expected`).
+    public var giftSold: Double?
+    public var tabPaid: Double?
 
     /// counted − expected: positive = more cash than there should be.
     public var difference: Double? { counted.map { Money.round2($0 - expected) } }
@@ -529,28 +637,41 @@ public struct DayReport: Codable, Equatable, Identifiable, Sendable {
 
 public enum CashDay {
     /// What's happened since the last Z report (or ever): the X report. `number` is the next Z number.
-    public static func report(shop: String, since: String, to: String, sales: [Sale], events: [CashEvent], number: Int) -> DayReport {
-        let theseSales = sales.filter { $0.shop == shop && $0.at > since && $0.at <= to }
-        let theseEvents = events.filter { $0.shop == shop && $0.at > since && $0.at <= to }
+    /// `till`: this till's drawer only (nil: every sale of the shop, for a shop with one till).
+    public static func report(shop: String, since: String, to: String, sales: [Sale], events: [CashEvent], number: Int,
+                              till: String? = nil) -> DayReport {
+        func mine(_ t: String?) -> Bool { till == nil || t == till || (t == nil && till == "A") }
+        let theseSales = sales.filter { $0.shop == shop && $0.at > since && $0.at <= to && mine($0.till) }
+        let theseEvents = events.filter { $0.shop == shop && $0.at > since && $0.at <= to && mine($0.till) }
         let summary = SaleMaths.summary(theseSales)
         func sum(_ kind: CashEvent.Kind) -> Double { Money.round2(theseEvents.filter { $0.kind == kind }.reduce(0) { $0 + $1.amount }) }
         let cash = summary.byPayment[.cash] ?? 0
         let float = sum(.float), paidIn = sum(.paidIn), paidOut = sum(.paidOut)
+        let tabCash = Money.round2(theseEvents.filter { $0.kind == .tabPaid && $0.card != true }.reduce(0) { $0 + $1.amount })
+        let tabAll = Money.round2(theseEvents.filter { $0.kind == .tabPaid }.reduce(0) { $0 + $1.amount })
+        func opt(_ v: Double?) -> Double? { guard let v, abs(v) > 0.004 else { return nil }; return v }
         return DayReport(id: UUID().uuidString, number: number, shop: shop, from: since, to: to, sales: summary.sales, refunds: summary.refunds,
                          takings: summary.takings, vat: summary.vat, profit: summary.profit, cash: cash,
                          card: summary.byPayment[.card] ?? 0, other: summary.byPayment[.other] ?? 0,
                          float: float, paidIn: paidIn, paidOut: paidOut,
-                         expected: Money.round2(float + cash + paidIn - paidOut), counted: nil, closedBy: nil)
+                         expected: Money.round2(float + cash + paidIn - paidOut + tabCash), counted: nil, closedBy: nil,
+                         till: till, tab: opt(summary.byPayment[.tab]), gift: opt(summary.byPayment[.gift]),
+                         points: opt(summary.byPayment[.points]), giftSold: opt(summary.giftSold), tabPaid: opt(tabAll))
     }
 
     public static func text(_ report: DayReport, shopName: String, currency: String) -> String {
         func m(_ v: Double) -> String { Money.format(v, code: currency) }
-        var lines = [shopName, CoreText.t("End of day") + " Z\(report.number)",
+        var lines = [shopName, CoreText.t("End of day") + " Z\(report.number)" + (report.till.map { " · " + CoreText.t("Till") + " " + $0 } ?? ""),
                      String(report.from.prefix(16)).replacingOccurrences(of: "T", with: " ") + " – " + String(report.to.prefix(16)).replacingOccurrences(of: "T", with: " "), "",
                      CoreText.t("Sales") + ": \(report.sales)   " + CoreText.t("Refunds") + ": \(report.refunds)",
                      CoreText.t("Takings") + ": " + m(report.takings), CoreText.t("VAT") + ": " + m(report.vat),
                      CoreText.t("Profit") + ": " + m(report.profit), "",
-                     CoreText.t("Cash") + ": " + m(report.cash), CoreText.t("Card") + ": " + m(report.card), CoreText.t("Other") + ": " + m(report.other), "",
+                     CoreText.t("Cash") + ": " + m(report.cash), CoreText.t("Card") + ": " + m(report.card), CoreText.t("Other") + ": " + m(report.other)]
+        for (key, value) in [("On account", report.tab), ("Gift card", report.gift), ("Points", report.points),
+                             ("Gift cards sold", report.giftSold), ("Tabs paid", report.tabPaid)] {
+            if let value { lines.append(CoreText.t(key) + ": " + m(value)) }
+        }
+        lines += ["",
                      CoreText.t("Float") + ": " + m(report.float), CoreText.t("Paid in") + ": " + m(report.paidIn), CoreText.t("Paid out") + ": " + m(report.paidOut),
                      CoreText.t("Cash expected") + ": " + m(report.expected)]
         if let counted = report.counted {
