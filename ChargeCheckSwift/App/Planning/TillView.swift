@@ -474,7 +474,7 @@ struct TillView: View {
                     Text(item.name)
                     Spacer()
                     if let sell = item.till?.sell, sell > 0 {
-                        Button(item.isByWeight ? Money.format(sell) + "/kg" : Money.format(sell)) {
+                        Button(TillText.sell(item, sell)) {
                             add(item, pack: false)
                             search = ""
                         }
@@ -564,7 +564,7 @@ struct TillView: View {
                     }
                     Spacer(minLength: 0)
                     if let sell = item.till?.sell, sell > 0 {
-                        Text(item.isByWeight ? Money.format(sell) + "/kg" : Money.format(sell))
+                        Text(TillText.sell(item, sell))
                             .font(.subheadline.weight(.bold))
                             .monospacedDigit()
                             .foregroundStyle(Color.accentColor)
@@ -705,7 +705,7 @@ struct TillView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(line.name).font(.subheadline).lineLimit(1)
                                 HStack(spacing: 6) {
-                                    Text(line.weighed ? Weight.text(line.qty) + " @ " + Money.format(line.price) + "/kg" : Money.format(line.price))
+                                    Text(TillText.price(line))
                                         .font(.caption).foregroundStyle(.secondary)
                                     if line.discount > 0 {
                                         Text("−\(Money.format(line.discount))").font(.caption.weight(.semibold)).foregroundStyle(.green)
@@ -948,10 +948,7 @@ struct TillView: View {
     /// What the customer screen shows.
     private func pushScreen() {
         let lines = priced.map { line in
-            ScreenLine(id: line.id, name: line.name,
-                       detail: line.weighed ? Weight.text(line.qty) + " @ " + Money.format(line.price) + "/kg"
-                           : (line.qty == 1 ? "" : "\(line.qty.formatted()) × \(Money.format(line.price))"),
-                       amount: Money.format(line.total))
+            ScreenLine(id: line.id, name: line.name, detail: TillText.detail(line), amount: Money.format(line.total))
         }
         let saved = Money.round2(priced.reduce(0) { $0 + $1.discount } + min(basketOff, subtotal))
         screen.show(ScreenState(shop: Shops.reportName(shop ?? ""), lines: lines, total: basket.isEmpty ? "" : Money.format(total),
@@ -1413,5 +1410,26 @@ enum TillReceipt {
         parts.queryItems = [URLQueryItem(name: "subject", value: String(localized: "Your receipt from \(Shops.reportName(sale.shop))")),
                             URLQueryItem(name: "body", value: text)]
         return parts.url
+    }
+}
+
+/// Small bits of till text, worked out once.
+enum TillText {
+    /// "£1.20", or "0.452 kg @ £3.99/kg".
+    static func price(_ line: BasketLine) -> String {
+        guard line.weighed else { return Money.format(line.price) }
+        return Weight.text(line.qty) + " @ " + Money.format(line.price) + "/kg"
+    }
+
+    /// For the customer screen: "", "3 × £1.20" or "0.452 kg @ £3.99/kg".
+    static func detail(_ line: BasketLine) -> String {
+        if line.weighed { return price(line) }
+        if line.qty == 1 { return "" }
+        return line.qty.formatted() + " × " + Money.format(line.price)
+    }
+
+    /// "£1.20", or "£3.99/kg".
+    static func sell(_ item: PriceItem, _ price: Double) -> String {
+        item.isByWeight ? Money.format(price) + "/kg" : Money.format(price)
     }
 }
