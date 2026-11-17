@@ -137,6 +137,7 @@ struct CashSheet: View {
 /// A PIN pad: four digits sign a cashier in.
 /// Wrong PINs: after 5 in a row the pads wait 30 seconds, then twice as long each time (up to 15 minutes),
 /// so nobody can try all 10,000 PINs. Kept on the device, so closing the app doesn't reset it.
+@MainActor
 enum PinGuard {
     private static let wrongKey = "till.pinWrong"
     private static let untilKey = "till.pinLockedUntil"
