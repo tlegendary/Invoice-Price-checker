@@ -2417,6 +2417,35 @@
         }
       }
     },
+    "%lld wrong PINs in a row: the till waits before the next try" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld أرقام سرية خاطئة متتالية: ينتظر الكاشير قبل المحاولة التالية"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld PINی هەڵە لە دوای یەک: کاشێر پێش هەوڵی داهاتوو چاوەڕێ دەکات"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld falsche PINs hintereinander: Die Kasse wartet vor dem nächsten Versuch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld codes faux d'affilée : la caisse attend avant le prochain essai"
+          }
+        }
+      }
+    },
     "%lld · %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42940,6 +42969,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aujourd'hui : %@ sur %lld ventes"
+          }
+        }
+      }
+    },
+    "Too many wrong PINs. Try again in %lld seconds." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أرقام سرية خاطئة كثيرة. حاول مجدداً بعد %lld ثانية."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PINی هەڵەی زۆر. دوای %lld چرکە دووبارە هەوڵ بدەرەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zu viele falsche PINs. Versuch es in %lld Sekunden noch mal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trop de codes faux. Réessayez dans %lld secondes."
           }
         }
       }
