@@ -11,6 +11,8 @@ struct DayView: View {
     @State private var counted = ""
     @State private var closed: DayReport?
     @State private var confirm = false
+    @State private var approval: ApprovalRequest?
+    @State private var closeBy: String?
 
     var body: some View {
         NavigationStack {
@@ -39,6 +41,10 @@ struct DayView: View {
                         LabeledContent("Cash", value: Money.format(x.cash))
                         LabeledContent("Card", value: Money.format(x.card))
                         if abs(x.other) > 0.005 { LabeledContent("Other", value: Money.format(x.other)) }
+                        if let v = x.tab { LabeledContent("On account", value: Money.format(v)) }
+                        if let v = x.gift { LabeledContent("Gift card", value: Money.format(v)) }
+                        if let v = x.points { LabeledContent("Points", value: Money.format(v)) }
+                        if let v = x.giftSold { LabeledContent("Gift cards sold", value: Money.format(v)) }
                         if x.refunds > 0 { LabeledContent("Refunds", value: "\(x.refunds)") }
                     } header: {
                         Text(x.from.isEmpty ? String(localized: "So far") : String(localized: "Since \(SalesText.time(x.from))"))
@@ -47,6 +53,7 @@ struct DayView: View {
                         LabeledContent("Opening float", value: Money.format(x.float))
                         LabeledContent("Cash in", value: Money.format(x.paidIn))
                         LabeledContent("Cash out", value: Money.format(x.paidOut))
+                        if let v = x.tabPaid { LabeledContent("Accounts paid off", value: Money.format(v)) }
                         LabeledContent("Cash there should be") {
                             Text(Money.format(x.expected)).fontWeight(.bold)
                         }
@@ -64,15 +71,20 @@ struct DayView: View {
                             }
                         }
                     } header: {
-                        Text("The cash drawer")
+                        Text(till.severalTills ? String(localized: "Till \(till.code)'s cash drawer") : String(localized: "The cash drawer"))
                     } footer: {
                         Text("Count the notes and coins, then close the day. The next day starts from now; the report is kept below.")
                     }
                     Section {
-                        Button("Close the day", role: .destructive) { confirm = true }
+                        Button("Close the day", role: .destructive) {
+                            Gate.check(.closeDay, String(localized: "Close the day"), request: $approval) { by in
+                                closeBy = by
+                                confirm = true
+                            }
+                        }
                     }
                 }
-                let past = till.days.filter { $0.shop == shop }.sorted { $0.number > $1.number }
+                let past = till.days.filter { $0.shop == shop }.sorted { $0.to > $1.to }
                 if !past.isEmpty {
                     Section("Earlier days") {
                         ForEach(past.prefix(60)) { day in
@@ -88,7 +100,7 @@ struct DayView: View {
                                     ShareLink(item: CashDay.text(day, shopName: Shops.reportName(shop), currency: Money.currency.code))
                                 }
                             } label: {
-                                LabeledContent("Z\(day.number) · " + SalesText.time(day.to), value: Money.format(day.takings))
+                                LabeledContent("Z\(day.number) · " + (till.severalTills ? (day.till ?? "A") + " · " : "") + SalesText.time(day.to), value: Money.format(day.takings))
                             }
                         }
                     }
@@ -104,12 +116,14 @@ struct DayView: View {
             }
             .confirmationDialog("Close the day?", isPresented: $confirm, titleVisibility: .visible) {
                 Button("Close the day", role: .destructive) {
-                    closed = till.closeDay(shop: shop, counted: Money.parse(counted))
+                    closed = till.closeDay(shop: shop, counted: Money.parse(counted), approvedBy: closeBy)
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("Sales from now on go on the next day's report.")
+                Text(till.severalTills ? String(localized: "Closes till \(till.code)'s drawer. Sales from now on go on its next day's report.")
+                                       : String(localized: "Sales from now on go on the next day's report."))
             }
+            .managerApproval($approval)
         }
     }
 }
@@ -118,9 +132,22 @@ struct DayView: View {
 struct TillSettingsView: View {
     /// Shown in a sheet (with a Done button).
     var done = false
+    /// A manager has just allowed it at the till.
+    var preApproved = false
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @ObservedObject private var till = TillStore.shared
+    @ObservedObject private var screen = CustomerScreenLink.shared
+    @State private var unlocked = false
+    @State private var approval: ApprovalRequest?
+    @State private var newRole: TillRole = .cashier
+    @State private var renaming = false
+    @State private var newCode = ""
+    @State private var syncing = false
+
+    private var allowed: Bool {
+        preApproved || unlocked || !till.hasManagers || (till.cashier?.role ?? .cashier).isManager
+    }
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var addingCashier = false
     @State private var newName = ""
@@ -132,6 +159,35 @@ struct TillSettingsView: View {
     @State private var notice: String?
 
     var body: some View {
+        Group {
+            if allowed {
+                settings
+            } else {
+                ContentUnavailableView {
+                    Label("Managers only", systemImage: "lock")
+                } description: {
+                    Text("Only a manager or the owner can change the till settings.")
+                } actions: {
+                    Button("Unlock") {
+                        approval = ApprovalRequest(title: String(localized: "Change the till settings"), deviceOwner: true) { _ in unlocked = true }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            }
+        }
+        .navigationTitle("Till settings")
+        .themedScreen()
+        .managerApproval($approval)
+        .toolbar {
+            if done {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+    }
+
+    private var settings: some View {
         List {
             Section {
                 TextField("Address, phone…", text: $till.receipt.header, axis: .vertical)
@@ -146,20 +202,100 @@ struct TillSettingsView: View {
 
             Section {
                 ForEach(till.cashiers) { cashier in
-                    Label(cashier.name, systemImage: "person.crop.circle")
+                    Picker(selection: Binding(get: { cashier.role ?? .cashier }, set: { till.setRole($0, for: cashier.id) })) {
+                        ForEach(TillRole.allCases, id: \.self) { role in
+                            Text(RoleText.title(role)).tag(role)
+                        }
+                    } label: {
+                        Label(cashier.name, systemImage: (cashier.role ?? .cashier).isManager ? "person.badge.key" : "person.crop.circle")
+                    }
                 }
                 .onDelete { offsets in
                     for index in offsets { till.removeCashier(till.cashiers[index].id) }
                 }
                 Button {
+                    newRole = till.cashiers.isEmpty ? .owner : .cashier
                     addingCashier = true
                 } label: {
-                    Label("Add a cashier", systemImage: "person.badge.plus")
+                    Label("Add a person", systemImage: "person.badge.plus")
+                }
+                NavigationLink {
+                    TillPermissionsView()
+                } label: {
+                    Label("What cashiers can do", systemImage: "lock.shield")
+                }
+                NavigationLink {
+                    ShiftsView()
+                } label: {
+                    Label("Staff hours", systemImage: "clock")
                 }
             } header: {
-                Text("Cashiers")
+                Text("People")
             } footer: {
-                Text("With cashiers, the till asks for a 4-digit PIN and every sale shows who served. Swipe left to remove one.")
+                Text(till.cashiers.isEmpty
+                     ? String(localized: "With people added, the till asks for a 4-digit PIN and every sale shows who served. Make yourself the owner: refunds, discounts, taking cash out and closing the day then need a manager's PIN.")
+                     : (till.hasManagers
+                        ? String(localized: "Refunds, discounts, cash out and closing the day need a manager's or the owner's PIN unless cashiers are allowed. Swipe left to remove someone.")
+                        : String(localized: "Nobody is a manager or the owner yet, so cashiers can do everything. Tap a name to change their role.")))
+            }
+
+            thisTill
+
+            Section {
+                NavigationLink {
+                    PrinterSettingsView()
+                } label: {
+                    LabeledContent {
+                        Text(PrinterText.summary(ReceiptPrinter.shared.settings))
+                    } label: {
+                        Label("Receipt printer and cash drawer", systemImage: "printer")
+                    }
+                }
+                Toggle(isOn: Binding(get: { screen.tillOffers }, set: { screen.tillOffers = $0 })) {
+                    Label("Customer screen", systemImage: "person.crop.rectangle")
+                }
+                if screen.tillOffers {
+                    Text(screen.connected.isEmpty
+                         ? String(localized: "On the iPhone or iPad facing the customer: More › Till › Be the customer screen. They find each other on the shop's Wi-Fi or Bluetooth.")
+                         : String(localized: "Showing on: \(screen.connected.joined(separator: ", "))"))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("Hardware")
+            }
+
+            Section {
+                NavigationLink {
+                    DealsView()
+                } label: {
+                    LabeledContent {
+                        Text("\(till.options.deals.filter { $0.off != true }.count)")
+                    } label: {
+                        Label("Meal deals", systemImage: "takeoutbag.and.cup.and.straw")
+                    }
+                }
+                Picker(selection: Binding(get: { till.options.scaleCarries }, set: { till.options.scaleCarries = $0; till.saveSettings() })) {
+                    Text("The price").tag(ScaleLabelValue.price)
+                    Text("The weight").tag(ScaleLabelValue.weight)
+                } label: {
+                    Label("Scale labels carry", systemImage: "scalemass")
+                }
+                Toggle(isOn: Binding(get: { till.options.loyaltyOn }, set: { till.options.loyaltyOn = $0; till.saveSettings() })) {
+                    Label("Loyalty points", systemImage: "star.circle")
+                }
+                if till.options.loyaltyOn {
+                    Stepper(value: Binding(get: { till.options.loyalty.perPound }, set: { till.options.loyalty.perPound = $0; till.saveSettings() }), in: 0...20, step: 1) {
+                        LabeledContent(String(localized: "Points for every \(Money.format(1))"), value: till.options.loyalty.perPound.formatted())
+                    }
+                    Stepper(value: Binding(get: { (till.options.loyalty.worth * 100).rounded() }, set: { till.options.loyalty.worth = $0 / 100; till.saveSettings() }), in: 1...100, step: 1) {
+                        LabeledContent("100 points are worth", value: Money.format(till.options.loyalty.worth * 100))
+                    }
+                }
+            } header: {
+                Text("Selling")
+            } footer: {
+                Text("Scale labels: barcodes starting with 2 printed by your shop scale. Give the item the first 7 digits of its label as a barcode. Points are earned on what's paid with money or on account, and spent at the till like money.")
             }
 
             Section {
@@ -183,22 +319,23 @@ struct TillSettingsView: View {
             }
 
             Section {
-                Label("Card payments on this iPhone aren't set up. Use your own card machine and choose Card at the till.", systemImage: "creditcard")
+                Label("Taking cards on this iPhone (Tap to Pay) needs an account with a card company such as Stripe, SumUp or Square, and Apple's approval for ChargeCheck. Until then, use your own card machine and choose Card at the till.", systemImage: "creditcard")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
         }
-        .navigationTitle("Till settings")
-        .themedScreen()
         .onChange(of: till.receipt) { till.saveSettings() }
-        .toolbar {
-            if done {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
-                }
+        .alert("This till's letter", isPresented: $renaming) {
+            TextField("B", text: $newCode).textInputAutocapitalization(.characters)
+            Button("Save") {
+                if !till.rename(newCode) { notice = String(localized: "That letter is taken, or this till has already saved sales under its letter.") }
+                newCode = ""
             }
+            Button("Cancel", role: .cancel) { newCode = "" }
+        } message: {
+            Text("One to three letters or numbers, different on every till. It's on every receipt number from this till.")
         }
-        .alert("Add a cashier", isPresented: $addingCashier) {
+        .alert(newRole == .owner ? String(localized: "Add yourself, the owner") : String(localized: "Add a person"), isPresented: $addingCashier) {
             TextField("Name", text: $newName)
             SecureField("4-digit PIN", text: $newPin)
                 .keyboardType(.numberPad)
@@ -206,7 +343,7 @@ struct TillSettingsView: View {
                 let pin = newPin.filter(\.isNumber)
                 let name = newName.trimmingCharacters(in: .whitespaces)
                 if pin.count == 4, !name.isEmpty, !till.cashiers.contains(where: { $0.pinHash == TillStore.hash(pin) }) {
-                    till.addCashier(name: name, pin: pin)
+                    till.addCashier(name: name, pin: pin, role: newRole)
                 } else {
                     notice = String(localized: "Use a name and a 4-digit PIN that no one else has.")
                 }
@@ -237,6 +374,44 @@ struct TillSettingsView: View {
         }
         .sheet(isPresented: $addingProduct) {
             ProductAddSheet()
+        }
+    }
+
+    @ViewBuilder
+    private var thisTill: some View {
+        Section {
+            LabeledContent("This till") {
+                Text(till.code.isEmpty ? String(localized: "Not used yet") : till.code).fontWeight(.semibold)
+            }
+            if till.canRename {
+                Button("Change its letter") {
+                    newCode = till.code
+                    renaming = true
+                }
+            }
+            Toggle("Extra till", isOn: Binding(get: { till.isExtraTill }, set: { till.isExtraTill = $0 }))
+            if till.severalTills {
+                LabeledContent("Tills", value: till.tills.sorted().joined(separator: ", "))
+            }
+            if let last = till.lastSync {
+                LabeledContent("Up to date with the other tills", value: last.formatted(date: .omitted, time: .shortened))
+            }
+            Button {
+                syncing = true
+                Task {
+                    await till.sync(context: context, full: true)
+                    syncing = false
+                }
+            } label: {
+                Label(syncing ? String(localized: "Getting every till's sales…") : String(localized: "Get every till's sales now"), systemImage: "arrow.triangle.2.circlepath")
+            }
+            .disabled(syncing || !CloudFolder.isOn)
+        } header: {
+            Text("Several tills")
+        } footer: {
+            Text(CloudFolder.isOn
+                 ? String(localized: "Every iPhone or iPad with ChargeCheck on the same iCloud (or the same shared folder in Settings › iCloud backup) is a till with its own letter and cash drawer. They share sales, stock, customers and gift cards every half minute while the till is open. Extra till: it gets its products and prices from the main iPhone, and the main iPhone makes the supplier orders.")
+                 : String(localized: "Several tills share their sales through iCloud. Turn on iCloud backup (Settings › iCloud backup) on every till first."))
         }
     }
 
@@ -429,5 +604,110 @@ struct ProductAddSheet: View {
                 .ignoresSafeArea()
             }
         }
+    }
+}
+
+enum PrinterText {
+    static func summary(_ settings: PrinterSettings) -> String {
+        switch settings.kind {
+        case .none: return String(localized: "None")
+        case .bluetooth: return settings.bluetoothName ?? String(localized: "Bluetooth")
+        case .network: return settings.host
+        }
+    }
+}
+
+/// Till settings › Receipt printer: a Bluetooth or network receipt printer, and the drawer plugged into it.
+struct PrinterSettingsView: View {
+    @ObservedObject private var printer = ReceiptPrinter.shared
+
+    var body: some View {
+        List {
+            Section {
+                Picker("Printer", selection: $printer.settings.kind) {
+                    Text("None (AirPrint only)").tag(PrinterSettings.Kind.none)
+                    Text("Bluetooth").tag(PrinterSettings.Kind.bluetooth)
+                    Text("Network (Wi-Fi or cable)").tag(PrinterSettings.Kind.network)
+                }
+            } footer: {
+                Text("Most small receipt printers work: Epson, Star and the Bluetooth ones that use ESC/POS. Receipts print as a picture, so Arabic and Kurdish print correctly.")
+            }
+            if printer.settings.kind == .bluetooth {
+                Section {
+                    if let name = printer.settings.bluetoothName {
+                        LabeledContent("Chosen", value: name)
+                    }
+                    Button {
+                        printer.startScan()
+                    } label: {
+                        Label(printer.scanning ? String(localized: "Looking…") : String(localized: "Find printers"), systemImage: "dot.radiowaves.left.and.right")
+                    }
+                    .disabled(printer.scanning)
+                    ForEach(printer.found) { found in
+                        Button {
+                            printer.choose(found)
+                        } label: {
+                            HStack {
+                                Text(found.name)
+                                Spacer()
+                                if printer.settings.bluetoothID == found.id.uuidString { Image(systemName: "checkmark") }
+                            }
+                        }
+                        .foregroundStyle(.primary)
+                    }
+                } header: {
+                    Text("Bluetooth printer")
+                } footer: {
+                    Text("Turn the printer on and keep it close. Bluetooth printers that pair in the iPhone's Settings (older “classic” ones) can't be used by apps; choose a Bluetooth LE or network printer.")
+                }
+            }
+            if printer.settings.kind == .network {
+                Section {
+                    TextField("IP address, e.g. 192.168.1.50", text: $printer.settings.host)
+                        .keyboardType(.numbersAndPunctuation)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                    LabeledContent("Port") {
+                        TextField("9100", value: $printer.settings.port, format: .number.grouping(.never))
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                } header: {
+                    Text("Network printer")
+                } footer: {
+                    Text("The printer's address is on its settings page: hold the feed button while turning it on.")
+                }
+            }
+            if printer.settings.kind != .none {
+                Section {
+                    Picker("Paper", selection: $printer.settings.wide) {
+                        Text("80 mm").tag(true)
+                        Text("58 mm").tag(false)
+                    }
+                    Toggle("Print every receipt", isOn: $printer.settings.autoPrint)
+                    Toggle("Open the drawer for cash", isOn: $printer.settings.drawer)
+                    Button {
+                        printer.testPrint()
+                    } label: {
+                        Label("Print a test receipt", systemImage: "printer")
+                    }
+                    .disabled(!printer.settings.isSet || printer.busy)
+                    Button {
+                        printer.openDrawer()
+                    } label: {
+                        Label("Open the drawer", systemImage: "tray")
+                    }
+                    .disabled(!printer.settings.isSet || printer.busy)
+                    if let problem = printer.problem {
+                        Text(problem).font(.footnote).foregroundStyle(.red)
+                    }
+                } footer: {
+                    Text("The cash drawer plugs into the printer. It opens by itself when a sale is paid in cash. Opening it without a sale is logged in Records.")
+                }
+            }
+        }
+        .navigationTitle("Receipt printer")
+        .themedScreen()
+        .onDisappear { printer.stopScan() }
     }
 }

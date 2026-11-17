@@ -121,6 +121,16 @@ public enum ScaleLabelValue: String, Codable, CaseIterable, Sendable {
 
 /// Labels printed by a shop scale: EAN-13 starting 2 (20–29). The first 7 digits name the item ("2012345"),
 /// the next 5 are the price in pence or the weight in grams, then a check digit.
+/// EAN/UPC check digit: weights 1,3,1,3… (or 3,1,3,1…) from the left.
+func check(_ digits: [Int], oddWeight: Int) -> Int {
+    var sum = 0
+    for (index, digit) in digits.enumerated() {
+        let weight: Int = index % 2 == 0 ? oddWeight : (oddWeight == 1 ? 3 : 1)
+        sum += digit * weight
+    }
+    return (10 - sum % 10) % 10
+}
+
 public enum ScaleBarcode {
     public struct Read: Equatable, Sendable {
         /// What to look the item up by: the first 7 digits.
@@ -142,8 +152,7 @@ public enum ScaleBarcode {
     public static func checkDigitOK(_ digits: String) -> Bool {
         let n = digits.compactMap { $0.wholeNumberValue }
         guard n.count == 13 else { return false }
-        let sum = n[0..<12].enumerated().reduce(0) { $0 + $1.element * ($1.offset % 2 == 0 ? 1 : 3) }
-        return (10 - sum % 10) % 10 == n[12]
+        return check(Array(n[0..<12]), oddWeight: 1) == n[12]
     }
 }
 
@@ -183,6 +192,13 @@ public struct BatchOnShelf: Equatable, Identifiable, Sendable {
     public var days: Int
 }
 
+/// A batch on the shelf that's out of date or soon will be.
+public struct ExpiringBatch: Equatable, Identifiable, Sendable {
+    public var id: String { batch.id }
+    public var name: String
+    public var batch: BatchOnShelf
+}
+
 public enum BatchMaths {
     /// Which batches are still on the shelf, assuming the shortest-dated ones were sold first: the stock there is
     /// now is filled from the latest-dated batches back. Oldest expiry first.
@@ -213,9 +229,18 @@ public enum BatchMaths {
     }
 
     /// Everything expired or expiring within `within` days, soonest first.
-    public static func expiring(_ shelves: [(name: String, shelf: [BatchOnShelf])], within: Int) -> [(name: String, batch: BatchOnShelf)] {
-        shelves.flatMap { entry in entry.shelf.filter { $0.days <= within }.map { (entry.name, $0) } }
-            .sorted { $0.batch.days != $1.batch.days ? $0.batch.days < $1.batch.days : $0.name < $1.name }
+    public static func expiring(_ shelves: [(name: String, shelf: [BatchOnShelf])], within: Int) -> [ExpiringBatch] {
+        var out: [ExpiringBatch] = []
+        for entry in shelves {
+            for batch in entry.shelf where batch.days <= within {
+                out.append(ExpiringBatch(name: entry.name, batch: batch))
+            }
+        }
+        out.sort { a, b in
+            if a.batch.days != b.batch.days { return a.batch.days < b.batch.days }
+            return a.name < b.name
+        }
+        return out
     }
 
     /// Typed expiry dates: "2027-03-31", "31/03/2027", "03/27" (end of that month), "3/2027".
@@ -284,7 +309,9 @@ public struct MealDeal: Codable, Equatable, Identifiable, Sendable {
     }
 
     public func isOn(shop: String) -> Bool {
-        off != true && price > 0 && slots.count >= 2 && ((shops ?? []).isEmpty || (shops ?? []).contains(shop))
+        guard off != true, price > 0, slots.count >= 2 else { return false }
+        let only = shops ?? []
+        return only.isEmpty || only.contains(shop)
     }
 }
 
@@ -335,11 +362,15 @@ public enum DealMaths {
                 var picked: [DealLine] = []
                 var taken: [String: Int] = [:]
                 for slot in deal.slots {
-                    let candidates = lines.filter { line in
-                        guard let id = line.itemID else { return false }
-                        return (left[line.key] ?? 0) - (taken[line.key] ?? 0) > 0 && slot.takes(itemID: id, category: line.category)
+                    var best: DealLine?
+                    for line in lines {
+                        guard let id = line.itemID, slot.takes(itemID: id, category: line.category) else { continue }
+                        let free: Int = (left[line.key] ?? 0) - (taken[line.key] ?? 0)
+                        guard free > 0 else { continue }
+                        if let current = best, current.price > line.price || (current.price == line.price && current.key <= line.key) { continue }
+                        best = line
                     }
-                    guard let best = candidates.max(by: { $0.price != $1.price ? $0.price < $1.price : $0.key > $1.key }) else {
+                    guard let best else {
                         picked = []
                         break
                     }
@@ -347,7 +378,8 @@ public enum DealMaths {
                     taken[best.key, default: 0] += 1
                 }
                 guard picked.count == deal.slots.count else { break }
-                let full = picked.reduce(0) { $0 + $1.price }
+                var full = 0.0
+                for line in picked { full += line.price }
                 let saving = Money.round2(full - deal.price)
                 guard saving > 0.004 else { break }
                 var given = 0.0
@@ -416,9 +448,12 @@ public enum CustomerMaths {
     /// Points earned on a sale: on what was paid with money or on the tab, not with points or gift cards.
     public static func pointsEarned(_ sale: Sale, perPound: Double) -> Int {
         guard perPound > 0 else { return 0 }
-        let paid = sale.payments.filter { $0.kind != .points && $0.kind != .gift }.reduce(0) { $0 + $1.amount }
-        let goods = paid - sale.lines.filter { $0.giftCard != nil }.reduce(0) { $0 + $1.gross }
-        let points = (abs(goods) * perPound + 0.000_1).rounded(.down)
+        var paid = 0.0
+        for part in sale.payments where part.kind != .points && part.kind != .gift { paid += part.amount }
+        var cards = 0.0
+        for line in sale.lines where line.giftCard != nil { cards += line.gross }
+        let goods = paid - cards
+        let points: Double = (abs(goods) * perPound + 0.000_1).rounded(.down)
         return Int(goods < 0 ? -points : points)
     }
 
@@ -489,10 +524,10 @@ public enum GiftCards {
     /// A new code: 12 digits, the last a check digit, never one already used.
     public static func newCode(taken: Set<String>, random: () -> Int = { Int.random(in: 0...9) }) -> String {
         while true {
-            var digits = (0..<11).map { _ in random() }
+            var digits: [Int] = []
+            for _ in 0..<11 { digits.append(random()) }
             if digits[0] == 0 { digits[0] = 7 }
-            let sum = digits.enumerated().reduce(0) { $0 + $1.element * ($1.offset % 2 == 0 ? 3 : 1) }
-            let code = digits.map(String.init).joined() + String((10 - sum % 10) % 10)
+            let code = digits.map { String($0) }.joined() + String(check(digits, oddWeight: 3))
             if !taken.contains(code) { return code }
         }
     }
@@ -500,8 +535,7 @@ public enum GiftCards {
     public static func looksValid(_ code: String) -> Bool {
         let d = code.compactMap { $0.wholeNumberValue }
         guard d.count == 12, code.count == 12 else { return false }
-        let sum = d[0..<11].enumerated().reduce(0) { $0 + $1.element * ($1.offset % 2 == 0 ? 3 : 1) }
-        return (10 - sum % 10) % 10 == d[11]
+        return check(Array(d[0..<11]), oddWeight: 3) == d[11]
     }
 }
 
@@ -555,13 +589,15 @@ public enum Shifts {
             }
             rows[event.person] = row
         }
-        return rows.map { person, row -> ShiftRow in
-            var hours = row.hours
+        var out: [ShiftRow] = []
+        for (person, row) in rows {
+            var hours: Double = row.hours
             if let open = row.open, let a = iso.date(from: max(open, from)), let b = iso.date(from: to) { hours += max(0, b.timeIntervalSince(a) / 3600) }
-            return ShiftRow(person: person, hours: (hours * 100).rounded() / 100, shifts: row.shifts + (row.open == nil ? 0 : 1), inSince: row.open)
+            let shifts: Int = row.shifts + (row.open == nil ? 0 : 1)
+            let shift = ShiftRow(person: person, hours: (hours * 100).rounded() / 100, shifts: shifts, inSince: row.open)
+            if shift.hours > 0 || shift.inSince != nil { out.append(shift) }
         }
-        .filter { $0.hours > 0 || $0.inSince != nil }
-        .sorted { $0.person < $1.person }
+        return out.sorted { $0.person < $1.person }
     }
 }
 

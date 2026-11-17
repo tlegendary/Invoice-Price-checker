@@ -11,8 +11,19 @@ struct SalesView: View {
     @State private var opened: Sale?
     @State private var breakdown = 0
     @State private var exported: URL?
+    @State private var search = ""
 
     private var shop: String { LiveSettings.shared.shop }
+
+    /// A receipt number, a batch, a gift card, a customer or an item.
+    private func matches(_ sale: Sale) -> Bool {
+        let q = TextTools.norm(search)
+        guard !q.isEmpty else { return true }
+        if till.number(sale).lowercased() == search.lowercased().trimmingCharacters(in: .whitespaces) { return true }
+        if let name = till.customer(sale.customer)?.name, TextTools.norm(name).contains(q) { return true }
+        return sale.lines.contains { TextTools.norm($0.name).contains(q) || ($0.batch.map { TextTools.norm($0) == q } ?? false) }
+            || sale.payments.contains { $0.ref == search.filter(\.isNumber) && !search.filter(\.isNumber).isEmpty }
+    }
 
     private var since: String {
         let calendar = Calendar.current
@@ -26,7 +37,7 @@ struct SalesView: View {
     }
 
     var body: some View {
-        let shown = till.sales.filter { $0.at >= since && (shop.isEmpty || $0.shop == shop) }
+        let shown = till.sales.filter { (search.isEmpty ? $0.at >= since : true) && (shop.isEmpty || $0.shop == shop) && matches($0) }
         let summary = SaleMaths.summary(shown)
         List {
             Section {
@@ -116,9 +127,10 @@ struct SalesView: View {
                     } label: {
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(sale.refundOf == nil ? String(localized: "Sale \(sale.number)") : String(localized: "Refund \(sale.number)"))
+                                Text(sale.refundOf == nil ? String(localized: "Sale \(till.number(sale))") : String(localized: "Refund \(till.number(sale))"))
                                     .font(.subheadline.weight(.semibold))
-                                Text(SalesText.time(sale.at) + " · " + SalesText.payment(sale.payment) + (till.isRefunded(sale) ? " · " + String(localized: "refunded") : ""))
+                                Text(SalesText.time(sale.at) + " · " + SalesText.paid(sale) + (sale.cashier.map { " · " + $0 } ?? "")
+                                     + (till.isRefunded(sale) ? " · " + String(localized: "refunded") : ""))
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                             }
@@ -134,6 +146,7 @@ struct SalesView: View {
             }
         }
         .navigationTitle("Sales and profit")
+        .searchable(text: $search, prompt: Text("Receipt, item, batch or customer"))
         .themedScreen()
         .onChange(of: period) { exported = nil }
         .toolbar {
@@ -157,7 +170,23 @@ enum SalesText {
         case .cash: return String(localized: "Cash")
         case .card: return String(localized: "Card")
         case .other: return String(localized: "Other")
+        case .tab: return String(localized: "On account")
+        case .gift: return String(localized: "Gift card")
+        case .points: return String(localized: "Points")
         }
+    }
+
+    /// How a refund is paid back: the way the sale was paid, or cash when it was paid more than one way.
+    static func refundWay(_ sale: Sale) -> String {
+        sale.payments.count == 1 ? payment(sale.payments[0].kind) : payment(.cash)
+    }
+
+    /// "Cash", or "Gift card + Cash" for a sale paid more than one way.
+    static func paid(_ sale: Sale) -> String {
+        let kinds = sale.payments.map(\.kind)
+        var seen: [PaymentKind] = []
+        for kind in kinds where !seen.contains(kind) { seen.append(kind) }
+        return seen.map(payment).joined(separator: " + ")
     }
 
     static func time(_ iso: String) -> String {
@@ -176,6 +205,8 @@ struct SaleDetailView: View {
     @State private var refunded: Sale?
     @State private var choosing = false
     @State private var picked: [String: Double] = [:]
+    @State private var approval: ApprovalRequest?
+    @State private var refundBy: String?
 
     private var text: String { TillReceipt.text(sale) }
 
@@ -187,24 +218,28 @@ struct SaleDetailView: View {
                         .font(.system(.footnote, design: .monospaced))
                 }
                 Section {
-                    ShareLink(item: text) {
-                        Label("Send receipt", systemImage: "square.and.arrow.up")
-                    }
-                    Button {
-                        Printing.printText(text, title: String(localized: "Receipt"))
-                    } label: {
-                        Label("Print", systemImage: "printer")
+                    ReceiptButtons(sale: sale, text: text)
+                    if let approved = sale.approvedBy {
+                        LabeledContent("Allowed by", value: approved)
                     }
                     if sale.refundOf == nil && !CloudTeam.shared.isStaff {
                         if till.isRefunded(sale) {
                             Label("Refunded", systemImage: "checkmark")
                                 .foregroundStyle(.secondary)
                         } else {
-                            Button("Refund everything left", role: .destructive) { confirmRefund = true }
+                            Button("Refund everything left", role: .destructive) {
+                                Gate.check(.refund, String(localized: "Refund sale \(till.number(sale))"), request: $approval) { by in
+                                    refundBy = by
+                                    confirmRefund = true
+                                }
+                            }
                             if sale.lines.count > 1 || (sale.lines.first?.qty ?? 0) > 1 {
                                 Button("Refund some items") {
-                                    picked = [:]
-                                    choosing = true
+                                    Gate.check(.refund, String(localized: "Refund sale \(till.number(sale))"), request: $approval) { by in
+                                        refundBy = by
+                                        picked = [:]
+                                        choosing = true
+                                    }
                                 }
                             }
                         }
@@ -220,7 +255,7 @@ struct SaleDetailView: View {
                             }
                         }
                         Button("Refund these", role: .destructive) {
-                            refunded = till.refund(sale, quantities: picked, context: context)
+                            refunded = till.refund(sale, quantities: picked, approvedBy: refundBy, context: context)
                             choosing = false
                         }
                         .disabled(!picked.values.contains { $0 > 0 })
@@ -229,7 +264,7 @@ struct SaleDetailView: View {
                     }
                 }
             }
-            .navigationTitle(sale.refundOf == nil ? String(localized: "Sale \(sale.number)") : String(localized: "Refund \(sale.number)"))
+            .navigationTitle(sale.refundOf == nil ? String(localized: "Sale \(till.number(sale))") : String(localized: "Refund \(till.number(sale))"))
             .navigationBarTitleDisplayMode(.inline)
             .themedScreen()
             .toolbar {
@@ -238,11 +273,12 @@ struct SaleDetailView: View {
                 }
             }
             .confirmationDialog("Refund \(Money.format(sale.total))?", isPresented: $confirmRefund, titleVisibility: .visible) {
-                Button("Refund", role: .destructive) { refunded = till.refund(sale, quantities: nil, context: context) }
+                Button("Refund", role: .destructive) { refunded = till.refund(sale, quantities: nil, approvedBy: refundBy, context: context) }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("Give the money back by \(SalesText.payment(sale.payment).lowercased()). The items go back into stock.")
+                Text("Give the money back by \(SalesText.refundWay(sale).lowercased()). The items go back into stock.")
             }
+            .managerApproval($approval)
             .sheet(item: $refunded) { refund in
                 ReceiptSheet(sale: refund)
             }
@@ -277,9 +313,19 @@ struct StockView: View {
                 let items = prices.map { $0.item }
                 let levels = till.levels(items: items, shop: shop, invoices: reports.compactMap { $0.entry })
                 let low = levels.filter(\.isLow)
+                let weighed = Set(items.filter(\.isByWeight).map(\.id))
                 if levels.isEmpty {
                     ContentUnavailableView("No stock to show yet", systemImage: "shippingbox",
                                            description: Text("Items show here once they have a selling price or a reorder level (open an item in your price list › Sell at the till)."))
+                }
+                if items.contains(where: { $0.till?.batches == true }) {
+                    Section {
+                        NavigationLink {
+                            ExpiryView()
+                        } label: {
+                            Label("Expiry dates", systemImage: "calendar.badge.exclamationmark")
+                        }
+                    }
                 }
                 if !low.isEmpty {
                     Section {
@@ -311,7 +357,7 @@ struct StockView: View {
                                 }
                                 Spacer()
                                 VStack(alignment: .trailing, spacing: 2) {
-                                    Text(level.onHand.formatted())
+                                    Text(level.onHand.formatted() + (weighed.contains(level.itemID) ? " kg" : ""))
                                         .font(.headline)
                                         .monospacedDigit()
                                         .foregroundStyle(level.onHand < 0 ? .red : (level.isLow ? .orange : .primary))

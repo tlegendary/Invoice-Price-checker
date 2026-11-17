@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings
+        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -16,6 +16,7 @@ struct MoreView: View {
     @Query private var prices: [StoredPrice]
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var path: [Page]
+    @State private var beScreen = false
 
     init(showPaywall: Binding<Bool>, open: Page? = nil) {
         _showPaywall = showPaywall
@@ -33,8 +34,25 @@ struct MoreView: View {
                         NavigationLink(value: Page.stock) {
                             Label("Stock", systemImage: "shippingbox")
                         }
+                        NavigationLink(value: Page.customers) {
+                            Label("Customers and accounts", systemImage: "person.2")
+                        }
+                        NavigationLink(value: Page.giftCards) {
+                            Label("Gift cards", systemImage: "giftcard")
+                        }
+                        NavigationLink(value: Page.expiry) {
+                            Label("Expiry dates", systemImage: "calendar.badge.exclamationmark")
+                        }
+                        NavigationLink(value: Page.hours) {
+                            Label("Staff hours", systemImage: "clock")
+                        }
                         NavigationLink(value: Page.tillSettings) {
                             Label("Till settings and products", systemImage: "gearshape.2")
+                        }
+                        Button {
+                            beScreen = true
+                        } label: {
+                            Label("Be the customer screen", systemImage: "person.crop.rectangle")
                         }
                     } else {
                         // Pro: the plans screen explains what the till does
@@ -112,6 +130,7 @@ struct MoreView: View {
             }
             .navigationTitle("More")
             .themedScreen()
+            .fullScreenCover(isPresented: $beScreen) { CustomerScreenView(joins: true) }
             .navigationDestination(for: Page.self) { page in
                 switch page {
                 case .prices: PricesView(embedded: true)
@@ -119,6 +138,10 @@ struct MoreView: View {
                 case .sales: SalesView()
                 case .stock: StockView()
                 case .tillSettings: TillSettingsView()
+                case .customers: CustomersView()
+                case .giftCards: GiftCardsView()
+                case .expiry: ExpiryView()
+                case .hours: ShiftsView()
                 case .staff: TeamView()
                 case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
                 case .deleted: RecentlyDeletedView()
