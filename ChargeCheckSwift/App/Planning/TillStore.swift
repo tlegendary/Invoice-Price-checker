@@ -237,8 +237,14 @@ final class TillStore: ObservableObject {
            let identity = try? JSONDecoder().decode(TillIdentity.self, from: mine.data) {
             clash = identity.device != Self.deviceID
         }
-        for file in salesFiles { AppFiles.write(file.data, folder: Self.folder, name: file.name) }
+        // only what's new: reading every month again every half minute would freeze a till with a long history
+        var changed = false
+        for file in salesFiles where Self.differs(file.data, folder: Self.folder, name: file.name) {
+            AppFiles.write(file.data, folder: Self.folder, name: file.name)
+            changed = true
+        }
         for file in tillFiles where !(file.name == "Till ~" + me + ".json") {
+            if file.name != "Products.json" && !Self.differs(file.data, folder: Self.tillFolder, name: file.name) { continue }
             if file.name == "Settings.json" {
                 // the newer settings win
                 guard let theirs = try? JSONDecoder().decode(TillSettingsFile.self, from: file.data), (theirs.updated ?? "") > settingsUpdated else { continue }
@@ -248,9 +254,12 @@ final class TillStore: ObservableObject {
                 continue
             }
             AppFiles.write(file.data, folder: Self.tillFolder, name: file.name)
+            changed = true
         }
-        load()
-        loadExtras()
+        if changed {
+            load()
+            loadExtras()
+        }
         ensureCode()
         lastSync = Date()
         // the main iPhone drafts the orders for what the other tills sold
@@ -260,6 +269,13 @@ final class TillStore: ObservableObject {
                 checkLowStock(shop: shop, items: fresh.filter { $0.shop == shop }.flatMap { $0.lines.compactMap(\.itemID) }, context: context)
             }
         }
+    }
+
+    /// The copy on this device isn't the same as this one from iCloud.
+    private static func differs(_ data: Data, folder: String, name: String) -> Bool {
+        guard let url = AppFiles.documents?.appendingPathComponent(folder, isDirectory: true).appendingPathComponent(name),
+              let local = try? Data(contentsOf: url) else { return true }
+        return local != data
     }
 
     /// The main iPhone's price list, for the extra tills (only when it changed).

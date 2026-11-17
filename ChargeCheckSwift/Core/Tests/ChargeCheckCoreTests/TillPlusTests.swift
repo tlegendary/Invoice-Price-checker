@@ -175,6 +175,20 @@ final class TillPlusTests: XCTestCase {
         XCTAssertTrue(SaleMaths.refundable(sold, refunds: []).isEmpty, "a gift card sold can't be refunded as goods")
     }
 
+    func testAMixedRefundGoesBackWhereItCameFrom() {
+        let code = "712345678904"
+        let sale = Sale(id: "m", number: 1, shop: "", at: "2026-11-02T10:00:00Z",
+                        lines: [SaleLine(id: "l", name: "x", qty: 2, price: 5)], payment: .cash,
+                        split: [SalePayment(kind: .gift, amount: 6, ref: code), SalePayment(kind: .cash, amount: 4)])
+        let all = SaleMaths.refund(of: sale, number: 2, at: "2026-11-03T10:00:00Z")
+        XCTAssertEqual(all.payments, [SalePayment(kind: .gift, amount: -6, ref: code), SalePayment(kind: .cash, amount: -4)],
+                       "the gift card part goes back on the card, not out of the drawer")
+        let half = SaleMaths.refund(of: sale, quantities: ["l": 1], number: 3, at: "2026-11-03T10:00:00Z")
+        XCTAssertEqual(half.payments.map(\.amount), [-3, -2])
+        let day = CashDay.report(shop: "", since: "", to: "2026-11-04T00:00:00Z", sales: [sale, all], events: [], number: 1)
+        XCTAssertEqual(day.cash, 0, "4 in, 4 back out")
+    }
+
     // MARK: clocking in
 
     func testHoursWorked() {
