@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     " (incl. VAT)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -969,7 +972,6 @@
       }
     },
     "%@ → %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -997,8 +999,10 @@
         }
       }
     },
+    "%@%%" : {
+      "shouldTranslate" : false
+    },
     "%@. Automatic follows your iPhone's light or dark setting." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1025,6 +1029,9 @@
           }
         }
       }
+    },
+    "%lld" : {
+      "shouldTranslate" : false
     },
     "%lld are overdue: %@." : {
       "extractionState" : "manual",
@@ -1085,7 +1092,6 @@
       }
     },
     "%lld credits not back after 2 weeks" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1259,7 +1265,6 @@
       }
     },
     "%lld files couldn't be opened." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1403,7 +1408,6 @@
       }
     },
     "%lld invoices due in the next 7 days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1519,7 +1523,6 @@
       }
     },
     "%lld invoices not fully checked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1548,7 +1551,6 @@
       }
     },
     "%lld invoices overdue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1606,7 +1608,6 @@
       }
     },
     "%lld invoices weren't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1722,7 +1723,6 @@
       }
     },
     "%lld items cost more than last time" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1751,7 +1751,6 @@
       }
     },
     "%lld lines" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1896,7 +1895,6 @@
       }
     },
     "%lld older invoices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1983,7 +1981,6 @@
       }
     },
     "%lld photos couldn't be opened." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2070,7 +2067,6 @@
       }
     },
     "%lld price rises this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2099,7 +2095,6 @@
       }
     },
     "%lld prices and %lld reports. This replaces the prices and reports on this phone." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2157,7 +2152,6 @@
       }
     },
     "%lld prices, %lld invoices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2250,7 +2244,6 @@
       }
     },
     "%lld scanned invoices open" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2308,7 +2301,6 @@
       }
     },
     "%lld scans left" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2395,7 +2387,6 @@
       }
     },
     "%lld things to check" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2481,6 +2472,9 @@
         }
       }
     },
+    "+%@%%" : {
+      "shouldTranslate" : false
+    },
     ", agreed {1}" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2509,6 +2503,9 @@
           }
         }
       }
+    },
+    "0.00" : {
+      "shouldTranslate" : false
     },
     "1 budget nearly used this month" : {
       "extractionState" : "manual",
@@ -2540,7 +2537,6 @@
       }
     },
     "1 credit not back after 2 weeks" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2771,7 +2767,6 @@
       }
     },
     "1 invoice due in the next 7 days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2916,7 +2911,6 @@
       }
     },
     "1 invoice not fully checked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2945,7 +2939,6 @@
       }
     },
     "1 invoice overdue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3003,7 +2996,6 @@
       }
     },
     "1 invoice wasn't scanned because you had no scans left. One ad or one pack scan is needed for each invoice." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3090,7 +3082,6 @@
       }
     },
     "1 item costs more than last time" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3119,7 +3110,6 @@
       }
     },
     "1 line" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3148,7 +3138,6 @@
       }
     },
     "1 older invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3264,7 +3253,6 @@
       }
     },
     "1 price rise this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3351,7 +3339,6 @@
       }
     },
     "1 scan left" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3380,7 +3367,6 @@
       }
     },
     "1 scanned invoice open" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3467,7 +3453,6 @@
       }
     },
     "1 thing to check" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3757,7 +3742,6 @@
       }
     },
     "A backup holds your prices, reports and settings. One is kept automatically in the Files app › On My iPhone › ChargeCheck, with a copy for each of the last 14 days." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -3815,7 +3799,6 @@
       }
     },
     "A copy is already kept in the Files app › On My iPhone › ChargeCheck › Invoices. You can also save it somewhere else or send it on." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4249,8 +4232,10 @@
         }
       }
     },
+    "Aa" : {
+
+    },
     "About" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4395,7 +4380,6 @@
       }
     },
     "Across %lld suppliers" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4424,7 +4408,6 @@
       }
     },
     "Ad privacy choices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4540,7 +4523,6 @@
       }
     },
     "Add %lld new items to my price list" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4598,7 +4580,6 @@
       }
     },
     "Add 1 new item to my price list" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4772,7 +4753,6 @@
       }
     },
     "Add a line" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5323,7 +5303,6 @@
       }
     },
     "Add the lines by hand with “Add a line”." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5671,7 +5650,6 @@
       }
     },
     "Adds up to the total printed on the invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5700,7 +5678,6 @@
       }
     },
     "Ads" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5845,7 +5822,6 @@
       }
     },
     "All" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5903,7 +5879,6 @@
       }
     },
     "All checked invoices (%lld)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5932,7 +5907,6 @@
       }
     },
     "All checked invoices (1)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -5990,7 +5964,6 @@
       }
     },
     "All prices match" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6193,7 +6166,6 @@
       }
     },
     "Also check with Apple Intelligence" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6251,7 +6223,6 @@
       }
     },
     "Also owed in %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6280,7 +6251,6 @@
       }
     },
     "Also save invoice copies there" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6512,7 +6482,6 @@
       }
     },
     "An invoice is saved to Reports by itself once every line is checked." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6801,6 +6770,9 @@
         }
       }
     },
+    "App Store" : {
+      "shouldTranslate" : false
+    },
     "App Store error: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6831,7 +6803,6 @@
       }
     },
     "App language" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -6860,7 +6831,6 @@
       }
     },
     "Appearance" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7295,7 +7265,6 @@
       }
     },
     "Asks for Face ID, Touch ID or your passcode each time ChargeCheck opens, so staff or family using this phone can't see your prices and payments." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7382,7 +7351,6 @@
       }
     },
     "Automatic" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7411,7 +7379,6 @@
       }
     },
     "Automatic backup" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7556,7 +7523,6 @@
       }
     },
     "Backup restored, with %lld unused scans." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7585,7 +7551,6 @@
       }
     },
     "Backup restored." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -7614,7 +7579,6 @@
       }
     },
     "Backups will now also be saved in %@." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8078,7 +8042,6 @@
       }
     },
     "Being checked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -8890,7 +8853,6 @@
       }
     },
     "Cancel" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -9412,7 +9374,6 @@
       }
     },
     "Caught this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -9528,7 +9489,6 @@
       }
     },
     "Change folder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -9853,7 +9813,6 @@
       }
     },
     "ChargeCheck has caught" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -9882,7 +9841,6 @@
       }
     },
     "ChargeCheck is locked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10230,7 +10188,6 @@
       }
     },
     "Cheaper elsewhere, a month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10578,7 +10535,6 @@
       }
     },
     "Check this match" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10607,7 +10563,6 @@
       }
     },
     "Checked invoices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10665,7 +10620,6 @@
       }
     },
     "Checking" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10723,7 +10677,6 @@
       }
     },
     "Checking…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10839,7 +10792,6 @@
       }
     },
     "Choose a PDF or file" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10897,7 +10849,6 @@
       }
     },
     "Choose an iCloud Drive folder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10984,7 +10935,6 @@
       }
     },
     "Choose photos" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11071,7 +11021,6 @@
       }
     },
     "Choose the language your supplier invoices are written in. To change the language of the app itself, tap App language and choose Language." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -11854,7 +11803,6 @@
       }
     },
     "Copies of the original photo or PDF are kept in the Files app › ChargeCheck › Invoices, by month. The reminder arrives on the 1st of each month to send last month's report to your accountant." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12202,7 +12150,6 @@
       }
     },
     "Couldn't find any item lines. Retake the photo flat and close, in good light, or add the lines by hand." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12956,7 +12903,6 @@
       }
     },
     "Credits" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13043,7 +12989,6 @@
       }
     },
     "Credits not back yet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13101,7 +13046,6 @@
       }
     },
     "Credits received" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13217,7 +13161,6 @@
       }
     },
     "Currency" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13449,7 +13392,6 @@
       }
     },
     "Dark" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13478,7 +13420,6 @@
       }
     },
     "Date" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13565,7 +13506,6 @@
       }
     },
     "Delete" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -14029,7 +13969,6 @@
       }
     },
     "Delete this invoice?" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -14580,7 +14519,6 @@
       }
     },
     "Don't keep copies" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -14638,7 +14576,6 @@
       }
     },
     "Done" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -14696,7 +14633,6 @@
       }
     },
     "Double-checking (2 of 2)…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -14870,7 +14806,6 @@
       }
     },
     "Due in the next 7 days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -15392,7 +15327,6 @@
       }
     },
     "Every invoice is checked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -15450,7 +15384,6 @@
       }
     },
     "Every line double-checked." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16146,7 +16079,6 @@
       }
     },
     "Finding the invoice number and date…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16204,7 +16136,6 @@
       }
     },
     "Folder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16610,7 +16541,6 @@
       }
     },
     "Found: overcharges and missing goods taken off what you pay or asked back from the supplier. Credits received: money suppliers have actually sent back. Cheaper elsewhere is an estimate, not money saved." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16639,7 +16569,6 @@
       }
     },
     "Free" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16668,7 +16597,6 @@
       }
     },
     "Free version" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16697,7 +16625,6 @@
       }
     },
     "Free version (1 ad per scan)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17277,7 +17204,6 @@
       }
     },
     "Go unlimited" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17306,7 +17232,6 @@
       }
     },
     "Go unlimited or buy scans" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17480,7 +17405,6 @@
       }
     },
     "Has %@ sent your credit?" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17538,7 +17462,6 @@
       }
     },
     "Help" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17712,7 +17635,6 @@
       }
     },
     "How invoices are read" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18117,7 +18039,6 @@
       }
     },
     "I've checked – it's fine" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18262,7 +18183,6 @@
       }
     },
     "Ignore differences up to" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18697,7 +18617,6 @@
       }
     },
     "Invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18813,7 +18732,6 @@
       }
     },
     "Invoice copies" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18900,7 +18818,6 @@
       }
     },
     "Invoice no." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18929,7 +18846,6 @@
       }
     },
     "Invoice removed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19016,7 +18932,6 @@
       }
     },
     "Invoice total" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19306,7 +19221,6 @@
       }
     },
     "Invoices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19335,7 +19249,6 @@
       }
     },
     "Invoices and reports" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19364,7 +19277,6 @@
       }
     },
     "Invoices are in" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19596,7 +19508,6 @@
       }
     },
     "Invoices with a problem" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19741,7 +19652,6 @@
       }
     },
     "It stays in Reports." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -19944,7 +19854,6 @@
       }
     },
     "Items" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20089,7 +19998,6 @@
       }
     },
     "Keep + ask where else" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20118,7 +20026,6 @@
       }
     },
     "Keep a copy of this invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20292,7 +20199,6 @@
       }
     },
     "Keep on this phone" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20350,7 +20256,6 @@
       }
     },
     "Language and money" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20553,7 +20458,6 @@
       }
     },
     "Last month's invoice report is ready" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20640,7 +20544,6 @@
       }
     },
     "Last saved there" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20785,7 +20688,6 @@
       }
     },
     "Later" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -20814,7 +20716,6 @@
       }
     },
     "Learn the names suppliers use" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -21017,7 +20918,6 @@
       }
     },
     "Light" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -21133,7 +21033,6 @@
       }
     },
     "Lock with Face ID or passcode" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -21162,7 +21061,6 @@
       }
     },
     "Look" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -21539,7 +21437,6 @@
       }
     },
     "Manage or cancel subscription" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -21713,7 +21610,6 @@
       }
     },
     "Mark as paid" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22032,7 +21928,6 @@
       }
     },
     "Missing goods taken off" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22061,7 +21956,6 @@
       }
     },
     "Missing or returned" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22206,7 +22100,6 @@
       }
     },
     "Money leaks" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22322,7 +22215,6 @@
       }
     },
     "Money protected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22438,7 +22330,6 @@
       }
     },
     "Monthly reminder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22873,7 +22764,6 @@
       }
     },
     "Needed in the next 7 days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22931,7 +22821,6 @@
       }
     },
     "Needs attention" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -22989,7 +22878,6 @@
       }
     },
     "Net" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23192,7 +23080,6 @@
       }
     },
     "New items are added at the price on this invoice, so you'll be told if it goes up next time." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23221,7 +23108,6 @@
       }
     },
     "New line" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23366,7 +23252,6 @@
       }
     },
     "No active subscription was found for this Apple ID." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23656,7 +23541,6 @@
       }
     },
     "No credits owed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23801,7 +23685,6 @@
       }
     },
     "No due dates" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23946,7 +23829,6 @@
       }
     },
     "No invoices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -24091,7 +23973,6 @@
       }
     },
     "No lines found" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25048,7 +24929,6 @@
       }
     },
     "Not fully checked" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25222,7 +25102,6 @@
       }
     },
     "Not now" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25744,7 +25623,6 @@
       }
     },
     "Nothing needs your attention" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25917,7 +25795,6 @@
       }
     },
     "Nothing was charged above your agreed prices." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25975,7 +25852,6 @@
       }
     },
     "Notifications are turned off for ChargeCheck. Turn them on in the Settings app to get the reminder." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26033,7 +25909,6 @@
       }
     },
     "Number" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26062,7 +25937,6 @@
       }
     },
     "OK" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26468,7 +26342,6 @@
       }
     },
     "On the invoice: %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26497,7 +26370,6 @@
       }
     },
     "Once (faster)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26526,7 +26398,6 @@
       }
     },
     "One file couldn't be opened." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26642,7 +26513,6 @@
       }
     },
     "One photo couldn't be opened." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -27019,7 +26889,6 @@
       }
     },
     "Open ChargeCheck › Reports › Export to send it to your accountant." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -27135,7 +27004,6 @@
       }
     },
     "Open a supplier and set “Pay within” to see when each of their invoices is due." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28033,7 +27901,6 @@
       }
     },
     "Out of 100: how often they charge your agreed price, deliver in full, keep prices steady, and how their prices compare with your other suppliers. Trusted suppliers aren't scored." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28120,7 +27987,6 @@
       }
     },
     "Overcharged" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28149,7 +28015,6 @@
       }
     },
     "Overcharged %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28178,7 +28043,6 @@
       }
     },
     "Overcharged %@ so far. Tap the orange lines to confirm them." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28526,7 +28390,6 @@
       }
     },
     "Overcharges caught" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28555,7 +28418,6 @@
       }
     },
     "Overdue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28584,7 +28446,6 @@
       }
     },
     "Overdue invoices are included." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28613,7 +28474,6 @@
       }
     },
     "Overdue invoices are included. Suppliers who invoice in another currency are listed below but not added in." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -28758,7 +28618,6 @@
       }
     },
     "Owed to 1 supplier" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30208,7 +30067,6 @@
       }
     },
     "Payments due" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30295,7 +30153,6 @@
       }
     },
     "Period" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30382,7 +30239,6 @@
       }
     },
     "Photos or PDFs. Read on this phone, works offline, and every invoice is read twice." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30527,7 +30383,6 @@
       }
     },
     "Plan" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30585,7 +30440,6 @@
       }
     },
     "Plus %@ VAT on top. Every line double-checked." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -30759,7 +30613,6 @@
       }
     },
     "Possibly %@ more on unsure matches. It only counts once you confirm the item." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -31165,7 +31018,6 @@
       }
     },
     "Price list as a PDF" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -31310,7 +31162,6 @@
       }
     },
     "Price rises spotted" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -31339,7 +31190,6 @@
       }
     },
     "Price rises this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -31977,7 +31827,6 @@
       }
     },
     "Privacy Policy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32004,6 +31853,9 @@
           }
         }
       }
+    },
+    "Pro" : {
+      "shouldTranslate" : false
     },
     "Pro costs %@ a year." : {
       "extractionState" : "manual",
@@ -32151,7 +32003,6 @@
       }
     },
     "Problems" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32644,7 +32495,6 @@
       }
     },
     "Read each photo" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32673,7 +32523,6 @@
       }
     },
     "Read on this phone and double-checked. Add your agreed prices in Prices so there is something to compare with." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32702,7 +32551,6 @@
       }
     },
     "Reading invoice (1 of 2)…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32731,7 +32579,6 @@
       }
     },
     "Reading invoice…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -33920,7 +33767,6 @@
       }
     },
     "Remove this invoice from the list" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34094,7 +33940,6 @@
       }
     },
     "Replace what's on this phone" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34210,7 +34055,6 @@
       }
     },
     "Restore backup" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34239,7 +34083,6 @@
       }
     },
     "Restore purchases" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34268,7 +34111,6 @@
       }
     },
     "Restore this backup?" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34703,7 +34545,6 @@
       }
     },
     "Sample invoice with example prices. Nothing here is saved." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34732,7 +34573,6 @@
       }
     },
     "Save" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34761,7 +34601,6 @@
       }
     },
     "Save backup file" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34790,7 +34629,6 @@
       }
     },
     "Save or send a copy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34819,7 +34657,6 @@
       }
     },
     "Save or send the price list" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34906,7 +34743,6 @@
       }
     },
     "Save to Reports anyway" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34964,7 +34800,6 @@
       }
     },
     "Saved in Reports" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35196,7 +35031,6 @@
       }
     },
     "Scan an invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35283,7 +35117,6 @@
       }
     },
     "Scan packs" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35312,7 +35145,6 @@
       }
     },
     "Scan packs (pack features unlocked)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35399,7 +35231,6 @@
       }
     },
     "Scans left" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35515,7 +35346,6 @@
       }
     },
     "Search invoices, suppliers, items, payments" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35776,7 +35606,6 @@
       }
     },
     "Select all" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -36588,7 +36417,6 @@
       }
     },
     "Settings" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -36878,7 +36706,6 @@
       }
     },
     "Shop" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -37052,7 +36879,6 @@
       }
     },
     "Show" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -37400,7 +37226,6 @@
       }
     },
     "Since you started" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -37893,7 +37718,6 @@
       }
     },
     "Spent this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -38763,7 +38587,6 @@
       }
     },
     "Stop saving there" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -38966,7 +38789,6 @@
       }
     },
     "Supplier" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -39256,7 +39078,6 @@
       }
     },
     "Supplier scores" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -39343,7 +39164,6 @@
       }
     },
     "Supplier, number, item or amount" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -39430,7 +39250,6 @@
       }
     },
     "Suppliers often call the same item different names. When a fully checked invoice shows a new name for an item the app is sure about, the name is added to that item, so it is recognised straight away next time. See or remove the names under each item in Prices." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -39517,7 +39336,6 @@
       }
     },
     "Support" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -39981,7 +39799,6 @@
       }
     },
     "Tap the orange lines to confirm them." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40097,7 +39914,6 @@
       }
     },
     "Test mode is on: test ads are shown and nothing here is sent for review like this." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40155,7 +39971,6 @@
       }
     },
     "Test mode: use the free version" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40213,7 +40028,6 @@
       }
     },
     "Test: try the app as" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40416,7 +40230,6 @@
       }
     },
     "That folder couldn't be used. Please choose another one." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40474,7 +40287,6 @@
       }
     },
     "That invoice couldn't be read, so your scan was given back." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40503,7 +40315,6 @@
       }
     },
     "That isn't a ChargeCheck backup file." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40735,7 +40546,6 @@
       }
     },
     "The backup couldn't be made. Please try again." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40764,7 +40574,6 @@
       }
     },
     "The backup couldn't be saved. Please try again." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40996,7 +40805,6 @@
       }
     },
     "The free version lists the last 30 days. Your balances still count every invoice." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41112,7 +40920,6 @@
       }
     },
     "The lines add up to %@ but the invoice says %@. A line may be missing or misread." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41315,7 +41122,6 @@
       }
     },
     "The photo looks blurry. Hold the phone still and let it focus before taking the photo, or add the lines by hand." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41344,7 +41150,6 @@
       }
     },
     "The photo looks too dark to read. Take it again in brighter light or with the flash, or add the lines by hand." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41634,7 +41439,6 @@
       }
     },
     "The sample invoice is missing from the app." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42010,7 +41814,6 @@
       }
     },
     "These were saved before every line was matched to your prices. Open one to see its lines." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42300,7 +42103,6 @@
       }
     },
     "This invoice is in %@, but your prices are in %@. Check the prices before saving, or set this supplier to %@ in Suppliers." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42364,7 +42166,6 @@
       }
     },
     "This looks like a delivery note, not an invoice. Check it before saving." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42393,7 +42194,6 @@
       }
     },
     "This looks like a quote or pro forma, not an invoice. Check it before saving." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42422,7 +42222,6 @@
       }
     },
     "This looks like a statement. Check statements in Suppliers instead." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -42451,7 +42250,6 @@
       }
     },
     "This looks like an order, not an invoice. Check it before saving." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43176,7 +42974,6 @@
       }
     },
     "To pay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43408,7 +43205,6 @@
       }
     },
     "Total outstanding" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43524,7 +43320,6 @@
       }
     },
     "Totals" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43727,7 +43522,6 @@
       }
     },
     "Try a sample invoice" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43814,7 +43608,6 @@
       }
     },
     "Trying the photo another way round…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43988,7 +43781,6 @@
       }
     },
     "Twice (double-checked)" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44017,7 +43809,6 @@
       }
     },
     "Twice is safest: the photo is read two different ways and the app points out any line where the two reads differ. Once is about twice as fast.\n\nApple Intelligence fixes misread names and picks the right item from your list, on your iPhone and offline. It never changes a quantity or a price. It makes a scan slower." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44104,7 +43895,6 @@
       }
     },
     "Type by hand" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44307,7 +44097,6 @@
       }
     },
     "Unlimited – monthly" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44336,7 +44125,6 @@
       }
     },
     "Unlimited – yearly" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44365,7 +44153,6 @@
       }
     },
     "Unlock" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -44394,7 +44181,6 @@
       }
     },
     "Unlock ChargeCheck" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -45032,7 +44818,6 @@
       }
     },
     "VAT" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -45293,7 +45078,6 @@
       }
     },
     "Version" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -45525,7 +45309,6 @@
       }
     },
     "Watch an ad for 1 scan" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -45728,7 +45511,6 @@
       }
     },
     "What I bought" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -46887,7 +46669,6 @@
       }
     },
     "You asked for %@ two weeks ago. Open ChargeCheck › Reports to mark it received or ask again." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47003,7 +46784,6 @@
       }
     },
     "You can bring it back from More › Recently deleted for 30 days." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47119,7 +46899,6 @@
       }
     },
     "You don't owe any supplier" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47177,7 +46956,6 @@
       }
     },
     "You have no scans left. Watch an ad or buy scans to check this invoice." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47264,7 +47042,6 @@
       }
     },
     "You may have lost %@ this month through price rises and credits that haven't come back." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47409,7 +47186,6 @@
       }
     },
     "You paid %@ less than your agreed prices." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47496,7 +47272,6 @@
       }
     },
     "You should pay" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47815,7 +47590,6 @@
       }
     },
     "Your data" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48105,7 +47879,6 @@
       }
     },
     "Your plan" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48511,7 +48284,6 @@
       }
     },
     "Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48598,7 +48370,6 @@
       }
     },
     "Your subscription is active." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48772,7 +48543,6 @@
       }
     },
     "asked %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48859,7 +48629,6 @@
       }
     },
     "caught on your invoices since you started" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48888,7 +48657,6 @@
       }
     },
     "dd/mm/yyyy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -48975,7 +48743,6 @@
       }
     },
     "due %@ · %lld days late" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49010,7 +48777,6 @@
       }
     },
     "due %@ · 1 day late" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49039,7 +48805,6 @@
       }
     },
     "due %@ · in %lld days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49074,7 +48839,6 @@
       }
     },
     "due today" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49103,7 +48867,6 @@
       }
     },
     "due tomorrow" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49248,7 +49011,6 @@
       }
     },
     "iCloud backup" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49596,7 +49358,6 @@
       }
     },
     "most at %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49625,7 +49386,6 @@
       }
     },
     "no due date" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49741,7 +49501,6 @@
       }
     },
     "not trusted" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49770,7 +49529,6 @@
       }
     },
     "not yet" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49828,7 +49586,6 @@
       }
     },
     "off" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49857,7 +49614,6 @@
       }
     },
     "on %lld invoices, since you started" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49886,7 +49642,6 @@
       }
     },
     "on 1 invoice, since you started" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50002,7 +49757,6 @@
       }
     },
     "overcharges + missing" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50147,7 +49901,6 @@
       }
     },
     "pay within %lld days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50408,7 +50161,6 @@
       }
     },
     "this month" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50524,7 +50276,6 @@
       }
     },
     "trusted" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50669,7 +50420,6 @@
       }
     },
     "your supplier" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

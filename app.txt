@@ -1,6 +1,6 @@
-commit: f64c75301b34a6f214f8b235d0f73344d16783a2
+commit: 1269d22f52563ea63a1caa48eae5ac0442dfcfee
 result: failure
-when: Tue Nov 17 08:23:43 UTC 2026
+when: Tue Nov 17 08:34:23 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,54 +9,56 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 26.3
 Build version 17C529
 Simulator: C1B4F8AF-9BCC-444D-A13D-4044D04E28DD
-stringsdata files:        3
+stringsdata files:       29
     /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator26.2-23C57-dc75598d0054f22ec865fa860f139d72e244bd9a5feaf902f95f61bf06266e52.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stac
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfssta
 ** TEST BUILD FAILED **
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:165:116: error: anonymous closure argument not contained in a closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:165:116: error: Anonymous closure argument not contained in a closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:13: error: unary operator cannot be separated from its operand
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:13: error: Unary operator cannot be separated from its operand
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:149: error: consecutive statements on a line must be separated by ';'
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:149: error: Consecutive statements on a line must be separated by ';'
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:184:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:264:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:14: warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:40: warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/SalesViews.swift:58:25: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:770:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 ---- last lines ----
+SwiftDriverJobDiscovery normal arm64 Emitting module for ChargeCheck (in target 'ChargeCheck' from project 'ChargeCheck')
 
-MkDir /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/assetcatalog_output/unthinned (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftDriver\ Compilation\ Requirements ChargeCheck normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheck' from project 'ChargeCheck')
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /bin/mkdir -p /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/assetcatalog_output/unthinned
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheck -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64
 
-GenerateAssetSymbols /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets (in target 'ChargeCheck' from project 'ChargeCheck')
+SwiftDriverJobDiscovery normal arm64 Compiling Accounts.swift, AdService.swift, AppConfig.swift, AppData.swift, AppLock.swift, BackupDocument.swift, BudgetStore.swift, ChargeCheckApp.swift, CheckSession.swift, CheckView.swift, CloudTeam.swift, CrashReports.swift, CreditPhotos.swift, DocumentScanner.swift, Files.swift, HomeView.swift, ImageTools.swift, InsightsViews.swift, InvoiceDetailView.swift, 
+
+SwiftMergeGeneratedHeaders /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/DerivedSources/ChargeCheck-Swift.h /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/actool /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets --compile /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app --output-format human-readable-text --notices --warnings --export-dependency-info /U
-/* com.apple.actool.compilation-results */
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/DerivedSources/GeneratedAssetSymbols-Index.plist
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/DerivedSources/GeneratedAssetSymbols.h
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/DerivedSources/GeneratedAssetSymbols.swift
+    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck-Swift.h -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphone
 
-
-CompileAssetCatalogVariant thinned /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets (in target 'ChargeCheck' from project 'ChargeCheck')
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.swift
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    /Applications/Xcode_26.3.app/Contents/Developer/usr/bin/actool /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets --compile /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/assetcatalog_output/thinned --output-format human-r
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/
 
-SwiftDriver ChargeCheck normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheck' from project 'ChargeCheck')
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.swiftdoc
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftDriver -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheck -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.SwiftF
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:165:116: error: Anonymous closure argument not contained in a closure
-        for till in cashFiles.compactMap { $0.till } + countFiles.compactMap { $0.till } + batchFiles.compactMap { $0.till }
-                                                                                                                   ^ (in target 'ChargeCheck' from project 'ChargeCheck')
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:13: error: Unary operator cannot be separated from its operand
-            + customerFiles.compactMap { $0.till } + clockFiles.compactMap { $0.till } + group("Till", as: TillIdentity.self).compactMap { $0.till } {
-            ^~
-              (in target 'ChargeCheck' from project 'ChargeCheck')
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:166:149: error: Consecutive statements on a line must be separated by ';'
-            + customerFiles.compactMap { $0.till } + clockFiles.compactMap { $0.till } + group("Till", as: TillIdentity.self).compactMap { $0.till } {
-                                                                                                                                                    ^
-                                                                                                                                                    ; (in target 'ChargeCheck' from project 'ChargeCheck')
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/Cha
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.abi.json
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/Cha
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/Charg
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-Price-chec
+
+SwiftDriver ChargeCheckTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-SwiftDriver -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheckTests -Onone -enforce-exclusivity\=checked @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCh
 
 ** TEST BUILD FAILED **
 
 
 The following build commands failed:
-	SwiftDriver ChargeCheck normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheck' from project 'ChargeCheck')
+	SwiftCompile normal arm64 Compiling\ LineEditView.swift,\ Localize.swift,\ MoneyViews.swift,\ MonthPack.swift,\ MoreView.swift,\ NameSuggestionsView.swift,\ NeedScanSheet.swift,\ OrderStore.swift,\ OrdersView.swift,\ PDFMaker.swift,\ PasteListView.swift,\ PaywallView.swift,\ PlanViews.swift,\ PriceEditView.swift,\ PriceHistoryChart.swift,\ PricesView.swift,\ Records.swift,\ RecordsViews.swift,\ R
+	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/SalesViews.swift (in target 'ChargeCheck' from project 'ChargeCheck')
 	Building project ChargeCheck for testing with scheme ChargeCheck
-(2 failures)
+(3 failures)
