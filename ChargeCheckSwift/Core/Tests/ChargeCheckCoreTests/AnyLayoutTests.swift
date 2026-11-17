@@ -24,7 +24,7 @@ final class AnyLayoutTests: XCTestCase {
     BE08128D   2028-08-11   315   3.15   0   100   Skin Toner_Stella   4
     28,718.9   الرصيد السابق:   1,808.68   صافي الفاتورة:   1,808.68   احمالي الفاتورة:
     30,527.58   الرصيد الحالي:   0.00   %
-    السائق : كاك دانا   07502295589
+    السائق : كاك دانا   07501234567
     """
 
     /// The same invoice read right to left (the app set to Arabic or Kurdish).
@@ -74,7 +74,7 @@ final class AnyLayoutTests: XCTestCase {
 
     func testRowsWithoutQuantityTimesPriceAreNotItems() {
         XCTAssertNil(InvoiceParser.parseTableRow("28,718.9   الرصيد السابق:   1,808.68   صافي الفاتورة:"))
-        XCTAssertNil(InvoiceParser.parseTableRow("السائق : كاك دانا   07502295589"))
+        XCTAssertNil(InvoiceParser.parseTableRow("السائق : كاك دانا   07501234567"))
         XCTAssertNil(InvoiceParser.parseTableRow("2026-11-10   التاريخ:   09:51"))
     }
 
@@ -85,6 +85,6 @@ final class AnyLayoutTests: XCTestCase {
         XCTAssertEqual(InvoiceParser.cellNumber("687.5"), 687.5)
         XCTAssertEqual(InvoiceParser.cellNumber("1,234"), 1234)
         XCTAssertNil(InvoiceParser.cellNumber("BF02028B"))
-        XCTAssertNil(InvoiceParser.cellNumber("07502295589"))
+        XCTAssertNil(InvoiceParser.cellNumber("07501234567"))
     }
 }

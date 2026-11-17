@@ -135,11 +135,39 @@ struct CashSheet: View {
 }
 
 /// A PIN pad: four digits sign a cashier in.
+/// Wrong PINs: after 5 in a row the pads wait 30 seconds, then twice as long each time (up to 15 minutes),
+/// so nobody can try all 10,000 PINs. Kept on the device, so closing the app doesn't reset it.
+enum PinGuard {
+    private static let wrongKey = "till.pinWrong"
+    private static let untilKey = "till.pinLockedUntil"
+
+    static var lockedUntil: Date? {
+        let until = UserDefaults.standard.double(forKey: untilKey)
+        return until > Date().timeIntervalSince1970 ? Date(timeIntervalSince1970: until) : nil
+    }
+
+    static func failed() {
+        let wrong = UserDefaults.standard.integer(forKey: wrongKey) + 1
+        UserDefaults.standard.set(wrong, forKey: wrongKey)
+        guard wrong >= 5 else { return }
+        let wait = min(900, 30 * pow(2, Double(wrong - 5)))
+        UserDefaults.standard.set(Date().timeIntervalSince1970 + wait, forKey: untilKey)
+        Records.shared.log(.tillApproved, String(localized: "\(wrong) wrong PINs in a row: the till waits before the next try"))
+    }
+
+    static func passed() {
+        UserDefaults.standard.set(0, forKey: wrongKey)
+        UserDefaults.standard.set(0, forKey: untilKey)
+    }
+}
+
 struct PinPad: View {
     let title: String
     let check: (String) -> Bool
     @State private var pin = ""
     @State private var wrong = false
+    @State private var now = Date()
+    private let tick = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         VStack(spacing: 20) {
@@ -153,7 +181,10 @@ struct PinPad: View {
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text("\(pin.count) of 4 digits"))
-            if wrong {
+            if let until = PinGuard.lockedUntil, until > now {
+                Text("Too many wrong PINs. Try again in \(Int(until.timeIntervalSince(now).rounded(.up))) seconds.")
+                    .foregroundStyle(.red).font(.footnote).multilineTextAlignment(.center)
+            } else if wrong {
                 Text("That PIN isn't right.").foregroundStyle(.red).font(.footnote)
             }
             LazyVGrid(columns: Array(repeating: GridItem(.fixed(84)), count: 3), spacing: 14) {
@@ -177,9 +208,14 @@ struct PinPad: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onReceive(tick) { now = $0 }
     }
 
     private func press(_ key: String) {
+        if PinGuard.lockedUntil != nil {
+            pin = ""
+            return
+        }
         wrong = false
         if key == "⌫" {
             if !pin.isEmpty { pin.removeLast() }
@@ -188,8 +224,11 @@ struct PinPad: View {
         guard pin.count < 4 else { return }
         pin += key
         if pin.count == 4 {
-            if !check(pin) {
+            if check(pin) {
+                PinGuard.passed()
+            } else {
                 wrong = true
+                PinGuard.failed()
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
             pin = ""

@@ -294,6 +294,21 @@ public enum SaleMaths {
         if parts.count == 1, let ref = parts[0].ref {
             refund.payment = parts[0].kind
             refund.split = [SalePayment(kind: parts[0].kind, amount: refund.total, ref: ref)]
+        } else if parts.count > 1, parts.contains(where: { !$0.kind.isMoney }), abs(sale.total) > 0.004 {
+            // part paid with a gift card, points or on account: that part goes back there, in proportion;
+            // only the part paid with money comes out of the drawer
+            let back = refund.total
+            var returned: [SalePayment] = []
+            var given = 0.0
+            for part in parts where !part.kind.isMoney {
+                let share = Money.round2(back * part.amount / sale.total)
+                given += share
+                returned.append(SalePayment(kind: part.kind, amount: share, ref: part.ref))
+            }
+            let cash = Money.round2(back - given)
+            if abs(cash) > 0.004 { returned.append(SalePayment(kind: .cash, amount: cash)) }
+            refund.payment = abs(cash) > 0.004 ? .cash : (returned.first?.kind ?? .cash)
+            refund.split = returned
         }
         return refund
     }
