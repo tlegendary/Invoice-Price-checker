@@ -16,7 +16,8 @@ struct TillFields: View {
 
     var body: some View {
         Section {
-            LabeledContent("Selling price") {
+            Toggle("Sold by weight", isOn: Binding(get: { till.byWeight == true }, set: { till.byWeight = $0 ? true : nil }))
+            LabeledContent(till.byWeight == true ? String(localized: "Price a kg") : String(localized: "Selling price")) {
                 TextField(Money.format(0), value: $till.sell, format: .number.precision(.fractionLength(0...2)))
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
@@ -27,9 +28,9 @@ struct TillFields: View {
                 Text("20%").tag(20.0)
             }
             Stepper(value: Binding(get: { perPack }, set: { till.perPack = $0 }), in: 1...10_000) {
-                LabeledContent("Units in a pack", value: perPack.formatted())
+                LabeledContent(till.byWeight == true ? String(localized: "kg in a pack") : String(localized: "Units in a pack"), value: perPack.formatted())
             }
-            if perPack > 1 {
+            if perPack > 1 && till.byWeight != true {
                 LabeledContent("Price for the whole pack") {
                     TextField("Not sold by the pack", value: $till.packSell, format: .number.precision(.fractionLength(0...2)))
                         .keyboardType(.decimalPad)
@@ -59,10 +60,11 @@ struct TillFields: View {
             }
             Toggle("Only sold at the till", isOn: Binding(get: { till.tillOnly == true }, set: { till.tillOnly = $0 ? true : nil }))
             Toggle("Ask for ID (Challenge 25)", isOn: Binding(get: { till.ageCheck == true }, set: { till.ageCheck = $0 ? true : nil }))
+            Toggle("Keep batches and expiry dates", isOn: Binding(get: { till.batches == true }, set: { till.batches = $0 ? true : nil }))
         } header: {
             Text("Sell at the till")
         } footer: {
-            Text("You buy it by the pack and sell it one at a time, or the whole pack too. Profit is the price without VAT, less what it costs you. Only sold at the till: never matched to supplier invoices (your own products); its price above is what one costs you.")
+            Text("You buy it by the pack and sell it one at a time, or the whole pack too. Profit is the price without VAT, less what it costs you. Only sold at the till: never matched to supplier invoices (your own products); its price above is what one costs you. Sold by weight: the till asks for the weight (or reads it from a scale label) and stock is in kg. Batches: add each delivery's batch and use-by date in Till › Expiry dates; the till warns before an out-of-date one is sold.")
         }
 
         Section {

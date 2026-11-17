@@ -125,6 +125,11 @@ targets:
           - SKAdNetworkIdentifier: 3rd42ekr43.skadnetwork
           - SKAdNetworkIdentifier: 3qcr597p9d.skadnetwork
         NSCameraUsageDescription: ChargeCheck uses the camera to scan your supplier invoices so it can check the prices, and to read barcodes at the till. Scans stay on your phone.
+        NSBluetoothAlwaysUsageDescription: ChargeCheck uses Bluetooth to print receipts on your receipt printer, open the cash drawer and show the sale on a customer screen.
+        NSLocalNetworkUsageDescription: ChargeCheck uses your shop's network to print receipts on a network receipt printer and to show the sale on a customer screen.
+        NSBonjourServices:
+          - _cc-screen._tcp
+          - _cc-screen._udp
         LSSupportsOpeningDocumentsInPlace: true
         # invoices shared from WhatsApp, Mail or Files ("Open in ChargeCheck")
         CFBundleDocumentTypes:

@@ -5,6 +5,7 @@ import ChargeCheckCore
 struct ItemPicker: View {
     let items: [PriceItem]
     let onPick: (PriceItem) -> Void
+    var title = String(localized: "Choose an item")
     @Environment(\.dismiss) private var dismiss
     @State private var search = ""
 
@@ -26,7 +27,7 @@ struct ItemPicker: View {
                 .foregroundStyle(.primary)
             }
             .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always))
-            .navigationTitle("Add an ingredient")
+            .navigationTitle(title)
             .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

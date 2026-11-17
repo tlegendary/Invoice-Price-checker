@@ -29,6 +29,8 @@ public struct ActivityEntry: Codable, Identifiable, Equatable, Sendable {
         case supplierChanged, backupRestored, binEmptied
         /// Till: a sale refunded, a stock count entered (sales themselves aren't logged: there are too many).
         case tillRefund, stockCounted, tillClosed, cashMoved
+        /// Till: a manager allowed something, the drawer opened without a sale, a void, someone clocked in or out.
+        case tillApproved, drawerOpened, lineVoided, clockedIn, clockedOut
     }
 
     public var id: String

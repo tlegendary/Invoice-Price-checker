@@ -194,7 +194,10 @@ enum CloudFolder {
 
 extension CloudFolder {
     /// Every file in a folder there (for the till's sales on a new phone). Files not downloaded yet are fetched.
-    static func readAll(folder sub: String) -> [(name: String, data: Data)] {
+    static func readAll(folder sub: String) -> [(name: String, data: Data)] { readAll(folder: sub) { _ in true } }
+
+    /// The files there whose names pass `wanted` (the till reads only the other tills' recent files).
+    static func readAll(folder sub: String, wanted: (String) -> Bool) -> [(name: String, data: Data)] {
         guard let root = folder() else { return [] }
         let scoped = root.startAccessingSecurityScopedResource()
         defer {
@@ -204,7 +207,7 @@ extension CloudFolder {
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path) else { return [] }
         let plain = Set(names.map { $0.hasPrefix(".") && $0.hasSuffix(".icloud") ? String($0.dropFirst().dropLast(7)) : $0 })
         var out: [(name: String, data: Data)] = []
-        for name in plain.sorted() where name.hasSuffix(".json") {
+        for name in plain.sorted() where name.hasSuffix(".json") && wanted(name) {
             let target = directory.appendingPathComponent(name)
             try? FileManager.default.startDownloadingUbiquitousItem(at: target)
             var error: NSError?

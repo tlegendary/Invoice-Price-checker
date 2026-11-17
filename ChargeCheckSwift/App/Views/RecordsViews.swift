@@ -215,6 +215,11 @@ enum ChangeText {
         case .stockCounted: return String(localized: "Stock counted")
         case .tillClosed: return String(localized: "End of day")
         case .cashMoved: return String(localized: "Cash in or out")
+        case .tillApproved: return String(localized: "Manager approved")
+        case .drawerOpened: return String(localized: "Drawer opened (no sale)")
+        case .lineVoided: return String(localized: "Item taken off a sale")
+        case .clockedIn: return String(localized: "Clocked in")
+        case .clockedOut: return String(localized: "Clocked out")
         }
     }
 
@@ -240,6 +245,10 @@ enum ChangeText {
         case .stockCounted: return "shippingbox.and.arrow.backward"
         case .tillClosed: return "lock.rectangle.stack"
         case .cashMoved: return "banknote"
+        case .tillApproved: return "person.badge.key"
+        case .drawerOpened: return "tray"
+        case .lineVoided: return "xmark.circle"
+        case .clockedIn, .clockedOut: return "clock"
         }
     }
 
