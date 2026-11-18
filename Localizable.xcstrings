@@ -10682,6 +10682,35 @@
         }
       }
     },
+    "Checking the other tills…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جارٍ التحقق من الكاشيرات الأخرى…"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاشێرەکانی تر دەپشکنرێن…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die anderen Kassen werden geprüft…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification des autres caisses…"
+          }
+        }
+      }
+    },
     "Checking with Apple Intelligence…" : {
       "localizations" : {
         "ar" : {
