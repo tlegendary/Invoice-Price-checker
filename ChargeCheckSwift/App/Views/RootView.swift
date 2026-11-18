@@ -28,6 +28,9 @@ struct RootView: View {
     @State private var locked = AppLock.isOn
     /// Which tab is open. The cloud check can start on another tab with "-startTab prices".
     @State private var tab = RootView.firstTab
+    /// Shops that sell with the till get a Till tab in the Reports tab's place (Reports moves into More).
+    @AppStorage(TillTab.key) private var tillTab = false
+    private var tillTabShown: Bool { tillTab && store.allows(.till) }
     /// "-startTab prices" / "settings" open those pages inside More.
     private static let startPage = UserDefaults.standard.string(forKey: "startTab").flatMap { MoreView.Page(rawValue: $0) }
 
@@ -36,7 +39,7 @@ struct RootView: View {
         if UserDefaults.standard.string(forKey: "demoScan") != nil { return "invoices" }
         switch wanted {
         case "check", "invoices": return "invoices"
-        case "reports", "suppliers", "home", "more": return wanted
+        case "reports", "suppliers", "home", "more", "till": return wanted
         case "": return "home"
         default: return MoreView.Page(rawValue: wanted) != nil ? "more" : "home"
         }
@@ -69,12 +72,22 @@ struct RootView: View {
             SuppliersView()
                 .tabItem { Label("Suppliers", systemImage: "shippingbox") }
                 .tag("suppliers")
-            ReportsView()
-                .tabItem { Label("Reports", systemImage: "chart.bar") }
-                .tag("reports")
+            if tillTabShown {
+                TillTabView()
+                    .tabItem { Label("Till", systemImage: "cart") }
+                    .tag("till")
+            } else {
+                ReportsView()
+                    .tabItem { Label("Reports", systemImage: "chart.bar") }
+                    .tag("reports")
+            }
             MoreView(showPaywall: $showPaywall, open: Self.startPage)
                 .tabItem { Label("More", systemImage: "ellipsis.circle") }
                 .tag("more")
+        }
+        .onChange(of: tillTabShown) {
+            if tillTabShown && tab == "reports" { tab = "till" }
+            if !tillTabShown && tab == "till" { tab = "reports" }
         }
         .environmentObject(session)
         .environmentObject(store)

@@ -14,6 +14,7 @@ struct HomeView: View {
     @ObservedObject private var accounts = Accounts.shared
     @ObservedObject private var team = CloudTeam.shared
     @State private var search = ""
+    @AppStorage(TillTab.key) private var tillTab = false
     /// "Scan an invoice": camera, camera roll or files.
     @State private var choosingSource = false
     @State private var showTill = false
@@ -48,6 +49,7 @@ struct HomeView: View {
         let summary = SaleMaths.summary(sales)
         return Section {
             GatedButton(feature: .till) {
+                TillTab.firstUse()
                 showTill = true
             } label: {
                 HStack(spacing: 12) {
@@ -86,7 +88,7 @@ struct HomeView: View {
                                                                items: team.isStaff ? [] : prices.map { $0.item }))
                 } else {
                     if !team.isStaff { owedSection(overview) }
-                    tillSection
+                    if !(tillTab && store.allows(.till)) { tillSection }
                     scanSection
                     figuresSection(overview)
                     attentionSection(overview)
