@@ -315,6 +315,7 @@ final class TillStore: ObservableObject {
                         cashier: cashier?.name, split: split, till: code, customer: customer, approvedBy: approvedBy)
         sales.insert(sale, at: 0)
         store(month: sale.at)
+        TillTab.firstUse()
         if !isExtraTill { checkLowStock(shop: shop, items: lines.compactMap(\.itemID), context: context) }
         if let approvedBy { Records.shared.log(.tillApproved, String(localized: "Sale #\(sale.receiptNumber) · \(approvedBy)"), amount: sale.total) }
         return sale

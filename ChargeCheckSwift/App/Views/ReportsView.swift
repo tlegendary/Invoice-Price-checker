@@ -40,8 +40,19 @@ struct ReportsView: View {
     /// Only used by the cloud check ("-demoReport YES") to open an invoice's details.
     @State private var demoPath: [String] = []
 
+    /// Inside another tab's navigation (More, when the Till has the Reports tab's place).
+    var embedded = false
+
     var body: some View {
-        NavigationStack(path: $demoPath) {
+        if embedded {
+            content
+        } else {
+            NavigationStack(path: $demoPath) { content }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
             let list = entries
             let pay = ReportMaths.paySummary(list, skipped: skipped, beforeVat: beforeVat)
             List {
@@ -188,7 +199,6 @@ struct ReportsView: View {
             .alert(notice ?? "", isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
                 Button("OK", role: .cancel) {}
             }
-        }
     }
 
     @ViewBuilder

@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours
+        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours, reports
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -17,6 +17,8 @@ struct MoreView: View {
     @AppStorage(Shops.listKey) private var shopData = Data()
     @State private var path: [Page]
     @State private var beScreen = false
+    @AppStorage(TillTab.key) private var tillTab = false
+    private var tillTabShown: Bool { tillTab && store.allows(.till) }
 
     init(showPaywall: Binding<Bool>, open: Page? = nil) {
         _showPaywall = showPaywall
@@ -37,8 +39,18 @@ struct MoreView: View {
                         Text("Test version only: every Pro feature works without buying. Turn it off to see the app as you bought it. Customers never see this switch.")
                     }
                 }
+                if tillTabShown {
+                    Section {
+                        NavigationLink(value: Page.reports) {
+                            Label("Reports", systemImage: "chart.bar")
+                        }
+                    }
+                } else {
                 Section("Till") {
                     if store.allows(.till) {
+                        Toggle(isOn: $tillTab) {
+                            Label("Till as its own tab", systemImage: "rectangle.bottomthird.inset.filled")
+                        }
                         NavigationLink(value: Page.sales) {
                             Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis")
                         }
@@ -71,6 +83,7 @@ struct MoreView: View {
                             Label("Till, stock and sales", systemImage: "cart")
                         }
                     }
+                }
                 }
                 // staff phones: prices, shops and records are the owner's
                 if !team.isStaff {
@@ -157,6 +170,7 @@ struct MoreView: View {
                 case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
                 case .deleted: RecentlyDeletedView()
                 case .history: ChangeHistoryView()
+                case .reports: ReportsView(embedded: true)
                 }
             }
         }
