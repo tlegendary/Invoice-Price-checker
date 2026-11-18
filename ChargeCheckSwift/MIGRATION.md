@@ -455,3 +455,10 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
   "classic" Bluetooth printers (iOS apps can't use them without Apple's MFi programme).
 - Tested: core logic in TillPlusTests (Linux CI). Not tested on a device: printers, drawer, customer screen,
   two real tills over iCloud.
+
+## Review 18 Nov 2026
+- Gift cards and accounts: the till fetches the other tills' latest sales just before a gift card or account is used,
+  so two tills can't spend the same card (or go over an account limit) in the same half minute. Still possible if
+  two tills do it within the same few seconds, or offline: a server would be needed to rule that out fully.
+- Builds use Xcode 27.2 / iOS 27 SDK (Codemagic beta pinned; GitHub checks on xcode-27 runners).
+- Open: money is still Double rounded to pennies (tests pass; a move to Decimal is a larger, planned change).
