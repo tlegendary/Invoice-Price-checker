@@ -30,7 +30,7 @@ jobs:
         run: bash .github/save-log.sh core /tmp/core.log
   app:
     name: App build
-    runs-on: macos-15
+    runs-on: xcode-27   # same Xcode as the beta build (Codemagic 27.2)
     timeout-minutes: 35
     # macOS minutes are expensive on a private repo: only when the commit message asks for it
     if: ${{ contains(github.event.head_commit.message, '[app]') }}
@@ -48,7 +48,7 @@ jobs:
           xcodegen generate 2>&1 | tee /tmp/app.log
           xcodebuild -version | tee -a /tmp/app.log
           ID=com.rjapps.invoicepricechecker
-          UDID=$(xcrun simctl list devices available | grep -E "iPhone 1[5-9]( Pro)? \(" | head -1 | grep -oE "[0-9A-F-]{36}")
+          UDID=$(xcrun simctl list devices available | grep -E "iPhone [0-9]+( Pro)? \(" | head -1 | grep -oE "[0-9A-F-]{36}")
           echo "Simulator: $UDID" | tee -a /tmp/app.log
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b | tail -1
@@ -167,7 +167,7 @@ jobs:
     # App Store screenshots: the real app on the largest iPhone (6.9"), with realistic shop data, in every listing
     # language. Only runs when a commit message contains [shots]. Pictures are kept on the ci-logs branch (store/).
     name: App Store screenshots
-    runs-on: macos-15
+    runs-on: xcode-27   # same Xcode as the beta build (Codemagic 27.2)
     timeout-minutes: 45
     if: ${{ contains(github.event.head_commit.message, '[shots]') }}
     steps:
@@ -239,7 +239,7 @@ jobs:
     # The same kind of build Codemagic makes for TestFlight (release, real device), without signing,
     # so its errors can be read. Only runs when a commit message contains [archive].
     name: Release build
-    runs-on: macos-15
+    runs-on: xcode-27   # same Xcode as the beta build (Codemagic 27.2)
     timeout-minutes: 30
     if: ${{ contains(github.event.head_commit.message, '[archive]') }}
     steps:
