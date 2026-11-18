@@ -1046,6 +1046,9 @@ struct PaySheet: View {
     var customer: Customer?
     let onPaid: (PaymentKind, Double?, [SalePayment]?) -> Void
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    /// Getting the other tills' latest sales before a gift card or account is used.
+    @State private var checking = false
     @ObservedObject private var till = TillStore.shared
     @State private var kind = 0
     @State private var given = ""
@@ -1108,6 +1111,12 @@ struct PaySheet: View {
                     mainPart
                     alsoPart
                 }
+                if checking {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        Text("Checking the other tills…").font(.footnote).foregroundStyle(.secondary)
+                    }
+                }
                 if let problem {
                     Text(problem).font(.footnote).foregroundStyle(.red)
                 }
@@ -1126,7 +1135,7 @@ struct PaySheet: View {
             }
             .alert("Gift card", isPresented: $askingGift) {
                 TextField("Card number", text: $giftCode).keyboardType(.numberPad)
-                Button("Use it") { useGift(giftCode) }
+                Button("Use it") { fresh { useGift(giftCode) } }
                 if BarcodeScanner.canScan {
                     Button("Scan it") { scanningGift = true }
                 }
@@ -1137,7 +1146,7 @@ struct PaySheet: View {
             .sheet(isPresented: $scanningGift) {
                 BarcodeScanner { code in
                     scanningGift = false
-                    useGift(code)
+                    fresh { useGift(code) }
                 }
                 .ignoresSafeArea()
             }
@@ -1200,7 +1209,7 @@ struct PaySheet: View {
                 let balance = till.balance(customer)
                 if customer.tabLimit != nil {
                     Button {
-                        putOnAccount(customer, owed: balance.tab)
+                        fresh { putOnAccount(customer, owed: till.balance(customer).tab) }
                     } label: {
                         Label(String(localized: "On \(customer.name)'s account (owes \(Money.format(balance.tab)))"), systemImage: "person.text.rectangle")
                     }
@@ -1216,6 +1225,17 @@ struct PaySheet: View {
             }
         } header: {
             Text("Or pay with")
+        }
+    }
+
+    /// Before spending a gift card or putting a sale on account: the other tills' sales from the last seconds,
+    /// so the same card or account can't be used twice at once on two tills (it's checked again here, not 30 s ago).
+    private func fresh(_ then: @escaping () -> Void) {
+        checking = true
+        Task {
+            await till.sync(context: context)
+            checking = false
+            then()
         }
     }
 
