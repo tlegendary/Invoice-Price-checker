@@ -15092,6 +15092,35 @@
         }
       }
     },
+    "End of day (till %@)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نهاية اليوم (الكاشير %@)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کۆتایی ڕۆژ (کاشێری %@)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tagesabschluss (Kasse %@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin de journée (caisse %@)"
+          }
+        }
+      }
+    },
     "Ended %lld days ago" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -32119,6 +32148,35 @@
         }
       }
     },
+    "Profit today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ربح اليوم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قازانجی ئەمڕۆ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewinn heute"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bénéfice du jour"
+          }
+        }
+      }
+    },
     "Purchases" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -34356,6 +34414,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tableur des ventes (CSV)"
+          }
+        }
+      }
+    },
+    "Sales today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مبيعات اليوم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فرۆشی ئەمڕۆ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkäufe heute"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ventes du jour"
           }
         }
       }
@@ -37689,6 +37776,35 @@
         }
       }
     },
+    "Staff and setup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الموظفون والإعداد"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارمەندان و ڕێکخستن"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal und Einrichtung"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnel et réglages"
+          }
+        }
+      }
+    },
     "Staff check invoices on their own iPhones and everything comes to yours." : {
       "localizations" : {
         "ar" : {
@@ -39609,6 +39725,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes"
+          }
+        }
+      }
+    },
+    "Takings today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيرادات اليوم"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "داهاتی ئەمڕۆ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einnahmen heute"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette du jour"
           }
         }
       }
@@ -42568,6 +42713,35 @@
         }
       }
     },
+    "Till as its own tab" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الكاشير كتبويب مستقل"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاشێر وەک تابێکی سەربەخۆ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kasse als eigener Tab"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La caisse dans son propre onglet"
+          }
+        }
+      }
+    },
     "Till menu" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42940,6 +43114,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aujourd'hui"
+          }
+        }
+      }
+    },
+    "Today's figures are for every shop. Choose a shop at the top to see one." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أرقام اليوم لكل المحلات. اختر محلاً في الأعلى لرؤيته وحده."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ژمارەکانی ئەمڕۆ بۆ هەموو دووکانەکانن. لە سەرەوە دووکانێک هەڵبژێرە بۆ بینینی تەنها ئەو."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die heutigen Zahlen gelten für alle Läden. Wähle oben einen Laden, um nur ihn zu sehen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les chiffres du jour sont pour tous les magasins. Choisissez un magasin en haut pour n'en voir qu'un."
           }
         }
       }
@@ -43514,6 +43717,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Essai de la photo dans un autre sens…"
+          }
+        }
+      }
+    },
+    "Turn off to put Reports back in this tab. The till is then in More and on Home." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أطفئه لإعادة التقارير إلى هذا التبويب. يصبح الكاشير عندها في المزيد وفي الرئيسية."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بیکوژێنەرەوە بۆ گەڕاندنەوەی ڕاپۆرتەکان بۆ ئەم تابە. ئەوکات کاشێر لە زیاتر و سەرەکییە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausschalten, um Berichte wieder in diesen Tab zu legen. Die Kasse ist dann unter Mehr und auf Start."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivez pour remettre les Rapports dans cet onglet. La caisse est alors dans Plus et sur l'Accueil."
           }
         }
       }
