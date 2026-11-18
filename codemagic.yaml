@@ -85,7 +85,7 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.rjapps.invoicepricechecker   # brings the distribution certificate; the beta profile is fetched below
-      xcode: latest
+      xcode: 27.2   # Apple: from April 2027 uploads must use the iOS 27 SDK (ITMS-90725); "latest" was still giving 26.5
     scripts:
       - name: Make the Xcode project (beta name and bundle ID)
         script: |
