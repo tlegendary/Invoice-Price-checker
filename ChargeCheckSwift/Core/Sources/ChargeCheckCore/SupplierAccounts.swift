@@ -205,6 +205,43 @@ public enum SupplierAccounts {
         .sorted { $0.balance != $1.balance ? $0.balance > $1.balance : $0.name < $1.name }
     }
 
+    /// What's owed, split into before VAT and VAT.
+    public struct OwedSplit: Equatable, Sendable {
+        public var beforeVat: Double
+        public var vat: Double
+        /// Exactly the unpaid invoices' own figures; false: worked out in proportion (a starting balance or
+        /// part-payments mean the amount owed isn't whole invoices).
+        public var exact: Bool
+    }
+
+    /// Splits the balance with each unpaid invoice's own before-VAT amount (less overcharges and missing items).
+    /// nil when nothing is owed or there are no invoices to take the VAT from.
+    public static func owedSplit(_ account: SupplierAccount) -> OwedSplit? {
+        guard account.balance > 0.005 else { return nil }
+        var openPay = 0.0, openNet = 0.0
+        for entry in account.open {
+            openPay += entry.amountToPay.pay
+            openNet += entry.amountToPayBeforeVat.pay
+        }
+        if account.opening == 0, abs(Money.round2(openPay) - account.balance) < 0.01 {
+            let before = Money.round2(openNet)
+            return OwedSplit(beforeVat: before, vat: Money.round2(account.balance - before), exact: true)
+        }
+        // otherwise in proportion: the unpaid invoices' VAT share, or (none unpaid) all their invoices'
+        var pay = openPay, net = openNet
+        if pay <= 0.005 {
+            pay = 0
+            net = 0
+            for entry in account.entries {
+                pay += entry.amountToPay.pay
+                net += entry.amountToPayBeforeVat.pay
+            }
+        }
+        guard pay > 0.005 else { return nil }
+        let before = Money.round2(account.balance * min(1, max(0, net / pay)))
+        return OwedSplit(beforeVat: before, vat: Money.round2(account.balance - before), exact: false)
+    }
+
     /// Whether this supplier is on the trusted list.
     public static func isTrusted(_ supplier: String, trusted: [String]) -> Bool {
         let k = key(supplier)

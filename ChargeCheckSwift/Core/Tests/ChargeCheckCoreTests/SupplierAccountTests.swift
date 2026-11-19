@@ -107,4 +107,29 @@ final class SupplierAccountTests: XCTestCase {
         XCTAssertEqual(back.payments?.first?.amount, 10)
         XCTAssertEqual(back.trusted, ["Waka"])
     }
+
+    func testWhatsOwedBeforeAndAfterVat() {
+        // £100 + £20 VAT, and £50 + £10 VAT with £5 (net) overcharged: pay 120 and 54
+        let one = HistoryEntry(id: "v1", savedAt: "2026-11-01T10:00:00Z", supplier: "Vat Co", invNo: "1", date: "", net: 100, total: 120,
+                               over: 0, paid: nil, lines: [])
+        var two = HistoryEntry(id: "v2", savedAt: "2026-11-02T10:00:00Z", supplier: "Vat Co", invNo: "2", date: "", net: 50, total: 60,
+                               over: 5, paid: nil, lines: [])
+        two.overVat = 1
+        let account = SupplierAccounts.accounts(entries: [one, two], payments: [], trusted: []).first!
+        XCTAssertEqual(account.balance, 174)
+        let split = SupplierAccounts.owedSplit(account)
+        XCTAssertEqual(split?.beforeVat, 145, "100 + (50 − 5)")
+        XCTAssertEqual(split?.vat, 29)
+        XCTAssertEqual(split?.exact, true)
+
+        // a payment on account that isn't whole invoices: worked out in proportion, and it still adds up
+        let part = SupplierPayment(supplier: "Vat Co", amount: 30, date: "2026-11-03", kind: .payment)
+        let paidSome = SupplierAccounts.accounts(entries: [one, two], payments: [part], trusted: []).first!
+        let rough = SupplierAccounts.owedSplit(paidSome)
+        XCTAssertEqual(paidSome.balance, 144)
+        XCTAssertEqual(rough?.exact, false)
+        XCTAssertEqual(Money.round2((rough?.beforeVat ?? 0) + (rough?.vat ?? 0)), 144)
+
+        XCTAssertNil(SupplierAccounts.owedSplit(SupplierAccounts.accounts(entries: [], payments: [part], trusted: []).first!), "nothing owed")
+    }
 }

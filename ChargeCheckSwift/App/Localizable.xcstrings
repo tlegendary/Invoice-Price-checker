@@ -8440,6 +8440,64 @@
         }
       }
     },
+    "Before VAT (about)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة (تقريباً)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش باج (نزیکەی)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. (ca.)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hors TVA (environ)"
+          }
+        }
+      }
+    },
+    "Before VAT and VAT are worked out in proportion from their invoices, because part of what you owe isn't whole invoices (a starting balance or part-payments).": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحسب المبلغ قبل الضريبة والضريبة بالتناسب من فواتيرهم، لأن جزءاً مما تدين به ليس فواتير كاملة (رصيد افتتاحي أو دفعات جزئية)."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش باج و باج بە ڕێژە لە پسوولەکانیانەوە دەژمێردرێن، چونکە بەشێک لەوەی قەرزارتی پسوولەی تەواو نییە (باڵانسی سەرەتا یان پارەدانی بەشێک)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. und MwSt. sind anteilig aus ihren Rechnungen berechnet, weil ein Teil der Schuld keine ganzen Rechnungen sind (Anfangssaldo oder Teilzahlungen)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le hors TVA et la TVA sont calculés au prorata de leurs factures, car une partie de ce que vous devez n'est pas des factures entières (solde de départ ou paiements partiels)."
+          }
+        }
+      }
+    },
     "Before VAT, by each invoice's date. Missing or returned items aren't counted. Give items a category in your price list to sort them here.": {
       "extractionState": "manual",
       "localizations": {
@@ -47782,6 +47840,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "TVA"
+          }
+        }
+      }
+    },
+    "VAT (about)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الضريبة (تقريباً)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باج (نزیکەی)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MwSt. (ca.)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TVA (environ)"
           }
         }
       }

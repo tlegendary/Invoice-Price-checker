@@ -428,6 +428,12 @@ struct SupplierDetailView: View {
                                 .font(.title.weight(.heavy))
                                 .foregroundStyle(account.balance > 0.005 ? AnyShapeStyle(.tint) : AnyShapeStyle(Color.green))
                         }
+                        if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
+                            LabeledContent(split.exact ? String(localized: "Before VAT") : String(localized: "Before VAT (about)"),
+                                           value: Money.format(split.beforeVat, supplier: account.name))
+                            LabeledContent(split.exact ? String(localized: "VAT") : String(localized: "VAT (about)"),
+                                           value: Money.format(split.vat, supplier: account.name))
+                        }
                         if account.opening != 0 { LabeledContent("Starting balance", value: Money.format(account.opening, supplier: account.name)) }
                         LabeledContent("Invoices", value: Money.format(account.invoiced, supplier: account.name))
                         if account.settledOutside > 0.005 {
@@ -439,6 +445,8 @@ struct SupplierDetailView: View {
                     } footer: {
                         if account.balance < -0.005 {
                             Text("You've paid \(Money.format(-account.balance, supplier: account.name)) more than they invoiced. It comes off their next invoices.")
+                        } else if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005, !split.exact {
+                            Text("Before VAT and VAT are worked out in proportion from their invoices, because part of what you owe isn't whole invoices (a starting balance or part-payments).")
                         }
                     }
 
