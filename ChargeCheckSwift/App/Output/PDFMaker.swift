@@ -249,6 +249,10 @@ enum PDFMaker {
         make(title: "Supplier report", subtitle: account.name + " · " + stamp(business), theme: theme) { page in
             page.heading("Account")
             page.pair("You owe", Money.format(account.balance, supplier: account.name), bold: true)
+            if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
+                page.pair(split.exact ? "Before VAT" : "Before VAT (about)", Money.format(split.beforeVat, supplier: account.name))
+                page.pair(split.exact ? "VAT" : "VAT (about)", Money.format(split.vat, supplier: account.name))
+            }
             if account.opening != 0 { page.pair("Starting balance", Money.format(account.opening, supplier: account.name)) }
             page.pair("Invoices", Money.format(account.invoiced, supplier: account.name))
             if account.paid > 0.005 { page.pair("Payments", "−" + Money.format(account.paid, supplier: account.name)) }
@@ -277,11 +281,14 @@ enum PDFMaker {
             if !account.open.isEmpty {
                 let dueByID = Dictionary(due.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
                 page.heading("Still to pay")
-                page.table(headers: ["Date", "Invoice no.", "Due", "To pay"], widths: [2, 2.5, 2.5, 2], right: [3],
+                let openSplit = SupplierAccounts.OwedSplit.of(account.open)
+                page.table(headers: ["Date", "Invoice no.", "Due", "Before VAT", "To pay"], widths: [2, 2.2, 2.2, 2, 2], right: [3, 4],
                            rows: account.open.reversed().map { entry in
-                               [entry.date, entry.invNo, dueByID[entry.id].map { PayDates.show($0.dueDate) } ?? "", Money.format(entry.amountToPay.pay, supplier: account.name)]
+                               [entry.date, entry.invNo, dueByID[entry.id].map { PayDates.show($0.dueDate) } ?? "",
+                                Money.format(entry.amountToPayBeforeVat.pay, supplier: account.name), Money.format(entry.amountToPay.pay, supplier: account.name)]
                            },
-                           footer: ["", "Total", "", Money.format(Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay }), supplier: account.name)])
+                           footer: ["", "Total", "", Money.format(openSplit.beforeVat, supplier: account.name),
+                                    Money.format(Money.round2(openSplit.beforeVat + openSplit.vat), supplier: account.name)])
             }
             let paid = account.payments.filter { $0.amount > 0.005 }
             if !paid.isEmpty {

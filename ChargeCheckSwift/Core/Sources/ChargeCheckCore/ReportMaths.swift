@@ -9,6 +9,17 @@ public struct SupplierPay: Identifiable, Equatable, Sendable {
     public var pay: Double
     public var hasMissing: Bool
     public var id: String { name }
+    /// What to pay these invoices before VAT, and with VAT.
+    public var payBeforeVat: Double {
+        var sum = 0.0
+        for entry in entries { sum += entry.amountToPayBeforeVat.pay }
+        return Money.round2(sum)
+    }
+    public var payWithVat: Double {
+        var sum = 0.0
+        for entry in entries { sum += entry.amountToPay.pay }
+        return Money.round2(sum)
+    }
 }
 
 public struct PaySummary: Equatable, Sendable {
@@ -151,11 +162,19 @@ public enum ReportMaths {
                 lines.append(line)
             }
             lines.append("  " + t("Pay {1}: {2}", supplier.name, Money.format(supplier.pay)))
+            if summary.vat > 0.005 {
+                lines.append("  " + t("Before VAT {1} + VAT {2}", Money.format(supplier.payBeforeVat),
+                                      Money.format(Money.round2(supplier.payWithVat - supplier.payBeforeVat))))
+            }
             lines.append("")
         }
         var last = t("Total to pay: {1}", Money.format(summary.pay))
         if summary.less > 0 { last += " " + t("(invoices {1} less {2} taken off)", Money.format(summary.total), Money.format(summary.less)) }
         lines.append(last)
+        if summary.vat > 0.005 {
+            lines.append(t("Before VAT {1} + VAT {2} = {3}", Money.format(summary.payBeforeVat), Money.format(summary.vat),
+                           Money.format(summary.payWithVat)))
+        }
         lines.append(summary.beforeVat ? t("Amounts are before VAT (no VAT added).") : t("Amounts include VAT."))
         return lines.joined(separator: "\n")
     }

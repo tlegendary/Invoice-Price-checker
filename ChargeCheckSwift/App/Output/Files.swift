@@ -497,7 +497,12 @@ enum DueReminder {
                 content.title = notice.count == 1 ? String(localized: "1 invoice due today") : String(localized: "\(notice.count) invoices due today")
                 var body = notice.suppliers.prefix(3).joined(separator: ", ")
                 if notice.suppliers.count > 3 { body += " " + String(localized: "and others") }
-                if let amount = notice.amount, let code = notice.currency { body += " · " + Money.format(amount, code: code) }
+                if let amount = notice.amount, let code = notice.currency {
+                    body += " · " + Money.format(amount, code: code)
+                    if let before = notice.beforeVat {
+                        body += " " + String(localized: "(\(Money.format(before, code: code)) before VAT)")
+                    }
+                }
                 content.body = body
                 content.sound = .default
                 let trigger = UNCalendarNotificationTrigger(dateMatching: when, repeats: false)

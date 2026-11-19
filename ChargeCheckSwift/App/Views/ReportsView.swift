@@ -230,6 +230,12 @@ struct ReportsView: View {
                             Text(String(localized: "Invoiced \(Money.format(supplier.total))") + (supplier.less > 0 ? " − \(Money.format(supplier.less))" : ""))
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
+                            if !beforeVat {
+                                VatLine(split: SupplierAccounts.OwedSplit.of(supplier.entries))
+                            } else if supplier.payWithVat - supplier.payBeforeVat > 0.005 {
+                                Text(String(localized: "With VAT \(Money.format(supplier.payWithVat))"))
+                                    .font(.footnote).foregroundStyle(.secondary)
+                            }
                         }
                         Spacer(minLength: 8)
                         Text(Money.format(supplier.pay))
@@ -470,6 +476,12 @@ struct ReportDetailView: View {
                         LabeledContent("To pay") {
                             Text(Money.format(amounts.pay, supplier: entry.supplier))
                                 .fontWeight(.bold)
+                        }
+                        let split = SupplierAccounts.OwedSplit.of([entry])
+                        if split.vat > 0.005 {
+                            LabeledContent("Before VAT", value: Money.format(split.beforeVat, supplier: entry.supplier))
+                            LabeledContent("VAT", value: Money.format(split.vat, supplier: entry.supplier))
+                            LabeledContent("With VAT", value: Money.format(entry.amountToPay.pay, supplier: entry.supplier))
                         }
                         Toggle("Paid", isOn: Binding(
                             get: { entry.paid != nil },

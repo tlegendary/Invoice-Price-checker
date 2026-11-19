@@ -132,4 +132,20 @@ final class SupplierAccountTests: XCTestCase {
 
         XCTAssertNil(SupplierAccounts.owedSplit(SupplierAccounts.accounts(entries: [], payments: [part], trusted: []).first!), "nothing owed")
     }
+
+    func testTotalsBeforeVatForSeveralSuppliers() {
+        let a = HistoryEntry(id: "a", savedAt: "2026-11-01T10:00:00Z", supplier: "A", invNo: "1", date: "", net: 100, total: 120, over: 0, paid: nil, lines: [])
+        let b = HistoryEntry(id: "b", savedAt: "2026-11-01T10:00:00Z", supplier: "B", invNo: "2", date: "", net: 50, total: 50, over: 0, paid: nil, lines: [])
+        let accounts = SupplierAccounts.accounts(entries: [a, b], payments: [], trusted: [])
+        let total = SupplierAccounts.totalSplit(accounts)
+        XCTAssertEqual(total, SupplierAccounts.OwedSplit(beforeVat: 150, vat: 20, exact: true))
+        let snapshot = WidgetSnapshot.make(accounts, currency: "GBP")
+        XCTAssertEqual(snapshot.totalOwed, 170)
+        XCTAssertEqual(snapshot.totalBeforeVat, 150)
+        XCTAssertEqual(SupplierAccounts.OwedSplit.of([a, b]), SupplierAccounts.OwedSplit(beforeVat: 150, vat: 20, exact: true))
+        let due = DueInvoice(supplier: "A", entry: a, amount: 60, dueDate: "2026-11-20", daysLeft: 3)
+        XCTAssertEqual(due.beforeVat, 50, "half of it still to pay: half the before-VAT amount")
+        let notice = DueReminders.plan([due], currencyOf: { _ in "GBP" }).first
+        XCTAssertEqual(notice?.beforeVat, 50)
+    }
 }

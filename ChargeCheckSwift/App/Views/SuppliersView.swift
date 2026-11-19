@@ -58,6 +58,7 @@ struct SuppliersView: View {
                                 .font(.title2.weight(.heavy))
                                 .foregroundStyle(.tint)
                         }
+                        VatLine(split: SupplierAccounts.totalSplit(home))
                         LabeledContent("Paid this week", value: Money.format(thisWeek))
                         ForEach(other, id: \.code) { row in
                             LabeledContent(String(localized: "Also owed in \(row.code)"), value: Money.format(row.owed, code: row.code))
@@ -235,9 +236,17 @@ struct SupplierRow: View {
                     .lineLimit(2)
             }
             Spacer(minLength: 8)
-            Text(Money.format(account.balance, supplier: account.name))
-                .fontWeight(.bold)
-                .foregroundStyle(account.balance > 0.005 ? Color.primary : Color.green)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(Money.format(account.balance, supplier: account.name))
+                    .fontWeight(.bold)
+                    .foregroundStyle(account.balance > 0.005 ? Color.primary : Color.green)
+                if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
+                    Text(String(localized: "\(Money.format(split.beforeVat, supplier: account.name)) before VAT"))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
         }
     }
 
@@ -593,6 +602,15 @@ struct SupplierDetailView: View {
                                 .tag(entry.id)
                                 .invoiceSwipes(entry)
                             }
+                        } footer: {
+                            let pay = Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay })
+                            let before = Money.round2(account.open.reduce(0) { $0 + $1.amountToPayBeforeVat.pay })
+                            if account.open.count > 1 || pay - before > 0.005 {
+                                Text(String(localized: "Total \(Money.format(pay, supplier: account.name))") + (pay - before > 0.005
+                                     ? " · " + VatLine.text(SupplierAccounts.OwedSplit(beforeVat: before, vat: Money.round2(pay - before), exact: true),
+                                                           supplier: account.name)
+                                     : ""))
+                            }
                         } header: {
                             HStack {
                                 Text("Still to pay")
@@ -792,8 +810,17 @@ struct InvoiceMoneyRow: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Text(Money.format(entry.amountToPay.pay, supplier: entry.supplier))
-                .fontWeight(.semibold)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(Money.format(entry.amountToPay.pay, supplier: entry.supplier))
+                    .fontWeight(.semibold)
+                let before = entry.amountToPayBeforeVat.pay
+                if entry.amountToPay.pay - before > 0.005 {
+                    Text(String(localized: "\(Money.format(before, supplier: entry.supplier)) before VAT"))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
         }
     }
 }
@@ -1089,6 +1116,7 @@ struct PayRunView: View {
                                 Text("Owed \(Money.format(account.balance, supplier: account.name))")
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
+                                VatLine(split: SupplierAccounts.owedSplit(account), supplier: account.name)
                             }
                             Spacer(minLength: 8)
                             TextField("0", text: Binding(get: { amounts[account.id] ?? "" }, set: { amounts[account.id] = $0 }))

@@ -75,6 +75,8 @@ public struct Overview: Equatable, Sendable {
     public var attention: [Attention]
     /// What you owe suppliers who invoice in another currency, by currency code. Not in any figure above.
     public var owedOther: [String: Double] = [:]
+    /// What's owed, before VAT and VAT.
+    public var owedSplit: SupplierAccounts.OwedSplit?
 
     /// "You may have lost" this month: price rises paid + credits still not back.
     public var lostThisMonth: Double { Money.round2(risesCost + creditsOwed) }
@@ -175,7 +177,7 @@ public enum OverviewMaths {
         }
         if !rises.isEmpty { attention.append(Attention(kind: .priceRises, count: rises.count, amount: risesCost)) }
 
-        return Overview(
+        var overview = Overview(
             owed: Money.round2(owing.reduce(0) { $0 + $1.balance }),
             suppliersOwed: owing.count,
             spentThisMonth: Money.round2(inMonth.reduce(0) { $0 + $1.amountToPay.total }),
@@ -190,5 +192,7 @@ public enum OverviewMaths {
             risingSupplier: bySupplier.values.max { $0.cost < $1.cost }?.name,
             attention: attention,
             owedOther: owedOther)
+        overview.owedSplit = SupplierAccounts.totalSplit(owing)
+        return overview
     }
 }

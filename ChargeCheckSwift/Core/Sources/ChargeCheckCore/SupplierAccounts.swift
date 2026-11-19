@@ -212,6 +212,22 @@ public enum SupplierAccounts {
         /// Exactly the unpaid invoices' own figures; false: worked out in proportion (a starting balance or
         /// part-payments mean the amount owed isn't whole invoices).
         public var exact: Bool
+
+        public init(beforeVat: Double, vat: Double, exact: Bool) {
+            self.beforeVat = beforeVat
+            self.vat = vat
+            self.exact = exact
+        }
+
+        /// Invoices' own figures: what to pay with VAT and before it.
+        public static func of(_ entries: [HistoryEntry]) -> OwedSplit {
+            var pay = 0.0, before = 0.0
+            for entry in entries {
+                pay += entry.amountToPay.pay
+                before += entry.amountToPayBeforeVat.pay
+            }
+            return OwedSplit(beforeVat: Money.round2(before), vat: Money.round2(pay - before), exact: true)
+        }
     }
 
     /// Splits the balance with each unpaid invoice's own before-VAT amount (less overcharges and missing items).
@@ -240,6 +256,24 @@ public enum SupplierAccounts {
         guard pay > 0.005 else { return nil }
         let before = Money.round2(account.balance * min(1, max(0, net / pay)))
         return OwedSplit(beforeVat: before, vat: Money.round2(account.balance - before), exact: false)
+    }
+
+    /// What's owed to several suppliers, before VAT and VAT. A supplier with no invoices to take the VAT from
+    /// (a starting balance only) counts as before VAT, and the total is then marked as not exact.
+    public static func totalSplit(_ accounts: [SupplierAccount]) -> OwedSplit? {
+        var before = 0.0, vat = 0.0, exact = true, any = false
+        for account in accounts where account.balance > 0.005 {
+            any = true
+            if let split = owedSplit(account) {
+                before += split.beforeVat
+                vat += split.vat
+                if !split.exact { exact = false }
+            } else {
+                before += account.balance
+                exact = false
+            }
+        }
+        return any ? OwedSplit(beforeVat: Money.round2(before), vat: Money.round2(vat), exact: exact) : nil
     }
 
     /// Whether this supplier is on the trusted list.
@@ -317,6 +351,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public var updated: Date
     /// The widget is a Pro feature: true when the app isn't on Pro (it shows how to unlock it instead of figures).
     public var locked: Bool?
+    /// What's owed before VAT (nil: no VAT in it, or from before this was kept).
+    public var totalBeforeVat: Double?
 
     public static func locked(currency: String, now: Date = Date()) -> WidgetSnapshot {
         var snapshot = WidgetSnapshot(totalOwed: 0, paidThisWeek: 0, suppliers: [], currency: currency, updated: now)
@@ -334,10 +370,12 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
 
     public static func make(_ accounts: [SupplierAccount], currency: String, now: Date = Date()) -> WidgetSnapshot {
         let owing = accounts.filter { $0.balance > 0.005 }
-        return WidgetSnapshot(totalOwed: Money.round2(owing.reduce(0) { $0 + $1.balance }),
-                              paidThisWeek: Money.round2(accounts.reduce(0) { $0 + $1.paidThisWeek }),
-                              suppliers: owing.prefix(6).map { Line(name: $0.name, owed: $0.balance, openInvoices: $0.open.count) },
-                              currency: currency, updated: now)
+        var snapshot = WidgetSnapshot(totalOwed: Money.round2(owing.reduce(0) { $0 + $1.balance }),
+                                      paidThisWeek: Money.round2(accounts.reduce(0) { $0 + $1.paidThisWeek }),
+                                      suppliers: owing.prefix(6).map { Line(name: $0.name, owed: $0.balance, openInvoices: $0.open.count) },
+                                      currency: currency, updated: now)
+        if let split = SupplierAccounts.totalSplit(owing), split.vat > 0.005 { snapshot.totalBeforeVat = split.beforeVat }
+        return snapshot
     }
 }
 
