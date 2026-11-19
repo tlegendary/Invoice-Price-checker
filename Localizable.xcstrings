@@ -114,6 +114,35 @@
         }
       }
     },
+    "%@ + VAT %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ + ضريبة %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ + باج %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ + MwSt. %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ + TVA %@"
+          }
+        }
+      }
+    },
     "%@ / kg" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -18869,6 +18898,35 @@
         }
       }
     },
+    "How it's worked out" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كيف يُحسب"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چۆن دەژمێردرێت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So wird gerechnet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le détail du calcul"
+          }
+        }
+      }
+    },
     "How many" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -23473,6 +23531,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Moyen"
+          }
+        }
+      }
+    },
+    "Missing / returned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ناقص / مُرجع"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کەم / گەڕێنراوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlt / zurück"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manquant / retourné"
           }
         }
       }
@@ -45012,6 +45099,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette facture est en %1$@, mais vos prix sont en %2$@. Vérifiez les prix avant d'enregistrer, ou réglez ce fournisseur sur %3$@ dans Fournisseurs."
+          }
+        }
+      }
+    },
+    "This invoice's lines were read without VAT rates, so the VAT taken off is the invoice's own VAT share (%@)." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قُرئت أسطر هذه الفاتورة بدون نسب الضريبة، لذا فالضريبة المخصومة هي حصة الضريبة في الفاتورة نفسها (%@)."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دێڕەکانی ئەم پسوولەیە بێ ڕێژەی باج خوێنرانەوە، بۆیە ئەو باجەی دەبڕدرێت ڕێژەی باجی خودی پسوولەکەیە (%@)."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zeilen dieser Rechnung wurden ohne MwSt.-Sätze gelesen, daher wird die MwSt. im Verhältnis der Rechnung abgezogen (%@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les lignes de cette facture ont été lues sans taux de TVA : la TVA déduite suit la part de TVA de la facture (%@)."
           }
         }
       }
