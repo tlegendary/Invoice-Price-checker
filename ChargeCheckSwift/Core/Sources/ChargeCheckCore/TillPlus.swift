@@ -477,9 +477,15 @@ public enum CustomerMaths {
     public static func worth(points: Int, loyalty: LoyaltySettings) -> Double { Money.round2(Double(max(0, points)) * loyalty.worth) }
 
     /// Can this much go on their tab?
+    /// Can this much go on their account? Up to their limit, or (with no limit) only what's there as store credit.
     public static func tabAllows(_ customer: Customer, owed: Double, adding: Double) -> Bool {
-        guard let limit = customer.tabLimit else { return false }
-        return owed + adding <= limit + 0.004
+        let limit = customer.tabLimit ?? 0
+        return adding > 0 && owed + adding <= limit + 0.004
+    }
+
+    /// The most that can go on their account now (their limit less what they owe, or their store credit).
+    public static func tabRoom(_ customer: Customer, owed: Double) -> Double {
+        Money.round2(max(0, (customer.tabLimit ?? 0) - owed))
     }
 }
 
@@ -646,5 +652,189 @@ public enum EscPos {
     public static func chunks(_ bytes: [UInt8], size: Int) -> [[UInt8]] {
         guard size > 0 else { return [bytes] }
         return stride(from: 0, to: bytes.count, by: size).map { Array(bytes[$0..<min($0 + size, bytes.count)]) }
+    }
+}
+
+
+// MARK: - Item options (size, add-ons)
+
+public struct OptionChoice: Codable, Equatable, Hashable, Sendable {
+    public var name: String
+    /// Added to the price (0: free, negative: cheaper).
+    public var price: Double
+
+    public init(name: String, price: Double = 0) {
+        self.name = name
+        self.price = price
+    }
+}
+
+/// "Size: Small / Large +£0.50", "Add-ons: Oat milk +£0.40, Extra shot +£0.60".
+public struct OptionGroup: Codable, Equatable, Identifiable, Sendable {
+    public var id: String
+    public var name: String
+    public var choices: [OptionChoice]
+    /// One must be chosen (a size).
+    public var required: Bool
+    /// More than one can be chosen (add-ons).
+    public var many: Bool
+
+    public init(id: String = UUID().uuidString, name: String, choices: [OptionChoice], required: Bool = false, many: Bool = false) {
+        self.id = id
+        self.name = name
+        self.choices = choices
+        self.required = required
+        self.many = many
+    }
+}
+
+public enum ItemOptions {
+    /// The price with the chosen options.
+    public static func price(base: Double, chosen: [OptionChoice]) -> Double {
+        var total = base
+        for choice in chosen { total += choice.price }
+        return Money.round2(max(0, total))
+    }
+
+    /// "Latte (Large, Oat milk)"
+    public static func label(_ name: String, chosen: [OptionChoice]) -> String {
+        chosen.isEmpty ? name : name + " (" + chosen.map(\.name).joined(separator: ", ") + ")"
+    }
+
+    /// Every required group has exactly one choice, and single-choice groups have at most one.
+    public static func complete(_ groups: [OptionGroup], chosen: [String: [OptionChoice]]) -> Bool {
+        for group in groups {
+            let picked = chosen[group.id] ?? []
+            if group.required && picked.isEmpty { return false }
+            if !group.many && picked.count > 1 { return false }
+        }
+        return true
+    }
+}
+
+// MARK: - Variants
+
+public enum Variants {
+    /// The variants of an item (its sizes or colours), by name.
+    public static func of(_ parent: String, in items: [PriceItem]) -> [PriceItem] {
+        items.filter { $0.till?.variantOf == parent }.sorted { $0.name.lowercased() < $1.name.lowercased() }
+    }
+}
+
+// MARK: - Money-off vouchers
+
+public struct Voucher: Codable, Equatable, Identifiable, Sendable {
+    public var id: String { code }
+    public var code: String
+    /// `value` is a % (else money off).
+    public var percent: Bool
+    public var value: Double
+    /// Only when the sale is at least this.
+    public var minSpend: Double?
+    /// yyyy-MM-dd, last day it can be used.
+    public var expiry: String?
+    /// How many times it can be used in all (nil: no limit).
+    public var uses: Int?
+    public var off: Bool?
+
+    public init(code: String, percent: Bool, value: Double, minSpend: Double? = nil, expiry: String? = nil, uses: Int? = nil, off: Bool? = nil) {
+        self.code = code
+        self.percent = percent
+        self.value = value
+        self.minSpend = minSpend
+        self.expiry = expiry
+        self.uses = uses
+        self.off = off
+    }
+}
+
+public enum VoucherCheck: Equatable, Sendable {
+    case ok(Double)
+    case unknown, turnedOff, expired, usedUp, spendMore(Double)
+}
+
+public enum Vouchers {
+    public static func normal(_ code: String) -> String {
+        code.uppercased().filter { $0.isLetter || $0.isNumber }
+    }
+
+    /// Times it's been used (a refund of the whole sale gives the use back).
+    public static func used(_ code: String, sales: [Sale]) -> Int {
+        let wanted = normal(code)
+        let refunded = Set(sales.compactMap(\.refundOf))
+        return sales.filter { $0.refundOf == nil && $0.voucher.map(normal) == wanted && !refunded.contains($0.id) }.count
+    }
+
+    /// Money off for a sale of `subtotal`, or why it can't be used.
+    public static func check(_ code: String, vouchers: [Voucher], sales: [Sale], subtotal: Double, today: String) -> VoucherCheck {
+        guard let voucher = vouchers.first(where: { normal($0.code) == normal(code) }) else { return .unknown }
+        if voucher.off == true { return .turnedOff }
+        if let expiry = voucher.expiry, today > expiry { return .expired }
+        if let uses = voucher.uses, used(code, sales: sales) >= uses { return .usedUp }
+        if let min = voucher.minSpend, subtotal < min - 0.004 { return .spendMore(min) }
+        let off = voucher.percent ? subtotal * min(voucher.value, 100) / 100 : voucher.value
+        return .ok(Money.round2(min(max(0, off), subtotal)))
+    }
+}
+
+// MARK: - Layaways
+
+/// Goods kept for a customer: they pay deposits, and take the goods when it's paid off. The sale (stock, takings,
+/// profit) happens on the day they collect; deposits are money held for them until then.
+public struct Layaway: Codable, Equatable, Identifiable, Sendable {
+    public enum Status: String, Codable, Sendable {
+        case open, collected, cancelled
+    }
+    public var id: String
+    public var shop: String
+    public var customer: String
+    public var lines: [SaleLine]
+    public var at: String
+    public var status: Status
+    /// Last change (the latest change wins between tills).
+    public var updated: String
+    public var till: String?
+    /// The sale when it was collected.
+    public var sale: String?
+
+    public init(id: String = UUID().uuidString, shop: String, customer: String, lines: [SaleLine], at: String, status: Status = .open,
+                updated: String, till: String? = nil, sale: String? = nil) {
+        self.id = id
+        self.shop = shop
+        self.customer = customer
+        self.lines = lines
+        self.at = at
+        self.status = status
+        self.updated = updated
+        self.till = till
+        self.sale = sale
+    }
+
+    public var total: Double {
+        var sum = 0.0
+        for line in lines { sum += line.gross }
+        return Money.round2(sum)
+    }
+}
+
+public enum Layaways {
+    /// Deposits paid on it so far (less any given back).
+    public static func paid(_ id: String, events: [CashEvent]) -> Double {
+        var sum = 0.0
+        for event in events where event.kind == .deposit && event.ref == id { sum += event.amount }
+        return Money.round2(sum)
+    }
+
+    public static func left(_ layaway: Layaway, events: [CashEvent]) -> Double {
+        Money.round2(max(0, layaway.total - paid(layaway.id, events: events)))
+    }
+
+    /// The same layaway changed on two tills: the latest change wins.
+    public static func merge(_ lists: [[Layaway]]) -> [Layaway] {
+        var best: [String: Layaway] = [:]
+        for list in lists {
+            for item in list where (best[item.id]?.updated ?? "") <= item.updated { best[item.id] = item }
+        }
+        return best.values.sorted { $0.at > $1.at }
     }
 }

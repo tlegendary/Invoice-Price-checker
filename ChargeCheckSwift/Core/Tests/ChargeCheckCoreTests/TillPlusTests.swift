@@ -222,3 +222,72 @@ final class TillPlusTests: XCTestCase {
         XCTAssertEqual(EscPos.chunks(Array(repeating: 1, count: 250), size: 100).map(\.count), [100, 100, 50])
     }
 }
+
+final class TillMoreTests: XCTestCase {
+    func testItemOptions() {
+        let size = OptionGroup(id: "s", name: "Size", choices: [OptionChoice(name: "Small"), OptionChoice(name: "Large", price: 0.5)], required: true)
+        let extras = OptionGroup(id: "e", name: "Add-ons", choices: [OptionChoice(name: "Oat milk", price: 0.4), OptionChoice(name: "Shot", price: 0.6)], many: true)
+        let chosen = [OptionChoice(name: "Large", price: 0.5), OptionChoice(name: "Oat milk", price: 0.4)]
+        XCTAssertEqual(ItemOptions.price(base: 2.8, chosen: chosen), 3.7)
+        XCTAssertEqual(ItemOptions.label("Latte", chosen: chosen), "Latte (Large, Oat milk)")
+        XCTAssertFalse(ItemOptions.complete([size, extras], chosen: ["e": [extras.choices[0]]]), "a size must be chosen")
+        XCTAssertTrue(ItemOptions.complete([size, extras], chosen: ["s": [size.choices[1]], "e": extras.choices]))
+        XCTAssertFalse(ItemOptions.complete([size], chosen: ["s": size.choices]), "only one size")
+    }
+
+    func testVariants() {
+        let parent = PriceItem(id: "tee", name: "T-shirt", price: 3)
+        let small = PriceItem(id: "tee-s", name: "T-shirt S", price: 3, till: TillInfo(sell: 8, variantOf: "tee"))
+        let large = PriceItem(id: "tee-l", name: "T-shirt L", price: 3, till: TillInfo(sell: 9, variantOf: "tee"))
+        XCTAssertEqual(Variants.of("tee", in: [large, parent, small]).map(\.id), ["tee-l", "tee-s"])
+    }
+
+    func testVouchers() {
+        let ten = Voucher(code: "SAVE10", percent: true, value: 10, minSpend: 20, expiry: "2026-12-31", uses: 1)
+        let five = Voucher(code: "FIVE", percent: false, value: 5)
+        XCTAssertEqual(Vouchers.check("save 10", vouchers: [ten], sales: [], subtotal: 30, today: "2026-11-19"), .ok(3))
+        XCTAssertEqual(Vouchers.check("SAVE10", vouchers: [ten], sales: [], subtotal: 15, today: "2026-11-19"), .spendMore(20))
+        XCTAssertEqual(Vouchers.check("SAVE10", vouchers: [ten], sales: [], subtotal: 30, today: "2027-01-01"), .expired)
+        XCTAssertEqual(Vouchers.check("NOPE", vouchers: [ten], sales: [], subtotal: 30, today: "2026-11-19"), .unknown)
+        XCTAssertEqual(Vouchers.check("FIVE", vouchers: [five], sales: [], subtotal: 3, today: "2026-11-19"), .ok(3), "never more than the sale")
+        var used = Sale(id: "u", number: 1, shop: "", at: "2026-11-19T10:00:00Z", lines: [], payment: .cash)
+        used.voucher = "SAVE10"
+        XCTAssertEqual(Vouchers.check("SAVE10", vouchers: [ten], sales: [used], subtotal: 30, today: "2026-11-19"), .usedUp)
+        let refund = Sale(number: 2, shop: "", at: "2026-11-19T11:00:00Z", lines: [], payment: .cash, refundOf: "u")
+        XCTAssertEqual(Vouchers.check("SAVE10", vouchers: [ten], sales: [used, refund], subtotal: 30, today: "2026-11-19"), .ok(3),
+                       "a refunded sale gives the voucher back")
+    }
+
+    func testLayawayDepositsAndCollection() {
+        let lay = Layaway(id: "L", shop: "s", customer: "ali", lines: [SaleLine(name: "Pram", qty: 1, price: 200)], at: "2026-11-01T10:00:00Z",
+                          updated: "2026-11-01T10:00:00Z")
+        let d1 = CashEvent(shop: "s", at: "2026-11-01T10:00:00Z", kind: .deposit, amount: 50, ref: "L")
+        let d2 = CashEvent(shop: "s", at: "2026-11-08T10:00:00Z", kind: .deposit, amount: 100, ref: "L", card: true)
+        XCTAssertEqual(Layaways.paid("L", events: [d1, d2]), 150)
+        XCTAssertEqual(Layaways.left(lay, events: [d1, d2]), 50)
+        let day1 = CashDay.report(shop: "s", since: "", to: "2026-11-01T23:00:00Z", sales: [], events: [d1], number: 1)
+        XCTAssertEqual(day1.expected, 50, "a cash deposit is in the drawer")
+        XCTAssertEqual(day1.takings, 0, "but it isn't a sale yet")
+        let collected = Sale(number: 1, shop: "s", at: "2026-11-15T10:00:00Z", lines: lay.lines, payment: .cash,
+                             split: [SalePayment(kind: .layaway, amount: 150, ref: "L"), SalePayment(kind: .cash, amount: 50)], customer: "ali")
+        let day3 = CashDay.report(shop: "s", since: "2026-11-14T00:00:00Z", to: "2026-11-15T23:00:00Z", sales: [collected], events: [d1, d2], number: 3)
+        XCTAssertEqual(day3.takings, 200, "the sale is on the day it's collected")
+        XCTAssertEqual(day3.cash, 50)
+        XCTAssertEqual(day3.layaway, 150)
+        let newer = Layaway(id: "L", shop: "s", customer: "ali", lines: lay.lines, at: lay.at, status: .collected, updated: "2026-11-15T10:00:00Z")
+        XCTAssertEqual(Layaways.merge([[newer], [lay]]).first?.status, .collected)
+    }
+
+    func testStoreCreditIsANegativeAccount() {
+        let customer = Customer(id: "c", name: "Sara", at: "")
+        XCTAssertEqual(CustomerMaths.tabRoom(customer, owed: -12), 12, "£12 credit to spend")
+        XCTAssertTrue(CustomerMaths.tabAllows(customer, owed: -12, adding: 12))
+        XCTAssertFalse(CustomerMaths.tabAllows(customer, owed: -12, adding: 12.01))
+        let sale = Sale(id: "s1", number: 1, shop: "", at: "2026-11-19T10:00:00Z", lines: [SaleLine(id: "l", name: "x", qty: 1, price: 12)],
+                        payment: .cash, customer: "c")
+        var refund = SaleMaths.refund(of: sale, number: 2, at: "2026-11-19T11:00:00Z")
+        refund.payment = .tab
+        refund.split = [SalePayment(kind: .tab, amount: refund.total, ref: "c")]
+        XCTAssertEqual(CustomerMaths.balance("c", sales: [sale, refund], events: [], loyalty: LoyaltySettings()).tab, -12)
+    }
+}
