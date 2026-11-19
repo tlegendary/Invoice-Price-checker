@@ -85,10 +85,9 @@ public struct Overview: Equatable, Sendable {
 public enum OverviewMaths {
     /// Overcharges and missing goods caught on one invoice.
     public static func caught(_ entry: HistoryEntry) -> (overcharges: Double, missing: Double) {
-        let less = entry.amountToPay.less
-        guard less > 0.005 else { return (0, 0) }
-        let overcharges = min(less, Money.round2(entry.over + entry.overVat))
-        return (overcharges, Money.round2(less - overcharges))
+        let p = entry.payment
+        guard p.less > 0.005 else { return (0, 0) }
+        return (p.overWithVat, Money.round2(p.less - p.overWithVat))
     }
 
     public static func savings(_ entries: [HistoryEntry]) -> Savings {
