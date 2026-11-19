@@ -672,7 +672,7 @@ public struct OptionChoice: Codable, Equatable, Hashable, Identifiable, Sendable
 }
 
 /// "Size: Small / Large +£0.50", "Add-ons: Oat milk +£0.40, Extra shot +£0.60".
-public struct OptionGroup: Codable, Equatable, Identifiable, Sendable {
+public struct OptionGroup: Codable, Equatable, Hashable, Identifiable, Sendable {
     public var id: String
     public var name: String
     public var choices: [OptionChoice]
