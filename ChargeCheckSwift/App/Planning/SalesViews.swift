@@ -225,6 +225,7 @@ enum SalesText {
         case .tab: return String(localized: "On account")
         case .gift: return String(localized: "Gift card")
         case .points: return String(localized: "Points")
+        case .layaway: return String(localized: "Deposits paid")
         }
     }
 

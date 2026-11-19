@@ -21838,6 +21838,35 @@
         }
       }
     },
+    "Layaway deposit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عربون حجز"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێشەکی گلدانەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anzahlung Reservierung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acompte de mise de côté"
+          }
+        }
+      }
+    },
     "Layaway deposits": {
       "extractionState": "manual",
       "localizations": {

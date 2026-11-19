@@ -105,6 +105,7 @@ struct CashSheet: View {
         case .paidOut: return String(localized: "Cash out")
         case .tabPaid: return String(localized: "Account paid")
         case .noSale: return String(localized: "No sale")
+        case .deposit: return String(localized: "Layaway deposit")
         }
     }
 
