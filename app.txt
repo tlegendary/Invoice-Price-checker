@@ -1,6 +1,6 @@
-commit: e65df2a130c6c519bfa2b8b2040b46553e6d2760
+commit: 24a74e821979234ada6458756bf69f15d8a7af5b
 result: cancelled
-when: Thu Nov 19 16:10:43 UTC 2026
+when: Thu Nov 19 22:51:34 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,3 +9,24 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 27.2
 Build version 27B52
 Simulator: 0A1B5EC5-2485-4F8E-B06B-1185D8E186C0
+---- last lines ----
+Command line invocation:
+    /Applications/Xcode_27.2.app/Contents/Developer/usr/bin/xcodebuild build-for-testing -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=0A1B5EC5-2485-4F8E-B06B-1185D8E186C0" -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+Resolve Package Graph
+
+Fetching from https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git
+
+Fetching from https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+
+Creating working copy of package ‘swift-package-manager-google-user-messaging-platform’
+
+Checking out 3.1.0 of package ‘swift-package-manager-google-user-messaging-platform’
+
+Creating working copy of package ‘swift-package-manager-google-mobile-ads’
+
+Checking out 13.11.0 of package ‘swift-package-manager-google-mobile-ads’
+
