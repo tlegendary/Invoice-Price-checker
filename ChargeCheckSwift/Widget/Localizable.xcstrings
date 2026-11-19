@@ -30,6 +30,35 @@
         }
       }
     },
+    "%@ before VAT": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ قبل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ پێش باج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ohne MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ HT"
+          }
+        }
+      }
+    },
     "%lld invoices": {
       "extractionState": "manual",
       "localizations": {

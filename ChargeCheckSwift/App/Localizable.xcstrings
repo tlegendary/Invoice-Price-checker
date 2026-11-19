@@ -241,6 +241,64 @@
         }
       }
     },
+    "%@ before VAT": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ قبل الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ پێش باج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ohne MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ HT"
+          }
+        }
+      }
+    },
+    "%@ before VAT + %@ VAT": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ قبل الضريبة + %@ ضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ پێش باج + %@ باج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ohne MwSt. + %@ MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ HT + %@ de TVA"
+          }
+        }
+      }
+    },
     "%@ days on average": {
       "extractionState": "manual",
       "localizations": {
@@ -2600,6 +2658,35 @@
         }
       }
     },
+    "(%@ before VAT)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%@ قبل الضريبة)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%@ پێش باج)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%@ ohne MwSt.)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(%@ HT)"
+          }
+        }
+      }
+    },
     "(invoices {1} less {2} taken off)": {
       "extractionState": "manual",
       "localizations": {
@@ -4418,6 +4505,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "À propos"
+          }
+        }
+      }
+    },
+    "About %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقريباً %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نزیکەی %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etwa %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Environ %@"
           }
         }
       }
@@ -8494,6 +8610,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le hors TVA et la TVA sont calculés au prorata de leurs factures, car une partie de ce que vous devez n'est pas des factures entières (solde de départ ou paiements partiels)."
+          }
+        }
+      }
+    },
+    "Before VAT {1} + VAT {2}": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة {1} + الضريبة {2}"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش باج {1} + باج {2}"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. {1} + MwSt. {2}"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HT {1} + TVA {2}"
+          }
+        }
+      }
+    },
+    "Before VAT {1} + VAT {2} = {3}": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل الضريبة {1} + الضريبة {2} = {3}"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێش باج {1} + باج {2} = {3}"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne MwSt. {1} + MwSt. {2} = {3}"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HT {1} + TVA {2} = {3}"
           }
         }
       }
@@ -42845,6 +43019,35 @@
         }
       }
     },
+    "That's %@ before VAT.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي %@ قبل الضريبة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "واتە %@ پێش باج."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das sind %@ ohne MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soit %@ hors TVA."
+          }
+        }
+      }
+    },
     "The 12-digit number on the gift card receipt.": {
       "extractionState": "manual",
       "localizations": {
@@ -45919,6 +46122,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Total"
+          }
+        }
+      }
+    },
+    "Total %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجموع %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆ %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesamt %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total %@"
           }
         }
       }
@@ -49570,6 +49802,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Qui sert ?"
+          }
+        }
+      }
+    },
+    "With VAT": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مع الضريبة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ باج"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit MwSt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TTC"
+          }
+        }
+      }
+    },
+    "With VAT %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مع الضريبة %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لەگەڵ باج %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit MwSt. %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TTC %@"
           }
         }
       }

@@ -318,7 +318,11 @@ final class Accounts: ObservableObject {
 
     /// What Siri answers "what do I owe?" and "what's due this week?" from.
     func saveSiriFacts(_ all: [SupplierAccount]) {
-        let owed = all.filter { $0.balance > 0.005 }.map { SiriFacts.Owed(name: $0.name, amount: $0.balance, currency: currency(for: $0.name).code) }
+        let owed = all.filter { $0.balance > 0.005 }.map { account in
+            // before VAT for every supplier (the same as the amount when there's no VAT), so totals can be added up
+            SiriFacts.Owed(name: account.name, amount: account.balance, currency: currency(for: account.name).code,
+                           beforeVat: SupplierAccounts.owedSplit(account)?.beforeVat ?? account.balance)
+        }
         let due = DueDates.open(accounts: all, creditDays: creditDays).filter { $0.daysLeft < 7 }
             .map { SiriFacts.Due(supplier: $0.supplier, amount: $0.amount, currency: $0.entry.currency ?? currency(for: $0.supplier).code, daysLeft: $0.daysLeft) }
         SiriFacts.save(SiriFacts(owed: owed, due: due, currency: Money.currency.code))

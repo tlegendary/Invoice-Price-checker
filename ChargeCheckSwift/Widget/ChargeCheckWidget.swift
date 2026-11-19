@@ -124,6 +124,11 @@ struct OwedView: View {
                                 .font(.title.weight(.heavy))
                                 .minimumScaleFactor(0.6)
                                 .lineLimit(1)
+                            if let before = snapshot.totalBeforeVat {
+                                Text("\(money(before)) before VAT")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                         Spacer()
                         VStack(alignment: .trailing, spacing: 0) {

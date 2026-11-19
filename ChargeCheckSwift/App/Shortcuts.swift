@@ -55,7 +55,7 @@ enum IntentInbox {
 /// What Siri answers from, saved by the app whenever invoices or payments change (Accounts.refreshWidget),
 /// so a question is answered instantly without opening the app.
 struct SiriFacts: Codable {
-    struct Owed: Codable { var name: String; var amount: Double; var currency: String }
+    struct Owed: Codable { var name: String; var amount: Double; var currency: String; var beforeVat: Double? }
     struct Due: Codable { var supplier: String; var amount: Double; var currency: String; var daysLeft: Int }
     var owed: [Owed]
     var due: [Due]
@@ -91,7 +91,9 @@ struct OwedIntent: AppIntent {
             guard let row = facts.owed.first(where: { SupplierAccounts.key($0.name) == key || SupplierAccounts.key($0.name).contains(key) }) else {
                 return .result(dialog: IntentDialog(stringLiteral: String(localized: "You don't owe \(wanted) anything.")))
             }
-            return .result(dialog: IntentDialog(stringLiteral: String(localized: "You owe \(row.name) \(Money.format(row.amount, code: row.currency)).")))
+            var said = String(localized: "You owe \(row.name) \(Money.format(row.amount, code: row.currency)).")
+            if let before = row.beforeVat { said += " " + String(localized: "That's \(Money.format(before, code: row.currency)) before VAT.") }
+            return .result(dialog: IntentDialog(stringLiteral: said))
         }
         let main = facts.owed.filter { $0.currency == facts.currency }
         guard !main.isEmpty else {
@@ -99,9 +101,13 @@ struct OwedIntent: AppIntent {
         }
         let total = Money.round2(main.reduce(0) { $0 + $1.amount })
         let top = main.max { $0.amount < $1.amount }!
-        let text = main.count == 1
+        var text = main.count == 1
             ? String(localized: "You owe \(top.name) \(Money.format(total, code: facts.currency)).")
             : String(localized: "You owe \(Money.format(total, code: facts.currency)) to \(main.count) suppliers. The most is \(top.name): \(Money.format(top.amount, code: facts.currency)).")
+        let befores = main.compactMap(\.beforeVat)
+        if befores.count == main.count, !befores.isEmpty {
+            text += " " + String(localized: "That's \(Money.format(Money.round2(befores.reduce(0, +)), code: facts.currency)) before VAT.")
+        }
         return .result(dialog: IntentDialog(stringLiteral: text))
     }
 }

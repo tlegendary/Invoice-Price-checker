@@ -140,6 +140,7 @@ struct HomeView: View {
                         .foregroundStyle(.tint)
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
+                    VatLine(split: o.owedSplit)
                     Text(o.suppliersOwed == 0 ? String(localized: "You don't owe any supplier")
                          : o.suppliersOwed == 1 ? String(localized: "Owed to 1 supplier")
                          : String(localized: "Across \(o.suppliersOwed) suppliers"))

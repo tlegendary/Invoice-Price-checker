@@ -58,6 +58,7 @@ struct SuppliersView: View {
                                 .font(.title2.weight(.heavy))
                                 .foregroundStyle(.tint)
                         }
+                        VatLine(split: SupplierAccounts.totalSplit(home))
                         LabeledContent("Paid this week", value: Money.format(thisWeek))
                         ForEach(other, id: \.code) { row in
                             LabeledContent(String(localized: "Also owed in \(row.code)"), value: Money.format(row.owed, code: row.code))
@@ -235,9 +236,17 @@ struct SupplierRow: View {
                     .lineLimit(2)
             }
             Spacer(minLength: 8)
-            Text(Money.format(account.balance, supplier: account.name))
-                .fontWeight(.bold)
-                .foregroundStyle(account.balance > 0.005 ? Color.primary : Color.green)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(Money.format(account.balance, supplier: account.name))
+                    .fontWeight(.bold)
+                    .foregroundStyle(account.balance > 0.005 ? Color.primary : Color.green)
+                if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
+                    Text(String(localized: "\(Money.format(split.beforeVat, supplier: account.name)) before VAT"))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
         }
     }
 
@@ -417,38 +426,119 @@ struct SupplierDetailView: View {
             .first { $0.id == key }
     }
 
+    /// The invoices still to pay, with when each is due.
+    @ViewBuilder
+    private func openSection(_ account: SupplierAccount) -> some View {
+        if !account.open.isEmpty {
+            let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
+                                 uniquingKeysWith: { a, _ in a })
+            Section {
+                ForEach(account.open) { entry in
+                    NavigationLink(value: ReportLink(id: entry.id)) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            InvoiceMoneyRow(entry: entry)
+                            if let row = due[entry.id] {
+                                DueLabel(row: row)
+                            }
+                        }
+                    }
+                    .tag(entry.id)
+                    .invoiceSwipes(entry)
+                }
+            } header: {
+                HStack {
+                    Text("Still to pay")
+                    Spacer()
+                    if !selecting && !team.isStaff {
+                        Button("Select") { editMode = .active }
+                            .font(.subheadline.weight(.semibold))
+                            .textCase(nil)
+                    }
+                }
+            } footer: {
+                Text(OpenTotal.text(account))
+            }
+        }
+    }
+
+    /// What's owed, before and after VAT, and how it's made up.
+    @ViewBuilder
+    private func balanceSection(_ account: SupplierAccount) -> some View {
+        Section {
+            LabeledContent("You owe") {
+                Text(Money.format(account.balance, supplier: account.name))
+                    .font(.title.weight(.heavy))
+                    .foregroundStyle(account.balance > 0.005 ? AnyShapeStyle(.tint) : AnyShapeStyle(Color.green))
+            }
+            if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
+                LabeledContent(split.exact ? String(localized: "Before VAT") : String(localized: "Before VAT (about)"),
+                               value: Money.format(split.beforeVat, supplier: account.name))
+                LabeledContent(split.exact ? String(localized: "VAT") : String(localized: "VAT (about)"),
+                               value: Money.format(split.vat, supplier: account.name))
+            }
+            if account.opening != 0 { LabeledContent("Starting balance", value: Money.format(account.opening, supplier: account.name)) }
+            LabeledContent("Invoices", value: Money.format(account.invoiced, supplier: account.name))
+            if account.settledOutside > 0.005 {
+                LabeledContent("Marked paid before", value: "−" + Money.format(account.settledOutside, supplier: account.name))
+            }
+            if account.paid > 0.005 { LabeledContent("Payments", value: "−" + Money.format(account.paid, supplier: account.name)) }
+            if account.credits > 0.005 { LabeledContent("Credit notes", value: "−" + Money.format(account.credits, supplier: account.name)) }
+            LabeledContent("Paid this week", value: Money.format(account.paidThisWeek, supplier: account.name))
+        } footer: {
+            if account.balance < -0.005 {
+                Text("You've paid \(Money.format(-account.balance, supplier: account.name)) more than they invoiced. It comes off their next invoices.")
+            } else if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005, !split.exact {
+                Text("Before VAT and VAT are worked out in proportion from their invoices, because part of what you owe isn't whole invoices (a starting balance or part-payments).")
+            }
+        }
+    }
+
+    /// Trusted, currency and when to pay: kept apart so the page stays quick to build.
+    @ViewBuilder
+    private func settingsSections(_ account: SupplierAccount) -> some View {
+        Section {
+            Toggle("Trusted supplier", isOn: Binding(
+                get: { account.trusted },
+                set: { accounts.setTrusted(account.name, $0, context: context) }
+            ))
+        } footer: {
+            Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
+        }
+
+        Section {
+            Picker("Invoices in", selection: Binding(
+                get: { accounts.currency(for: account.name).code },
+                set: { accounts.setCurrency(account.name, $0, context: context) }
+            )) {
+                ForEach(Currency.all) { currency in
+                    Text(Regional.currencyName(currency)).tag(currency.code)
+                }
+            }
+            if !store.allows(.dueDates) {
+                LockedRow(feature: .dueDates) { Text("Pay within") }
+            } else {
+            Picker("Pay within", selection: Binding(
+                get: { accounts.creditPeriod(account.name) ?? -1 },
+                set: { accounts.setCreditPeriod(account.name, $0 < 0 ? nil : $0, context: context) }
+            )) {
+                Text("No due date").tag(-1)
+                Text("On delivery").tag(0)
+                ForEach([7, 14, 21, 28, 30, 45, 60, 90], id: \.self) { days in
+                    Text("\(days) days").tag(days)
+                }
+            }
+            }
+        } footer: {
+            Text("Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home. A supplier who invoices in another currency is added up separately, never mixed with your own currency.")
+        }
+    }
+
     var body: some View {
         Group {
             if let account {
                 List(selection: $selected) {
                     if !selecting {
-                    Section {
-                        LabeledContent("You owe") {
-                            Text(Money.format(account.balance, supplier: account.name))
-                                .font(.title.weight(.heavy))
-                                .foregroundStyle(account.balance > 0.005 ? AnyShapeStyle(.tint) : AnyShapeStyle(Color.green))
-                        }
-                        if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005 {
-                            LabeledContent(split.exact ? String(localized: "Before VAT") : String(localized: "Before VAT (about)"),
-                                           value: Money.format(split.beforeVat, supplier: account.name))
-                            LabeledContent(split.exact ? String(localized: "VAT") : String(localized: "VAT (about)"),
-                                           value: Money.format(split.vat, supplier: account.name))
-                        }
-                        if account.opening != 0 { LabeledContent("Starting balance", value: Money.format(account.opening, supplier: account.name)) }
-                        LabeledContent("Invoices", value: Money.format(account.invoiced, supplier: account.name))
-                        if account.settledOutside > 0.005 {
-                            LabeledContent("Marked paid before", value: "−" + Money.format(account.settledOutside, supplier: account.name))
-                        }
-                        if account.paid > 0.005 { LabeledContent("Payments", value: "−" + Money.format(account.paid, supplier: account.name)) }
-                        if account.credits > 0.005 { LabeledContent("Credit notes", value: "−" + Money.format(account.credits, supplier: account.name)) }
-                        LabeledContent("Paid this week", value: Money.format(account.paidThisWeek, supplier: account.name))
-                    } footer: {
-                        if account.balance < -0.005 {
-                            Text("You've paid \(Money.format(-account.balance, supplier: account.name)) more than they invoiced. It comes off their next invoices.")
-                        } else if let split = SupplierAccounts.owedSplit(account), split.vat > 0.005, !split.exact {
-                            Text("Before VAT and VAT are worked out in proportion from their invoices, because part of what you owe isn't whole invoices (a starting balance or part-payments).")
-                        }
-                    }
+                    balanceSection(account)
 
                     if !team.isStaff && !account.entries.isEmpty {
                         if store.allows(.supplierScores) {
@@ -537,74 +627,11 @@ struct SupplierDetailView: View {
                             Text("Prices agreed with this supplier that differ from your standard prices.")
                         }
 
-                        Section {
-                            Toggle("Trusted supplier", isOn: Binding(
-                                get: { account.trusted },
-                                set: { accounts.setTrusted(account.name, $0, context: context) }
-                            ))
-                        } footer: {
-                            Text("Invoices from a trusted supplier aren't price-checked. Scanning one just reads the total and adds it to what you owe them.")
-                        }
-
-                        Section {
-                            Picker("Invoices in", selection: Binding(
-                                get: { accounts.currency(for: account.name).code },
-                                set: { accounts.setCurrency(account.name, $0, context: context) }
-                            )) {
-                                ForEach(Currency.all) { currency in
-                                    Text(Regional.currencyName(currency)).tag(currency.code)
-                                }
-                            }
-                            if !store.allows(.dueDates) {
-                                LockedRow(feature: .dueDates) { Text("Pay within") }
-                            } else {
-                            Picker("Pay within", selection: Binding(
-                                get: { accounts.creditPeriod(account.name) ?? -1 },
-                                set: { accounts.setCreditPeriod(account.name, $0 < 0 ? nil : $0, context: context) }
-                            )) {
-                                Text("No due date").tag(-1)
-                                Text("On delivery").tag(0)
-                                ForEach([7, 14, 21, 28, 30, 45, 60, 90], id: \.self) { days in
-                                    Text("\(days) days").tag(days)
-                                }
-                            }
-                            }
-                        } footer: {
-                            Text("Each invoice is due this many days after its date. Overdue invoices and what you need to pay this week show on Home. A supplier who invoices in another currency is added up separately, never mixed with your own currency.")
-                        }
+                        settingsSections(account)
                     }
 
                     } // not selecting
-                    if !account.open.isEmpty {
-                        let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
-                                             uniquingKeysWith: { a, _ in a })
-                        Section {
-                            ForEach(account.open) { entry in
-                                NavigationLink(value: ReportLink(id: entry.id)) {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        InvoiceMoneyRow(entry: entry)
-                                        if let row = due[entry.id] {
-                                            Label(DueRow.when(row), systemImage: row.daysLeft < 0 ? "exclamationmark.circle.fill" : "calendar")
-                                                .font(.caption)
-                                                .foregroundStyle(row.daysLeft < 0 ? Color.red : Color.secondary)
-                                        }
-                                    }
-                                }
-                                .tag(entry.id)
-                                .invoiceSwipes(entry)
-                            }
-                        } header: {
-                            HStack {
-                                Text("Still to pay")
-                                Spacer()
-                                if !selecting && !team.isStaff {
-                                    Button("Select") { editMode = .active }
-                                        .font(.subheadline.weight(.semibold))
-                                        .textCase(nil)
-                                }
-                            }
-                        }
-                    }
+                    openSection(account)
 
                     let shown = account.payments.filter { $0.amount > 0.005 }
                     if !shown.isEmpty && !selecting {
@@ -792,8 +819,17 @@ struct InvoiceMoneyRow: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Text(Money.format(entry.amountToPay.pay, supplier: entry.supplier))
-                .fontWeight(.semibold)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(Money.format(entry.amountToPay.pay, supplier: entry.supplier))
+                    .fontWeight(.semibold)
+                let before = entry.amountToPayBeforeVat.pay
+                if entry.amountToPay.pay - before > 0.005 {
+                    Text(String(localized: "\(Money.format(before, supplier: entry.supplier)) before VAT"))
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
         }
     }
 }
@@ -1089,6 +1125,7 @@ struct PayRunView: View {
                                 Text("Owed \(Money.format(account.balance, supplier: account.name))")
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
+                                VatLine(split: SupplierAccounts.owedSplit(account), supplier: account.name)
                             }
                             Spacer(minLength: 8)
                             TextField("0", text: Binding(get: { amounts[account.id] ?? "" }, set: { amounts[account.id] = $0 }))
@@ -1718,3 +1755,26 @@ struct DealDateRow: View {
     }
 }
 
+
+/// Under a supplier's unpaid invoices: "Total £1,263.21 · £1,052.68 before VAT + £210.53 VAT".
+enum OpenTotal {
+    static func text(_ account: SupplierAccount) -> String {
+        let split = SupplierAccounts.OwedSplit.of(account.open)
+        let pay = Money.round2(split.beforeVat + split.vat)
+        var line = String(localized: "Total \(Money.format(pay, supplier: account.name))")
+        if split.vat > 0.005 { line += " · " + VatLine.text(split, supplier: account.name) }
+        return line
+    }
+}
+
+/// "Due in 3 days" / "4 days late" under an unpaid invoice.
+struct DueLabel: View {
+    let row: DueInvoice
+
+    var body: some View {
+        let late = row.daysLeft < 0
+        Label(DueRow.when(row), systemImage: late ? "exclamationmark.circle.fill" : "calendar")
+            .font(.caption)
+            .foregroundStyle(late ? Color.red : Color.secondary)
+    }
+}

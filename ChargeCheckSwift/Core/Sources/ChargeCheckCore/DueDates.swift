@@ -12,6 +12,13 @@ public struct DueInvoice: Identifiable, Equatable, Sendable {
     /// Days until it's due: 0 = today, below 0 = overdue by that many days.
     public var daysLeft: Int
 
+    /// What's still to pay on it before VAT (in the invoice's own proportion).
+    public var beforeVat: Double {
+        let pay = entry.amountToPay.pay
+        guard pay > 0.005 else { return amount }
+        return Money.round2(amount * min(1, max(0, entry.amountToPayBeforeVat.pay / pay)))
+    }
+
     public init(supplier: String, entry: HistoryEntry, amount: Double, dueDate: String, daysLeft: Int) {
         self.supplier = supplier
         self.entry = entry
