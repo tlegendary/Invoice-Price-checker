@@ -32,6 +32,11 @@ final class TillStore: ObservableObject {
     @Published private(set) var batches: [StockBatch] = []
     @Published private(set) var customers: [Customer] = []
     @Published private(set) var clock: [ClockEvent] = []
+    @Published private(set) var layaways: [Layaway] = []
+    /// Training: sales, refunds and cash aren't saved, and stock doesn't change (new staff practise on the real till).
+    @Published var training = UserDefaults.standard.bool(forKey: "till.training") {
+        didSet { UserDefaults.standard.set(training, forKey: "till.training") }
+    }
     @Published var receipt = ReceiptSettings()
     @Published var options = TillOptions()
     /// Who's serving now (nil: nobody signed in, or the till has no cashiers).
@@ -46,6 +51,7 @@ final class TillStore: ObservableObject {
     private var ownBatches: [StockBatch] = []
     private var ownCustomers: [Customer] = []
     private var ownClock: [ClockEvent] = []
+    private var ownLayaways: [Layaway] = []
     private var settingsUpdated = ""
 
     /// Another iPhone or iPad uses this till's letter too (found when the tills compare notes).
@@ -83,7 +89,7 @@ final class TillStore: ObservableObject {
     /// Nothing has been saved under this till's letter yet.
     var canRename: Bool {
         !sales.contains { $0.till == code } && !cash.contains { $0.till == code } && !days.contains { $0.till == code }
-            && ownCounts.isEmpty && ownBatches.isEmpty && ownCustomers.isEmpty && ownClock.isEmpty
+            && ownCounts.isEmpty && ownBatches.isEmpty && ownCustomers.isEmpty && ownClock.isEmpty && ownLayaways.isEmpty
     }
 
     /// More than one till sells: receipts show the till's letter, and each drawer has its own end of day.
@@ -159,6 +165,9 @@ final class TillStore: ObservableObject {
         let customerFiles = group("Customers", as: [Customer].self)
         ownCustomers = customerFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         customers = Self.latest(customerFiles.map { $0.value })
+        let layawayFiles = group("Layaways", as: [Layaway].self)
+        ownLayaways = layawayFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
+        layaways = Layaways.merge(layawayFiles.map { $0.value })
         let clockFiles = group("Clock", as: [ClockEvent].self)
         ownClock = clockFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         clock = TillSync.mergeIDs(clockFiles.map { $0.value })
@@ -307,12 +316,25 @@ final class TillStore: ObservableObject {
 
     @discardableResult
     func record(lines: [SaleLine], shop: String, payment: PaymentKind, tendered: Double?, split: [SalePayment]? = nil,
-                customer: String? = nil, approvedBy: String? = nil, context: ModelContext) -> Sale {
+                customer: String? = nil, approvedBy: String? = nil, voucher: String? = nil, context: ModelContext) -> Sale {
+        if training {
+            // practice: nothing is saved, nothing comes off stock, no receipt number is used
+            var practice = Sale(number: 0, shop: shop, at: Self.now(), lines: lines, payment: payment, tendered: tendered,
+                                cashier: cashier?.name, split: split, till: "T", customer: customer, approvedBy: approvedBy)
+            practice.voucher = voucher
+            return practice
+        }
         ensureCode()
         let number = nextNumber
         UserDefaults.standard.set(number, forKey: Self.numberKey)
         let sale = Sale(number: number, shop: shop, at: Self.now(), lines: lines, payment: payment, tendered: tendered,
                         cashier: cashier?.name, split: split, till: code, customer: customer, approvedBy: approvedBy)
+        var recorded = sale
+        recorded.voucher = voucher
+        return keep(recorded, shop: shop, lines: lines, approvedBy: approvedBy, context: context)
+    }
+
+    private func keep(_ sale: Sale, shop: String, lines: [SaleLine], approvedBy: String?, context: ModelContext) -> Sale {
         sales.insert(sale, at: 0)
         store(month: sale.at)
         TillTab.firstUse()
@@ -322,8 +344,10 @@ final class TillStore: ObservableObject {
     }
 
     /// Refunds what's given (line id → how many), or everything still refundable.
-    func refund(_ sale: Sale, quantities: [String: Double]? = nil, approvedBy: String? = nil, context: ModelContext) -> Sale? {
-        guard sale.refundOf == nil else { return nil }
+    /// `toCredit`: the money goes on the customer's account as store credit instead of back to them.
+    func refund(_ sale: Sale, quantities: [String: Double]? = nil, approvedBy: String? = nil, toCredit: Bool = false,
+                context: ModelContext) -> Sale? {
+        guard sale.refundOf == nil, !training else { return nil }
         let left = SaleMaths.refundable(sale, refunds: sales.filter { $0.refundOf == sale.id })
         let wanted = (quantities ?? left).compactMapValues { qty -> Double? in qty > 0 ? qty : nil }
             .reduce(into: [String: Double]()) { out, pair in out[pair.key] = min(pair.value, left[pair.key] ?? 0) }
@@ -335,6 +359,10 @@ final class TillStore: ObservableObject {
         var refund = SaleMaths.refund(of: sale, quantities: wanted, number: number, at: Self.now(), cashier: cashier?.name)
         refund.till = code
         refund.approvedBy = approvedBy
+        if toCredit, let customer = sale.customer {
+            refund.payment = .tab
+            refund.split = [SalePayment(kind: .tab, amount: refund.total, ref: customer)]
+        }
         sales.insert(refund, at: 0)
         store(month: refund.at)
         Records.shared.log(.tillRefund, String(localized: "Refund #\(refund.receiptNumber) of sale #\(sale.receiptNumber)")
@@ -358,6 +386,7 @@ final class TillStore: ObservableObject {
 
     func addCash(_ kind: CashEvent.Kind, amount: Double, note: String, shop: String, ref: String? = nil, card: Bool? = nil,
                  approvedBy: String? = nil) {
+        guard !training else { return }
         ensureCode()
         cash.append(CashEvent(shop: shop, at: Self.now(), kind: kind, amount: Money.round2(amount), note: note, cashier: cashier?.name,
                               till: code, ref: ref, card: card, approvedBy: approvedBy))
@@ -388,6 +417,7 @@ final class TillStore: ObservableObject {
     /// The Z report: closes the day. Starts a new day from now.
     @discardableResult
     func closeDay(shop: String, counted: Double?, approvedBy: String? = nil) -> DayReport {
+        guard !training else { return current(shop: shop) }
         ensureCode()
         var report = current(shop: shop)
         report.counted = counted.map { Money.round2($0) }
@@ -509,6 +539,76 @@ final class TillStore: ObservableObject {
     }
 
     func newGiftCode() -> String { GiftCards.newCode(taken: Set(giftCards.map(\.code))) }
+
+    // MARK: layaways
+
+    private func storeLayaway(_ layaway: Layaway) {
+        var changed = layaway
+        changed.updated = Self.now()
+        ownLayaways.removeAll { $0.id == changed.id }
+        ownLayaways.append(changed)
+        layaways.removeAll { $0.id == changed.id }
+        layaways.insert(changed, at: 0)
+        save(ownLayaways, name: own("Layaways"))
+    }
+
+    /// Keeps the basket for a customer, with a first deposit (cash into this drawer, or card).
+    @discardableResult
+    func startLayaway(lines: [SaleLine], shop: String, customer: String, deposit: Double, card: Bool) -> Layaway? {
+        guard !training, !lines.isEmpty else { return nil }
+        ensureCode()
+        let layaway = Layaway(shop: shop, customer: customer, lines: lines, at: Self.now(), updated: Self.now(), till: code)
+        storeLayaway(layaway)
+        if deposit > 0 { pay(layaway, amount: deposit, card: card) }
+        return layaway
+    }
+
+    func pay(_ layaway: Layaway, amount: Double, card: Bool) {
+        let name = customer(layaway.customer)?.name ?? ""
+        addCash(.deposit, amount: amount, note: name, shop: layaway.shop, ref: layaway.id, card: card ? true : nil)
+    }
+
+    func paid(_ layaway: Layaway) -> Double { Layaways.paid(layaway.id, events: cash) }
+
+    /// They take the goods: the sale happens now (stock, takings), paid by the deposits plus the rest.
+    func collect(_ layaway: Layaway, rest: PaymentKind, context: ModelContext) -> Sale? {
+        guard layaway.status == .open, !training else { return nil }
+        let deposits = paid(layaway)
+        let left = Money.round2(max(0, layaway.total - deposits))
+        var parts = [SalePayment(kind: .layaway, amount: min(deposits, layaway.total), ref: layaway.id)]
+        if left > 0 { parts.append(SalePayment(kind: rest, amount: left)) }
+        let sale = record(lines: layaway.lines, shop: layaway.shop, payment: left > 0 ? rest : .layaway, tendered: nil,
+                          split: parts, customer: layaway.customer, context: context)
+        var done = layaway
+        done.status = .collected
+        done.sale = sale.id
+        storeLayaway(done)
+        return sale
+    }
+
+    /// Cancelled: the deposits go back (cash from this drawer, or card).
+    func cancel(_ layaway: Layaway, card: Bool, approvedBy: String?) {
+        guard layaway.status == .open, !training else { return }
+        let back = paid(layaway)
+        if back > 0 {
+            addCash(.deposit, amount: -back, note: customer(layaway.customer)?.name ?? "", shop: layaway.shop, ref: layaway.id,
+                    card: card ? true : nil, approvedBy: approvedBy)
+        }
+        var done = layaway
+        done.status = .cancelled
+        storeLayaway(done)
+    }
+
+    // MARK: moving stock between shops
+
+    /// Takes units off one shop's stock and adds them to another's (both counts are updated and it's logged).
+    func move(_ units: Double, of item: PriceItem, from: String, to: String, invoices: [HistoryEntry]) {
+        guard units > 0, from != to, !training else { return }
+        let here = StockMaths.levels(items: [item], shop: from, invoices: invoices, sales: sales, counts: counts).first
+        let there = StockMaths.levels(items: [item], shop: to, invoices: invoices, sales: sales, counts: counts).first
+        setCount(max(0, (here?.onHand ?? 0) - units), itemID: item.id, name: item.name + " → " + Shops.reportName(to), shop: from)
+        setCount((there?.onHand ?? 0) + units, itemID: item.id, name: item.name + " ← " + Shops.reportName(from), shop: to)
+    }
 
     // MARK: batches and expiry dates
 
@@ -667,12 +767,13 @@ struct TillOptions: Codable, Equatable {
     var scaleCarries: ScaleLabelValue = .price
     /// Warn about batches this many days before they expire.
     var expiryDays = 30
+    var vouchers: [Voucher] = []
 
     var cashierPermissions: Set<TillPermission> { Set(cashierCan.compactMap(TillPermission.init(rawValue:))) }
 
     init() {}
 
-    enum CodingKeys: String, CodingKey { case cashierCan, deals, loyalty, loyaltyOn, scaleCarries, expiryDays }
+    enum CodingKeys: String, CodingKey { case cashierCan, deals, loyalty, loyaltyOn, scaleCarries, expiryDays, vouchers }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -682,6 +783,7 @@ struct TillOptions: Codable, Equatable {
         loyaltyOn = (try? c.decode(Bool.self, forKey: .loyaltyOn)) ?? false
         scaleCarries = (try? c.decode(ScaleLabelValue.self, forKey: .scaleCarries)) ?? .price
         expiryDays = (try? c.decode(Int.self, forKey: .expiryDays)) ?? 30
+        vouchers = (try? c.decode([Voucher].self, forKey: .vouchers)) ?? []
     }
 }
 

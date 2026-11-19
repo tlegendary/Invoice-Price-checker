@@ -11,6 +11,8 @@ struct SalesView: View {
     @State private var opened: Sale?
     @State private var breakdown = 0
     @State private var exported: URL?
+    @State private var exportedPDF: URL?
+    @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var search = ""
 
     private var shop: String { LiveSettings.shared.shop }
@@ -42,6 +44,18 @@ struct SalesView: View {
                     }
                     Spacer()
                     Text(Money.format(row.takings)).fontWeight(.semibold).monospacedDigit()
+                }
+            }
+            if let exportedPDF {
+                ShareLink(item: exportedPDF) {
+                    Label("Share the PDF", systemImage: "square.and.arrow.up")
+                }
+            } else {
+                Button {
+                    let data = TillPDF.sales(shown, period: SupplierAccounts.dayText(Date()), items: prices.map { $0.item }, theme: Themes.inUse(colourID))
+                    exportedPDF = AppFiles.write(data, folder: "Exports", name: "Sales \(SupplierAccounts.dayText(Date())).pdf")
+                } label: {
+                    Label("Sales report (PDF)", systemImage: "doc.richtext")
                 }
             }
             if let exported {
@@ -186,7 +200,7 @@ struct SalesView: View {
         .navigationTitle("Sales and profit")
         .searchable(text: $search, prompt: Text("Receipt, item, batch or customer"))
         .themedScreen()
-        .onChange(of: period) { exported = nil }
+        .onChange(of: period) { exported = nil; exportedPDF = nil }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
@@ -245,6 +259,8 @@ struct SaleDetailView: View {
     @State private var picked: [String: Double] = [:]
     @State private var approval: ApprovalRequest?
     @State private var refundBy: String?
+    /// The money goes on the customer's account as store credit.
+    @State private var toCredit = false
 
     private var text: String { TillReceipt.text(sale) }
 
@@ -292,8 +308,11 @@ struct SaleDetailView: View {
                                 LabeledContent(line.name, value: "\((picked[line.id] ?? 0).formatted()) / \((left[line.id] ?? 0).formatted())")
                             }
                         }
+                        if let name = till.customer(sale.customer)?.name {
+                            Toggle(String(localized: "As store credit for \(name)"), isOn: $toCredit)
+                        }
                         Button("Refund these", role: .destructive) {
-                            refunded = till.refund(sale, quantities: picked, approvedBy: refundBy, context: context)
+                            refunded = till.refund(sale, quantities: picked, approvedBy: refundBy, toCredit: toCredit, context: context)
                             choosing = false
                         }
                         .disabled(!picked.values.contains { $0 > 0 })
@@ -311,7 +330,12 @@ struct SaleDetailView: View {
                 }
             }
             .confirmationDialog("Refund \(Money.format(sale.total))?", isPresented: $confirmRefund, titleVisibility: .visible) {
-                Button("Refund", role: .destructive) { refunded = till.refund(sale, quantities: nil, approvedBy: refundBy, context: context) }
+                Button("Refund", role: .destructive) { refunded = till.refund(sale, quantities: nil, approvedBy: refundBy, toCredit: false, context: context) }
+                if let name = till.customer(sale.customer)?.name {
+                    Button(String(localized: "Refund as store credit for \(name)")) {
+                        refunded = till.refund(sale, quantities: nil, approvedBy: refundBy, toCredit: true, context: context)
+                    }
+                }
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Give the money back by \(SalesText.refundWay(sale).lowercased()). The items go back into stock.")
@@ -336,6 +360,7 @@ struct StockView: View {
     @State private var notice: String?
     @State private var adding: StockLevel?
     @State private var addText = ""
+    @State private var moving: String?
 
     var body: some View {
         let shops = Shops.decode(shopData)
@@ -356,12 +381,19 @@ struct StockView: View {
                     ContentUnavailableView("No stock to show yet", systemImage: "shippingbox",
                                            description: Text("Items show here once they have a selling price or a reorder level (open an item in your price list › Sell at the till)."))
                 }
-                if items.contains(where: { $0.till?.batches == true }) {
-                    Section {
+                Section {
+                    if items.contains(where: { $0.till?.batches == true }) {
                         NavigationLink {
                             ExpiryView()
                         } label: {
                             Label("Expiry dates", systemImage: "calendar.badge.exclamationmark")
+                        }
+                    }
+                    if shops.count > 1 {
+                        Button {
+                            moving = shop
+                        } label: {
+                            Label("Move stock to another shop", systemImage: "arrow.left.arrow.right")
                         }
                     }
                 }
@@ -425,6 +457,9 @@ struct StockView: View {
         }
         .navigationTitle("Stock")
         .themedScreen()
+        .sheet(item: Binding(get: { moving.map { MovingFrom(shop: $0) } }, set: { if $0 == nil { moving = nil } })) { from in
+            MoveStockSheet(items: prices.map { $0.item }.filter { $0.till?.sell != nil || $0.till?.low != nil }, from: from.shop)
+        }
         .alert("Stock came in", isPresented: Binding(get: { adding != nil }, set: { if !$0 { adding = nil } }), presenting: adding) { level in
             TextField("0", text: $addText).keyboardType(.decimalPad)
             Button("Add") {
@@ -448,4 +483,9 @@ struct StockView: View {
             Text("How many \(level.name) are there now, in single units?")
         }
     }
+}
+
+struct MovingFrom: Identifiable {
+    let shop: String
+    var id: String { shop }
 }

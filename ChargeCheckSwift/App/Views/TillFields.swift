@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import VisionKit
 import ChargeCheckCore
 
@@ -11,6 +12,8 @@ struct TillFields: View {
 
     @State private var newBarcode = ""
     @State private var scanning = false
+    @State private var pickingParent = false
+    @Query(sort: \StoredPrice.name) private var prices: [StoredPrice]
 
     private var perPack: Double { max(1, till.perPack ?? PackGuess.count(in: name)) }
 
@@ -61,10 +64,28 @@ struct TillFields: View {
             Toggle("Only sold at the till", isOn: Binding(get: { till.tillOnly == true }, set: { till.tillOnly = $0 ? true : nil }))
             Toggle("Ask for ID (Challenge 25)", isOn: Binding(get: { till.ageCheck == true }, set: { till.ageCheck = $0 ? true : nil }))
             Toggle("Keep batches and expiry dates", isOn: Binding(get: { till.batches == true }, set: { till.batches = $0 ? true : nil }))
+            NavigationLink {
+                OptionsEditor(groups: Binding(get: { till.options ?? [] }, set: { till.options = $0.isEmpty ? nil : $0 }))
+            } label: {
+                LabeledContent("Options (size, add-ons)", value: "\((till.options ?? []).count)")
+            }
+            Button {
+                pickingParent = true
+            } label: {
+                LabeledContent("Variant of", value: prices.first { $0.item.id == till.variantOf }?.item.name ?? String(localized: "None"))
+            }
+            .foregroundStyle(.primary)
+            .sheet(isPresented: $pickingParent) {
+                ItemPicker(items: prices.map { $0.item }.filter { $0.name != name && $0.till?.variantOf == nil },
+                           onPick: { till.variantOf = $0.id }, title: String(localized: "Variant of which item?"))
+            }
+            if till.variantOf != nil {
+                Button("Not a variant", role: .destructive) { till.variantOf = nil }
+            }
         } header: {
             Text("Sell at the till")
         } footer: {
-            Text("You buy it by the pack and sell it one at a time, or the whole pack too. Profit is the price without VAT, less what it costs you. Only sold at the till: never matched to supplier invoices (your own products); its price above is what one costs you. Sold by weight: the till asks for the weight (or reads it from a scale label) and stock is in kg. Batches: add each delivery's batch and use-by date in Till › Expiry dates; the till warns before an out-of-date one is sold.")
+            Text("You buy it by the pack and sell it one at a time, or the whole pack too. Profit is the price without VAT, less what it costs you. Only sold at the till: never matched to supplier invoices (your own products); its price above is what one costs you. Sold by weight: the till asks for the weight (or reads it from a scale label) and stock is in kg. Batches: add each delivery's batch and use-by date in Till › Expiry dates; the till warns before an out-of-date one is sold. Options: a size or add-ons chosen at the till, each can add to the price. Variant: a size or colour of another item, with its own price, barcode and stock; the till shows the main item and asks which one.")
         }
 
         Section {

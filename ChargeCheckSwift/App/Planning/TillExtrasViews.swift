@@ -126,9 +126,9 @@ struct CustomerRow: View {
             Spacer()
             if abs(balance.tab) > 0.004 {
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(Money.format(balance.tab)).fontWeight(.semibold).monospacedDigit()
+                    Text(Money.format(abs(balance.tab))).fontWeight(.semibold).monospacedDigit()
                         .foregroundStyle(balance.tab > 0 ? .orange : .green)
-                    Text("owed").font(.caption2).foregroundStyle(.secondary)
+                    Text(balance.tab > 0 ? String(localized: "owed") : String(localized: "credit")).font(.caption2).foregroundStyle(.secondary)
                 }
             }
         }

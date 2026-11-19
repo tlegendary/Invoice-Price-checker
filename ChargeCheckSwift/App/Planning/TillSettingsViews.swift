@@ -11,6 +11,8 @@ struct DayView: View {
     @State private var counted = ""
     @State private var closed: DayReport?
     @State private var confirm = false
+    @State private var zPDF: URL?
+    @AppStorage(SettingKey.colour) private var colourID = "green"
     @State private var approval: ApprovalRequest?
     @State private var closeBy: String?
 
@@ -24,6 +26,15 @@ struct DayView: View {
                             .font(.system(.footnote, design: .monospaced))
                         ShareLink(item: CashDay.text(closed, shopName: Shops.reportName(shop), currency: Money.currency.code)) {
                             Label("Send the report", systemImage: "square.and.arrow.up")
+                        }
+                        if let zPDF {
+                            ShareLink(item: zPDF) { Label("Share the PDF", systemImage: "doc.richtext") }
+                        } else {
+                            Button {
+                                zPDF = AppFiles.write(TillPDF.day(closed, theme: Themes.inUse(colourID)), folder: "Exports", name: "Z\(closed.number).pdf")
+                            } label: {
+                                Label("Save as PDF", systemImage: "doc.richtext")
+                            }
                         }
                         Button {
                             Printing.printText(CashDay.text(closed, shopName: Shops.reportName(shop), currency: Money.currency.code), title: "Z\(closed.number)")
@@ -273,6 +284,15 @@ struct TillSettingsView: View {
                         Text("\(till.options.deals.filter { $0.off != true }.count)")
                     } label: {
                         Label("Meal deals", systemImage: "takeoutbag.and.cup.and.straw")
+                    }
+                }
+                NavigationLink {
+                    VouchersView()
+                } label: {
+                    LabeledContent {
+                        Text("\(till.options.vouchers.filter { $0.off != true }.count)")
+                    } label: {
+                        Label("Vouchers", systemImage: "ticket")
                     }
                 }
                 Picker(selection: Binding(get: { till.options.scaleCarries }, set: { till.options.scaleCarries = $0; till.saveSettings() })) {

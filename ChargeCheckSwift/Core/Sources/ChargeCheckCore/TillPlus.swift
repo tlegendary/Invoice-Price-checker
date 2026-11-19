@@ -658,12 +658,14 @@ public enum EscPos {
 
 // MARK: - Item options (size, add-ons)
 
-public struct OptionChoice: Codable, Equatable, Hashable, Sendable {
+public struct OptionChoice: Codable, Equatable, Hashable, Identifiable, Sendable {
+    public var id: String
     public var name: String
     /// Added to the price (0: free, negative: cheaper).
     public var price: Double
 
-    public init(name: String, price: Double = 0) {
+    public init(id: String = UUID().uuidString, name: String, price: Double = 0) {
+        self.id = id
         self.name = name
         self.price = price
     }
