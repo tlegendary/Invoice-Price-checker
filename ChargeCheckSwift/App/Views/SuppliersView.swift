@@ -603,14 +603,7 @@ struct SupplierDetailView: View {
                                 .invoiceSwipes(entry)
                             }
                         } footer: {
-                            let pay = Money.round2(account.open.reduce(0) { $0 + $1.amountToPay.pay })
-                            let before = Money.round2(account.open.reduce(0) { $0 + $1.amountToPayBeforeVat.pay })
-                            if account.open.count > 1 || pay - before > 0.005 {
-                                Text(String(localized: "Total \(Money.format(pay, supplier: account.name))") + (pay - before > 0.005
-                                     ? " · " + VatLine.text(SupplierAccounts.OwedSplit(beforeVat: before, vat: Money.round2(pay - before), exact: true),
-                                                           supplier: account.name)
-                                     : ""))
-                            }
+                            Text(OpenTotal.text(account))
                         } header: {
                             HStack {
                                 Text("Still to pay")
@@ -1746,3 +1739,14 @@ struct DealDateRow: View {
     }
 }
 
+
+/// Under a supplier's unpaid invoices: "Total £1,263.21 · £1,052.68 before VAT + £210.53 VAT".
+enum OpenTotal {
+    static func text(_ account: SupplierAccount) -> String {
+        let split = SupplierAccounts.OwedSplit.of(account.open)
+        let pay = Money.round2(split.beforeVat + split.vat)
+        var line = String(localized: "Total \(Money.format(pay, supplier: account.name))")
+        if split.vat > 0.005 { line += " · " + VatLine.text(split, supplier: account.name) }
+        return line
+    }
+}
