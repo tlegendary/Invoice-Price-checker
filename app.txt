@@ -1,6 +1,6 @@
-commit: bc30619739d867e63c025fee765d9149eb749e1c
-result: cancelled
-when: Thu Nov 19 12:44:37 UTC 2026
+commit: 69767ab284b5f94560ca89b2273866cd14724f98
+result: failure
+when: Thu Nov 19 14:37:30 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,3 +9,101 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 27.2
 Build version 27B52
 Simulator: 0A1B5EC5-2485-4F8E-B06B-1185D8E186C0
+stringsdata files:       52
+     |                                                                                                           `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+     |                 `- warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+     |                 `- warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+     | |- warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
+    /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator27.2-24B8118-9aa026f88bf9ed31cff8761912ac5bd1414ec6ff3c837c3a1760e1fb4ff3fe25.sdkstatcache -target arm64-apple-ios15.0-simulator -fmessage-length
+    |                                                                                                      `- warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                                                                     `- warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                                                                   `- warning: main actor-isolated static property 'tillFolder' can not be referenced from a Sendable closure
+    |                                                                                              `- warning: main actor-isolated static property 'folder' can not be referenced from a Sendable closure
+    |                                                                            `- warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
+    |                                                                |- warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
+    |                                                            |- warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
+    |                                                           `- warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                           `- warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                          `- warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+    |                                           `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |                                        `- warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+    |                               `- warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |                              `- warning: consider using asynchronous alternative function
+    |                         `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |                     `- warning: capture of 'timeout' with non-Sendable type 'DispatchWorkItem' in a '@Sendable' closure [#SendableClosureCaptures]
+    |                 `- warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+    |                 `- warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+    |              `- warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+    | `- warning: add '@preconcurrency' to suppress 'Sendable'-related warnings from module 'Dispatch' [#AddPreconcurrencyImport]
+    builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget-t.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfss
+   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
+** TEST BUILD FAILED **
+/Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:184:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:264:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:14: warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:40: warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:1:1: warning: add '@preconcurrency' to suppress 'Sendable'-related warnings from module 'Dispatch' [#AddPreconcurrencyImport]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:127:21: warning: capture of 'timeout' with non-Sendable type 'DispatchWorkItem' in a '@Sendable' closure [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:131:25: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:132:43: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillParts.swift:172:17: warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillParts.swift:172:17: warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:202:99: warning: main actor-isolated static property 'tillFolder' can not be referenced from a Sendable closure
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:214:94: warning: main actor-isolated static property 'folder' can not be referenced from a Sendable closure
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:239:59: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:242:59: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:298:99: warning: main actor-isolated static property 'tillFolder' can not be referenced from a Sendable closure
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:718:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:719:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillView.swift:112:17: warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillView.swift:112:17: warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/SmartCheck.swift:181:64: warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/SmartCheck.swift:94:60: warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:609:107: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:796:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
+126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
+132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
+---- last lines ----
+SwiftMergeGeneratedHeaders /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/DerivedSources/ChargeCheckTests-Swift.h /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/Ch
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests-Swift.h -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/De
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeC
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftmodule /Users/runner/work/Invoice-Price-checker/Invoice-Pric
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeChec
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftdoc /Users/runner/work/Invoice-Price-checker/Invoice-Price-c
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeChec
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.abi.json /Users/runner/work/Invoice-Price-checker/Invoice-Price-c
+
+Copy /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheckTests.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/a
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.swiftsourceinfo /Users/runner/work/Invoice-Price-checker/Invoice-
+
+SwiftDriverJobDiscovery normal arm64 Compiling StoreTests.swift (in target 'ChargeCheckTests' from project 'ChargeCheck')
+
+SwiftDriver\ Compilation ChargeCheckTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-Swift-Compilation -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheckTests -Onone @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheckTests.build/Objects-normal/arm64/ChargeCheckTests.SwiftFileList -
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
+
+** TEST BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
+	SwiftCompile normal arm64 Compiling\ ShopSwitcher.swift,\ Shops.swift,\ ShopsView.swift,\ Shortcuts.swift,\ SmartCheck.swift,\ SortCategoriesView.swift,\ Store.swift,\ StoredModels.swift,\ SuppliersView.swift,\ TeamView.swift,\ Theme.swift,\ TillApproval.swift,\ TillExtrasViews.swift,\ TillFields.swift,\ TillHardware.swift,\ TillMoreViews.swift,\ TillParts.swift,\ TillSettingsViews.swift,\ TillSt
+	Building project ChargeCheck for testing with scheme ChargeCheck
+(3 failures)
