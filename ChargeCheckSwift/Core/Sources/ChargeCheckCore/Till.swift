@@ -37,7 +37,7 @@ public struct TillInfo: Codable, Equatable, Hashable, Sendable {
     public init(sell: Double? = nil, perPack: Double? = nil, barcodes: [String]? = nil, vat: Double? = nil,
                 low: Double? = nil, orderPacks: Double? = nil, packSell: Double? = nil, tillOnly: Bool? = nil,
                 ageCheck: Bool? = nil, multiQty: Double? = nil, multiPrice: Double? = nil, byWeight: Bool? = nil,
-                batches: Bool? = nil) {
+                batches: Bool? = nil, options: [OptionGroup]? = nil, variantOf: String? = nil) {
         self.sell = sell
         self.perPack = perPack
         self.barcodes = barcodes
@@ -51,6 +51,8 @@ public struct TillInfo: Codable, Equatable, Hashable, Sendable {
         self.multiPrice = multiPrice
         self.byWeight = byWeight
         self.batches = batches
+        self.options = options
+        self.variantOf = variantOf
     }
 
     public var isEmpty: Bool {
