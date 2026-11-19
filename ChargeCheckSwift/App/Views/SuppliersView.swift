@@ -426,6 +426,41 @@ struct SupplierDetailView: View {
             .first { $0.id == key }
     }
 
+    /// The invoices still to pay, with when each is due.
+    @ViewBuilder
+    private func openSection(_ account: SupplierAccount) -> some View {
+        if !account.open.isEmpty {
+            let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
+                                 uniquingKeysWith: { a, _ in a })
+            Section {
+                ForEach(account.open) { entry in
+                    NavigationLink(value: ReportLink(id: entry.id)) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            InvoiceMoneyRow(entry: entry)
+                            if let row = due[entry.id] {
+                                DueLabel(row: row)
+                            }
+                        }
+                    }
+                    .tag(entry.id)
+                    .invoiceSwipes(entry)
+                }
+            } footer: {
+                Text(OpenTotal.text(account))
+            } header: {
+                HStack {
+                    Text("Still to pay")
+                    Spacer()
+                    if !selecting && !team.isStaff {
+                        Button("Select") { editMode = .active }
+                            .font(.subheadline.weight(.semibold))
+                            .textCase(nil)
+                    }
+                }
+            }
+        }
+    }
+
     /// What's owed, before and after VAT, and how it's made up.
     @ViewBuilder
     private func balanceSection(_ account: SupplierAccount) -> some View {
@@ -596,38 +631,7 @@ struct SupplierDetailView: View {
                     }
 
                     } // not selecting
-                    if !account.open.isEmpty {
-                        let due = Dictionary(DueDates.open(accounts: [account], creditDays: accounts.creditDays).map { ($0.id, $0) },
-                                             uniquingKeysWith: { a, _ in a })
-                        Section {
-                            ForEach(account.open) { entry in
-                                NavigationLink(value: ReportLink(id: entry.id)) {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        InvoiceMoneyRow(entry: entry)
-                                        if let row = due[entry.id] {
-                                            Label(DueRow.when(row), systemImage: row.daysLeft < 0 ? "exclamationmark.circle.fill" : "calendar")
-                                                .font(.caption)
-                                                .foregroundStyle(row.daysLeft < 0 ? Color.red : Color.secondary)
-                                        }
-                                    }
-                                }
-                                .tag(entry.id)
-                                .invoiceSwipes(entry)
-                            }
-                        } footer: {
-                            Text(OpenTotal.text(account))
-                        } header: {
-                            HStack {
-                                Text("Still to pay")
-                                Spacer()
-                                if !selecting && !team.isStaff {
-                                    Button("Select") { editMode = .active }
-                                        .font(.subheadline.weight(.semibold))
-                                        .textCase(nil)
-                                }
-                            }
-                        }
-                    }
+                    openSection(account)
 
                     let shown = account.payments.filter { $0.amount > 0.005 }
                     if !shown.isEmpty && !selecting {
@@ -1760,5 +1764,17 @@ enum OpenTotal {
         var line = String(localized: "Total \(Money.format(pay, supplier: account.name))")
         if split.vat > 0.005 { line += " · " + VatLine.text(split, supplier: account.name) }
         return line
+    }
+}
+
+/// "Due in 3 days" / "4 days late" under an unpaid invoice.
+struct DueLabel: View {
+    let row: DueInvoice
+
+    var body: some View {
+        let late = row.daysLeft < 0
+        Label(DueRow.when(row), systemImage: late ? "exclamationmark.circle.fill" : "calendar")
+            .font(.caption)
+            .foregroundStyle(late ? Color.red : Color.secondary)
     }
 }
