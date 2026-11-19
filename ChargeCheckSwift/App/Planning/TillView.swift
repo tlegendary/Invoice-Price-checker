@@ -100,6 +100,14 @@ struct TillView: View {
     @State private var giftText = ""
     @State private var showCustomer = false
     @State private var approval: ApprovalRequest?
+    @State private var choosingOptions: OptionsPick?
+    @State private var choosingVariant: PriceItem?
+    @State private var voucher: String?
+    @State private var askingVoucher = false
+    @State private var voucherText = ""
+    @State private var voucherProblem: String?
+    @State private var layawayDeposit = false
+    @State private var wantsLayaway = false
     /// Every half minute: the other tills' sales and stock.
     private let ticker = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
@@ -124,7 +132,20 @@ struct TillView: View {
         }
     }
     private var subtotal: Double { Money.round2(priced.reduce(0) { $0 + $1.total }) }
-    private var total: Double { Money.round2(max(0, subtotal - basketOff)) }
+    /// Money off from the voucher, worked out again as the basket changes (0 when it no longer applies).
+    private var voucherOff: Double {
+        guard let voucher else { return 0 }
+        if case .ok(let off) = Vouchers.check(voucher, vouchers: till.options.vouchers, sales: till.sales,
+                                             subtotal: max(0, subtotal - basketOff), today: TillStore.today) { return off }
+        return 0
+    }
+    private var total: Double { Money.round2(max(0, subtotal - basketOff - voucherOff)) }
+    /// Everything taken off the whole sale (discount and voucher), shared over the lines when it's recorded.
+    private var wholeOff: Double { Money.round2(min(subtotal, basketOff + voucherOff)) }
+    /// Variants by the item they belong to.
+    private var variants: [String: [PriceItem]] {
+        Dictionary(grouping: items.filter { $0.till?.variantOf != nil }, by: { $0.till?.variantOf ?? "" })
+    }
 
     /// Most sold in the last 30 days first, then by name: the items to tap.
     private var sellable: [PriceItem] {
@@ -133,7 +154,12 @@ struct TillView: View {
         for sale in till.sales where sale.at > since && sale.shop == (shop ?? "") {
             for line in sale.lines { if let id = line.itemID { sold[id, default: 0] += line.stockUnits } }
         }
-        return items.filter { ($0.till?.sell ?? 0) > 0 || ($0.till?.packSell ?? 0) > 0 }
+        let groups = variants
+        return items.filter { item in
+            guard item.till?.variantOf == nil else { return false }
+            if let kids = groups[item.id], kids.contains(where: { ($0.till?.sell ?? 0) > 0 }) { return true }
+            return (item.till?.sell ?? 0) > 0 || (item.till?.packSell ?? 0) > 0
+        }
             .sorted { (sold[$0.id] ?? 0, $1.name.lowercased()) > (sold[$1.id] ?? 0, $0.name.lowercased()) }
     }
 
@@ -170,6 +196,12 @@ struct TillView: View {
         var id: String { item.id }
     }
 
+    struct OptionsPick: Identifiable {
+        let item: PriceItem
+        let pack: Bool
+        var id: String { item.id }
+    }
+
     struct CashKind: Identifiable {
         let kind: CashEvent.Kind
         var id: String { kind.rawValue }
@@ -194,6 +226,14 @@ struct TillView: View {
                 shopChoice
             } else {
                 VStack(spacing: 0) {
+                    if till.training {
+                        Label("Training: nothing is saved", systemImage: "graduationcap.fill")
+                            .font(.footnote.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(6)
+                            .background(Color.orange, in: Rectangle())
+                            .foregroundStyle(.white)
+                    }
                     if till.clash {
                         Label("Another iPhone or iPad is also till \(till.code). Give this one its own letter in Till settings › This till.",
                               systemImage: "exclamationmark.triangle.fill")
@@ -282,11 +322,28 @@ struct TillView: View {
             .sheet(isPresented: $showSettings) {
                 NavigationStack { TillSettingsView(done: true, preApproved: true) }
             }
-            .sheet(isPresented: $choosingCustomer) {
+            .sheet(isPresented: $choosingCustomer, onDismiss: {
+                if wantsLayaway && customer != nil { layawayDeposit = true }
+                wantsLayaway = false
+            }) {
                 CustomerPicker { customer = $0 }
             }
             .sheet(item: $weighing) { item in
                 WeightSheet(item: item) { kg in add(item, pack: false, kg: kg) }
+                    .presentationDetents([.medium])
+            }
+            .sheet(item: $choosingOptions) { pick in
+                OptionsSheet(item: pick.item, base: pick.pack ? (pick.item.till?.packSell ?? 0) : (pick.item.till?.sell ?? 0)) { chosen in
+                    add(pick.item, pack: pick.pack, chosen: chosen)
+                }
+                .presentationDetents([.medium, .large])
+            }
+            .sheet(item: $choosingVariant) { parent in
+                VariantSheet(parent: parent, variants: variants[parent.id] ?? []) { item in add(item, pack: false) }
+                    .presentationDetents([.medium, .large])
+            }
+            .sheet(isPresented: $layawayDeposit) {
+                DepositSheet(total: total, customer: customer?.name ?? "") { amount, card in startLayaway(deposit: amount, card: card) }
                     .presentationDetents([.medium])
             }
             .fullScreenCover(isPresented: $showCustomer) {
@@ -343,7 +400,7 @@ struct TillView: View {
                 TextField("Name, e.g. Ali", text: $parkName)
                 Button("Park") {
                     var lines = priced.map(\.sale)
-                    if basketOff > 0 { lines = SaleMaths.shareDiscount(basketOff, over: lines) }
+                    if wholeOff > 0 { lines = SaleMaths.shareDiscount(wholeOff, over: lines) }
                     till.park(lines, shop: shop ?? "", name: parkName.trimmingCharacters(in: .whitespaces).isEmpty ? (customer?.name ?? "") : parkName,
                               customer: customer?.id)
                     clear()
@@ -371,6 +428,13 @@ struct TillView: View {
                 Button("Don't sell", role: .cancel) {}
             } message: { pick in
                 Text("Batch \(pick.batch.batch.code) of \(pick.item.name) expired on \(pick.batch.batch.expiry). Take it off the shelf. Check the date on the one in your hand.")
+            }
+            .alert("Voucher", isPresented: $askingVoucher) {
+                TextField("Voucher code", text: $voucherText).textInputAutocapitalization(.characters)
+                Button("Use it") { useVoucher(voucherText) }
+                Button("Cancel", role: .cancel) { voucherText = "" }
+            } message: {
+                Text(voucherProblem ?? String(localized: "Type the code on the voucher."))
             }
             .alert("Sell a gift card", isPresented: $sellingGift) {
                 TextField(Money.format(0), text: $giftText)
@@ -426,6 +490,7 @@ struct TillView: View {
                             }
                         }
                         Button { showCustomer = true } label: { Label("Show the customer", systemImage: "person.crop.rectangle") }
+                        Toggle(isOn: $till.training) { Label("Training mode", systemImage: "graduationcap") }
                     }
                     if shops.count > 1 && basket.isEmpty {
                         Menu {
@@ -672,6 +737,20 @@ struct TillView: View {
                     }
                 } label: { Label("Discount on the sale", systemImage: "percent") }
                 Button { parking = true } label: { Label("Park the sale", systemImage: "pause.circle") }
+                Button {
+                    voucherProblem = nil
+                    voucherText = ""
+                    askingVoucher = true
+                } label: { Label("Voucher", systemImage: "ticket") }
+                Button {
+                    if customer == nil {
+                        wantsLayaway = true
+                        choosingCustomer = true
+                    } else {
+                        layawayDeposit = true
+                    }
+                } label: { Label("Layaway: keep it for the customer", systemImage: "shippingbox.and.arrow.backward") }
+                    .disabled(till.training || basket.contains { $0.giftCard != nil })
             }
             Button {
                 Gate.check(.giftCard, String(localized: "Sell a gift card"), request: $approval) { by in
@@ -753,6 +832,23 @@ struct TillView: View {
                     .font(.title3)
                     .buttonStyle(.borderless)
                 }
+                if let voucher {
+                    HStack {
+                        Text(String(localized: "Voucher \(voucher)")).font(.subheadline)
+                        Spacer()
+                        if voucherOff > 0 {
+                            Text("−\(Money.format(voucherOff))").font(.subheadline.weight(.semibold)).foregroundStyle(.green)
+                        } else {
+                            Text("Doesn't apply").font(.caption).foregroundStyle(.orange)
+                        }
+                        Button {
+                            self.voucher = nil
+                        } label: {
+                            Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                        }
+                        .accessibilityLabel(Text("Remove the voucher"))
+                    }
+                }
                 if basketOff > 0 {
                     HStack {
                         Text("Discount on the sale").font(.subheadline)
@@ -766,6 +862,36 @@ struct TillView: View {
     }
 
     // MARK: actions
+
+    private func useVoucher(_ typed: String) {
+        let code = Vouchers.normal(typed)
+        voucherText = ""
+        switch Vouchers.check(code, vouchers: till.options.vouchers, sales: till.sales, subtotal: max(0, subtotal - basketOff), today: TillStore.today) {
+        case .ok:
+            voucher = code
+        case .unknown: retryVoucher(String(localized: "There's no voucher with that code."))
+        case .turnedOff: retryVoucher(String(localized: "That voucher is turned off."))
+        case .expired: retryVoucher(String(localized: "That voucher has expired."))
+        case .usedUp: retryVoucher(String(localized: "That voucher has already been used."))
+        case .spendMore(let min): retryVoucher(String(localized: "That voucher needs a sale of at least \(Money.format(min))."))
+        }
+    }
+
+    private func retryVoucher(_ problem: String) {
+        voucherProblem = problem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { askingVoucher = true }
+    }
+
+    /// The basket is kept for the customer with a deposit: it's sold when they collect it (Till › Layaways).
+    private func startLayaway(deposit: Double, card: Bool) {
+        guard let customer else { return }
+        var lines = priced.map(\.sale)
+        if wholeOff > 0 { lines = SaleMaths.shareDiscount(wholeOff, over: lines) }
+        guard till.startLayaway(lines: lines, shop: shop ?? "", customer: customer.id, deposit: deposit, card: card) != nil else { return }
+        if !card && deposit > 0 && printer.settings.isSet && printer.settings.drawer { printer.openDrawer() }
+        screen.show(ScreenState(shop: Shops.reportName(shop ?? ""), lines: [], total: "", message: String(localized: "Thank you")))
+        clear()
+    }
 
     /// A manager allowed something on this sale.
     private func note(_ by: String?) {
@@ -783,6 +909,7 @@ struct TillView: View {
     private func clear() {
         basket = []
         basketOff = 0
+        voucher = nil
         ageChecked = []
         customer = nil
         approvedBy = []
@@ -866,9 +993,17 @@ struct TillView: View {
         return BatchMaths.next(till.shelf(of: item, shop: shop ?? "", onHand: level?.onHand ?? 0))
     }
 
-    private func add(_ item: PriceItem, pack: Bool, kg: Double? = nil, batchOK: Bool = false) {
+    private func add(_ item: PriceItem, pack: Bool, kg: Double? = nil, batchOK: Bool = false, chosen: [OptionChoice]? = nil) {
         let info = item.till ?? TillInfo()
-        let price = pack ? (info.packSell ?? 0) : (info.sell ?? 0)
+        if !pack, kg == nil, let kids = variants[item.id], !kids.isEmpty {
+            choosingVariant = item
+            return
+        }
+        if let groups = info.options, !groups.isEmpty, chosen == nil, kg == nil {
+            choosingOptions = OptionsPick(item: item, pack: pack)
+            return
+        }
+        let price = ItemOptions.price(base: pack ? (info.packSell ?? 0) : (info.sell ?? 0), chosen: chosen ?? [])
         guard price > 0 else {
             pricing = item
             return
@@ -896,11 +1031,12 @@ struct TillView: View {
                                      cost: unitCost.map { ($0 * 10_000).rounded() / 10_000 }, weighed: true, batch: batch, category: item.cat))
         } else {
             let units = pack ? item.unitsPerPack : 1
+            let plain = pack ? String(localized: "\(item.name) (pack of \(units.formatted()))") : item.name
+            let name = ItemOptions.label(plain, chosen: chosen ?? [])
             if let index = basket.firstIndex(where: { $0.itemID == item.id && $0.units == units && $0.price == price && $0.manualOff == 0
-                && !$0.weighed && $0.batch == batch }) {
+                && !$0.weighed && $0.batch == batch && $0.name == name }) {
                 basket[index].qty += 1
             } else {
-                let name = pack ? String(localized: "\(item.name) (pack of \(units.formatted()))") : item.name
                 basket.append(BasketLine(itemID: item.id, name: name, qty: 1, price: price, vat: info.vat ?? 0,
                                          cost: unitCost.map { ($0 * units * 10_000).rounded() / 10_000 }, units: units,
                                          offerQty: info.offer?.qty, offerPrice: info.offer?.price, batch: batch, category: item.cat))
@@ -927,9 +1063,10 @@ struct TillView: View {
 
     private func finish(payment: PaymentKind, tendered: Double?, split: [SalePayment]?) {
         var lines = priced.map(\.sale)
-        if basketOff > 0 { lines = SaleMaths.shareDiscount(basketOff, over: lines) }
+        if wholeOff > 0 { lines = SaleMaths.shareDiscount(wholeOff, over: lines) }
         let sale = till.record(lines: lines, shop: shop ?? "", payment: payment, tendered: tendered, split: split,
-                               customer: customer?.id, approvedBy: approvedBy.isEmpty ? nil : approvedBy.joined(separator: ", "), context: context)
+                               customer: customer?.id, approvedBy: approvedBy.isEmpty ? nil : approvedBy.joined(separator: ", "),
+                               voucher: voucherOff > 0 ? voucher : nil, context: context)
         let hadCash = sale.payments.contains { $0.kind == .cash }
         if printer.settings.isSet {
             if printer.settings.autoPrint {
@@ -950,7 +1087,7 @@ struct TillView: View {
         let lines = priced.map { line in
             ScreenLine(id: line.id, name: line.name, detail: TillText.detail(line), amount: Money.format(line.total))
         }
-        let saved = Money.round2(priced.reduce(0) { $0 + $1.discount } + min(basketOff, subtotal))
+        let saved = Money.round2(priced.reduce(0) { $0 + $1.discount } + wholeOff)
         screen.show(ScreenState(shop: Shops.reportName(shop ?? ""), lines: lines, total: basket.isEmpty ? "" : Money.format(total),
                                 saving: saved > 0.004 ? String(localized: "You save \(Money.format(saved))") : nil, message: nil))
     }
@@ -1213,6 +1350,12 @@ struct PaySheet: View {
                     } label: {
                         Label(String(localized: "On \(customer.name)'s account (owes \(Money.format(balance.tab)))"), systemImage: "person.text.rectangle")
                     }
+                } else if balance.tab < -0.004 {
+                    Button {
+                        fresh { putOnAccount(customer, owed: till.balance(customer).tab) }
+                    } label: {
+                        Label(String(localized: "Use store credit (\(Money.format(-balance.tab)))"), systemImage: "creditcard.and.123")
+                    }
                 }
                 if till.options.loyaltyOn, balance.points > 0, !extras.contains(where: { $0.kind == .points }) {
                     let worth = CustomerMaths.worth(points: balance.points, loyalty: till.options.loyalty)
@@ -1258,12 +1401,23 @@ struct PaySheet: View {
 
     private func putOnAccount(_ customer: Customer, owed: Double) {
         problem = nil
-        guard CustomerMaths.tabAllows(customer, owed: owed, adding: due) else {
-            problem = String(localized: "That would take \(customer.name) over the most they can owe (\(Money.format(customer.tabLimit ?? 0))).")
+        // up to their limit, or (store credit) up to what they have
+        let amount = min(due, CustomerMaths.tabRoom(customer, owed: owed))
+        guard amount > 0.004 else {
+            problem = customer.tabLimit == nil
+                ? String(localized: "\(customer.name) has no store credit left.")
+                : String(localized: "That would take \(customer.name) over the most they can owe (\(Money.format(customer.tabLimit ?? 0))).")
             return
         }
-        Gate.check(.tab, PermissionText.title(.tab), request: $approval) { _ in
-            extras.append(SalePayment(kind: .tab, amount: due, ref: customer.id))
+        if customer.tabLimit != nil && amount < due - 0.004 {
+            problem = String(localized: "Only \(Money.format(amount)) more can go on \(customer.name)'s account: take the rest another way.")
+        }
+        let payment = SalePayment(kind: .tab, amount: amount, ref: customer.id)
+        if customer.tabLimit == nil {
+            // spending their own store credit needs nobody's say-so
+            extras.append(payment)
+        } else {
+            Gate.check(.tab, PermissionText.title(.tab), request: $approval) { _ in extras.append(payment) }
         }
     }
 
@@ -1402,6 +1556,10 @@ enum TillReceipt {
         if !till.severalTills { shown.till = nil }
         var text = SaleMaths.receipt(shown, shopName: Shops.reportName(sale.shop), currency: Money.currency.code,
                                      header: settings.header, footer: settings.footer, vatNumber: settings.vatNumber)
+        if sale.number == 0 && sale.till == "T" {
+            text = String(localized: "TRAINING – NOT A REAL SALE") + "\n\n" + text
+        }
+        if let voucher = sale.voucher { text += "\n" + String(localized: "Voucher used: \(voucher)") }
         if let customer = till.customer(sale.customer) {
             text += "\n\n" + String(localized: "Customer: \(customer.name)")
             if till.options.loyaltyOn {

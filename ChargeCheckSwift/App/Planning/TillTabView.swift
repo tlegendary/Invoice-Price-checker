@@ -31,35 +31,76 @@ struct TillTabView: View {
                 if store.allows(.till) {
                     todaySection
                     Section {
-                        NavigationLink { SalesView() } label: { Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis") }
-                        NavigationLink { StockView() } label: { Label("Stock", systemImage: "shippingbox") }
-                        NavigationLink { ExpiryView() } label: { Label("Expiry dates", systemImage: "calendar.badge.exclamationmark") }
+                        NavigationLink { ManagerOnly { DealsView() } } label: { Label("Meal deals and multi-buys", systemImage: "takeoutbag.and.cup.and.straw") }
+                        NavigationLink { ManagerOnly { VouchersView() } } label: { Label("Vouchers", systemImage: "ticket") }
                     } header: {
-                        Text("Selling")
+                        Text("Pricing and discounts")
+                    } footer: {
+                        Text("Item options (size, add-ons), variants, VAT and multi-buys are set on each item: price list › the item › Sell at the till.")
                     }
                     Section {
-                        NavigationLink { CustomersView() } label: { Label("Customers and accounts", systemImage: "person.2") }
+                        NavigationLink { CustomersView() } label: { Label("Customers, accounts and store credit", systemImage: "person.2") }
                         NavigationLink { GiftCardsView() } label: { Label("Gift cards", systemImage: "giftcard") }
+                        NavigationLink { LayawaysView() } label: {
+                            LabeledContent {
+                                let open = till.layaways.filter { $0.status == .open }.count
+                                if open > 0 { Text("\(open)") }
+                            } label: {
+                                Label("Layaways", systemImage: "shippingbox.and.arrow.backward")
+                            }
+                        }
                     } header: {
-                        Text("Customers")
+                        Text("Payments and customers")
+                    }
+                    Section {
+                        NavigationLink { StockView() } label: { Label("Stock and moving stock", systemImage: "shippingbox") }
+                        NavigationLink { ExpiryView() } label: { Label("Expiry dates", systemImage: "calendar.badge.exclamationmark") }
+                        NavigationLink { OrdersView() } label: { Label("Supplier orders", systemImage: "cart.badge.plus") }
+                    } header: {
+                        Text("Stock")
+                    }
+                    Section {
+                        NavigationLink { SalesView() } label: { Label("Sales, best sellers, peak hours", systemImage: "chart.line.uptrend.xyaxis") }
+                        if shop != nil {
+                            Button {
+                                showDay = true
+                            } label: {
+                                Label(till.severalTills ? String(localized: "End of day (till \(till.code))") : String(localized: "End of day"),
+                                      systemImage: "lock.rectangle.stack")
+                            }
+                        }
+                    } header: {
+                        Text("Reports")
+                    } footer: {
+                        Text("Sales by item, category, hour and cashier, with VAT, as a spreadsheet or PDF.")
                     }
                     Section {
                         NavigationLink { ShiftsView() } label: { Label("Staff hours", systemImage: "clock") }
-                        NavigationLink { TillSettingsView() } label: { Label("Till settings and products", systemImage: "gearshape.2") }
+                        NavigationLink { ManagerOnly { TillPermissionsView() } } label: { Label("What cashiers can do", systemImage: "lock.shield") }
+                        NavigationLink { ChangeHistoryView() } label: { Label("Activity: voids, refunds, no sales", systemImage: "list.bullet.rectangle") }
+                        Toggle(isOn: $till.training) {
+                            Label("Training mode", systemImage: "graduationcap")
+                        }
+                    } header: {
+                        Text("Staff and security")
+                    } footer: {
+                        Text("Training mode: new staff use the real till, but sales, refunds and cash aren't saved and stock doesn't change.")
+                    }
+                    Section {
+                        NavigationLink { TillSettingsView() } label: { Label("Till settings, people and products", systemImage: "gearshape.2") }
+                        NavigationLink { ManagerOnly { PrinterSettingsView() } } label: { Label("Receipt printer and cash drawer", systemImage: "printer") }
                         Button {
                             beScreen = true
                         } label: {
                             Label("Be the customer screen", systemImage: "person.crop.rectangle")
                         }
-                    } header: {
-                        Text("Staff and setup")
-                    }
-                    Section {
                         Toggle(isOn: $tillTab) {
                             Label("Till as its own tab", systemImage: "rectangle.bottomthird.inset.filled")
                         }
+                    } header: {
+                        Text("Setup")
                     } footer: {
-                        Text("Turn off to put Reports back in this tab. The till is then in More and on Home.")
+                        Text("Turn off “Till as its own tab” to put Reports back in this tab. The till is then in More and on Home.")
                     }
                 } else {
                     Section {
@@ -95,7 +136,7 @@ struct TillTabView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Open the till").font(.headline)
                         if let cashier = till.cashier {
-                            Text(cashier.name).font(.footnote).foregroundStyle(.secondary)
+                            Text(till.training ? String(localized: "Training mode is on") : cashier.name).font(.footnote).foregroundStyle(.secondary)
                         }
                     }
                     Spacer()
@@ -111,14 +152,6 @@ struct TillTabView: View {
                 LabeledContent("Profit today") {
                     Text(Money.format(summary.profit)).monospacedDigit()
                         .foregroundStyle(summary.profit < 0 ? Color.red : Color.primary)
-                }
-            }
-            if shop != nil {
-                Button {
-                    showDay = true
-                } label: {
-                    Label(till.severalTills ? String(localized: "End of day (till \(till.code))") : String(localized: "End of day"),
-                          systemImage: "lock.rectangle.stack")
                 }
             }
         } footer: {

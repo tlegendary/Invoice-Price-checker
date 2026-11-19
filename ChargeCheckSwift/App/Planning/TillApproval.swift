@@ -111,3 +111,32 @@ enum RoleText {
         }
     }
 }
+
+/// A screen only a manager or the owner may change (prices, vouchers, permissions…): others unlock it with a
+/// manager's PIN or the phone's Face ID.
+struct ManagerOnly<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @ObservedObject private var till = TillStore.shared
+    @State private var unlocked = false
+    @State private var approval: ApprovalRequest?
+
+    private var allowed: Bool { unlocked || !till.hasManagers || (till.cashier?.role ?? .cashier).isManager }
+
+    var body: some View {
+        if allowed {
+            content()
+        } else {
+            ContentUnavailableView {
+                Label("Managers only", systemImage: "lock")
+            } description: {
+                Text("Only a manager or the owner can change this.")
+            } actions: {
+                Button("Unlock") {
+                    approval = ApprovalRequest(title: String(localized: "Change the till settings"), deviceOwner: true) { _ in unlocked = true }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .managerApproval($approval)
+        }
+    }
+}

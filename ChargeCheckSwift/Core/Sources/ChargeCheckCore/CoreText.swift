@@ -17,7 +17,7 @@ public enum CoreText {
     public static let keys: [String] = [
         "Order", "For delivery", "Thank you", "Receipt", "Refund", "VAT included", "Cash", "Change given", "Discount", "Served by", "VAT no.", "Card", "Qty", "Price", "Cost", "Paid by", "Other",
         "End of day", "Sales", "Refunds", "Takings", "Profit", "VAT", "Total", "Float", "Paid in", "Paid out", "Cash expected", "Cash counted", "Difference",
-        "Batch", "On account", "Gift card", "Points", "Gift cards sold", "Tabs paid", "Till",
+        "Batch", "On account", "Gift card", "Points", "Gift cards sold", "Tabs paid", "Till", "Deposits paid", "Layaway deposits",
         "The two reads of the photo didn't agree on this line.",
         "Only found on the second read – make sure it's really on the invoice.",
         "Not in your price list – choose the matching item or mark it as not in your list.",
