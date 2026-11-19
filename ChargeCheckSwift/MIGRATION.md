@@ -462,3 +462,15 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
   two tills do it within the same few seconds, or offline: a server would be needed to rule that out fully.
 - Builds use Xcode 27.2 / iOS 27 SDK (Codemagic beta pinned; GitHub checks on xcode-27 runners).
 - Open: money is still Double rounded to pennies (tests pass; a move to Decimal is a larger, planned change).
+
+## What to pay, one way everywhere (20 Nov 2026)
+- `PayBreakdown` (HistoryEntry.payment): net + VAT = total; overcharges and missing items come off the net first, and
+  the VAT on them off the VAT; pay = payNet + payVat to the penny; less + pay = total. amountToPay and
+  amountToPayBeforeVat read from it, so Reports, suppliers, Home, widget, PDFs and reminders all show the same figures.
+- Fixed: when an invoice's lines were read without VAT rates, an overcharge came off the total with VAT but its VAT
+  stayed in (£120 − £10 = £110 instead of £90 + £18 = £108). Now the invoice's own VAT share is used, and the
+  invoice page says so. Existing invoices like that will show the lower, correct amount.
+- A total read below its net is treated as a misread (no VAT split); an invoice with only a total has no VAT split.
+- Invoice page: "How it's worked out" table (before VAT, VAT, total for invoice, overcharged, missing, to pay).
+- Tests: PayBreakdownTests — worked examples, 5,000 random invoices against the rules, and Reports/suppliers/Home
+  totals over 2,000 random invoices.

@@ -294,23 +294,21 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         duplicateOf = c.flexString(.duplicateOf).flatMap { $0.isEmpty ? nil : $0 }
     }
 
+    /// Everything about what to pay for this invoice, worked out once so every screen shows the same figures
+    /// and they always add up: deductions come off the amount before VAT first, then the VAT on them comes off the VAT.
+    public var payment: PayBreakdown { PayBreakdown(self) }
+
     /// What to send the supplier: the invoice total less overcharges and missing items (VAT included).
     public var amountToPay: (total: Double, less: Double, pay: Double) {
-        let missingVat = lines.reduce(0.0) { sum, line in
-            let gone = line.excluded ? line.qty : line.short
-            guard gone > 0 else { return sum }
-            return sum + Money.round2(Money.round2(gone * line.unit) * line.vat / 100)
-        }
-        let less = min(total, Money.round2(over + overVat + excluded + missingVat))
-        return (Money.round2(total), less, Money.round2(total - less))
+        let p = payment
+        return (p.total, p.less, p.pay)
     }
 
     /// The same, before VAT: the net invoice total, less overcharges and missing items (without their VAT).
     /// For shops that aren't VAT registered, or anyone who wants to see the figures without VAT.
     public var amountToPayBeforeVat: (total: Double, less: Double, pay: Double) {
-        let total = Money.round2(net)
-        let less = min(total, Money.round2(over + excluded))
-        return (total, less, Money.round2(total - less))
+        let p = payment
+        return (p.net, p.lessNet, p.payNet)
     }
 
     /// What to pay for this invoice, with or without VAT.
@@ -455,4 +453,86 @@ public struct BackupFile: Codable, Equatable, Sendable {
         encoder.outputFormatting = [.sortedKeys]
         return try encoder.encode(self)
     }
+}
+
+/// What to pay for one invoice, before VAT and with it.
+///
+/// - The invoice: `net` + `vat` = `total` (the VAT is the printed total less the printed net).
+/// - Taken off: overcharges and missing or returned items, before VAT (`lessNet`), and the VAT on them (`lessVat`).
+///   The VAT on them comes from each line's own VAT rate. When the invoice's lines were read without VAT rates but
+///   the invoice has VAT, it's the invoice's own VAT share instead (`vatFromShare`), so an overcharge never comes
+///   off the total with VAT while its VAT stays in.
+/// - To pay: `payNet` + `payVat` = `pay`, to the penny, and `less` + `pay` = `total`.
+public struct PayBreakdown: Equatable, Sendable {
+    public var net: Double
+    public var vat: Double
+    public var total: Double
+    /// Overcharges before VAT, and their VAT.
+    public var over: Double
+    public var overVat: Double
+    /// Missing or returned items before VAT, and their VAT.
+    public var missing: Double
+    public var missingVat: Double
+    public var lessNet: Double
+    public var lessVat: Double
+    public var less: Double
+    public var payNet: Double
+    public var payVat: Double
+    public var pay: Double
+    /// The VAT taken off was worked out from the invoice's VAT share (its lines had no VAT rates).
+    public var vatFromShare: Bool
+
+    public init(_ entry: HistoryEntry) {
+        // the invoice itself: a total can't be below its net (a misread); then there's no VAT to split
+        let printedTotal = Money.round2(max(0, entry.total))
+        var net = Money.round2(max(0, entry.net))
+        if net <= 0.004 || net > printedTotal + 0.004 { net = printedTotal }
+        let vat = Money.round2(printedTotal - net)
+        total = printedTotal
+        self.net = net
+        self.vat = vat
+
+        // what comes off, before VAT
+        let overNet = Money.round2(max(0, entry.over))
+        let missingNet = Money.round2(max(0, entry.excluded))
+        var lineMissingVat = 0.0
+        var linesWithVat = false
+        for line in entry.lines {
+            if line.vat > 0 { linesWithVat = true }
+            let gone = line.excluded ? line.qty : line.short
+            guard gone > 0 else { continue }
+            lineMissingVat += Money.round2(Money.round2(gone * line.unit) * line.vat / 100)
+        }
+        let lessNet = min(net, Money.round2(overNet + missingNet))
+        // keep the split between overcharges and missing items when the net cap bites
+        over = min(overNet, lessNet)
+        missing = Money.round2(lessNet - over)
+
+        // and the VAT on it
+        vatFromShare = vat > 0.004 && !linesWithVat && lessNet > 0.004
+        if vatFromShare {
+            let share = vat / net
+            overVat = Money.round2(over * share)
+            missingVat = Money.round2(missing * share)
+        } else {
+            overVat = Money.round2(max(0, entry.overVat))
+            missingVat = Money.round2(lineMissingVat)
+        }
+        var lessVat = Money.round2(overVat + missingVat)
+        if lessVat > vat {
+            // never more VAT off than the invoice has
+            lessVat = vat
+            overVat = min(overVat, vat)
+            missingVat = Money.round2(vat - overVat)
+        }
+        self.lessNet = lessNet
+        self.lessVat = lessVat
+        less = Money.round2(lessNet + lessVat)
+        payNet = Money.round2(net - lessNet)
+        payVat = Money.round2(vat - lessVat)
+        pay = Money.round2(payNet + payVat)
+    }
+
+    /// Overcharges with their VAT.
+    public var overWithVat: Double { Money.round2(over + overVat) }
 }

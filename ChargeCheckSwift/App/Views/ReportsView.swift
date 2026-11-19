@@ -477,12 +477,7 @@ struct ReportDetailView: View {
                             Text(Money.format(amounts.pay, supplier: entry.supplier))
                                 .fontWeight(.bold)
                         }
-                        let split = SupplierAccounts.OwedSplit.of([entry])
-                        if split.vat > 0.005 {
-                            LabeledContent("Before VAT", value: Money.format(split.beforeVat, supplier: entry.supplier))
-                            LabeledContent("VAT", value: Money.format(split.vat, supplier: entry.supplier))
-                            LabeledContent("With VAT", value: Money.format(entry.amountToPay.pay, supplier: entry.supplier))
-                        }
+                        PayWorkings(entry: entry)
                         Toggle("Paid", isOn: Binding(
                             get: { entry.paid != nil },
                             set: { isOn in
