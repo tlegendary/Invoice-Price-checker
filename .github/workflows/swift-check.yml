@@ -31,7 +31,7 @@ jobs:
   app:
     name: App build
     runs-on: xcode-27   # same Xcode as the beta build (Codemagic 27.2)
-    timeout-minutes: 35
+    timeout-minutes: 60   # Xcode 27 machines compile slower; with the 5-language sweep it needs ~40 min
     # macOS minutes are expensive on a private repo: only when the commit message asks for it
     if: ${{ contains(github.event.head_commit.message, '[app]') }}
     steps:
