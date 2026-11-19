@@ -194,7 +194,7 @@ final class PayBreakdownTests: XCTestCase {
                 XCTAssertGreaterThanOrEqual(split.vat, -0.001, account.name)
             }
         }
-        if let all = SupplierAccounts.owedSplit(accounts) {
+        if let all = SupplierAccounts.totalSplit(accounts) {
             XCTAssertEqual(all.beforeVat + all.vat, sum(accounts.filter { $0.balance > 0.005 }.map(\.balance)), accuracy: 0.01)
         }
 
