@@ -1,6 +1,6 @@
-commit: 0ae206a4241bcf0be79811038cf7af2be1f4ebfd
+commit: 23bb115304d5e37ef1928b812e40a80cda4169a2
 result: cancelled
-when: Wed Nov 18 13:30:42 UTC 2026
+when: Thu Nov 19 10:08:28 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,3 +9,44 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 27.2
 Build version 27B52
 Simulator: 0A1B5EC5-2485-4F8E-B06B-1185D8E186C0
+---- last lines ----
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/usr/bin/xcstringstool compile --dry-run --output-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Localizable.xcstr
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_27.2.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+Build description signature: a84dfd83d87d40e6c514b03d51410338
+Build description path: /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/XCBuildData/a84dfd83d87d40e6c514b03d51410338.xcbuilddata
+CreateBuildDirectory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    builtin-create-build-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/ModuleCache.noindex
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    builtin-create-build-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/ModuleCache.noindex
+
+CreateBuildDirectory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/CompilationCache.noindex
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    builtin-create-build-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/CompilationCache.noindex
+
+CreateBuildDirectory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    builtin-create-build-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products
+
+CreateBuildDirectory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    builtin-create-build-directory /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator27.2-24B8118-9aa026f88bf9ed31cf
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
+    /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKStatCaches.noindex/iphonesimulator27.2-24B8118-9aa026f88bf9ed31cff8761912
