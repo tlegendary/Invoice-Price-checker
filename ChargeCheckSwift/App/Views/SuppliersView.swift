@@ -445,8 +445,6 @@ struct SupplierDetailView: View {
                     .tag(entry.id)
                     .invoiceSwipes(entry)
                 }
-            } footer: {
-                Text(OpenTotal.text(account))
             } header: {
                 HStack {
                     Text("Still to pay")
@@ -457,6 +455,8 @@ struct SupplierDetailView: View {
                             .textCase(nil)
                     }
                 }
+            } footer: {
+                Text(OpenTotal.text(account))
             }
         }
     }
