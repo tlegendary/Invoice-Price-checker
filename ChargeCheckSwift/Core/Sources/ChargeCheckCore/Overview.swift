@@ -9,6 +9,12 @@ public struct Savings: Equatable, Sendable {
     public var creditsReceived: Double = 0
     /// Invoices where something was caught.
     public var invoices: Int = 0
+    /// Caught money you've actually kept: the invoice was paid at the lower amount, or the supplier's credit arrived.
+    public var secured: Double = 0
+    /// Caught but not settled yet: the invoice isn't paid, or the credit asked for hasn't come.
+    public var pending: Double = 0
+    /// Caught, but the supplier wouldn't credit it.
+    public var writtenOff: Double = 0
 
     public init(overcharges: Double = 0, missing: Double = 0, creditsReceived: Double = 0, invoices: Int = 0) {
         self.overcharges = overcharges
@@ -98,7 +104,27 @@ public enum OverviewMaths {
             s.missing += c.missing
             if c.overcharges + c.missing > 0.005 { s.invoices += 1 }
             if let credit = entry.credit, credit.status == CreditInfo.received { s.creditsReceived += credit.amount }
+            let found = Money.round2(c.overcharges + c.missing)
+            guard found > 0.005 else { continue }
+            if let credit = entry.credit {
+                switch credit.status {
+                case CreditInfo.received:
+                    // never more than was caught on this invoice; a short credit leaves the rest still owed
+                    let got = min(found, max(0, credit.amount))
+                    s.secured += got
+                    s.pending += found - got
+                case CreditInfo.writtenOff: s.writtenOff += found
+                default: s.pending += found
+                }
+            } else if entry.paid != nil {
+                s.secured += found
+            } else {
+                s.pending += found
+            }
         }
+        s.secured = Money.round2(s.secured)
+        s.pending = Money.round2(s.pending)
+        s.writtenOff = Money.round2(s.writtenOff)
         s.overcharges = Money.round2(s.overcharges)
         s.missing = Money.round2(s.missing)
         s.creditsReceived = Money.round2(s.creditsReceived)

@@ -307,6 +307,10 @@ struct HomeView: View {
                          : String(localized: "on \(o.savedAllTime.invoices) invoices, since you started"))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    if o.savedThisMonth.total > 0.005 {
+                        MonthRecovered(month: o.savedThisMonth)
+                            .padding(.top, 6)
+                    }
                 }
                 .padding(.vertical, 2)
             }
@@ -666,6 +670,7 @@ struct SavingsView: View {
                 }
             } footer: {
                 Text("Found: overcharges and missing goods taken off what you pay or asked back from the supplier. Credits received: money suppliers have actually sent back. Cheaper elsewhere is an estimate, not money saved.")
+                    + Text(" ") + Text("Secured: the invoice was paid at the lower amount, or the credit arrived. Still to secure: not paid yet, or the credit hasn't come.")
             }
         }
         .navigationTitle("Money protected")
@@ -678,6 +683,32 @@ struct SavingsView: View {
             LabeledContent("Missing goods taken off", value: Money.format(s.missing))
             LabeledContent("Credits received", value: Money.format(s.creditsReceived))
             LabeledContent("Invoices with a problem", value: "\(s.invoices)")
+            if s.total > 0.005 {
+                LabeledContent("Secured", value: Money.format(s.secured))
+                LabeledContent("Still to secure", value: Money.format(s.pending))
+                if s.writtenOff > 0.005 { LabeledContent("Written off", value: Money.format(s.writtenOff)) }
+            }
+        }
+    }
+}
+
+/// This month on the Home card: what was caught, and how much of it is money you've actually kept.
+struct MonthRecovered: View {
+    let month: Savings
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 16) {
+            figure("This month", month.total, .primary)
+            figure("Secured", month.secured, .green)
+            if month.pending > 0.005 { figure("Still to secure", month.pending, .orange) }
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    private func figure(_ title: LocalizedStringKey, _ value: Double, _ colour: Color) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text(Money.format(value)).font(.subheadline.weight(.semibold)).foregroundStyle(colour).monospacedDigit()
         }
     }
 }
