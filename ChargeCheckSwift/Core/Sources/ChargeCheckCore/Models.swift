@@ -514,8 +514,8 @@ public struct PayBreakdown: Equatable, Sendable {
         // and the VAT on it: only on items that had VAT, at each item's own rate
         allItemsRate = nil
         vatUnknown = false
-        if linesWithVat || vat <= 0.004 || lessNet <= 0.004 {
-            // each line's own rate; a line with no rate is zero-rated
+        if linesWithVat || entry.overVat > 0.004 || vat <= 0.004 || lessNet <= 0.004 {
+            // each line's own rate (or the VAT recorded when the invoice was checked); a line with no rate is zero-rated
             overVat = Money.round2(max(0, entry.overVat))
             missingVat = Money.round2(lineMissingVat)
         } else if let rate = PayBreakdown.allItemsRate(net: net, vat: vat, lines: entry.lines.count) {

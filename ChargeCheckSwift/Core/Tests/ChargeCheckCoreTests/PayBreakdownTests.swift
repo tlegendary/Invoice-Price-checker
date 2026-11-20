@@ -189,6 +189,7 @@ final class PayBreakdownTests: XCTestCase {
             }
             if p.vatUnknown {
                 XCTAssertEqual(p.lessVat, 0, e.id)
+                XCTAssertEqual(e.overVat, 0, e.id)
                 XCTAssertFalse(e.lines.contains { $0.vat > 0 }, e.id)
             }
             if e.lines.contains(where: { $0.vat > 0 }) {
