@@ -484,8 +484,6 @@ public struct PayBreakdown: Equatable, Sendable {
     /// The invoice has VAT, something came off, but no line says whether it had VAT: no VAT is taken off for it.
     public var vatUnknown: Bool
 
-    /// The rates an invoice's VAT is checked against, when its lines don't show one.
-    public static let commonRates: [Double] = [20, 5, 19, 7, 10, 5.5, 15, 21, 16]
 
     public init(_ entry: HistoryEntry) {
         // the invoice itself: a total can't be below its net (a misread); then there's no VAT to split
@@ -548,10 +546,12 @@ public struct PayBreakdown: Equatable, Sendable {
     /// Overcharges with their VAT.
     public var overWithVat: Double { Money.round2(over + overVat) }
 
-    /// The rate, when the invoice's VAT is that rate on its whole net (to a penny a line): then every item had VAT.
+    /// The full standard rate, when the invoice's VAT is that rate on its whole net (to a penny a line). Only the
+    /// full rate proves every item had VAT: one zero-rated or reduced-rate item would make the VAT lower. Any lower
+    /// share (say 10%) could be half the items at 20%, so it's never taken as a rate.
     static func allItemsRate(net: Double, vat: Double, lines: Int) -> Double? {
-        guard net > 0.004, vat > 0.004 else { return nil }
+        guard net > 0.004, vat > 0.004, let rate = InvoiceParser.vatRates.max() else { return nil }
         let slack = 0.011 * Double(max(1, lines)) + 0.001
-        return commonRates.first { abs(Money.round2(net * $0 / 100) - vat) <= slack }
+        return abs(Money.round2(net * rate / 100) - vat) <= slack ? rate : nil
     }
 }
