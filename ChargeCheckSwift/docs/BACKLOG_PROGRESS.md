@@ -44,3 +44,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   Reset PIN: touch and hold a person in Till settings. Limits: a 4-digit PIN stays guessable from a copied file
   (10,000 options) — hashing only slows it; a till app older than this can't sign in people whose PIN was upgraded,
   so update every till. Not yet: wrong-PIN lockout (do with CC-003).
+- 21 Nov — CC-003 inspected (not started). Permissions (`TillPermission`: refund, discount, priceChange, customAmount,
+  removeLine, cashIn, cashOut, float, noSale, closeDay, giftCard, tab, settings) are only checked in views via
+  `Gate.check` (TillView, SalesViews, TillMoreViews, TillSettingsViews) and `ManagerOnly` (TillTabView). TillStore's
+  mutators don't check. Plan: TillStore issues an `Approval` (permission, by, reason, at) only when `may()` or a
+  manager PIN allows; every committed privileged mutation (refund, cash events, close day, gift card, layaway cancel,
+  tab, settings) takes it and records actor + reason; cart-only edits (discount, removeLine, customAmount,
+  priceChange) carry the approval onto the sale line. Add wrong-PIN lockout. Tests: Tests/TillPermissionTests.swift.
