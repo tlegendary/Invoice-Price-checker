@@ -222,6 +222,26 @@ public enum InvoiceMaths {
                          disagree: parsed.disagree, onlySecondRead: parsed.onlySecondRead, altQty: parsed.altQty, altUnit: parsed.altUnit)
     }
 
+    /// When the invoice prints its VAT but not each line's rate, each line's VAT is taken from its item's VAT in the
+    /// price list – only if those rates add up to the invoice's VAT (to a penny a line). Then it's known which items
+    /// had VAT. If they don't add up, nothing is filled in: the rates aren't guessed.
+    public static func vatFromPriceList(_ lines: [CheckLine], book: PriceBook, printedNet: Double?, printedTotal: Double?) -> [CheckLine] {
+        guard !lines.isEmpty, !lines.contains(where: { $0.vat > 0 }),
+              let net = printedNet, let total = printedTotal, net > 0, total > net + 0.004 else { return lines }
+        let printedVat = Money.round2(total - net)
+        let rates = lines.map { line -> Double in
+            guard !line.excluded, let rate = book.item(line.matchId)?.till?.vat, rate > 0, rate <= 30 else { return 0 }
+            return rate
+        }
+        guard rates.contains(where: { $0 > 0 }) else { return lines }
+        var vat = 0.0
+        for (line, rate) in zip(lines, rates) { vat += Money.round2(Money.round2(line.qty * line.unit) * rate / 100) }
+        guard abs(Money.round2(vat) - printedVat) <= 0.011 * Double(lines.count) + 0.001 else { return lines }
+        var out = lines
+        for i in out.indices where rates[i] > 0 { out[i].vat = rates[i] }
+        return out
+    }
+
     /// The only item whose agreed price is exactly this price (for this supplier); if several share it,
     /// the one whose name is closest, and only when the name gives it some support.
     static func matchByPrice(_ desc: String, unit: Double, supplier: String, book: PriceBook) -> String? {

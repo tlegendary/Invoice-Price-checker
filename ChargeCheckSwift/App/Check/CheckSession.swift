@@ -241,6 +241,10 @@ final class CheckSession: ObservableObject {
                !Self.addsUp(finalLines, invoice: outcome.invoice), Self.addsUp(allLines, invoice: outcome.invoice) {
                 finalLines = allLines
             }
+            // the invoice shows its VAT but not which items had it: take each item's VAT from the price list,
+            // only when those add up to the invoice's VAT
+            finalLines = InvoiceMaths.vatFromPriceList(finalLines, book: book, printedNet: outcome.invoice.printedNet,
+                                                       printedTotal: outcome.invoice.printedTotal)
             // nothing read from a photo: check whether it was too dark or blurry, to give a better tip
             let problem = finalLines.isEmpty && sourcePDF == nil ? pages.first.flatMap { ImageTools.problem(with: $0) } : nil
             guard let self else { return }
