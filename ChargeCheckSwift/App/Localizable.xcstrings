@@ -16485,6 +16485,35 @@
         }
       }
     },
+    "Every item on this invoice had VAT at %@, so the VAT on what came off is taken off at that rate.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الأصناف في هذه الفاتورة عليها ضريبة بنسبة %@، لذا تُخصم الضريبة على ما خُصم بهذه النسبة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو کاڵاکانی ئەم پسوولەیە باجی %@یان لەسەر بوو، بۆیە باجی ئەوەی دەبڕدرێت بەو ڕێژەیە دەبڕدرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Artikel dieser Rechnung hatten %@ MwSt., daher wird die MwSt. auf Abzüge zu diesem Satz abgezogen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tous les articles de cette facture avaient une TVA de %@ : la TVA sur les déductions est retirée à ce taux."
+          }
+        }
+      }
+    },
     "Every line double-checked.": {
       "localizations": {
         "ar": {
@@ -44964,6 +44993,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cet iPhone ne prend pas en charge Apple Intelligence (il faut un iPhone 15 Pro ou plus récent)."
+          }
+        }
+      }
+    },
+    "This invoice doesn't show which items had VAT, so no VAT was taken off what came off. When you check an invoice, set the VAT on each line so it's taken off only for items with VAT.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا تُظهر هذه الفاتورة الأصناف التي عليها ضريبة، لذا لم تُخصم ضريبة على المبالغ المخصومة. عند فحص الفاتورة، حدّد الضريبة لكل سطر لتُخصم فقط للأصناف التي عليها ضريبة."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم پسوولەیە نیشان نادات کام کاڵا باجی لەسەرە، بۆیە هیچ باجێک لەوەی بڕدرا نەبڕدرا. کاتێک پسوولە دەپشکنیت، باجی هەر دێڕێک دیاری بکە تا تەنها بۆ کاڵای باجدار ببڕدرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Rechnung zeigt nicht, welche Artikel MwSt. hatten, daher wurde auf Abzüge keine MwSt. abgezogen. Lege beim Prüfen die MwSt. je Zeile fest, damit sie nur bei Artikeln mit MwSt. abgezogen wird."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette facture n'indique pas quels articles avaient de la TVA : aucune TVA n'a été retirée des déductions. Lors de la vérification, indiquez la TVA de chaque ligne pour qu'elle ne soit retirée que sur les articles taxés."
           }
         }
       }
