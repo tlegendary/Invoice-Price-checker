@@ -16,6 +16,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Release guard (no test mode, beta IDs or test ads committed)
+        run: python3 ChargeCheckSwift/tools/release_guard.py ChargeCheckSwift/project.yml
       - name: Run the tests
         run: |
           cd ChargeCheckSwift/Core
@@ -259,7 +261,10 @@ jobs:
           CODE=$?
           grep -E "error|warning: unre|\*\* ARCHIVE" /tmp/archive-full.log | sort -u | cut -c1-500 | head -60 | tee -a /tmp/archive.log
           [ $CODE -ne 0 ] && tail -30 /tmp/archive-full.log | cut -c1-400 | tee -a /tmp/archive.log
-          exit $CODE
+          [ $CODE -ne 0 ] && exit $CODE
+          # the built app itself must have no test mode, beta IDs or test ads
+          python3 tools/release_guard.py /tmp/cc.xcarchive/Products/Applications/*.app/Info.plist 2>&1 | tee -a /tmp/archive.log
+          exit ${PIPESTATUS[0]}
       - name: Keep the log
         if: always()
         env:

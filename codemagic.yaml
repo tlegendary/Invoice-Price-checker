@@ -95,6 +95,9 @@ workflows:
           echo "Build number: $NEW"
           sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta/' project.yml
           sed -i '' 's/CFBundleDisplayName: ChargeCheck$/CFBundleDisplayName: CC Beta/' project.yml
+          # the beta is a test build: test ads, test-as-free and unlock-everything (never in a release)
+          sed -i '' 's/CCTestBuild: false$/CCTestBuild: true/' project.yml
+          grep -n "CCTestBuild" project.yml
           sed -i '' "s/CURRENT_PROJECT_VERSION: \"1\"/CURRENT_PROJECT_VERSION: \"$NEW\"/" project.yml
           # the widget and the app group get beta names too
           sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.widget$/PRODUCT_BUNDLE_IDENTIFIER: com.rjapps.invoicepricechecker.beta.widget/' project.yml

@@ -480,3 +480,7 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
 - Done (21 Nov): when an invoice prints its VAT but no line rates, each line's VAT comes from its item's VAT in the
   price list (Till › VAT) — only when those rates add up to the invoice's VAT, to a penny a line. Otherwise nothing is
   filled in and the invoice page still warns. `InvoiceMaths.vatFromPriceList`, VatFromPriceListTests.
+
+## Engineering backlog (from 21 Nov 2026)
+Ramyar's 24-task backlog is in `docs/ENGINEERING_BACKLOG.pdf`; progress and "where we left off" in
+`docs/BACKLOG_PROGRESS.md`. Do one task at a time, in order; update that file at the start and end of each task.
