@@ -1,0 +1,132 @@
+{
+  "identifier" : "CC7E57A1",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6832400001",
+      "localizations" : [
+        {
+          "description" : "Check 3 invoices",
+          "displayName" : "3 scans",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "ipc_scans_3",
+      "referenceName" : "3 scans",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "6832400002",
+      "localizations" : [
+        {
+          "description" : "Check 10 invoices",
+          "displayName" : "10 scans",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "ipc_scans_10",
+      "referenceName" : "10 scans",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "6.99",
+      "familyShareable" : false,
+      "internalID" : "6832400003",
+      "localizations" : [
+        {
+          "description" : "Check 30 invoices",
+          "displayName" : "30 scans",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "ipc_scans_30",
+      "referenceName" : "30 scans",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_locale" : "en_GB",
+    "_storefront" : "GBR"
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21500001",
+      "localizations" : [
+
+      ],
+      "name" : "ChargeCheck Unlimited",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "89.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6832400011",
+          "introductoryOffer" : {
+            "internalID" : "6832400021",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited invoice checks, no ads",
+              "displayName" : "Yearly",
+              "locale" : "en_GB"
+            }
+          ],
+          "productID" : "ipc_yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Yearly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "8.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6832400012",
+          "introductoryOffer" : {
+            "internalID" : "6832400022",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited invoice checks, no ads",
+              "displayName" : "Monthly",
+              "locale" : "en_GB"
+            }
+          ],
+          "productID" : "ipc_monthlyy",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

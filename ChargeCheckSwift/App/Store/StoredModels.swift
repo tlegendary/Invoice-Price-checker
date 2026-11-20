@@ -81,6 +81,17 @@ final class StoredReport {
         payload = (try? JSONEncoder().encode(entry)) ?? Data()
     }
 
+    func update(from entry: HistoryEntry) {
+        savedAt = StoredReport.parseDate(entry.savedAt) ?? Date()
+        supplier = entry.supplier
+        invNo = entry.invNo
+        dateText = entry.date
+        total = entry.total
+        over = entry.over
+        paidAt = entry.paid.flatMap { StoredReport.parseDate($0) }
+        payload = (try? JSONEncoder().encode(entry)) ?? payload
+    }
+
     var entry: HistoryEntry? {
         try? JSONDecoder().decode(HistoryEntry.self, from: payload)
     }

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import ChargeCheckCore
 
 struct PriceEditView: View {
@@ -13,6 +14,11 @@ struct PriceEditView: View {
     @State private var priceText: String
     @State private var aliasText: String
     @State private var newCategory = ""
+    @Query private var reports: [StoredReport]
+
+    private var history: [PricePoint] {
+        isNew ? [] : PriceTools.history(of: item.id, in: reports.compactMap { $0.entry })
+    }
 
     init(draft: PriceDraft, categories: [String], onSave: @escaping (PriceItem) -> Void, onDelete: (() -> Void)?) {
         self.isNew = draft.isNew
@@ -27,7 +33,7 @@ struct PriceEditView: View {
     }
 
     private var price: Double? {
-        guard let value = Money.parse(priceText), value > 0, value < 100_000 else { return nil }
+        guard let value = Money.parse(priceText), value > 0, value < (Money.currency.decimals == 0 ? 1_000_000_000 : 100_000) else { return nil }
         return Money.round2(value)
     }
 
@@ -41,7 +47,7 @@ struct PriceEditView: View {
                 Section("Item") {
                     TextField("Name, e.g. Chicken Wings 10kg", text: $item.name)
                     HStack {
-                        Text("£")
+                        Text(Money.currency.symbol)
                             .foregroundStyle(.secondary)
                         TextField("Your agreed price", text: $priceText)
                             .keyboardType(.decimalPad)
@@ -51,10 +57,40 @@ struct PriceEditView: View {
                 Section("Category") {
                     Picker("Category", selection: $item.cat) {
                         ForEach(categories, id: \.self) { name in
-                            Text(name).tag(name)
+                            Text(L(name)).tag(name)
                         }
                     }
                     TextField("Or type a new category", text: $newCategory)
+                }
+                Section {
+                    ForEach(item.sp.indices, id: \.self) { index in
+                        HStack {
+                            // guarded, so removing a row can't read past the end of the list
+                            TextField("Supplier", text: Binding(
+                                get: { index < item.sp.count ? item.sp[index].s : "" },
+                                set: { if index < item.sp.count { item.sp[index].s = $0 } }))
+                                .textInputAutocapitalization(.words)
+                            Text(Money.currency.symbol)
+                                .foregroundStyle(.secondary)
+                            TextField("Price", value: Binding(
+                                get: { index < item.sp.count ? item.sp[index].p : 0 },
+                                set: { if index < item.sp.count { item.sp[index].p = $0 } }),
+                                      format: .number.precision(.fractionLength(Money.currency.decimals)))
+                                .keyboardType(.decimalPad)
+                                .multilineTextAlignment(.trailing)
+                                .frame(maxWidth: 90)
+                        }
+                    }
+                    .onDelete { item.sp.remove(atOffsets: $0) }
+                    Button {
+                        item.sp.append(SupplierPrice(s: "", p: price ?? item.price))
+                    } label: {
+                        Label("Add a supplier's own price", systemImage: "plus.circle")
+                    }
+                } header: {
+                    Text("Special prices")
+                } footer: {
+                    Text("A different price agreed with one supplier. Invoices from that supplier are checked against it. Swipe left to remove one.")
                 }
                 Section {
                     TextField("e.g. quater pounder, qtr pounder", text: $aliasText, axis: .vertical)
@@ -64,6 +100,11 @@ struct PriceEditView: View {
                     Text("On invoices as")
                 } footer: {
                     Text("How suppliers write this item on their invoices, separated by commas. The app uses these to recognise it.")
+                }
+                if !history.isEmpty {
+                    Section("Price history") {
+                        PriceHistoryChart(points: history, agreed: price ?? item.price)
+                    }
                 }
                 if let onDelete {
                     Section {
@@ -103,6 +144,9 @@ struct PriceEditView: View {
             .filter { !$0.isEmpty && seen.insert($0).inserted }
         if aliases.isEmpty { aliases = [TextTools.norm(result.name)] }
         result.aliases = aliases
+        result.sp = item.sp
+            .map { SupplierPrice(s: $0.s.trimmingCharacters(in: .whitespaces), p: Money.round2($0.p)) }
+            .filter { !$0.s.isEmpty && $0.p > 0 }
         onSave(result)
         dismiss()
     }

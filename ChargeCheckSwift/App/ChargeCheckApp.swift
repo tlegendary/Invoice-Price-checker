@@ -5,6 +5,10 @@ import SwiftData
 struct ChargeCheckApp: App {
     private let storage = AppStorageSetup.open()
 
+    init() {
+        Regional.apply()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView(storageProblem: storage.failed)

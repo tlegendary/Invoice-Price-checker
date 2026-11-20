@@ -99,9 +99,11 @@ public struct HistoryLine: Codable, Equatable, Sendable {
     public var over: Double
     public var excluded: Bool
     public var noBase: Bool
+    /// How many didn't arrive (delivery check).
+    public var short: Double
 
     public init(qty: Double, desc: String, unit: Double, vat: Double = 0, matchId: String? = nil, item: String = "",
-                base: Double? = nil, over: Double = 0, excluded: Bool = false, noBase: Bool = false) {
+                base: Double? = nil, over: Double = 0, excluded: Bool = false, noBase: Bool = false, short: Double = 0) {
         self.qty = qty
         self.desc = desc
         self.unit = unit
@@ -112,9 +114,10 @@ public struct HistoryLine: Codable, Equatable, Sendable {
         self.over = over
         self.excluded = excluded
         self.noBase = noBase
+        self.short = short
     }
 
-    enum CodingKeys: String, CodingKey { case qty, desc, unit, vat, matchId, item, base, over, excluded, noBase }
+    enum CodingKeys: String, CodingKey { case qty, desc, unit, vat, matchId, item, base, over, excluded, noBase, short }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -128,6 +131,7 @@ public struct HistoryLine: Codable, Equatable, Sendable {
         over = c.flexDouble(.over) ?? 0
         excluded = c.flexBool(.excluded) ?? false
         noBase = c.flexBool(.noBase) ?? false
+        short = c.flexDouble(.short) ?? 0
     }
 }
 
@@ -138,6 +142,18 @@ public struct CreditInfo: Codable, Equatable, Sendable {
     public var paidAt: String?
 
     enum CodingKeys: String, CodingKey { case status, amount, at, paidAt }
+
+    public static let requested = "requested"
+    public static let received = "received"
+
+    public init(status: String, amount: Double, at: String? = nil, paidAt: String? = nil) {
+        self.status = status
+        self.amount = amount
+        self.at = at
+        self.paidAt = paidAt
+    }
+
+    public var isOwed: Bool { status == CreditInfo.requested }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -166,9 +182,34 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
     public var file: String?
     public var credit: CreditInfo?
     public var lines: [HistoryLine]
+    /// A trusted supplier's invoice: only the total was read, the prices weren't checked.
+    public var totalOnly: Bool
+
+    public init(id: String = UUID().uuidString, savedAt: String = ISO8601DateFormatter().string(from: Date()), shopId: String = "",
+                supplier: String, invNo: String = "", date: String = "", net: Double, total: Double, over: Double, overVat: Double = 0,
+                excluded: Double = 0, verified: Bool = true, paid: String? = nil, file: String? = nil, credit: CreditInfo? = nil, lines: [HistoryLine],
+                totalOnly: Bool = false) {
+        self.id = id
+        self.savedAt = savedAt
+        self.shopId = shopId
+        self.supplier = supplier
+        self.invNo = invNo
+        self.date = date
+        self.net = net
+        self.total = total
+        self.over = over
+        self.overVat = overVat
+        self.excluded = excluded
+        self.verified = verified
+        self.paid = paid
+        self.file = file
+        self.credit = credit
+        self.lines = lines
+        self.totalOnly = totalOnly
+    }
 
     enum CodingKeys: String, CodingKey {
-        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines
+        case id, savedAt, shopId, supplier, invNo, date, net, total, over, overVat, excluded, verified, paid, file, credit, lines, totalOnly
     }
 
     public init(from decoder: Decoder) throws {
@@ -189,21 +230,42 @@ public struct HistoryEntry: Codable, Identifiable, Equatable, Sendable {
         file = c.flexString(.file)
         credit = try? c.decode(CreditInfo.self, forKey: .credit)
         lines = (try? c.decode([HistoryLine].self, forKey: .lines)) ?? []
+        totalOnly = c.flexBool(.totalOnly) ?? false
     }
 
     /// What to send the supplier: the invoice total less overcharges and missing items (VAT included).
     public var amountToPay: (total: Double, less: Double, pay: Double) {
-        let missingVat = lines.filter { $0.excluded }.reduce(0.0) { sum, line in
-            sum + Money.round2(Money.round2(line.qty * line.unit) * line.vat / 100)
+        let missingVat = lines.reduce(0.0) { sum, line in
+            let gone = line.excluded ? line.qty : line.short
+            guard gone > 0 else { return sum }
+            return sum + Money.round2(Money.round2(gone * line.unit) * line.vat / 100)
         }
         let less = min(total, Money.round2(over + overVat + excluded + missingVat))
         return (Money.round2(total), less, Money.round2(total - less))
+    }
+
+    /// The same, before VAT: the net invoice total, less overcharges and missing items (without their VAT).
+    /// For shops that aren't VAT registered, or anyone who wants to see the figures without VAT.
+    public var amountToPayBeforeVat: (total: Double, less: Double, pay: Double) {
+        let total = Money.round2(net)
+        let less = min(total, Money.round2(over + excluded))
+        return (total, less, Money.round2(total - less))
+    }
+
+    /// What to pay for this invoice, with or without VAT.
+    public func amountToPay(beforeVat: Bool) -> (total: Double, less: Double, pay: Double) {
+        beforeVat ? amountToPayBeforeVat : amountToPay
     }
 }
 
 public struct ShopInfo: Codable, Equatable, Sendable {
     public var id: String
     public var name: String
+
+    public init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
 }
 
 public struct BackupSettings: Codable, Equatable, Sendable {
@@ -234,6 +296,11 @@ public struct BackupSettings: Codable, Equatable, Sendable {
 public struct ScanCredits: Codable, Equatable, Sendable {
     public var n: Int
     public var dev: String?
+
+    public init(n: Int, dev: String?) {
+        self.n = n
+        self.dev = dev
+    }
 }
 
 /// A whole backup: price list, reports, settings and unused scans.
@@ -245,8 +312,13 @@ public struct BackupFile: Codable, Equatable, Sendable {
     public var history: [HistoryEntry]
     public var settings: BackupSettings?
     public var scans: ScanCredits?
+    /// Payments, credits and starting balances (added with supplier accounts).
+    public var payments: [SupplierPayment]?
+    /// Suppliers whose invoices are only totalled, not price-checked.
+    public var trusted: [String]?
 
-    public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil) {
+    public init(baseline: [PriceItem], history: [HistoryEntry] = [], settings: BackupSettings? = nil, scans: ScanCredits? = nil,
+                payments: [SupplierPayment]? = nil, trusted: [String]? = nil) {
         self.app = "ChargeCheck"
         self.v = 3
         self.savedAt = ISO8601DateFormatter().string(from: Date())
@@ -254,9 +326,11 @@ public struct BackupFile: Codable, Equatable, Sendable {
         self.history = history
         self.settings = settings
         self.scans = scans
+        self.payments = payments
+        self.trusted = trusted
     }
 
-    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans }
+    enum CodingKeys: String, CodingKey { case app, v, savedAt, baseline, history, settings, scans, payments, trusted }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -267,6 +341,8 @@ public struct BackupFile: Codable, Equatable, Sendable {
         history = (try? c.decode([HistoryEntry].self, forKey: .history)) ?? []
         settings = try? c.decode(BackupSettings.self, forKey: .settings)
         scans = try? c.decode(ScanCredits.self, forKey: .scans)
+        payments = try? c.decode([SupplierPayment].self, forKey: .payments)
+        trusted = try? c.decode([String].self, forKey: .trusted)
     }
 
     public enum ReadError: Error { case notABackup }
