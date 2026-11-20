@@ -8,7 +8,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | Task | What | Status | Notes |
 |---|---|---|---|
 | CC-001 | Production build guard (P0) | 🟡 | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
-| CC-002 | PIN credential migration (P0) | ⬜ | |
+| CC-002 | PIN credential migration (P0) | 🟡 | salted PBKDF2 v2, upgrade on sign-in, Reset PIN |
 | CC-003 | Permission enforcement audit (P0) | ⬜ | |
 | CC-004 | Persistence error model (P0) | ⬜ | |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
@@ -38,3 +38,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   job) and the archived app's Info.plist in the Release build job (`[archive]`). Checks: test mode, beta bundle ID/name,
   Google test ad IDs. Note: the old `ios-app-store` Codemagic workflow is the legacy app; a Swift App Store workflow
   must run the guard too (CC-023).
+- 21 Nov — CC-002 started. `PinCredentials` (Core: format, check, upgrade, Arabic digits, own SHA-256 for old
+  fingerprints) + `TillPins` (app: CommonCrypto PBKDF2-HMAC-SHA256, 100k rounds, 16-byte SecRandom salt).
+  `Cashier.pin` added (optional, old files still load); `pinHash` emptied after the upgrade on the next right PIN.
+  Reset PIN: touch and hold a person in Till settings. Limits: a 4-digit PIN stays guessable from a copied file
+  (10,000 options) — hashing only slows it; a till app older than this can't sign in people whose PIN was upgraded,
+  so update every till. Not yet: wrong-PIN lockout (do with CC-003).
