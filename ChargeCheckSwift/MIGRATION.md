@@ -477,4 +477,6 @@ Budgets; Price rises show the yearly cost) · More › Settings (Themes, Monday 
 - Changed (Ramyar, 20 Nov): VAT comes off only for items that had VAT, at each item's own rate. The "invoice VAT
   share" fallback is gone. With no line rates: if the invoice's VAT is one common rate on its whole net, every item
   had it (`allItemsRate`); otherwise no VAT is taken off and the invoice page warns (`vatUnknown`).
-  Next: fill a line's VAT from the price list item's VAT when the invoice doesn't print it.
+- Done (21 Nov): when an invoice prints its VAT but no line rates, each line's VAT comes from its item's VAT in the
+  price list (Till › VAT) — only when those rates add up to the invoice's VAT, to a penny a line. Otherwise nothing is
+  filled in and the invoice page still warns. `InvoiceMaths.vatFromPriceList`, VatFromPriceListTests.
