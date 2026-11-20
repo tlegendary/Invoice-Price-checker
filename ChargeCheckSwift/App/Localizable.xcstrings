@@ -37700,6 +37700,64 @@
         }
       }
     },
+    "Secured": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضمون"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دڵنیاکراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesichert"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acquis"
+          }
+        }
+      }
+    },
+    "Secured: the invoice was paid at the lower amount, or the credit arrived. Still to secure: not paid yet, or the credit hasn't come.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضمون: دُفعت الفاتورة بالمبلغ الأقل، أو وصل الرصيد الدائن. لم يُضمن بعد: لم تُدفع بعد، أو لم يصل الرصيد الدائن."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دڵنیاکراوە: پسوولەکە بە بڕە کەمترەکە درا، یان کرێدیتەکە گەیشت. هێشتا دڵنیا نەکراوە: هێشتا نەدراوە، یان کرێدیتەکە نەگەیشتووە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesichert: Die Rechnung wurde zum niedrigeren Betrag bezahlt oder die Gutschrift ist da. Noch offen: noch nicht bezahlt oder die Gutschrift fehlt noch."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acquis : la facture a été payée au montant réduit, ou l'avoir est arrivé. Pas encore acquis : pas encore payée, ou l'avoir n'est pas arrivé."
+          }
+        }
+      }
+    },
     "See all %lld cheaper items": {
       "extractionState": "manual",
       "localizations": {
@@ -40922,6 +40980,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reste à payer"
+          }
+        }
+      }
+    },
+    "Still to secure": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُضمن بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا دڵنیا نەکراوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch offen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore acquis"
           }
         }
       }
@@ -50236,6 +50323,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rédigé par Apple Intelligence à partir des chiffres ci-dessous, issus de vos propres factures."
+          }
+        }
+      }
+    },
+    "Written off": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشطوب"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سڕاوەتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgeschrieben"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passé en perte"
           }
         }
       }
