@@ -1,0 +1,40 @@
+# Checks that the current (web-based) iPhone app still builds when an improve/... branch changes.
+# It only builds for the simulator. It does NOT sign or upload anything to the App Store.
+name: App check
+on:
+  push:
+    branches: ['improve/**']
+permissions:
+  contents: write
+concurrency:
+  group: app-check
+  cancel-in-progress: true
+jobs:
+  build:
+    name: iPhone app builds
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build for the iPhone simulator
+        run: |
+          set -o pipefail
+          npm ci 2>&1 | tail -2 | tee /tmp/oldapp.log
+          npx cap sync ios 2>&1 | tail -12 | tee -a /tmp/oldapp.log
+          xcodebuild -version | tee -a /tmp/oldapp.log
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -configuration Debug -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee /tmp/oldapp-full.log | grep -E "error|BUILD|\*\*" | cut -c1-400 | tee -a /tmp/oldapp.log
+          echo "Privacy manifests in the app:" | tee -a /tmp/oldapp.log
+          find build/Build/Products/Debug-iphonesimulator/App.app -name 'PrivacyInfo.xcprivacy' | sed 's|.*/App.app/||' | tee -a /tmp/oldapp.log
+      - name: Keep the log
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ job.status }}
+        run: |
+          [ "$RESULT" != "success" ] && [ -f /tmp/oldapp-full.log ] && { echo "---- last lines ----" >> /tmp/oldapp.log; tail -40 /tmp/oldapp-full.log | cut -c1-400 >> /tmp/oldapp.log; } || true
+          bash .github/save-log.sh oldapp /tmp/oldapp.log
