@@ -20,7 +20,32 @@ final class PayBreakdownTests: XCTestCase {
         XCTAssertEqual(p.payVat, 18)
         XCTAssertEqual(p.pay, 108)
         XCTAssertEqual(p.less, 12)
-        XCTAssertTrue(p.vatFromShare)
+        XCTAssertEqual(p.allItemsRate, 20)
+        XCTAssertFalse(p.vatUnknown)
+    }
+
+    func testVatComesOffOnlyForItemsThatHadVat() {
+        // £50 of zero-rated chicken overcharged by £5, £50 of cola at 20% overcharged by £2: VAT comes off the £2 only
+        let lines = [HistoryLine(qty: 1, desc: "Chicken", unit: 50, vat: 0, over: 5),
+                     HistoryLine(qty: 1, desc: "Cola", unit: 50, vat: 20, over: 2)]
+        let p = entry(net: 100, total: 110, over: 7, overVat: 0.4, lines: lines).payment
+        XCTAssertEqual(p.lessVat, 0.4)
+        XCTAssertEqual(p.less, 7.4)
+        XCTAssertEqual(p.pay, 102.6)
+        XCTAssertEqual(p.payNet, 93)
+        XCTAssertEqual(p.payVat, 9.6)
+    }
+
+    func testUnknownVatIsNeverGuessed() {
+        // VAT is £10 on £100 – not one rate on everything, and no line says which items had it: none is taken off
+        let lines = [HistoryLine(qty: 1, desc: "Chicken", unit: 50, over: 5), HistoryLine(qty: 1, desc: "Cola", unit: 50)]
+        let p = entry(net: 100, total: 110, over: 5, lines: lines).payment
+        XCTAssertTrue(p.vatUnknown)
+        XCTAssertNil(p.allItemsRate)
+        XCTAssertEqual(p.lessVat, 0)
+        XCTAssertEqual(p.pay, 105)
+        XCTAssertEqual(p.payNet, 95)
+        XCTAssertEqual(p.payVat, 10)
     }
 
     func testEachLinesOwnVatRateIsUsedWhenItsKnown() {
@@ -28,7 +53,8 @@ final class PayBreakdownTests: XCTestCase {
         let lines = [HistoryLine(qty: 3, desc: "Wings", unit: 15.99, vat: 0, over: 3),
                      HistoryLine(qty: 1, desc: "Pepsi", unit: 16.60, vat: 20)]
         let p = entry(net: 64.57, total: 67.89, over: 3, overVat: 0, lines: lines).payment
-        XCTAssertFalse(p.vatFromShare)
+        XCTAssertNil(p.allItemsRate)
+        XCTAssertFalse(p.vatUnknown)
         XCTAssertEqual(p.lessVat, 0)
         XCTAssertEqual(p.pay, 64.89)
         // a standard-rated line overcharged by £5: £5 + £1 VAT comes off
@@ -156,9 +182,19 @@ final class PayBreakdownTests: XCTestCase {
             for value in [p.pay, p.payNet, p.payVat, p.less, p.lessNet, p.lessVat] {
                 XCTAssertEqual((value * 100).rounded(), value * 100, accuracy: 0.0001, e.id)
             }
-            // VAT comes off in proportion to what came off before VAT, never more than the VAT there is
-            if p.vatFromShare {
-                XCTAssertEqual(p.lessVat, Money.round2(p.lessNet * p.vat / p.net), accuracy: 0.011, e.id)
+            // VAT only comes off for items that had VAT: never guessed
+            if let rate = p.allItemsRate {
+                XCTAssertFalse(e.lines.contains { $0.vat > 0 }, e.id)
+                XCTAssertEqual(p.lessVat, Money.round2(p.lessNet * rate / 100), accuracy: 0.011, e.id)
+            }
+            if p.vatUnknown {
+                XCTAssertEqual(p.lessVat, 0, e.id)
+                XCTAssertEqual(e.overVat, 0, e.id)
+                XCTAssertFalse(e.lines.contains { $0.vat > 0 }, e.id)
+            }
+            if e.lines.contains(where: { $0.vat > 0 }) {
+                XCTAssertNil(p.allItemsRate, e.id)
+                XCTAssertFalse(p.vatUnknown, e.id)
             }
             let caught = OverviewMaths.caught(e)
             XCTAssertEqual(caught.overcharges + caught.missing, p.less > 0.005 ? p.less : 0, accuracy: 0.001, e.id)

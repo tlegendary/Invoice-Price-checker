@@ -29,10 +29,14 @@ struct PayWorkings: View {
             }
             .font(.subheadline.monospacedDigit())
             .padding(.vertical, 4)
-            if p.vatFromShare {
-                Text("This invoice's lines were read without VAT rates, so the VAT taken off is the invoice's own VAT share (\(VatShare.text(p))).")
+            if let rate = p.allItemsRate {
+                Text("Every item on this invoice had VAT at \(VatShare.text(rate)), so the VAT on what came off is taken off at that rate.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+            } else if p.vatUnknown {
+                Label("This invoice doesn't show which items had VAT, so no VAT was taken off what came off. When you check an invoice, set the VAT on each line so it's taken off only for items with VAT.", systemImage: "exclamationmark.triangle")
+                    .font(.footnote)
+                    .foregroundStyle(.orange)
             }
         } label: {
             HStack {
@@ -64,9 +68,8 @@ struct PayWorkings: View {
 }
 
 enum VatShare {
-    /// "20%": the invoice's VAT as a share of its net.
-    static func text(_ p: PayBreakdown) -> String {
-        guard p.net > 0.004 else { return "0%" }
-        return (p.vat / p.net * 100).formatted(.number.precision(.fractionLength(0...1))) + "%"
+    /// "20%"
+    static func text(_ rate: Double) -> String {
+        rate.formatted(.number.precision(.fractionLength(0...1))) + "%"
     }
 }
