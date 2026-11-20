@@ -1,14 +1,36 @@
-commit: 9341a3e011cf97037f2ae0bc4f47f5e30939fd06
+commit: 875750d56e7fc2a1a03f73c05aa11c69282f5f2c
 result: success
-when: Tue Nov 10 17:35:22 UTC 2026
+when: Fri Nov 20 23:04:18 UTC 2026
 
-Xcode_16.0.0.app Xcode_16.0.app Xcode_16.1.0.app Xcode_16.1.app Xcode_16.2.0.app Xcode_16.2.app Xcode_16.3.0.app Xcode_16.3.app Xcode_16.4.0.app Xcode_16.4.app Xcode_16.app Xcode_26.0.1.app Xcode_26.0.app Xcode_26.1.1.app Xcode_26.1.app Xcode_26.2.0.app Xcode_26.2.app Xcode_26.3.0.app Xcode_26.3.app Xcode.app ⚙️  Generating plists...
+Xcode_27.0.0.app Xcode_27.0.app Xcode_27.1.0.app Xcode_27.1.app Xcode_27.2.0.app Xcode_27.2.app Xcode_27.app Xcode.app ⚙️  Generating plists...
 ⚙️  Generating project...
 ⚙️  Writing project...
 Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/ChargeCheck.xcodeproj
-Xcode 26.3
-Build version 17C529
-    /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos26.2-23C57-dc75598d0054f22ec865fa860f139d722dd23b4ebda140f7210d155ff1243552.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/
-    builtin-ScanDependencies -o /Users/runner/Library/Developer/Xcode/DerivedData/ChargeCheck-cocxejwjhbxqwydyrukkwbskkyog/Build/Intermediates.noindex/ArchiveIntermediates/ChargeCheck/IntermediateBuildFilesPath/GoogleUserMessagingPlatform.build/Release-iphoneos/UserMessagingPlatformTarget.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_26.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer/X
+Xcode 27.2
+Build version 27B52
+    /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos27.2-24B8118-9aa026f88bf9ed31cff8761912ac5bd1e0728f7ff63a52e73bcf3eff8de871e8.sdkstatcache -target arm64-apple-ios15.0 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600
+    |                                                                                                      `- warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                                                                     `- warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                           `- warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                           `- warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+    |                                                          `- warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+    |                                           `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |                                        `- warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+    |                               `- warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |                         `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+    |              `- warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+    builtin-ScanDependencies -o /Users/runner/Library/Developer/Xcode/DerivedData/ChargeCheck-cocxejwjhbxqwydyrukkwbskkyog/Build/Intermediates.noindex/ArchiveIntermediates/ChargeCheck/IntermediateBuildFilesPath/GoogleUserMessagingPlatform.build/Release-iphoneos/UserMessagingPlatformTarget-t.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfsstatcache /Users/runner/Library/Developer
 ** ARCHIVE SUCCEEDED **
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:118:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:184:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:14: warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:70:40: warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:131:25: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:132:43: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:239:59: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:242:59: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:718:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:719:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
+126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
+132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
+Release guard: OK (/tmp/cc.xcarchive/Products/Applications/ChargeCheck.app/Info.plist)
