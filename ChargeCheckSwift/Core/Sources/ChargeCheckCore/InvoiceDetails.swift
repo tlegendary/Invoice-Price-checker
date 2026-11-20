@@ -23,7 +23,7 @@ public enum InvoiceDetails {
         guard value.count >= 2, value.count <= 24, value.hasAsciiDigit else { return nil }
         if isDate(value) { return nil }
         if Rx.test(value, "^[0-9]{1,3}([.,][0-9]{3})*[.,][0-9]{2}$") { return nil }        // 1,234.56
-        if Rx.test(value, "^\\+?[0-9]{10,}$") && value.hasPrefix("0") { return nil }       // 07701234567
+        if Rx.test(value, "^\\+?[0-9]{10,}$") && value.hasPrefix("0") { return nil }       // a phone number, not an invoice number
         if Rx.test(value, "%") { return nil }
         return value
     }
