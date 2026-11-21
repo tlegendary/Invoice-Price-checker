@@ -1,6 +1,6 @@
-commit: 34ec2815208887a9d14bbf4dea549053503271de
-result: success
-when: Sat Nov 21 02:39:51 UTC 2026
+commit: e4d0b98198c0c585e6acaa6eb5842b51502eb2eb
+result: failure
+when: Sat Nov 21 07:23:27 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -54,8 +54,8 @@ stringsdata files:       79
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:239:59: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:242:59: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:298:99: warning: main actor-isolated static property 'tillFolder' can not be referenced from a Sendable closure
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:747:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:748:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:798:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:799:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillView.swift:112:17: warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillView.swift:112:17: warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
@@ -64,5 +64,85 @@ stringsdata files:       79
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:805:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
-Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/A98DC7AC-F790-4E47-8664-466FC96A4513/Documents/Backups: ChargeCheck-2026-11-21.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/A98DC7AC-F790-4E47-8664-466FC96A4513/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
-/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+Language sweep: 0 screens stopped
+Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/33B6ABB2-ABDF-470A-9D03-E809BDC7AEED/Documents/Backups: ChargeCheck-2026-11-21.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/33B6ABB2-ABDF-470A-9D03-E809BDC7AEED/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
+/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png /tmp/shot-L-ar-check-dark.png /tmp/shot-L-ar-check.png /tmp/shot-L-ar-home-dark.png /tmp/shot-L-ar-home.png /tmp/shot-L-ar-more-dark.png /tmp/shot-L-ar-more.png /tmp/shot-L-ar-prices-dark.png /tmp/shot-L-ar-prices.png /tmp/shot-L-ar-reports-dark.png /tmp/shot-L-ar-reports.png /tmp/shot-L-ar-settings-dark.png /tmp/shot-L-ar-settings.png /tmp/shot-L-ar-suppliers-dark.png /tmp/shot-L-ar-suppliers.png /tmp/shot-L-ckb-check.png /tmp/shot-L-ckb-home.png /tmp/shot-L-ckb-more.png /tmp/shot-L-ckb-prices.png /tmp/shot-L-ckb-reports.png /tmp/shot-L-ckb-settings.png /tmp/shot-L-ckb-suppliers.png /tmp/shot-L-de-check.png /tmp/shot-L-de-home.png /tmp/shot-L-de-more.png /tmp/shot-L-de-prices.png /tmp/shot-L-de-reports.png /tmp/shot-L-de-settings.png /tmp/shot-L-de-suppliers.png /tmp/shot-L-en-check-long.png /tmp/shot-L-en-check.png /tmp/shot-L-en-home-long.png /tmp/shot-L-en-home.png /tmp/shot-L-en-more-long.png /tmp/shot-L-en-more.png /tmp/shot-L-en-prices-long.png /tmp/shot-L-en-prices.png /tmp/shot-L-en-reports-long.png /tmp/shot-L-en-reports.png /tmp/shot-L-en-settings-long.png /tmp/shot-L-en-settings.png /tmp/shot-L-en-suppliers-long.png /tmp/shot-L-en-suppliers.png /tmp/shot-L-fr-check.png /tmp/shot-L-fr-home.png /tmp/shot-L-fr-more.png /tmp/shot-L-fr-prices.png /tmp/shot-L-fr-reports.png /tmp/shot-L-fr-settings.png /tmp/shot-L-fr-suppliers.png 	 Executed 1 test, with 0 failures (0 unexpected) in 0.401 (0.401) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.116 (0.117) seconds
+	 Executed 4 tests, with 2 failures (0 unexpected) in 14.885 (14.896) seconds
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.401 (15.418) seconds
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.401 (15.420) seconds
+** TEST EXECUTE FAILED **
+*** If you believe this error represents a bug, please attach the result bundle at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.21_07-15-16-+0000.xcresult
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:106: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:107: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+2026-11-21 07:15:36.639618+0000 ChargeCheck[4415:252286] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was i
+2026-11-21 07:15:36.639813+0000 ChargeCheck[4415:252265] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretel
+2026-11-21 07:15:36.677470+0000 ChargeCheck[4415:252286] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was i
+2026-11-21 07:15:36.678994+0000 ChargeCheck[4415:252265] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xp2026-11-21 07:15:36.693075+0000 ChargeCheck[4415:250642] [XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-servic
+2026-11-21 07:15:36.788211+0000 ChargeCheck[4415:252265] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was i
+2026-11-21 07:22:04.783661+0000 ChargeCheck[25042:298218] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 07:22:04.800881+0000 ChargeCheck[25042:298173] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
+2026-11-21 07:22:04.802109+0000 ChargeCheck[25042:298218] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named co2026-11-21 07:22:04.908537+0000 ChargeChe
+2026-11-21 07:22:04.970614+0000 ChargeCheck[25042:298173] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
+2026-11-21 07:22:04.971459+0000 ChargeCheck[25042:298173] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 07:22:04.996151+0000 ChargeCheck[25042:298173] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
+c was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process.}
+ddition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process.}
+m.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process.}
+Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' exceeded execution time allowance of 5 minutes. The test may have hung; check Xcode's test report for additional diagnostics. If the test requires additional time, use -[XCTestCase executionTimeAllowance] or one of xcodebuild's command-line overrides.
+Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' started.
+Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (3.658 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' started.
+Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (0.181 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
+Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (11.006 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.040 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
+Test Case '-[ChargeCheckTests.TillPermissionTests testACashierCantTakeCashOutOrCloseTheDayWithoutAManager]' passed (0.401 seconds).
+Test Case '-[ChargeCheckTests.TillPermissionTests testACashierCantTakeCashOutOrCloseTheDayWithoutAManager]' started.
+Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.001 seconds).
+Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.115 seconds).
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
+---- last lines ----
+2026-11-21 07:22:14.013531+0000 ChargeCheck[25042:296725] [Default] Could not find a UI anchor for ipc_yearly purchase. UI may behave incorrectly.
+2026-11-21 07:22:14.025954+0000 ChargeCheck[25042:298217] [Default] Could not get confirmation scene ID for ipc_yearly purchase. UI may behave incorrectly.
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:106: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:107: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (11.006 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.040 seconds).
+Test Suite 'StoreTests' failed at 2026-11-21 07:22:25.013.
+	 Executed 4 tests, with 2 failures (0 unexpected) in 14.885 (14.896) seconds
+Test Suite 'TillPermissionTests' started at 2026-11-21 07:22:25.016.
+Test Case '-[ChargeCheckTests.TillPermissionTests testACashierCantTakeCashOutOrCloseTheDayWithoutAManager]' started.
+Test Case '-[ChargeCheckTests.TillPermissionTests testACashierCantTakeCashOutOrCloseTheDayWithoutAManager]' passed (0.401 seconds).
+Test Suite 'TillPermissionTests' passed at 2026-11-21 07:22:25.417.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.401 (0.401) seconds
+Test Suite 'TillPinTests' started at 2026-11-21 07:22:25.417.
+Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
+Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.001 seconds).
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.115 seconds).
+Test Suite 'TillPinTests' passed at 2026-11-21 07:22:25.534.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.116 (0.117) seconds
+Test Suite 'ChargeCheckTests.xctest' failed at 2026-11-21 07:22:25.535.
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.401 (15.418) seconds
+Test Suite 'Selected tests' failed at 2026-11-21 07:22:25.536.
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.401 (15.420) seconds
+2026-11-21 07:23:17.377 xcodebuild[4299:250036] [MT] IDETestOperationsObserverDebug: 480.893 elapsed -- Testing started completed.
+2026-11-21 07:23:17.377 xcodebuild[4299:250036] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-21 07:23:17.377 xcodebuild[4299:250036] [MT] IDETestOperationsObserverDebug: 480.894 sec, +480.894 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.21_07-15-16-+0000.xcresult
+
+Failing tests:
+	StoreTests.testMonthlyPlan()
+	StoreTests.testSubscribingUnlocksAndExpiryLocks()
+	StoreTests.testSubscribingUnlocksAndExpiryLocks()
+
+** TEST EXECUTE FAILED **
+
+Testing started
