@@ -97,3 +97,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   spends the store's yes for basket changes the moment they're made (`Gate.basketChanges`); changeLine uses it.
   Not yet: settings changes (roles, people, permissions) still guarded by ManagerOnly only; lockout resets on
   restart; supervisor role.
+- 21 Nov — WHERE WE LEFT OFF: the scheme's storeKitConfiguration didn't help either (5th attempt). In every run
+  the app reads yearly $99.99 / monthly $9.99 / 7-day trial for ipc_yearly / ipc_monthlyy — real App Store Connect
+  data for this bundle ID (the live app), not Products.storekit — while test purchases go to the local test store.
+  CC-003 parts 1+2 are complete on PR #61; Core tests green; till and PIN simulator tests (4) pass; only StoreTests
+  fail. Waiting for Ramyar's choice on the purchase tests before merging. Ideas not yet tried: a separate test
+  target without the app as host; StoreKit tests in Xcode Cloud; checking the plans in App Store Connect.
