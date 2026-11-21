@@ -7,8 +7,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 
 | Task | What | Status | Notes |
 |---|---|---|---|
-| CC-001 | Production build guard (P0) | 🟡 | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
-| CC-002 | PIN credential migration (P0) | 🟡 | salted PBKDF2 v2, upgrade on sign-in, Reset PIN |
+| CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
+| CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
 | CC-003 | Permission enforcement audit (P0) | ⬜ | |
 | CC-004 | Persistence error model (P0) | ⬜ | |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
@@ -51,3 +51,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   manager PIN allows; every committed privileged mutation (refund, cash events, close day, gift card, layaway cancel,
   tab, settings) takes it and records actor + reason; cart-only edits (discount, removeLine, customAmount,
   priceChange) carry the approval onto the sale line. Add wrong-PIN lockout. Tests: Tests/TillPermissionTests.swift.
+- 21 Nov — CC-001 ✅ (release archive built with the guard: OK). CC-002 ✅: Core PinCredentialTests and simulator
+  TillPinTests (real PBKDF2 matches the RFC test value) pass. Not yet tested on a real iPhone or iPad.
+- Found, pre-existing (P1): the StoreKit purchase tests (`[store]`) are broken on swift-rewrite before these changes:
+  `testBuyingPacksAddsScansOnce` hangs 5 min (also on an unchanged baseline run, branch improve/store-baseline);
+  `testSubscribingUnlocksAndExpiryLocks` sometimes doesn't see the expiry. Purchases aren't changed by the backlog
+  so far; fix the tests before any StoreKit change (ask Ramyar before changing the purchase flow).
+- NEXT: CC-003 (see the CC-003 note above).
