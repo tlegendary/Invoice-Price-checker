@@ -77,3 +77,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   `SKTestSession.buyProduct` (no purchase sheet) and wait up to 30 s for the store's own handle/refresh; the skip
   of testBuyingPacksAddsScansOnce is removed; all purchase tests block again. `Store.buy()` (the sheet itself) is
   then only checked by hand in TestFlight's sandbox.
+- 21 Nov — WHERE WE LEFT OFF (purchase tests): with buyProduct the store never sees the test purchases, and
+  testProductsAndTrial saw the yearly plan at 99.99 although Tests/Products.storekit says 89.99. So on the cloud
+  simulator (Xcode 27 / iOS 27) the SKTestSession doesn't take hold: StoreKit answers from elsewhere (most likely
+  Apple's sandbox). Next: confirm which (log `Product.displayPrice` + `AppStore.environment` in setUp); try the
+  session before the host app's Store.shared starts (it loads products at launch), or an app-less StoreKit test
+  target; or pin the runner to Xcode 26.x for these tests only. Ask Ramyar: is the real yearly price £89.99 or
+  £99.99? PR #61 (CC-003 part 1) stays unmerged until the purchase tests pass.
