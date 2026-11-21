@@ -1,6 +1,6 @@
 commit: 225f3bf821790ff34c6fdf0da997fc880097a65f
 result: failure
-when: Sat Nov 21 00:04:41 UTC 2026
+when: Sat Nov 21 00:32:03 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -64,79 +64,80 @@ stringsdata files:       79
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:805:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
-Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/C85B1FF2-43A1-4BBC-AC8B-A681832DC393/Documents/Backups: ChargeCheck-2026-11-20.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/C85B1FF2-43A1-4BBC-AC8B-A681832DC393/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
-/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 	 Executed 2 tests, with 0 failures (0 unexpected) in 0.117 (0.118) seconds
-	 Executed 5 tests, with 0 failures (0 unexpected) in 4.419 (4.428) seconds
-	 Executed 7 tests, with 0 failures (0 unexpected) in 4.535 (4.548) seconds
-	 Executed 7 tests, with 0 failures (0 unexpected) in 4.535 (4.550) seconds
+Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/73049994-53DE-4693-BEC9-EF71A7713F21/Documents/Backups: ChargeCheck-2026-11-21.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/73049994-53DE-4693-BEC9-EF71A7713F21/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
+/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 	 Executed 2 tests, with 0 failures (0 unexpected) in 0.097 (0.098) seconds
+	 Executed 5 tests, with 2 failures (0 unexpected) in 14.986 (14.996) seconds
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.083 (15.096) seconds
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.083 (15.099) seconds
 ** TEST EXECUTE FAILED **
-*** If you believe this error represents a bug, please attach the result bundle at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.20_23-57-07-+0000.xcresult
-+0000 ChargeCheck[67217:167717] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection in
-2026-11-20 23:57:22.287886+0000 ChargeCheck[67217:167726] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-20 23:57:22.289123+0000 ChargeCheck[67217:167729] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connecti2026-11-20 23:57:22.296293+0000 ChargeCheck[67217:166294] [XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-service"
-2026-11-20 23:57:22.339000+0000 ChargeCheck[67217:167729] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
-2026-11-20 23:57:22.482753+0000 ChargeCheck[67217:167717] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-20 23:57:22.559192+0000 ChargeCheck[67217:167717] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
-2026-11-21 00:03:29.984417+0000 ChargeCheck[89359:217320] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-21 00:03:29.987036+0000 ChargeCheck[89359:217293] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
-2026-11-21 00:03:29.988269+0000 ChargeCheck[89359:2026-11-21 00:03:29.988381+0000 ChargeCheck[89359:217320] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service
-2026-11-21 00:03:30.008449+0000 ChargeCheck[89359:217293] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-21 00:03:30.014301+0000 ChargeCheck[89359:217293] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
-217293] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init faile
+*** If you believe this error represents a bug, please attach the result bundle at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.21_00-24-53-+0000.xcresult
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:106: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:107: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+2026-11-21 00:25:08.252764+0000 ChargeCheck[40523:111458] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
+2026-11-21 00:25:08.288320+0000 ChargeCheck[40523:111463] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 00:25:08.374522+0000 ChargeCheck[40523:111466] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 00:25:08.389643+0000 ChargeCheck[40523:111466] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
+2026-11-21 00:31:01.808842+0000 ChargeCheck[64706:164533] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 00:31:01.811453+0000 ChargeCheck[64706:164532] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
+2026-11-21 00:31:01.812975+0000 ChargeCheck[64706:164532] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
+2026-11-21 00:31:01.813046+0000 ChargeCheck[64706:164553] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 00:31:01.822065+0000 ChargeCheck[64706:164532] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
+2026-11-21 00:31:01.824646+0000 ChargeCheck[64706:164532] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
+k[40523:111458] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection in
 on to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process.}
 Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' exceeded execution time allowance of 5 minutes. The test may have hung; check Xcode's test report for additional diagnostics. If the test requires additional time, use -[XCTestCase executionTimeAllowance] or one of xcodebuild's command-line overrides.
 Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' started.
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' passed (0.234 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' passed (1.051 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' started.
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (3.232 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (3.039 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' started.
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (0.205 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (0.146 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' passed (0.707 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (10.731 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.040 seconds).
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.019 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
 Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.001 seconds).
 Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.115 seconds).
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.095 seconds).
 Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
 ---- last lines ----
-2026-11-21 00:03:40.751581+0000 ChargeCheck[89359:215788] [API] cannot add handler to 0 from 0 - dropping
-2026-11-21 00:03:40.751738+0000 ChargeCheck[89359:215788] [API] cannot add handler to 0 from 0 - dropping
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (3.232 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
-2026-11-21 00:03:43.678337+0000 ChargeCheck[89359:215788] [API] cannot add handler to 0 from 0 - dropping
-2026-11-21 00:03:43.838341+0000 ChargeCheck[89359:215788] [API] cannot add handler to 0 from 0 - dropping
-2026-11-21 00:03:43.838678+0000 ChargeCheck[89359:215788] [API] cannot add handler to 0 from 0 - dropping
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (0.205 seconds).
+2026-11-21 00:31:12.073944+0000 ChargeCheck[64706:163470] [API] cannot add handler to 0 from 0 - dropping
+2026-11-21 00:31:12.185234+0000 ChargeCheck[64706:163470] [API] cannot add handler to 0 from 0 - dropping
+2026-11-21 00:31:12.185346+0000 ChargeCheck[64706:163470] [API] cannot add handler to 0 from 0 - dropping
+Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' passed (0.146 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-2026-11-21 00:03:43.944896+0000 ChargeCheck[89359:215788] [Default] Could not find a UI anchor for ipc_yearly purchase. UI may behave incorrectly.
-2026-11-21 00:03:43.950194+0000 ChargeCheck[89359:217320] [Default] Could not get confirmation scene ID for ipc_yearly purchase. UI may behave incorrectly.
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' passed (0.707 seconds).
+2026-11-21 00:31:12.267083+0000 ChargeCheck[64706:163470] [Default] Could not find a UI anchor for ipc_yearly purchase. UI may behave incorrectly.
+2026-11-21 00:31:12.269319+0000 ChargeCheck[64706:164529] [Default] Could not get confirmation scene ID for ipc_yearly purchase. UI may behave incorrectly.
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:106: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:107: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTAssertFalse failed
+Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (10.731 seconds).
 Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.040 seconds).
-Test Suite 'StoreTests' passed at 2026-11-21 00:03:44.632.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 4.419 (4.428) seconds
-Test Suite 'TillPinTests' started at 2026-11-21 00:03:44.634.
+Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.019 seconds).
+Test Suite 'StoreTests' failed at 2026-11-21 00:31:22.971.
+	 Executed 5 tests, with 2 failures (0 unexpected) in 14.986 (14.996) seconds
+Test Suite 'TillPinTests' started at 2026-11-21 00:31:22.973.
 Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
 Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.001 seconds).
 Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.115 seconds).
-Test Suite 'TillPinTests' passed at 2026-11-21 00:03:44.752.
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.117 (0.118) seconds
-Test Suite 'ChargeCheckTests.xctest' passed at 2026-11-21 00:03:44.752.
-	 Executed 7 tests, with 0 failures (0 unexpected) in 4.535 (4.548) seconds
-Test Suite 'Selected tests' passed at 2026-11-21 00:03:44.752.
-	 Executed 7 tests, with 0 failures (0 unexpected) in 4.535 (4.550) seconds
-2026-11-21 00:04:32.657 xcodebuild[67108:165742] [MT] IDETestOperationsObserverDebug: 445.043 elapsed -- Testing started completed.
-2026-11-21 00:04:32.658 xcodebuild[67108:165742] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
-2026-11-21 00:04:32.658 xcodebuild[67108:165742] [MT] IDETestOperationsObserverDebug: 445.043 sec, +445.043 sec -- end
+Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.095 seconds).
+Test Suite 'TillPinTests' passed at 2026-11-21 00:31:23.071.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.097 (0.098) seconds
+Test Suite 'ChargeCheckTests.xctest' failed at 2026-11-21 00:31:23.071.
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.083 (15.096) seconds
+Test Suite 'Selected tests' failed at 2026-11-21 00:31:23.072.
+	 Executed 7 tests, with 2 failures (0 unexpected) in 15.083 (15.099) seconds
+2026-11-21 00:31:51.375 xcodebuild[40194:108592] [MT] IDETestOperationsObserverDebug: 417.130 elapsed -- Testing started completed.
+2026-11-21 00:31:51.380 xcodebuild[40194:108592] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-21 00:31:51.380 xcodebuild[40194:108592] [MT] IDETestOperationsObserverDebug: 417.131 sec, +417.131 sec -- end
 
 Test session results, code coverage, and logs:
-	/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.20_23-57-07-+0000.xcresult
+	/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.21_00-24-53-+0000.xcresult
 
 Failing tests:
 	StoreTests.testBuyingPacksAddsScansOnce()
+	StoreTests.testSubscribingUnlocksAndExpiryLocks()
+	StoreTests.testSubscribingUnlocksAndExpiryLocks()
 
 ** TEST EXECUTE FAILED **
 
