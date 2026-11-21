@@ -46520,35 +46520,6 @@
         }
       }
     },
-    "Too many wrong PINs. Wait a moment, then try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أرقام سرية خاطئة كثيرة. انتظر قليلاً ثم حاول مجدداً."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PINی هەڵەی زۆر. کەمێک چاوەڕێ بکە، پاشان دووبارە هەوڵ بدەرەوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zu viele falsche PINs. Warte kurz und versuche es dann erneut."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trop de codes erronés. Patientez un instant, puis réessayez."
-          }
-        }
-      }
-    },
     "Top supplier" : {
       "extractionState" : "manual",
       "localizations" : {
