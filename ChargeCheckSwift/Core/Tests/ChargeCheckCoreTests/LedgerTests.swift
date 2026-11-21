@@ -3,9 +3,15 @@ import XCTest
 
 final class LedgerTests: XCTestCase {
     func testProductsMatchAppStoreConnect() {
-        XCTAssertEqual(Products.yearly, "ipc_yearly")
-        XCTAssertEqual(Products.monthly, "ipc_monthlyy")      // two y's: that is the real product ID
-        XCTAssertEqual(Products.packs, ["ipc_scans_3": 3, "ipc_scans_10": 10, "ipc_scans_30": 30])
+        XCTAssertEqual(Products.yearly, "chargecheck_yearly")
+        XCTAssertEqual(Products.monthly, "chargecheck_monthly")
+        // the IDs from before 21 Nov 2026 still count, so testers' earlier purchases keep working
+        XCTAssertEqual(Products.plan("ipc_yearly"), Products.yearly)
+        XCTAssertEqual(Products.plan("ipc_monthlyy"), Products.monthly)
+        XCTAssertNil(Products.plan("chargecheck_scans_3"))
+        XCTAssertEqual(Products.packs["ipc_scans_10"], 10)
+        XCTAssertEqual(Products.packOrder, ["chargecheck_scans_3", "chargecheck_scans_10", "chargecheck_scans_30"])
+        XCTAssertEqual(Products.packOrder.map { Products.packs[$0] }, [3, 10, 30])
         XCTAssertEqual(Products.yearlySaving(yearly: 89.99, monthly: 8.99), 17)
         XCTAssertEqual(Products.yearlySaving(yearly: 0, monthly: 8.99), 0)
         XCTAssertEqual(Products.yearlySaving(yearly: 200, monthly: 8.99), 0)
@@ -13,10 +19,10 @@ final class LedgerTests: XCTestCase {
 
     func testAPackIsOnlyCountedOnce() {
         var ledger = ScanLedger(device: "a")
-        XCTAssertEqual(ledger.creditPack(productID: "ipc_scans_10", transactionID: "t1"), 10)
-        XCTAssertEqual(ledger.creditPack(productID: "ipc_scans_10", transactionID: "t1"), 0)
-        XCTAssertEqual(ledger.creditPack(productID: "ipc_scans_3", transactionID: "t2"), 3)
-        XCTAssertEqual(ledger.creditPack(productID: "ipc_yearly", transactionID: "t3"), 0)
+        XCTAssertEqual(ledger.creditPack(productID: "chargecheck_scans_10", transactionID: "t1"), 10)
+        XCTAssertEqual(ledger.creditPack(productID: "chargecheck_scans_10", transactionID: "t1"), 0)
+        XCTAssertEqual(ledger.creditPack(productID: "chargecheck_scans_3", transactionID: "t2"), 3)
+        XCTAssertEqual(ledger.creditPack(productID: "chargecheck_yearly", transactionID: "t3"), 0)
         XCTAssertEqual(ledger.creditPack(productID: "something_else", transactionID: "t4"), 0)
         XCTAssertEqual(ledger.credits, 13)
     }
@@ -48,10 +54,10 @@ final class LedgerTests: XCTestCase {
 
     func testSavedAndLoaded() throws {
         var ledger = ScanLedger(device: "a")
-        ledger.creditPack(productID: "ipc_scans_3", transactionID: "t1")
+        ledger.creditPack(productID: "chargecheck_scans_3", transactionID: "t1")
         let again = try JSONDecoder().decode(ScanLedger.self, from: JSONEncoder().encode(ledger))
         XCTAssertEqual(again, ledger)
         var copy = again
-        XCTAssertEqual(copy.creditPack(productID: "ipc_scans_3", transactionID: "t1"), 0)
+        XCTAssertEqual(copy.creditPack(productID: "chargecheck_scans_3", transactionID: "t1"), 0)
     }
 }
