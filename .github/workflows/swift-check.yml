@@ -156,6 +156,8 @@ jobs:
             TESTS=$?
             set -e
             grep -E "error|\*\*|Test Case|XCTAssert|Executed" /tmp/tests-full.log | sort -u | cut -c1-400 | tee -a /tmp/app.log
+            # when xcodebuild says the tests failed, show why (in order, not sorted)
+            [ $TESTS -ne 0 ] && grep -v "remote object proxy\|Updating selectors" /tmp/tests-full.log | grep -B25 "TEST EXECUTE FAILED" | cut -c1-300 | tee -a /tmp/app.log
             cp /tmp/tests-full.log /tmp/app-full.log
             exit $TESTS
           fi
