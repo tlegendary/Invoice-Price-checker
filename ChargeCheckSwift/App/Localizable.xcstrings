@@ -24674,6 +24674,35 @@
         }
       }
     },
+    "New 4-digit PIN": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رقم سري جديد من 4 أرقام"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PINی نوێی 4 ژمارەیی"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue 4-stellige PIN"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau code à 4 chiffres"
+          }
+        }
+      }
+    },
     "New choice %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -35758,6 +35787,35 @@
         }
       }
     },
+    "Refunds, discounts, cash out and closing the day need a manager's or the owner's PIN unless cashiers are allowed. Swipe left to remove someone; touch and hold to reset their PIN.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسترداد والخصومات وإخراج النقد وإغلاق اليوم تحتاج الرقم السري للمدير أو المالك ما لم يُسمح للكاشيرين. اسحب لليسار لإزالة شخص، واضغط مطولاً لإعادة تعيين رقمه السري."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەڕاندنەوەی پارە، داشکاندن، دەرهێنانی پارە و داخستنی ڕۆژ PINی بەڕێوەبەر یان خاوەنیان دەوێت، مەگەر ڕێگە بە کاشێرەکان درابێت. بۆ لابردنی کەسێک بەرەو چەپ ڕابکێشە؛ بۆ نوێکردنەوەی PINەکەی پەنجە ڕابگرە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstattungen, Rabatte, Bargeld raus und Tagesabschluss brauchen die PIN eines Filialleiters oder des Inhabers, außer Kassierer dürfen es. Nach links wischen, um jemanden zu entfernen; gedrückt halten, um die PIN zurückzusetzen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remboursements, remises, sorties d'espèces et clôture demandent le code d'un responsable ou du propriétaire, sauf si les caissiers y sont autorisés. Balayez vers la gauche pour retirer quelqu'un ; appuyez longuement pour réinitialiser son code."
+          }
+        }
+      }
+    },
     "Remove": {
       "localizations": {
         "ar": {
@@ -36182,6 +36240,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rapports"
+          }
+        }
+      }
+    },
+    "Reset PIN": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين الرقم السري"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نوێکردنەوەی PIN"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PIN zurücksetzen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser le code"
           }
         }
       }
@@ -44567,6 +44654,35 @@
         }
       }
     },
+    "Their old PIN stops working straight away.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتوقف رقمه السري القديم عن العمل فوراً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PINە کۆنەکەی یەکسەر کار ناکات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die alte PIN funktioniert sofort nicht mehr."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'ancien code ne fonctionne plus immédiatement."
+          }
+        }
+      }
+    },
     "Themes": {
       "extractionState": "manual",
       "localizations": {
@@ -47959,6 +48075,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Utiliser %lld points (%@)"
+          }
+        }
+      }
+    },
+    "Use a 4-digit PIN that no one else has.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم رقماً سرياً من 4 أرقام لا يملكه أحد غيرك."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PINێکی 4 ژمارەیی بەکاربهێنە کە کەسی تر نییەتی."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nimm eine 4-stellige PIN, die sonst niemand hat."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un code à 4 chiffres que personne d'autre n'a."
           }
         }
       }

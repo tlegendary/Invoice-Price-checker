@@ -430,18 +430,49 @@ final class TillStore: ObservableObject {
 
     // MARK: cashiers and what they may do
 
-    static func hash(_ pin: String) -> String {
-        SHA256.hash(data: Data(("chargecheck|" + pin).utf8)).map { String(format: "%02x", $0) }.joined()
-    }
-
     func saveSettings() {
         settingsUpdated = Self.now()
         save(TillSettingsFile(cashiers: cashiers, receipt: receipt, options: options, updated: settingsUpdated), name: "Settings.json")
     }
 
-    func addCashier(name: String, pin: String, role: TillRole) {
-        cashiers.append(Cashier(id: UUID().uuidString, name: name, pinHash: Self.hash(pin), role: role))
+    /// Adds a person. false if the PIN isn't 4–8 digits, is already someone's, or couldn't be stored safely.
+    @discardableResult
+    func addCashier(name: String, pin: String, role: TillRole) -> Bool {
+        guard PinCredentials.isValid(pin), !pinInUse(pin), let credential = TillPins.make(pin) else { return false }
+        cashiers.append(Cashier(id: UUID().uuidString, name: name, pinHash: "", role: role, pin: credential))
         saveSettings()
+        return true
+    }
+
+    /// Gives someone a new PIN (the owner or a manager resets a forgotten one). The old one stops working at once.
+    @discardableResult
+    func resetPin(for id: String, to pin: String) -> Bool {
+        guard let index = cashiers.firstIndex(where: { $0.id == id }), PinCredentials.isValid(pin),
+              !pinInUse(pin, except: id), let credential = TillPins.make(pin) else { return false }
+        cashiers[index].pin = credential
+        cashiers[index].pinHash = ""
+        if cashier?.id == id { cashier = cashiers[index] }
+        saveSettings()
+        return true
+    }
+
+    /// Whether this PIN already belongs to someone (each person's PIN must be their own).
+    func pinInUse(_ pin: String, except id: String? = nil) -> Bool {
+        cashiers.contains { $0.id != id && TillPins.check(pin, $0) != .no }
+    }
+
+    /// The person whose PIN this is. A PIN saved by an older version is upgraded to the salted kind on the spot.
+    private func person(withPin pin: String, where allowed: (Cashier) -> Bool = { _ in true }) -> Cashier? {
+        for index in cashiers.indices where allowed(cashiers[index]) {
+            guard case let .yes(upgrade) = TillPins.check(pin, cashiers[index]) else { continue }
+            if let upgrade {
+                cashiers[index].pin = upgrade
+                cashiers[index].pinHash = ""
+                saveSettings()
+            }
+            return cashiers[index]
+        }
+        return nil
     }
 
     func setRole(_ role: TillRole, for id: String) {
@@ -466,16 +497,14 @@ final class TillStore: ObservableObject {
 
     /// Signs in the cashier whose PIN this is.
     func signIn(pin: String) -> Bool {
-        let wanted = Self.hash(pin)
-        guard let found = cashiers.first(where: { $0.pinHash == wanted }) else { return false }
+        guard let found = person(withPin: pin) else { return false }
         cashier = found
         return true
     }
 
     /// A manager's (or the owner's) PIN, to allow one thing.
     func manager(pin: String) -> Cashier? {
-        let wanted = Self.hash(pin)
-        return cashiers.first { $0.pinHash == wanted && ($0.role ?? .cashier).isManager }
+        person(withPin: pin) { ($0.role ?? .cashier).isManager }
     }
 
     // MARK: clocking in and out
@@ -734,10 +763,12 @@ struct TillIdentity: Codable {
 struct Cashier: Codable, Equatable, Identifiable {
     var id: String
     var name: String
-    /// The PIN is never kept, only a fingerprint of it.
+    /// Before 21 Nov 2026: an unsalted fingerprint of the PIN. Emptied once `pin` is set (on the next sign-in).
     var pinHash: String
     /// nil: a cashier (people added before roles).
     var role: TillRole?
+    /// The PIN as a slow, salted fingerprint (never the PIN itself). nil: only the old fingerprint exists.
+    var pin: PinCredential?
 }
 
 struct ParkedSale: Codable, Identifiable {

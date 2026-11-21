@@ -68,8 +68,9 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UIFileSharingEnabled: true
-        # !!! Test mode: test ads and a "test as free user" switch. Set to false before sending for App Review.
-        CCTestBuild: true
+        # Test mode (test ads, "test as free user", unlock-everything): always false here. Only the beta build
+        # (codemagic.yaml › swift-beta) turns it on; tools/release_guard.py fails any release that has it.
+        CCTestBuild: false
         # shared with the home screen widget
         CCAppGroup: group.com.rjapps.invoicepricechecker
         # the widget opens the app on the Suppliers tab

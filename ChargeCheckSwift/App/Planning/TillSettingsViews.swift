@@ -163,6 +163,8 @@ struct TillSettingsView: View {
     @State private var addingCashier = false
     @State private var newName = ""
     @State private var newPin = ""
+    @State private var resettingID: String?
+    @State private var resetPin = ""
     @State private var importing = false
     @State private var imported: [ImportedProduct]?
     @State private var columns: [String: String] = [:]
@@ -220,6 +222,13 @@ struct TillSettingsView: View {
                     } label: {
                         Label(cashier.name, systemImage: (cashier.role ?? .cashier).isManager ? "person.badge.key" : "person.crop.circle")
                     }
+                    .contextMenu {
+                        Button {
+                            resettingID = cashier.id
+                        } label: {
+                            Label("Reset PIN", systemImage: "key.horizontal")
+                        }
+                    }
                 }
                 .onDelete { offsets in
                     for index in offsets { till.removeCashier(till.cashiers[index].id) }
@@ -246,7 +255,7 @@ struct TillSettingsView: View {
                 Text(till.cashiers.isEmpty
                      ? String(localized: "With people added, the till asks for a 4-digit PIN and every sale shows who served. Make yourself the owner: refunds, discounts, taking cash out and closing the day then need a manager's PIN.")
                      : (till.hasManagers
-                        ? String(localized: "Refunds, discounts, cash out and closing the day need a manager's or the owner's PIN unless cashiers are allowed. Swipe left to remove someone.")
+                        ? String(localized: "Refunds, discounts, cash out and closing the day need a manager's or the owner's PIN unless cashiers are allowed. Swipe left to remove someone; touch and hold to reset their PIN.")
                         : String(localized: "Nobody is a manager or the owner yet, so cashiers can do everything. Tap a name to change their role.")))
             }
 
@@ -360,11 +369,9 @@ struct TillSettingsView: View {
             SecureField("4-digit PIN", text: $newPin)
                 .keyboardType(.numberPad)
             Button("Add") {
-                let pin = newPin.filter(\.isNumber)
+                let pin = PinCredentials.normalized(newPin).filter(\.isNumber)
                 let name = newName.trimmingCharacters(in: .whitespaces)
-                if pin.count == 4, !name.isEmpty, !till.cashiers.contains(where: { $0.pinHash == TillStore.hash(pin) }) {
-                    till.addCashier(name: name, pin: pin, role: newRole)
-                } else {
+                if pin.count != 4 || name.isEmpty || !till.addCashier(name: name, pin: pin, role: newRole) {
                     notice = String(localized: "Use a name and a 4-digit PIN that no one else has.")
                 }
                 newName = ""
@@ -374,6 +381,24 @@ struct TillSettingsView: View {
                 newName = ""
                 newPin = ""
             }
+        }
+        .alert("Reset PIN", isPresented: Binding(get: { resettingID != nil }, set: { if !$0 { resettingID = nil } })) {
+            SecureField("New 4-digit PIN", text: $resetPin)
+                .keyboardType(.numberPad)
+            Button("Save") {
+                let pin = PinCredentials.normalized(resetPin).filter(\.isNumber)
+                if let id = resettingID, pin.count != 4 || !till.resetPin(for: id, to: pin) {
+                    notice = String(localized: "Use a 4-digit PIN that no one else has.")
+                }
+                resetPin = ""
+                resettingID = nil
+            }
+            Button("Cancel", role: .cancel) {
+                resetPin = ""
+                resettingID = nil
+            }
+        } message: {
+            Text("Their old PIN stops working straight away.")
         }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.commaSeparatedText, .plainText, .tabSeparatedText]) { result in
             guard case .success(let url) = result else { return }
