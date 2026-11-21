@@ -47,7 +47,7 @@ struct SortCategoriesView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(move.name)
                                         .font(.subheadline.weight(.semibold))
-                                    Text("\(move.from) → \(move.to)")
+                                    Text("\(L(move.from)) → \(L(move.to))")
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }
@@ -57,6 +57,7 @@ struct SortCategoriesView: View {
                 }
             }
             .navigationTitle("Sort into categories")
+            .themedScreen()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
