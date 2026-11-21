@@ -84,3 +84,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   session before the host app's Store.shared starts (it loads products at launch), or an app-less StoreKit test
   target; or pin the runner to Xcode 26.x for these tests only. Ask Ramyar: is the real yearly price £89.99 or
   £99.99? PR #61 (CC-003 part 1) stays unmerged until the purchase tests pass.
+- 21 Nov — Ramyar: the real yearly price is £89.99, and the plans/packs aren't in App Store Connect for the Swift
+  app yet (he'll have me add them when he has a PC). Likely cause of the test trouble: the app (the test host)
+  started its own StoreKit at launch, before the test session. Now `Store.start()` does nothing under XCTest, and
+  StoreTests pin the session to GBR / en_GB.

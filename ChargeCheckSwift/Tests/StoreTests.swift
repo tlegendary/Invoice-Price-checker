@@ -16,6 +16,9 @@ final class StoreTests: XCTestCase {
         session = try SKTestSession(configurationFileNamed: "Products")
         session.resetToDefaultState()
         session.clearTransactions()
+        // the prices in Products.storekit are UK prices: never let the cloud Mac's own country change them
+        session.storefront = "GBR"
+        session.locale = Locale(identifier: "en_GB")
         session.disableDialogs = true
         defaults = UserDefaults(suiteName: "chargecheck.store.tests")
         defaults.removePersistentDomain(forName: "chargecheck.store.tests")
@@ -47,7 +50,7 @@ final class StoreTests: XCTestCase {
         XCTAssertEqual(store.packs.map { $0.id }, Products.packOrder, store.loadStatus)
         let yearly = try XCTUnwrap(store.yearly)
         let monthly = try XCTUnwrap(store.monthly)
-        XCTAssertEqual(yearly.price, Decimal(string: "89.99"))
+        XCTAssertEqual(yearly.price, Decimal(string: "89.99"), "storefront \(session.storefront), \(yearly.displayPrice)")
         XCTAssertEqual(monthly.price, Decimal(string: "8.99"))
         let offer = try XCTUnwrap(yearly.subscription?.introductoryOffer)
         XCTAssertEqual(offer.paymentMode, .freeTrial)

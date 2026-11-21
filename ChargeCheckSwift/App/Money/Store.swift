@@ -87,6 +87,9 @@ final class Store: ObservableObject {
 
     /// Call once when the app opens.
     func start() {
+        // under the unit tests the app is only their host: its own store stays off, so the tests' StoreKit test
+        // session is the only one talking to StoreKit (otherwise the app reaches the real sandbox first)
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil { return }
         if updates == nil {
             updates = Task { [weak self] in
                 for await result in Transaction.updates {
