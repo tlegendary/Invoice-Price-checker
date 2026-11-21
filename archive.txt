@@ -1,6 +1,6 @@
-commit: 875750d56e7fc2a1a03f73c05aa11c69282f5f2c
+commit: 4ea77e64f033e19d7611af8eedcd2995d48278be
 result: success
-when: Fri Nov 20 23:04:18 UTC 2026
+when: Sat Nov 21 01:49:43 UTC 2026
 
 Xcode_27.0.0.app Xcode_27.0.app Xcode_27.1.0.app Xcode_27.1.app Xcode_27.2.0.app Xcode_27.2.app Xcode_27.app Xcode.app ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -28,8 +28,8 @@ Build version 27B52
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillHardware.swift:132:43: warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:239:59: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:242:59: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:718:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:719:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:747:101: warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Planning/TillStore.swift:748:102: warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
