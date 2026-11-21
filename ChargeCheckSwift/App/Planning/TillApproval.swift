@@ -6,6 +6,8 @@ import ChargeCheckCore
 struct ApprovalRequest: Identifiable {
     let id = UUID()
     let title: String
+    /// What the manager is saying yes to (the till store only lets these through once each).
+    var permissions: [TillPermission] = []
     /// The phone's own Face ID or passcode also unlocks it (the till settings: so the owner can never be locked out).
     var deviceOwner = false
     /// Called with the manager's name once they've typed their PIN.
@@ -40,15 +42,25 @@ struct ManagerPinSheet: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                 PinPad(title: String(localized: "Manager's PIN")) { pin in
-                    guard let manager = till.manager(pin: pin) else { return false }
+                    guard let manager = till.approve(request.permissions, pin: pin) else { return false }
                     approve(manager.name)
                     return true
+                }
+                if till.pinLockout.wait(at: Date()) > 0 {
+                    Text("Too many wrong PINs. Wait a moment, then try again.")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
                 }
                 if request.deviceOwner {
                     Button {
                         let context = LAContext()
                         context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: String(localized: "Unlock the till settings")) { ok, _ in
-                            if ok { Task { @MainActor in approve(String(localized: "Owner")) } }
+                            if ok {
+                                Task { @MainActor in
+                                    till.approveAsDeviceOwner(request.permissions)
+                                    approve(String(localized: "Owner"))
+                                }
+                            }
                         }
                     } label: {
                         Label("Use this iPhone's Face ID or passcode", systemImage: "faceid")
@@ -77,7 +89,7 @@ enum Gate {
         if TillStore.shared.may(permission) {
             action(nil)
         } else {
-            request.wrappedValue = ApprovalRequest(title: title, deviceOwner: permission == .settings) { name in action(name) }
+            request.wrappedValue = ApprovalRequest(title: title, permissions: [permission], deviceOwner: permission == .settings) { name in action(name) }
         }
     }
 }

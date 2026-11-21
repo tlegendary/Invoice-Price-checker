@@ -348,6 +348,9 @@ final class TillStore: ObservableObject {
     func refund(_ sale: Sale, quantities: [String: Double]? = nil, approvedBy: String? = nil, toCredit: Bool = false,
                 context: ModelContext) -> Sale? {
         guard sale.refundOf == nil, !training else { return nil }
+        // the store decides, not the screen: the person signed in may, or a manager has just said yes
+        guard let allowed = authorize(.refund) else { return nil }
+        let approvedBy = allowed.by
         let left = SaleMaths.refundable(sale, refunds: sales.filter { $0.refundOf == sale.id })
         let wanted = (quantities ?? left).compactMapValues { qty -> Double? in qty > 0 ? qty : nil }
             .reduce(into: [String: Double]()) { out, pair in out[pair.key] = min(pair.value, left[pair.key] ?? 0) }
@@ -387,6 +390,11 @@ final class TillStore: ObservableObject {
     func addCash(_ kind: CashEvent.Kind, amount: Double, note: String, shop: String, ref: String? = nil, card: Bool? = nil,
                  approvedBy: String? = nil) {
         guard !training else { return }
+        var approvedBy = approvedBy
+        if let needed = kind.permission {
+            guard let allowed = authorize(needed) else { return }
+            approvedBy = allowed.by
+        }
         ensureCode()
         cash.append(CashEvent(shop: shop, at: Self.now(), kind: kind, amount: Money.round2(amount), note: note, cashier: cashier?.name,
                               till: code, ref: ref, card: card, approvedBy: approvedBy))
@@ -416,8 +424,11 @@ final class TillStore: ObservableObject {
 
     /// The Z report: closes the day. Starts a new day from now.
     @discardableResult
-    func closeDay(shop: String, counted: Double?, approvedBy: String? = nil) -> DayReport {
+    /// nil: the person signed in may not close the day and no manager has said yes.
+    func closeDay(shop: String, counted: Double?, approvedBy: String? = nil) -> DayReport? {
         guard !training else { return current(shop: shop) }
+        guard let allowed = authorize(.closeDay) else { return nil }
+        let approvedBy = allowed.by
         ensureCode()
         var report = current(shop: shop)
         report.counted = counted.map { Money.round2($0) }
@@ -491,6 +502,44 @@ final class TillStore: ObservableObject {
     var hasManagers: Bool { cashiers.contains { ($0.role ?? .cashier).isManager } }
 
     /// The person serving may do this without a manager.
+    // MARK: who may do what – checked here, so no screen can skip it
+
+    private var approvals = TillApprovals()
+    /// Wrong manager PINs in a row; the PIN pad waits after too many.
+    @Published private(set) var pinLockout = PinLockout()
+
+    /// A manager's PIN for these actions. Gives a single-use yes for each (for two minutes), or nil: wrong PIN, or the
+    /// pad is waiting after too many wrong ones.
+    func approve(_ permissions: [TillPermission], pin: String) -> Cashier? {
+        let now = Date()
+        guard pinLockout.wait(at: now) == 0 else { return nil }
+        guard let manager = manager(pin: pin) else {
+            pinLockout.wrong(at: now)
+            return nil
+        }
+        pinLockout.right()
+        approvals.give(permissions, by: manager.name, at: now)
+        return manager
+    }
+
+    /// The owner unlocked with this iPhone's Face ID or passcode (checked by iOS before this is called).
+    func approveAsDeviceOwner(_ permissions: [TillPermission]) {
+        approvals.give(permissions, by: String(localized: "Owner"), at: Date())
+    }
+
+    /// Whether this action may go ahead now: `by` is the manager who said yes (nil: the person signed in may do it).
+    /// nil means no. A yes is used up.
+    func authorize(_ permission: TillPermission) -> Allowed? {
+        if may(permission) { return Allowed(by: nil) }
+        guard let by = approvals.use(permission, at: Date()) else { return nil }
+        return Allowed(by: by)
+    }
+
+    struct Allowed {
+        /// The manager who said yes; nil when the person signed in may do it themselves.
+        let by: String?
+    }
+
     func may(_ permission: TillPermission) -> Bool {
         TillRoles.allows(cashier.map { $0.role ?? .cashier }, permission, cashierCan: options.cashierPermissions, hasManagers: hasManagers)
     }
@@ -618,6 +667,8 @@ final class TillStore: ObservableObject {
     /// Cancelled: the deposits go back (cash from this drawer, or card).
     func cancel(_ layaway: Layaway, card: Bool, approvedBy: String?) {
         guard layaway.status == .open, !training else { return }
+        guard let allowed = authorize(.refund) else { return }
+        let approvedBy = allowed.by
         let back = paid(layaway)
         if back > 0 {
             addCash(.deposit, amount: -back, note: customer(layaway.customer)?.name ?? "", shop: layaway.shop, ref: layaway.id,

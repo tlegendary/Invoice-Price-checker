@@ -9,12 +9,12 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 |---|---|---|---|
 | CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
-| CC-003 | Permission enforcement audit (P0) | ⬜ | |
+| CC-003 | Permission enforcement audit (P0) | 🟡 | store enforces refunds, cash in/out/float/no-sale, close day, layaway cancel; PIN lockout |
 | CC-004 | Persistence error model (P0) | ⬜ | |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
 | CC-007 | External terminal manual tender (P0) | ⬜ | |
-| CC-008 | Provider adapter + fake provider (P0) | ⬜ | Real provider ⏸ (which card company) |
+| CC-008 | Provider adapter + fake provider (P0) | ⬜ | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | ⬜ | |
 | CC-010 | Refund integration (P0) | ⬜ | |
 | CC-011 | Durable sync outbox (P0) | ⬜ | |
@@ -23,7 +23,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-014 | Inventory movement ledger (P1) | ⬜ | |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
-| CC-017 | Kitchen display MVP (P1) | ⏸ | Hospitality decision still open |
+| CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
 | CC-019 | Profit reporting (P1) | ⬜ | |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
@@ -57,4 +57,13 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   `testBuyingPacksAddsScansOnce` hangs 5 min (also on an unchanged baseline run, branch improve/store-baseline);
   `testSubscribingUnlocksAndExpiryLocks` sometimes doesn't see the expiry. Purchases aren't changed by the backlog
   so far; fix the tests before any StoreKit change (ask Ramyar before changing the purchase flow).
-- NEXT: CC-003 (see the CC-003 note above).
+- 21 Nov — Ramyar's decisions: use all card companies (one adapter per provider, fake provider for tests, manual
+  external-terminal tender works for all); yes to restaurant kitchen screens and hospitality.
+- 21 Nov — CC-003 in progress (branch improve/2026-11-21-cc003). Core `TillApprovals` (single-use yes per
+  permission, 2 min), `PinLockout` (5 free tries, then 30 s doubling to 5 min), `CashEvent.Kind.permission`.
+  TillStore: `approve(_:pin:)`, `approveAsDeviceOwner`, `authorize(_:)`; refund, addCash (float, paid in/out,
+  no sale), closeDay (now returns nil when refused) and layaway cancel check it, and record who said yes from the
+  store, not the screen. Tests: TillAuthorityTests (Core), TillPermissionTests (simulator, `[store]` runs).
+  Still to do in CC-003: sale-level permissions (discount, price change, custom amount, remove line, gift card,
+  tab) are still applied on the screen only — enforce in `record()` by passing the approval with the sale lines;
+  settings changes (roles, people, permissions) behind ManagerOnly only; the lockout resets if the app restarts.

@@ -948,7 +948,7 @@ struct TillView: View {
         if needs.allSatisfy({ till.may($0) }) {
             apply(nil)
         } else {
-            approval = ApprovalRequest(title: needs.map(PermissionText.title).joined(separator: ", ")) { name in apply(name) }
+            approval = ApprovalRequest(title: needs.map(PermissionText.title).joined(separator: ", "), permissions: needs) { name in apply(name) }
         }
     }
 
