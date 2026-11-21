@@ -73,3 +73,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   this branch; testMonthlyPlan and the expiry check sometimes). Waiting for Ramyar: make purchase tests non-blocking
   until fixed, or fix them first. Then merge #61, beta, and continue CC-003 part 2 (sale-level permissions in
   `record()`, settings changes, lockout kept across restarts).
+- 21 Nov — Ramyar: fix the purchase tests first (test code only). StoreTests now buy through
+  `SKTestSession.buyProduct` (no purchase sheet) and wait up to 30 s for the store's own handle/refresh; the skip
+  of testBuyingPacksAddsScansOnce is removed; all purchase tests block again. `Store.buy()` (the sheet itself) is
+  then only checked by hand in TestFlight's sandbox.

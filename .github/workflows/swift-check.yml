@@ -146,13 +146,11 @@ jobs:
             ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i chargecheck | tee -a /tmp/app.log || echo "No crash reports" | tee -a /tmp/app.log
           fi
           # The purchase tests buy every product against Apple's StoreKit test server. They are slow,
-          # so they only run when the commit message contains [store]. testBuyingPacksAddsScansOnce hangs on the
-          # test server (broken before 21 Nov 2026, see docs/BACKLOG_PROGRESS.md): skipped until it's fixed.
+          # so they only run when the commit message contains [store].
           if [ "$RUN_STORE_TESTS" = "true" ]; then
             set +e
             xcodebuild test-without-building -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
-              -derivedDataPath build -test-timeouts-enabled YES -maximum-test-execution-time-allowance 300 \
-              -skip-testing:ChargeCheckTests/StoreTests/testBuyingPacksAddsScansOnce > /tmp/tests-full.log 2>&1
+              -derivedDataPath build -test-timeouts-enabled YES -maximum-test-execution-time-allowance 300 > /tmp/tests-full.log 2>&1
             TESTS=$?
             set -e
             grep -E "error|\*\*|Test Case|XCTAssert|Executed" /tmp/tests-full.log | sort -u | cut -c1-400 | tee -a /tmp/app.log

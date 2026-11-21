@@ -21,6 +21,19 @@ final class StoreTests: XCTestCase {
         defaults.removePersistentDomain(forName: "chargecheck.store.tests")
     }
 
+    /// Buys through the StoreKit test session (no purchase sheet, which can hang on the cloud simulators), then waits
+    /// up to 30 s for the store to take it in. The store's own money logic (handle, refresh) does the rest.
+    private func purchase(_ id: String, on store: Store, until done: @MainActor () -> Bool) async throws {
+        _ = try await session.buyProduct(identifier: id)
+        for _ in 0..<60 {
+            if let latest = await Transaction.latest(for: id) { await store.handle(latest) }
+            await store.refresh()
+            if done() { return }
+            try await Task.sleep(nanoseconds: 500_000_000)
+        }
+        XCTFail("the store didn't take in \(id) within 30 s")
+    }
+
     private func makeStore() async -> Store {
         let store = Store(defaults: defaults)
         await store.loadProducts()
@@ -48,15 +61,13 @@ final class StoreTests: XCTestCase {
 
     func testBuyingPacksAddsScansOnce() async throws {
         let store = await makeStore()
-        let ten = try XCTUnwrap(store.packs.first { $0.id == "ipc_scans_10" })
-        let outcome1 = await store.buy(ten)
-        XCTAssertEqual(outcome1, .done(scans: 10))
-        XCTAssertEqual(store.credits, 10)
+        XCTAssertNotNil(store.packs.first { $0.id == "ipc_scans_10" })
+        try await purchase("ipc_scans_10", on: store) { store.credits >= 10 }
+        XCTAssertEqual(store.credits, 10, "handled several times, counted once")
         XCTAssertTrue(store.canScan)
         XCTAssertFalse(store.isSubscribed)
-        let three = try XCTUnwrap(store.packs.first { $0.id == "ipc_scans_3" })
-        let outcome2 = await store.buy(three)
-        XCTAssertEqual(outcome2, .done(scans: 3))
+        XCTAssertNotNil(store.packs.first { $0.id == "ipc_scans_3" })
+        try await purchase("ipc_scans_3", on: store) { store.credits >= 13 }
         XCTAssertEqual(store.credits, 13)
         // looking at every purchase again must not add scans twice
         if let latest = await Transaction.latest(for: "ipc_scans_3") { await store.handle(latest) }
@@ -81,9 +92,8 @@ final class StoreTests: XCTestCase {
 
     func testSubscribingUnlocksAndExpiryLocks() async throws {
         let store = await makeStore()
-        let yearly = try XCTUnwrap(store.yearly)
-        let outcome3 = await store.buy(yearly)
-        XCTAssertEqual(outcome3, .done(scans: 0))
+        XCTAssertNotNil(store.yearly)
+        try await purchase(Products.yearly, on: store) { store.isSubscribed }
         XCTAssertEqual(store.subscribedProductID, Products.yearly)
         XCTAssertTrue(store.isSubscribed)
         XCTAssertTrue(store.canScan)
@@ -109,9 +119,8 @@ final class StoreTests: XCTestCase {
 
     func testMonthlyPlan() async throws {
         let store = await makeStore()
-        let monthly = try XCTUnwrap(store.monthly)
-        let outcome4 = await store.buy(monthly)
-        XCTAssertEqual(outcome4, .done(scans: 0))
+        XCTAssertNotNil(store.monthly)
+        try await purchase(Products.monthly, on: store) { store.isSubscribed }
         XCTAssertEqual(store.subscribedProductID, Products.monthly)
         XCTAssertTrue(store.isSubscribed)
     }
