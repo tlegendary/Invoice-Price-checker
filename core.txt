@@ -1,396 +1,373 @@
-commit: 225f3bf821790ff34c6fdf0da997fc880097a65f
+commit: 190ec24a2862df31f369057a313dac812424a7ca
 result: success
-when: Fri Nov 20 23:41:46 UTC 2026
+when: Sat Nov 21 00:53:20 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
 Building for debugging...
-[Computing dependencies]
+[Constructing description]
 [Pre-planning 1 / 154]
 [Planning deferred tasks]
+[34 / 57] ChargeCheckCore
 [39 / 62] ChargeCheckCore
-[40 / 62] ChargeCheckCore
-[45 / 63]
-[49 / 69] ChargeCheckCore
-[50 / 69] ChargeCheckCoreTests-product
-[51 / 69] ChargeCheckCoreTests-product
-[57 / 69] ChargeCheckCoreTests-product
-[57 / 69] ChargeCheckCore
-[58 / 69] ChargeCheckCore-product
+[51 / 69] ChargeCheckCore
+[53 / 69] ChargeCheckCoreTests-product
+[54 / 69] ChargeCheckCoreTests-product
 [58 / 69] ChargeCheckCoreTests-product
 [62 / 70] ChargeCheckCoreTests-product
 [63 / 70] ChargeCheckCoreTests-test-runner
 [66 / 73] ChargeCheckCoreTests-test-runner
 [70 / 73] ChargeCheckCoreTests-test-runner
 [74 / 74] ChargeCheckCoreTests-test-runner
-Build complete! (22.49 secs)
-Test Suite 'All tests' started at 2026-11-20 23:41:33.966
-Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-20 23:41:33.966
-Test Suite 'AccountingExportTests' started at 2026-11-20 23:41:33.966
-Test Case 'AccountingExportTests.testNoVatAndNoNumberAndDuplicatesLeftOut' started at 2026-11-20 23:41:33.966
-Test Case 'AccountingExportTests.testNoVatAndNoNumberAndDuplicatesLeftOut' passed (0.091 seconds)
-Test Case 'AccountingExportTests.testQuickBooks' started at 2026-11-20 23:41:34.057
+Build complete! (13.77 secs)
+Test Suite 'All tests' started at 2026-11-21 00:53:10.449
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-11-21 00:53:10.449
+Test Suite 'AccountingExportTests' started at 2026-11-21 00:53:10.449
+Test Case 'AccountingExportTests.testNoVatAndNoNumberAndDuplicatesLeftOut' started at 2026-11-21 00:53:10.449
+Test Case 'AccountingExportTests.testNoVatAndNoNumberAndDuplicatesLeftOut' passed (0.047 seconds)
+Test Case 'AccountingExportTests.testQuickBooks' started at 2026-11-21 00:53:10.496
 Test Case 'AccountingExportTests.testQuickBooks' passed (0.001 seconds)
-Test Case 'AccountingExportTests.testXeroBillAsTheSupplierIssuedIt' started at 2026-11-20 23:41:34.058
+Test Case 'AccountingExportTests.testXeroBillAsTheSupplierIssuedIt' started at 2026-11-21 00:53:10.496
 Test Case 'AccountingExportTests.testXeroBillAsTheSupplierIssuedIt' passed (0.001 seconds)
-Test Suite 'AccountingExportTests' passed at 2026-11-20 23:41:34.059
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.093 (0.093) seconds
-Test Suite 'AnyLayoutTests' started at 2026-11-20 23:41:34.059
-Test Case 'AnyLayoutTests.testAmountsInAnyCurrencySetting' started at 2026-11-20 23:41:34.059
+Test Suite 'AccountingExportTests' passed at 2026-11-21 00:53:10.497
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.048 (0.048) seconds
+Test Suite 'AnyLayoutTests' started at 2026-11-21 00:53:10.497
+Test Case 'AnyLayoutTests.testAmountsInAnyCurrencySetting' started at 2026-11-21 00:53:10.497
 Test Case 'AnyLayoutTests.testAmountsInAnyCurrencySetting' passed (0.001 seconds)
-Test Case 'AnyLayoutTests.testReadInArabicAndKurdish' started at 2026-11-20 23:41:34.061
-Test Case 'AnyLayoutTests.testReadInArabicAndKurdish' passed (0.13 seconds)
-Test Case 'AnyLayoutTests.testReadInEnglishWhateverTheCurrency' started at 2026-11-20 23:41:34.190
-Test Case 'AnyLayoutTests.testReadInEnglishWhateverTheCurrency' passed (0.011 seconds)
-Test Case 'AnyLayoutTests.testRowsWithoutQuantityTimesPriceAreNotItems' started at 2026-11-20 23:41:34.201
+Test Case 'AnyLayoutTests.testReadInArabicAndKurdish' started at 2026-11-21 00:53:10.498
+Test Case 'AnyLayoutTests.testReadInArabicAndKurdish' passed (0.018 seconds)
+Test Case 'AnyLayoutTests.testReadInEnglishWhateverTheCurrency' started at 2026-11-21 00:53:10.515
+Test Case 'AnyLayoutTests.testReadInEnglishWhateverTheCurrency' passed (0.006 seconds)
+Test Case 'AnyLayoutTests.testRowsWithoutQuantityTimesPriceAreNotItems' started at 2026-11-21 00:53:10.521
 Test Case 'AnyLayoutTests.testRowsWithoutQuantityTimesPriceAreNotItems' passed (0.0 seconds)
-Test Case 'AnyLayoutTests.testTheBalanceIsNeverTakenAsTheTotal' started at 2026-11-20 23:41:34.201
-Test Case 'AnyLayoutTests.testTheBalanceIsNeverTakenAsTheTotal' passed (0.003 seconds)
-Test Suite 'AnyLayoutTests' passed at 2026-11-20 23:41:34.204
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.145 (0.145) seconds
-Test Suite 'BigShopSpeedTests' started at 2026-11-20 23:41:34.204
-Test Case 'BigShopSpeedTests.testBackupRoundTrip' started at 2026-11-20 23:41:34.204
+Test Case 'AnyLayoutTests.testTheBalanceIsNeverTakenAsTheTotal' started at 2026-11-21 00:53:10.521
+Test Case 'AnyLayoutTests.testTheBalanceIsNeverTakenAsTheTotal' passed (0.001 seconds)
+Test Suite 'AnyLayoutTests' passed at 2026-11-21 00:53:10.523
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.026 (0.026) seconds
+Test Suite 'BigShopSpeedTests' started at 2026-11-21 00:53:10.523
+Test Case 'BigShopSpeedTests.testBackupRoundTrip' started at 2026-11-21 00:53:10.523
 SPEED backup size: 22 MB
-SPEED backup save and read, 10,000 invoices: 3.277 s (limit 15.0 s)
-Test Case 'BigShopSpeedTests.testBackupRoundTrip' passed (3.277 seconds)
-Test Case 'BigShopSpeedTests.testHomeOverview' started at 2026-11-20 23:41:37.481
-SPEED home overview, 10,000 invoices: 0.893 s (limit 10.0 s)
-Test Case 'BigShopSpeedTests.testHomeOverview' passed (0.994 seconds)
-Test Case 'BigShopSpeedTests.testMatchingAnInvoiceAgainstABigPriceList' started at 2026-11-20 23:41:38.475
-SPEED match 60 lines against 2,000 items: 0.574 s (limit 6.0 s)
-Test Case 'BigShopSpeedTests.testMatchingAnInvoiceAgainstABigPriceList' passed (0.69 seconds)
-Test Case 'BigShopSpeedTests.testNameSuggestionsForTheWholeList' started at 2026-11-20 23:41:39.165
-SPEED name suggestions, all 2,000 items: 0.669 s (limit 20.0 s)
-Test Case 'BigShopSpeedTests.testNameSuggestionsForTheWholeList' passed (0.67 seconds)
-Test Case 'BigShopSpeedTests.testPriceRises' started at 2026-11-20 23:41:39.834
-SPEED price rises, 10,000 invoices: 0.155 s (limit 10.0 s)
-Test Case 'BigShopSpeedTests.testPriceRises' passed (0.155 seconds)
-Test Case 'BigShopSpeedTests.testSupplierAccounts' started at 2026-11-20 23:41:39.990
-SPEED supplier accounts, 10,000 invoices: 0.099 s (limit 6.0 s)
-Test Case 'BigShopSpeedTests.testSupplierAccounts' passed (0.099 seconds)
-Test Suite 'BigShopSpeedTests' passed at 2026-11-20 23:41:40.089
-	 Executed 6 tests, with 0 failures (0 unexpected) in 5.885 (5.885) seconds
-Test Suite 'CoreTests' started at 2026-11-20 23:41:40.089
-Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-20 23:41:40.089
+SPEED backup save and read, 10,000 invoices: 1.631 s (limit 15.0 s)
+Test Case 'BigShopSpeedTests.testBackupRoundTrip' passed (1.732 seconds)
+Test Case 'BigShopSpeedTests.testHomeOverview' started at 2026-11-21 00:53:12.254
+SPEED home overview, 10,000 invoices: 0.515 s (limit 10.0 s)
+Test Case 'BigShopSpeedTests.testHomeOverview' passed (0.515 seconds)
+Test Case 'BigShopSpeedTests.testMatchingAnInvoiceAgainstABigPriceList' started at 2026-11-21 00:53:12.769
+SPEED match 60 lines against 2,000 items: 0.340 s (limit 6.0 s)
+Test Case 'BigShopSpeedTests.testMatchingAnInvoiceAgainstABigPriceList' passed (0.452 seconds)
+Test Case 'BigShopSpeedTests.testNameSuggestionsForTheWholeList' started at 2026-11-21 00:53:13.221
+SPEED name suggestions, all 2,000 items: 0.391 s (limit 20.0 s)
+Test Case 'BigShopSpeedTests.testNameSuggestionsForTheWholeList' passed (0.391 seconds)
+Test Case 'BigShopSpeedTests.testPriceRises' started at 2026-11-21 00:53:13.612
+SPEED price rises, 10,000 invoices: 0.088 s (limit 10.0 s)
+Test Case 'BigShopSpeedTests.testPriceRises' passed (0.088 seconds)
+Test Case 'BigShopSpeedTests.testSupplierAccounts' started at 2026-11-21 00:53:13.700
+SPEED supplier accounts, 10,000 invoices: 0.056 s (limit 6.0 s)
+Test Case 'BigShopSpeedTests.testSupplierAccounts' passed (0.056 seconds)
+Test Suite 'BigShopSpeedTests' passed at 2026-11-21 00:53:13.755
+	 Executed 6 tests, with 0 failures (0 unexpected) in 3.233 (3.233) seconds
+Test Suite 'CoreTests' started at 2026-11-21 00:53:13.755
+Test Case 'CoreTests.testBackupFromTheFirstApp' started at 2026-11-21 00:53:13.755
 Test Case 'CoreTests.testBackupFromTheFirstApp' passed (0.001 seconds)
-Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-20 23:41:40.090
-Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.0 seconds)
-Test Case 'CoreTests.testCategories' started at 2026-11-20 23:41:40.090
-Test Case 'CoreTests.testCategories' passed (0.002 seconds)
-Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-20 23:41:40.092
+Test Case 'CoreTests.testBarePriceListAndRubbish' started at 2026-11-21 00:53:13.756
+Test Case 'CoreTests.testBarePriceListAndRubbish' passed (0.1 seconds)
+Test Case 'CoreTests.testCategories' started at 2026-11-21 00:53:13.857
+Test Case 'CoreTests.testCategories' passed (0.001 seconds)
+Test Case 'CoreTests.testMatchingSupplierSpellings' started at 2026-11-21 00:53:13.858
 Test Case 'CoreTests.testMatchingSupplierSpellings' passed (0.002 seconds)
-Test Case 'CoreTests.testMoney' started at 2026-11-20 23:41:40.094
+Test Case 'CoreTests.testMoney' started at 2026-11-21 00:53:13.860
 Test Case 'CoreTests.testMoney' passed (0.0 seconds)
-Test Case 'CoreTests.testNorm' started at 2026-11-20 23:41:40.095
+Test Case 'CoreTests.testNorm' started at 2026-11-21 00:53:13.860
 Test Case 'CoreTests.testNorm' passed (0.0 seconds)
-Test Case 'CoreTests.testPastedPriceList' started at 2026-11-20 23:41:40.095
-Test Case 'CoreTests.testPastedPriceList' passed (0.002 seconds)
-Test Case 'CoreTests.testSupplier' started at 2026-11-20 23:41:40.097
+Test Case 'CoreTests.testPastedPriceList' started at 2026-11-21 00:53:13.860
+Test Case 'CoreTests.testPastedPriceList' passed (0.0 seconds)
+Test Case 'CoreTests.testSupplier' started at 2026-11-21 00:53:13.860
 Test Case 'CoreTests.testSupplier' passed (0.0 seconds)
-Test Suite 'CoreTests' passed at 2026-11-20 23:41:40.097
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
-Test Suite 'CurledPageTests' started at 2026-11-20 23:41:40.097
-Test Case 'CurledPageTests.testAPageThatAlreadyAddsUpIsReadAsBefore' started at 2026-11-20 23:41:40.097
-Test Case 'CurledPageTests.testAPageThatAlreadyAddsUpIsReadAsBefore' passed (0.001 seconds)
-Test Case 'CurledPageTests.testEveryLineKeepsItsOwnPrices' started at 2026-11-20 23:41:40.098
-Test Case 'CurledPageTests.testEveryLineKeepsItsOwnPrices' passed (0.001 seconds)
-Test Case 'CurledPageTests.testTheInvoiceAddsUp' started at 2026-11-20 23:41:40.099
-Test Case 'CurledPageTests.testTheInvoiceAddsUp' passed (0.009 seconds)
-Test Suite 'CurledPageTests' passed at 2026-11-20 23:41:40.108
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.011 (0.011) seconds
-Test Suite 'DocumentFactsTests' started at 2026-11-20 23:41:40.108
-Test Case 'DocumentFactsTests.testCurrency' started at 2026-11-20 23:41:40.108
+Test Suite 'CoreTests' passed at 2026-11-21 00:53:13.860
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.105 (0.105) seconds
+Test Suite 'CurledPageTests' started at 2026-11-21 00:53:13.860
+Test Case 'CurledPageTests.testAPageThatAlreadyAddsUpIsReadAsBefore' started at 2026-11-21 00:53:13.860
+Test Case 'CurledPageTests.testAPageThatAlreadyAddsUpIsReadAsBefore' passed (0.0 seconds)
+Test Case 'CurledPageTests.testEveryLineKeepsItsOwnPrices' started at 2026-11-21 00:53:13.861
+Test Case 'CurledPageTests.testEveryLineKeepsItsOwnPrices' passed (0.0 seconds)
+Test Case 'CurledPageTests.testTheInvoiceAddsUp' started at 2026-11-21 00:53:13.861
+Test Case 'CurledPageTests.testTheInvoiceAddsUp' passed (0.003 seconds)
+Test Suite 'CurledPageTests' passed at 2026-11-21 00:53:13.864
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+Test Suite 'DocumentFactsTests' started at 2026-11-21 00:53:13.864
+Test Case 'DocumentFactsTests.testCurrency' started at 2026-11-21 00:53:13.864
 Test Case 'DocumentFactsTests.testCurrency' passed (0.0 seconds)
-Test Case 'DocumentFactsTests.testDiscountColumn' started at 2026-11-20 23:41:40.108
-Test Case 'DocumentFactsTests.testDiscountColumn' passed (0.001 seconds)
-Test Case 'DocumentFactsTests.testDiscountInPercent' started at 2026-11-20 23:41:40.109
+Test Case 'DocumentFactsTests.testDiscountColumn' started at 2026-11-21 00:53:13.865
+Test Case 'DocumentFactsTests.testDiscountColumn' passed (0.0 seconds)
+Test Case 'DocumentFactsTests.testDiscountInPercent' started at 2026-11-21 00:53:13.865
 Test Case 'DocumentFactsTests.testDiscountInPercent' passed (0.0 seconds)
-Test Case 'DocumentFactsTests.testExpiryDateIsNotTheInvoiceDate' started at 2026-11-20 23:41:40.109
-Test Case 'DocumentFactsTests.testExpiryDateIsNotTheInvoiceDate' passed (0.002 seconds)
-Test Case 'DocumentFactsTests.testKinds' started at 2026-11-20 23:41:40.111
-Test Case 'DocumentFactsTests.testKinds' passed (0.001 seconds)
-Test Suite 'DocumentFactsTests' passed at 2026-11-20 23:41:40.111
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
-Test Suite 'DueRemindersTests' started at 2026-11-20 23:41:40.111
-Test Case 'DueRemindersTests.testCurrenciesAreNeverAddedTogether' started at 2026-11-20 23:41:40.111
-Test Case 'DueRemindersTests.testCurrenciesAreNeverAddedTogether' passed (0.001 seconds)
-Test Case 'DueRemindersTests.testOneReminderPerDayWithTheTotal' started at 2026-11-20 23:41:40.112
-Test Case 'DueRemindersTests.testOneReminderPerDayWithTheTotal' passed (0.001 seconds)
-Test Case 'DueRemindersTests.testOverdueAndFarOffAreLeftOut' started at 2026-11-20 23:41:40.113
-Test Case 'DueRemindersTests.testOverdueAndFarOffAreLeftOut' passed (0.001 seconds)
-Test Suite 'DueRemindersTests' passed at 2026-11-20 23:41:40.113
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'InsightTests' started at 2026-11-20 23:41:40.113
-Test Case 'InsightTests.testCheaperSupplier' started at 2026-11-20 23:41:40.113
-Test Case 'InsightTests.testCheaperSupplier' passed (0.0 seconds)
-Test Case 'InsightTests.testCreditNotes' started at 2026-11-20 23:41:40.114
-Test Case 'InsightTests.testCreditNotes' passed (0.0 seconds)
-Test Case 'InsightTests.testMonthSummary' started at 2026-11-20 23:41:40.114
+Test Case 'DocumentFactsTests.testExpiryDateIsNotTheInvoiceDate' started at 2026-11-21 00:53:13.865
+Test Case 'DocumentFactsTests.testExpiryDateIsNotTheInvoiceDate' passed (0.001 seconds)
+Test Case 'DocumentFactsTests.testKinds' started at 2026-11-21 00:53:13.866
+Test Case 'DocumentFactsTests.testKinds' passed (0.0 seconds)
+Test Suite 'DocumentFactsTests' passed at 2026-11-21 00:53:13.866
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'DueRemindersTests' started at 2026-11-21 00:53:13.866
+Test Case 'DueRemindersTests.testCurrenciesAreNeverAddedTogether' started at 2026-11-21 00:53:13.866
+Test Case 'DueRemindersTests.testCurrenciesAreNeverAddedTogether' passed (0.0 seconds)
+Test Case 'DueRemindersTests.testOneReminderPerDayWithTheTotal' started at 2026-11-21 00:53:13.867
+Test Case 'DueRemindersTests.testOneReminderPerDayWithTheTotal' passed (0.0 seconds)
+Test Case 'DueRemindersTests.testOverdueAndFarOffAreLeftOut' started at 2026-11-21 00:53:13.867
+Test Case 'DueRemindersTests.testOverdueAndFarOffAreLeftOut' passed (0.0 seconds)
+Test Suite 'DueRemindersTests' passed at 2026-11-21 00:53:13.867
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'InsightTests' started at 2026-11-21 00:53:13.867
+Test Case 'InsightTests.testCheaperSupplier' started at 2026-11-21 00:53:13.867
+Test Case 'InsightTests.testCheaperSupplier' passed (0.1 seconds)
+Test Case 'InsightTests.testCreditNotes' started at 2026-11-21 00:53:13.968
+Test Case 'InsightTests.testCreditNotes' passed (0.1 seconds)
+Test Case 'InsightTests.testMonthSummary' started at 2026-11-21 00:53:14.068
 Test Case 'InsightTests.testMonthSummary' passed (0.001 seconds)
-Test Case 'InsightTests.testNoTipWhenYouAlreadyUseTheCheapest' started at 2026-11-20 23:41:40.115
+Test Case 'InsightTests.testNoTipWhenYouAlreadyUseTheCheapest' started at 2026-11-21 00:53:14.069
 Test Case 'InsightTests.testNoTipWhenYouAlreadyUseTheCheapest' passed (0.0 seconds)
-Test Case 'InsightTests.testPaymentDetails' started at 2026-11-20 23:41:40.115
-Test Case 'InsightTests.testPaymentDetails' passed (0.101 seconds)
-Test Case 'InsightTests.testShortDelivery' started at 2026-11-20 23:41:40.216
-Test Case 'InsightTests.testShortDelivery' passed (0.001 seconds)
-Test Suite 'InsightTests' passed at 2026-11-20 23:41:40.217
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
-Test Suite 'InvoiceDetailsTests' started at 2026-11-20 23:41:40.217
-Test Case 'InvoiceDetailsTests.testArabicHeaderWithLabelsNotRead' started at 2026-11-20 23:41:40.217
-Test Case 'InvoiceDetailsTests.testArabicHeaderWithLabelsNotRead' passed (0.005 seconds)
-Test Case 'InvoiceDetailsTests.testArabicLabelsRead' started at 2026-11-20 23:41:40.222
-Test Case 'InvoiceDetailsTests.testArabicLabelsRead' passed (0.001 seconds)
-Test Case 'InvoiceDetailsTests.testDatesAndPricesAreNotInvoiceNumbers' started at 2026-11-20 23:41:40.223
+Test Case 'InsightTests.testPaymentDetails' started at 2026-11-21 00:53:14.069
+Test Case 'InsightTests.testPaymentDetails' passed (0.0 seconds)
+Test Case 'InsightTests.testShortDelivery' started at 2026-11-21 00:53:14.069
+Test Case 'InsightTests.testShortDelivery' passed (0.0 seconds)
+Test Suite 'InsightTests' passed at 2026-11-21 00:53:14.070
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.202 (0.202) seconds
+Test Suite 'InvoiceDetailsTests' started at 2026-11-21 00:53:14.070
+Test Case 'InvoiceDetailsTests.testArabicHeaderWithLabelsNotRead' started at 2026-11-21 00:53:14.070
+Test Case 'InvoiceDetailsTests.testArabicHeaderWithLabelsNotRead' passed (0.002 seconds)
+Test Case 'InvoiceDetailsTests.testArabicLabelsRead' started at 2026-11-21 00:53:14.071
+Test Case 'InvoiceDetailsTests.testArabicLabelsRead' passed (0.0 seconds)
+Test Case 'InvoiceDetailsTests.testDatesAndPricesAreNotInvoiceNumbers' started at 2026-11-21 00:53:14.072
 Test Case 'InvoiceDetailsTests.testDatesAndPricesAreNotInvoiceNumbers' passed (0.0 seconds)
-Test Case 'InvoiceDetailsTests.testDueAndExpiryDatesAreSkipped' started at 2026-11-20 23:41:40.223
+Test Case 'InvoiceDetailsTests.testDueAndExpiryDatesAreSkipped' started at 2026-11-21 00:53:14.072
 Test Case 'InvoiceDetailsTests.testDueAndExpiryDatesAreSkipped' passed (0.001 seconds)
-Test Case 'InvoiceDetailsTests.testHeaderBoxWithValuesUnderneath' started at 2026-11-20 23:41:40.224
-Test Case 'InvoiceDetailsTests.testHeaderBoxWithValuesUnderneath' passed (0.001 seconds)
-Test Case 'InvoiceDetailsTests.testNumberKeepsItsYear' started at 2026-11-20 23:41:40.224
-Test Case 'InvoiceDetailsTests.testNumberKeepsItsYear' passed (0.001 seconds)
-Test Case 'InvoiceDetailsTests.testNumberOnTheRowAboveItsLabel' started at 2026-11-20 23:41:40.225
-Test Case 'InvoiceDetailsTests.testNumberOnTheRowAboveItsLabel' passed (0.002 seconds)
-Test Case 'InvoiceDetailsTests.testOtherWordings' started at 2026-11-20 23:41:40.227
-Test Case 'InvoiceDetailsTests.testOtherWordings' passed (0.001 seconds)
-Test Case 'InvoiceDetailsTests.testPostcodeIsNotTheInvoiceNumber' started at 2026-11-20 23:41:40.227
+Test Case 'InvoiceDetailsTests.testHeaderBoxWithValuesUnderneath' started at 2026-11-21 00:53:14.073
+Test Case 'InvoiceDetailsTests.testHeaderBoxWithValuesUnderneath' passed (0.0 seconds)
+Test Case 'InvoiceDetailsTests.testNumberKeepsItsYear' started at 2026-11-21 00:53:14.073
+Test Case 'InvoiceDetailsTests.testNumberKeepsItsYear' passed (0.0 seconds)
+Test Case 'InvoiceDetailsTests.testNumberOnTheRowAboveItsLabel' started at 2026-11-21 00:53:14.073
+Test Case 'InvoiceDetailsTests.testNumberOnTheRowAboveItsLabel' passed (0.001 seconds)
+Test Case 'InvoiceDetailsTests.testOtherWordings' started at 2026-11-21 00:53:14.074
+Test Case 'InvoiceDetailsTests.testOtherWordings' passed (0.0 seconds)
+Test Case 'InvoiceDetailsTests.testPostcodeIsNotTheInvoiceNumber' started at 2026-11-21 00:53:14.075
 Test Case 'InvoiceDetailsTests.testPostcodeIsNotTheInvoiceNumber' passed (0.0 seconds)
-Test Suite 'InvoiceDetailsTests' passed at 2026-11-20 23:41:40.227
-	 Executed 9 tests, with 0 failures (0 unexpected) in 0.01 (0.01) seconds
-Test Suite 'LanguageTests' started at 2026-11-20 23:41:40.228
-Test Case 'LanguageTests.testArabicInvoiceInDinars' started at 2026-11-20 23:41:40.228
+Test Suite 'InvoiceDetailsTests' passed at 2026-11-21 00:53:14.075
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+Test Suite 'LanguageTests' started at 2026-11-21 00:53:14.075
+Test Case 'LanguageTests.testArabicInvoiceInDinars' started at 2026-11-21 00:53:14.075
 Test Case 'LanguageTests.testArabicInvoiceInDinars' passed (0.001 seconds)
-Test Case 'LanguageTests.testCurrencies' started at 2026-11-20 23:41:40.229
+Test Case 'LanguageTests.testCurrencies' started at 2026-11-21 00:53:14.075
 Test Case 'LanguageTests.testCurrencies' passed (0.0 seconds)
-Test Case 'LanguageTests.testEnglishIsUnchanged' started at 2026-11-20 23:41:40.229
+Test Case 'LanguageTests.testEnglishIsUnchanged' started at 2026-11-21 00:53:14.076
 Test Case 'LanguageTests.testEnglishIsUnchanged' passed (0.0 seconds)
-Test Case 'LanguageTests.testGermanInvoice' started at 2026-11-20 23:41:40.229
+Test Case 'LanguageTests.testGermanInvoice' started at 2026-11-21 00:53:14.076
 Test Case 'LanguageTests.testGermanInvoice' passed (0.001 seconds)
-Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' started at 2026-11-20 23:41:40.230
-Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' passed (0.02 seconds)
-Test Case 'LanguageTests.testPackSizeWarning' started at 2026-11-20 23:41:40.250
-Test Case 'LanguageTests.testPackSizeWarning' passed (0.001 seconds)
-Test Suite 'LanguageTests' passed at 2026-11-20 23:41:40.251
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.023 (0.023) seconds
-Test Suite 'LedgerTests' started at 2026-11-20 23:41:40.251
-Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' started at 2026-11-20 23:41:40.251
+Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' started at 2026-11-21 00:53:14.076
+Test Case 'LanguageTests.testNamesInOtherAlphabetsMatch' passed (0.025 seconds)
+Test Case 'LanguageTests.testPackSizeWarning' started at 2026-11-21 00:53:14.101
+Test Case 'LanguageTests.testPackSizeWarning' passed (0.0 seconds)
+Test Suite 'LanguageTests' passed at 2026-11-21 00:53:14.102
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.027 (0.027) seconds
+Test Suite 'LedgerTests' started at 2026-11-21 00:53:14.102
+Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' started at 2026-11-21 00:53:14.102
 Test Case 'LedgerTests.testAPackIsOnlyCountedOnce' passed (0.0 seconds)
-Test Case 'LedgerTests.testProductsMatchAppStoreConnect' started at 2026-11-20 23:41:40.251
+Test Case 'LedgerTests.testProductsMatchAppStoreConnect' started at 2026-11-21 00:53:14.102
 Test Case 'LedgerTests.testProductsMatchAppStoreConnect' passed (0.0 seconds)
-Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' started at 2026-11-20 23:41:40.251
+Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' started at 2026-11-21 00:53:14.102
 Test Case 'LedgerTests.testRestoringABackupCannotBringBackUsedScans' passed (0.0 seconds)
-Test Case 'LedgerTests.testSavedAndLoaded' started at 2026-11-20 23:41:40.251
+Test Case 'LedgerTests.testSavedAndLoaded' started at 2026-11-21 00:53:14.102
 Test Case 'LedgerTests.testSavedAndLoaded' passed (0.0 seconds)
-Test Case 'LedgerTests.testUsingScans' started at 2026-11-20 23:41:40.252
-Test Case 'LedgerTests.testUsingScans' passed (0.0 seconds)
-Test Suite 'LedgerTests' passed at 2026-11-20 23:41:40.252
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'MoneyInsightsTests' started at 2026-11-20 23:41:40.252
-Test Case 'MoneyInsightsTests.testBigItemsWithCheaperElsewhere' started at 2026-11-20 23:41:40.252
+Test Case 'LedgerTests.testUsingScans' started at 2026-11-21 00:53:14.102
+Test Case 'LedgerTests.testUsingScans' passed (0.1 seconds)
+Test Suite 'LedgerTests' passed at 2026-11-21 00:53:14.202
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.1 (0.1) seconds
+Test Suite 'MoneyInsightsTests' started at 2026-11-21 00:53:14.202
+Test Case 'MoneyInsightsTests.testBigItemsWithCheaperElsewhere' started at 2026-11-21 00:53:14.202
 Test Case 'MoneyInsightsTests.testBigItemsWithCheaperElsewhere' passed (0.001 seconds)
-Test Case 'MoneyInsightsTests.testBudgets' started at 2026-11-20 23:41:40.253
+Test Case 'MoneyInsightsTests.testBudgets' started at 2026-11-21 00:53:14.203
 Test Case 'MoneyInsightsTests.testBudgets' passed (0.001 seconds)
-Test Case 'MoneyInsightsTests.testCreditSpeed' started at 2026-11-20 23:41:40.254
-Test Case 'MoneyInsightsTests.testCreditSpeed' passed (0.002 seconds)
-Test Case 'MoneyInsightsTests.testDealsEnding' started at 2026-11-20 23:41:40.256
-Test Case 'MoneyInsightsTests.testDealsEnding' passed (0.002 seconds)
-Test Case 'MoneyInsightsTests.testSpendingByCategoryThisMonthAndLast' started at 2026-11-20 23:41:40.258
-Test Case 'MoneyInsightsTests.testSpendingByCategoryThisMonthAndLast' passed (0.001 seconds)
-Test Case 'MoneyInsightsTests.testUnitPrices' started at 2026-11-20 23:41:40.259
+Test Case 'MoneyInsightsTests.testCreditSpeed' started at 2026-11-21 00:53:14.203
+Test Case 'MoneyInsightsTests.testCreditSpeed' passed (0.101 seconds)
+Test Case 'MoneyInsightsTests.testDealsEnding' started at 2026-11-21 00:53:14.304
+Test Case 'MoneyInsightsTests.testDealsEnding' passed (0.001 seconds)
+Test Case 'MoneyInsightsTests.testSpendingByCategoryThisMonthAndLast' started at 2026-11-21 00:53:14.305
+Test Case 'MoneyInsightsTests.testSpendingByCategoryThisMonthAndLast' passed (0.0 seconds)
+Test Case 'MoneyInsightsTests.testUnitPrices' started at 2026-11-21 00:53:14.305
 Test Case 'MoneyInsightsTests.testUnitPrices' passed (0.0 seconds)
-Test Case 'MoneyInsightsTests.testVATByQuarterAndSupplier' started at 2026-11-20 23:41:40.259
+Test Case 'MoneyInsightsTests.testVATByQuarterAndSupplier' started at 2026-11-21 00:53:14.305
 Test Case 'MoneyInsightsTests.testVATByQuarterAndSupplier' passed (0.001 seconds)
-Test Case 'MoneyInsightsTests.testYearlyCostOfARise' started at 2026-11-20 23:41:40.260
-Test Case 'MoneyInsightsTests.testYearlyCostOfARise' passed (0.002 seconds)
-Test Suite 'MoneyInsightsTests' passed at 2026-11-20 23:41:40.262
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.01 (0.01) seconds
-Test Suite 'MoneyRoundingInUseTests' started at 2026-11-20 23:41:40.262
-Test Case 'MoneyRoundingInUseTests.testInvoiceSavedBeforeTheFixIsStillFoundAsTheSameInvoice' started at 2026-11-20 23:41:40.262
+Test Case 'MoneyInsightsTests.testYearlyCostOfARise' started at 2026-11-21 00:53:14.306
+Test Case 'MoneyInsightsTests.testYearlyCostOfARise' passed (0.001 seconds)
+Test Suite 'MoneyInsightsTests' passed at 2026-11-21 00:53:14.307
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.105 (0.105) seconds
+Test Suite 'MoneyRoundingInUseTests' started at 2026-11-21 00:53:14.307
+Test Case 'MoneyRoundingInUseTests.testInvoiceSavedBeforeTheFixIsStillFoundAsTheSameInvoice' started at 2026-11-21 00:53:14.307
 Test Case 'MoneyRoundingInUseTests.testInvoiceSavedBeforeTheFixIsStillFoundAsTheSameInvoice' passed (0.0 seconds)
-Test Case 'MoneyRoundingInUseTests.testNoMinusZero' started at 2026-11-20 23:41:40.262
+Test Case 'MoneyRoundingInUseTests.testNoMinusZero' started at 2026-11-21 00:53:14.307
 Test Case 'MoneyRoundingInUseTests.testNoMinusZero' passed (0.0 seconds)
-Test Case 'MoneyRoundingInUseTests.testWeighedLineAndItsVat' started at 2026-11-20 23:41:40.263
-Test Case 'MoneyRoundingInUseTests.testWeighedLineAndItsVat' passed (0.0 seconds)
-Test Suite 'MoneyRoundingInUseTests' passed at 2026-11-20 23:41:40.263
-	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'MoneyRoundingTests' started at 2026-11-20 23:41:40.263
-Test Case 'MoneyRoundingTests.testEveryHalfPennyUpTo2000' started at 2026-11-20 23:41:40.263
-Test Case 'MoneyRoundingTests.testEveryHalfPennyUpTo2000' passed (0.034 seconds)
-Test Case 'MoneyRoundingTests.testHalfPenniesRoundUp' started at 2026-11-20 23:41:40.297
+Test Case 'MoneyRoundingInUseTests.testWeighedLineAndItsVat' started at 2026-11-21 00:53:14.307
+Test Case 'MoneyRoundingInUseTests.testWeighedLineAndItsVat' passed (0.1 seconds)
+Test Suite 'MoneyRoundingInUseTests' passed at 2026-11-21 00:53:14.408
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'MoneyRoundingTests' started at 2026-11-21 00:53:14.408
+Test Case 'MoneyRoundingTests.testEveryHalfPennyUpTo2000' started at 2026-11-21 00:53:14.408
+Test Case 'MoneyRoundingTests.testEveryHalfPennyUpTo2000' passed (0.018 seconds)
+Test Case 'MoneyRoundingTests.testHalfPenniesRoundUp' started at 2026-11-21 00:53:14.425
 Test Case 'MoneyRoundingTests.testHalfPenniesRoundUp' passed (0.0 seconds)
-Test Case 'MoneyRoundingTests.testMinusAmountsRoundLikePlusAmounts' started at 2026-11-20 23:41:40.298
-Test Case 'MoneyRoundingTests.testMinusAmountsRoundLikePlusAmounts' passed (0.106 seconds)
-Test Case 'MoneyRoundingTests.testOddValuesAreSafe' started at 2026-11-20 23:41:40.404
+Test Case 'MoneyRoundingTests.testMinusAmountsRoundLikePlusAmounts' started at 2026-11-21 00:53:14.425
+Test Case 'MoneyRoundingTests.testMinusAmountsRoundLikePlusAmounts' passed (0.003 seconds)
+Test Case 'MoneyRoundingTests.testOddValuesAreSafe' started at 2026-11-21 00:53:14.428
 Test Case 'MoneyRoundingTests.testOddValuesAreSafe' passed (0.0 seconds)
-Test Case 'MoneyRoundingTests.testOrdinaryAmountsAreUnchanged' started at 2026-11-20 23:41:40.404
+Test Case 'MoneyRoundingTests.testOrdinaryAmountsAreUnchanged' started at 2026-11-21 00:53:14.428
 Test Case 'MoneyRoundingTests.testOrdinaryAmountsAreUnchanged' passed (0.0 seconds)
-Test Case 'MoneyRoundingTests.testRoundingTwiceChangesNothing' started at 2026-11-20 23:41:40.404
+Test Case 'MoneyRoundingTests.testRoundingTwiceChangesNothing' started at 2026-11-21 00:53:14.428
 Test Case 'MoneyRoundingTests.testRoundingTwiceChangesNothing' passed (0.0 seconds)
-Test Case 'MoneyRoundingTests.testWeighedLineTotals' started at 2026-11-20 23:41:40.404
-Test Case 'MoneyRoundingTests.testWeighedLineTotals' passed (0.145 seconds)
-Test Case 'MoneyRoundingTests.testWorkedOutHalfPenniesRoundUp' started at 2026-11-20 23:41:40.549
+Test Case 'MoneyRoundingTests.testWeighedLineTotals' started at 2026-11-21 00:53:14.428
+Test Case 'MoneyRoundingTests.testWeighedLineTotals' passed (0.058 seconds)
+Test Case 'MoneyRoundingTests.testWorkedOutHalfPenniesRoundUp' started at 2026-11-21 00:53:14.487
 Test Case 'MoneyRoundingTests.testWorkedOutHalfPenniesRoundUp' passed (0.0 seconds)
-Test Suite 'MoneyRoundingTests' passed at 2026-11-20 23:41:40.549
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.286 (0.286) seconds
-Test Suite 'NameIdeasTests' started at 2026-11-20 23:41:40.549
-Test Case 'NameIdeasTests.testBurgerBoxCodeOnItsOwn' started at 2026-11-20 23:41:40.549
-Test Case 'NameIdeasTests.testBurgerBoxCodeOnItsOwn' passed (0.001 seconds)
-Test Case 'NameIdeasTests.testNotOfferedTwiceOrTooLoose' started at 2026-11-20 23:41:40.551
-Test Case 'NameIdeasTests.testNotOfferedTwiceOrTooLoose' passed (0.0 seconds)
-Test Case 'NameIdeasTests.testNothingThatFitsAnotherItem' started at 2026-11-20 23:41:40.551
+Test Suite 'MoneyRoundingTests' passed at 2026-11-21 00:53:14.487
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.079 (0.079) seconds
+Test Suite 'NameIdeasTests' started at 2026-11-21 00:53:14.487
+Test Case 'NameIdeasTests.testBurgerBoxCodeOnItsOwn' started at 2026-11-21 00:53:14.487
+Test Case 'NameIdeasTests.testBurgerBoxCodeOnItsOwn' passed (0.0 seconds)
+Test Case 'NameIdeasTests.testNotOfferedTwiceOrTooLoose' started at 2026-11-21 00:53:14.487
+Test Case 'NameIdeasTests.testNotOfferedTwiceOrTooLoose' passed (0.1 seconds)
+Test Case 'NameIdeasTests.testNothingThatFitsAnotherItem' started at 2026-11-21 00:53:14.587
 Test Case 'NameIdeasTests.testNothingThatFitsAnotherItem' passed (0.0 seconds)
-Test Case 'NameIdeasTests.testQuarterPounderGetsShorthand' started at 2026-11-20 23:41:40.551
+Test Case 'NameIdeasTests.testQuarterPounderGetsShorthand' started at 2026-11-21 00:53:14.587
 Test Case 'NameIdeasTests.testQuarterPounderGetsShorthand' passed (0.0 seconds)
-Test Case 'NameIdeasTests.testSizesAndCodes' started at 2026-11-20 23:41:40.551
+Test Case 'NameIdeasTests.testSizesAndCodes' started at 2026-11-21 00:53:14.587
 Test Case 'NameIdeasTests.testSizesAndCodes' passed (0.0 seconds)
-Test Case 'NameIdeasTests.testSuggestedNameIsThenRecognisedWithConfidence' started at 2026-11-20 23:41:40.551
+Test Case 'NameIdeasTests.testSuggestedNameIsThenRecognisedWithConfidence' started at 2026-11-21 00:53:14.587
 Test Case 'NameIdeasTests.testSuggestedNameIsThenRecognisedWithConfidence' passed (0.0 seconds)
-Test Suite 'NameIdeasTests' passed at 2026-11-20 23:41:40.552
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'OrderTests' started at 2026-11-20 23:41:40.552
-Test Case 'OrderTests.testAllAsOrderedHasNoGaps' started at 2026-11-20 23:41:40.552
+Test Suite 'NameIdeasTests' passed at 2026-11-21 00:53:14.588
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'OrderTests' started at 2026-11-21 00:53:14.588
+Test Case 'OrderTests.testAllAsOrderedHasNoGaps' started at 2026-11-21 00:53:14.588
 Test Case 'OrderTests.testAllAsOrderedHasNoGaps' passed (0.0 seconds)
-Test Case 'OrderTests.testMessageAndLikelyInvoice' started at 2026-11-20 23:41:40.552
-Test Case 'OrderTests.testMessageAndLikelyInvoice' passed (0.002 seconds)
-Test Case 'OrderTests.testMissingLineDeliveredNothing' started at 2026-11-20 23:41:40.554
+Test Case 'OrderTests.testMessageAndLikelyInvoice' started at 2026-11-21 00:53:14.588
+Test Case 'OrderTests.testMessageAndLikelyInvoice' passed (0.001 seconds)
+Test Case 'OrderTests.testMissingLineDeliveredNothing' started at 2026-11-21 00:53:14.589
 Test Case 'OrderTests.testMissingLineDeliveredNothing' passed (0.0 seconds)
-Test Case 'OrderTests.testOrderedDeliveredInvoiced' started at 2026-11-20 23:41:40.554
+Test Case 'OrderTests.testOrderedDeliveredInvoiced' started at 2026-11-21 00:53:14.589
 Test Case 'OrderTests.testOrderedDeliveredInvoiced' passed (0.0 seconds)
-Test Case 'OrderTests.testOrdersSurviveABackup' started at 2026-11-20 23:41:40.554
-Test Case 'OrderTests.testOrdersSurviveABackup' passed (0.001 seconds)
-Test Case 'OrderTests.testUsualQuantities' started at 2026-11-20 23:41:40.555
+Test Case 'OrderTests.testOrdersSurviveABackup' started at 2026-11-21 00:53:14.589
+Test Case 'OrderTests.testOrdersSurviveABackup' passed (0.0 seconds)
+Test Case 'OrderTests.testUsualQuantities' started at 2026-11-21 00:53:14.590
 Test Case 'OrderTests.testUsualQuantities' passed (0.0 seconds)
-Test Suite 'OrderTests' passed at 2026-11-20 23:41:40.555
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
-Test Suite 'OverviewTests' started at 2026-11-20 23:41:40.555
-Test Case 'OverviewTests.testDueDateIgnoresAnUnlikelyPrintedDate' started at 2026-11-20 23:41:40.555
-Test Case 'OverviewTests.testDueDateIgnoresAnUnlikelyPrintedDate' passed (0.001 seconds)
-Test Case 'OverviewTests.testDueDates' started at 2026-11-20 23:41:40.556
-Test Case 'OverviewTests.testDueDates' passed (0.004 seconds)
-Test Case 'OverviewTests.testHomeFigures' started at 2026-11-20 23:41:40.560
+Test Suite 'OrderTests' passed at 2026-11-21 00:53:14.590
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'OverviewTests' started at 2026-11-21 00:53:14.590
+Test Case 'OverviewTests.testDueDateIgnoresAnUnlikelyPrintedDate' started at 2026-11-21 00:53:14.590
+Test Case 'OverviewTests.testDueDateIgnoresAnUnlikelyPrintedDate' passed (0.0 seconds)
+Test Case 'OverviewTests.testDueDates' started at 2026-11-21 00:53:14.590
+Test Case 'OverviewTests.testDueDates' passed (0.002 seconds)
+Test Case 'OverviewTests.testHomeFigures' started at 2026-11-21 00:53:14.592
 Test Case 'OverviewTests.testHomeFigures' passed (0.001 seconds)
-Test Case 'OverviewTests.testLateCreditsAndLostMoney' started at 2026-11-20 23:41:40.561
-Test Case 'OverviewTests.testLateCreditsAndLostMoney' passed (0.001 seconds)
-Test Case 'OverviewTests.testSearchEverything' started at 2026-11-20 23:41:40.562
-Test Case 'OverviewTests.testSearchEverything' passed (0.001 seconds)
-Test Suite 'OverviewTests' passed at 2026-11-20 23:41:40.563
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.007 (0.007) seconds
-Test Suite 'PackGuessTests' started at 2026-11-20 23:41:40.563
-Test Case 'PackGuessTests.testGuesses' started at 2026-11-20 23:41:40.563
+Test Case 'OverviewTests.testLateCreditsAndLostMoney' started at 2026-11-21 00:53:14.592
+Test Case 'OverviewTests.testLateCreditsAndLostMoney' passed (0.0 seconds)
+Test Case 'OverviewTests.testSearchEverything' started at 2026-11-21 00:53:14.593
+Test Case 'OverviewTests.testSearchEverything' passed (0.0 seconds)
+Test Suite 'OverviewTests' passed at 2026-11-21 00:53:14.593
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+Test Suite 'PackGuessTests' started at 2026-11-21 00:53:14.593
+Test Case 'PackGuessTests.testGuesses' started at 2026-11-21 00:53:14.593
 Test Case 'PackGuessTests.testGuesses' passed (0.0 seconds)
-Test Suite 'PackGuessTests' passed at 2026-11-20 23:41:40.563
+Test Suite 'PackGuessTests' passed at 2026-11-21 00:53:14.593
 	 Executed 1 test, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
-Test Suite 'ParserTests' started at 2026-11-20 23:41:40.563
-Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-20 23:41:40.563
-Test Case 'ParserTests.testCheckingAnInvoice' passed (0.002 seconds)
-Test Case 'ParserTests.testCleanNames' started at 2026-11-20 23:41:40.565
-Test Case 'ParserTests.testCleanNames' passed (0.099 seconds)
-Test Case 'ParserTests.testConsensus' started at 2026-11-20 23:41:40.664
-Test Case 'ParserTests.testConsensus' passed (0.004 seconds)
-Test Case 'ParserTests.testKnownWords' started at 2026-11-20 23:41:40.668
+Test Suite 'ParserTests' started at 2026-11-21 00:53:14.594
+Test Case 'ParserTests.testCheckingAnInvoice' started at 2026-11-21 00:53:14.594
+Test Case 'ParserTests.testCheckingAnInvoice' passed (0.001 seconds)
+Test Case 'ParserTests.testCleanNames' started at 2026-11-21 00:53:14.595
+Test Case 'ParserTests.testCleanNames' passed (0.06 seconds)
+Test Case 'ParserTests.testConsensus' started at 2026-11-21 00:53:14.655
+Test Case 'ParserTests.testConsensus' passed (0.002 seconds)
+Test Case 'ParserTests.testKnownWords' started at 2026-11-21 00:53:14.657
 Test Case 'ParserTests.testKnownWords' passed (0.0 seconds)
-Test Case 'ParserTests.testLines' started at 2026-11-20 23:41:40.668
-Test Case 'ParserTests.testLines' passed (0.296 seconds)
-Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-20 23:41:40.965
-Test Case 'ParserTests.testMergingTwoReads' passed (0.13 seconds)
-Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-20 23:41:41.095
-Test Case 'ParserTests.testRowsFromPositions' passed (0.004 seconds)
-Test Case 'ParserTests.testWholeInvoices' started at 2026-11-20 23:41:41.099
-Test Case 'ParserTests.testWholeInvoices' passed (0.152 seconds)
-Test Suite 'ParserTests' passed at 2026-11-20 23:41:41.251
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.688 (0.688) seconds
-Test Suite 'PayAmountTests' started at 2026-11-20 23:41:41.251
-Test Case 'PayAmountTests.testAMisreadTotalIsNotUsed' started at 2026-11-20 23:41:41.251
-Test Case 'PayAmountTests.testAMisreadTotalIsNotUsed' passed (0.001 seconds)
-Test Case 'PayAmountTests.testAMissedLineIsNoticedFromTheInvoiceTotalAlone' started at 2026-11-20 23:41:41.252
+Test Case 'ParserTests.testLines' started at 2026-11-21 00:53:14.657
+Test Case 'ParserTests.testLines' passed (0.167 seconds)
+Test Case 'ParserTests.testMergingTwoReads' started at 2026-11-21 00:53:14.824
+Test Case 'ParserTests.testMergingTwoReads' passed (0.07 seconds)
+Test Case 'ParserTests.testRowsFromPositions' started at 2026-11-21 00:53:14.894
+Test Case 'ParserTests.testRowsFromPositions' passed (0.003 seconds)
+Test Case 'ParserTests.testWholeInvoices' started at 2026-11-21 00:53:14.896
+Test Case 'ParserTests.testWholeInvoices' passed (0.028 seconds)
+Test Suite 'ParserTests' passed at 2026-11-21 00:53:14.924
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.331 (0.331) seconds
+Test Suite 'PayAmountTests' started at 2026-11-21 00:53:14.924
+Test Case 'PayAmountTests.testAMisreadTotalIsNotUsed' started at 2026-11-21 00:53:14.924
+Test Case 'PayAmountTests.testAMisreadTotalIsNotUsed' passed (0.0 seconds)
+Test Case 'PayAmountTests.testAMissedLineIsNoticedFromTheInvoiceTotalAlone' started at 2026-11-21 00:53:14.925
 Test Case 'PayAmountTests.testAMissedLineIsNoticedFromTheInvoiceTotalAlone' passed (0.0 seconds)
-Test Case 'PayAmountTests.testThePrintedTotalIsWhatIsInvoiced' started at 2026-11-20 23:41:41.252
+Test Case 'PayAmountTests.testThePrintedTotalIsWhatIsInvoiced' started at 2026-11-21 00:53:14.925
 Test Case 'PayAmountTests.testThePrintedTotalIsWhatIsInvoiced' passed (0.0 seconds)
-Test Suite 'PayAmountTests' passed at 2026-11-20 23:41:41.253
+Test Suite 'PayAmountTests' passed at 2026-11-21 00:53:14.925
 	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'PayBreakdownTests' started at 2026-11-20 23:41:41.253
-Test Case 'PayBreakdownTests.testAnOverchargeComesOffTheNetAndItsVatOffTheVat' started at 2026-11-20 23:41:41.253
+Test Suite 'PayBreakdownTests' started at 2026-11-21 00:53:14.925
+Test Case 'PayBreakdownTests.testAnOverchargeComesOffTheNetAndItsVatOffTheVat' started at 2026-11-21 00:53:14.925
 Test Case 'PayBreakdownTests.testAnOverchargeComesOffTheNetAndItsVatOffTheVat' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testEachLinesOwnVatRateIsUsedWhenItsKnown' started at 2026-11-20 23:41:41.253
+Test Case 'PayBreakdownTests.testEachLinesOwnVatRateIsUsedWhenItsKnown' started at 2026-11-21 00:53:14.925
 Test Case 'PayBreakdownTests.testEachLinesOwnVatRateIsUsedWhenItsKnown' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testEveryInvoiceAddsUp' started at 2026-11-20 23:41:41.253
-Test Case 'PayBreakdownTests.testEveryInvoiceAddsUp' passed (0.081 seconds)
-Test Case 'PayBreakdownTests.testEveryScreensTotalsAddUp' started at 2026-11-20 23:41:41.333
-Test Case 'PayBreakdownTests.testEveryScreensTotalsAddUp' passed (0.46 seconds)
-Test Case 'PayBreakdownTests.testMisreadOrMissingNet' started at 2026-11-20 23:41:41.794
+Test Case 'PayBreakdownTests.testEveryInvoiceAddsUp' started at 2026-11-21 00:53:14.925
+Test Case 'PayBreakdownTests.testEveryInvoiceAddsUp' passed (0.043 seconds)
+Test Case 'PayBreakdownTests.testEveryScreensTotalsAddUp' started at 2026-11-21 00:53:14.968
+Test Case 'PayBreakdownTests.testEveryScreensTotalsAddUp' passed (0.261 seconds)
+Test Case 'PayBreakdownTests.testMisreadOrMissingNet' started at 2026-11-21 00:53:15.229
 Test Case 'PayBreakdownTests.testMisreadOrMissingNet' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testMissingItemsComeOffWithTheirVat' started at 2026-11-20 23:41:41.794
-Test Case 'PayBreakdownTests.testMissingItemsComeOffWithTheirVat' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testNothingGoesBelowZero' started at 2026-11-20 23:41:41.794
+Test Case 'PayBreakdownTests.testMissingItemsComeOffWithTheirVat' started at 2026-11-21 00:53:15.229
+Test Case 'PayBreakdownTests.testMissingItemsComeOffWithTheirVat' passed (0.1 seconds)
+Test Case 'PayBreakdownTests.testNothingGoesBelowZero' started at 2026-11-21 00:53:15.330
 Test Case 'PayBreakdownTests.testNothingGoesBelowZero' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testOldNamesGiveTheSameFigures' started at 2026-11-20 23:41:41.794
+Test Case 'PayBreakdownTests.testOldNamesGiveTheSameFigures' started at 2026-11-21 00:53:15.330
 Test Case 'PayBreakdownTests.testOldNamesGiveTheSameFigures' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testUnknownVatIsNeverGuessed' started at 2026-11-20 23:41:41.794
+Test Case 'PayBreakdownTests.testUnknownVatIsNeverGuessed' started at 2026-11-21 00:53:15.330
 Test Case 'PayBreakdownTests.testUnknownVatIsNeverGuessed' passed (0.0 seconds)
-Test Case 'PayBreakdownTests.testVatComesOffOnlyForItemsThatHadVat' started at 2026-11-20 23:41:41.794
+Test Case 'PayBreakdownTests.testVatComesOffOnlyForItemsThatHadVat' started at 2026-11-21 00:53:15.330
 Test Case 'PayBreakdownTests.testVatComesOffOnlyForItemsThatHadVat' passed (0.0 seconds)
-Test Suite 'PayBreakdownTests' passed at 2026-11-20 23:41:41.794
-	 Executed 10 tests, with 0 failures (0 unexpected) in 0.542 (0.542) seconds
-Test Suite 'PinCredentialTests' started at 2026-11-20 23:41:41.794
-Test Case 'PinCredentialTests.testAPinTypedInArabicDigitsIsTheSamePin' started at 2026-11-20 23:41:41.794
-Test Case 'PinCredentialTests.testAPinTypedInArabicDigitsIsTheSamePin' passed (0.001 seconds)
-Test Case 'PinCredentialTests.testDamagedCredentialsNeverLetAnyoneIn' started at 2026-11-20 23:41:41.795
-Test Case 'PinCredentialTests.testDamagedCredentialsNeverLetAnyoneIn' passed (0.0 seconds)
-Test Case 'PinCredentialTests.testNewCredentialsAreSaltedAndNeverHoldThePin' started at 2026-11-20 23:41:41.795
-Test Case 'PinCredentialTests.testNewCredentialsAreSaltedAndNeverHoldThePin' passed (0.001 seconds)
-Test Case 'PinCredentialTests.testOldPinsAreUpgradedOnTheFirstRightSignIn' started at 2026-11-20 23:41:41.796
-Test Case 'PinCredentialTests.testOldPinsAreUpgradedOnTheFirstRightSignIn' passed (0.101 seconds)
-Test Case 'PinCredentialTests.testPinRules' started at 2026-11-20 23:41:41.897
-Test Case 'PinCredentialTests.testPinRules' passed (0.0 seconds)
-Test Case 'PinCredentialTests.testRightAndWrongPins' started at 2026-11-20 23:41:41.897
-Test Case 'PinCredentialTests.testRightAndWrongPins' passed (0.001 seconds)
-Test Case 'PinCredentialTests.testSha256MatchesTheStandard' started at 2026-11-20 23:41:41.898
-Test Case 'PinCredentialTests.testSha256MatchesTheStandard' passed (0.0 seconds)
-Test Case 'PinCredentialTests.testWeakerCredentialsAreStrengthened' started at 2026-11-20 23:41:41.898
-Test Case 'PinCredentialTests.testWeakerCredentialsAreStrengthened' passed (0.0 seconds)
-Test Suite 'PinCredentialTests' passed at 2026-11-20 23:41:41.899
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
-Test Suite 'PlanTests' started at 2026-11-20 23:41:41.899
-Test Case 'PlanTests.testFreeSeesThirtyDays' started at 2026-11-20 23:41:41.899
-Test Case 'PlanTests.testFreeSeesThirtyDays' passed (0.001 seconds)
-Test Case 'PlanTests.testPackBoughtStaysAfterScansAreUsed' started at 2026-11-20 23:41:41.900
+Test Suite 'PayBreakdownTests' passed at 2026-11-21 00:53:15.330
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.405 (0.405) seconds
+Test Suite 'PlanTests' started at 2026-11-21 00:53:15.330
+Test Case 'PlanTests.testFreeSeesThirtyDays' started at 2026-11-21 00:53:15.330
+Test Case 'PlanTests.testFreeSeesThirtyDays' passed (0.0 seconds)
+Test Case 'PlanTests.testPackBoughtStaysAfterScansAreUsed' started at 2026-11-21 00:53:15.330
 Test Case 'PlanTests.testPackBoughtStaysAfterScansAreUsed' passed (0.0 seconds)
-Test Case 'PlanTests.testWhatEachTierUnlocks' started at 2026-11-20 23:41:41.900
+Test Case 'PlanTests.testWhatEachTierUnlocks' started at 2026-11-21 00:53:15.330
 Test Case 'PlanTests.testWhatEachTierUnlocks' passed (0.0 seconds)
-Test Suite 'PlanTests' passed at 2026-11-20 23:41:41.900
+Test Suite 'PlanTests' passed at 2026-11-21 00:53:15.330
 	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'PreparedMatchTests' started at 2026-11-20 23:41:41.900
-Test Case 'PreparedMatchTests.testPreparedMatchingGivesTheSameAnswers' started at 2026-11-20 23:41:41.900
-Test Case 'PreparedMatchTests.testPreparedMatchingGivesTheSameAnswers' passed (0.001 seconds)
-Test Suite 'PreparedMatchTests' passed at 2026-11-20 23:41:41.901
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'PriceRiseTests' started at 2026-11-20 23:41:41.901
-Test Case 'PriceRiseTests.testRisesAgainstTheSameSupplierOnly' started at 2026-11-20 23:41:41.901
+Test Suite 'PreparedMatchTests' started at 2026-11-21 00:53:15.330
+Test Case 'PreparedMatchTests.testPreparedMatchingGivesTheSameAnswers' started at 2026-11-21 00:53:15.330
+Test Case 'PreparedMatchTests.testPreparedMatchingGivesTheSameAnswers' passed (0.101 seconds)
+Test Suite 'PreparedMatchTests' passed at 2026-11-21 00:53:15.431
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'PriceRiseTests' started at 2026-11-21 00:53:15.431
+Test Case 'PriceRiseTests.testRisesAgainstTheSameSupplierOnly' started at 2026-11-21 00:53:15.431
 Test Case 'PriceRiseTests.testRisesAgainstTheSameSupplierOnly' passed (0.0 seconds)
-Test Case 'PriceRiseTests.testRisesOnANewInvoice' started at 2026-11-20 23:41:41.901
+Test Case 'PriceRiseTests.testRisesOnANewInvoice' started at 2026-11-21 00:53:15.432
 Test Case 'PriceRiseTests.testRisesOnANewInvoice' passed (0.0 seconds)
-Test Suite 'PriceRiseTests' passed at 2026-11-20 23:41:41.901
+Test Suite 'PriceRiseTests' passed at 2026-11-21 00:53:15.432
 	 Executed 2 tests, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
-Test Suite 'PriceToolsTests' started at 2026-11-20 23:41:41.901
-Test Case 'PriceToolsTests.testCheaperPricesNeverRiseAndNeedASureLine' started at 2026-11-20 23:41:41.901
+Test Suite 'PriceToolsTests' started at 2026-11-21 00:53:15.432
+Test Case 'PriceToolsTests.testCheaperPricesNeverRiseAndNeedASureLine' started at 2026-11-21 00:53:15.432
 Test Case 'PriceToolsTests.testCheaperPricesNeverRiseAndNeedASureLine' passed (0.0 seconds)
-Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' started at 2026-11-20 23:41:41.902
-Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' passed (0.001 seconds)
-Test Case 'PriceToolsTests.testLearnsTheNamesSuppliersUse' started at 2026-11-20 23:41:41.902
-Test Case 'PriceToolsTests.testLearnsTheNamesSuppliersUse' passed (0.001 seconds)
-Test Case 'PriceToolsTests.testSpreadsheetLists' started at 2026-11-20 23:41:41.903
+Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' started at 2026-11-21 00:53:15.432
+Test Case 'PriceToolsTests.testHistoryIsOldestFirstAndSkipsMissingItems' passed (0.0 seconds)
+Test Case 'PriceToolsTests.testLearnsTheNamesSuppliersUse' started at 2026-11-21 00:53:15.432
+Test Case 'PriceToolsTests.testLearnsTheNamesSuppliersUse' passed (0.101 seconds)
+Test Case 'PriceToolsTests.testSpreadsheetLists' started at 2026-11-21 00:53:15.533
 Test Case 'PriceToolsTests.testSpreadsheetLists' passed (0.0 seconds)
-Test Suite 'PriceToolsTests' passed at 2026-11-20 23:41:41.903
-	 Executed 4 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'RealInvoiceTests' started at 2026-11-20 23:41:41.903
-Test Case 'RealInvoiceTests.testFiveCleanLines' started at 2026-11-20 23:41:41.903
+Test Suite 'PriceToolsTests' passed at 2026-11-21 00:53:15.533
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'RealInvoiceTests' started at 2026-11-21 00:53:15.533
+Test Case 'RealInvoiceTests.testFiveCleanLines' started at 2026-11-21 00:53:15.533
 REAL-INVOICE clean: supplier=NORTHGATE WHOLESALE LTD no=80003 date=06/11/2026 net=Optional(267.91) total=Optional(267.91)
 3.0 | FRESH HALAL FILLET 110-130 9KG | 50.99 | vat 0.0 | 
 2.0 | FRESH PRIME WING | 15.99 | vat 0.0 | 
 1.0 | PANINI SESAME NIGELLA 130g | 23.99 | vat 0.0 | 
 1.0 | LAMBWESTON MOZRELLA STICK | 44.99 | vat 0.0 | 
 2.0 | AMERICANA A4.5 SEED BURGER BUN 4X12 | 6.99 | vat 0.0 | 
-Test Case 'RealInvoiceTests.testFiveCleanLines' passed (0.002 seconds)
-Test Case 'RealInvoiceTests.testHandwrittenPricesBeforeThePrintedOnes' started at 2026-11-20 23:41:41.905
+Test Case 'RealInvoiceTests.testFiveCleanLines' passed (0.001 seconds)
+Test Case 'RealInvoiceTests.testHandwrittenPricesBeforeThePrintedOnes' started at 2026-11-21 00:53:15.534
 REAL-INVOICE handwritten prices: supplier=NORTHGATE WHOLESALE LTD no=80004 date=05/11/2026 net=Optional(265.77) total=Optional(276.97)
 1.0 | FRESH PRIME WING | 15.99 | vat 0.0 | 
 1.0 | FRESH HALAL FILLET 110-130 9KG | 50.99 | vat 0.0 | 
@@ -401,10 +378,10 @@ REAL-INVOICE handwritten prices: supplier=NORTHGATE WHOLESALE LTD no=80004 date=
 1.0 | WIPE UP TISSU 10X500 19 | 23.99 | vat 20.0 | 
 3.0 | AMERICANA A4.5 SEED BURGER BUN 4X12 | 7.29 | vat 0.0 | 
 2.0 | HP10 BURGER BOXES | 15.99 | vat 20.0 | 
-Test Case 'RealInvoiceTests.testHandwrittenPricesBeforeThePrintedOnes' passed (0.004 seconds)
-Test Case 'RealInvoiceTests.testHandwrittenReturnAndMissingNotes' started at 2026-11-20 23:41:41.909
+Test Case 'RealInvoiceTests.testHandwrittenPricesBeforeThePrintedOnes' passed (0.001 seconds)
+Test Case 'RealInvoiceTests.testHandwrittenReturnAndMissingNotes' started at 2026-11-21 00:53:15.535
 Test Case 'RealInvoiceTests.testHandwrittenReturnAndMissingNotes' passed (0.0 seconds)
-Test Case 'RealInvoiceTests.testThirteenLinesWithHandwriting' started at 2026-11-20 23:41:41.909
+Test Case 'RealInvoiceTests.testThirteenLinesWithHandwriting' started at 2026-11-21 00:53:15.536
 REAL-INVOICE 13 lines: supplier=NORTHGATE WHOLESALE LTD no=80001 date=02/11/2026 net=Optional(546.73) total=Optional(546.73)
 1.0 | 1600GM FRESH HALAL CHICKEN | 41.99 | vat 0.0 | 
 2.0 | FRESH HALAL FILLET 110-130 9KG | 50.99 | vat 0.0 | 
@@ -419,15 +396,15 @@ REAL-INVOICE 13 lines: supplier=NORTHGATE WHOLESALE LTD no=80001 date=02/11/2026
 1.0 | DISCOVERY TORTILLA WRAP 10 | 14.99 | vat 0.0 | 
 5.0 | KETCH UP 2X4.5 LT | 6.99 | vat 0.0 | 
 1.0 | CHICKEN POPCORN 3KG | 19.99 | vat 0.0 | 
-Test Case 'RealInvoiceTests.testThirteenLinesWithHandwriting' passed (0.003 seconds)
-Test Case 'RealInvoiceTests.testTicksAndAScribbleNextToTheName' started at 2026-11-20 23:41:41.913
+Test Case 'RealInvoiceTests.testThirteenLinesWithHandwriting' passed (0.002 seconds)
+Test Case 'RealInvoiceTests.testTicksAndAScribbleNextToTheName' started at 2026-11-21 00:53:15.537
 REAL-INVOICE ticks: supplier=NORTHGATE WHOLESALE LTD no=80002 date=04/11/2026 net=Optional(164.95) total=Optional(164.95)
 1.0 | FRESH HALAL FILLET 110-130 9KG 11-130 | 50.99 | vat 0.0 | 
 1.0 | FRESH PRIME WING | 15.99 | vat 0.0 | 
 1.0 | 1600GM FRESH HALAL CHICKEN | 41.99 | vat 0.0 | 
 2.0 | KTC VEGETABLE OIL TIN 20 ltrs | 27.99 | vat 0.0 | 
-Test Case 'RealInvoiceTests.testTicksAndAScribbleNextToTheName' passed (0.102 seconds)
-Test Case 'RealInvoiceTests.testVatOnSomeLinesAndInchMarks' started at 2026-11-20 23:41:42.015
+Test Case 'RealInvoiceTests.testTicksAndAScribbleNextToTheName' passed (0.001 seconds)
+Test Case 'RealInvoiceTests.testVatOnSomeLinesAndInchMarks' started at 2026-11-21 00:53:15.538
 REAL-INVOICE some VAT: supplier=NORTHGATE WHOLESALE LTD no=80005 date=08/11/2026 net=Optional(675.82) total=Optional(685.22)
 6.0 | FRESH PRIME WING | 15.0 | vat 0.0 | 
 5.0 | FRESH HALAL FILLET 110-130 9KG | 49.99 | vat 0.0 | 
@@ -439,251 +416,251 @@ REAL-INVOICE some VAT: supplier=NORTHGATE WHOLESALE LTD no=80005 date=08/11/2026
 1.0 | BRAVO PIZZA FLOUR 16 Kg | 13.99 | vat 0.0 | 
 4.0 | ORIGINAL BREADING | 17.99 | vat 0.0 | 
 Test Case 'RealInvoiceTests.testVatOnSomeLinesAndInchMarks' passed (0.002 seconds)
-Test Suite 'RealInvoiceTests' passed at 2026-11-20 23:41:42.017
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.114 (0.114) seconds
-Test Suite 'ReportTests' started at 2026-11-20 23:41:42.017
-Test Case 'ReportTests.testCopyNames' started at 2026-11-20 23:41:42.017
-Test Case 'ReportTests.testCopyNames' passed (0.001 seconds)
-Test Case 'ReportTests.testCreditMessage' started at 2026-11-20 23:41:42.018
+Test Suite 'RealInvoiceTests' passed at 2026-11-21 00:53:15.541
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.008 (0.008) seconds
+Test Suite 'ReportTests' started at 2026-11-21 00:53:15.541
+Test Case 'ReportTests.testCopyNames' started at 2026-11-21 00:53:15.541
+Test Case 'ReportTests.testCopyNames' passed (0.0 seconds)
+Test Case 'ReportTests.testCreditMessage' started at 2026-11-21 00:53:15.541
 Test Case 'ReportTests.testCreditMessage' passed (0.0 seconds)
-Test Case 'ReportTests.testCredits' started at 2026-11-20 23:41:42.018
+Test Case 'ReportTests.testCredits' started at 2026-11-21 00:53:15.541
 Test Case 'ReportTests.testCredits' passed (0.0 seconds)
-Test Case 'ReportTests.testPeriods' started at 2026-11-20 23:41:42.018
-Test Case 'ReportTests.testPeriods' passed (0.001 seconds)
-Test Case 'ReportTests.testSpreadsheets' started at 2026-11-20 23:41:42.019
+Test Case 'ReportTests.testPeriods' started at 2026-11-21 00:53:15.542
+Test Case 'ReportTests.testPeriods' passed (0.0 seconds)
+Test Case 'ReportTests.testSpreadsheets' started at 2026-11-21 00:53:15.542
 Test Case 'ReportTests.testSpreadsheets' passed (0.0 seconds)
-Test Case 'ReportTests.testWhatToPay' started at 2026-11-20 23:41:42.020
+Test Case 'ReportTests.testWhatToPay' started at 2026-11-21 00:53:15.542
 Test Case 'ReportTests.testWhatToPay' passed (0.0 seconds)
-Test Case 'ReportTests.testWhatToPayBeforeVat' started at 2026-11-20 23:41:42.020
+Test Case 'ReportTests.testWhatToPayBeforeVat' started at 2026-11-21 00:53:15.543
 Test Case 'ReportTests.testWhatToPayBeforeVat' passed (0.0 seconds)
-Test Suite 'ReportTests' passed at 2026-11-20 23:41:42.020
-	 Executed 7 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
-Test Suite 'SavingsSplitTests' started at 2026-11-20 23:41:42.020
-Test Case 'SavingsSplitTests.testABiggerCreditNeverClaimsMoreThanWasCaught' started at 2026-11-20 23:41:42.020
+Test Suite 'ReportTests' passed at 2026-11-21 00:53:15.543
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'SavingsSplitTests' started at 2026-11-21 00:53:15.543
+Test Case 'SavingsSplitTests.testABiggerCreditNeverClaimsMoreThanWasCaught' started at 2026-11-21 00:53:15.543
 Test Case 'SavingsSplitTests.testABiggerCreditNeverClaimsMoreThanWasCaught' passed (0.0 seconds)
-Test Case 'SavingsSplitTests.testOnlyMoneyActuallyKeptCountsAsSecured' started at 2026-11-20 23:41:42.021
-Test Case 'SavingsSplitTests.testOnlyMoneyActuallyKeptCountsAsSecured' passed (0.001 seconds)
-Test Suite 'SavingsSplitTests' passed at 2026-11-20 23:41:42.022
+Test Case 'SavingsSplitTests.testOnlyMoneyActuallyKeptCountsAsSecured' started at 2026-11-21 00:53:15.543
+Test Case 'SavingsSplitTests.testOnlyMoneyActuallyKeptCountsAsSecured' passed (0.0 seconds)
+Test Suite 'SavingsSplitTests' passed at 2026-11-21 00:53:15.544
 	 Executed 2 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'SecondReadTests' started at 2026-11-20 23:41:42.022
-Test Case 'SecondReadTests.testANewItemOnlyTheSecondReadSawIsStillAdded' started at 2026-11-20 23:41:42.022
+Test Suite 'SecondReadTests' started at 2026-11-21 00:53:15.544
+Test Case 'SecondReadTests.testANewItemOnlyTheSecondReadSawIsStillAdded' started at 2026-11-21 00:53:15.544
 Test Case 'SecondReadTests.testANewItemOnlyTheSecondReadSawIsStillAdded' passed (0.0 seconds)
-Test Case 'SecondReadTests.testAnyInventedLetterIsCaught' started at 2026-11-20 23:41:42.022
+Test Case 'SecondReadTests.testAnyInventedLetterIsCaught' started at 2026-11-21 00:53:15.544
 Test Case 'SecondReadTests.testAnyInventedLetterIsCaught' passed (0.0 seconds)
-Test Case 'SecondReadTests.testGarbledNameFallsBackToThePrice' started at 2026-11-20 23:41:42.022
+Test Case 'SecondReadTests.testGarbledNameFallsBackToThePrice' started at 2026-11-21 00:53:15.544
 Test Case 'SecondReadTests.testGarbledNameFallsBackToThePrice' passed (0.0 seconds)
-Test Case 'SecondReadTests.testInventedLettersAreNotChosenOrKept' started at 2026-11-20 23:41:42.023
+Test Case 'SecondReadTests.testInventedLettersAreNotChosenOrKept' started at 2026-11-21 00:53:15.544
 Test Case 'SecondReadTests.testInventedLettersAreNotChosenOrKept' passed (0.0 seconds)
-Test Case 'SecondReadTests.testMissingLineIsKeptWhenTheTotalNeedsIt' started at 2026-11-20 23:41:42.023
+Test Case 'SecondReadTests.testMissingLineIsKeptWhenTheTotalNeedsIt' started at 2026-11-21 00:53:15.544
 Test Case 'SecondReadTests.testMissingLineIsKeptWhenTheTotalNeedsIt' passed (0.0 seconds)
-Test Case 'SecondReadTests.testSameLineReadTwiceIsNotAdded' started at 2026-11-20 23:41:42.024
+Test Case 'SecondReadTests.testSameLineReadTwiceIsNotAdded' started at 2026-11-21 00:53:15.545
 Test Case 'SecondReadTests.testSameLineReadTwiceIsNotAdded' passed (0.0 seconds)
-Test Suite 'SecondReadTests' passed at 2026-11-20 23:41:42.024
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'ShopCompareTests' started at 2026-11-20 23:41:42.024
-Test Case 'ShopCompareTests.testShopsSideBySide' started at 2026-11-20 23:41:42.024
-Test Case 'ShopCompareTests.testShopsSideBySide' passed (0.0 seconds)
-Test Suite 'ShopCompareTests' passed at 2026-11-20 23:41:42.024
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
-Test Suite 'ShopMoneySafetyTests' started at 2026-11-20 23:41:42.024
-Test Case 'ShopMoneySafetyTests.testDuplicatesAreNeverAcrossShops' started at 2026-11-20 23:41:42.024
-Test Case 'ShopMoneySafetyTests.testDuplicatesAreNeverAcrossShops' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testEachShopSeesOnlyItsInvoicesAndPayments' started at 2026-11-20 23:41:42.025
-Test Case 'ShopMoneySafetyTests.testEachShopSeesOnlyItsInvoicesAndPayments' passed (0.001 seconds)
-Test Case 'ShopMoneySafetyTests.testFlaggedDuplicateIsNotMatchedAgainAndNeedsAttention' started at 2026-11-20 23:41:42.026
-Test Case 'ShopMoneySafetyTests.testFlaggedDuplicateIsNotMatchedAgainAndNeedsAttention' passed (0.001 seconds)
-Test Case 'ShopMoneySafetyTests.testNoMinusZero' started at 2026-11-20 23:41:42.027
-Test Case 'ShopMoneySafetyTests.testNoMinusZero' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testOldBackupsStillReadAndNewFieldsStayOutUntilSet' started at 2026-11-20 23:41:42.027
-Test Case 'ShopMoneySafetyTests.testOldBackupsStillReadAndNewFieldsStayOutUntilSet' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testPayingTickedInvoicesRemembersShopAndAmounts' started at 2026-11-20 23:41:42.028
-Test Case 'ShopMoneySafetyTests.testPayingTickedInvoicesRemembersShopAndAmounts' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testTotalCheckAllowsVatRoundingOnLongInvoices' started at 2026-11-20 23:41:42.028
-Test Case 'ShopMoneySafetyTests.testTotalCheckAllowsVatRoundingOnLongInvoices' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testUndoPaidOnEveryInvoiceRemovesThePayment' started at 2026-11-20 23:41:42.028
-Test Case 'ShopMoneySafetyTests.testUndoPaidOnEveryInvoiceRemovesThePayment' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testUndoPaidTakesBackWhatWasPaidThen' started at 2026-11-20 23:41:42.028
-Test Case 'ShopMoneySafetyTests.testUndoPaidTakesBackWhatWasPaidThen' passed (0.0 seconds)
-Test Case 'ShopMoneySafetyTests.testUpdatingAnInvoiceKeepsItsCurrencyAndFlag' started at 2026-11-20 23:41:42.028
-Test Case 'ShopMoneySafetyTests.testUpdatingAnInvoiceKeepsItsCurrencyAndFlag' passed (0.0 seconds)
-Test Suite 'ShopMoneySafetyTests' passed at 2026-11-20 23:41:42.029
-	 Executed 10 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
-Test Suite 'ShopPriceTests' started at 2026-11-20 23:41:42.029
-Test Case 'ShopPriceTests.testEachShopIsCheckedAgainstItsOwnPrice' started at 2026-11-20 23:41:42.029
-Test Case 'ShopPriceTests.testEachShopIsCheckedAgainstItsOwnPrice' passed (0.0 seconds)
-Test Case 'ShopPriceTests.testItemsBelongToTheirShops' started at 2026-11-20 23:41:42.029
-Test Case 'ShopPriceTests.testItemsBelongToTheirShops' passed (0.0 seconds)
-Test Case 'ShopPriceTests.testLoweringAPriceChangesTheShopsOwnPrice' started at 2026-11-20 23:41:42.029
-Test Case 'ShopPriceTests.testLoweringAPriceChangesTheShopsOwnPrice' passed (0.1 seconds)
-Test Case 'ShopPriceTests.testOldItemsAndBackupsAreUnchanged' started at 2026-11-20 23:41:42.130
-Test Case 'ShopPriceTests.testOldItemsAndBackupsAreUnchanged' passed (0.001 seconds)
-Test Case 'ShopPriceTests.testTheItemsTellTheShop' started at 2026-11-20 23:41:42.131
-Test Case 'ShopPriceTests.testTheItemsTellTheShop' passed (0.0 seconds)
-Test Case 'ShopPriceTests.testTheSupplierTellsTheShop' started at 2026-11-20 23:41:42.131
-Test Case 'ShopPriceTests.testTheSupplierTellsTheShop' passed (0.001 seconds)
-Test Suite 'ShopPriceTests' passed at 2026-11-20 23:41:42.132
-	 Executed 6 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
-Test Suite 'StatementCheckTests' started at 2026-11-20 23:41:42.132
-Test Case 'StatementCheckTests.testComparesWithYourRecords' started at 2026-11-20 23:41:42.132
-Test Case 'StatementCheckTests.testComparesWithYourRecords' passed (0.103 seconds)
-Test Case 'StatementCheckTests.testReadsTheStatement' started at 2026-11-20 23:41:42.235
-Test Case 'StatementCheckTests.testReadsTheStatement' passed (0.001 seconds)
-Test Suite 'StatementCheckTests' passed at 2026-11-20 23:41:42.236
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.104 (0.104) seconds
-Test Suite 'SupplierAccountTests' started at 2026-11-20 23:41:42.236
-Test Case 'SupplierAccountTests.testBackupKeepsPayments' started at 2026-11-20 23:41:42.236
-Test Case 'SupplierAccountTests.testBackupKeepsPayments' passed (0.0 seconds)
-Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' started at 2026-11-20 23:41:42.236
-Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' passed (0.001 seconds)
-Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' started at 2026-11-20 23:41:42.237
-Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' passed (0.0 seconds)
-Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' started at 2026-11-20 23:41:42.237
-Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' passed (0.001 seconds)
-Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' started at 2026-11-20 23:41:42.238
-Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' passed (0.001 seconds)
-Test Case 'SupplierAccountTests.testTotalOnlyInvoice' started at 2026-11-20 23:41:42.238
-Test Case 'SupplierAccountTests.testTotalOnlyInvoice' passed (0.0 seconds)
-Test Case 'SupplierAccountTests.testTotalsBeforeVatForSeveralSuppliers' started at 2026-11-20 23:41:42.239
-Test Case 'SupplierAccountTests.testTotalsBeforeVatForSeveralSuppliers' passed (0.101 seconds)
-Test Case 'SupplierAccountTests.testTrustedSuppliers' started at 2026-11-20 23:41:42.339
-Test Case 'SupplierAccountTests.testTrustedSuppliers' passed (0.0 seconds)
-Test Case 'SupplierAccountTests.testWhatsOwedBeforeAndAfterVat' started at 2026-11-20 23:41:42.340
-Test Case 'SupplierAccountTests.testWhatsOwedBeforeAndAfterVat' passed (0.001 seconds)
-Test Case 'SupplierAccountTests.testWidget' started at 2026-11-20 23:41:42.341
-Test Case 'SupplierAccountTests.testWidget' passed (0.0 seconds)
-Test Suite 'SupplierAccountTests' passed at 2026-11-20 23:41:42.341
-	 Executed 10 tests, with 0 failures (0 unexpected) in 0.105 (0.105) seconds
-Test Suite 'SupplierCurrencyTests' started at 2026-11-20 23:41:42.341
-Test Case 'SupplierCurrencyTests.testDollarSupplierKeptApart' started at 2026-11-20 23:41:42.341
-Test Case 'SupplierCurrencyTests.testDollarSupplierKeptApart' passed (0.002 seconds)
-Test Suite 'SupplierCurrencyTests' passed at 2026-11-20 23:41:42.343
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'SupplierPriceTests' started at 2026-11-20 23:41:42.343
-Test Case 'SupplierPriceTests.testRowsForASupplier' started at 2026-11-20 23:41:42.343
-Test Case 'SupplierPriceTests.testRowsForASupplier' passed (0.209 seconds)
-Test Case 'SupplierPriceTests.testSettingAndRemoving' started at 2026-11-20 23:41:42.552
-Test Case 'SupplierPriceTests.testSettingAndRemoving' passed (0.0 seconds)
-Test Suite 'SupplierPriceTests' passed at 2026-11-20 23:41:42.552
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.209 (0.209) seconds
-Test Suite 'SupplierProfileTests' started at 2026-11-20 23:41:42.552
-Test Case 'SupplierProfileTests.testScoreAndFigures' started at 2026-11-20 23:41:42.552
-Test Case 'SupplierProfileTests.testScoreAndFigures' passed (0.002 seconds)
-Test Suite 'SupplierProfileTests' passed at 2026-11-20 23:41:42.554
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
-Test Suite 'TeamSyncTests' started at 2026-11-20 23:41:42.554
-Test Case 'TeamSyncTests.testOwnerSendsEverythingOnce' started at 2026-11-20 23:41:42.554
-Test Case 'TeamSyncTests.testOwnerSendsEverythingOnce' passed (0.0 seconds)
-Test Case 'TeamSyncTests.testRecordNames' started at 2026-11-20 23:41:42.555
-Test Case 'TeamSyncTests.testRecordNames' passed (0.0 seconds)
-Test Case 'TeamSyncTests.testRoundTripAndStableHash' started at 2026-11-20 23:41:42.555
-Test Case 'TeamSyncTests.testRoundTripAndStableHash' passed (0.0 seconds)
-Test Case 'TeamSyncTests.testStaffOnlySendReports' started at 2026-11-20 23:41:42.555
-Test Case 'TeamSyncTests.testStaffOnlySendReports' passed (0.0 seconds)
-Test Suite 'TeamSyncTests' passed at 2026-11-20 23:41:42.556
-	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'TillMoreTests' started at 2026-11-20 23:41:42.556
-Test Case 'TillMoreTests.testItemOptions' started at 2026-11-20 23:41:42.556
-Test Case 'TillMoreTests.testItemOptions' passed (0.0 seconds)
-Test Case 'TillMoreTests.testLayawayDepositsAndCollection' started at 2026-11-20 23:41:42.556
-Test Case 'TillMoreTests.testLayawayDepositsAndCollection' passed (0.0 seconds)
-Test Case 'TillMoreTests.testStoreCreditIsANegativeAccount' started at 2026-11-20 23:41:42.556
-Test Case 'TillMoreTests.testStoreCreditIsANegativeAccount' passed (0.0 seconds)
-Test Case 'TillMoreTests.testVariants' started at 2026-11-20 23:41:42.556
-Test Case 'TillMoreTests.testVariants' passed (0.0 seconds)
-Test Case 'TillMoreTests.testVouchers' started at 2026-11-20 23:41:42.557
-Test Case 'TillMoreTests.testVouchers' passed (0.0 seconds)
-Test Suite 'TillMoreTests' passed at 2026-11-20 23:41:42.557
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'TillPlusTests' started at 2026-11-20 23:41:42.557
-Test Case 'TillPlusTests.testAMixedRefundGoesBackWhereItCameFrom' started at 2026-11-20 23:41:42.557
-Test Case 'TillPlusTests.testAMixedRefundGoesBackWhereItCameFrom' passed (0.0 seconds)
-Test Case 'TillPlusTests.testCashiersNeedAManagerForRefundsOnceThereIsOne' started at 2026-11-20 23:41:42.557
-Test Case 'TillPlusTests.testCashiersNeedAManagerForRefundsOnceThereIsOne' passed (0.0 seconds)
-Test Case 'TillPlusTests.testEachTillHasItsOwnDrawerAtTheEndOfTheDay' started at 2026-11-20 23:41:42.557
-Test Case 'TillPlusTests.testEachTillHasItsOwnDrawerAtTheEndOfTheDay' passed (0.0 seconds)
-Test Case 'TillPlusTests.testEachTillHasItsOwnFileAndSalesMergeOnce' started at 2026-11-20 23:41:42.557
-Test Case 'TillPlusTests.testEachTillHasItsOwnFileAndSalesMergeOnce' passed (0.0 seconds)
-Test Case 'TillPlusTests.testExpiryDatesAsTheyArePrintedOnBoxes' started at 2026-11-20 23:41:42.558
-Test Case 'TillPlusTests.testExpiryDatesAsTheyArePrintedOnBoxes' passed (0.0 seconds)
-Test Case 'TillPlusTests.testGiftCardsAreNotTakingsUntilTheyAreSpent' started at 2026-11-20 23:41:42.558
-Test Case 'TillPlusTests.testGiftCardsAreNotTakingsUntilTheyAreSpent' passed (0.0 seconds)
-Test Case 'TillPlusTests.testHoursWorked' started at 2026-11-20 23:41:42.559
-Test Case 'TillPlusTests.testHoursWorked' passed (0.001 seconds)
-Test Case 'TillPlusTests.testMealDealTakesTheDearestItemsThatFit' started at 2026-11-20 23:41:42.559
-Test Case 'TillPlusTests.testMealDealTakesTheDearestItemsThatFit' passed (0.0 seconds)
-Test Case 'TillPlusTests.testPointsTabAndGiftCards' started at 2026-11-20 23:41:42.560
-Test Case 'TillPlusTests.testPointsTabAndGiftCards' passed (0.0 seconds)
-Test Case 'TillPlusTests.testReceiptPictureBytes' started at 2026-11-20 23:41:42.560
-Test Case 'TillPlusTests.testReceiptPictureBytes' passed (0.0 seconds)
-Test Case 'TillPlusTests.testShortestDatedBatchesAreSoldFirst' started at 2026-11-20 23:41:42.560
-Test Case 'TillPlusTests.testShortestDatedBatchesAreSoldFirst' passed (0.002 seconds)
-Test Case 'TillPlusTests.testTheLatestStockCountWinsAcrossTills' started at 2026-11-20 23:41:42.562
-Test Case 'TillPlusTests.testTheLatestStockCountWinsAcrossTills' passed (0.0 seconds)
-Test Case 'TillPlusTests.testWeighedItemsAndScaleLabels' started at 2026-11-20 23:41:42.562
-Test Case 'TillPlusTests.testWeighedItemsAndScaleLabels' passed (0.0 seconds)
-Test Suite 'TillPlusTests' passed at 2026-11-20 23:41:42.562
-	 Executed 13 tests, with 0 failures (0 unexpected) in 0.006 (0.006) seconds
-Test Suite 'TillProTests' started at 2026-11-20 23:41:42.562
-Test Case 'TillProTests.testEndOfDayCash' started at 2026-11-20 23:41:42.562
-Test Case 'TillProTests.testEndOfDayCash' passed (0.0 seconds)
-Test Case 'TillProTests.testImportFromAnotherTill' started at 2026-11-20 23:41:42.563
-Test Case 'TillProTests.testImportFromAnotherTill' passed (0.0 seconds)
-Test Case 'TillProTests.testMultiBuyAndBasketDiscount' started at 2026-11-20 23:41:42.563
-Test Case 'TillProTests.testMultiBuyAndBasketDiscount' passed (0.0 seconds)
-Test Case 'TillProTests.testReceiptDetails' started at 2026-11-20 23:41:42.563
-Test Case 'TillProTests.testReceiptDetails' passed (0.101 seconds)
-Test Case 'TillProTests.testReports' started at 2026-11-20 23:41:42.664
-Test Case 'TillProTests.testReports' passed (0.001 seconds)
-Test Case 'TillProTests.testSellingAWholePackTakesTheWholePackOffStock' started at 2026-11-20 23:41:42.666
-Test Case 'TillProTests.testSellingAWholePackTakesTheWholePackOffStock' passed (0.0 seconds)
-Test Case 'TillProTests.testSplitPaymentAndPartRefund' started at 2026-11-20 23:41:42.666
-Test Case 'TillProTests.testSplitPaymentAndPartRefund' passed (0.0 seconds)
-Test Case 'TillProTests.testTillOnlyItemsAreNeverMatchedToInvoices' started at 2026-11-20 23:41:42.666
-Test Case 'TillProTests.testTillOnlyItemsAreNeverMatchedToInvoices' passed (0.0 seconds)
-Test Suite 'TillProTests' passed at 2026-11-20 23:41:42.666
-	 Executed 8 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
-Test Suite 'TillTests' started at 2026-11-20 23:41:42.666
-Test Case 'TillTests.testReceiptAndBarcodes' started at 2026-11-20 23:41:42.666
-Test Case 'TillTests.testReceiptAndBarcodes' passed (0.0 seconds)
-Test Case 'TillTests.testReordersPerSupplier' started at 2026-11-20 23:41:42.666
-Test Case 'TillTests.testReordersPerSupplier' passed (0.0 seconds)
-Test Case 'TillTests.testSalesSummaryWithVATCostAndRefund' started at 2026-11-20 23:41:42.667
-Test Case 'TillTests.testSalesSummaryWithVATCostAndRefund' passed (0.0 seconds)
-Test Case 'TillTests.testStockFromCountDeliveriesAndSales' started at 2026-11-20 23:41:42.667
-Test Case 'TillTests.testStockFromCountDeliveriesAndSales' passed (0.0 seconds)
-Test Case 'TillTests.testTillInfoIsSavedWithTheItem' started at 2026-11-20 23:41:42.667
-Test Case 'TillTests.testTillInfoIsSavedWithTheItem' passed (0.0 seconds)
-Test Case 'TillTests.testUnitCostAndProfit' started at 2026-11-20 23:41:42.667
-Test Case 'TillTests.testUnitCostAndProfit' passed (0.0 seconds)
-Test Suite 'TillTests' passed at 2026-11-20 23:41:42.667
+Test Suite 'SecondReadTests' passed at 2026-11-21 00:53:15.545
 	 Executed 6 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'UnsureMatchTests' started at 2026-11-20 23:41:42.667
-Test Case 'UnsureMatchTests.testSureAndUnknownMatchesUnchanged' started at 2026-11-20 23:41:42.667
-Test Case 'UnsureMatchTests.testSureAndUnknownMatchesUnchanged' passed (0.0 seconds)
-Test Case 'UnsureMatchTests.testUnsureMatchIsNotCountedUntilConfirmed' started at 2026-11-20 23:41:42.668
-Test Case 'UnsureMatchTests.testUnsureMatchIsNotCountedUntilConfirmed' passed (0.001 seconds)
-Test Suite 'UnsureMatchTests' passed at 2026-11-20 23:41:42.669
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'VatFromPriceListTests' started at 2026-11-20 23:41:42.669
-Test Case 'VatFromPriceListTests.testInvoiceRatesAndMissingTotalsAreLeftAlone' started at 2026-11-20 23:41:42.669
-Test Case 'VatFromPriceListTests.testInvoiceRatesAndMissingTotalsAreLeftAlone' passed (0.0 seconds)
-Test Case 'VatFromPriceListTests.testRatesThatAddUpToTheInvoicesVatAreFilledIn' started at 2026-11-20 23:41:42.669
-Test Case 'VatFromPriceListTests.testRatesThatAddUpToTheInvoicesVatAreFilledIn' passed (0.0 seconds)
-Test Case 'VatFromPriceListTests.testRatesThatDontAddUpAreNeverUsed' started at 2026-11-20 23:41:42.669
-Test Case 'VatFromPriceListTests.testRatesThatDontAddUpAreNeverUsed' passed (0.0 seconds)
-Test Case 'VatFromPriceListTests.testThenTheOverchargeLosesVatOnlyOnTheColas' started at 2026-11-20 23:41:42.669
-Test Case 'VatFromPriceListTests.testThenTheOverchargeLosesVatOnlyOnTheColas' passed (0.0 seconds)
-Test Suite 'VatFromPriceListTests' passed at 2026-11-20 23:41:42.670
-	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'WrittenOffCreditTests' started at 2026-11-20 23:41:42.670
-Test Case 'WrittenOffCreditTests.testWrittenOffIsNeitherOwedNorWonBack' started at 2026-11-20 23:41:42.670
-Test Case 'WrittenOffCreditTests.testWrittenOffIsNeitherOwedNorWonBack' passed (0.0 seconds)
-Test Suite 'WrittenOffCreditTests' passed at 2026-11-20 23:41:42.670
+Test Suite 'ShopCompareTests' started at 2026-11-21 00:53:15.545
+Test Case 'ShopCompareTests.testShopsSideBySide' started at 2026-11-21 00:53:15.545
+Test Case 'ShopCompareTests.testShopsSideBySide' passed (0.0 seconds)
+Test Suite 'ShopCompareTests' passed at 2026-11-21 00:53:15.545
 	 Executed 1 test, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
-Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-20 23:41:42.670
-	 Executed 232 tests, with 0 failures (0 unexpected) in 8.7 (8.7) seconds
-Test Suite 'All tests' passed at 2026-11-20 23:41:42.670
-	 Executed 232 tests, with 0 failures (0 unexpected) in 8.7 (8.7) seconds
+Test Suite 'ShopMoneySafetyTests' started at 2026-11-21 00:53:15.545
+Test Case 'ShopMoneySafetyTests.testDuplicatesAreNeverAcrossShops' started at 2026-11-21 00:53:15.545
+Test Case 'ShopMoneySafetyTests.testDuplicatesAreNeverAcrossShops' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testEachShopSeesOnlyItsInvoicesAndPayments' started at 2026-11-21 00:53:15.545
+Test Case 'ShopMoneySafetyTests.testEachShopSeesOnlyItsInvoicesAndPayments' passed (0.001 seconds)
+Test Case 'ShopMoneySafetyTests.testFlaggedDuplicateIsNotMatchedAgainAndNeedsAttention' started at 2026-11-21 00:53:15.546
+Test Case 'ShopMoneySafetyTests.testFlaggedDuplicateIsNotMatchedAgainAndNeedsAttention' passed (0.001 seconds)
+Test Case 'ShopMoneySafetyTests.testNoMinusZero' started at 2026-11-21 00:53:15.546
+Test Case 'ShopMoneySafetyTests.testNoMinusZero' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testOldBackupsStillReadAndNewFieldsStayOutUntilSet' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testOldBackupsStillReadAndNewFieldsStayOutUntilSet' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testPayingTickedInvoicesRemembersShopAndAmounts' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testPayingTickedInvoicesRemembersShopAndAmounts' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testTotalCheckAllowsVatRoundingOnLongInvoices' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testTotalCheckAllowsVatRoundingOnLongInvoices' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testUndoPaidOnEveryInvoiceRemovesThePayment' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testUndoPaidOnEveryInvoiceRemovesThePayment' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testUndoPaidTakesBackWhatWasPaidThen' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testUndoPaidTakesBackWhatWasPaidThen' passed (0.0 seconds)
+Test Case 'ShopMoneySafetyTests.testUpdatingAnInvoiceKeepsItsCurrencyAndFlag' started at 2026-11-21 00:53:15.547
+Test Case 'ShopMoneySafetyTests.testUpdatingAnInvoiceKeepsItsCurrencyAndFlag' passed (0.0 seconds)
+Test Suite 'ShopMoneySafetyTests' passed at 2026-11-21 00:53:15.547
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'ShopPriceTests' started at 2026-11-21 00:53:15.547
+Test Case 'ShopPriceTests.testEachShopIsCheckedAgainstItsOwnPrice' started at 2026-11-21 00:53:15.547
+Test Case 'ShopPriceTests.testEachShopIsCheckedAgainstItsOwnPrice' passed (0.0 seconds)
+Test Case 'ShopPriceTests.testItemsBelongToTheirShops' started at 2026-11-21 00:53:15.548
+Test Case 'ShopPriceTests.testItemsBelongToTheirShops' passed (0.0 seconds)
+Test Case 'ShopPriceTests.testLoweringAPriceChangesTheShopsOwnPrice' started at 2026-11-21 00:53:15.548
+Test Case 'ShopPriceTests.testLoweringAPriceChangesTheShopsOwnPrice' passed (0.0 seconds)
+Test Case 'ShopPriceTests.testOldItemsAndBackupsAreUnchanged' started at 2026-11-21 00:53:15.548
+Test Case 'ShopPriceTests.testOldItemsAndBackupsAreUnchanged' passed (0.001 seconds)
+Test Case 'ShopPriceTests.testTheItemsTellTheShop' started at 2026-11-21 00:53:15.548
+Test Case 'ShopPriceTests.testTheItemsTellTheShop' passed (0.001 seconds)
+Test Case 'ShopPriceTests.testTheSupplierTellsTheShop' started at 2026-11-21 00:53:15.549
+Test Case 'ShopPriceTests.testTheSupplierTellsTheShop' passed (0.001 seconds)
+Test Suite 'ShopPriceTests' passed at 2026-11-21 00:53:15.551
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'StatementCheckTests' started at 2026-11-21 00:53:15.551
+Test Case 'StatementCheckTests.testComparesWithYourRecords' started at 2026-11-21 00:53:15.551
+Test Case 'StatementCheckTests.testComparesWithYourRecords' passed (0.001 seconds)
+Test Case 'StatementCheckTests.testReadsTheStatement' started at 2026-11-21 00:53:15.552
+Test Case 'StatementCheckTests.testReadsTheStatement' passed (0.101 seconds)
+Test Suite 'StatementCheckTests' passed at 2026-11-21 00:53:15.652
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.102 (0.102) seconds
+Test Suite 'SupplierAccountTests' started at 2026-11-21 00:53:15.652
+Test Case 'SupplierAccountTests.testBackupKeepsPayments' started at 2026-11-21 00:53:15.652
+Test Case 'SupplierAccountTests.testBackupKeepsPayments' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' started at 2026-11-21 00:53:15.653
+Test Case 'SupplierAccountTests.testBalanceWithPaymentsTowardsTheBalance' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' started at 2026-11-21 00:53:15.653
+Test Case 'SupplierAccountTests.testSameSupplierWhateverTheSpelling' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' started at 2026-11-21 00:53:15.653
+Test Case 'SupplierAccountTests.testStartingBalanceIsPaidFirst' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' started at 2026-11-21 00:53:15.654
+Test Case 'SupplierAccountTests.testTickedInvoicesAndOldPaidMarks' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTotalOnlyInvoice' started at 2026-11-21 00:53:15.654
+Test Case 'SupplierAccountTests.testTotalOnlyInvoice' passed (0.1 seconds)
+Test Case 'SupplierAccountTests.testTotalsBeforeVatForSeveralSuppliers' started at 2026-11-21 00:53:15.754
+Test Case 'SupplierAccountTests.testTotalsBeforeVatForSeveralSuppliers' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testTrustedSuppliers' started at 2026-11-21 00:53:15.755
+Test Case 'SupplierAccountTests.testTrustedSuppliers' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testWhatsOwedBeforeAndAfterVat' started at 2026-11-21 00:53:15.755
+Test Case 'SupplierAccountTests.testWhatsOwedBeforeAndAfterVat' passed (0.0 seconds)
+Test Case 'SupplierAccountTests.testWidget' started at 2026-11-21 00:53:15.755
+Test Case 'SupplierAccountTests.testWidget' passed (0.0 seconds)
+Test Suite 'SupplierAccountTests' passed at 2026-11-21 00:53:15.755
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
+Test Suite 'SupplierCurrencyTests' started at 2026-11-21 00:53:15.755
+Test Case 'SupplierCurrencyTests.testDollarSupplierKeptApart' started at 2026-11-21 00:53:15.755
+Test Case 'SupplierCurrencyTests.testDollarSupplierKeptApart' passed (0.001 seconds)
+Test Suite 'SupplierCurrencyTests' passed at 2026-11-21 00:53:15.756
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'SupplierPriceTests' started at 2026-11-21 00:53:15.756
+Test Case 'SupplierPriceTests.testRowsForASupplier' started at 2026-11-21 00:53:15.756
+Test Case 'SupplierPriceTests.testRowsForASupplier' passed (0.151 seconds)
+Test Case 'SupplierPriceTests.testSettingAndRemoving' started at 2026-11-21 00:53:15.908
+Test Case 'SupplierPriceTests.testSettingAndRemoving' passed (0.0 seconds)
+Test Suite 'SupplierPriceTests' passed at 2026-11-21 00:53:15.908
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.151 (0.151) seconds
+Test Suite 'SupplierProfileTests' started at 2026-11-21 00:53:15.908
+Test Case 'SupplierProfileTests.testScoreAndFigures' started at 2026-11-21 00:53:15.908
+Test Case 'SupplierProfileTests.testScoreAndFigures' passed (0.001 seconds)
+Test Suite 'SupplierProfileTests' passed at 2026-11-21 00:53:15.909
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'TeamSyncTests' started at 2026-11-21 00:53:15.909
+Test Case 'TeamSyncTests.testOwnerSendsEverythingOnce' started at 2026-11-21 00:53:15.909
+Test Case 'TeamSyncTests.testOwnerSendsEverythingOnce' passed (0.0 seconds)
+Test Case 'TeamSyncTests.testRecordNames' started at 2026-11-21 00:53:15.909
+Test Case 'TeamSyncTests.testRecordNames' passed (0.0 seconds)
+Test Case 'TeamSyncTests.testRoundTripAndStableHash' started at 2026-11-21 00:53:15.909
+Test Case 'TeamSyncTests.testRoundTripAndStableHash' passed (0.0 seconds)
+Test Case 'TeamSyncTests.testStaffOnlySendReports' started at 2026-11-21 00:53:15.910
+Test Case 'TeamSyncTests.testStaffOnlySendReports' passed (0.0 seconds)
+Test Suite 'TeamSyncTests' passed at 2026-11-21 00:53:15.910
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'TillMoreTests' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testItemOptions' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testItemOptions' passed (0.0 seconds)
+Test Case 'TillMoreTests.testLayawayDepositsAndCollection' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testLayawayDepositsAndCollection' passed (0.0 seconds)
+Test Case 'TillMoreTests.testStoreCreditIsANegativeAccount' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testStoreCreditIsANegativeAccount' passed (0.0 seconds)
+Test Case 'TillMoreTests.testVariants' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testVariants' passed (0.0 seconds)
+Test Case 'TillMoreTests.testVouchers' started at 2026-11-21 00:53:15.910
+Test Case 'TillMoreTests.testVouchers' passed (0.0 seconds)
+Test Suite 'TillMoreTests' passed at 2026-11-21 00:53:15.910
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'TillPlusTests' started at 2026-11-21 00:53:15.910
+Test Case 'TillPlusTests.testAMixedRefundGoesBackWhereItCameFrom' started at 2026-11-21 00:53:15.910
+Test Case 'TillPlusTests.testAMixedRefundGoesBackWhereItCameFrom' passed (0.0 seconds)
+Test Case 'TillPlusTests.testCashiersNeedAManagerForRefundsOnceThereIsOne' started at 2026-11-21 00:53:15.910
+Test Case 'TillPlusTests.testCashiersNeedAManagerForRefundsOnceThereIsOne' passed (0.0 seconds)
+Test Case 'TillPlusTests.testEachTillHasItsOwnDrawerAtTheEndOfTheDay' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testEachTillHasItsOwnDrawerAtTheEndOfTheDay' passed (0.0 seconds)
+Test Case 'TillPlusTests.testEachTillHasItsOwnFileAndSalesMergeOnce' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testEachTillHasItsOwnFileAndSalesMergeOnce' passed (0.0 seconds)
+Test Case 'TillPlusTests.testExpiryDatesAsTheyArePrintedOnBoxes' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testExpiryDatesAsTheyArePrintedOnBoxes' passed (0.0 seconds)
+Test Case 'TillPlusTests.testGiftCardsAreNotTakingsUntilTheyAreSpent' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testGiftCardsAreNotTakingsUntilTheyAreSpent' passed (0.0 seconds)
+Test Case 'TillPlusTests.testHoursWorked' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testHoursWorked' passed (0.0 seconds)
+Test Case 'TillPlusTests.testMealDealTakesTheDearestItemsThatFit' started at 2026-11-21 00:53:15.911
+Test Case 'TillPlusTests.testMealDealTakesTheDearestItemsThatFit' passed (0.0 seconds)
+Test Case 'TillPlusTests.testPointsTabAndGiftCards' started at 2026-11-21 00:53:15.912
+Test Case 'TillPlusTests.testPointsTabAndGiftCards' passed (0.0 seconds)
+Test Case 'TillPlusTests.testReceiptPictureBytes' started at 2026-11-21 00:53:15.912
+Test Case 'TillPlusTests.testReceiptPictureBytes' passed (0.1 seconds)
+Test Case 'TillPlusTests.testShortestDatedBatchesAreSoldFirst' started at 2026-11-21 00:53:16.012
+Test Case 'TillPlusTests.testShortestDatedBatchesAreSoldFirst' passed (0.001 seconds)
+Test Case 'TillPlusTests.testTheLatestStockCountWinsAcrossTills' started at 2026-11-21 00:53:16.013
+Test Case 'TillPlusTests.testTheLatestStockCountWinsAcrossTills' passed (0.0 seconds)
+Test Case 'TillPlusTests.testWeighedItemsAndScaleLabels' started at 2026-11-21 00:53:16.013
+Test Case 'TillPlusTests.testWeighedItemsAndScaleLabels' passed (0.0 seconds)
+Test Suite 'TillPlusTests' passed at 2026-11-21 00:53:16.013
+	 Executed 13 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
+Test Suite 'TillProTests' started at 2026-11-21 00:53:16.013
+Test Case 'TillProTests.testEndOfDayCash' started at 2026-11-21 00:53:16.013
+Test Case 'TillProTests.testEndOfDayCash' passed (0.0 seconds)
+Test Case 'TillProTests.testImportFromAnotherTill' started at 2026-11-21 00:53:16.014
+Test Case 'TillProTests.testImportFromAnotherTill' passed (0.0 seconds)
+Test Case 'TillProTests.testMultiBuyAndBasketDiscount' started at 2026-11-21 00:53:16.014
+Test Case 'TillProTests.testMultiBuyAndBasketDiscount' passed (0.0 seconds)
+Test Case 'TillProTests.testReceiptDetails' started at 2026-11-21 00:53:16.014
+Test Case 'TillProTests.testReceiptDetails' passed (0.0 seconds)
+Test Case 'TillProTests.testReports' started at 2026-11-21 00:53:16.014
+Test Case 'TillProTests.testReports' passed (0.001 seconds)
+Test Case 'TillProTests.testSellingAWholePackTakesTheWholePackOffStock' started at 2026-11-21 00:53:16.015
+Test Case 'TillProTests.testSellingAWholePackTakesTheWholePackOffStock' passed (0.0 seconds)
+Test Case 'TillProTests.testSplitPaymentAndPartRefund' started at 2026-11-21 00:53:16.015
+Test Case 'TillProTests.testSplitPaymentAndPartRefund' passed (0.0 seconds)
+Test Case 'TillProTests.testTillOnlyItemsAreNeverMatchedToInvoices' started at 2026-11-21 00:53:16.015
+Test Case 'TillProTests.testTillOnlyItemsAreNeverMatchedToInvoices' passed (0.0 seconds)
+Test Suite 'TillProTests' passed at 2026-11-21 00:53:16.015
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'TillTests' started at 2026-11-21 00:53:16.015
+Test Case 'TillTests.testReceiptAndBarcodes' started at 2026-11-21 00:53:16.015
+Test Case 'TillTests.testReceiptAndBarcodes' passed (0.0 seconds)
+Test Case 'TillTests.testReordersPerSupplier' started at 2026-11-21 00:53:16.015
+Test Case 'TillTests.testReordersPerSupplier' passed (0.0 seconds)
+Test Case 'TillTests.testSalesSummaryWithVATCostAndRefund' started at 2026-11-21 00:53:16.015
+Test Case 'TillTests.testSalesSummaryWithVATCostAndRefund' passed (0.0 seconds)
+Test Case 'TillTests.testStockFromCountDeliveriesAndSales' started at 2026-11-21 00:53:16.016
+Test Case 'TillTests.testStockFromCountDeliveriesAndSales' passed (0.0 seconds)
+Test Case 'TillTests.testTillInfoIsSavedWithTheItem' started at 2026-11-21 00:53:16.016
+Test Case 'TillTests.testTillInfoIsSavedWithTheItem' passed (0.0 seconds)
+Test Case 'TillTests.testUnitCostAndProfit' started at 2026-11-21 00:53:16.016
+Test Case 'TillTests.testUnitCostAndProfit' passed (0.0 seconds)
+Test Suite 'TillTests' passed at 2026-11-21 00:53:16.016
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'UnsureMatchTests' started at 2026-11-21 00:53:16.016
+Test Case 'UnsureMatchTests.testSureAndUnknownMatchesUnchanged' started at 2026-11-21 00:53:16.016
+Test Case 'UnsureMatchTests.testSureAndUnknownMatchesUnchanged' passed (0.0 seconds)
+Test Case 'UnsureMatchTests.testUnsureMatchIsNotCountedUntilConfirmed' started at 2026-11-21 00:53:16.016
+Test Case 'UnsureMatchTests.testUnsureMatchIsNotCountedUntilConfirmed' passed (0.001 seconds)
+Test Suite 'UnsureMatchTests' passed at 2026-11-21 00:53:16.017
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'VatFromPriceListTests' started at 2026-11-21 00:53:16.017
+Test Case 'VatFromPriceListTests.testInvoiceRatesAndMissingTotalsAreLeftAlone' started at 2026-11-21 00:53:16.017
+Test Case 'VatFromPriceListTests.testInvoiceRatesAndMissingTotalsAreLeftAlone' passed (0.0 seconds)
+Test Case 'VatFromPriceListTests.testRatesThatAddUpToTheInvoicesVatAreFilledIn' started at 2026-11-21 00:53:16.017
+Test Case 'VatFromPriceListTests.testRatesThatAddUpToTheInvoicesVatAreFilledIn' passed (0.002 seconds)
+Test Case 'VatFromPriceListTests.testRatesThatDontAddUpAreNeverUsed' started at 2026-11-21 00:53:16.019
+Test Case 'VatFromPriceListTests.testRatesThatDontAddUpAreNeverUsed' passed (0.001 seconds)
+Test Case 'VatFromPriceListTests.testThenTheOverchargeLosesVatOnlyOnTheColas' started at 2026-11-21 00:53:16.020
+Test Case 'VatFromPriceListTests.testThenTheOverchargeLosesVatOnlyOnTheColas' passed (0.0 seconds)
+Test Suite 'VatFromPriceListTests' passed at 2026-11-21 00:53:16.020
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'WrittenOffCreditTests' started at 2026-11-21 00:53:16.020
+Test Case 'WrittenOffCreditTests.testWrittenOffIsNeitherOwedNorWonBack' started at 2026-11-21 00:53:16.020
+Test Case 'WrittenOffCreditTests.testWrittenOffIsNeitherOwedNorWonBack' passed (0.0 seconds)
+Test Suite 'WrittenOffCreditTests' passed at 2026-11-21 00:53:16.020
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.0 (0.0) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-11-21 00:53:16.020
+	 Executed 224 tests, with 0 failures (0 unexpected) in 5.569 (5.569) seconds
+Test Suite 'All tests' passed at 2026-11-21 00:53:16.020
+	 Executed 224 tests, with 0 failures (0 unexpected) in 5.569 (5.569) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 6.4.2 (288a2328ff84644)
 ↳ Target Platform: x86_64-unknown-linux-gnu
