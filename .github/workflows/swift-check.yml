@@ -149,6 +149,10 @@ jobs:
           # so they only run when the commit message contains [store].
           if [ "$RUN_STORE_TESTS" = "true" ]; then
             set +e
+            # a clean simulator: the screenshot run above talked to Apple's sandbox, and StoreKit remembers that
+            # (the live app's old prices), which can stop the tests' StoreKit test session from taking over
+            xcrun simctl shutdown "$UDID" >/dev/null 2>&1
+            xcrun simctl erase "$UDID" && xcrun simctl boot "$UDID" && xcrun simctl bootstatus "$UDID" -b >/dev/null
             xcodebuild test-without-building -project ChargeCheck.xcodeproj -scheme ChargeCheck -destination "platform=iOS Simulator,id=$UDID" \
               -derivedDataPath build -test-timeouts-enabled YES -maximum-test-execution-time-allowance 300 > /tmp/tests-full.log 2>&1
             TESTS=$?

@@ -88,3 +88,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   app yet (he'll have me add them when he has a PC). Likely cause of the test trouble: the app (the test host)
   started its own StoreKit at launch, before the test session. Now `Store.start()` does nothing under XCTest, and
   StoreTests pin the session to GBR / en_GB.
+- 21 Nov — purchase tests: the failing runs showed storefront GBR but "$99.99" yearly, $9.99 monthly, 7-day
+  trial — none of that is in Products.storekit (ever), so StoreKit answered from Apple's sandbox (probably the live
+  app's old plans, same bundle ID). Fix tried: erase the simulator before `[store]` tests (the screenshot run before
+  them talks to the sandbox) and skip the launch refresh in RootView when hosting tests (`Store.hostingTests`).
