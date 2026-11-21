@@ -9,7 +9,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 |---|---|---|---|
 | CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
-| CC-003 | Permission enforcement audit (P0) | 🟡 | store enforces refunds, cash in/out/float/no-sale, close day, layaway cancel; PIN lockout |
+| CC-003 | Permission enforcement audit (P0) | 🟡 | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
 | CC-004 | Persistence error model (P0) | ⬜ | |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
@@ -92,3 +92,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   trial — none of that is in Products.storekit (ever), so StoreKit answered from Apple's sandbox (probably the live
   app's old plans, same bundle ID). Fix tried: erase the simulator before `[store]` tests (the screenshot run before
   them talks to the sandbox) and skip the launch refresh in RootView when hosting tests (`Store.hostingTests`).
+- 21 Nov — fresh simulator didn't help: purchases land in the local test store but the app reads the sandbox.
+  Now `storeKitConfiguration: Tests/Products.storekit` on the app's scheme (Xcode-run only). CC-003 part 2: `Gate`
+  spends the store's yes for basket changes the moment they're made (`Gate.basketChanges`); changeLine uses it.
+  Not yet: settings changes (roles, people, permissions) still guarded by ManagerOnly only; lockout resets on
+  restart; supervisor role.

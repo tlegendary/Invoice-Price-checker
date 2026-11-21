@@ -46,5 +46,20 @@ final class TillPermissionTests: XCTestCase {
         // money from customers never needs a manager
         till.addCash(.tabPaid, amount: 5, note: "test", shop: "")
         XCTAssertEqual(till.cash.count, before + 2)
+
+        // a discount on the basket: one yes, one discount; a yes for a discount isn't one for a price change
+        XCTAssertNil(till.authorize(.discount))
+        XCTAssertNotNil(till.approve([.discount], pin: "9182"))
+        XCTAssertNil(till.authorize(.priceChange))
+        XCTAssertEqual(till.authorize(.discount)?.by, "Owner Test")
+        XCTAssertNil(till.authorize(.discount), "used up")
+    }
+
+    func testWrongManagerPinsLockThePad() throws {
+        guard till.cashiers.isEmpty, !till.training else { throw XCTSkip("needs a till with no people set up") }
+        try person("Owner Lock", "5555", .owner)
+        for _ in 0..<PinLockout.freeTries { XCTAssertNil(till.approve([.refund], pin: "0001")) }
+        XCTAssertGreaterThan(till.pinLockout.wait(at: Date()), 0)
+        XCTAssertNil(till.approve([.refund], pin: "5555"), "even the right PIN waits while the pad is locked")
     }
 }

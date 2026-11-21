@@ -945,11 +945,7 @@ struct TillView: View {
             if changed.qty < line.qty { Records.shared.log(.lineVoided, line.name + " −\((line.qty - changed.qty).formatted())" + (by.map { " · " + $0 } ?? "")) }
             if let index = basket.firstIndex(where: { $0.id == line.id }) { basket[index] = changed }
         }
-        if needs.allSatisfy({ till.may($0) }) {
-            apply(nil)
-        } else {
-            approval = ApprovalRequest(title: needs.map(PermissionText.title).joined(separator: ", "), permissions: needs) { name in apply(name) }
-        }
+        Gate.check(needs, needs.map(PermissionText.title).joined(separator: ", "), request: $approval, action: apply)
     }
 
     /// A barcode typed or scanned: the item, or a scale label (price or weight in the code).

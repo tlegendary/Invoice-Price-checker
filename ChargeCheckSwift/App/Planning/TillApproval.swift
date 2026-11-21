@@ -83,13 +83,32 @@ struct ManagerPinSheet: View {
 /// Asks for a manager only when the person serving can't do it alone.
 @MainActor
 enum Gate {
+    /// Changes to the sale on screen (the basket isn't saved until the sale is). For these the till store spends
+    /// the manager's yes the moment the change is made, so nothing on screen can make one without it. Refunds, cash,
+    /// closing the day and the like spend it inside the till store instead, when they're saved.
+    static let basketChanges: Set<TillPermission> = [.discount, .priceChange, .customAmount, .removeLine, .giftCard, .tab]
+
     /// Runs `action` straight away (approvedBy nil), or after a manager's PIN.
     static func check(_ permission: TillPermission, _ title: String, request: Binding<ApprovalRequest?>,
                       action: @escaping (String?) -> Void) {
-        if TillStore.shared.may(permission) {
+        check([permission], title, request: request, action: action)
+    }
+
+    /// Several things at once (one PIN for all): runs `action` only when the till store allows every one.
+    static func check(_ permissions: [TillPermission], _ title: String, request: Binding<ApprovalRequest?>,
+                      action: @escaping (String?) -> Void) {
+        let till = TillStore.shared
+        if permissions.allSatisfy({ till.may($0) }) {
             action(nil)
-        } else {
-            request.wrappedValue = ApprovalRequest(title: title, permissions: [permission], deviceOwner: permission == .settings) { name in action(name) }
+            return
+        }
+        request.wrappedValue = ApprovalRequest(title: title, permissions: permissions,
+                                               deviceOwner: permissions == [.settings]) { name in
+            // spend the yes now for changes to the basket; the rest is spent by the store when it's saved
+            for permission in permissions where basketChanges.contains(permission) {
+                guard till.authorize(permission) != nil else { return }
+            }
+            action(name)
         }
     }
 }
