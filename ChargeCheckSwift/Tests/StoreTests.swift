@@ -97,8 +97,8 @@ final class StoreTests: XCTestCase {
         again.testAsFree = false
         // when it ends, the app is free again
         try session.expireSubscription(productIdentifier: Products.yearly)
-        // the test server takes a moment to pass the news on
-        for _ in 0..<20 {
+        // the test server takes a moment to pass the news on (on the cloud Macs sometimes over 10 seconds)
+        for _ in 0..<60 {
             await store.refresh()
             if !store.isSubscribed { break }
             try await Task.sleep(nanoseconds: 500_000_000)
