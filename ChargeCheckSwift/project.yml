@@ -43,6 +43,9 @@ targets:
     scheme:
       testTargets:
         - ChargeCheckTests
+      # StoreKit's local test store for runs started by Xcode's tools (the unit tests); never in TestFlight or
+      # App Store builds. Without it the test host app read Apple's sandbox while the tests bought locally.
+      storeKitConfiguration: Tests/Products.storekit
     info:
       path: App/Info.plist
       properties:

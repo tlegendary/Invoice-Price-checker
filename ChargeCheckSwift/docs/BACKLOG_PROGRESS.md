@@ -9,12 +9,12 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 |---|---|---|---|
 | CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
-| CC-003 | Permission enforcement audit (P0) | ⬜ | |
+| CC-003 | Permission enforcement audit (P0) | 🟡 | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
 | CC-004 | Persistence error model (P0) | ⬜ | |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
 | CC-007 | External terminal manual tender (P0) | ⬜ | |
-| CC-008 | Provider adapter + fake provider (P0) | ⬜ | Real provider ⏸ (which card company) |
+| CC-008 | Provider adapter + fake provider (P0) | ⬜ | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | ⬜ | |
 | CC-010 | Refund integration (P0) | ⬜ | |
 | CC-011 | Durable sync outbox (P0) | ⬜ | |
@@ -23,7 +23,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-014 | Inventory movement ledger (P1) | ⬜ | |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
-| CC-017 | Kitchen display MVP (P1) | ⏸ | Hospitality decision still open |
+| CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
 | CC-019 | Profit reporting (P1) | ⬜ | |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
@@ -57,4 +57,49 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   `testBuyingPacksAddsScansOnce` hangs 5 min (also on an unchanged baseline run, branch improve/store-baseline);
   `testSubscribingUnlocksAndExpiryLocks` sometimes doesn't see the expiry. Purchases aren't changed by the backlog
   so far; fix the tests before any StoreKit change (ask Ramyar before changing the purchase flow).
-- NEXT: CC-003 (see the CC-003 note above).
+- 21 Nov — Ramyar's decisions: use all card companies (one adapter per provider, fake provider for tests, manual
+  external-terminal tender works for all); yes to restaurant kitchen screens and hospitality.
+- 21 Nov — CC-003 in progress (branch improve/2026-11-21-cc003). Core `TillApprovals` (single-use yes per
+  permission, 2 min), `PinLockout` (5 free tries, then 30 s doubling to 5 min), `CashEvent.Kind.permission`.
+  TillStore: `approve(_:pin:)`, `approveAsDeviceOwner`, `authorize(_:)`; refund, addCash (float, paid in/out,
+  no sale), closeDay (now returns nil when refused) and layaway cancel check it, and record who said yes from the
+  store, not the screen. Tests: TillAuthorityTests (Core), TillPermissionTests (simulator, `[store]` runs).
+  Still to do in CC-003: sale-level permissions (discount, price change, custom amount, remove line, gift card,
+  tab) are still applied on the screen only — enforce in `record()` by passing the approval with the sale lines;
+  settings changes (roles, people, permissions) behind ManagerOnly only; the lockout resets if the app restarts.
+- 21 Nov — WHERE WE LEFT OFF: CC-003 part 1 is on PR #61 (branch improve/2026-11-21-cc003), NOT merged. Core tests
+  green; app builds; TillPermissionTests + TillPinTests pass on the simulator. The `[store]` run is red only because
+  StoreKit purchase tests hang/fail against Apple's test server (testBuyingPacksAddsScansOnce always — skipped in
+  this branch; testMonthlyPlan and the expiry check sometimes). Waiting for Ramyar: make purchase tests non-blocking
+  until fixed, or fix them first. Then merge #61, beta, and continue CC-003 part 2 (sale-level permissions in
+  `record()`, settings changes, lockout kept across restarts).
+- 21 Nov — Ramyar: fix the purchase tests first (test code only). StoreTests now buy through
+  `SKTestSession.buyProduct` (no purchase sheet) and wait up to 30 s for the store's own handle/refresh; the skip
+  of testBuyingPacksAddsScansOnce is removed; all purchase tests block again. `Store.buy()` (the sheet itself) is
+  then only checked by hand in TestFlight's sandbox.
+- 21 Nov — WHERE WE LEFT OFF (purchase tests): with buyProduct the store never sees the test purchases, and
+  testProductsAndTrial saw the yearly plan at 99.99 although Tests/Products.storekit says 89.99. So on the cloud
+  simulator (Xcode 27 / iOS 27) the SKTestSession doesn't take hold: StoreKit answers from elsewhere (most likely
+  Apple's sandbox). Next: confirm which (log `Product.displayPrice` + `AppStore.environment` in setUp); try the
+  session before the host app's Store.shared starts (it loads products at launch), or an app-less StoreKit test
+  target; or pin the runner to Xcode 26.x for these tests only. Ask Ramyar: is the real yearly price £89.99 or
+  £99.99? PR #61 (CC-003 part 1) stays unmerged until the purchase tests pass.
+- 21 Nov — Ramyar: the real yearly price is £89.99, and the plans/packs aren't in App Store Connect for the Swift
+  app yet (he'll have me add them when he has a PC). Likely cause of the test trouble: the app (the test host)
+  started its own StoreKit at launch, before the test session. Now `Store.start()` does nothing under XCTest, and
+  StoreTests pin the session to GBR / en_GB.
+- 21 Nov — purchase tests: the failing runs showed storefront GBR but "$99.99" yearly, $9.99 monthly, 7-day
+  trial — none of that is in Products.storekit (ever), so StoreKit answered from Apple's sandbox (probably the live
+  app's old plans, same bundle ID). Fix tried: erase the simulator before `[store]` tests (the screenshot run before
+  them talks to the sandbox) and skip the launch refresh in RootView when hosting tests (`Store.hostingTests`).
+- 21 Nov — fresh simulator didn't help: purchases land in the local test store but the app reads the sandbox.
+  Now `storeKitConfiguration: Tests/Products.storekit` on the app's scheme (Xcode-run only). CC-003 part 2: `Gate`
+  spends the store's yes for basket changes the moment they're made (`Gate.basketChanges`); changeLine uses it.
+  Not yet: settings changes (roles, people, permissions) still guarded by ManagerOnly only; lockout resets on
+  restart; supervisor role.
+- 21 Nov — WHERE WE LEFT OFF: the scheme's storeKitConfiguration didn't help either (5th attempt). In every run
+  the app reads yearly $99.99 / monthly $9.99 / 7-day trial for ipc_yearly / ipc_monthlyy — real App Store Connect
+  data for this bundle ID (the live app), not Products.storekit — while test purchases go to the local test store.
+  CC-003 parts 1+2 are complete on PR #61; Core tests green; till and PIN simulator tests (4) pass; only StoreTests
+  fail. Waiting for Ramyar's choice on the purchase tests before merging. Ideas not yet tried: a separate test
+  target without the app as host; StoreKit tests in Xcode Cloud; checking the plans in App Store Connect.

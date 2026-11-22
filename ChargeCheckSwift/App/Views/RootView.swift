@@ -151,7 +151,7 @@ struct RootView: View {
             Accounts.shared.changed(context)
             await offerCloudRestore()
             store.start()
-            await store.refresh()
+            if !Store.hostingTests { await store.refresh() }
             if IntentInbox.takeScanRequest() {
                 // opened by Siri / Shortcuts: "Check an invoice"
                 tab = "invoices"
@@ -195,7 +195,7 @@ struct RootView: View {
                 session.openScanner = true
             }
             // coming back to the app: check the subscription again, in case it ended or was renewed meanwhile
-            if phase == .active && store.checkedEntitlements { Task { await store.refresh() } }
+            if phase == .active && store.checkedEntitlements && !Store.hostingTests { Task { await store.refresh() } }
         }
         .confirmationDialog("Bring back your data from iCloud?", isPresented: Binding(get: { cloudRestore != nil }, set: { if !$0 { cloudRestore = nil } }),
                             titleVisibility: .visible, presenting: cloudRestore) { backup in

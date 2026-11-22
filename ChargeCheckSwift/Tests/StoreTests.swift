@@ -16,9 +16,25 @@ final class StoreTests: XCTestCase {
         session = try SKTestSession(configurationFileNamed: "Products")
         session.resetToDefaultState()
         session.clearTransactions()
+        // the prices in Products.storekit are UK prices: never let the cloud Mac's own country change them
+        session.storefront = "GBR"
+        session.locale = Locale(identifier: "en_GB")
         session.disableDialogs = true
         defaults = UserDefaults(suiteName: "chargecheck.store.tests")
         defaults.removePersistentDomain(forName: "chargecheck.store.tests")
+    }
+
+    /// Buys through the StoreKit test session (no purchase sheet, which can hang on the cloud simulators), then waits
+    /// up to 30 s for the store to take it in. The store's own money logic (handle, refresh) does the rest.
+    private func purchase(_ id: String, on store: Store, until done: @MainActor () -> Bool) async throws {
+        _ = try await session.buyProduct(identifier: id)
+        for _ in 0..<60 {
+            if let latest = await Transaction.latest(for: id) { await store.handle(latest) }
+            await store.refresh()
+            if done() { return }
+            try await Task.sleep(nanoseconds: 500_000_000)
+        }
+        XCTFail("the store didn't take in \(id) within 30 s")
     }
 
     private func makeStore() async -> Store {
@@ -34,7 +50,7 @@ final class StoreTests: XCTestCase {
         XCTAssertEqual(store.packs.map { $0.id }, Products.packOrder, store.loadStatus)
         let yearly = try XCTUnwrap(store.yearly)
         let monthly = try XCTUnwrap(store.monthly)
-        XCTAssertEqual(yearly.price, Decimal(string: "89.99"))
+        XCTAssertEqual(yearly.price, Decimal(string: "89.99"), "storefront \(session.storefront), \(yearly.displayPrice)")
         XCTAssertEqual(monthly.price, Decimal(string: "8.99"))
         let offer = try XCTUnwrap(yearly.subscription?.introductoryOffer)
         XCTAssertEqual(offer.paymentMode, .freeTrial)
@@ -48,15 +64,13 @@ final class StoreTests: XCTestCase {
 
     func testBuyingPacksAddsScansOnce() async throws {
         let store = await makeStore()
-        let ten = try XCTUnwrap(store.packs.first { $0.id == "chargecheck_scans_10" })
-        let outcome1 = await store.buy(ten)
-        XCTAssertEqual(outcome1, .done(scans: 10))
-        XCTAssertEqual(store.credits, 10)
+        XCTAssertNotNil(store.packs.first { $0.id == "chargecheck_scans_10" })
+        try await purchase("chargecheck_scans_10", on: store) { store.credits >= 10 }
+        XCTAssertEqual(store.credits, 10, "handled several times, counted once")
         XCTAssertTrue(store.canScan)
         XCTAssertFalse(store.isSubscribed)
-        let three = try XCTUnwrap(store.packs.first { $0.id == "chargecheck_scans_3" })
-        let outcome2 = await store.buy(three)
-        XCTAssertEqual(outcome2, .done(scans: 3))
+        XCTAssertNotNil(store.packs.first { $0.id == "chargecheck_scans_3" })
+        try await purchase("chargecheck_scans_3", on: store) { store.credits >= 13 }
         XCTAssertEqual(store.credits, 13)
         // looking at every purchase again must not add scans twice
         if let latest = await Transaction.latest(for: "chargecheck_scans_3") { await store.handle(latest) }
@@ -81,9 +95,8 @@ final class StoreTests: XCTestCase {
 
     func testSubscribingUnlocksAndExpiryLocks() async throws {
         let store = await makeStore()
-        let yearly = try XCTUnwrap(store.yearly)
-        let outcome3 = await store.buy(yearly)
-        XCTAssertEqual(outcome3, .done(scans: 0))
+        XCTAssertNotNil(store.yearly)
+        try await purchase(Products.yearly, on: store) { store.isSubscribed }
         XCTAssertEqual(store.subscribedProductID, Products.yearly)
         XCTAssertTrue(store.isSubscribed)
         XCTAssertTrue(store.canScan)
@@ -97,8 +110,8 @@ final class StoreTests: XCTestCase {
         again.testAsFree = false
         // when it ends, the app is free again
         try session.expireSubscription(productIdentifier: Products.yearly)
-        // the test server takes a moment to pass the news on
-        for _ in 0..<20 {
+        // the test server takes a moment to pass the news on (on the cloud Macs sometimes over 10 seconds)
+        for _ in 0..<60 {
             await store.refresh()
             if !store.isSubscribed { break }
             try await Task.sleep(nanoseconds: 500_000_000)
@@ -109,9 +122,8 @@ final class StoreTests: XCTestCase {
 
     func testMonthlyPlan() async throws {
         let store = await makeStore()
-        let monthly = try XCTUnwrap(store.monthly)
-        let outcome4 = await store.buy(monthly)
-        XCTAssertEqual(outcome4, .done(scans: 0))
+        XCTAssertNotNil(store.monthly)
+        try await purchase(Products.monthly, on: store) { store.isSubscribed }
         XCTAssertEqual(store.subscribedProductID, Products.monthly)
         XCTAssertTrue(store.isSubscribed)
     }
