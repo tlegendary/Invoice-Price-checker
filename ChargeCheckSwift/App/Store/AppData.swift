@@ -47,7 +47,7 @@ enum AppData {
     static func restore(_ backup: BackupFile, into context: ModelContext) {
         for old in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(old) }
         for old in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(old) }
-        try? context.save()
+        context.saveOrReport()
 
         var seen = Set<String>()
         for item in backup.baseline where seen.insert(item.id).inserted {
@@ -57,7 +57,7 @@ enum AppData {
         for entry in backup.history where seen.insert(entry.id).inserted {
             context.insert(StoredReport(entry: entry))
         }
-        try? context.save()
+        context.saveOrReport()
         Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
                                 currencies: backup.currencies, context: context)
         OrderStore.shared.restore(backup.orders)
@@ -141,7 +141,7 @@ enum AppData {
         } else {
             context.insert(StoredReport(entry: entry))
         }
-        try? context.save()
+        context.saveOrReport()
         return entry
     }
 
@@ -154,7 +154,7 @@ enum AppData {
             entry.savedAt = savedAt
             stored.update(from: entry)
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Deletes an invoice. It stays in More › Recently deleted for 30 days.
@@ -167,7 +167,7 @@ enum AppData {
             if let entry = stored.entry { Records.shared.binInvoice(entry) }
             context.delete(stored)
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Deletes prices. They stay in More › Recently deleted for 30 days.

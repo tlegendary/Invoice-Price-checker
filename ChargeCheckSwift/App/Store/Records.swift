@@ -33,7 +33,7 @@ final class Records: ObservableObject {
 
     private static func write<T: Encodable>(_ value: T, _ name: String) {
         guard let url = url(name), let data = try? JSONEncoder().encode(value) else { return }
-        try? data.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+        SaveWatch.write(data, to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
     }
 
     private func saveBin() { Self.write(bin, "bin.json") }
@@ -96,7 +96,7 @@ final class Records: ObservableObject {
             let id = entry.id
             let existing = (try? context.fetch(FetchDescriptor<StoredReport>(predicate: #Predicate<StoredReport> { $0.uid == id }))) ?? []
             if existing.isEmpty { context.insert(StoredReport(entry: entry)) }
-            try? context.save()
+            context.saveOrReport()
             log(.invoiceRestored, RecordKeeping.subject(entry), amount: entry.total)
         }
         if let payment = item.payment {
@@ -105,7 +105,7 @@ final class Records: ObservableObject {
         }
         if let price = item.price {
             AppData.save(price, in: context, logged: false)
-            try? context.save()
+            context.saveOrReport()
             log(.priceRestored, price.name, amount: price.price)
         }
         bin.removeAll { $0.id == item.id }

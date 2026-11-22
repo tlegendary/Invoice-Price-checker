@@ -23,7 +23,7 @@ enum CreditPhotos {
         formatter.dateFormat = "yyyy-MM-dd-HHmmss-SSS"
         let name = "Photo " + formatter.string(from: Date()) + ".jpg"
         let url = folder.appendingPathComponent(name)
-        guard (try? data.write(to: url, options: .atomic)) != nil else { return nil }
+        guard SaveWatch.write(data, to: url) else { return nil }
         let relative = "Invoices/Evidence/" + entryID
         if CloudCopies.wanted {
             DispatchQueue.global(qos: .utility).async {

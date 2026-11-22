@@ -356,7 +356,7 @@ struct TillView: View {
                     info.barcodes = (info.barcodes ?? []) + [link.code]
                     changed.till = info
                     AppData.save(changed, in: context, logged: false)
-                    try? context.save()
+                    context.saveOrReport()
                     add(changed, pack: false)
                 }, title: String(localized: "Which item is this barcode?"))
             }
@@ -374,7 +374,7 @@ struct TillView: View {
                     info.sell = Money.round2(value)
                     changed.till = info
                     AppData.save(changed, in: context, logged: false)
-                    try? context.save()
+                    context.saveOrReport()
                     add(changed, pack: false)
                     priceText = ""
                 }

@@ -18,8 +18,10 @@ enum AppFiles {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
             url.appendPathComponent(name)
             try data.write(to: url, options: .atomic)
+            SaveWatch.saved(.phone, folder + "/" + name)
             return url
         } catch {
+            SaveWatch.failed(.phone, folder + "/" + name, error)
             return nil
         }
     }
@@ -148,8 +150,11 @@ enum CloudFolder {
                 ok = true
             } catch {
                 ok = false
+                SaveWatch.failed(.icloud, sub + "/" + name, error)
             }
         }
+        if let coordinationError { SaveWatch.failed(.icloud, sub + "/" + name, coordinationError) }
+        if ok && coordinationError == nil { SaveWatch.saved(.icloud, sub + "/" + name) }
         return ok && coordinationError == nil
     }
 
