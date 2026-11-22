@@ -43,12 +43,37 @@ enum AppData {
                           stockCounts: TillStore.shared.counts.isEmpty ? nil : TillStore.shared.counts)
     }
 
-    /// Replaces what is on this phone with the backup.
-    static func restore(_ backup: BackupFile, into context: ModelContext) {
+    enum RestoreResult: Equatable {
+        case done
+        /// The file was checked and not used: nothing on the phone changed.
+        case refused([BackupProblem])
+        /// Saving failed: everything was put back as it was.
+        case failed(String)
+
+        /// What to tell the person when it didn't go ahead.
+        var message: String? {
+            switch self {
+            case .done: return nil
+            case .failed: return String(localized: "The backup couldn't be saved, so nothing was changed. Free up some space and try again.")
+            case .refused(let problems):
+                if problems.contains(where: { if case .newerVersion = $0 { return true } else { return false } }) {
+                    return String(localized: "This backup was made by a newer ChargeCheck. Update the app, then restore it.")
+                }
+                if problems.contains(.empty) { return String(localized: "This backup is empty, so nothing was changed.") }
+                return String(localized: "This backup file is damaged, so nothing was changed.")
+            }
+        }
+    }
+
+    /// Replaces what is on this phone with the backup – all or nothing. The file is checked first; the old data is
+    /// removed and the backup's added in ONE save, and if that save fails everything is put back as it was. The rest
+    /// (payments, orders, budgets, stock counts) is restored only after that has worked.
+    @discardableResult
+    static func restore(_ backup: BackupFile, into context: ModelContext) -> RestoreResult {
+        let problems = BackupValidation.problems(backup)
+        guard problems.isEmpty else { return .refused(problems) }
         for old in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(old) }
         for old in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(old) }
-        context.saveOrReport()
-
         var seen = Set<String>()
         for item in backup.baseline where seen.insert(item.id).inserted {
             context.insert(StoredPrice(item: item))
@@ -57,7 +82,14 @@ enum AppData {
         for entry in backup.history where seen.insert(entry.id).inserted {
             context.insert(StoredReport(entry: entry))
         }
-        context.saveOrReport()
+        do {
+            try context.save()
+            SaveWatch.saved(.database, SaveWatch.database)
+        } catch {
+            context.rollback()
+            SaveWatch.failed(.database, SaveWatch.database, error)
+            return .failed(String(describing: error))
+        }
         Accounts.shared.restore(payments: backup.payments, trusted: backup.trusted, creditDays: backup.creditDays,
                                 currencies: backup.currencies, context: context)
         OrderStore.shared.restore(backup.orders)
@@ -80,6 +112,7 @@ enum AppData {
                 if let shop = settings.shop { defaults.set(shop, forKey: Shops.currentKey) }
             }
         }
+        return .done
     }
 
     /// Supplier names the user already has (from reports and the price list).

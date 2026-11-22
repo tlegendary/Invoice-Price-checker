@@ -203,7 +203,9 @@ struct RootView: View {
                             titleVisibility: .visible, presenting: cloudRestore) { backup in
             Button("Restore") {
                 UserDefaults.standard.set(true, forKey: Self.restoreOfferedKey)
-                AppData.restore(backup, into: context)
+                // the check refuses a damaged or newer file, and a failed save changes nothing: then there's simply
+                // nothing restored, and Settings › Backup can be tried again
+                guard AppData.restore(backup, into: context) == .done else { return }
                 _ = store.restoreScans(from: backup.scans)
                 Accounts.shared.changed(context)
             }
