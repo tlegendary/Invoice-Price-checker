@@ -174,15 +174,15 @@ public enum SupplierAccounts {
             let theirs = invoices[k] ?? []
             let paidList = money[k] ?? []
             let linked = Set(paidList.flatMap { $0.invoiceIDs })
-            let opening = paidList.filter { $0.kind == .opening }.reduce(0) { $0 + $1.amount }
-            let paid = paidList.filter { $0.kind == .payment }.reduce(0) { $0 + $1.amount }
-            let credits = paidList.filter { $0.kind == .credit }.reduce(0) { $0 + $1.amount }
-            let invoiced = theirs.reduce(0) { $0 + $1.amountToPay.pay }
-            let outside = theirs.filter { $0.paid != nil && !linked.contains($0.id) }.reduce(0) { $0 + $1.amountToPay.pay }
+            let opening = paidList.filter { $0.kind == .opening }.pennySum { $0.amount }
+            let paid = paidList.filter { $0.kind == .payment }.pennySum { $0.amount }
+            let credits = paidList.filter { $0.kind == .credit }.pennySum { $0.amount }
+            let invoiced = theirs.pennySum { $0.amountToPay.pay }
+            let outside = theirs.filter { $0.paid != nil && !linked.contains($0.id) }.pennySum { $0.amountToPay.pay }
             let balance = Money.round2(opening + invoiced - outside - paid - credits)
 
             // payments towards the balance (not tied to invoices) pay the starting balance, then the oldest invoices
-            var pool = paidList.filter { $0.kind != .opening && $0.invoiceIDs.isEmpty }.reduce(0) { $0 + $1.amount } - opening
+            var pool = paidList.filter { $0.kind != .opening && $0.invoiceIDs.isEmpty }.pennySum { $0.amount } - opening
             var open: [HistoryEntry] = []
             for entry in theirs.reversed() where entry.paid == nil && !linked.contains(entry.id) {
                 let due = entry.amountToPay.pay
@@ -195,7 +195,7 @@ public enum SupplierAccounts {
             let thisWeek = paidList.filter { payment in
                 guard payment.kind == .payment, let week, let date = day(payment.date) else { return false }
                 return week.contains(date)
-            }.reduce(0) { $0 + $1.amount }
+            }.pennySum { $0.amount }
             return SupplierAccount(id: k, name: names[k] ?? k, trusted: trustedKeys.contains(k), entries: theirs, payments: paidList,
                                    opening: Money.round2(opening), invoiced: Money.round2(invoiced), paid: Money.round2(paid),
                                    credits: Money.round2(credits), settledOutside: Money.round2(outside), balance: balance,
@@ -294,7 +294,7 @@ public enum SupplierAccounts {
         for invoice in invoices { amounts[invoice.id] = invoice.amountToPay.pay }
         let shops = Set(invoices.map { $0.shopId })
         let shop = shops.count == 1 ? shops.first ?? "" : ""
-        return SupplierPayment(supplier: supplier, amount: Money.round2(invoices.reduce(0) { $0 + $1.amountToPay.pay }), date: date,
+        return SupplierPayment(supplier: supplier, amount: Money.round2(invoices.pennySum { $0.amountToPay.pay }), date: date,
                                invoiceIDs: invoices.map { $0.id }, shopId: shop.isEmpty ? nil : shop, currency: currency,
                                invoiceAmounts: amounts)
     }
@@ -370,8 +370,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
 
     public static func make(_ accounts: [SupplierAccount], currency: String, now: Date = Date()) -> WidgetSnapshot {
         let owing = accounts.filter { $0.balance > 0.005 }
-        var snapshot = WidgetSnapshot(totalOwed: Money.round2(owing.reduce(0) { $0 + $1.balance }),
-                                      paidThisWeek: Money.round2(accounts.reduce(0) { $0 + $1.paidThisWeek }),
+        var snapshot = WidgetSnapshot(totalOwed: Money.round2(owing.pennySum { $0.balance }),
+                                      paidThisWeek: Money.round2(accounts.pennySum { $0.paidThisWeek }),
                                       suppliers: owing.prefix(6).map { Line(name: $0.name, owed: $0.balance, openInvoices: $0.open.count) },
                                       currency: currency, updated: now)
         if let split = SupplierAccounts.totalSplit(owing), split.vat > 0.005 { snapshot.totalBeforeVat = split.beforeVat }

@@ -37,7 +37,7 @@ public enum SupplierProfiles {
         let month = String(SupplierAccounts.dayText(now).prefix(7))
         let lastMonthDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: now) ?? now
         let lastMonth = String(SupplierAccounts.dayText(lastMonthDate).prefix(7))
-        let total = entries.reduce(0) { $0 + $1.amountToPay.total }
+        let total = entries.pennySum { $0.amountToPay.total }
         let caught = entries.map { OverviewMaths.caught($0) }
 
         // invoice accuracy: share of price-checked lines charged at (or below) the agreed price
@@ -78,14 +78,14 @@ public enum SupplierProfiles {
 
         return SupplierProfile(
             invoices: entries.count,
-            purchasesThisMonth: Money.round2(entries.filter { $0.savedAt.hasPrefix(month) }.reduce(0) { $0 + $1.amountToPay.total }),
-            purchasesLastMonth: Money.round2(entries.filter { $0.savedAt.hasPrefix(lastMonth) }.reduce(0) { $0 + $1.amountToPay.total }),
+            purchasesThisMonth: Money.round2(entries.filter { $0.savedAt.hasPrefix(month) }.pennySum { $0.amountToPay.total }),
+            purchasesLastMonth: Money.round2(entries.filter { $0.savedAt.hasPrefix(lastMonth) }.pennySum { $0.amountToPay.total }),
             averageInvoice: entries.isEmpty ? 0 : Money.round2(total / Double(entries.count)),
             totalBought: Money.round2(total),
-            overcharged: Money.round2(caught.reduce(0) { $0 + $1.overcharges }),
-            missing: Money.round2(caught.reduce(0) { $0 + $1.missing }),
+            overcharged: Money.round2(caught.pennySum { $0.overcharges }),
+            missing: Money.round2(caught.pennySum { $0.missing }),
             disputed: caught.filter { $0.overcharges + $0.missing > 0.005 }.count,
-            creditsOwed: Money.round2(entries.compactMap { $0.credit }.filter { $0.isOwed }.reduce(0) { $0 + $1.amount }),
+            creditsOwed: Money.round2(entries.compactMap { $0.credit }.filter { $0.isOwed }.pennySum { $0.amount }),
             risesLast90Days: rises.count,
             parts: parts,
             score: score)

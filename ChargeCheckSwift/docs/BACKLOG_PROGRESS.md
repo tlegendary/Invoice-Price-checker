@@ -116,3 +116,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   budgets, stock counts only after. `AppData.RestoreResult` tells the screen what happened. Not covered yet: the
   other stores' own files (Accounts/Orders/Budgets/Till) aren't rolled back if one of THEM fails — they report via
   SaveWatch instead (CC-013 file integrity).
+- 23 Nov — Money in whole pence, slice 1 (Ramyar: "go ahead", pence): `Pence` (Int) + `Sequence.pennySum` in Core;
+  51 money totals in Overview, ReportMaths, SupplierAccounts, Insights, SupplierProfile, Till, DueDates,
+  StatementCheck, MoneyInsights, DueReminders now add in whole pence (a NaN makes the total NaN, never dropped).
+  Per-invoice maths (PayBreakdown) already rounds each step to the penny. Next slices: stored values as pence
+  (needs a data migration), PayBreakdown internals, till sale totals.

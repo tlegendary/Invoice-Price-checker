@@ -90,12 +90,12 @@ public enum ReportMaths {
         }
         suppliers.sort { $0.pay != $1.pay ? $0.pay > $1.pay : $0.name < $1.name }
         return PaySummary(unpaid: unpaid, selected: selected, suppliers: suppliers,
-                          total: Money.round2(suppliers.reduce(0) { $0 + $1.total }),
-                          less: Money.round2(suppliers.reduce(0) { $0 + $1.less }),
-                          pay: Money.round2(suppliers.reduce(0) { $0 + $1.pay }),
+                          total: Money.round2(suppliers.pennySum { $0.total }),
+                          less: Money.round2(suppliers.pennySum { $0.less }),
+                          pay: Money.round2(suppliers.pennySum { $0.pay }),
                           beforeVat: beforeVat,
-                          payBeforeVat: Money.round2(selected.reduce(0) { $0 + $1.amountToPayBeforeVat.pay }),
-                          payWithVat: Money.round2(selected.reduce(0) { $0 + $1.amountToPay.pay }))
+                          payBeforeVat: Money.round2(selected.pennySum { $0.amountToPayBeforeVat.pay }),
+                          payWithVat: Money.round2(selected.pennySum { $0.amountToPay.pay }))
     }
 
     // MARK: - credits
@@ -103,19 +103,19 @@ public enum ReportMaths {
     /// Credits asked for but not received yet: how many, and how much in all.
     public static func creditsOwed(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
         let owed = entries.filter { $0.credit?.isOwed == true }
-        return (owed.count, Money.round2(owed.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+        return (owed.count, Money.round2(owed.pennySum { $0.credit?.amount ?? 0 }))
     }
 
     /// Credits received, how many and how much in all – money won back.
     public static func creditsReceived(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
         let got = entries.filter { $0.credit?.status == CreditInfo.received }
-        return (got.count, Money.round2(got.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+        return (got.count, Money.round2(got.pennySum { $0.credit?.amount ?? 0 }))
     }
 
     /// Credits the supplier refused, written off: how many and how much.
     public static func creditsWrittenOff(_ entries: [HistoryEntry]) -> (count: Int, amount: Double) {
         let lost = entries.filter { $0.credit?.status == CreditInfo.writtenOff }
-        return (lost.count, Money.round2(lost.reduce(0) { $0 + ($1.credit?.amount ?? 0) }))
+        return (lost.count, Money.round2(lost.pennySum { $0.credit?.amount ?? 0 }))
     }
 
     /// A ready-to-send message asking the supplier for a credit note (same wording as the old app).

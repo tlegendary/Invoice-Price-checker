@@ -181,7 +181,7 @@ public enum OverviewMaths {
         let twice = entries.filter { $0.duplicateOf != nil && $0.paid == nil }
         if !twice.isEmpty {
             attention.append(Attention(kind: .duplicates, count: twice.count,
-                                       amount: Money.round2(twice.reduce(0) { $0 + $1.amountToPay.pay })))
+                                       amount: Money.round2(twice.pennySum { $0.amountToPay.pay })))
         }
         let unchecked = entries.filter { !$0.verified && !$0.totalOnly }
         if !unchecked.isEmpty { attention.append(Attention(kind: .notChecked, count: unchecked.count, amount: 0)) }
@@ -189,31 +189,31 @@ public enum OverviewMaths {
         let lateCredits = owedCredits.filter { ($0.at.map { String($0.prefix(10)) } ?? today) <= late }
         if !lateCredits.isEmpty {
             attention.append(Attention(kind: .creditsLate, count: lateCredits.count,
-                                       amount: Money.round2(lateCredits.reduce(0) { $0 + $1.amount })))
+                                       amount: Money.round2(lateCredits.pennySum { $0.amount })))
         }
         let dues = DueDates.open(accounts: accounts, creditDays: creditDays, now: now)
         let overdue = dues.filter { $0.daysLeft < 0 }
         if !overdue.isEmpty {
-            attention.append(Attention(kind: .overdue, count: overdue.count, amount: Money.round2(overdue.reduce(0) { $0 + $1.amount })))
+            attention.append(Attention(kind: .overdue, count: overdue.count, amount: Money.round2(overdue.pennySum { $0.amount })))
         }
         let soon = dues.filter { $0.daysLeft >= 0 && $0.daysLeft <= 7 }
         if !soon.isEmpty {
-            attention.append(Attention(kind: .dueSoon, count: soon.count, amount: Money.round2(soon.reduce(0) { $0 + $1.amount })))
+            attention.append(Attention(kind: .dueSoon, count: soon.count, amount: Money.round2(soon.pennySum { $0.amount })))
         }
         if !rises.isEmpty { attention.append(Attention(kind: .priceRises, count: rises.count, amount: risesCost)) }
 
         var overview = Overview(
-            owed: Money.round2(owing.reduce(0) { $0 + $1.balance }),
+            owed: Money.round2(owing.pennySum { $0.balance }),
             suppliersOwed: owing.count,
-            spentThisMonth: Money.round2(inMonth.reduce(0) { $0 + $1.amountToPay.total }),
+            spentThisMonth: Money.round2(inMonth.pennySum { $0.amountToPay.total }),
             invoicesThisMonth: inMonth.count,
-            paidThisWeek: Money.round2(accounts.reduce(0) { $0 + $1.paidThisWeek }),
+            paidThisWeek: Money.round2(accounts.pennySum { $0.paidThisWeek }),
             savedThisMonth: savings(inMonth),
             savedAllTime: savings(entries),
             risesThisMonth: rises,
             risesCost: risesCost,
-            creditsOwed: Money.round2(owedCredits.reduce(0) { $0 + $1.amount }),
-            cheaperElsewhere: Money.round2(tips.reduce(0) { $0 + $1.savingMonth }),
+            creditsOwed: Money.round2(owedCredits.pennySum { $0.amount }),
+            cheaperElsewhere: Money.round2(tips.pennySum { $0.savingMonth }),
             risingSupplier: bySupplier.values.max { $0.cost < $1.cost }?.name,
             attention: attention,
             owedOther: owedOther)

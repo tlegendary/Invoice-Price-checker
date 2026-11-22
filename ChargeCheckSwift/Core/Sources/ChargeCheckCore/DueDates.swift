@@ -73,6 +73,6 @@ public enum DueDates {
 
     /// Cash needed in the next `days` days, overdue included.
     public static func cashNeeded(_ due: [DueInvoice], withinDays days: Int = 7) -> Double {
-        Money.round2(due.filter { $0.daysLeft <= days }.reduce(0) { $0 + $1.amount })
+        Money.round2(due.filter { $0.daysLeft <= days }.pennySum { $0.amount })
     }
 }
