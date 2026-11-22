@@ -10,7 +10,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
 | CC-003 | Permission enforcement audit (P0) | ✅ | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
-| CC-004 | Persistence error model (P0) | 🟡 | SaveHealth (Core) + SaveWatch banner; 19 database saves + phone/iCloud writes report |
+| CC-004 | Persistence error model (P0) | ✅ | SaveHealth (Core) + SaveWatch banner; 19 database saves + phone/iCloud writes report |
 | CC-005 | Transactional backup restore (P0) | 🟡 | BackupValidation first; delete + insert in one save, rollback on failure; the rest only after |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
 | CC-007 | External terminal manual tender (P0) | ⬜ | |
