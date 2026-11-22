@@ -39,7 +39,7 @@ struct PricesView: View {
             change(&item)
             stored.update(from: item)
         }
-        try? context.save()
+        context.saveOrReport()
         Records.shared.log(.priceChanged, chosen.count == 1 ? String(localized: "Shops changed for 1 item")
                                                             : String(localized: "Shops changed for \(chosen.count) items"))
         selected = []
@@ -161,7 +161,7 @@ struct PricesView: View {
                                 isPresented: $confirmDeleteSelected, titleVisibility: .visible) {
                 Button("Delete", role: .destructive) {
                     AppData.deletePrices(prices.filter { selected.contains($0.uid) }, context: context)
-                    try? context.save()
+                    context.saveOrReport()
                     selected = []
                     editMode = .inactive
                 }
@@ -261,7 +261,7 @@ struct PricesView: View {
             .sheet(isPresented: $showNames) {
                 NameSuggestionsView(items: prices.map { $0.item }) { changed in
                     for item in changed { AppData.save(item, in: context) }
-                    try? context.save()
+                    context.saveOrReport()
                 }
             }
             .sheet(isPresented: $showSort) {

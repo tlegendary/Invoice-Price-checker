@@ -40,7 +40,7 @@ final class Accounts: ObservableObject {
 
     private func save() {
         if let url = Self.fileURL, let data = try? JSONEncoder().encode(payments) {
-            try? data.write(to: url, options: .atomic)
+            SaveWatch.write(data, to: url)
         }
         UserDefaults.standard.set(trusted, forKey: Self.trustedKey)
     }
@@ -172,7 +172,7 @@ final class Accounts: ObservableObject {
     func saveReceipt(_ image: UIImage) -> String? {
         let name = UUID().uuidString + ".jpg"
         guard let folder = Self.receiptsFolder, let data = image.resizedForReceipt().jpegData(compressionQuality: 0.75),
-              (try? data.write(to: folder.appendingPathComponent(name), options: .atomic)) != nil else { return nil }
+              SaveWatch.write(data, to: folder.appendingPathComponent(name)) else { return nil }
         return name
     }
 
@@ -343,7 +343,7 @@ enum WidgetData {
     static func write(_ snapshot: WidgetSnapshot) {
         guard let folder = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Accounts.appGroup),
               let data = try? JSONEncoder().encode(snapshot) else { return }
-        try? data.write(to: folder.appendingPathComponent(fileName), options: .atomic)
+        SaveWatch.write(data, to: folder.appendingPathComponent(fileName))
         WidgetCenter.shared.reloadAllTimelines()
     }
 }

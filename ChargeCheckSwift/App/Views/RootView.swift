@@ -89,6 +89,8 @@ struct RootView: View {
             if tillTabShown && tab == "reports" { tab = "till" }
             if !tillTabShown && tab == "till" { tab = "reports" }
         }
+        // never silent: shown while anything hasn't saved
+        .safeAreaInset(edge: .top, spacing: 0) { SaveBanner() }
         .environmentObject(session)
         .environmentObject(store)
         .environmentObject(ads)

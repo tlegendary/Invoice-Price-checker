@@ -103,7 +103,7 @@ final class CloudTeam: NSObject, ObservableObject {
         let engineData = engineState.flatMap { try? JSONEncoder().encode($0) }
         let saved = Saved(synced: synced, systemFields: systemFields, engine: engineData, lastSync: lastSync)
         guard let url = Self.folder?.appendingPathComponent("state.json"), let data = try? JSONEncoder().encode(saved) else { return }
-        try? data.write(to: url, options: .atomic)
+        SaveWatch.write(data, to: url, area: .icloud)
     }
 
     private func forgetState() {
@@ -283,7 +283,7 @@ final class CloudTeam: NSObject, ObservableObject {
         defer { applying = false }
         for stored in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(stored) }
         for stored in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(stored) }
-        try? context.save()
+        context.saveOrReport()
         Accounts.shared.restore(payments: [], trusted: [], context: context)
     }
 
@@ -417,7 +417,7 @@ final class CloudTeam: NSObject, ObservableObject {
                 break
             }
         }
-        try? context.save()
+        context.saveOrReport()
         if paymentsChanged || trusted != nil {
             Accounts.shared.restore(payments: payments, trusted: trusted ?? Accounts.shared.trusted, context: context)
         }

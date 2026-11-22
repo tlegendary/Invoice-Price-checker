@@ -9,8 +9,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 |---|---|---|---|
 | CC-001 | Production build guard (P0) | ✅ | project.yml test mode off; beta turns it on; tools/release_guard.py on every push + after release archive |
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
-| CC-003 | Permission enforcement audit (P0) | 🟡 | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
-| CC-004 | Persistence error model (P0) | ⬜ | |
+| CC-003 | Permission enforcement audit (P0) | ✅ | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
+| CC-004 | Persistence error model (P0) | 🟡 | SaveHealth (Core) + SaveWatch banner; 19 database saves + phone/iCloud writes report |
 | CC-005 | Transactional backup restore (P0) | ⬜ | |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
 | CC-007 | External terminal manual tender (P0) | ⬜ | |
@@ -103,3 +103,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   CC-003 parts 1+2 are complete on PR #61; Core tests green; till and PIN simulator tests (4) pass; only StoreTests
   fail. Waiting for Ramyar's choice on the purchase tests before merging. Ideas not yet tried: a separate test
   target without the app as host; StoreKit tests in Xcode Cloud; checking the plans in App Store Connect.
+- 23 Nov — Ramyar approved merging with only the StoreKit purchase tests failing (they need the products in App
+  Store Connect; product IDs are now chargecheck_*, PR #62). CC-003 ✅ merged (PR #61). Remaining for later: settings
+  changes still behind ManagerOnly only; supervisor role; lockout resets on restart.
+- 23 Nov — CC-004: Core `SaveHealth` (a failure stays until that same thing saves; worst first: database, phone,
+  iCloud). App `SaveWatch` + `SaveBanner` at the top of every tab; `ModelContext.saveOrReport()` replaces all 19
+  `try? context.save()`; AppFiles/CloudFolder writes, the till's JSON, accounts, records, team files and credit
+  photos report failures. Still silent on purpose: deleting old backup copies, crash-report files.

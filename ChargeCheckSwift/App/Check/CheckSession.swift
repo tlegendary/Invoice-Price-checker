@@ -389,7 +389,7 @@ final class CheckSession: ObservableObject {
             guard let item = note.before.first(where: { $0.id == change.itemID }) else { continue }
             AppData.save(PriceTools.setting(change.to, on: item, supplier: note.supplier, shop: note.shop), in: context)
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Suppliers call the same item different names. On a fully checked invoice, each new name of an item the app
@@ -405,7 +405,7 @@ final class CheckSession: ObservableObject {
         }
         if changed.isEmpty { return }
         for item in changed.values { AppData.save(item, in: context) }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Saves the invoice to Reports once every line is checked (or straight away when `anyway` is true).

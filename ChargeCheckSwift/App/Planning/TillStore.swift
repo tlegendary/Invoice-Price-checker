@@ -196,7 +196,13 @@ final class TillStore: ObservableObject {
     }
 
     private func save<T: Encodable>(_ value: T, name: String) {
-        guard let data = try? JSONEncoder().encode(value) else { return }
+        let data: Data
+        do {
+            data = try JSONEncoder().encode(value)
+        } catch {
+            SaveWatch.failed(.phone, Self.tillFolder + "/" + name, error)
+            return
+        }
         AppFiles.write(data, folder: Self.tillFolder, name: name)
         if CloudFolder.isOn {
             DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: TillStore.tillFolder, name: name) }
@@ -304,7 +310,7 @@ final class TillStore: ObservableObject {
         guard UserDefaults.standard.string(forKey: Self.productsKey) != hash,
               let items = try? JSONDecoder().decode([PriceItem].self, from: data), !items.isEmpty else { return }
         for item in items { AppData.save(item, in: context, logged: false) }
-        try? context.save()
+        context.saveOrReport()
         UserDefaults.standard.set(hash, forKey: Self.productsKey)
     }
 

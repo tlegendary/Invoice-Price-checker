@@ -573,7 +573,7 @@ enum ProductImporting {
             }
             done += 1
         }
-        try? context.save()
+        context.saveOrReport()
         Accounts.shared.changed(context)
         return done
     }
@@ -635,7 +635,7 @@ struct ProductAddSheet: View {
                                              till: TillInfo(sell: Money.parse(sell).map { Money.round2($0) }, perPack: 1,
                                                             barcodes: code.isEmpty ? nil : [code], vat: vat == 0 ? nil : vat, tillOnly: true))
                         AppData.save(item, in: context, logged: false)
-                        try? context.save()
+                        context.saveOrReport()
                         dismiss()
                     }
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || (Money.parse(sell) ?? 0) <= 0)
