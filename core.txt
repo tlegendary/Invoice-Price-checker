@@ -1,6 +1,14 @@
-commit: d2ee5da0a2ab93973c6d63a2ef4b90b64c9111d9
+commit: e9ad320f817455ed9f276398fc5eca4088d2c03f
 result: cancelled
-when: Sun Nov 22 22:48:22 UTC 2026
+when: Sun Nov 22 22:48:50 UTC 2026
 
 Swift version 6.4.2 (swift-6.4.2-RELEASE)
 Target: x86_64-unknown-linux-gnu
+Building for debugging...
+[Computing dependencies]
+[Pre-planning 1 / 154]
+[Planning deferred tasks]
+[39 / 62] ChargeCheckCore
+[40 / 62] ChargeCheckCore
+[45 / 63]
+[49 / 68] ChargeCheckCoreTests-product
