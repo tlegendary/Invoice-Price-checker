@@ -1,6 +1,6 @@
-commit: afd8b63d2e43e6a671abb736205bae48d41e3b94
-result: failure
-when: Sun Nov 22 22:35:51 UTC 2026
+commit: 3ba80e9728174d24a3a7da1c0b322ecd7ab62221
+result: success
+when: Sun Nov 22 22:45:58 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -9,7 +9,7 @@ Created project at /Users/runner/work/Invoice-Price-checker/Invoice-Price-checke
 Xcode 27.2
 Build version 27B52
 Simulator: 0A1B5EC5-2485-4F8E-B06B-1185D8E186C0
-stringsdata files:       32
+stringsdata files:       80
      |                 `- warning: cannot use enum 'Publishers' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
      |                 `- warning: cannot use generic class 'Autoconnect' in a property declaration member of a type not marked '@_implementationOnly'; 'Combine' was not imported by this file
      | |- warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
@@ -24,10 +24,10 @@ stringsdata files:       32
     |                                                           `- warning: main actor-isolated static property 'folder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
     |                                                           `- warning: main actor-isolated static property 'tillFolder' cannot be accessed from outside of the actor; this is an error in the Swift 6 language mode
     |                                                          `- warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+    |                                                   `- warning: main actor-isolated static property 'database' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
     |                                                  `- warning: main actor-isolated static property 'database' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
     |                                           `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
     |                                        `- warning: instance method 'unlock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
-    |                                    `- error: type 'BackupCheck' has no member 'problems'
     |                               `- warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
     |                              `- warning: consider using asynchronous alternative function
     |                         `- warning: reference to captured var 'self' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
@@ -37,8 +37,10 @@ stringsdata files:       32
     |              `- warning: instance method 'lock' is unavailable from asynchronous contexts; Use async-safe scoped locking instead; this is an error in the Swift 6 language mode
     | `- warning: add '@preconcurrency' to suppress 'Sendable'-related warnings from module 'Dispatch' [#AddPreconcurrencyImport]
     builtin-ScanDependencies -o /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/GoogleUserMessagingPlatform.build/Debug-iphonesimulator/UserMessagingPlatformTarget-t.build/Objects-normal/arm64/placeholder.o.scan -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -ivfss
+   |                                `- warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
  52 |             SaveWatch.failed(.database, SaveWatch.database, error)
-** TEST BUILD FAILED **
+** TEST BUILD SUCCEEDED **
+/Applications/Xcode_27.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.2.sdk/Developer/Library/Frameworks/StoreKitTest.framework/Headers/SKTestTransaction.h:34:32: warning: 'SKPaymentTransactionState' is deprecated: first deprecated in iOS 18.0 - Use PurchaseResult from Product.purchase(confirmIn:options:).
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Money/AdService.swift:74:30: warning: consider using asynchronous alternative function
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:189:58: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/Files.swift:269:76: warning: main actor-isolated static property 'legacyBackupName' can not be referenced from a Sendable closure
@@ -62,49 +64,11 @@ stringsdata files:       32
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift:221:31: warning: reference to captured var 'wantTable' in concurrently-executing code; this is an error in the Swift 6 language mode [#SendableClosureCaptures]
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/SmartCheck.swift:181:64: warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/SmartCheck.swift:94:60: warning: 'init(sampling:temperature:maximumResponseTokens:)' is deprecated: replaced by 'init(samplingMode:temperature:maximumResponseTokens:)' [#DeprecatedDeclaration]
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/AppData.swift:73:36: error: type 'BackupCheck' has no member 'problems'
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/SaveWatch.swift:50:50: warning: main actor-isolated static property 'database' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
+/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/SaveWatch.swift:52:51: warning: main actor-isolated static property 'database' can not be referenced from a nonisolated context; this is an error in the Swift 6 language mode
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:805:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
----- last lines ----
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Reading/InvoiceReader.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile InvoiceReader.swift
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Output/InvoiceSearch.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile InvoiceSearch.swift
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/ItemPicker.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile ItemPicker.swift
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/LineEditView.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile LineEditView.swift
-
-SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Localize.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-SwiftPerFileCompile Localize.swift
-
-SwiftDriverJobDiscovery normal arm64 Emitting module for ChargeCheck (in target 'ChargeCheck' from project 'ChargeCheck')
-
-SwiftDriver\ Compilation\ Requirements ChargeCheck normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ChargeCheck' from project 'ChargeCheck')
-    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheck -Onone @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.SwiftFileList -DD
-
-PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
-
-PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
-
-PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
-
-** TEST BUILD FAILED **
-
-
-The following build commands failed:
-	SwiftCompile normal arm64 Compiling\ Accounts.swift,\ AdService.swift,\ AppConfig.swift,\ AppData.swift,\ AppLock.swift,\ BackupDocument.swift,\ BudgetStore.swift,\ ChargeCheckApp.swift,\ CheckSession.swift,\ CheckView.swift,\ CloudTeam.swift,\ CrashReports.swift,\ CreditPhotos.swift,\ DocumentScanner.swift,\ Files.swift,\ HomeView.swift,\ ImageTools.swift,\ InsightsViews.swift,\ InvoiceDetailVie
-	SwiftCompile normal arm64 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Store/AppData.swift (in target 'ChargeCheck' from project 'ChargeCheck')
-	Building project ChargeCheck for testing with scheme ChargeCheck
-(3 failures)
+Language sweep: 0 screens stopped
+Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/82DBB096-38F0-4DD3-9393-383E55FA265A/Documents/Backups: ChargeCheck-2026-11-22.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/82DBB096-38F0-4DD3-9393-383E55FA265A/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
+/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png /tmp/shot-L-ar-check-dark.png /tmp/shot-L-ar-check.png /tmp/shot-L-ar-home-dark.png /tmp/shot-L-ar-home.png /tmp/shot-L-ar-more-dark.png /tmp/shot-L-ar-more.png /tmp/shot-L-ar-prices-dark.png /tmp/shot-L-ar-prices.png /tmp/shot-L-ar-reports-dark.png /tmp/shot-L-ar-reports.png /tmp/shot-L-ar-settings-dark.png /tmp/shot-L-ar-settings.png /tmp/shot-L-ar-suppliers-dark.png /tmp/shot-L-ar-suppliers.png /tmp/shot-L-ckb-check.png /tmp/shot-L-ckb-home.png /tmp/shot-L-ckb-more.png /tmp/shot-L-ckb-prices.png /tmp/shot-L-ckb-reports.png /tmp/shot-L-ckb-settings.png /tmp/shot-L-ckb-suppliers.png /tmp/shot-L-de-check.png /tmp/shot-L-de-home.png /tmp/shot-L-de-more.png /tmp/shot-L-de-prices.png /tmp/shot-L-de-reports.png /tmp/shot-L-de-settings.png /tmp/shot-L-de-suppliers.png /tmp/shot-L-en-check-long.png /tmp/shot-L-en-check.png /tmp/shot-L-en-home-long.png /tmp/shot-L-en-home.png /tmp/shot-L-en-more-long.png /tmp/shot-L-en-more.png /tmp/shot-L-en-prices-long.png /tmp/shot-L-en-prices.png /tmp/shot-L-en-reports-long.png /tmp/shot-L-en-reports.png /tmp/shot-L-en-settings-long.png /tmp/shot-L-en-settings.png /tmp/shot-L-en-suppliers-long.png /tmp/shot-L-en-suppliers.png /tmp/shot-L-fr-check.png /tmp/shot-L-fr-home.png /tmp/shot-L-fr-more.png /tmp/shot-L-fr-prices.png /tmp/shot-L-fr-reports.png /tmp/shot-L-fr-settings.png /tmp/shot-L-fr-suppliers.png 
