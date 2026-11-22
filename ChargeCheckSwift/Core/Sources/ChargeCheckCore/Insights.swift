@@ -135,17 +135,17 @@ public enum Insights {
         return MonthSummary(
             month: month,
             invoices: inMonth.count,
-            spent: Money.round2(inMonth.reduce(0) { $0 + $1.amountToPay.total }),
-            overcharged: Money.round2(inMonth.reduce(0) { $0 + $1.amountToPay.less }),
+            spent: Money.round2(inMonth.pennySum { $0.amountToPay.total }),
+            overcharged: Money.round2(inMonth.pennySum { $0.amountToPay.less }),
             bySupplier: suppliers.values.sorted { $0.spent > $1.spent }
                 .map { (name: $0.name, spent: Money.round2($0.spent), overcharged: Money.round2($0.over)) },
             byShop: shopSpend.count > 1
                 ? shopSpend.map { (name: shopNames[$0.key] ?? CoreText.t("No shop"), spent: Money.round2($0.value)) }.sorted { $0.spent > $1.spent }
                 : [],
             rises: rises,
-            creditsOwed: Money.round2(entries.compactMap { $0.credit }.filter { $0.isOwed }.reduce(0) { $0 + $1.amount }),
-            paid: Money.round2(payments.filter { $0.kind == .payment && $0.date.hasPrefix(month) }.reduce(0) { $0 + $1.amount }),
-            owedNow: Money.round2(accounts.filter { $0.balance > 0.005 }.reduce(0) { $0 + $1.balance }))
+            creditsOwed: Money.round2(entries.compactMap { $0.credit }.filter { $0.isOwed }.pennySum { $0.amount }),
+            paid: Money.round2(payments.filter { $0.kind == .payment && $0.date.hasPrefix(month) }.pennySum { $0.amount }),
+            owedNow: Money.round2(accounts.filter { $0.balance > 0.005 }.pennySum { $0.balance }))
     }
 
     /// The summary in plain sentences (used as is, or handed to Apple Intelligence to say it more naturally).
@@ -330,10 +330,10 @@ extension Insights {
         let credits = entries.compactMap { $0.credit }
         return ShopFigures(
             id: id, name: name, invoices: entries.count,
-            spent: Money.round2(entries.reduce(0) { $0 + $1.amountToPay.total }),
-            overcharged: Money.round2(entries.reduce(0) { $0 + $1.amountToPay.less }),
-            creditsOwed: Money.round2(credits.filter { $0.isOwed }.reduce(0) { $0 + $1.amount }),
-            creditsReceived: Money.round2(credits.filter { $0.status == CreditInfo.received }.reduce(0) { $0 + $1.amount }),
+            spent: Money.round2(entries.pennySum { $0.amountToPay.total }),
+            overcharged: Money.round2(entries.pennySum { $0.amountToPay.less }),
+            creditsOwed: Money.round2(credits.filter { $0.isOwed }.pennySum { $0.amount }),
+            creditsReceived: Money.round2(credits.filter { $0.status == CreditInfo.received }.pennySum { $0.amount }),
             topSupplier: bySupplier.values.max { $0.spent < $1.spent }?.name ?? "")
     }
 }

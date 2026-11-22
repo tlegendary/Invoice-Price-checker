@@ -187,7 +187,7 @@ public enum StatementCheck {
         } else {
             paymentsUnknown = statement.lines.filter { $0.kind != .invoice }
         }
-        let takenOff = Money.round2(theirs.filter { $0.paid == nil }.reduce(0) { $0 + $1.amountToPay.less })
+        let takenOff = Money.round2(theirs.filter { $0.paid == nil }.pennySum { $0.amountToPay.less })
         return StatementResult(matched: matched, amountDiffers: differs, notInReports: missing, notOnStatement: notOnStatement,
                                paymentsNotCounted: notCounted, paymentsMatched: paymentsMatched, paymentsUnknown: paymentsUnknown,
                                theirBalance: statement.balance, yourBalance: account.balance, takenOff: takenOff)

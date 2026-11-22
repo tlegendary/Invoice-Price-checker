@@ -217,7 +217,7 @@ public struct Sale: Codable, Equatable, Identifiable, Sendable {
         return "\(number)"
     }
 
-    public var total: Double { Money.round2(lines.reduce(0) { $0 + $1.gross }) }
+    public var total: Double { Money.round2(lines.pennySum { $0.gross }) }
 
     /// How it was paid, amount by amount.
     public var payments: [SalePayment] {
@@ -412,7 +412,7 @@ public enum SaleMaths {
         }
         if let tendered = sale.tendered, sale.payments.contains(where: { $0.kind == .cash }) {
             text += "\n" + CoreText.t("Cash") + "  " + Money.format(tendered, code: currency)
-            let cash = sale.payments.filter { $0.kind == .cash }.reduce(0) { $0 + $1.amount }
+            let cash = sale.payments.filter { $0.kind == .cash }.pennySum { $0.amount }
             text += "\n" + CoreText.t("Change given") + "  " + Money.format(change(tendered: tendered, total: cash), code: currency)
         }
         if let cashier = sale.cashier, !cashier.isEmpty { text += "\n" + CoreText.t("Served by") + " " + cashier }
@@ -676,11 +676,11 @@ public enum CashDay {
         let theseSales = sales.filter { $0.shop == shop && $0.at > since && $0.at <= to && mine($0.till) }
         let theseEvents = events.filter { $0.shop == shop && $0.at > since && $0.at <= to && mine($0.till) }
         let summary = SaleMaths.summary(theseSales)
-        func sum(_ kind: CashEvent.Kind) -> Double { Money.round2(theseEvents.filter { $0.kind == kind }.reduce(0) { $0 + $1.amount }) }
+        func sum(_ kind: CashEvent.Kind) -> Double { Money.round2(theseEvents.filter { $0.kind == kind }.pennySum { $0.amount }) }
         let cash = summary.byPayment[.cash] ?? 0
         let float = sum(.float), paidIn = sum(.paidIn), paidOut = sum(.paidOut)
-        let tabCash = Money.round2(theseEvents.filter { $0.kind == .tabPaid && $0.card != true }.reduce(0) { $0 + $1.amount })
-        let tabAll = Money.round2(theseEvents.filter { $0.kind == .tabPaid }.reduce(0) { $0 + $1.amount })
+        let tabCash = Money.round2(theseEvents.filter { $0.kind == .tabPaid && $0.card != true }.pennySum { $0.amount })
+        let tabAll = Money.round2(theseEvents.filter { $0.kind == .tabPaid }.pennySum { $0.amount })
         var depositCash = 0.0, depositAll = 0.0
         for event in theseEvents where event.kind == .deposit {
             depositAll += event.amount

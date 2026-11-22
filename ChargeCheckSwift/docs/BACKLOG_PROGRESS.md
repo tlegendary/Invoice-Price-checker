@@ -11,7 +11,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-002 | PIN credential migration (P0) | ✅ | salted PBKDF2 v2, upgrade on sign-in, Reset PIN; simulator-tested |
 | CC-003 | Permission enforcement audit (P0) | ✅ | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
 | CC-004 | Persistence error model (P0) | ✅ | SaveHealth (Core) + SaveWatch banner; 19 database saves + phone/iCloud writes report |
-| CC-005 | Transactional backup restore (P0) | 🟡 | BackupValidation first; delete + insert in one save, rollback on failure; the rest only after |
+| CC-005 | Transactional backup restore (P0) | ✅ | BackupValidation first; delete + insert in one save, rollback on failure; the rest only after |
 | CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
 | CC-007 | External terminal manual tender (P0) | ⬜ | |
 | CC-008 | Provider adapter + fake provider (P0) | ⬜ | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
@@ -116,3 +116,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   budgets, stock counts only after. `AppData.RestoreResult` tells the screen what happened. Not covered yet: the
   other stores' own files (Accounts/Orders/Budgets/Till) aren't rolled back if one of THEM fails — they report via
   SaveWatch instead (CC-013 file integrity).
+- 23 Nov — Money in whole pence, slice 1 (Ramyar: "go ahead", pence): `Pence` (Int) + `Sequence.pennySum` in Core;
+  51 money totals in Overview, ReportMaths, SupplierAccounts, Insights, SupplierProfile, Till, DueDates,
+  StatementCheck, MoneyInsights, DueReminders now add in whole pence (a NaN makes the total NaN, never dropped).
+  Per-invoice maths (PayBreakdown) already rounds each step to the penny. Next slices: stored values as pence
+  (needs a data migration), PayBreakdown internals, till sale totals.

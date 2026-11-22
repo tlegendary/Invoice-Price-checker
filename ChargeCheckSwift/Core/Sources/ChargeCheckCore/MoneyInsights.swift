@@ -158,7 +158,7 @@ public enum BudgetMaths {
             let spent: Double
             switch budget.kind {
             case .supplier:
-                spent = Money.round2(month.filter { TextTools.sameSupplier($0.supplier, budget.name) }.reduce(0) { $0 + $1.total })
+                spent = Money.round2(month.filter { TextTools.sameSupplier($0.supplier, budget.name) }.pennySum { $0.total })
             case .category:
                 spent = spend[budget.name.lowercased()] ?? 0
             }

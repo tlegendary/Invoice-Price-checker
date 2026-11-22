@@ -28,7 +28,7 @@ public enum DueReminders {
             let currencies = Set(list.map(currencyOf))
             let single = currencies.count == 1 ? currencies.first : nil
             var notice = DueNotice(day: day, count: list.count, suppliers: suppliers,
-                                   amount: single == nil ? nil : Money.round2(list.reduce(0) { $0 + $1.amount }), currency: single)
+                                   amount: single == nil ? nil : Money.round2(list.pennySum { $0.amount }), currency: single)
             if let amount = notice.amount {
                 var before = 0.0
                 for due in list { before += due.beforeVat }
