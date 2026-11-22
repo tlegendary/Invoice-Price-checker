@@ -2,12 +2,25 @@ import Foundation
 
 /// The App Store products. These must match App Store Connect exactly.
 public enum Products {
-    public static let yearly = "ipc_yearly"
-    public static let monthly = "ipc_monthlyy"
+    public static let yearly = "chargecheck_yearly"
+    public static let monthly = "chargecheck_monthly"
     public static let plans = [yearly, monthly]
     /// Scan packs (bought once, used up): product ID → number of scans.
-    public static let packs: [String: Int] = ["ipc_scans_3": 3, "ipc_scans_10": 10, "ipc_scans_30": 30]
-    public static let packOrder = ["ipc_scans_3", "ipc_scans_10", "ipc_scans_30"]
+    public static let packs: [String: Int] = [
+        "chargecheck_scans_3": 3, "chargecheck_scans_10": 10, "chargecheck_scans_30": 30,
+        // the IDs before 21 Nov 2026, still counted for testers' earlier sandbox purchases
+        "ipc_scans_3": 3, "ipc_scans_10": 10, "ipc_scans_30": 30
+    ]
+    public static let packOrder = ["chargecheck_scans_3", "chargecheck_scans_10", "chargecheck_scans_30"]
+
+    /// IDs used before 21 Nov 2026. They're taken on the developer account (App Store Connect never lets an ID be
+    /// used twice), so the products were created with the IDs above. Still recognised for testers' earlier purchases.
+    public static let oldPlans: [String: String] = ["ipc_yearly": yearly, "ipc_monthlyy": monthly]
+
+    /// The plan this product is (today's ID), or nil when it isn't a plan.
+    public static func plan(_ productID: String) -> String? {
+        plans.contains(productID) ? productID : oldPlans[productID]
+    }
 
     /// "Save 17%": how much cheaper a year is than twelve months.
     public static func yearlySaving(yearly: Double, monthly: Double) -> Int {

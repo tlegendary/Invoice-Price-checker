@@ -15,7 +15,7 @@
           "locale" : "en_GB"
         }
       ],
-      "productID" : "ipc_scans_3",
+      "productID" : "chargecheck_scans_3",
       "referenceName" : "3 scans",
       "type" : "Consumable"
     },
@@ -30,7 +30,7 @@
           "locale" : "en_GB"
         }
       ],
-      "productID" : "ipc_scans_10",
+      "productID" : "chargecheck_scans_10",
       "referenceName" : "10 scans",
       "type" : "Consumable"
     },
@@ -45,7 +45,7 @@
           "locale" : "en_GB"
         }
       ],
-      "productID" : "ipc_scans_30",
+      "productID" : "chargecheck_scans_30",
       "referenceName" : "30 scans",
       "type" : "Consumable"
     }
@@ -86,7 +86,7 @@
               "locale" : "en_GB"
             }
           ],
-          "productID" : "ipc_yearly",
+          "productID" : "chargecheck_yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Yearly",
           "subscriptionGroupID" : "21500001",
@@ -116,7 +116,7 @@
               "locale" : "en_GB"
             }
           ],
-          "productID" : "ipc_monthlyy",
+          "productID" : "chargecheck_monthly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Monthly",
           "subscriptionGroupID" : "21500001",

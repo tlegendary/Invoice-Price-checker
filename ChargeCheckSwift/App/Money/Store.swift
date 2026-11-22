@@ -120,8 +120,8 @@ final class Store: ObservableObject {
         var active: String?
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result, transaction.revocationDate == nil else { continue }
-            if Products.plans.contains(transaction.productID), active != Products.yearly {
-                active = transaction.productID
+            if let plan = Products.plan(transaction.productID), active != Products.yearly {
+                active = plan
             }
         }
         subscribedProductID = active

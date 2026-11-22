@@ -45,7 +45,7 @@ is ready and Ramyar says to switch.
   - [ ] Exact text from PDFs that contain text (instead of reading a picture of the page)
   - [ ] Arabic text (needs Ramyar's decision; Kurdish Sorani is not supported by Apple's reader)
 - [x] **4. Subscriptions + free version with ads**
-  - [x] StoreKit 2: `ipc_yearly`, `ipc_monthlyy` (7-day trial), packs `ipc_scans_3/10/30`, restore purchases
+  - [x] StoreKit 2: `chargecheck_yearly`, `chargecheck_monthly` (1-week trial), packs `chargecheck_scans_3/10/30`, restore purchases. (Until 21 Nov 2026 the IDs were `ipc_yearly`, `ipc_monthlyy`, `ipc_scans_*`: App Store Connect said they were already taken on the account, so new IDs; the old ones are still recognised.)
   - [x] Plans screen as a closable sheet (terms, privacy, restore); closing it carries on with the free version
   - [x] Free version: one rewarded ad watched to the end = one scan; a closed or failed ad gives no scan
   - [x] Google Mobile Ads 13.11.0 (same version and ad unit as the old app), consent form, Apple's tracking question
