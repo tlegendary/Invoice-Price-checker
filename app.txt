@@ -1,6 +1,6 @@
-commit: 5b9924333d1727e416a773c0f26b3390d25eccf9
-result: failure
-when: Sat Nov 21 12:50:15 UTC 2026
+commit: b5490c1a895d08a4a0f1a1eeb020d9eaac68ff95
+result: success
+when: Sun Nov 22 22:16:45 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -64,78 +64,5 @@ stringsdata files:       79
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:805:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
-Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/146204FB-17A1-4035-90DA-D4CD9302BFDB/Documents/Backups: ChargeCheck-2026-11-21.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/146204FB-17A1-4035-90DA-D4CD9302BFDB/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
-/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 	 Executed 2 tests, with 0 failures (0 unexpected) in 0.135 (0.137) seconds
-	 Executed 6 tests, with 6 failures (0 unexpected) in 4.848 (4.856) seconds
-	 Executed 8 tests, with 6 failures (0 unexpected) in 4.983 (5.064) seconds
-	 Executed 8 tests, with 6 failures (0 unexpected) in 4.983 (5.066) seconds
-** TEST EXECUTE FAILED **
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:112: error: -[ChargeCheckTests.StoreTests testMonthlyPlan] : XCTUnwrap failed: expected non-nil value of type "Product"
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:33: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTAssertEqual failed: ("[]") is not equal to ("["chargecheck_yearly", "chargecheck_monthly"]") - 0 of 2 plans and 0 of 3 packs returned by the App Store
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:34: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTAssertEqual failed: ("[]") is not equal to ("["chargecheck_scans_3", "chargecheck_scans_10", "chargecheck_scans_30"]") - 0 of 2 plans and 0 of 3 packs returned by the App Store
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:35: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTUnwrap failed: expected non-nil value of type "Product"
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:51: error: -[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce] : XCTUnwrap failed: expected non-nil value of type "Product"
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:84: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTUnwrap failed: expected non-nil value of type "Product"
-2026-11-21 12:48:42.252108+0000 ChargeCheck[45827:127054] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-21 12:48:42.252707+0000 ChargeCheck[45827:127053] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
-2026-11-21 12:48:42.268851+0000 ChargeCheck[45827:127054] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-21 12:48:42.268902+0000 ChargeCheck[45827:127053] [Client] Synchronous remote object proxy returned error: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.corete
-2026-11-21 12:48:42.368705+0000 ChargeCheck[45827:127053] [Client] Updating selectors failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcenter.coretelephony.xpc was 
-2026-11-21 12:48:42.368864+0000 ChargeCheck[45827:127053] [Client] Updating selectors after delegate addition failed with: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.commcenter.coretelephony.xpc was invalidated: Connection init failed at lookup with error 3 - No such process." UserInfo={NSDebugDescription=The connection to service named com.apple.commcente
-Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' failed (1.003 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testBuyingPacksAddsScansOnce]' started.
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' failed (0.051 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testMonthlyPlan]' started.
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' passed (3.413 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testPicturePaywall]' started.
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' failed (0.280 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' started.
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (0.042 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.058 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.003 seconds).
-Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.131 seconds).
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
----- last lines ----
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:33: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTAssertEqual failed: ("[]") is not equal to ("["chargecheck_yearly", "chargecheck_monthly"]") - 0 of 2 plans and 0 of 3 packs returned by the App Store
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:34: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTAssertEqual failed: ("[]") is not equal to ("["chargecheck_scans_3", "chargecheck_scans_10", "chargecheck_scans_30"]") - 0 of 2 plans and 0 of 3 packs returned by the App Store
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:35: error: -[ChargeCheckTests.StoreTests testProductsAndTrial] : XCTUnwrap failed: expected non-nil value of type "Product"
-Test Case '-[ChargeCheckTests.StoreTests testProductsAndTrial]' failed (0.280 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' started.
-/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/Tests/StoreTests.swift:84: error: -[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks] : XCTUnwrap failed: expected non-nil value of type "Product"
-Test Case '-[ChargeCheckTests.StoreTests testSubscribingUnlocksAndExpiryLocks]' failed (0.042 seconds).
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' started.
-Test Case '-[ChargeCheckTests.StoreTests testUsingScansAndAdReward]' passed (0.058 seconds).
-Test Suite 'StoreTests' failed at 2026-11-21 12:48:53.844.
-	 Executed 6 tests, with 6 failures (0 unexpected) in 4.848 (4.856) seconds
-Test Suite 'TillPinTests' started at 2026-11-21 12:48:53.915.
-Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testPbkdf2MatchesThePublishedTestVector]' passed (0.003 seconds).
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' started.
-Test Case '-[ChargeCheckTests.TillPinTests testRealCredentialsWorkAndOldOnesUpgrade]' passed (0.131 seconds).
-Test Suite 'TillPinTests' passed at 2026-11-21 12:48:54.052.
-	 Executed 2 tests, with 0 failures (0 unexpected) in 0.135 (0.137) seconds
-Test Suite 'ChargeCheckTests.xctest' failed at 2026-11-21 12:48:54.052.
-	 Executed 8 tests, with 6 failures (0 unexpected) in 4.983 (5.064) seconds
-Test Suite 'All tests' failed at 2026-11-21 12:48:54.052.
-	 Executed 8 tests, with 6 failures (0 unexpected) in 4.983 (5.066) seconds
-2026-11-21 12:50:05.376 xcodebuild[44942:122162] [MT] IDETestOperationsObserverDebug: 122.866 elapsed -- Testing started completed.
-2026-11-21 12:50:05.376 xcodebuild[44942:122162] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
-2026-11-21 12:50:05.376 xcodebuild[44942:122162] [MT] IDETestOperationsObserverDebug: 122.866 sec, +122.866 sec -- end
-
-Test session results, code coverage, and logs:
-	/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Logs/Test/Test-ChargeCheck-2026.11.21_12-48-01-+0000.xcresult
-
-Failing tests:
-	StoreTests.testBuyingPacksAddsScansOnce()
-	StoreTests.testMonthlyPlan()
-	StoreTests.testProductsAndTrial()
-	StoreTests.testProductsAndTrial()
-	StoreTests.testProductsAndTrial()
-	StoreTests.testSubscribingUnlocksAndExpiryLocks()
-
-** TEST EXECUTE FAILED **
-
-Testing started
+Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/464F87BA-F374-4343-90E9-5EBED990AE5F/Documents/Backups: ChargeCheck-2026-11-22.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/464F87BA-F374-4343-90E9-5EBED990AE5F/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
+/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
