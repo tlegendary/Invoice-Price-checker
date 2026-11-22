@@ -1,6 +1,6 @@
-commit: 78e792c2f1209189b80fb02a397eb715c920e765
-result: success
-when: Sun Nov 22 23:46:33 UTC 2026
+commit: 62cf06179b339d7634a85db4eb316be397857614
+result: cancelled
+when: Sun Nov 22 23:47:51 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -69,5 +69,44 @@ stringsdata files:       80
 /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/App/Views/SuppliersView.swift:805:1: warning: extension declares a conformance of imported type 'Kind' to imported protocol 'Identifiable'; this will not behave correctly if the owners of 'ChargeCheckCore' introduce this conformance in the future
 126 |                 connection.send(content: Data(bytes), completion: .contentProcessed { error in
 132 |                         if error != nil { self?.problem = String(localized: "The receipt didn't reach the printer.") }
-Backups ChargeCheck-backup.json Exports Till  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/122103CC-4026-487E-AF6F-1ED25A97F9E1/Documents/Backups: ChargeCheck-2026-11-22.json  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Application/122103CC-4026-487E-AF6F-1ED25A97F9E1/Documents/Exports: demo-credit.pdf demo-prices.pdf demo-report.pdf  /Users/runner/Library/Developer/CoreSimulator/Devices/0A1B5EC5-2485-4F8E-B06B-1185D8E186C0/data/Containers/Data/Appl
-/tmp/shot-1-first-open.png /tmp/shot-10-check-free.png /tmp/shot-11-export.png /tmp/shot-12-price-history.png /tmp/shot-13-reports-before-vat.png /tmp/shot-14-invoice-credit.png /tmp/shot-15-invoice-credit-asked.png /tmp/shot-16-photo-dark.png /tmp/shot-2-prices.png /tmp/shot-20-ar-settings.png /tmp/shot-21-ckb-reports.png /tmp/shot-22-de-sample.png /tmp/shot-23-fr-prices.png /tmp/shot-24-ckb-check.png /tmp/shot-3-reports.png /tmp/shot-30-suppliers.png /tmp/shot-31-supplier-detail.png /tmp/shot-32-ckb-suppliers.png /tmp/shot-33-supplier-detail-receipt.png /tmp/shot-4-settings.png /tmp/shot-40-home.png /tmp/shot-41-more.png /tmp/shot-42-recently-deleted.png /tmp/shot-43-history.png /tmp/shot-44-ar-home.png /tmp/shot-5-prices-dark-blue.png /tmp/shot-50-free-home.png /tmp/shot-51-free-more.png /tmp/shot-52-free-supplier.png /tmp/shot-53-pack-reports.png /tmp/shot-54-pro-supplier.png /tmp/shot-55-plans.png /tmp/shot-60-shops-home-all.png /tmp/shot-61-shops-home-one.png /tmp/shot-62-shops-suppliers-one.png /tmp/shot-63-shops-reports-one.png /tmp/shot-7-sample-invoice.png /tmp/shot-8-sample-sideways.png 
+---- last lines ----
+CopySwiftLibs /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/ChargeCheckTests --scan-folder /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest/Info.plist --temp-dir-path /Users/runner/work/Invoice-Price-checker/Invoice-Price-chec
+2026-11-22 23:41:36.431 appintentsnltrainingprocessor[21324:64431] Parsing options for appintentsnltrainingprocessor
+2026-11-22 23:41:36.432 appintentsnltrainingprocessor[21324:64431] Starting AppIntents SSU YAML Generation
+2026-11-22 23:41:36.433 appintentsnltrainingprocessor[21324:64431] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+
+Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest (in target 'ChargeCheckTests' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app/PlugIns/ChargeCheckTests.xctest
+
+RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-RegisterExecutionPolicyException /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+
+Validate /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    builtin-validationUtility /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app (in target 'ChargeCheck' from project 'ChargeCheck')
+    cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
+    /usr/bin/touch -c /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Products/Debug-iphonesimulator/ChargeCheck.app
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
+
+** TEST BUILD SUCCEEDED **
+
