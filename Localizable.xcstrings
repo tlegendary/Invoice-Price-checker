@@ -17812,35 +17812,6 @@
         }
       }
     },
-    "Free up space on this device and check iCloud is signed in. The warning goes when it saves. If it stays, send this to support from Settings." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أفرغ مساحة على هذا الجهاز وتأكد من تسجيل الدخول إلى iCloud. يختفي التنبيه عند الحفظ. إن بقي، أرسل هذا إلى الدعم من الإعدادات."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "شوێن لەسەر ئەم ئامێرە بەتاڵ بکە و دڵنیابە لە چوونەژوورەوەی iCloud. ئاگادارییەکە کاتێک پاشەکەوت کرا نامێنێت. ئەگەر مایەوە، لە ڕێکخستنەکانەوە بۆ پشتگیری بینێرە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib Speicher auf diesem Gerät frei und prüfe, ob iCloud angemeldet ist. Der Hinweis verschwindet, sobald gespeichert wurde. Bleibt er, sende dies über die Einstellungen an den Support."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Libérez de l'espace sur cet appareil et vérifiez qu'iCloud est connecté. L'alerte disparaît une fois l'enregistrement réussi. Si elle reste, envoyez ceci au support depuis Réglages."
-          }
-        }
-      }
-    },
     "Free version" : {
       "localizations" : {
         "ar" : {
@@ -27149,64 +27120,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finalement pas reçu"
-          }
-        }
-      }
-    },
-    "Not saved" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم يُحفظ"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "پاشەکەوت نەکرا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht gespeichert"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non enregistré"
-          }
-        }
-      }
-    },
-    "Not saved to iCloud yet. Tap for details." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم يُحفظ في iCloud بعد. اضغط للتفاصيل."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "هێشتا لە iCloud پاشەکەوت نەکراوە. بۆ وردەکاری دابگرە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noch nicht in iCloud gespeichert. Für Details tippen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pas encore enregistré dans iCloud. Touchez pour en savoir plus."
           }
         }
       }
@@ -39762,35 +39675,6 @@
         }
       }
     },
-    "Shows what didn't save" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يعرض ما لم يُحفظ"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ئەوەی پاشەکەوت نەکرا نیشان دەدات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt, was nicht gespeichert wurde"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Montre ce qui n'a pas été enregistré"
-          }
-        }
-      }
-    },
     "Sign in to iCloud in the Settings app first (Settings › your name › iCloud)." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -40192,35 +40076,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quelqu'un d'autre"
-          }
-        }
-      }
-    },
-    "Something didn't save on this device. Tap for details." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم يُحفظ شيء على هذا الجهاز. اضغط للتفاصيل."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "شتێک لەسەر ئەم ئامێرە پاشەکەوت نەکرا. بۆ وردەکاری دابگرە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Etwas wurde auf diesem Gerät nicht gespeichert. Für Details tippen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un élément n'a pas été enregistré sur cet appareil. Touchez pour en savoir plus."
           }
         }
       }
@@ -51925,35 +51780,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vos articles ont déjà les noms habituels, ou un autre nom se confondrait trop facilement avec un autre article."
-          }
-        }
-      }
-    },
-    "Your last changes didn't save. Tap for details." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم تُحفظ تغييراتك الأخيرة. اضغط للتفاصيل."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دوایین گۆڕانکارییەکانت پاشەکەوت نەکران. بۆ وردەکاری دابگرە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deine letzten Änderungen wurden nicht gespeichert. Für Details tippen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vos dernières modifications n'ont pas été enregistrées. Touchez pour en savoir plus."
           }
         }
       }
