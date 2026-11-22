@@ -544,7 +544,11 @@ struct SettingsView: View {
                     }
                     // what's on the phone now is kept first, so restoring the wrong file can be undone
                     AutoBackup.safetyCopy(context, scans: store.ledger.forBackup)
-                    AppData.restore(backup, into: context)
+                    let result = AppData.restore(backup, into: context)
+                    if let problem = result.message {
+                        notice = problem
+                        return
+                    }
                     let scans = store.restoreScans(from: backup.scans)
                     notice = scans > 0 ? String(localized: "Backup restored, with \(scans) unused scans.") : String(localized: "Backup restored.")
                     AutoBackup.run(context, scans: store.ledger.forBackup)
