@@ -43728,35 +43728,6 @@
         }
       }
     },
-    "The backup couldn't be saved, so nothing was changed. Free up some space and try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تعذّر حفظ النسخة الاحتياطية، لذا لم يتغير شيء. أفرغ بعض المساحة وحاول مجدداً."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "پاشەکەوتی یەدەگەکە نەکرا، بۆیە هیچ نەگۆڕا. هەندێک شوێن بەتاڵ بکە و دووبارە هەوڵ بدەرەوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Sicherung konnte nicht gespeichert werden, daher wurde nichts geändert. Gib etwas Speicher frei und versuche es erneut."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La sauvegarde n'a pas pu être enregistrée : rien n'a été modifié. Libérez de l'espace et réessayez."
-          }
-        }
-      }
-    },
     "The backup couldn't be saved. Please try again." : {
       "localizations" : {
         "ar" : {
@@ -45360,93 +45331,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ce PDF est une image scannée, il n'y a donc pas de texte à lire. Demandez au fournisseur le PDF fait sur ordinateur, ou un tableur."
-          }
-        }
-      }
-    },
-    "This backup file is damaged, so nothing was changed." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملف النسخة الاحتياطية تالف، لذا لم يتغير شيء."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فایلی ئەم یەدەگە تێکچووە، بۆیە هیچ نەگۆڕا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Sicherungsdatei ist beschädigt, daher wurde nichts geändert."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce fichier de sauvegarde est endommagé : rien n'a été modifié."
-          }
-        }
-      }
-    },
-    "This backup is empty, so nothing was changed." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "هذه النسخة الاحتياطية فارغة، لذا لم يتغير شيء."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ئەم یەدەگە بەتاڵە، بۆیە هیچ نەگۆڕا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Sicherung ist leer, daher wurde nichts geändert."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette sauvegarde est vide : rien n'a été modifié."
-          }
-        }
-      }
-    },
-    "This backup was made by a newer ChargeCheck. Update the app, then restore it." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أُنشئت هذه النسخة بإصدار أحدث من ChargeCheck. حدّث التطبيق ثم استعدها."
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ئەم یەدەگە بە وەشانێکی نوێتری ChargeCheck دروست کراوە. ئەپەکە نوێ بکەرەوە، پاشان بیگەڕێنەوە."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Sicherung stammt von einem neueren ChargeCheck. Aktualisiere die App und stelle sie dann wieder her."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette sauvegarde vient d'une version plus récente de ChargeCheck. Mettez l'app à jour, puis restaurez-la."
           }
         }
       }
