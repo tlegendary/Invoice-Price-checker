@@ -1,6 +1,6 @@
-commit: 49d71ee87984125e5cca3e3cd1da81a1692bf0cd
+commit: afd8b63d2e43e6a671abb736205bae48d41e3b94
 result: failure
-when: Sun Nov 22 22:35:21 UTC 2026
+when: Sun Nov 22 22:35:51 UTC 2026
 
 ⚙️  Generating plists...
 ⚙️  Generating project...
@@ -94,9 +94,9 @@ SwiftDriver\ Compilation\ Requirements ChargeCheck normal arm64 com.apple.xcode.
     cd /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift
     builtin-Swift-Compilation-Requirements -- /Applications/Xcode_27.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ChargeCheck -Onone @/Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ChargeCheck.build/Debug-iphonesimulator/ChargeCheck.build/Objects-normal/arm64/ChargeCheck.SwiftFileList -DD
 
-PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
-
 PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
 
 PruneExplicitPrecompiledModules /Users/runner/work/Invoice-Price-checker/Invoice-Price-checker/ChargeCheckSwift/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
 
