@@ -64,16 +64,16 @@ final class StoreTests: XCTestCase {
 
     func testBuyingPacksAddsScansOnce() async throws {
         let store = await makeStore()
-        XCTAssertNotNil(store.packs.first { $0.id == "ipc_scans_10" })
-        try await purchase("ipc_scans_10", on: store) { store.credits >= 10 }
+        XCTAssertNotNil(store.packs.first { $0.id == "chargecheck_scans_10" })
+        try await purchase("chargecheck_scans_10", on: store) { store.credits >= 10 }
         XCTAssertEqual(store.credits, 10, "handled several times, counted once")
         XCTAssertTrue(store.canScan)
         XCTAssertFalse(store.isSubscribed)
-        XCTAssertNotNil(store.packs.first { $0.id == "ipc_scans_3" })
-        try await purchase("ipc_scans_3", on: store) { store.credits >= 13 }
+        XCTAssertNotNil(store.packs.first { $0.id == "chargecheck_scans_3" })
+        try await purchase("chargecheck_scans_3", on: store) { store.credits >= 13 }
         XCTAssertEqual(store.credits, 13)
         // looking at every purchase again must not add scans twice
-        if let latest = await Transaction.latest(for: "ipc_scans_3") { await store.handle(latest) }
+        if let latest = await Transaction.latest(for: "chargecheck_scans_3") { await store.handle(latest) }
         XCTAssertEqual(store.credits, 13)
         // scans are saved: a fresh start on the same phone still has them
         let again = Store(defaults: defaults)

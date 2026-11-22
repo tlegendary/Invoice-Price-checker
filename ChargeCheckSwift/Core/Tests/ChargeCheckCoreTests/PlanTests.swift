@@ -26,7 +26,7 @@ final class PlanTests: XCTestCase {
         XCTAssertFalse(ledger.hasBought)
         ledger.addAdReward()
         XCTAssertFalse(ledger.hasBought)
-        ledger.creditPack(productID: "ipc_scans_3", transactionID: "t1")
+        ledger.creditPack(productID: "chargecheck_scans_3", transactionID: "t1")
         ledger.use(3)
         XCTAssertEqual(ledger.credits, 1)
         XCTAssertTrue(ledger.hasBought)
