@@ -70,7 +70,7 @@ enum AppData {
     /// (payments, orders, budgets, stock counts) is restored only after that has worked.
     @discardableResult
     static func restore(_ backup: BackupFile, into context: ModelContext) -> RestoreResult {
-        let problems = BackupCheck.problems(backup)
+        let problems = BackupValidation.problems(backup)
         guard problems.isEmpty else { return .refused(problems) }
         for old in (try? context.fetch(FetchDescriptor<StoredPrice>())) ?? [] { context.delete(old) }
         for old in (try? context.fetch(FetchDescriptor<StoredReport>())) ?? [] { context.delete(old) }

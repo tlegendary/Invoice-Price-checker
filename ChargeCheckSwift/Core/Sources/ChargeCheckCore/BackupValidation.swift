@@ -16,7 +16,7 @@ public enum BackupProblem: Equatable, Sendable {
     public var blocks: Bool { true }
 }
 
-public enum BackupCheck {
+public enum BackupValidation {
     /// The newest backup format this version reads.
     public static let newestVersion = 3
 
