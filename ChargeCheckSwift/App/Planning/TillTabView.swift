@@ -42,6 +42,7 @@ struct TillTabView: View {
                         NavigationLink { CustomersView() } label: { Label("Customers, accounts and store credit", systemImage: "person.2") }
                         NavigationLink { GiftCardsView() } label: { Label("Gift cards", systemImage: "giftcard") }
                         NavigationLink { RecipesView() } label: { Label("Recipes and costing", systemImage: "fork.knife") }
+                        NavigationLink { KitchenView() } label: { Label("Kitchen screen", systemImage: "frying.pan") }
                         NavigationLink { LayawaysView() } label: {
                             LabeledContent {
                                 let open = till.layaways.filter { $0.status == .open }.count

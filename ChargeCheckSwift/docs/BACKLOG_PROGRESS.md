@@ -23,7 +23,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-014 | Inventory movement ledger (P1) | 🟡 | InventoryLedger: movements from counts/invoices/sales/refunds, on hand = StockMaths; Stock › Movements |
 | CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
 | CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
-| CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
+| CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
 | CC-019 | Profit reporting (P1) | ⬜ | |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
@@ -173,3 +173,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   Till › Recipes and costing (list with cost and margin, editor); the till costs a sold item from its current recipe
   when every ingredient can be priced. Not yet: ingredient stock deduction in the Stock screen (consumption is
   computed, not yet shown/subtracted), sale-line recipe version stamp (the cost is stamped already).
+- 23 Nov — CC-017: Core `Kitchen.swift` — tickets per station from category routing, add-on tickets with only
+  new items, status from append-only events (forward-only, explicit recall; same answer in any order; repeats once),
+  open list per station, printer text. App `App/Kitchen/`: KitchenStore (per-device file in Kitchen/, merged with
+  other devices via iCloud, two days kept), KitchenView (station picker, cards with age, Start → Ready → Collected,
+  hold for recall/cancel, refresh every 5 s, screen stays on), settings (on/off, category → station). Till sends
+  each completed sale when on. Not yet: tables and open tabs per table, sending before payment (order first, pay
+  later), auto-print to a kitchen printer, tips/service charge.

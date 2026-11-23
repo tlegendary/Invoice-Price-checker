@@ -1075,6 +1075,9 @@ struct TillView: View {
         let sale = till.record(lines: lines, shop: shop ?? "", payment: payment, tendered: tendered, split: split,
                                customer: customer?.id, approvedBy: approvedBy.isEmpty ? nil : approvedBy.joined(separator: ", "),
                                voucher: voucherOff > 0 ? voucher : nil, context: context)
+        // restaurant: the food and drink go to their stations' kitchen screens
+        KitchenStore.shared.send(order: sale.id, label: String(localized: "Receipt \(till.number(sale))"),
+                                 lines: basket.map { ($0.name, $0.qty, $0.category.isEmpty ? nil : $0.category, []) })
         let hadCash = sale.payments.contains { $0.kind == .cash }
         if printer.settings.isSet {
             if printer.settings.autoPrint {
