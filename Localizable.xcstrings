@@ -10091,6 +10091,35 @@
         }
       }
     },
+    "Card %@ went %@ over" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البطاقة %@ تجاوزت الرصيد بـ %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارتی %@ بە %@ تێپەڕی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karte %@ um %@ überzogen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carte %@ dépassée de %@"
+          }
+        }
+      }
+    },
     "Card companies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -37298,6 +37327,35 @@
         }
       }
     },
+    "Sale at %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بيع في %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فرۆشتن لە %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkauf um %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vente à %@"
+          }
+        }
+      }
+    },
     "Sales" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -41087,6 +41145,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dépensé ce mois-ci"
+          }
+        }
+      }
+    },
+    "Spent twice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صُرفت مرتين"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوو جار خەرجکرا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doppelt ausgegeben"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépensée deux fois"
           }
         }
       }
@@ -48338,6 +48425,35 @@
         }
       }
     },
+    "Two tills used the same gift card while they were offline. Both sales are kept; ask the customer to pay the difference, or write it off." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم صندوقان نفس بطاقة الهدية أثناء انقطاع الاتصال. يُحتفظ بكلا البيعين؛ اطلب من العميل دفع الفرق أو اشطبه."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوو سندوق هەمان کارتی دیارییان بەکارهێنا کاتێک ئۆفلاین بوون. هەردوو فرۆشتنەکە دەمێننەوە؛ داوا لە کڕیار بکە جیاوازییەکە بدات، یان بیسڕەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Kassen haben dieselbe Geschenkkarte offline benutzt. Beide Verkäufe bleiben erhalten; lass den Kunden die Differenz zahlen oder schreibe sie ab."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux caisses ont utilisé la même carte cadeau hors ligne. Les deux ventes sont conservées ; faites payer la différence au client ou passez-la en perte."
+          }
+        }
+      }
+    },
     "Type" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -55268,6 +55384,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ce fournisseur"
+          }
+        }
+      }
+    },
+    "till %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الصندوق %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سندوقی %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kasse %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "caisse %@"
           }
         }
       }
