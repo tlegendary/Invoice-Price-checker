@@ -1,0 +1,182 @@
+import SwiftUI
+import SwiftData
+import ChargeCheckCore
+
+/// The More tab: price list, shops, staff, records and settings.
+struct MoreView: View {
+    @Binding var showPaywall: Bool
+
+    enum Page: String, Hashable {
+        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours, reports, cardPayments
+    }
+
+    @ObservedObject private var team = CloudTeam.shared
+    @ObservedObject private var records = Records.shared
+    @EnvironmentObject private var store: Store
+    @Query private var prices: [StoredPrice]
+    @AppStorage(Shops.listKey) private var shopData = Data()
+    @State private var path: [Page]
+    @State private var beScreen = false
+    @AppStorage(TillTab.key) private var tillTab = false
+    private var tillTabShown: Bool { tillTab && store.allows(.till) }
+
+    init(showPaywall: Binding<Bool>, open: Page? = nil) {
+        _showPaywall = showPaywall
+        _path = State(initialValue: open.map { [$0] } ?? [])
+    }
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            List {
+                if AppConfig.testBuild {
+                    // TEST BUILDS ONLY (TestFlight): never shown in the App Store version
+                    Section {
+                        Toggle(isOn: Binding(get: { store.testTier == "pro" }, set: { store.testTier = $0 ? "pro" : "" })) {
+                            Label("Unlock everything", systemImage: "lock.open.fill")
+                        }
+                        .tint(.purple)
+                    } footer: {
+                        Text("Test version only: every Pro feature works without buying. Turn it off to see the app as you bought it. Customers never see this switch.")
+                    }
+                }
+                if tillTabShown {
+                    Section {
+                        NavigationLink(value: Page.reports) {
+                            Label("Reports", systemImage: "chart.bar")
+                        }
+                    }
+                } else {
+                Section("Till") {
+                    if store.allows(.till) {
+                        Toggle(isOn: $tillTab) {
+                            Label("Till as its own tab", systemImage: "rectangle.bottomthird.inset.filled")
+                        }
+                        NavigationLink(value: Page.sales) {
+                            Label("Sales and profit", systemImage: "chart.line.uptrend.xyaxis")
+                        }
+                        NavigationLink(value: Page.stock) {
+                            Label("Stock", systemImage: "shippingbox")
+                        }
+                        NavigationLink(value: Page.cardPayments) {
+                            Label("Card payments", systemImage: "creditcard")
+                        }
+                        NavigationLink(value: Page.customers) {
+                            Label("Customers and accounts", systemImage: "person.2")
+                        }
+                        NavigationLink(value: Page.giftCards) {
+                            Label("Gift cards", systemImage: "giftcard")
+                        }
+                        NavigationLink(value: Page.expiry) {
+                            Label("Expiry dates", systemImage: "calendar.badge.exclamationmark")
+                        }
+                        NavigationLink(value: Page.hours) {
+                            Label("Staff hours", systemImage: "clock")
+                        }
+                        NavigationLink(value: Page.tillSettings) {
+                            Label("Till settings and products", systemImage: "gearshape.2")
+                        }
+                        Button {
+                            beScreen = true
+                        } label: {
+                            Label("Be the customer screen", systemImage: "person.crop.rectangle")
+                        }
+                    } else {
+                        // Pro: the plans screen explains what the till does
+                        LockedRow(feature: .till) {
+                            Label("Till, stock and sales", systemImage: "cart")
+                        }
+                    }
+                }
+                }
+                // staff phones: prices, shops and records are the owner's
+                if !team.isStaff {
+                    Section {
+                        NavigationLink(value: Page.prices) {
+                            LabeledContent {
+                                Text("\(prices.count)")
+                            } label: {
+                                Label("Price list", systemImage: "tag")
+                            }
+                        }
+
+                        // shops already added stay open; adding them needs Pro
+                        if store.allows(.shops) || !Shops.decode(shopData).isEmpty {
+                            NavigationLink(value: Page.shops) {
+                                LabeledContent {
+                                    let shops = Shops.decode(shopData)
+                                    Text(shops.isEmpty ? String(localized: "One shop") : "\(shops.count)")
+                                } label: {
+                                    Label("Shops", systemImage: "storefront")
+                                }
+                            }
+                        } else {
+                            LockedRow(feature: .shops) { Label("Shops", systemImage: "storefront") }
+                        }
+                    } header: {
+                        Text("Your business")
+                    }
+                }
+                if !team.isStaff {
+                    Section {
+                        NavigationLink(value: Page.deleted) {
+                            LabeledContent {
+                                if !records.bin.isEmpty { Text("\(records.bin.count)") }
+                            } label: {
+                                Label("Recently deleted", systemImage: "trash")
+                            }
+                        }
+                        if store.allows(.changeHistory) {
+                            NavigationLink(value: Page.history) {
+                                Label("History of changes", systemImage: "clock.arrow.circlepath")
+                            }
+                        } else {
+                            LockedRow(feature: .changeHistory) { Label("History of changes", systemImage: "clock.arrow.circlepath") }
+                        }
+                    } header: {
+                        Text("Records")
+                    } footer: {
+                        Text("Deleted invoices, payments and prices can be brought back for 30 days.")
+                    }
+                }
+                Section {
+                    NavigationLink(value: Page.settings) {
+                        Label("Settings", systemImage: "gearshape")
+                    }
+                    if !store.isSubscribed && store.checkedEntitlements {
+                        Button {
+                            Upsell.shared.show(nil)
+                        } label: {
+                            LabeledContent {
+                                Text(store.tier == .packs ? String(localized: "Scan packs") : String(localized: "Free"))
+                            } label: {
+                                Label("Get ChargeCheck Pro", systemImage: "star.circle")
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("More")
+            .themedScreen()
+            .fullScreenCover(isPresented: $beScreen) { CustomerScreenView(joins: true) }
+            .navigationDestination(for: Page.self) { page in
+                switch page {
+                case .prices: PricesView(embedded: true)
+                case .shops: ShopsView()
+                case .sales: SalesView()
+                case .stock: StockView()
+                case .cardPayments: CardPaymentsView()
+                case .tillSettings: TillSettingsView()
+                case .customers: CustomersView()
+                case .giftCards: GiftCardsView()
+                case .expiry: ExpiryView()
+                case .hours: ShiftsView()
+                case .staff: TeamView()
+                case .settings: SettingsView(showPaywall: $showPaywall, embedded: true)
+                case .deleted: RecentlyDeletedView()
+                case .history: ChangeHistoryView()
+                case .reports: ReportsView(embedded: true)
+                }
+            }
+        }
+    }
+}

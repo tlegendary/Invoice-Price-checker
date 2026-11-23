@@ -1,0 +1,8 @@
+Ein ganz neues ChargeCheck, von Grund auf für das iPhone gebaut.
+
+• Schnelleres, genaueres Lesen – jede Rechnung wird zweimal gelesen
+• Lieferantenkonten: offene Beträge, Zahlungen, Gutschriften und Fälligkeiten
+• Mehrere Filialen: eine Filiale oder alle anzeigen
+• Warnungen bei doppelten Rechnungen und Preiserhöhungen
+• Gutschrift-PDFs und Berichte für den Steuerberater
+• Deutsch, Englisch, Französisch, Arabisch und Kurdisch

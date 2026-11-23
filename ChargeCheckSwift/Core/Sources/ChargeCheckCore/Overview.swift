@@ -1,0 +1,223 @@
+import Foundation
+
+/// Money ChargeCheck caught: overcharges and missing goods taken off what you pay.
+public struct Savings: Equatable, Sendable {
+    public var overcharges: Double = 0
+    /// Items missing, returned or short on delivery, with their VAT.
+    public var missing: Double = 0
+    /// Credits suppliers actually sent back.
+    public var creditsReceived: Double = 0
+    /// Invoices where something was caught.
+    public var invoices: Int = 0
+    /// Caught money you've actually kept: the invoice was paid at the lower amount, or the supplier's credit arrived.
+    public var secured: Double = 0
+    /// Caught but not settled yet: the invoice isn't paid, or the credit asked for hasn't come.
+    public var pending: Double = 0
+    /// Caught, but the supplier wouldn't credit it.
+    public var writtenOff: Double = 0
+
+    public init(overcharges: Double = 0, missing: Double = 0, creditsReceived: Double = 0, invoices: Int = 0) {
+        self.overcharges = overcharges
+        self.missing = missing
+        self.creditsReceived = creditsReceived
+        self.invoices = invoices
+    }
+
+    /// Overcharges + missing goods. Credits are how that money came back, so they aren't added on top.
+    public var total: Double { Money.round2(overcharges + missing) }
+}
+
+/// Something on the Home screen that needs the owner.
+public struct Attention: Identifiable, Equatable, Sendable {
+    public enum Kind: String, Sendable {
+        /// Invoices the supplier billed twice (flagged when they were scanned), not paid yet.
+        case duplicates
+        /// Saved invoices that weren't fully checked.
+        case notChecked
+        /// Credits asked for more than two weeks ago that haven't arrived.
+        case creditsLate
+        /// Invoices past their payment due date.
+        case overdue
+        /// Invoices due in the next 7 days.
+        case dueSoon
+        /// Price rises this month.
+        case priceRises
+        /// Budgets at 80% or more of this month's limit (added by the app, which keeps the budgets).
+        case overBudget
+        /// Agreed prices ending within two weeks, or ended (added by the app).
+        case dealsEnding
+    }
+    public var id: String { kind.rawValue }
+    public var kind: Kind
+    public var count: Int
+    public var amount: Double
+
+    public init(kind: Kind, count: Int, amount: Double) {
+        self.kind = kind
+        self.count = count
+        self.amount = amount
+    }
+}
+
+/// The Home screen figures: where the business stands, readable in five seconds.
+public struct Overview: Equatable, Sendable {
+    /// What you owe suppliers now, and to how many.
+    public var owed: Double
+    public var suppliersOwed: Int
+    public var spentThisMonth: Double
+    public var invoicesThisMonth: Int
+    public var paidThisWeek: Double
+    public var savedThisMonth: Savings
+    public var savedAllTime: Savings
+    /// Price rises this month and what they cost you on those invoices.
+    public var risesThisMonth: [PriceRise]
+    public var risesCost: Double
+    /// Credits asked for that haven't arrived yet.
+    public var creditsOwed: Double
+    /// About how much a month buying each item from your cheapest supplier would save.
+    public var cheaperElsewhere: Double
+    /// The supplier whose prices went up the most this month.
+    public var risingSupplier: String?
+    public var attention: [Attention]
+    /// What you owe suppliers who invoice in another currency, by currency code. Not in any figure above.
+    public var owedOther: [String: Double] = [:]
+    /// What's owed, before VAT and VAT.
+    public var owedSplit: SupplierAccounts.OwedSplit?
+
+    /// "You may have lost" this month: price rises paid + credits still not back.
+    public var lostThisMonth: Double { Money.round2(risesCost + creditsOwed) }
+}
+
+public enum OverviewMaths {
+    /// Overcharges and missing goods caught on one invoice.
+    public static func caught(_ entry: HistoryEntry) -> (overcharges: Double, missing: Double) {
+        let p = entry.payment
+        guard p.less > 0.005 else { return (0, 0) }
+        return (p.overWithVat, Money.round2(p.less - p.overWithVat))
+    }
+
+    public static func savings(_ entries: [HistoryEntry]) -> Savings {
+        var s = Savings()
+        for entry in entries {
+            let c = caught(entry)
+            s.overcharges += c.overcharges
+            s.missing += c.missing
+            if c.overcharges + c.missing > 0.005 { s.invoices += 1 }
+            if let credit = entry.credit, credit.status == CreditInfo.received { s.creditsReceived += credit.amount }
+            let found = Money.round2(c.overcharges + c.missing)
+            guard found > 0.005 else { continue }
+            if let credit = entry.credit {
+                switch credit.status {
+                case CreditInfo.received:
+                    // never more than was caught on this invoice; a short credit leaves the rest still owed
+                    let got = min(found, max(0, credit.amount))
+                    s.secured += got
+                    s.pending += found - got
+                case CreditInfo.writtenOff: s.writtenOff += found
+                default: s.pending += found
+                }
+            } else if entry.paid != nil {
+                s.secured += found
+            } else {
+                s.pending += found
+            }
+        }
+        s.secured = Money.round2(s.secured)
+        s.pending = Money.round2(s.pending)
+        s.writtenOff = Money.round2(s.writtenOff)
+        s.overcharges = Money.round2(s.overcharges)
+        s.missing = Money.round2(s.missing)
+        s.creditsReceived = Money.round2(s.creditsReceived)
+        return s
+    }
+
+    /// What a price rise cost on the invoice that had it: (new − old) × the quantity that arrived.
+    public static func cost(of rise: PriceRise, in entries: [HistoryEntry]) -> Double {
+        guard let entry = entries.first(where: { $0.id == rise.invoiceID }) else { return 0 }
+        let line = entry.lines.first { line in
+            !line.excluded && abs(line.unit - rise.to) < 0.005 && (line.item.isEmpty ? line.desc : line.item) == rise.item
+        }
+        guard let line else { return 0 }
+        return Money.round2(max(0, line.qty - line.short) * (rise.to - rise.from))
+    }
+
+    /// `currencies`: suppliers that invoice in another currency than `main` (keyed by SupplierAccounts.key).
+    /// Their money is kept out of the figures, so dinars and dollars are never added together; what you owe them is in `owedOther`.
+    public static func make(entries allEntries: [HistoryEntry], payments allPayments: [SupplierPayment], trusted: [String],
+                            creditDays: [String: Int] = [:], currencies: [String: String] = [:], main: String = "",
+                            now: Date = Date()) -> Overview {
+        func foreign(_ supplier: String) -> String? {
+            guard let code = currencies[SupplierAccounts.key(supplier)], code != main else { return nil }
+            return code
+        }
+        let entries = allEntries.filter { foreign($0.supplier) == nil }
+        let payments = allPayments.filter { foreign($0.supplier) == nil }
+        var owedOther: [String: Double] = [:]
+        if currencies.contains(where: { $0.value != main }) {
+            let theirs = SupplierAccounts.accounts(entries: allEntries.filter { foreign($0.supplier) != nil },
+                                                   payments: allPayments.filter { foreign($0.supplier) != nil }, trusted: trusted, now: now)
+            for account in theirs where account.balance > 0.005 {
+                if let code = foreign(account.name) { owedOther[code, default: 0] = Money.round2(owedOther[code, default: 0] + account.balance) }
+            }
+        }
+        let today = SupplierAccounts.dayText(now)
+        let month = String(today.prefix(7))
+        let accounts = SupplierAccounts.accounts(entries: entries, payments: payments, trusted: trusted, now: now)
+        let owing = accounts.filter { $0.balance > 0.005 }
+        let inMonth = entries.filter { $0.savedAt.hasPrefix(month) }
+
+        let rises = Insights.priceRises(entries, since: month + "-01")
+        let risesCost = Money.round2(rises.reduce(0) { $0 + cost(of: $1, in: entries) })
+        var bySupplier: [String: (name: String, cost: Double)] = [:]
+        for rise in rises {
+            let k = SupplierAccounts.key(rise.supplier)
+            bySupplier[k] = (rise.supplier, (bySupplier[k]?.cost ?? 0) + cost(of: rise, in: entries) + rise.percent / 1_000_000)
+        }
+
+        let owedCredits = entries.compactMap { $0.credit }.filter { $0.isOwed }
+        let tips = Insights.supplierTips(entries, now: now)
+
+        var attention: [Attention] = []
+        let twice = entries.filter { $0.duplicateOf != nil && $0.paid == nil }
+        if !twice.isEmpty {
+            attention.append(Attention(kind: .duplicates, count: twice.count,
+                                       amount: Money.round2(twice.pennySum { $0.amountToPay.pay })))
+        }
+        let unchecked = entries.filter { !$0.verified && !$0.totalOnly }
+        if !unchecked.isEmpty { attention.append(Attention(kind: .notChecked, count: unchecked.count, amount: 0)) }
+        let late = SupplierAccounts.dayText(now.addingTimeInterval(-14 * 86_400))
+        let lateCredits = owedCredits.filter { ($0.at.map { String($0.prefix(10)) } ?? today) <= late }
+        if !lateCredits.isEmpty {
+            attention.append(Attention(kind: .creditsLate, count: lateCredits.count,
+                                       amount: Money.round2(lateCredits.pennySum { $0.amount })))
+        }
+        let dues = DueDates.open(accounts: accounts, creditDays: creditDays, now: now)
+        let overdue = dues.filter { $0.daysLeft < 0 }
+        if !overdue.isEmpty {
+            attention.append(Attention(kind: .overdue, count: overdue.count, amount: Money.round2(overdue.pennySum { $0.amount })))
+        }
+        let soon = dues.filter { $0.daysLeft >= 0 && $0.daysLeft <= 7 }
+        if !soon.isEmpty {
+            attention.append(Attention(kind: .dueSoon, count: soon.count, amount: Money.round2(soon.pennySum { $0.amount })))
+        }
+        if !rises.isEmpty { attention.append(Attention(kind: .priceRises, count: rises.count, amount: risesCost)) }
+
+        var overview = Overview(
+            owed: Money.round2(owing.pennySum { $0.balance }),
+            suppliersOwed: owing.count,
+            spentThisMonth: Money.round2(inMonth.pennySum { $0.amountToPay.total }),
+            invoicesThisMonth: inMonth.count,
+            paidThisWeek: Money.round2(accounts.pennySum { $0.paidThisWeek }),
+            savedThisMonth: savings(inMonth),
+            savedAllTime: savings(entries),
+            risesThisMonth: rises,
+            risesCost: risesCost,
+            creditsOwed: Money.round2(owedCredits.pennySum { $0.amount }),
+            cheaperElsewhere: Money.round2(tips.pennySum { $0.savingMonth }),
+            risingSupplier: bySupplier.values.max { $0.cost < $1.cost }?.name,
+            attention: attention,
+            owedOther: owedOther)
+        overview.owedSplit = SupplierAccounts.totalSplit(owing)
+        return overview
+    }
+}
