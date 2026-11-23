@@ -24,7 +24,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
 | CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
 | CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
-| CC-018 | Retail operations polish (P1) | ⬜ | |
+| CC-018 | Retail operations polish (P1) | 🟡 | transfers in transit (sent → received, shortages), stocktake sessions with variance at cost |
 | CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
 | CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
@@ -185,3 +185,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   cost of goods, "profit covers X% of sales" when not all costed, and a Low margins list. ProfitReportTests
   reconcile a hand-worked day (refund included). Not yet: supplier price-rise alerts tied to margins (Insights has
   price rises separately), date-range export of the profit report.
+- 23 Nov — CC-018: Core `Retail.swift` — StockTransfer (leaves when sent, arrives when received with the real
+  amount; merge: arrived wins), Stocktake (expected vs counted, variances at cost, net). TillStore: `move` now
+  creates a transfer (no instant arrival), `receive`, `commit` (all counts at once); Transfers file per till.
+  Stock: "On the way" (tap to receive), Stocktake screen. Already there: variants, scale barcodes, refunds.
+  Not yet: exchanges as one transaction (refund + new sale), scale configuration profiles.

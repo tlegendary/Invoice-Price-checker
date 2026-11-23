@@ -444,6 +444,35 @@
         }
       }
     },
+    "%@ from %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ من %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ لە %@ەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ von %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ de %@"
+          }
+        }
+      }
+    },
     "%@ h": {
       "extractionState": "manual",
       "localizations": {
@@ -1022,6 +1051,35 @@
         }
       }
     },
+    "%@ to %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ إلى %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ بۆ %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ nach %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ vers %@"
+          }
+        }
+      }
+    },
     "%@ to come": {
       "extractionState": "manual",
       "localizations": {
@@ -1047,6 +1105,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ à venir"
+          }
+        }
+      }
+    },
+    "%@ were sent. How many came?": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُرسل %@. كم وصل؟"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ نێردرا. چەندی هات؟"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wurden geschickt. Wie viele kamen an?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ envoyés. Combien sont arrivés ?"
           }
         }
       }
@@ -14033,6 +14120,35 @@
         }
       }
     },
+    "Count many items in one go, see what's missing or extra at cost, then save the whole count.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احصِ أصنافاً كثيرة دفعة واحدة، وانظر الناقص أو الزائد بسعر التكلفة، ثم احفظ الجرد كاملاً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زۆر کاڵا بەیەکجار بژمێرە، ئەوەی کەمە یان زیادە بە نرخی تێچوو ببینە، پاشان هەموو ژماردنەکە پاشەکەوت بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viele Artikel auf einmal zählen, Fehlmengen oder Überschuss zum Einkaufspreis sehen und dann alles speichern."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comptez de nombreux articles d'un coup, voyez les manques ou surplus au coût, puis enregistrez tout le comptage."
+          }
+        }
+      }
+    },
     "Count on the shelf": {
       "extractionState": "manual",
       "localizations": {
@@ -16322,6 +16438,35 @@
         }
       }
     },
+    "Difference at cost": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفرق بسعر التكلفة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جیاوازی بە نرخی تێچوو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Differenz zum Einkaufspreis"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écart au coût"
+          }
+        }
+      }
+    },
     "Discount": {
       "extractionState": "manual",
       "localizations": {
@@ -17783,6 +17928,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Montant exact"
+          }
+        }
+      }
+    },
+    "Expected %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المتوقع %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چاوەڕوانکراو %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erwartet %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attendu %@"
           }
         }
       }
@@ -21911,6 +22085,35 @@
         }
       }
     },
+    "It arrived": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وصل"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەیشت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Angekommen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C'est arrivé"
+          }
+        }
+      }
+    },
     "It stays in More › Recently deleted for 30 days. The copy of the original invoice in the Files app is kept.": {
       "localizations": {
         "ar": {
@@ -23428,6 +23631,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Laissez vide un fournisseur que vous n’avez pas payé. Chaque montant règle d’abord ses plus anciennes factures."
+          }
+        }
+      }
+    },
+    "Leave an item empty to keep its current count.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اترك الصنف فارغاً للإبقاء على عدده الحالي."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاڵایەک بەتاڵ بهێڵەوە بۆ پاراستنی ژمارەی ئێستای."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lass einen Artikel leer, um den aktuellen Bestand zu behalten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laissez un article vide pour garder son stock actuel."
           }
         }
       }
@@ -29737,6 +29969,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sur la facture : %@"
+          }
+        }
+      }
+    },
+    "On the way": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في الطريق"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ڕێگادایە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterwegs"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En route"
           }
         }
       }
@@ -38846,6 +39107,35 @@
         }
       }
     },
+    "Save count": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احفظ الجرد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ژماردن پاشەکەوت بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zählung speichern"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer le comptage"
+          }
+        }
+      }
+    },
     "Save or send a copy": {
       "localizations": {
         "ar": {
@@ -43333,6 +43623,35 @@
         }
       }
     },
+    "Stocktake": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الجرد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ژماردنی کۆگا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inventur"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inventaire"
+          }
+        }
+      }
+    },
     "Stop paying more than your agreed prices.": {
       "extractionState": "stale",
       "localizations": {
@@ -44677,6 +44996,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Touchez un article pour passer de « tout arrivé » à « rien arrivé », ou utilisez − et + pour une partie."
+          }
+        }
+      }
+    },
+    "Tap one when it arrives and enter what actually came.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط عليه عند وصوله وأدخل ما وصل فعلاً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کاتێک گەیشت دایبگرە و ئەوەی بەڕاستی هات بنووسە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tippe darauf, wenn es ankommt, und gib ein, was wirklich kam."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touchez-le à l'arrivée et saisissez ce qui est réellement arrivé."
           }
         }
       }
@@ -56725,6 +57073,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "stock %@"
+          }
+        }
+      }
+    },
+    "stocktake": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ژماردنی کۆگا"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inventur"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "inventaire"
           }
         }
       }

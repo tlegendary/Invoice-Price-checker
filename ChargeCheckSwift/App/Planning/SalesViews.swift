@@ -404,6 +404,50 @@ struct StockView: View {
     @State private var moving: String?
     /// The item whose movements are shown (touch and hold a row).
     @State private var history: StockLevel?
+    @State private var arriving: StockTransfer?
+    @State private var arrivedText = ""
+    @State private var stocktaking = false
+
+    /// Stock sent between shops that hasn't arrived yet: here, the ones coming in can be received.
+    @ViewBuilder
+    private func transitSection(shop: String, items: [PriceItem]) -> some View {
+        let coming = till.transfers.filter { $0.inTransit && $0.to == shop }
+        let going = till.transfers.filter { $0.inTransit && $0.from == shop }
+        if !coming.isEmpty || !going.isEmpty {
+            Section {
+                ForEach(coming) { t in
+                    Button {
+                        arriving = t
+                        arrivedText = t.units.formatted()
+                    } label: {
+                        LabeledContent(t.name, value: String(localized: "\(t.units.formatted()) from \(Shops.reportName(t.from))"))
+                    }
+                    .foregroundStyle(.primary)
+                }
+                ForEach(going) { t in
+                    LabeledContent(t.name, value: String(localized: "\(t.units.formatted()) to \(Shops.reportName(t.to))"))
+                        .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("On the way")
+            } footer: {
+                Text("Tap one when it arrives and enter what actually came.")
+            }
+            .alert("It arrived", isPresented: Binding(get: { arriving != nil }, set: { if !$0 { arriving = nil } }), presenting: arriving) { t in
+                TextField("0", text: $arrivedText).keyboardType(.decimalPad)
+                Button("Save") {
+                    if let units = Double(arrivedText.replacingOccurrences(of: ",", with: ".")),
+                       let item = items.first(where: { $0.id == t.itemID }) {
+                        till.receive(t, units: units, item: item, invoices: reports.compactMap { $0.entry })
+                    }
+                    arriving = nil
+                }
+                Button("Cancel", role: .cancel) { arriving = nil }
+            } message: { t in
+                Text(String(localized: "\(t.units.formatted()) were sent. How many came?"))
+            }
+        }
+    }
 
     var body: some View {
         let shops = Shops.decode(shopData)
@@ -439,6 +483,19 @@ struct StockView: View {
                             Label("Move stock to another shop", systemImage: "arrow.left.arrow.right")
                         }
                     }
+                }
+                transitSection(shop: shop, items: items)
+                Section {
+                    Button {
+                        stocktaking = true
+                    } label: {
+                        Label("Stocktake", systemImage: "list.clipboard")
+                    }
+                } footer: {
+                    Text("Count many items in one go, see what's missing or extra at cost, then save the whole count.")
+                }
+                .sheet(isPresented: $stocktaking) {
+                    StocktakeView(shop: shop, levels: levels, items: items)
                 }
                 if !low.isEmpty {
                     Section {
@@ -594,5 +651,75 @@ struct StockMovementsView: View {
         case .sold: return String(localized: "Sold")
         case .refunded: return String(localized: "Refunded")
         }
+    }
+}
+
+
+/// Counting many items in one go: what the till expects, what's counted, the difference at cost, saved together.
+struct StocktakeView: View {
+    let shop: String
+    let levels: [StockLevel]
+    let items: [PriceItem]
+    @ObservedObject private var till = TillStore.shared
+    @Environment(\.dismiss) private var dismiss
+    @State private var take: Stocktake?
+    @State private var texts: [String: String] = [:]
+
+    var body: some View {
+        let costs = Dictionary(items.map { ($0.id, $0.isTillOnly ? $0.price : $0.unitCost(shop: shop)) }, uniquingKeysWith: { a, _ in a })
+        let current = currentTake
+        NavigationStack {
+            List {
+                Section {
+                    LabeledContent("Counted", value: "\(current.counted.count) / \(levels.count)")
+                    let net = current.netValue(cost: { costs[$0] ?? 0 })
+                    LabeledContent("Difference at cost", value: Money.format(net))
+                        .foregroundStyle(net < -0.005 ? .red : (net > 0.005 ? .green : .primary))
+                }
+                Section {
+                    ForEach(levels) { level in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(level.name).font(.subheadline.weight(.semibold))
+                                Text(String(localized: "Expected \(level.onHand.formatted())")).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            TextField("—", text: Binding(get: { texts[level.itemID] ?? "" }, set: { texts[level.itemID] = $0 }))
+                                .keyboardType(.decimalPad)
+                                .multilineTextAlignment(.trailing)
+                                .frame(width: 80)
+                                .monospacedDigit()
+                        }
+                    }
+                } footer: {
+                    Text("Leave an item empty to keep its current count.")
+                }
+            }
+            .navigationTitle("Stocktake")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save count") {
+                        till.commit(current, names: Dictionary(levels.map { ($0.itemID, $0.name) }, uniquingKeysWith: { a, _ in a }))
+                        dismiss()
+                    }
+                    .disabled(current.counted.isEmpty)
+                }
+            }
+            .onAppear {
+                if take == nil {
+                    take = Stocktake(shop: shop, startedAt: ISO8601DateFormatter().string(from: Date()),
+                                     expected: Dictionary(levels.map { ($0.itemID, $0.onHand) }, uniquingKeysWith: { a, _ in a }))
+                }
+            }
+        }
+    }
+
+    /// The stocktake with what's typed so far.
+    private var currentTake: Stocktake {
+        var t = take ?? Stocktake(shop: shop, startedAt: "", expected: [:])
+        t.counted = texts.compactMapValues { Double($0.replacingOccurrences(of: ",", with: ".")) }.filter { $0.value >= 0 }
+        return t
     }
 }
