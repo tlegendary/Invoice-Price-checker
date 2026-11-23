@@ -19,7 +19,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-010 | Refund integration (P0) | 🟡 | refunds go back the way the sale was paid (card first), capped per way, linked to the original card payment |
 | CC-011 | Durable sync outbox (P0) | 🟡 | SyncOutbox (Core) + CloudOutbox: failed iCloud writes retried 30 s → 1 h, survives restarts |
 | CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
-| CC-013 | Cloud file integrity (P1) | ⬜ | |
+| CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
 | CC-014 | Inventory movement ledger (P1) | ⬜ | |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
@@ -151,3 +151,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   `Overspends.find`: a gift card spent past its balance by two offline tills is listed (Gift cards › Spent twice)
   with sale, till and amount; both sales kept. Not yet: customer store credit / loyalty points overspend, conflict
   UX for products/settings/counts (latest-wins today).
+- 23 Nov — CC-013: found other tills' sales files from iCloud were copied over the local copy unchecked (a half
+  download could hide a till's sales). Core `FileCheck.sales` (must decode, must still hold every sale we had) and
+  `FileCheck.json`; TillStore keeps the good copy, puts the bad one in Documents/Quarantine and shows the iCloud
+  banner. Already in place: iCloud placeholders are downloaded and reads are coordinated (CloudFolder.readAll); write
+  results are checked (CC-004 + CC-011 outbox). Not yet: the same check on settings/cash/products files; a schema
+  version field in the files.

@@ -37370,6 +37370,35 @@
         }
       }
     },
+    "Sales from another till": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبيعات من صندوق آخر"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فرۆشتن لە سندوقێکی ترەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verkäufe von einer anderen Kasse"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventes d'une autre caisse"
+          }
+        }
+      }
+    },
     "Sales from now on go on the next day's report.": {
       "extractionState": "manual",
       "localizations": {

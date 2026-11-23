@@ -223,6 +223,18 @@ final class TillStore: ObservableObject {
 
     // MARK: keeping the tills in step
 
+    enum FileProblem: Error, CustomStringConvertible {
+        case unsafe(String)
+        var description: String {
+            switch self {
+            case .unsafe(let name):
+                return "\(name) from iCloud was damaged or missing sales this till had. The good copy was kept; the other is in Quarantine."
+            }
+        }
+    }
+
+    private static func stamp() -> String { ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-") }
+
     /// Reads the other tills' files from iCloud (this month's and last month's sales; `full`: every month), and on an
     /// extra till the products from the main iPhone. The main iPhone puts its products there for them.
     private var syncing = false
@@ -255,8 +267,18 @@ final class TillStore: ObservableObject {
         // only what's new: reading every month again every half minute would freeze a till with a long history
         var changed = false
         for file in salesFiles where Self.differs(file.data, folder: Self.folder, name: file.name) {
-            AppFiles.write(file.data, folder: Self.folder, name: file.name)
-            changed = true
+            // never take a damaged copy, or one that lost sales we had, over the good one here: set it aside
+            let old = AppFiles.url(forRelativePath: Self.folder + "/" + file.name).flatMap { try? Data(contentsOf: $0) }
+            switch FileCheck.sales(new: file.data, old: old) {
+            case .ok:
+                AppFiles.write(file.data, folder: Self.folder, name: file.name)
+                SaveWatch.saved(.icloud, String(localized: "Sales from another till") + " · " + file.name)
+                changed = true
+            case .damaged, .shrank:
+                AppFiles.write(file.data, folder: "Quarantine", name: Self.stamp() + " " + file.name)
+                SaveWatch.failed(.icloud, String(localized: "Sales from another till") + " · " + file.name,
+                                 FileProblem.unsafe(file.name))
+            }
         }
         for file in tillFiles where !(file.name == "Till ~" + me + ".json") {
             if file.name != "Products.json" && !Self.differs(file.data, folder: Self.tillFolder, name: file.name) { continue }
