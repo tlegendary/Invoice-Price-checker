@@ -158,13 +158,27 @@ public struct SaleLine: Codable, Equatable, Identifiable, Sendable {
 public struct SalePayment: Codable, Equatable, Sendable {
     public var kind: PaymentKind
     public var amount: Double
-    /// The gift card's code, or the customer whose tab or points paid.
+    /// The gift card's code, the customer whose tab or points paid, or a card machine's approval code.
     public var ref: String?
-    public init(kind: PaymentKind, amount: Double, ref: String? = nil) {
+    /// Card on a separate card machine: who said the machine approved it, and which machine. (Since 23 Nov 2026.)
+    public var confirmedBy: String?
+    public var terminal: String?
+    /// true only when a connected card company confirmed it itself; a cashier's word is false. nil: before this
+    /// was recorded, or not a card.
+    public var verified: Bool?
+
+    public init(kind: PaymentKind, amount: Double, ref: String? = nil, confirmedBy: String? = nil,
+                terminal: String? = nil, verified: Bool? = nil) {
         self.kind = kind
         self.amount = amount
         self.ref = ref
+        self.confirmedBy = confirmedBy
+        self.terminal = terminal
+        self.verified = verified
     }
+
+    /// A card payment the till only knows about from the cashier (a separate card machine).
+    public var isManualCard: Bool { kind == .card && verified != true }
 }
 
 public struct Sale: Codable, Equatable, Identifiable, Sendable {
