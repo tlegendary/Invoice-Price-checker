@@ -204,3 +204,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   CC-021: Core `PrintQueue` (job kept until printed, 3 tries then waits for a person, never the same receipt twice,
   deliberate reprints marked COPY, trim). Not yet: TillHardware sending through the queue, and the device matrix
   (printers, drawers, scanners) — needs Ramyar's hardware.
+- 24 Nov — UI (blueprint stage 1, "UX foundation"): looked at the cloud screenshots in every language. Fixed: Home
+  tiles cut labels off in German/French and long text (now two lines, bigger, one VoiceOver item); orange warning
+  text was hard to read (now `NoticeBanner`: coloured icon, readable words); invoice results use `StatusChip`;
+  "Overcharged, all time" was red even at £0.00 and summed in floating point (now pence, red only above zero);
+  purple/blue PRO/PACK tags made lists busy (now one quiet accent). Added `DesignSystem.swift` and
+  docs/SCREENS.md (blueprint → real screens). Next UI: more warnings onto NoticeBanner (InvoiceDetail,
+  Suppliers), first-run guide for cashiers, barcode labels, tables/tabs.

@@ -65,8 +65,9 @@ struct ReportsView: View {
                 } else {
                     Section {
                         LabeledContent("Overcharged, all time") {
-                            Text(Money.format(Money.round2(list.reduce(0) { $0 + $1.over })))
-                                .foregroundStyle(.red)
+                            let over = list.pennySum { $0.over }
+                            Text(Money.format(over))
+                                .foregroundStyle(over > 0.005 ? Color.red : Color.primary)
                                 .fontWeight(.bold)
                         }
                         LabeledContent("Invoices checked", value: "\(list.count)")
@@ -316,9 +317,11 @@ struct ReportRow: View {
                     Text(Money.format(entry.total, supplier: entry.supplier))
                         .font(.subheadline.weight(.bold))
                 } else {
-                    Text(entry.over > 0.005 ? Money.format(entry.over, supplier: entry.supplier) : L("OK"))
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(entry.over > 0.005 ? Color.red : Color.green)
+                    if entry.over > 0.005 {
+                        StatusChip(text: Money.format(entry.over, supplier: entry.supplier), kind: .bad)
+                    } else {
+                        StatusChip(text: L("OK"), kind: .good)
+                    }
                 }
             }
             Text(detail)
