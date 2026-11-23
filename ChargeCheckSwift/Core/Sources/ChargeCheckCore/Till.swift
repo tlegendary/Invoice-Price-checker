@@ -349,7 +349,8 @@ public enum SaleMaths {
         }
         let total = Pence(abs(sale.total))?.value ?? 1
         for p in parts where !p.kind.isMoney {
-            let share = Int((Double(wanted.value) * abs(p.amount) * 100 / Double(total) / 100).rounded())
+            // this way's share of the refund, in pence: refund × (what it paid ÷ the sale's total)
+            let share = Int((Double(wanted.value) * abs(p.amount) * 100 / Double(total)).rounded())
             add(p, min(share, left(p), remaining))
         }
         for kind in [PaymentKind.card, .cash, .other] {
