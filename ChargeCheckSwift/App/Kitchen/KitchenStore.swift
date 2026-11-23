@@ -75,8 +75,12 @@ final class KitchenStore: ObservableObject {
     /// Everyone's tickets and statuses: this device's, and what the others wrote (on this device and in iCloud).
     func refresh() {
         var logs = [own]
-        for file in AppFiles.readAll(folder: Self.folder) where file.name != fileName {
-            if let log = try? JSONDecoder().decode(Log.self, from: file.data) { logs.append(log) }
+        if let folder = AppFiles.url(forRelativePath: Self.folder),
+           let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path) {
+            for name in names where name != fileName && name.hasSuffix(".json") {
+                if let data = try? Data(contentsOf: folder.appendingPathComponent(name)),
+                   let log = try? JSONDecoder().decode(Log.self, from: data) { logs.append(log) }
+            }
         }
         apply(logs)
         guard CloudFolder.isOn else { return }
