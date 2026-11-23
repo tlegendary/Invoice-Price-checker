@@ -20,7 +20,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-011 | Durable sync outbox (P0) | 🟡 | SyncOutbox (Core) + CloudOutbox: failed iCloud writes retried 30 s → 1 h, survives restarts |
 | CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
 | CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
-| CC-014 | Inventory movement ledger (P1) | ⬜ | |
+| CC-014 | Inventory movement ledger (P1) | 🟡 | InventoryLedger: movements from counts/invoices/sales/refunds, on hand = StockMaths; Stock › Movements |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
 | CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
@@ -157,3 +157,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   banner. Already in place: iCloud placeholders are downloaded and reads are coordinated (CloudFolder.readAll); write
   results are checked (CC-004 + CC-011 outbox). Not yet: the same check on settings/cash/products files; a schema
   version field in the files.
+- 23 Nov — CC-014: Core `InventoryLedger.movements` (counted, delivered, sold, refunded; one per source line, so a
+  sale or invoice seen twice counts once; duplicates and pre-count history skipped) and `onHand`, proven equal to
+  `StockMaths.levels` on 200 random days. Stock › touch and hold › Movements shows the list. Not yet: manual
+  adjustments with a reason (stock in / write-off) and transfers between shops as their own movement kinds.
