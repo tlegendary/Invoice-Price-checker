@@ -205,7 +205,7 @@ final class TillStore: ObservableObject {
         }
         AppFiles.write(data, folder: Self.tillFolder, name: name)
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: TillStore.tillFolder, name: name) }
+            CloudOutbox.send(data, folder: TillStore.tillFolder, name: name)
         }
     }
 
@@ -217,11 +217,23 @@ final class TillStore: ObservableObject {
         let name = own("Sales " + prefix)
         AppFiles.write(data, folder: Self.folder, name: name)
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: Self.folder, name: name) }
+            CloudOutbox.send(data, folder: Self.folder, name: name)
         }
     }
 
     // MARK: keeping the tills in step
+
+    enum FileProblem: Error, CustomStringConvertible {
+        case unsafe(String)
+        var description: String {
+            switch self {
+            case .unsafe(let name):
+                return "\(name) from iCloud was damaged or missing sales this till had. The good copy was kept; the other is in Quarantine."
+            }
+        }
+    }
+
+    private static func stamp() -> String { ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-") }
 
     /// Reads the other tills' files from iCloud (this month's and last month's sales; `full`: every month), and on an
     /// extra till the products from the main iPhone. The main iPhone puts its products there for them.
@@ -255,8 +267,18 @@ final class TillStore: ObservableObject {
         // only what's new: reading every month again every half minute would freeze a till with a long history
         var changed = false
         for file in salesFiles where Self.differs(file.data, folder: Self.folder, name: file.name) {
-            AppFiles.write(file.data, folder: Self.folder, name: file.name)
-            changed = true
+            // never take a damaged copy, or one that lost sales we had, over the good one here: set it aside
+            let old = AppFiles.url(forRelativePath: Self.folder + "/" + file.name).flatMap { try? Data(contentsOf: $0) }
+            switch FileCheck.sales(new: file.data, old: old) {
+            case .ok:
+                AppFiles.write(file.data, folder: Self.folder, name: file.name)
+                SaveWatch.saved(.icloud, String(localized: "Sales from another till") + " · " + file.name)
+                changed = true
+            case .damaged, .shrank:
+                AppFiles.write(file.data, folder: "Quarantine", name: Self.stamp() + " " + file.name)
+                SaveWatch.failed(.icloud, String(localized: "Sales from another till") + " · " + file.name,
+                                 FileProblem.unsafe(file.name))
+            }
         }
         for file in tillFiles where !(file.name == "Till ~" + me + ".json") {
             if file.name != "Products.json" && !Self.differs(file.data, folder: Self.tillFolder, name: file.name) { continue }
@@ -301,7 +323,7 @@ final class TillStore: ObservableObject {
         guard UserDefaults.standard.string(forKey: "till.productsPublished") != hash else { return }
         UserDefaults.standard.set(hash, forKey: "till.productsPublished")
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: TillStore.tillFolder, name: "Products.json") }
+            CloudOutbox.send(data, folder: TillStore.tillFolder, name: "Products.json")
         }
     }
 
@@ -365,7 +387,16 @@ final class TillStore: ObservableObject {
         ensureCode()
         let number = nextNumber
         UserDefaults.standard.set(number, forKey: Self.numberKey)
-        var refund = SaleMaths.refund(of: sale, quantities: wanted, number: number, at: Self.now(), cashier: cashier?.name)
+        var refund = SaleMaths.refund(of: sale, quantities: wanted, number: number, at: Self.now(), cashier: cashier?.name,
+                                      earlier: sales.filter { $0.refundOf == sale.id })
+        // a card refund on a separate card machine: who did it (they give it back on the machine)
+        if let parts = refund.split {
+            refund.split = parts.map { part in
+                var part = part
+                if part.kind == .card { part.confirmedBy = cashier?.name ?? String(localized: "Owner") }
+                return part
+            }
+        }
         refund.till = code
         refund.approvedBy = approvedBy
         if toCredit, let customer = sale.customer {

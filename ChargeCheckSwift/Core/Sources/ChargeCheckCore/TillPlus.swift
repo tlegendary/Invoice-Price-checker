@@ -840,3 +840,37 @@ public enum Layaways {
         return best.values.sorted { $0.at > $1.at }
     }
 }
+
+/// A gift card spent past its balance: two tills each spent it while offline, before either saw the other's sale.
+/// Sales are never deleted or changed (each till only adds to its own files), so this is found and shown, not lost.
+public struct Overspend: Equatable, Identifiable, Sendable {
+    public var id: String { code + "|" + sale }
+    public var code: String
+    /// The sale that took it below zero.
+    public var sale: String
+    public var till: String?
+    /// How far below zero it went (positive).
+    public var over: Double
+    public var at: String
+}
+
+public enum Overspends {
+    /// Each card's spending in time order; any sale taking the balance below zero (to the penny) is listed.
+    public static func find(cards: [GiftCard], sales: [Sale]) -> [Overspend] {
+        var out: [Overspend] = []
+        for card in cards {
+            guard var left = Pence(card.amount) else { continue }
+            let uses = sales.filter { sale in sale.payments.contains { $0.kind == .gift && $0.ref == card.code } }
+                .sorted { ($0.at, $0.id) < ($1.at, $1.id) }
+            for sale in uses {
+                for part in sale.payments where part.kind == .gift && part.ref == card.code {
+                    left = left - (Pence(part.amount) ?? .zero)
+                }
+                if left.value < 0 {
+                    out.append(Overspend(code: card.code, sale: sale.id, till: sale.till, over: Pence(value: -left.value).pounds, at: sale.at))
+                }
+            }
+        }
+        return out.sorted { $0.at > $1.at }
+    }
+}

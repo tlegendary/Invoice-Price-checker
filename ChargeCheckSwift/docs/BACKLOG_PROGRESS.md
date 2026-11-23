@@ -16,10 +16,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-007 | External terminal manual tender (P0) | 🟡 | card parts record machine, confirmed-by, approval code, verified=false; shown in sale details |
 | CC-008 | Provider adapter + fake provider (P0) | 🟡 | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | 🟡 | PaymentRunner: save first, timeout → unknown → status check, recoverAll on launch; FileAttemptStore |
-| CC-010 | Refund integration (P0) | ⬜ | |
-| CC-011 | Durable sync outbox (P0) | ⬜ | |
-| CC-012 | Sync conflict policy (P0) | ⬜ | |
-| CC-013 | Cloud file integrity (P1) | ⬜ | |
+| CC-010 | Refund integration (P0) | 🟡 | refunds go back the way the sale was paid (card first), capped per way, linked to the original card payment |
+| CC-011 | Durable sync outbox (P0) | 🟡 | SyncOutbox (Core) + CloudOutbox: failed iCloud writes retried 30 s → 1 h, survives restarts |
+| CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
+| CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
 | CC-014 | Inventory movement ledger (P1) | ⬜ | |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
@@ -138,3 +138,22 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   SumUp, Adyen: all "not connected", each needs Ramyar's account/keys), `FileAttemptStore` (atomic, protected),
   More › Card payments screen. Not yet (needs a real provider account): the till's live card checkout through the
   runner, and calling recoverAll at launch — both wait for the first connected provider.
+- 23 Nov — CC-010: found a card + cash sale's refund was all CASH from the drawer. Now `SaleMaths.refundTenders`
+  sends money back the way it was paid: gift/points/accounts in proportion, then card first, cash, other, each
+  capped at what it paid minus earlier refunds (the store passes them in); card parts keep the original approval
+  code, verified false, confirmedBy = the cashier doing it. Tests: RefundTenderTests. Still: refunds through a
+  connected card company use `PaymentRunner.refund` once one is connected; two tills refunding the same sale while
+  offline is CC-012.
+- 23 Nov — CC-011: Core `SyncOutbox` (backoff 30 s doubling to 1 h, one entry per file, survives restarts);
+  `CloudOutbox.send` replaces the till's CloudFolder.write calls; `retryDue` on launch and every minute (sends the
+  latest local copy). Health: the CC-004 iCloud banner stays until it goes. CC-012: confirmed sales, cash and
+  refunds are append-only per till (each till writes only its own files; merge keeps each sale once). New
+  `Overspends.find`: a gift card spent past its balance by two offline tills is listed (Gift cards › Spent twice)
+  with sale, till and amount; both sales kept. Not yet: customer store credit / loyalty points overspend, conflict
+  UX for products/settings/counts (latest-wins today).
+- 23 Nov — CC-013: found other tills' sales files from iCloud were copied over the local copy unchecked (a half
+  download could hide a till's sales). Core `FileCheck.sales` (must decode, must still hold every sale we had) and
+  `FileCheck.json`; TillStore keeps the good copy, puts the bad one in Documents/Quarantine and shows the iCloud
+  banner. Already in place: iCloud placeholders are downloaded and reads are coordinated (CloudFolder.readAll); write
+  results are checked (CC-004 + CC-011 outbox). Not yet: the same check on settings/cash/products files; a schema
+  version field in the files.

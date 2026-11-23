@@ -340,7 +340,28 @@ struct GiftCardsView: View {
     var body: some View {
         let cards = till.giftCards.filter { search.isEmpty || $0.code.contains(search.filter(\.isNumber)) }
         let outstanding = Money.round2(till.giftCards.reduce(0) { $0 + max(0, GiftCards.balance($1, sales: till.sales)) })
+        let overspent = Overspends.find(cards: till.giftCards, sales: till.sales)
         List {
+            if !overspent.isEmpty {
+                // two tills spent the same card while offline: both sales are kept, the owner decides what to do
+                Section {
+                    ForEach(overspent) { o in
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(String(localized: "Card \(o.code) went \(Money.format(o.over)) over"))
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.red)
+                            Text(String(localized: "Sale at \(String(o.at.prefix(16)).replacingOccurrences(of: "T", with: " "))")
+                                 + (o.till.map { " · " + String(localized: "till \($0)") } ?? ""))
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    Text("Spent twice")
+                } footer: {
+                    Text("Two tills used the same gift card while they were offline. Both sales are kept; ask the customer to pay the difference, or write it off.")
+                }
+            }
             Section {
                 LabeledContent("Still to be spent") {
                     Text(Money.format(outstanding)).fontWeight(.bold)
