@@ -7697,6 +7697,35 @@
         }
       }
     },
+    "Approval code (optional)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمز الموافقة (اختياري)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کۆدی پەسەندکردن (ئارەزوومەندانە)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genehmigungscode (optional)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code d'autorisation (facultatif)"
+          }
+        }
+      }
+    },
     "Arrived and billed as ordered": {
       "extractionState": "manual",
       "localizations": {
@@ -9851,6 +9880,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Carte"
+          }
+        }
+      }
+    },
+    "Card machine": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جهاز البطاقات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئامێری کارت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kartenterminal"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal de paiement"
           }
         }
       }
@@ -12874,6 +12932,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Comparé à la dernière facture de ce fournisseur, même si c’est encore dans votre prix convenu."
+          }
+        }
+      }
+    },
+    "Confirmed by %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكّده %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پشتڕاستکراوەتەوە لەلایەن %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestätigt von %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmé par %@"
           }
         }
       }
@@ -26914,6 +27001,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas une variante"
+          }
+        }
+      }
+    },
+    "Not checked by the till: confirm it against the card machine's end-of-day total.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتحقق منه الصندوق: طابقه مع مجموع نهاية اليوم في جهاز البطاقات."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سندوقەکە نەیپشکنیوە: لەگەڵ کۆی کۆتایی ڕۆژی ئامێری کارتەکە بەراوردی بکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht von der Kasse geprüft: mit der Tagessumme des Kartenterminals abgleichen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non vérifié par la caisse : comparez-le au total de fin de journée du terminal."
           }
         }
       }
@@ -42734,6 +42850,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Encaissez la carte sur votre terminal, puis touchez OK. Accepter les cartes sur cet iPhone nécessite un compte de paiement par carte, pas encore configuré."
+          }
+        }
+      }
+    },
+    "Take the card on your card machine. Tap Done only when the machine says APPROVED: the sale records that you confirmed it, as a card payment the till couldn't check itself.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خذ البطاقة على جهاز البطاقات. اضغط تم فقط عندما يظهر الجهاز «موافق»: يسجّل البيع أنك أكّدت ذلك، كدفعة بطاقة لم يتحقق منها الصندوق بنفسه."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کارتەکە لەسەر ئامێری کارتەکەت وەربگرە. تەنها کاتێک ئامێرەکە دەڵێت APPROVED دابگرە تەواو: فرۆشتنەکە تۆمار دەکات کە تۆ پشتڕاستت کردەوە، وەک پارەدانی کارت کە سندوقەکە خۆی نەیپشکنی."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nimm die Karte am Kartenterminal an. Tippe erst auf Fertig, wenn das Terminal GENEHMIGT zeigt: Der Verkauf hält fest, dass du es bestätigt hast – als Kartenzahlung, die die Kasse nicht selbst prüfen konnte."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encaissez la carte sur votre terminal. Touchez Terminé seulement quand il affiche ACCEPTÉ : la vente enregistre que vous l'avez confirmé, comme un paiement par carte que la caisse n'a pas pu vérifier."
           }
         }
       }

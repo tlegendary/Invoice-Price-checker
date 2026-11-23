@@ -274,6 +274,19 @@ struct SaleDetailView: View {
                 }
                 Section {
                     ReceiptButtons(sale: sale, text: text)
+                    // card payments on a separate card machine: who confirmed them (the till couldn't check them)
+                    ForEach(Array(sale.payments.enumerated()).filter { $0.element.isManualCard && $0.element.confirmedBy != nil },
+                            id: \.offset) { _, card in
+                        VStack(alignment: .leading, spacing: 2) {
+                            LabeledContent(card.terminal ?? String(localized: "Card machine"), value: Money.format(card.amount))
+                            Text(String(localized: "Confirmed by \(card.confirmedBy ?? "")") + (card.ref.map { " · " + $0 } ?? ""))
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                            Text("Not checked by the till: confirm it against the card machine's end-of-day total.")
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                        }
+                    }
                     if let approved = sale.approvedBy {
                         LabeledContent("Allowed by", value: approved)
                     }

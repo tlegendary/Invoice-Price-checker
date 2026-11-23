@@ -1184,6 +1184,8 @@ struct PaySheet: View {
     @State private var checking = false
     @ObservedObject private var till = TillStore.shared
     @State private var kind = 0
+    /// The card machine's approval code, if the cashier types it (optional).
+    @State private var cardCode = ""
     @State private var given = ""
     @State private var cashPart = ""
     @State private var extras: [SalePayment] = []
@@ -1320,11 +1322,14 @@ struct PaySheet: View {
             } footer: {
                 Text("Take the cash part, then the rest on your card machine.")
             }
-        } else if kind == 1 {
+        }
+        if kind == 1 || kind == 3 {
             Section {
-                Text("Take the card on your card machine, then tap Done. Taking cards on this iPhone itself needs a card payment account, which isn't set up yet.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+                TextField("Approval code (optional)", text: $cardCode)
+                    .textInputAutocapitalization(.characters)
+                    .autocorrectionDisabled()
+            } footer: {
+                Text("Take the card on your card machine. Tap Done only when the machine says APPROVED: the sale records that you confirmed it, as a card payment the till couldn't check itself.")
             }
         }
     }
@@ -1425,6 +1430,14 @@ struct PaySheet: View {
         extras.append(SalePayment(kind: .points, amount: Money.round2(Double(spend) * worth), ref: customer.id))
     }
 
+    /// A card taken on a separate card machine: recorded as confirmed by the cashier, never as verified.
+    private func machineCard(_ amount: Double) -> SalePayment {
+        let code = cardCode.trimmingCharacters(in: .whitespacesAndNewlines)
+        let machine = String(localized: "Card machine") + (till.code.isEmpty ? "" : " · " + till.code)
+        return SalePayment(kind: .card, amount: amount, ref: code.isEmpty ? nil : code,
+                           confirmedBy: till.cashier?.name ?? String(localized: "Owner"), terminal: machine, verified: false)
+    }
+
     private func pay() {
         if due <= 0.004 {
             guard let first = extras.first else { return }
@@ -1441,16 +1454,17 @@ struct PaySheet: View {
             parts.append(SalePayment(kind: .cash, amount: due))
         case 1:
             main = .card
-            parts.append(SalePayment(kind: .card, amount: due))
+            parts.append(machineCard(due))
         case 3:
             let c = Money.round2(cashShare)
             main = c >= due ? .cash : .card
-            parts += [SalePayment(kind: .cash, amount: c), SalePayment(kind: .card, amount: Money.round2(due - c))].filter { $0.amount > 0 }
+            parts += [SalePayment(kind: .cash, amount: c), machineCard(Money.round2(due - c))].filter { $0.amount > 0 }
         default:
             main = .other
             parts.append(SalePayment(kind: .other, amount: due))
         }
-        onPaid(main, cash, parts.count > 1 || parts.contains { $0.ref != nil } ? parts : nil)
+        // card parts always kept in full: who confirmed the card machine, and which machine
+        onPaid(main, cash, parts.count > 1 || parts.contains { $0.ref != nil || $0.kind == .card } ? parts : nil)
     }
 }
 

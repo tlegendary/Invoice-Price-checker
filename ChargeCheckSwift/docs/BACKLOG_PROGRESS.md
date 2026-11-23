@@ -12,8 +12,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-003 | Permission enforcement audit (P0) | ✅ | store enforces refunds, cash, close day, layaways (part 1) and spends the yes for basket changes: discount, price, custom amount, removing lines, gift cards, tabs (part 2); PIN lockout |
 | CC-004 | Persistence error model (P0) | ✅ | SaveHealth (Core) + SaveWatch banner; 19 database saves + phone/iCloud writes report |
 | CC-005 | Transactional backup restore (P0) | ✅ | BackupValidation first; delete + insert in one save, rollback on failure; the rest only after |
-| CC-006 | Payment domain state machine (P0) | ⬜ | Core only, no provider |
-| CC-007 | External terminal manual tender (P0) | ⬜ | |
+| CC-006 | Payment domain state machine (P0) | 🟡 | Core Payments.swift: attempts, states, idempotency key, refunds, split summary; tests |
+| CC-007 | External terminal manual tender (P0) | 🟡 | card parts record machine, confirmed-by, approval code, verified=false; shown in sale details |
 | CC-008 | Provider adapter + fake provider (P0) | ⬜ | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | ⬜ | |
 | CC-010 | Refund integration (P0) | ⬜ | |
@@ -125,3 +125,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   refunds, cash, card (+ other) since the last close (same as the end-of-day report, `TillStore.current`) and
   items running low (shortest first, links to Stock). Core `TodaySummary` + tests. Hidden for staff. Not yet:
   profit (needs reliable costs, CC-019), charts, quick actions beyond the existing scan and till buttons.
+- 23 Nov — Ramyar: do all the steps without stopping. CC-006: Core `PaymentAttempt` (created → pending →
+  approved/declined/cancelled/failed; timeout → unknown, never a new key; repeats ignored; contradicting final
+  answers refused + needsReview; refunds ≤ paid, repeated refund IDs once), `PaymentSummary` for split totals
+  (no new card request while one is waiting/unknown). CC-007: SalePayment gains confirmedBy / terminal / verified;
+  the till's card and split payments record them; approval code field; sale details show them in orange. Not yet:
+  the till doesn't run sales through PaymentAttempt (CC-008/009 wire it with the provider adapter).
