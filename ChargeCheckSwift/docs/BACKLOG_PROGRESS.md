@@ -21,7 +21,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
 | CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
 | CC-014 | Inventory movement ledger (P1) | 🟡 | InventoryLedger: movements from counts/invoices/sales/refunds, on hand = StockMaths; Stock › Movements |
-| CC-015 | Purchase orders + receiving (P1) | ⬜ | |
+| CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
 | CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
 | CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
@@ -161,3 +161,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   sale or invoice seen twice counts once; duplicates and pre-count history skipped) and `onHand`, proven equal to
   `StockMaths.levels` on 200 random days. Stock › touch and hold › Movements shows the list. Not yet: manual
   adjustments with a reason (stock in / write-off) and transfers between shops as their own movement kinds.
+- 23 Nov — CC-015: `PurchaseOrder.moreInvoices` (old orders load; `invoiceIDs` = all), `OrderMaths.receipt` (per line
+  ordered/received/outstanding/extra over all deliveries; missing lines deliver nothing, short lines qty − short;
+  status notYet/part/received/more). Orders: part-received orders stay in Waiting; details show what's still to come
+  and "Match the next delivery's invoice"; invoice variances per delivery unchanged (`compare`). Not yet: pack ↔ unit
+  conversion when the order and invoice count differently; cost-price updates from received goods.

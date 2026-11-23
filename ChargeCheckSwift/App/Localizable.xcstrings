@@ -1022,6 +1022,35 @@
         }
       }
     },
+    "%@ to come": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ لم يصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ هێشتا نەگەیشتووە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kommt noch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ à venir"
+          }
+        }
+      }
+    },
     "%@ · %lld items": {
       "extractionState": "manual",
       "localizations": {
@@ -1423,6 +1452,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore %lld jours"
+          }
+        }
+      }
+    },
+    "%lld deliveries so far": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld توصيلات حتى الآن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تا ئێستا %lld گەیاندن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisher %lld Lieferungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld livraisons pour l'instant"
           }
         }
       }
@@ -3014,6 +3072,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore 1 jour"
+          }
+        }
+      }
+    },
+    "1 delivery so far": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توصيلة واحدة حتى الآن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تا ئێستا 1 گەیاندن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisher 1 Lieferung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 livraison pour l'instant"
           }
         }
       }
@@ -17323,6 +17410,35 @@
         }
       }
     },
+    "Everything ordered has now arrived.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وصل كل ما طُلب الآن."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو ئەوەی داواکرا ئێستا گەیشت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles Bestellte ist jetzt da."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout ce qui a été commandé est arrivé."
+          }
+        }
+      }
+    },
     "Exact": {
       "extractionState": "manual",
       "localizations": {
@@ -23905,6 +24021,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marqué payé avant"
+          }
+        }
+      }
+    },
+    "Match the next delivery's invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طابق فاتورة التوصيلة التالية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی گەیاندنی داهاتوو بەراورد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung der nächsten Lieferung zuordnen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Associer la facture de la livraison suivante"
           }
         }
       }

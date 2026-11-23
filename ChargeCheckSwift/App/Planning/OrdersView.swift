@@ -17,8 +17,11 @@ struct OrdersView: View {
 
     var body: some View {
         let drafts = visible.filter { !$0.sent }
-        let waiting = visible.filter { $0.sent && $0.invoiceID == nil }
-        let done = visible.filter { $0.invoiceID != nil }
+        // an order that came in part stays waiting until the rest arrives
+        let entries = reports.compactMap { $0.entry }
+        let partly = Set(visible.filter { $0.invoiceID != nil && OrderMaths.receipt($0, invoices: entries).status == .part }.map(\.id))
+        let waiting = visible.filter { $0.sent && ($0.invoiceID == nil || partly.contains($0.id)) }
+        let done = visible.filter { $0.invoiceID != nil && !partly.contains($0.id) }
         List {
             if visible.isEmpty {
                 ContentUnavailableView {
@@ -307,6 +310,7 @@ struct OrderDetailView: View {
                         Button("Not this invoice") {
                             var undone = order
                             undone.invoiceID = nil
+                            undone.moreInvoices = []
                             store.save(undone)
                         }
                     } header: {
@@ -314,6 +318,7 @@ struct OrderDetailView: View {
                     } footer: {
                         Text("Delivered comes from ticking off the delivery on the invoice. Billed but not delivered: ask for a credit from the invoice.")
                     }
+                    deliveriesSection(order, entries: entries)
                 } else {
                     Section {
                         let suggestion = OrderMaths.likelyInvoice(for: order, in: entries, taken: store.takenInvoices)
@@ -360,11 +365,40 @@ struct OrderDetailView: View {
         }
     }
 
+    /// Matches an invoice: the first delivery, or the next one when the order came in parts.
     private func match(_ order: PurchaseOrder, _ invoiceID: String) {
         var matched = order
-        matched.invoiceID = invoiceID
+        if matched.invoiceID == nil {
+            matched.invoiceID = invoiceID
+        } else if !matched.invoiceIDs.contains(invoiceID) {
+            matched.moreInvoices.append(invoiceID)
+        }
         matched.sent = true
         store.save(matched)
+    }
+
+    /// Across every delivery: what's still to come, and a way to match the next delivery's invoice.
+    @ViewBuilder
+    private func deliveriesSection(_ order: PurchaseOrder, entries: [HistoryEntry]) -> some View {
+        let receipt = OrderMaths.receipt(order, invoices: entries)
+        if receipt.status == .part || receipt.deliveries > 1 {
+            Section {
+                ForEach(Array(receipt.stillToCome.enumerated()), id: \.offset) { _, line in
+                    LabeledContent(line.name, value: String(localized: "\(line.outstanding.formatted()) to come"))
+                        .foregroundStyle(.orange)
+                }
+                if receipt.status != .part {
+                    Label("Everything ordered has now arrived.", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                }
+                if receipt.status == .part {
+                    Button("Match the next delivery's invoice") { choosingInvoice = true }
+                }
+            } header: {
+                Text(receipt.deliveries == 1 ? String(localized: "1 delivery so far")
+                     : String(localized: "\(receipt.deliveries) deliveries so far"))
+            }
+        }
     }
 }
 
