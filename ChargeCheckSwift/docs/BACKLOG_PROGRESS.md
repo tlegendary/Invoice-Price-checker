@@ -24,13 +24,13 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
 | CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
 | CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
-| CC-018 | Retail operations polish (P1) | ⬜ | |
+| CC-018 | Retail operations polish (P1) | 🟡 | transfers in transit (sent → received, shortages), stocktake sessions with variance at cost |
 | CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
-| CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
-| CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
-| CC-022 | Localization/accessibility audit (P1) | ⬜ | |
-| CC-023 | App Store and privacy readiness (P0) | ⬜ | Sign-off by Ramyar |
-| CC-024 | Operational monitoring/support (P1) | ⬜ | |
+| CC-020 | Web owner dashboard/backend design (P1) | 🟡 | docs/ADR-001-web-dashboard.md: CloudKit + CloudKit JS, threat model — waiting for Ramyar's approval |
+| CC-021 | Hardware test and print queue (P1) | 🟡 | Core PrintQueue (durable jobs, retries, COPY reprints, no duplicates); wiring into the printer + device sign-off need real hardware |
+| CC-022 | Localization/accessibility audit (P1) | 🟡 | tools/l10n_check.py on every push: 2,028 strings, 0 missing, placeholders match; RTL arrows fixed |
+| CC-023 | App Store and privacy readiness (P0) | 🟡 | docs/RELEASE_CHECKLIST.md: code checks done; version, ASC products, privacy label, App Store workflow need Ramyar |
+| CC-024 | Operational monitoring/support (P1) | 🟡 | Redact + HealthReport (Core); Settings › Send app health to support |
 
 ## Log
 - 21 Nov — CC-001 started. Found: `CCTestBuild: true` was committed for every build (App Store too). Now false in
@@ -185,3 +185,22 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   cost of goods, "profit covers X% of sales" when not all costed, and a Low margins list. ProfitReportTests
   reconcile a hand-worked day (refund included). Not yet: supplier price-rise alerts tied to margins (Insights has
   price rises separately), date-range export of the profit report.
+- 23 Nov — CC-018: Core `Retail.swift` — StockTransfer (leaves when sent, arrives when received with the real
+  amount; merge: arrived wins), Stocktake (expected vs counted, variances at cost, net). TillStore: `move` now
+  creates a transfer (no instant arrival), `receive`, `commit` (all counts at once); Transfers file per till.
+  Stock: "On the way" (tap to receive), Stocktake screen. Already there: variants, scale barcodes, refunds.
+  Not yet: exchanges as one transaction (refund + new sale), scale configuration profiles.
+- 23 Nov — CC-020: docs/ADR-001-web-dashboard.md (CloudKit + CloudKit JS, no own server until webhooks need one,
+  threat model) — waiting for approval. CC-023: docs/RELEASE_CHECKLIST.md — manifest and permissions fine; found the
+  Swift app is version 1.0 like the live app (must be higher, suggest 2.0 — Ramyar decides); no Swift App Store
+  workflow yet; privacy label must list Google Mobile Ads' data.
+- 23 Nov — CC-024: Core `Redact.text` (emails, 7+ digit runs incl. spaced cards/phones/accounts; short numbers
+  kept) and `HealthReport` (save problems, iCloud waiting + since, open card payments, gift cards spent twice,
+  quarantined files). Settings › Problem reports › Send app health to support. Not yet: incident playbooks doc,
+  automatic sending (everything stays manual and on-device by design).
+- 23 Nov — CC-022: `tools/l10n_check.py` (every string in ar/ckb/de/fr, same placeholders) runs on every push; today
+  0 missing of 2,028. RTL: two `chevron.right` → `chevron.forward`; PDFMaker already flips alignment; fixed font
+  sizes are icons and big headline numbers (34 pt+). Not yet: VoiceOver pass and landscape iPad screenshots in CI.
+  CC-021: Core `PrintQueue` (job kept until printed, 3 tries then waits for a person, never the same receipt twice,
+  deliberate reprints marked COPY, trim). Not yet: TillHardware sending through the queue, and the device matrix
+  (printers, drawers, scanners) — needs Ramyar's hardware.

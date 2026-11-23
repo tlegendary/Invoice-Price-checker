@@ -25,6 +25,12 @@ enum CloudOutbox {
         }
     }
 
+    /// Files not yet in iCloud, and since when (for the health report).
+    static func status() -> (count: Int, since: Date?) {
+        let box = load()
+        return (box.items.count, box.oldest())
+    }
+
     /// Sends what's due again (on opening the app, and every minute while it's open).
     static func retryDue() {
         queue.async {

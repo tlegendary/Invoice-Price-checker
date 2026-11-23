@@ -66,7 +66,7 @@ struct HomeView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+                    Image(systemName: "chevron.forward").foregroundStyle(.tertiary)
                 }
             }
             .foregroundStyle(.primary)

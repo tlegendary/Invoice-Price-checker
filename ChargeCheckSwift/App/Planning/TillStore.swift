@@ -31,6 +31,9 @@ final class TillStore: ObservableObject {
     @Published private(set) var parked: [ParkedSale] = []
     @Published private(set) var batches: [StockBatch] = []
     @Published private(set) var customers: [Customer] = []
+    /// Stock sent between shops, from every till (arrived ones carry what came).
+    @Published private(set) var transfers: [StockTransfer] = []
+    private var ownTransfers: [StockTransfer] = []
     /// Every recipe version from every till (a change is a new version, never an edit).
     @Published private(set) var recipes: [Recipe] = []
     private var ownRecipes: [Recipe] = []
@@ -165,6 +168,9 @@ final class TillStore: ObservableObject {
         let batchFiles = group("Batches", as: [StockBatch].self)
         ownBatches = batchFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         batches = TillSync.mergeIDs(batchFiles.map { $0.value })
+        let transferFiles = group("Transfers", as: [StockTransfer].self)
+        ownTransfers = transferFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
+        transfers = Transfers.merge(transferFiles.map { $0.value })
         let recipeFiles = group("Recipes", as: [Recipe].self)
         ownRecipes = recipeFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         recipes = TillSync.mergeIDs(recipeFiles.map { $0.value })
@@ -745,10 +751,38 @@ final class TillStore: ObservableObject {
     /// Takes units off one shop's stock and adds them to another's (both counts are updated and it's logged).
     func move(_ units: Double, of item: PriceItem, from: String, to: String, invoices: [HistoryEntry]) {
         guard units > 0, from != to, !training else { return }
+        // it leaves now; it reaches the other shop when they say it arrived (`receive`)
         let here = StockMaths.levels(items: [item], shop: from, invoices: invoices, sales: sales, counts: counts).first
-        let there = StockMaths.levels(items: [item], shop: to, invoices: invoices, sales: sales, counts: counts).first
         setCount(max(0, (here?.onHand ?? 0) - units), itemID: item.id, name: item.name + " → " + Shops.reportName(to), shop: from)
-        setCount((there?.onHand ?? 0) + units, itemID: item.id, name: item.name + " ← " + Shops.reportName(from), shop: to)
+        ensureCode()
+        let transfer = StockTransfer(itemID: item.id, name: item.name, units: units, from: from, to: to, sentAt: Self.now(),
+                                     sentBy: cashier?.name)
+        keep(transfer)
+    }
+
+    /// A transfer arrived: what actually came goes into the shop's stock, once.
+    func receive(_ transfer: StockTransfer, units: Double, item: PriceItem, invoices: [HistoryEntry]) {
+        guard transfer.inTransit, units >= 0, !training else { return }
+        let there = StockMaths.levels(items: [item], shop: transfer.to, invoices: invoices, sales: sales, counts: counts).first
+        setCount((there?.onHand ?? 0) + units, itemID: item.id, name: item.name + " ← " + Shops.reportName(transfer.from),
+                 shop: transfer.to)
+        keep(Transfers.receive(transfer, units: units, by: cashier?.name, at: Self.now()))
+    }
+
+    private func keep(_ transfer: StockTransfer) {
+        ensureCode()
+        ownTransfers.removeAll { $0.id == transfer.id }
+        ownTransfers.append(transfer)
+        transfers = Transfers.merge([transfers, [transfer]])
+        save(ownTransfers, name: own("Transfers"))
+    }
+
+    /// A finished stocktake: every counted item's count saved together.
+    func commit(_ take: Stocktake, names: [String: String]) {
+        guard !training else { return }
+        for (itemID, count) in take.counted.sorted(by: { $0.key < $1.key }) {
+            setCount(count, itemID: itemID, name: (names[itemID] ?? itemID) + " · " + String(localized: "stocktake"), shop: take.shop)
+        }
     }
 
     // MARK: batches and expiry dates

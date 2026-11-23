@@ -48,6 +48,14 @@ actor FileAttemptStore: PaymentAttemptStore {
     }
 
     func open() async -> [PaymentAttempt] { attempts.values.filter { !$0.status.isFinal } }
+
+    /// Card payments without a final answer, read straight from the file (for the health report).
+    nonisolated static func openCount() -> Int {
+        let url = URL.applicationSupportDirectory.appending(path: "Payments/attempts.json")
+        guard let data = try? Data(contentsOf: url),
+              let all = try? JSONDecoder().decode([String: PaymentAttempt].self, from: data) else { return 0 }
+        return all.values.filter { !$0.status.isFinal }.count
+    }
 }
 
 /// More › Card payments: which card companies can be connected and what each needs.
