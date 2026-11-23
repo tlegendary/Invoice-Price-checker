@@ -142,7 +142,7 @@ struct TillTabView: View {
                         }
                     }
                     Spacer()
-                    Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+                    Image(systemName: "chevron.forward").foregroundStyle(.tertiary)
                 }
             }
             .foregroundStyle(.primary)

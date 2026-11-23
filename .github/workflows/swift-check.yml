@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Release guard (no test mode, beta IDs or test ads committed)
         run: python3 ChargeCheckSwift/tools/release_guard.py ChargeCheckSwift/project.yml
+      - name: Every text translated into all five languages
+        run: python3 ChargeCheckSwift/tools/l10n_check.py ChargeCheckSwift/App/Localizable.xcstrings
       - name: Run the tests
         run: |
           cd ChargeCheckSwift/Core

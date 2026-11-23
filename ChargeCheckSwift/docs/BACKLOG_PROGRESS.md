@@ -27,8 +27,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-018 | Retail operations polish (P1) | 🟡 | transfers in transit (sent → received, shortages), stocktake sessions with variance at cost |
 | CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
 | CC-020 | Web owner dashboard/backend design (P1) | 🟡 | docs/ADR-001-web-dashboard.md: CloudKit + CloudKit JS, threat model — waiting for Ramyar's approval |
-| CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
-| CC-022 | Localization/accessibility audit (P1) | ⬜ | |
+| CC-021 | Hardware test and print queue (P1) | 🟡 | Core PrintQueue (durable jobs, retries, COPY reprints, no duplicates); wiring into the printer + device sign-off need real hardware |
+| CC-022 | Localization/accessibility audit (P1) | 🟡 | tools/l10n_check.py on every push: 2,028 strings, 0 missing, placeholders match; RTL arrows fixed |
 | CC-023 | App Store and privacy readiness (P0) | 🟡 | docs/RELEASE_CHECKLIST.md: code checks done; version, ASC products, privacy label, App Store workflow need Ramyar |
 | CC-024 | Operational monitoring/support (P1) | 🟡 | Redact + HealthReport (Core); Settings › Send app health to support |
 
@@ -198,3 +198,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   kept) and `HealthReport` (save problems, iCloud waiting + since, open card payments, gift cards spent twice,
   quarantined files). Settings › Problem reports › Send app health to support. Not yet: incident playbooks doc,
   automatic sending (everything stays manual and on-device by design).
+- 23 Nov — CC-022: `tools/l10n_check.py` (every string in ar/ckb/de/fr, same placeholders) runs on every push; today
+  0 missing of 2,028. RTL: two `chevron.right` → `chevron.forward`; PDFMaker already flips alignment; fixed font
+  sizes are icons and big headline numbers (34 pt+). Not yet: VoiceOver pass and landscape iPad screenshots in CI.
+  CC-021: Core `PrintQueue` (job kept until printed, 3 tries then waits for a person, never the same receipt twice,
+  deliberate reprints marked COPY, trim). Not yet: TillHardware sending through the queue, and the device matrix
+  (printers, drawers, scanners) — needs Ramyar's hardware.
