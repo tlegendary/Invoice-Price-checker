@@ -13777,35 +13777,6 @@
         }
       }
     },
-    "Counted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مُحصى"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ژمێردرا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gezählt"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compté"
-          }
-        }
-      }
-    },
     "Created" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15745,35 +15716,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les factures, paiements et prix supprimés peuvent être récupérés pendant 30 jours."
-          }
-        }
-      }
-    },
-    "Delivered" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم التوصيل"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "گەیەندرا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geliefert"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Livré"
           }
         }
       }
@@ -24889,35 +24831,6 @@
         }
       }
     },
-    "Movements" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الحركات"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جوڵەکان"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewegungen"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mouvements"
-          }
-        }
-      }
-    },
     "Multi-buy offer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -28938,35 +28851,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À la livraison"
-          }
-        }
-      }
-    },
-    "On hand: %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المتوفر: %@"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بەردەست: %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestand: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En stock : %@"
           }
         }
       }
@@ -40859,35 +40743,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Couleur douce"
-          }
-        }
-      }
-    },
-    "Sold" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مُباع"
-          }
-        },
-        "ckb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فرۆشرا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verkauft"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vendu"
           }
         }
       }
