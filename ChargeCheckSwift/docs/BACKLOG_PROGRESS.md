@@ -17,8 +17,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-008 | Provider adapter + fake provider (P0) | 🟡 | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | 🟡 | PaymentRunner: save first, timeout → unknown → status check, recoverAll on launch; FileAttemptStore |
 | CC-010 | Refund integration (P0) | 🟡 | refunds go back the way the sale was paid (card first), capped per way, linked to the original card payment |
-| CC-011 | Durable sync outbox (P0) | ⬜ | |
-| CC-012 | Sync conflict policy (P0) | ⬜ | |
+| CC-011 | Durable sync outbox (P0) | 🟡 | SyncOutbox (Core) + CloudOutbox: failed iCloud writes retried 30 s → 1 h, survives restarts |
+| CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
 | CC-013 | Cloud file integrity (P1) | ⬜ | |
 | CC-014 | Inventory movement ledger (P1) | ⬜ | |
 | CC-015 | Purchase orders + receiving (P1) | ⬜ | |
@@ -144,3 +144,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   code, verified false, confirmedBy = the cashier doing it. Tests: RefundTenderTests. Still: refunds through a
   connected card company use `PaymentRunner.refund` once one is connected; two tills refunding the same sale while
   offline is CC-012.
+- 23 Nov — CC-011: Core `SyncOutbox` (backoff 30 s doubling to 1 h, one entry per file, survives restarts);
+  `CloudOutbox.send` replaces the till's CloudFolder.write calls; `retryDue` on launch and every minute (sends the
+  latest local copy). Health: the CC-004 iCloud banner stays until it goes. CC-012: confirmed sales, cash and
+  refunds are append-only per till (each till writes only its own files; merge keeps each sale once). New
+  `Overspends.find`: a gift card spent past its balance by two offline tills is listed (Gift cards › Spent twice)
+  with sale, till and amount; both sales kept. Not yet: customer store credit / loyalty points overspend, conflict
+  UX for products/settings/counts (latest-wins today).

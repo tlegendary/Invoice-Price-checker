@@ -154,6 +154,13 @@ struct RootView: View {
             await offerCloudRestore()
             store.start()
             if !Store.hostingTests { await store.refresh() }
+            // till files that didn't reach iCloud: try again now, then every minute while the app is open
+            Task {
+                while !Task.isCancelled {
+                    CloudOutbox.retryDue()
+                    try? await Task.sleep(nanoseconds: 60_000_000_000)
+                }
+            }
             if IntentInbox.takeScanRequest() {
                 // opened by Siri / Shortcuts: "Check an invoice"
                 tab = "invoices"

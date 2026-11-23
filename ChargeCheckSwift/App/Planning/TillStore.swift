@@ -205,7 +205,7 @@ final class TillStore: ObservableObject {
         }
         AppFiles.write(data, folder: Self.tillFolder, name: name)
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: TillStore.tillFolder, name: name) }
+            CloudOutbox.send(data, folder: TillStore.tillFolder, name: name)
         }
     }
 
@@ -217,7 +217,7 @@ final class TillStore: ObservableObject {
         let name = own("Sales " + prefix)
         AppFiles.write(data, folder: Self.folder, name: name)
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: Self.folder, name: name) }
+            CloudOutbox.send(data, folder: Self.folder, name: name)
         }
     }
 
@@ -301,7 +301,7 @@ final class TillStore: ObservableObject {
         guard UserDefaults.standard.string(forKey: "till.productsPublished") != hash else { return }
         UserDefaults.standard.set(hash, forKey: "till.productsPublished")
         if CloudFolder.isOn {
-            DispatchQueue.global(qos: .utility).async { CloudFolder.write(data, folder: TillStore.tillFolder, name: "Products.json") }
+            CloudOutbox.send(data, folder: TillStore.tillFolder, name: "Products.json")
         }
     }
 
