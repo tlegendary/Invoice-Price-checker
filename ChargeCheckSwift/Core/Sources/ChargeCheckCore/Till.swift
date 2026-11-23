@@ -258,6 +258,40 @@ public struct SalesSummary: Equatable, Sendable {
     public var byPayment: [PaymentKind: Double]
     /// Gift cards sold (money taken for them, not takings: they're takings when they're spent).
     public var giftSold: Double = 0
+    /// What the goods sold cost, before VAT, over lines whose cost is known.
+    public var cogs: Double = 0
+    /// Net sales of the lines whose cost is known: the part the profit is about.
+    public var costedNet: Double = 0
+    /// How much of the net sales the profit covers, in % (100: every line had a cost). nil with no sales.
+    public var coverage: Double? {
+        abs(net) > 0.005 ? min(100, (costedNet / net * 1000).rounded() / 10) : nil
+    }
+}
+
+/// Items selling for too little over what they cost now.
+public struct MarginAlert: Equatable, Sendable {
+    public var itemID: String
+    public var name: String
+    /// Selling price before VAT, cost before VAT, margin in %.
+    public var sellNet: Double
+    public var cost: Double
+    public var margin: Double
+}
+
+public enum MarginAlerts {
+    /// Items with a till price whose margin at today's cost is below `threshold` % (losses first).
+    public static func find(_ items: [PriceItem], shop: String = "", threshold: Double = 30) -> [MarginAlert] {
+        items.compactMap { item -> MarginAlert? in
+            guard let sell = item.till?.sell, sell > 0, item.price > 0 else { return nil }
+            let sellNet = sell / (1 + (item.till?.vat ?? 0) / 100)
+            let cost = item.isTillOnly ? item.price : item.unitCost(shop: shop)
+            let margin = (sellNet - cost) / sellNet * 100
+            guard margin < threshold else { return nil }
+            return MarginAlert(itemID: item.id, name: item.name, sellNet: Money.round2(sellNet), cost: Money.round2(cost),
+                               margin: (margin * 10).rounded() / 10)
+        }
+        .sorted { $0.margin < $1.margin }
+    }
 }
 
 public enum SaleMaths {
@@ -292,7 +326,8 @@ public enum SaleMaths {
         return SalesSummary(sales: sales.filter { $0.refundOf == nil }.count, refunds: sales.filter { $0.refundOf != nil }.count,
                             takings: Money.round2(takings), vat: Money.round2(vatTotal), net: Money.round2(takings - vatTotal),
                             profit: Money.round2(profit), margin: margin, unknownCost: unknown,
-                            byPayment: byPayment.mapValues { Money.round2($0) }, giftSold: Money.round2(giftSold))
+                            byPayment: byPayment.mapValues { Money.round2($0) }, giftSold: Money.round2(giftSold),
+                            cogs: Money.round2(costedNet - profit), costedNet: Money.round2(costedNet))
     }
 
     /// The refund of a whole sale: the same lines with the quantities taken back, same payment.

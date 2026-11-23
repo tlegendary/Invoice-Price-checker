@@ -21,11 +21,11 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-012 | Sync conflict policy (P0) | 🟡 | sales/cash/refunds append-only per till (already); gift card double-spend found and shown |
 | CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
 | CC-014 | Inventory movement ledger (P1) | 🟡 | InventoryLedger: movements from counts/invoices/sales/refunds, on hand = StockMaths; Stock › Movements |
-| CC-015 | Purchase orders + receiving (P1) | ⬜ | |
-| CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
-| CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
+| CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
+| CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
+| CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
-| CC-019 | Profit reporting (P1) | ⬜ | |
+| CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
 | CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
 | CC-022 | Localization/accessibility audit (P1) | ⬜ | |
@@ -161,3 +161,27 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   sale or invoice seen twice counts once; duplicates and pre-count history skipped) and `onHand`, proven equal to
   `StockMaths.levels` on 200 random days. Stock › touch and hold › Movements shows the list. Not yet: manual
   adjustments with a reason (stock in / write-off) and transfers between shops as their own movement kinds.
+- 23 Nov — CC-015: `PurchaseOrder.moreInvoices` (old orders load; `invoiceIDs` = all), `OrderMaths.receipt` (per line
+  ordered/received/outstanding/extra over all deliveries; missing lines deliver nothing, short lines qty − short;
+  status notYet/part/received/more). Orders: part-received orders stay in Waiting; details show what's still to come
+  and "Match the next delivery's invoice"; invoice variances per delivery unchanged (`compare`). Not yet: pack ↔ unit
+  conversion when the order and invoice count differently; cost-price updates from received goods.
+- 23 Nov — CC-016: Core `Recipes.swift` — RecipeUnit (g/kg, ml/l, each; no cross-kind), Ingredient (pack size/unit,
+  waste %), Recipe (portions, version, from), cost per portion in pence (unpriced ingredients listed, not guessed),
+  `version(of:at:)` so old sales keep their version, `consumption` of ingredients from sales (refunds give back).
+  App: TillStore keeps recipes per till (append-only versions, merged by ID; saving needs Settings permission);
+  Till › Recipes and costing (list with cost and margin, editor); the till costs a sold item from its current recipe
+  when every ingredient can be priced. Not yet: ingredient stock deduction in the Stock screen (consumption is
+  computed, not yet shown/subtracted), sale-line recipe version stamp (the cost is stamped already).
+- 23 Nov — CC-017: Core `Kitchen.swift` — tickets per station from category routing, add-on tickets with only
+  new items, status from append-only events (forward-only, explicit recall; same answer in any order; repeats once),
+  open list per station, printer text. App `App/Kitchen/`: KitchenStore (per-device file in Kitchen/, merged with
+  other devices via iCloud, two days kept), KitchenView (station picker, cards with age, Start → Ready → Collected,
+  hold for recall/cancel, refresh every 5 s, screen stays on), settings (on/off, category → station). Till sends
+  each completed sale when on. Not yet: tables and open tabs per table, sending before payment (order first, pay
+  later), auto-print to a kitchen printer, tips/service charge.
+- 23 Nov — CC-019: SalesSummary gains `cogs`, `costedNet`, `coverage` (% of net sales with a known cost);
+  `MarginAlerts.find` (items under 30% before VAT at today's cost, losses first). Sales and profit shows net sales,
+  cost of goods, "profit covers X% of sales" when not all costed, and a Low margins list. ProfitReportTests
+  reconcile a hand-worked day (refund included). Not yet: supplier price-rise alerts tied to margins (Insights has
+  price rises separately), date-range export of the profit report.

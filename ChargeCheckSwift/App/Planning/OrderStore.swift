@@ -52,5 +52,5 @@ final class OrderStore: ObservableObject {
     }
 
     /// Invoices already matched to an order.
-    var takenInvoices: Set<String> { Set(orders.compactMap { $0.invoiceID }) }
+    var takenInvoices: Set<String> { Set(orders.flatMap { $0.invoiceIDs }) }
 }

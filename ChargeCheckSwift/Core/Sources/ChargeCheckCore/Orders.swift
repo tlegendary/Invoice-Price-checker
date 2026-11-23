@@ -25,9 +25,14 @@ public struct PurchaseOrder: Codable, Equatable, Identifiable, Sendable {
     public var day: String
     public var lines: [OrderLine]
     public var sent: Bool
-    /// The invoice it was matched to.
+    /// The invoice it was matched to (the first delivery).
     public var invoiceID: String?
+    /// Later deliveries for the same order, when it came in parts. (Since 23 Nov 2026.)
+    public var moreInvoices: [String] = []
     public var note: String
+
+    /// Every invoice matched to it, first delivery first.
+    public var invoiceIDs: [String] { (invoiceID.map { [$0] } ?? []) + moreInvoices.filter { $0 != invoiceID } }
 
     public init(id: String = UUID().uuidString, supplier: String, shop: String = "", day: String, lines: [OrderLine] = [],
                 sent: Bool = false, invoiceID: String? = nil, note: String = "") {
@@ -41,7 +46,7 @@ public struct PurchaseOrder: Codable, Equatable, Identifiable, Sendable {
         self.note = note
     }
 
-    enum CodingKeys: String, CodingKey { case id, supplier, shop, day, lines, sent, invoiceID, note }
+    enum CodingKeys: String, CodingKey { case id, supplier, shop, day, lines, sent, invoiceID, moreInvoices, note }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -52,6 +57,7 @@ public struct PurchaseOrder: Codable, Equatable, Identifiable, Sendable {
         lines = (try? c.decode([OrderLine].self, forKey: .lines)) ?? []
         sent = (try? c.decode(Bool.self, forKey: .sent)) ?? false
         invoiceID = try? c.decode(String.self, forKey: .invoiceID)
+        moreInvoices = (try? c.decode([String].self, forKey: .moreInvoices)) ?? []
         note = (try? c.decode(String.self, forKey: .note)) ?? ""
     }
 }
@@ -174,5 +180,56 @@ public enum OrderMaths {
             let saved = ISO8601DateFormatter().date(from: entry.savedAt) ?? .distantPast
             return saved >= startDate && saved < end
         }.sorted { $0.savedAt < $1.savedAt }.first
+    }
+}
+
+/// How much of an order has arrived, across every delivery matched to it.
+public struct OrderReceipt: Equatable, Sendable {
+    public enum Status: String, Sendable { case notYet, part, received, more }
+
+    public struct Line: Equatable, Sendable {
+        public var name: String
+        public var ordered: Double
+        public var received: Double
+        /// Still to come.
+        public var outstanding: Double { max(0, ordered - received) }
+        /// Came on top of what was ordered.
+        public var extra: Double { max(0, received - ordered) }
+    }
+
+    public var lines: [Line]
+    public var deliveries: Int
+
+    public var status: Status {
+        if deliveries == 0 { return .notYet }
+        if lines.contains(where: { $0.outstanding > 0.0001 }) { return .part }
+        if lines.contains(where: { $0.extra > 0.0001 }) { return .more }
+        return .received
+    }
+
+    public var stillToCome: [Line] { lines.filter { $0.outstanding > 0.0001 } }
+}
+
+public extension OrderMaths {
+    /// What arrived for each ordered line over all the order's deliveries: a line ticked missing or returned on the
+    /// invoice delivered nothing, a short line delivered qty − short (as `compare`). Lines are matched by item, or by
+    /// name when the order line isn't a price-list item.
+    static func receipt(_ order: PurchaseOrder, invoices: [HistoryEntry]) -> OrderReceipt {
+        let matched = order.invoiceIDs.compactMap { id in invoices.first { $0.id == id } }
+        func key(item: String?, name: String) -> String {
+            item.map { "id:" + $0 } ?? "name:" + name.lowercased().trimmingCharacters(in: .whitespaces)
+        }
+        var received: [String: Double] = [:]
+        for invoice in matched {
+            for line in invoice.lines {
+                let delivered = line.excluded ? 0 : max(0, line.qty - line.short)
+                received[key(item: line.matchId, name: line.desc), default: 0] += delivered
+                if line.matchId != nil { received[key(item: nil, name: line.desc), default: 0] += delivered }
+            }
+        }
+        let lines = order.lines.map { line in
+            OrderReceipt.Line(name: line.name, ordered: line.qty, received: received[key(item: line.itemID, name: line.name)] ?? 0)
+        }
+        return OrderReceipt(lines: lines, deliveries: matched.count)
     }
 }

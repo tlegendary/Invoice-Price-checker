@@ -1022,6 +1022,35 @@
         }
       }
     },
+    "%@ to come": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ لم يصل بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ هێشتا نەگەیشتووە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kommt noch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ à venir"
+          }
+        }
+      }
+    },
     "%@ · %lld items": {
       "extractionState": "manual",
       "localizations": {
@@ -1161,6 +1190,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ → %@"
+          }
+        }
+      }
+    },
+    "%@% margin": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هامش %@%"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پەراوێزی %@%"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ % Marge"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marge de %@ %"
+          }
+        }
+      }
+    },
+    "%@% of sales": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@% من المبيعات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@%ی فرۆشتن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ % des Umsatzes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ % des ventes"
           }
         }
       }
@@ -1423,6 +1510,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore %lld jours"
+          }
+        }
+      }
+    },
+    "%lld deliveries so far": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld توصيلات حتى الآن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تا ئێستا %lld گەیاندن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisher %lld Lieferungen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld livraisons pour l'instant"
           }
         }
       }
@@ -2023,6 +2139,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld lignes sans coût sont exclues de la marge."
+          }
+        }
+      }
+    },
+    "%lld min": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld د"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld خولەک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Min."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
           }
         }
       }
@@ -3014,6 +3159,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore 1 jour"
+          }
+        }
+      }
+    },
+    "1 delivery so far": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توصيلة واحدة حتى الآن"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تا ئێستا 1 گەیاندن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisher 1 Lieferung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 livraison pour l'instant"
           }
         }
       }
@@ -5574,6 +5748,35 @@
         }
       }
     },
+    "Add a recipe": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف وصفة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەچەتەیەک زیاد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezept hinzufügen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une recette"
+          }
+        }
+      }
+    },
     "Add a shop": {
       "extractionState": "manual",
       "localizations": {
@@ -6035,6 +6238,35 @@
         }
       }
     },
+    "Add what a dish or drink is made of to see what each portion costs and how stock is used.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف مكونات الطبق أو المشروب لترى تكلفة كل حصة وكيف يُستهلك المخزون."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێکهاتەی خواردن یان خواردنەوەیەک زیاد بکە بۆ بینینی تێچووی هەر بەشێک و چۆنیەتی بەکارهێنانی کۆگا."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erfasse, woraus ein Gericht oder Getränk besteht, um die Kosten pro Portion und den Lagerverbrauch zu sehen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indiquez la composition d'un plat ou d'une boisson pour voir le coût par portion et l'usage du stock."
+          }
+        }
+      }
+    },
     "Add what you need. Next time, ChargeCheck starts the order with what you usually buy from them.": {
       "extractionState": "manual",
       "localizations": {
@@ -6263,6 +6495,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter · %@"
+          }
+        }
+      }
+    },
+    "Add-on": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زیادە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nachbestellung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supplément"
           }
         }
       }
@@ -8246,6 +8507,35 @@
         }
       }
     },
+    "At today's cost prices, these earn less than 30% before VAT. Check the till price or the supplier's price.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بأسعار التكلفة الحالية، تربح هذه أقل من 30% قبل الضريبة. راجع سعر الصندوق أو سعر المورد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بە نرخی تێچووی ئەمڕۆ، ئەمانە لە 30% کەمتر قازانج دەکەن پێش باج. نرخی سندوق یان نرخی دابینکەر بپشکنە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu heutigen Einkaufspreisen bringen diese weniger als 30 % vor MwSt. Prüfe den Kassenpreis oder den Lieferantenpreis."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aux prix d'achat actuels, ces articles rapportent moins de 30 % hors TVA. Vérifiez le prix de caisse ou celui du fournisseur."
+          }
+        }
+      }
+    },
     "Automatic": {
       "localizations": {
         "ar": {
@@ -8355,6 +8645,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retour"
+          }
+        }
+      }
+    },
+    "Back to preparing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة للتحضير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "گەڕانەوە بۆ ئامادەکردن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück in Zubereitung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour en préparation"
           }
         }
       }
@@ -13396,6 +13715,35 @@
         }
       }
     },
+    "Cost of goods sold": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكلفة البضاعة المباعة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تێچووی کاڵای فرۆشراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wareneinsatz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coût des marchandises vendues"
+          }
+        }
+      }
+    },
     "Cost of one": {
       "extractionState": "manual",
       "localizations": {
@@ -13450,6 +13798,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Coût par plat"
+          }
+        }
+      }
+    },
+    "Cost per portion": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التكلفة لكل حصة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تێچووی هەر بەشێک"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kosten pro Portion"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coût par portion"
           }
         }
       }
@@ -17093,6 +17470,35 @@
         }
       }
     },
+    "Every till sale sends its items to the station of their category. Turn it on on each till.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل بيع في الصندوق يرسل أصنافه إلى محطة فئتها. شغّله على كل صندوق."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەر فرۆشتنێکی سندوق کاڵاکانی دەنێرێت بۆ وێستگەی پۆلەکەیان. لەسەر هەر سندوقێک هەڵیبکە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeder Kassenverkauf schickt seine Artikel an die Station ihrer Kategorie. Auf jeder Kasse einschalten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaque vente envoie ses articles au poste de leur catégorie. Activez-le sur chaque caisse."
+          }
+        }
+      }
+    },
     "Every way suppliers write this item, one per line. The app recognises the item by any of them. When you pick the right item for a line it didn't recognise, that name is added here for you. Swipe left to remove one.": {
       "extractionState": "manual",
       "localizations": {
@@ -17319,6 +17725,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tout le relevé correspond à vos données"
+          }
+        }
+      }
+    },
+    "Everything ordered has now arrived.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وصل كل ما طُلب الآن."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەموو ئەوەی داواکرا ئێستا گەیشت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alles Bestellte ist jetzt da."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout ce qui a été commandé est arrivé."
           }
         }
       }
@@ -22191,6 +22626,64 @@
         }
       }
     },
+    "Kitchen": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المطبخ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چێشتخانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küche"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuisine"
+          }
+        }
+      }
+    },
+    "Kitchen screen": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة المطبخ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشەی چێشتخانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küchenbildschirm"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écran cuisine"
+          }
+        }
+      }
+    },
     "Know straight away when a supplier charges more than last time.": {
       "localizations": {
         "ar": {
@@ -22939,6 +23432,35 @@
         }
       }
     },
+    "Leave empty for the kitchen. Type Bar for drinks, for example.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتركه فارغاً للمطبخ. اكتب Bar للمشروبات مثلاً."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بۆ چێشتخانە بەتاڵی بهێڵەوە. بۆ نموونە بۆ خواردنەوە Bar بنووسە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leer lassen für die Küche. Zum Beispiel Bar für Getränke eintippen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laissez vide pour la cuisine. Tapez Bar pour les boissons, par exemple."
+          }
+        }
+      }
+    },
     "Leave the team": {
       "extractionState": "manual",
       "localizations": {
@@ -23310,6 +23832,35 @@
         }
       }
     },
+    "Low margins": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هوامش منخفضة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پەراوێزی کەم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niedrige Margen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marges faibles"
+          }
+        }
+      }
+    },
     "Lower my prices when an invoice is cheaper": {
       "localizations": {
         "ar": {
@@ -23563,6 +24114,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Créez une commande à partir de vos achats habituels et envoyez-la par WhatsApp, SMS ou e-mail. À l'arrivée de la facture, ChargeCheck compare ce que vous avez commandé, reçu et payé."
+          }
+        }
+      }
+    },
+    "Makes %@ portions": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكفي %@ حصص"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ بەش دروست دەکات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergibt %@ Portionen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donne %@ portions"
           }
         }
       }
@@ -23905,6 +24485,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marqué payé avant"
+          }
+        }
+      }
+    },
+    "Match the next delivery's invoice": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طابق فاتورة التوصيلة التالية"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی گەیاندنی داهاتوو بەراورد بکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnung der nächsten Lieferung zuordnen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Associer la facture de la livraison suivante"
           }
         }
       }
@@ -25225,6 +25834,35 @@
         }
       }
     },
+    "Net sales (without VAT)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صافي المبيعات (بدون ضريبة)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فرۆشتنی پاک (بێ باج)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nettoumsatz (ohne MwSt.)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventes nettes (hors TVA)"
+          }
+        }
+      }
+    },
     "Network (Wi-Fi or cable)": {
       "extractionState": "manual",
       "localizations": {
@@ -25508,6 +26146,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nouvelle ligne"
+          }
+        }
+      }
+    },
+    "New orders appear here as the till takes them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظهر الطلبات الجديدة هنا عندما يأخذها الصندوق."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داواکارییە نوێکان لێرە دەردەکەون کاتێک سندوق وەریاندەگرێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Bestellungen erscheinen hier, sobald die Kasse sie annimmt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les nouvelles commandes apparaissent ici dès que la caisse les prend."
           }
         }
       }
@@ -26830,6 +27497,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas de reçu"
+          }
+        }
+      }
+    },
+    "No recipes yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا وصفات بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هێشتا ڕەچەتە نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Rezepte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore de recettes"
           }
         }
       }
@@ -28302,6 +28998,35 @@
         }
       }
     },
+    "Nothing to make": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء للتحضير"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هیچ شتێک بۆ دروستکردن نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nichts zuzubereiten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien à préparer"
+          }
+        }
+      }
+    },
     "Nothing to pay": {
       "localizations": {
         "ar": {
@@ -29158,6 +29883,35 @@
         }
       }
     },
+    "One pack holds": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العبوة الواحدة تحوي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەک پاکەت تێیدایە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Packung enthält"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un paquet contient"
+          }
+        }
+      }
+    },
     "One photo couldn't be opened.": {
       "localizations": {
         "ar": {
@@ -29555,6 +30309,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vendu uniquement en caisse"
+          }
+        }
+      }
+    },
+    "Only the owner or a manager can change recipes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكن للمالك أو المدير فقط تغيير الوصفات."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تەنها خاوەن یان بەڕێوەبەر دەتوانێت ڕەچەتەکان بگۆڕێت."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur der Inhaber oder ein Filialleiter kann Rezepte ändern."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seul le propriétaire ou un responsable peut modifier les recettes."
           }
         }
       }
@@ -31513,6 +32296,35 @@
     "PRO": {
       "shouldTranslate": false
     },
+    "Pack": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العبوة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پاکەت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Packung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paquet"
+          }
+        }
+      }
+    },
     "Pack %@": {
       "extractionState": "manual",
       "localizations": {
@@ -31596,6 +32408,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Paquet de %@ · %@"
+          }
+        }
+      }
+    },
+    "Pack unit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وحدة العبوة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەکەی پاکەت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Packungseinheit"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unité du paquet"
           }
         }
       }
@@ -33118,6 +33959,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Photos ou PDF. Lus sur ce téléphone, hors ligne, et chaque facture est lue deux fois."
+          }
+        }
+      }
+    },
+    "Pick ingredients from your price list. Saving makes a new version from now on; sales already made keep the cost they had.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر المكونات من قائمة أسعارك. الحفظ يُنشئ إصداراً جديداً من الآن؛ تحتفظ المبيعات السابقة بتكلفتها."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پێکهاتەکان لە لیستی نرخەکانت هەڵبژێرە. پاشەکەوتکردن لە ئێستاوە وەشانێکی نوێ دروست دەکات؛ فرۆشتنە پێشووەکان تێچووی خۆیان دەهێڵنەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle Zutaten aus deiner Preisliste. Speichern legt ab jetzt eine neue Version an; frühere Verkäufe behalten ihre Kosten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez les ingrédients dans votre liste de prix. Enregistrer crée une nouvelle version dès maintenant ; les ventes passées gardent leur coût."
           }
         }
       }
@@ -34984,6 +35854,35 @@
         }
       }
     },
+    "Profit covers": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الربح يغطي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قازانج دەگرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gewinn umfasst"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le bénéfice couvre"
+          }
+        }
+      }
+    },
     "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold).": {
       "extractionState": "manual",
       "localizations": {
@@ -35587,6 +36486,35 @@
         }
       }
     },
+    "Ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جاهز"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئامادەیە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prêt"
+          }
+        }
+      }
+    },
     "Receipt": {
       "extractionState": "manual",
       "localizations": {
@@ -35612,6 +36540,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ticket"
+          }
+        }
+      }
+    },
+    "Receipt %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإيصال %@"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پسوولەی %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beleg %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ticket %@"
           }
         }
       }
@@ -35871,6 +36828,64 @@
           "stringUnit": {
             "state": "translated",
             "value": "Supprimés récemment vidés"
+          }
+        }
+      }
+    },
+    "Recipes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصفات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەچەتەکان"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezepte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recettes"
+          }
+        }
+      }
+    },
+    "Recipes and costing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصفات والتكلفة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ڕەچەتە و تێچوو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezepte und Kosten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recettes et coûts"
           }
         }
       }
@@ -39320,6 +40335,35 @@
         }
       }
     },
+    "Send sales to the kitchen": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل المبيعات إلى المطبخ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فرۆشتنەکان بنێرە بۆ چێشتخانە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verkäufe an die Küche senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer les ventes en cuisine"
+          }
+        }
+      }
+    },
     "Send the credit request with photos": {
       "extractionState": "manual",
       "localizations": {
@@ -40847,6 +41891,35 @@
         }
       }
     },
+    "Some ingredients can't be priced: check their units.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يمكن تسعير بعض المكونات: تحقق من وحداتها."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هەندێک پێکهاتە نرخیان بۆ دانانرێت: یەکەکانیان بپشکنە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einige Zutaten lassen sich nicht bepreisen: Einheiten prüfen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certains ingrédients ne peuvent pas être chiffrés : vérifiez leurs unités."
+          }
+        }
+      }
+    },
     "Some things don't match": {
       "extractionState": "manual",
       "localizations": {
@@ -41711,6 +42784,35 @@
         }
       }
     },
+    "Start": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابدأ"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دەستپێبکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer"
+          }
+        }
+      }
+    },
     "Start free trial": {
       "localizations": {
         "ar": {
@@ -41908,6 +43010,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Relevé – %1$@ – %2$@"
+          }
+        }
+      }
+    },
+    "Station": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحطة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وێستگە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Station"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poste"
           }
         }
       }
@@ -44896,6 +46027,35 @@
         }
       }
     },
+    "The kitchen is off": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المطبخ متوقف"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "چێشتخانە کوژاوەتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Küche ist aus"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cuisine est désactivée"
+          }
+        }
+      }
+    },
     "The lines add up to %@ but the invoice says %@. A line may be missing or misread.": {
       "localizations": {
         "ar": {
@@ -46126,6 +47286,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce PDF est une image scannée, il n'y a donc pas de texte à lire. Demandez au fournisseur le PDF fait sur ordinateur, ou un tableur."
+          }
+        }
+      }
+    },
+    "This amount and the pack don't measure the same thing (weight, volume or count).": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه الكمية والعبوة لا تقيسان الشيء نفسه (وزن أو حجم أو عدد)."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەم بڕە و پاکەتەکە هەمان شت ناپێون (کێش، قەبارە یان ژمارە)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Menge und die Packung messen nicht dasselbe (Gewicht, Volumen oder Stück)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette quantité et le paquet ne mesurent pas la même chose (poids, volume ou nombre)."
           }
         }
       }
@@ -48266,6 +49455,35 @@
         }
       }
     },
+    "Turn it on in settings and sales from the till send their food and drinks here.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّله من الإعدادات وسترسل مبيعات الصندوق الطعام والمشروبات إلى هنا."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە ڕێکخستنەکان هەڵیبکە و فرۆشتنەکانی سندوق خواردن و خواردنەوەکانیان دەنێرنە ئێرە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schalte sie in den Einstellungen ein, dann schickt die Kasse Speisen und Getränke hierher."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activez-la dans les réglages et les ventes de la caisse enverront plats et boissons ici."
+          }
+        }
+      }
+    },
     "Turn off to put Reports back in this tab. The till is then in More and on Home.": {
       "extractionState": "manual",
       "localizations": {
@@ -48720,6 +49938,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Annuler « marquer comme payée »"
+          }
+        }
+      }
+    },
+    "Unit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوحدة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "یەکە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einheit"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unité"
           }
         }
       }
@@ -50018,6 +51265,35 @@
         }
       }
     },
+    "Version %lld · %lld ingredients": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار %lld · %lld مكونات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وەشانی %lld · %lld پێکهاتە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %lld · %lld Zutaten"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %lld · %lld ingrédients"
+          }
+        }
+      }
+    },
     "Visits": {
       "extractionState": "manual",
       "localizations": {
@@ -50304,6 +51580,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prévenir ce nombre de jours avant"
+          }
+        }
+      }
+    },
+    "Waste %@%": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الهدر %@%"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بەفیڕۆچوون %@%"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlust %@ %"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perte %@ %"
           }
         }
       }
@@ -51283,6 +52588,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quel magasin ? Ouvrez pour choisir"
+          }
+        }
+      }
+    },
+    "Which station makes each category": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي محطة تحضّر كل فئة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "کام وێستگە هەر پۆلێک دروست دەکات"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welche Station welche Kategorie zubereitet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quel poste prépare chaque catégorie"
           }
         }
       }

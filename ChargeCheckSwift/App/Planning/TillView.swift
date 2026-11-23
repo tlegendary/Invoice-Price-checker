@@ -972,12 +972,24 @@ struct TillView: View {
         if !lookUp(code) { unknownCode = code }
     }
 
+    /// What one costs: a dish or drink with a recipe costs its ingredients (the version that applies now, when every
+    /// ingredient can be priced); anything else its own cost price.
+    private func costOf(_ item: PriceItem) -> Double? {
+        let now = ISO8601DateFormatter().string(from: Date())
+        if let recipe = Recipes.version(of: item.id, at: now, in: till.recipes) {
+            let byID = Dictionary(prices.map { ($0.item.id, $0.item) }, uniquingKeysWith: { a, _ in a })
+            let cost = Recipes.cost(recipe, packPrice: { byID[$0].map { $0.price(inShop: shop ?? "") } })
+            if cost.unpriced.isEmpty { return cost.perPortion }
+        }
+        return item.price > 0 ? (item.isTillOnly ? item.price : item.unitCost(shop: shop ?? "")) : nil
+    }
+
     /// A scale label with the price in it: charged exactly that.
     private func addPriced(_ item: PriceItem, amount: Double) {
         let info = item.till ?? TillInfo()
         let perKg = info.sell ?? 0
         let kg = perKg > 0 ? (amount / perKg * 1000).rounded() / 1000 : 1
-        let unitCost = item.price > 0 ? (item.isTillOnly ? item.price : item.unitCost(shop: shop ?? "")) : nil
+        let unitCost = costOf(item)
         let name = perKg > 0 ? item.name + " (" + Weight.text(kg) + ")" : item.name
         basket.append(BasketLine(itemID: item.id, name: name, qty: 1, price: Money.round2(amount), vat: info.vat ?? 0,
                                  cost: unitCost.map { ($0 * kg * 10_000).rounded() / 10_000 }, units: kg, category: item.cat))
@@ -1021,7 +1033,7 @@ struct TillView: View {
             batch = next.batch.code
         }
         // till-only items: the price in the list is what one costs; others: the agreed pack price ÷ units
-        let unitCost: Double? = item.price > 0 ? (item.isTillOnly ? item.price : item.unitCost(shop: shop ?? "")) : nil
+        let unitCost: Double? = costOf(item)
         if let kg {
             basket.append(BasketLine(itemID: item.id, name: item.name, qty: kg, price: price, vat: info.vat ?? 0,
                                      cost: unitCost.map { ($0 * 10_000).rounded() / 10_000 }, weighed: true, batch: batch, category: item.cat))
@@ -1063,6 +1075,9 @@ struct TillView: View {
         let sale = till.record(lines: lines, shop: shop ?? "", payment: payment, tendered: tendered, split: split,
                                customer: customer?.id, approvedBy: approvedBy.isEmpty ? nil : approvedBy.joined(separator: ", "),
                                voucher: voucherOff > 0 ? voucher : nil, context: context)
+        // restaurant: the food and drink go to their stations' kitchen screens
+        KitchenStore.shared.send(order: sale.id, label: String(localized: "Receipt \(till.number(sale))"),
+                                 lines: basket.map { ($0.name, $0.qty, $0.category.isEmpty ? nil : $0.category, []) })
         let hadCash = sale.payments.contains { $0.kind == .cash }
         if printer.settings.isSet {
             if printer.settings.autoPrint {

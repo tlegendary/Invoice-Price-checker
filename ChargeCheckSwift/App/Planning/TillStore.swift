@@ -31,6 +31,9 @@ final class TillStore: ObservableObject {
     @Published private(set) var parked: [ParkedSale] = []
     @Published private(set) var batches: [StockBatch] = []
     @Published private(set) var customers: [Customer] = []
+    /// Every recipe version from every till (a change is a new version, never an edit).
+    @Published private(set) var recipes: [Recipe] = []
+    private var ownRecipes: [Recipe] = []
     @Published private(set) var clock: [ClockEvent] = []
     @Published private(set) var layaways: [Layaway] = []
     /// Training: sales, refunds and cash aren't saved, and stock doesn't change (new staff practise on the real till).
@@ -162,6 +165,9 @@ final class TillStore: ObservableObject {
         let batchFiles = group("Batches", as: [StockBatch].self)
         ownBatches = batchFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         batches = TillSync.mergeIDs(batchFiles.map { $0.value })
+        let recipeFiles = group("Recipes", as: [Recipe].self)
+        ownRecipes = recipeFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
+        recipes = TillSync.mergeIDs(recipeFiles.map { $0.value })
         let customerFiles = group("Customers", as: [Customer].self)
         ownCustomers = customerFiles.first { $0.till == code && !code.isEmpty }?.value ?? []
         customers = Self.latest(customerFiles.map { $0.value })
@@ -539,6 +545,24 @@ final class TillStore: ObservableObject {
     var hasManagers: Bool { cashiers.contains { ($0.role ?? .cashier).isManager } }
 
     /// The person serving may do this without a manager.
+    // MARK: recipes
+
+    /// Adds a recipe, or a new version of one (from now on; sales already made keep theirs). Needs Settings access.
+    @discardableResult
+    func saveRecipe(_ recipe: Recipe) -> Bool {
+        guard may(.settings), !training else { return false }
+        ensureCode()
+        ownRecipes.append(recipe)
+        recipes = TillSync.mergeIDs([recipes, [recipe]])
+        save(ownRecipes, name: own("Recipes"))
+        return true
+    }
+
+    /// The latest version of each item's recipe.
+    var currentRecipes: [Recipe] {
+        Dictionary(grouping: recipes, by: \.itemID).compactMap { $0.value.max { ($0.from, $0.version) < ($1.from, $1.version) } }
+    }
+
     // MARK: who may do what – checked here, so no screen can skip it
 
     private var approvals = TillApprovals()
