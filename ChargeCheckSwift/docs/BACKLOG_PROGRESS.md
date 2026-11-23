@@ -26,11 +26,11 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | 🟡 | transfers in transit (sent → received, shortages), stocktake sessions with variance at cost |
 | CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
-| CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
+| CC-020 | Web owner dashboard/backend design (P1) | 🟡 | docs/ADR-001-web-dashboard.md: CloudKit + CloudKit JS, threat model — waiting for Ramyar's approval |
 | CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
 | CC-022 | Localization/accessibility audit (P1) | ⬜ | |
-| CC-023 | App Store and privacy readiness (P0) | ⬜ | Sign-off by Ramyar |
-| CC-024 | Operational monitoring/support (P1) | ⬜ | |
+| CC-023 | App Store and privacy readiness (P0) | 🟡 | docs/RELEASE_CHECKLIST.md: code checks done; version, ASC products, privacy label, App Store workflow need Ramyar |
+| CC-024 | Operational monitoring/support (P1) | 🟡 | Redact + HealthReport (Core); Settings › Send app health to support |
 
 ## Log
 - 21 Nov — CC-001 started. Found: `CCTestBuild: true` was committed for every build (App Store too). Now false in
@@ -190,3 +190,11 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   creates a transfer (no instant arrival), `receive`, `commit` (all counts at once); Transfers file per till.
   Stock: "On the way" (tap to receive), Stocktake screen. Already there: variants, scale barcodes, refunds.
   Not yet: exchanges as one transaction (refund + new sale), scale configuration profiles.
+- 23 Nov — CC-020: docs/ADR-001-web-dashboard.md (CloudKit + CloudKit JS, no own server until webhooks need one,
+  threat model) — waiting for approval. CC-023: docs/RELEASE_CHECKLIST.md — manifest and permissions fine; found the
+  Swift app is version 1.0 like the live app (must be higher, suggest 2.0 — Ramyar decides); no Swift App Store
+  workflow yet; privacy label must list Google Mobile Ads' data.
+- 23 Nov — CC-024: Core `Redact.text` (emails, 7+ digit runs incl. spaced cards/phones/accounts; short numbers
+  kept) and `HealthReport` (save problems, iCloud waiting + since, open card payments, gift cards spent twice,
+  quarantined files). Settings › Problem reports › Send app health to support. Not yet: incident playbooks doc,
+  automatic sending (everything stays manual and on-device by design).

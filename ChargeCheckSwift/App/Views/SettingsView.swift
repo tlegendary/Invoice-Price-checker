@@ -475,6 +475,9 @@ struct SettingsView: View {
 
                 Section {
                     let reports = CrashReports.files
+                    ShareLink(item: healthReport()) {
+                        Label("Send app health to support", systemImage: "stethoscope")
+                    }
                     if reports.isEmpty {
                         Label("No problems reported", systemImage: "checkmark.seal")
                             .foregroundStyle(.secondary)
@@ -491,7 +494,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Problem reports")
                 } footer: {
-                    Text("If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices.")
+                    Text("If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices. App health lists what hasn't saved or synced, with emails and card, phone and account numbers taken out.")
                 }
 
                 Section("About") {
@@ -587,5 +590,22 @@ struct SettingsView: View {
             return
         }
         pendingRestore = backup
+    }
+}
+
+extension SettingsView {
+    /// What support needs when something isn't saving or syncing, with nothing private in it (`HealthReport`).
+    @MainActor
+    func healthReport() -> String {
+        let till = TillStore.shared
+        let outbox = CloudOutbox.status()
+        let quarantine = AppFiles.url(forRelativePath: "Quarantine")
+            .flatMap { try? FileManager.default.contentsOfDirectory(atPath: $0.path) }?.count ?? 0
+        let report = HealthReport(app: version, system: UIDevice.current.systemName + " " + UIDevice.current.systemVersion,
+                                  saves: SaveWatch.shared.health.failures, waitingForICloud: outbox.count,
+                                  waitingSince: outbox.since, openPayments: FileAttemptStore.openCount(),
+                                  giftCardsSpentTwice: Overspends.find(cards: till.giftCards, sales: till.sales).count,
+                                  quarantinedFiles: quarantine)
+        return report.text
     }
 }

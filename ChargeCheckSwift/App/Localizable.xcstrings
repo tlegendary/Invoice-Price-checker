@@ -20660,6 +20660,35 @@
         }
       }
     },
+    "If ChargeCheck ever closes by itself or freezes, iOS writes a report a day or so later. Send it to us so it can be fixed. It holds no invoices or prices. App health lists what hasn't saved or synced, with emails and card, phone and account numbers taken out.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا أُغلق ChargeCheck من تلقاء نفسه أو تجمّد، يكتب iOS تقريرًا بعد يوم تقريبًا. أرسله إلينا لإصلاح المشكلة. لا يحتوي على فواتير أو أسعار. صحة التطبيق تعرض ما لم يُحفظ أو يُزامن، مع حذف البريد الإلكتروني وأرقام البطاقات والهواتف والحسابات."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەگەر ChargeCheck خۆی داخرا یان وەستا، iOS نزیکەی ڕۆژێک دواتر ڕاپۆرتێک دەنووسێت. بۆمانی بنێرە تا چاک بکرێت. هیچ پسوولە یان نرخێکی تێدا نییە. تەندروستی ئەپ ئەوە نیشان دەدات کە پاشەکەوت یان هاوکات نەکراوە، بە لابردنی ئیمەیڵ و ژمارەی کارت، تەلەفۆن و هەژمار."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wenn ChargeCheck sich von selbst schließt oder hängt, schreibt iOS etwa einen Tag später einen Bericht. Schick ihn uns, damit es behoben werden kann. Er enthält keine Rechnungen oder Preise. Der App-Zustand zeigt, was nicht gespeichert oder abgeglichen wurde – ohne E-Mails sowie Karten-, Telefon- und Kontonummern."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si ChargeCheck se ferme tout seul ou se fige, iOS rédige un rapport environ un jour plus tard. Envoyez-le-nous pour qu'il soit corrigé. Il ne contient ni factures ni prix. L'état de l'app liste ce qui n'a pas été enregistré ou synchronisé, sans e-mails ni numéros de carte, de téléphone ou de compte."
+          }
+        }
+      }
+    },
     "Ignore differences up to": {
       "localizations": {
         "ar": {
@@ -40563,6 +40592,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envoyez une commande, puis comparez-la avec ce qui est arrivé et facturé."
+          }
+        }
+      }
+    },
+    "Send app health to support": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل حالة التطبيق إلى الدعم"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تەندروستی ئەپ بنێرە بۆ پشتگیری"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App-Zustand an den Support senden"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer l'état de l'app au support"
           }
         }
       }
