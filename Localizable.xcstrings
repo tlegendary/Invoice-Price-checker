@@ -4221,6 +4221,93 @@
     "9100" : {
 
     },
+    "A Square account and a Square reader." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حساب Square وقارئ Square."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەژماری Square و خوێنەری Square."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Square-Konto und ein Square-Lesegerät."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un compte Square et un lecteur Square."
+          }
+        }
+      }
+    },
+    "A Stripe account, its keys, and a Stripe card reader or Tap to Pay." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حساب Stripe ومفاتيحه، وقارئ بطاقات Stripe أو Tap to Pay."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەژماری Stripe و کلیلەکانی، لەگەڵ خوێنەری کارتی Stripe یان Tap to Pay."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Stripe-Konto, seine Schlüssel und ein Stripe-Kartenleser oder Tap to Pay."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un compte Stripe, ses clés, et un lecteur Stripe ou Tap to Pay."
+          }
+        }
+      }
+    },
+    "A SumUp account and a SumUp card reader." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حساب SumUp وقارئ بطاقات SumUp."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەژماری SumUp و خوێنەری کارتی SumUp."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein SumUp-Konto und ein SumUp-Kartenleser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un compte SumUp et un lecteur SumUp."
+          }
+        }
+      }
+    },
     "A backup holds your prices, reports and settings. One is kept automatically in the Files app › On My iPhone › ChargeCheck, with a copy for each of the last 14 days." : {
       "localizations" : {
         "ar" : {
@@ -7179,6 +7266,35 @@
         }
       }
     },
+    "An Adyen merchant account and an Adyen terminal." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حساب تاجر Adyen وجهاز Adyen."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەژماری بازرگانی Adyen و ئامێری Adyen."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Adyen-Händlerkonto und ein Adyen-Terminal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un compte marchand Adyen et un terminal Adyen."
+          }
+        }
+      }
+    },
     "An invoice is saved to Reports by itself once every line is checked." : {
       "localizations" : {
         "ar" : {
@@ -7751,6 +7867,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apple Intelligence n’est pas disponible pour le moment."
+          }
+        }
+      }
+    },
+    "Apple's approval for the app, plus an account with a supported card company." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موافقة Apple على التطبيق، وحساب لدى شركة بطاقات مدعومة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڕەزامەندی Apple بۆ ئەپەکە، لەگەڵ هەژمارێک لە کۆمپانیایەکی کارتی پشتگیریکراو."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apples Freigabe für die App und ein Konto bei einem unterstützten Kartenanbieter."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'accord d'Apple pour l'app, plus un compte chez un prestataire compatible."
+          }
+        }
+      }
+    },
+    "Approval code (optional)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمز الموافقة (اختياري)"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کۆدی پەسەندکردن (ئارەزوومەندانە)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genehmigungscode (optional)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code d'autorisation (facultatif)"
           }
         }
       }
@@ -9917,6 +10091,93 @@
         }
       }
     },
+    "Card %@ went %@ over" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البطاقة %@ تجاوزت الرصيد بـ %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارتی %@ بە %@ تێپەڕی"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karte %@ um %@ überzogen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carte %@ dépassée de %@"
+          }
+        }
+      }
+    },
+    "Card companies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شركات البطاقات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کۆمپانیاکانی کارت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartenanbieter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prestataires de paiement"
+          }
+        }
+      }
+    },
+    "Card machine" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جهاز البطاقات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئامێری کارت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartenterminal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal de paiement"
+          }
+        }
+      }
+    },
     "Card number" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -9942,6 +10203,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Numéro de carte"
+          }
+        }
+      }
+    },
+    "Card payments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مدفوعات البطاقات"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پارەدانی کارت"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartenzahlungen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paiements par carte"
           }
         }
       }
@@ -12937,6 +13227,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comparé à la dernière facture de ce fournisseur, même si c’est encore dans votre prix convenu."
+          }
+        }
+      }
+    },
+    "Confirmed by %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أكّده %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشتڕاستکراوەتەوە لەلایەن %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestätigt von %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmé par %@"
           }
         }
       }
@@ -16115,6 +16434,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À payer dans les 7 jours"
+          }
+        }
+      }
+    },
+    "Each card company connects through the same checkout once you have an account with it. The till never shows a card payment as paid until the card company confirms it." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تتصل كل شركة بطاقات عبر نفس الدفع بعد أن يكون لديك حساب لديها. لا يعرض الصندوق دفعة البطاقة كمدفوعة حتى تؤكدها الشركة."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هەر کۆمپانیایەکی کارت لە ڕێگەی هەمان پارەدانەوە پەیوەست دەبێت کاتێک هەژمارت لەلای هەبێت. سندوقەکە هیچ پارەدانێکی کارت وەک دراو نیشان نادات تا کۆمپانیاکە پشتڕاستی نەکاتەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeder Kartenanbieter wird über denselben Bezahlvorgang verbunden, sobald du ein Konto dort hast. Die Kasse zeigt eine Kartenzahlung erst als bezahlt, wenn der Anbieter sie bestätigt."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque prestataire se connecte via le même encaissement dès que vous avez un compte chez lui. La caisse n'affiche un paiement par carte comme payé qu'une fois confirmé par le prestataire."
           }
         }
       }
@@ -26984,6 +27332,64 @@
         }
       }
     },
+    "Not checked by the till: confirm it against the card machine's end-of-day total." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتحقق منه الصندوق: طابقه مع مجموع نهاية اليوم في جهاز البطاقات."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سندوقەکە نەیپشکنیوە: لەگەڵ کۆی کۆتایی ڕۆژی ئامێری کارتەکە بەراوردی بکە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht von der Kasse geprüft: mit der Tagessumme des Kartenterminals abgleichen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non vérifié par la caisse : comparez-le au total de fin de journée du terminal."
+          }
+        }
+      }
+    },
+    "Not connected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير متصل"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پەیوەست نییە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht verbunden"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non connecté"
+          }
+        }
+      }
+    },
     "Not counted yet: tap to count" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -36921,6 +37327,35 @@
         }
       }
     },
+    "Sale at %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بيع في %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فرۆشتن لە %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkauf um %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vente à %@"
+          }
+        }
+      }
+    },
     "Sales" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -37004,6 +37439,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ventes par article, catégorie, heure et caissier, avec TVA, en tableur ou PDF."
+          }
+        }
+      }
+    },
+    "Sales from another till" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مبيعات من صندوق آخر"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فرۆشتن لە سندوقێکی ترەوە"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkäufe von einer anderen Kasse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ventes d'une autre caisse"
           }
         }
       }
@@ -40714,6 +41178,35 @@
         }
       }
     },
+    "Spent twice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صُرفت مرتين"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوو جار خەرجکرا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doppelt ausgegeben"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépensée deux fois"
+          }
+        }
+      }
+    },
     "Split" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42808,6 +43301,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encaissez la carte sur votre terminal, puis touchez OK. Accepter les cartes sur cet iPhone nécessite un compte de paiement par carte, pas encore configuré."
+          }
+        }
+      }
+    },
+    "Take the card on your card machine. Tap Done only when the machine says APPROVED: the sale records that you confirmed it, as a card payment the till couldn't check itself." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خذ البطاقة على جهاز البطاقات. اضغط تم فقط عندما يظهر الجهاز «موافق»: يسجّل البيع أنك أكّدت ذلك، كدفعة بطاقة لم يتحقق منها الصندوق بنفسه."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کارتەکە لەسەر ئامێری کارتەکەت وەربگرە. تەنها کاتێک ئامێرەکە دەڵێت APPROVED دابگرە تەواو: فرۆشتنەکە تۆمار دەکات کە تۆ پشتڕاستت کردەوە، وەک پارەدانی کارت کە سندوقەکە خۆی نەیپشکنی."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimm die Karte am Kartenterminal an. Tippe erst auf Fertig, wenn das Terminal GENEHMIGT zeigt: Der Verkauf hält fest, dass du es bestätigt hast – als Kartenzahlung, die die Kasse nicht selbst prüfen konnte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encaissez la carte sur votre terminal. Touchez Terminé seulement quand il affiche ACCEPTÉ : la vente enregistre que vous l'avez confirmé, comme un paiement par carte que la caisse n'a pas pu vérifier."
           }
         }
       }
@@ -47932,6 +48454,35 @@
         }
       }
     },
+    "Two tills used the same gift card while they were offline. Both sales are kept; ask the customer to pay the difference, or write it off." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم صندوقان نفس بطاقة الهدية أثناء انقطاع الاتصال. يُحتفظ بكلا البيعين؛ اطلب من العميل دفع الفرق أو اشطبه."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوو سندوق هەمان کارتی دیارییان بەکارهێنا کاتێک ئۆفلاین بوون. هەردوو فرۆشتنەکە دەمێننەوە؛ داوا لە کڕیار بکە جیاوازییەکە بدات، یان بیسڕەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Kassen haben dieselbe Geschenkkarte offline benutzt. Beide Verkäufe bleiben erhalten; lass den Kunden die Differenz zahlen oder schreibe sie ab."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux caisses ont utilisé la même carte cadeau hors ligne. Les deux ventes sont conservées ; faites payer la différence au client ou passez-la en perte."
+          }
+        }
+      }
+    },
     "Type" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -50921,6 +51472,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec des personnes ajoutées, la caisse demande un code à 4 chiffres et chaque vente indique qui a servi. Faites-vous propriétaire : remboursements, remises, sorties d'espèces et clôture demanderont alors le code d'un responsable."
+          }
+        }
+      }
+    },
+    "Working now: take the card on your own card machine and the till records who confirmed it." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يعمل الآن: خذ البطاقة على جهاز البطاقات الخاص بك ويسجّل الصندوق من أكّد الدفع."
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ئێستا کار دەکات: کارتەکە لەسەر ئامێری کارتی خۆت وەربگرە و سندوقەکە تۆمار دەکات کێ پشتڕاستی کردەوە."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funktioniert jetzt: Karte am eigenen Kartenterminal annehmen, die Kasse hält fest, wer es bestätigt hat."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonctionne déjà : encaissez sur votre propre terminal, la caisse enregistre qui l'a confirmé."
           }
         }
       }
@@ -54833,6 +55413,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ce fournisseur"
+          }
+        }
+      }
+    },
+    "till %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الصندوق %@"
+          }
+        },
+        "ckb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سندوقی %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kasse %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "caisse %@"
           }
         }
       }
