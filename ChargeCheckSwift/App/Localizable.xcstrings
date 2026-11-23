@@ -1941,6 +1941,35 @@
         }
       }
     },
+    "%lld items running low": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld أصناف على وشك النفاد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld کاڵا خەریکە تەواو دەبن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Artikel werden knapp"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld articles bientôt épuisés"
+          }
+        }
+      }
+    },
     "%lld lines": {
       "localizations": {
         "ar": {
@@ -2459,6 +2488,35 @@
         }
       }
     },
+    "%lld sales": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld عمليات بيع"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فرۆشتن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Verkäufe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ventes"
+          }
+        }
+      }
+    },
     "%lld scanned invoices open": {
       "localizations": {
         "ar": {
@@ -2741,6 +2799,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "(factures {1} moins {2} déduits)"
+          }
+        }
+      }
+    },
+    "+ %@ other": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ %@ أخرى"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ %@ تر"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ %@ sonstige"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ %@ autres"
           }
         }
       }
@@ -3388,6 +3475,35 @@
         }
       }
     },
+    "1 item running low": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صنف واحد على وشك النفاد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 کاڵا خەریکە تەواو دەبێت"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Artikel wird knapp"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 article bientôt épuisé"
+          }
+        }
+      }
+    },
     "1 line": {
       "localizations": {
         "ar": {
@@ -3613,6 +3729,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 produit importé."
+          }
+        }
+      }
+    },
+    "1 sale": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عملية بيع واحدة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 فرۆشتن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Verkauf"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 vente"
           }
         }
       }
@@ -39862,6 +40007,35 @@
         }
       }
     },
+    "Since the day was last closed on this till.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منذ آخر إغلاق لليوم على هذا الصندوق."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لە دوایین داخستنی ڕۆژ لەسەر ئەم سندوقەوە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seit dem letzten Tagesabschluss an dieser Kasse."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depuis la dernière clôture de cette caisse."
+          }
+        }
+      }
+    },
     "Since you started": {
       "localizations": {
         "ar": {
@@ -46615,6 +46789,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aujourd'hui"
+          }
+        }
+      }
+    },
+    "Today · no sales yet": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اليوم · لا مبيعات بعد"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ئەمڕۆ · هێشتا فرۆشتن نییە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heute · noch keine Verkäufe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aujourd'hui · pas encore de ventes"
           }
         }
       }

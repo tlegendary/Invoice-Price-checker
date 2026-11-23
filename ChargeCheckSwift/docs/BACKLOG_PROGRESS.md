@@ -121,3 +121,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   StatementCheck, MoneyInsights, DueReminders now add in whole pence (a NaN makes the total NaN, never dropped).
   Per-invoice maths (PayBreakdown) already rounds each step to the penny. Next slices: stored values as pence
   (needs a data migration), PayBreakdown internals, till sale totals.
+- 23 Nov — Plan step 5 (Phase 3 preview): Home "Today" card at the top once the till is in use — takings, sales,
+  refunds, cash, card (+ other) since the last close (same as the end-of-day report, `TillStore.current`) and
+  items running low (shortest first, links to Stock). Core `TodaySummary` + tests. Hidden for staff. Not yet:
+  profit (needs reliable costs, CC-019), charts, quick actions beyond the existing scan and till buttons.

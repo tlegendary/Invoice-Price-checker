@@ -87,6 +87,10 @@ struct HomeView: View {
                                                                payments: team.isStaff ? [] : payments,
                                                                items: team.isStaff ? [] : prices.map { $0.item }))
                 } else {
+                    // the shop's day first, once the till is in use (staff don't see takings)
+                    if !team.isStaff && store.allows(.till) && !till.sales.isEmpty {
+                        TodaySection(items: prices.map { $0.item }, entries: reports.compactMap { $0.entry })
+                    }
                     if !team.isStaff { owedSection(overview) }
                     if !(tillTab && store.allows(.till)) { tillSection }
                     scanSection
