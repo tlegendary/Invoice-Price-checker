@@ -375,6 +375,8 @@ struct StockView: View {
     @State private var adding: StockLevel?
     @State private var addText = ""
     @State private var moving: String?
+    /// The item whose movements are shown (touch and hold a row).
+    @State private var history: StockLevel?
 
     var body: some View {
         let shops = Shops.decode(shopData)
@@ -452,6 +454,19 @@ struct StockView: View {
                             }
                         }
                         .foregroundStyle(.primary)
+                        .contextMenu {
+                            Button {
+                                history = level
+                            } label: {
+                                Label("Movements", systemImage: "list.bullet.rectangle")
+                            }
+                        }
+                        .sheet(isPresented: Binding(get: { history?.itemID == level.itemID },
+                                                    set: { if !$0 { history = nil } })) {
+                            if let item = items.first(where: { $0.id == level.itemID }) {
+                                StockMovementsView(item: item, shop: shop, invoices: reports.compactMap { $0.entry })
+                            }
+                        }
                         .swipeActions(edge: .leading) {
                             Button {
                                 adding = level
@@ -502,4 +517,55 @@ struct StockView: View {
 struct MovingFrom: Identifiable {
     let shop: String
     var id: String { shop }
+}
+
+
+/// Every stock change of one item since its last count, from the invoices, sales and refunds themselves: the
+/// figure on the stock screen, explained line by line.
+struct StockMovementsView: View {
+    let item: PriceItem
+    let shop: String
+    let invoices: [HistoryEntry]
+    @ObservedObject private var till = TillStore.shared
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        let moves = InventoryLedger.movements(item: item, shop: shop, invoices: invoices, sales: till.sales, counts: till.counts)
+        NavigationStack {
+            List {
+                Section {
+                    ForEach(moves) { move in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(title(move)).font(.subheadline.weight(.semibold))
+                                Text(String(move.at.prefix(16)).replacingOccurrences(of: "T", with: " ")
+                                     + (move.source.isEmpty ? "" : " · " + move.source))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Text(move.kind == .counted ? move.qty.formatted() : (move.qty > 0 ? "+" : "") + move.qty.formatted())
+                                .font(.headline)
+                                .monospacedDigit()
+                                .foregroundStyle(move.kind == .counted ? Color.primary : (move.qty < 0 ? Color.red : Color.green))
+                        }
+                    }
+                } footer: {
+                    Text(String(localized: "On hand: \(InventoryLedger.onHand(moves).formatted())"))
+                }
+            }
+            .navigationTitle(item.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
+        }
+    }
+
+    private func title(_ move: StockMovement) -> String {
+        switch move.kind {
+        case .counted: return String(localized: "Counted")
+        case .delivered: return String(localized: "Delivered")
+        case .sold: return String(localized: "Sold")
+        case .refunded: return String(localized: "Refunded")
+        }
+    }
 }
