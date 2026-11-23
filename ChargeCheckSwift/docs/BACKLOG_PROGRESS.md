@@ -14,8 +14,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-005 | Transactional backup restore (P0) | ✅ | BackupValidation first; delete + insert in one save, rollback on failure; the rest only after |
 | CC-006 | Payment domain state machine (P0) | 🟡 | Core Payments.swift: attempts, states, idempotency key, refunds, split summary; tests |
 | CC-007 | External terminal manual tender (P0) | 🟡 | card parts record machine, confirmed-by, approval code, verified=false; shown in sale details |
-| CC-008 | Provider adapter + fake provider (P0) | ⬜ | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
-| CC-009 | Payment recovery / idempotency (P0) | ⬜ | |
+| CC-008 | Provider adapter + fake provider (P0) | 🟡 | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
+| CC-009 | Payment recovery / idempotency (P0) | 🟡 | PaymentRunner: save first, timeout → unknown → status check, recoverAll on launch; FileAttemptStore |
 | CC-010 | Refund integration (P0) | ⬜ | |
 | CC-011 | Durable sync outbox (P0) | ⬜ | |
 | CC-012 | Sync conflict policy (P0) | ⬜ | |
@@ -131,3 +131,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   (no new card request while one is waiting/unknown). CC-007: SalePayment gains confirmedBy / terminal / verified;
   the till's card and split payments record them; approval code field; sale details show them in orange. Not yet:
   the till doesn't run sales through PaymentAttempt (CC-008/009 wire it with the provider adapter).
+- 23 Nov — CC-008/009: Core `PaymentProvider` protocol (no SDKs), `PaymentRunner` (saves the attempt before asking;
+  timeout/offline → unknown; `recover` asks status with the same key, never charges again; `recoverAll` for launch;
+  refunds capped), `FakePaymentProvider` (approve/decline/cancel/timeout/timeout-but-charged/offline, one charge
+  per key), tests for all. App: `App/Payments/CardPayments.swift` — catalog (Tap to Pay, Stripe Terminal, Square,
+  SumUp, Adyen: all "not connected", each needs Ramyar's account/keys), `FileAttemptStore` (atomic, protected),
+  More › Card payments screen. Not yet (needs a real provider account): the till's live card checkout through the
+  runner, and calling recoverAll at launch — both wait for the first connected provider.

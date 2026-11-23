@@ -7,7 +7,7 @@ struct MoreView: View {
     @Binding var showPaywall: Bool
 
     enum Page: String, Hashable {
-        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours, reports
+        case prices, shops, staff, settings, deleted, history, sales, stock, tillSettings, customers, giftCards, expiry, hours, reports, cardPayments
     }
 
     @ObservedObject private var team = CloudTeam.shared
@@ -56,6 +56,9 @@ struct MoreView: View {
                         }
                         NavigationLink(value: Page.stock) {
                             Label("Stock", systemImage: "shippingbox")
+                        }
+                        NavigationLink(value: Page.cardPayments) {
+                            Label("Card payments", systemImage: "creditcard")
                         }
                         NavigationLink(value: Page.customers) {
                             Label("Customers and accounts", systemImage: "person.2")
@@ -161,6 +164,7 @@ struct MoreView: View {
                 case .shops: ShopsView()
                 case .sales: SalesView()
                 case .stock: StockView()
+                case .cardPayments: CardPaymentsView()
                 case .tillSettings: TillSettingsView()
                 case .customers: CustomersView()
                 case .giftCards: GiftCardsView()
