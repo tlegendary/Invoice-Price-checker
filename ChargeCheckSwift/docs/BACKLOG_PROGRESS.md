@@ -22,7 +22,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-013 | Cloud file integrity (P1) | 🟡 | incoming sales files checked (whole, never shrinking) before replacing ours; bad ones quarantined + banner |
 | CC-014 | Inventory movement ledger (P1) | 🟡 | InventoryLedger: movements from counts/invoices/sales/refunds, on hand = StockMaths; Stock › Movements |
 | CC-015 | Purchase orders + receiving (P1) | 🟡 | orders can arrive in parts: several invoices per order, received/outstanding per line, status |
-| CC-016 | Recipe and ingredient costing (P1) | ⬜ | |
+| CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
 | CC-017 | Kitchen display MVP (P1) | ⬜ | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
 | CC-019 | Profit reporting (P1) | ⬜ | |
@@ -166,3 +166,10 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   status notYet/part/received/more). Orders: part-received orders stay in Waiting; details show what's still to come
   and "Match the next delivery's invoice"; invoice variances per delivery unchanged (`compare`). Not yet: pack ↔ unit
   conversion when the order and invoice count differently; cost-price updates from received goods.
+- 23 Nov — CC-016: Core `Recipes.swift` — RecipeUnit (g/kg, ml/l, each; no cross-kind), Ingredient (pack size/unit,
+  waste %), Recipe (portions, version, from), cost per portion in pence (unpriced ingredients listed, not guessed),
+  `version(of:at:)` so old sales keep their version, `consumption` of ingredients from sales (refunds give back).
+  App: TillStore keeps recipes per till (append-only versions, merged by ID; saving needs Settings permission);
+  Till › Recipes and costing (list with cost and margin, editor); the till costs a sold item from its current recipe
+  when every ingredient can be priced. Not yet: ingredient stock deduction in the Stock screen (consumption is
+  computed, not yet shown/subtracted), sale-line recipe version stamp (the cost is stamped already).
