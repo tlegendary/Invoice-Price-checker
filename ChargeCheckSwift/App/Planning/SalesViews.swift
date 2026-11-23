@@ -17,6 +17,26 @@ struct SalesView: View {
 
     private var shop: String { LiveSettings.shared.shop }
 
+    /// Items selling for too little over what they cost now (a supplier's price went up, or the till price is low).
+    @ViewBuilder
+    private var marginSection: some View {
+        let alerts = MarginAlerts.find(prices.map { $0.item }, shop: LiveSettings.shared.shop)
+        if !alerts.isEmpty {
+            Section {
+                ForEach(alerts.prefix(8), id: \.itemID) { alert in
+                    LabeledContent(alert.name) {
+                        Text(String(localized: "\(alert.margin.formatted())% margin"))
+                            .foregroundStyle(alert.margin < 0 ? .red : .orange)
+                    }
+                }
+            } header: {
+                Text("Low margins")
+            } footer: {
+                Text("At today's cost prices, these earn less than 30% before VAT. Check the till price or the supplier's price.")
+            }
+        }
+    }
+
     private func breakdownSection(_ shown: [Sale]) -> some View {
         Section {
             Picker("Show", selection: $breakdown) {
@@ -180,6 +200,12 @@ struct SalesView: View {
                         }
                     }
                 }
+                LabeledContent("Net sales (without VAT)", value: Money.format(summary.net))
+                LabeledContent("Cost of goods sold", value: Money.format(summary.cogs))
+                if let coverage = summary.coverage, coverage < 99.95 {
+                    LabeledContent("Profit covers", value: String(localized: "\(coverage.formatted())% of sales"))
+                        .foregroundStyle(.orange)
+                }
                 LabeledContent("VAT in takings", value: Money.format(summary.vat))
                 LabeledContent("Sales", value: "\(summary.sales)")
                 if summary.refunds > 0 { LabeledContent("Refunds", value: "\(summary.refunds)") }
@@ -195,6 +221,7 @@ struct SalesView: View {
                      : String(localized: "Profit is the price without VAT, less what the goods cost you (from your agreed prices when sold)."))
             }
             if !shown.isEmpty { breakdownSection(shown) }
+            marginSection
             salesSection(shown)
         }
         .navigationTitle("Sales and profit")

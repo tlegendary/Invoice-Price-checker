@@ -25,7 +25,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-016 | Recipe and ingredient costing (P1) | 🟡 | Core Recipes (units, waste, yield, versions, consumption); Till › Recipes editor; sale cost from the recipe |
 | CC-017 | Kitchen display MVP (P1) | 🟡 | Ramyar 21 Nov: yes — restaurant kitchen screens and the rest of hospitality (tables, courses, tips, kitchen printers) |
 | CC-018 | Retail operations polish (P1) | ⬜ | |
-| CC-019 | Profit reporting (P1) | ⬜ | |
+| CC-019 | Profit reporting (P1) | 🟡 | COGS, costed net, coverage %, margin; low-margin alerts; hand-checked fixture test |
 | CC-020 | Web owner dashboard/backend design (P1) | ⏸ | Design doc only; server is a paid service |
 | CC-021 | Hardware test and print queue (P1) | ⬜ | Device sign-off needs real hardware |
 | CC-022 | Localization/accessibility audit (P1) | ⬜ | |
@@ -180,3 +180,8 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   hold for recall/cancel, refresh every 5 s, screen stays on), settings (on/off, category → station). Till sends
   each completed sale when on. Not yet: tables and open tabs per table, sending before payment (order first, pay
   later), auto-print to a kitchen printer, tips/service charge.
+- 23 Nov — CC-019: SalesSummary gains `cogs`, `costedNet`, `coverage` (% of net sales with a known cost);
+  `MarginAlerts.find` (items under 30% before VAT at today's cost, losses first). Sales and profit shows net sales,
+  cost of goods, "profit covers X% of sales" when not all costed, and a Low margins list. ProfitReportTests
+  reconcile a hand-worked day (refund included). Not yet: supplier price-rise alerts tied to margins (Insights has
+  price rises separately), date-range export of the profit report.

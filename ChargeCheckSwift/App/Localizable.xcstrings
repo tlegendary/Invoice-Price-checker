@@ -1223,6 +1223,35 @@
         }
       }
     },
+    "%@% of sales": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@% من المبيعات"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@%ی فرۆشتن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ % des Umsatzes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ % des ventes"
+          }
+        }
+      }
+    },
     "%@%%": {
       "shouldTranslate": false
     },
@@ -8478,6 +8507,35 @@
         }
       }
     },
+    "At today's cost prices, these earn less than 30% before VAT. Check the till price or the supplier's price.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بأسعار التكلفة الحالية، تربح هذه أقل من 30% قبل الضريبة. راجع سعر الصندوق أو سعر المورد."
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بە نرخی تێچووی ئەمڕۆ، ئەمانە لە 30% کەمتر قازانج دەکەن پێش باج. نرخی سندوق یان نرخی دابینکەر بپشکنە."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu heutigen Einkaufspreisen bringen diese weniger als 30 % vor MwSt. Prüfe den Kassenpreis oder den Lieferantenpreis."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aux prix d'achat actuels, ces articles rapportent moins de 30 % hors TVA. Vérifiez le prix de caisse ou celui du fournisseur."
+          }
+        }
+      }
+    },
     "Automatic": {
       "localizations": {
         "ar": {
@@ -13653,6 +13711,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Coût"
+          }
+        }
+      }
+    },
+    "Cost of goods sold": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكلفة البضاعة المباعة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تێچووی کاڵای فرۆشراو"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wareneinsatz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coût des marchandises vendues"
           }
         }
       }
@@ -23745,6 +23832,35 @@
         }
       }
     },
+    "Low margins": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هوامش منخفضة"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پەراوێزی کەم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niedrige Margen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marges faibles"
+          }
+        }
+      }
+    },
     "Lower my prices when an invoice is cheaper": {
       "localizations": {
         "ar": {
@@ -25714,6 +25830,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "HT"
+          }
+        }
+      }
+    },
+    "Net sales (without VAT)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صافي المبيعات (بدون ضريبة)"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فرۆشتنی پاک (بێ باج)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nettoumsatz (ohne MwSt.)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventes nettes (hors TVA)"
           }
         }
       }
@@ -35705,6 +35850,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bénéfice"
+          }
+        }
+      }
+    },
+    "Profit covers": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الربح يغطي"
+          }
+        },
+        "ckb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قازانج دەگرێتەوە"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gewinn umfasst"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le bénéfice couvre"
           }
         }
       }
