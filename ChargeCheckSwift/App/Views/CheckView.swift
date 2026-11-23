@@ -76,14 +76,10 @@ struct CheckView: View {
         NavigationStack(path: $path) {
             List {
                 if storageProblem {
-                    Label("Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again.", systemImage: "exclamationmark.triangle.fill")
-                        .font(.footnote)
-                        .foregroundStyle(.orange)
+                    NoticeBanner(kind: .problem, text: String(localized: "Your saved data couldn't be opened. Anything you add now won't be kept. Close the app and open it again."))
                 }
                 if let warning = backupWarning {
-                    Label(warning, systemImage: "exclamationmark.icloud")
-                        .font(.footnote)
-                        .foregroundStyle(.orange)
+                    NoticeBanner(kind: .warning, text: warning, systemImage: "exclamationmark.icloud")
                 }
                 if store.checkedEntitlements && !store.isSubscribed {
                     Section {

@@ -333,24 +333,27 @@ struct FigureTile: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
+            // two lines, not cut off: German and French labels are long, and Larger Text must still fit
             Text(title)
-                .font(.caption.weight(.semibold))
+                .font(.footnote.weight(.semibold))
                 .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
             Text(value)
                 .font(.title3.weight(.bold))
                 .foregroundStyle(colour)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             Text(note.isEmpty ? " " : note)
-                .font(.caption2)
+                .font(.caption)
                 .foregroundStyle(.secondary)
-                .lineLimit(1)
+                .lineLimit(2)
+            Spacer(minLength: 0)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding(DS.pad)
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: DS.corner))
+        .accessibilityElement(children: .combine)
     }
 }
 

@@ -35,11 +35,12 @@ struct PlanTag: View {
 
     var body: some View {
         Text(tier == .pro ? "PRO" : "PACK")
-            .font(.caption2.weight(.heavy))
+            .font(.caption2.weight(.bold))
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
-            .background(Capsule().fill(tier == .pro ? Color.purple : Color.blue))
-            .foregroundStyle(.white)
+            // quiet: the feature's name matters more than the tag, and one accent colour keeps lists calm
+            .background(Capsule().fill(tier == .pro ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.15)))
+            .foregroundStyle(tier == .pro ? Color.accentColor : Color.secondary)
             .accessibilityLabel(tier == .pro ? Text("Pro feature") : Text("Comes with any scan pack"))
     }
 }
