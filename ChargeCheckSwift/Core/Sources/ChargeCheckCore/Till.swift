@@ -303,7 +303,8 @@ public enum SaleMaths {
 
     /// The refund of some of a sale: line id → how many to take back (at most what was sold, less earlier refunds
     /// are the caller's to check). Discounts come back in proportion. Paid back the way the sale was paid.
-    public static func refund(of sale: Sale, quantities: [String: Double], number: Int, at: String, cashier: String? = nil) -> Sale {
+    public static func refund(of sale: Sale, quantities: [String: Double], number: Int, at: String, cashier: String? = nil,
+                              earlier: [Sale] = []) -> Sale {
         let lines = sale.lines.compactMap { line -> SaleLine? in
             guard line.giftCard == nil, let back = quantities[line.id], back > 0, line.qty > 0 else { return nil }
             let qty = min(back, line.qty)
@@ -314,28 +315,49 @@ public enum SaleMaths {
         }
         var refund = Sale(number: number, shop: sale.shop, at: at, lines: lines, payment: sale.split == nil ? sale.payment : .cash,
                           refundOf: sale.id, cashier: cashier, customer: sale.customer)
-        // paid with one gift card, tab or points: it goes back there
-        let parts = sale.payments
-        if parts.count == 1, let ref = parts[0].ref {
-            refund.payment = parts[0].kind
-            refund.split = [SalePayment(kind: parts[0].kind, amount: refund.total, ref: ref)]
-        } else if parts.count > 1, parts.contains(where: { !$0.kind.isMoney }), abs(sale.total) > 0.004 {
-            // part paid with a gift card, points or on account: that part goes back there, in proportion;
-            // only the part paid with money comes out of the drawer
-            let back = refund.total
-            var returned: [SalePayment] = []
-            var given = 0.0
-            for part in parts where !part.kind.isMoney {
-                let share = Money.round2(back * part.amount / sale.total)
-                given += share
-                returned.append(SalePayment(kind: part.kind, amount: share, ref: part.ref))
-            }
-            let cash = Money.round2(back - given)
-            if abs(cash) > 0.004 { returned.append(SalePayment(kind: .cash, amount: cash)) }
-            refund.payment = abs(cash) > 0.004 ? .cash : (returned.first?.kind ?? .cash)
-            refund.split = returned
+        // the money goes back the way it was paid (card first, never cash for a card purchase), never more to any
+        // one way than it paid, earlier refunds counted
+        let back = refundTenders(sale, amount: refund.total, earlier: earlier)
+        if !back.isEmpty {
+            refund.split = back
+            refund.payment = back.max { abs($0.amount) < abs($1.amount) }?.kind ?? .cash
         }
         return refund
+    }
+
+    /// Where a refund's money goes. Gift cards, points, layaways and accounts get their share back in proportion
+    /// (as before); the rest goes to the card first, then cash, then other, each capped at what it paid less what
+    /// earlier refunds already gave back to it. Amounts carry the refund's sign (negative).
+    public static func refundTenders(_ sale: Sale, amount: Double, earlier: [Sale]) -> [SalePayment] {
+        guard let wanted = Pence(abs(amount)), wanted.value > 0, abs(sale.total) > 0.004 else { return [] }
+        let parts = sale.payments
+        let sign: Double = amount < 0 ? -1 : 1
+        func key(_ p: SalePayment) -> String { p.kind.rawValue + "|" + (p.kind.isMoney && p.kind != .card ? "" : (p.ref ?? "")) }
+        var given: [String: Int] = [:]
+        for refund in earlier where refund.refundOf == sale.id {
+            for p in refund.payments { given[key(p), default: 0] += Pence(abs(p.amount))?.value ?? 0 }
+        }
+        func left(_ p: SalePayment) -> Int { max(0, (Pence(abs(p.amount))?.value ?? 0) - given[key(p), default: 0]) }
+        var remaining = wanted.value
+        var out: [SalePayment] = []
+        func add(_ p: SalePayment, _ pence: Int) {
+            guard pence > 0 else { return }
+            remaining -= pence
+            given[key(p), default: 0] += pence
+            out.append(SalePayment(kind: p.kind, amount: sign * Pence(value: pence).pounds, ref: p.ref,
+                                   terminal: p.kind == .card ? p.terminal : nil, verified: p.kind == .card ? false : nil))
+        }
+        let total = Pence(abs(sale.total))?.value ?? 1
+        for p in parts where !p.kind.isMoney {
+            let share = Int((Double(wanted.value) * abs(p.amount) * 100 / Double(total) / 100).rounded())
+            add(p, min(share, left(p), remaining))
+        }
+        for kind in [PaymentKind.card, .cash, .other] {
+            for p in parts where p.kind == kind { add(p, min(left(p), remaining)) }
+        }
+        // more than the sale's payments show (an old sale's rounding): the rest from the drawer
+        if remaining > 0 { out.append(SalePayment(kind: .cash, amount: sign * Pence(value: remaining).pounds)) }
+        return out
     }
 
     /// How many of each line are still refundable, after earlier refunds of this sale.

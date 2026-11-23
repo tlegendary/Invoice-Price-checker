@@ -365,7 +365,16 @@ final class TillStore: ObservableObject {
         ensureCode()
         let number = nextNumber
         UserDefaults.standard.set(number, forKey: Self.numberKey)
-        var refund = SaleMaths.refund(of: sale, quantities: wanted, number: number, at: Self.now(), cashier: cashier?.name)
+        var refund = SaleMaths.refund(of: sale, quantities: wanted, number: number, at: Self.now(), cashier: cashier?.name,
+                                      earlier: sales.filter { $0.refundOf == sale.id })
+        // a card refund on a separate card machine: who did it (they give it back on the machine)
+        if let parts = refund.split {
+            refund.split = parts.map { part in
+                var part = part
+                if part.kind == .card { part.confirmedBy = cashier?.name ?? String(localized: "Owner") }
+                return part
+            }
+        }
         refund.till = code
         refund.approvedBy = approvedBy
         if toCredit, let customer = sale.customer {

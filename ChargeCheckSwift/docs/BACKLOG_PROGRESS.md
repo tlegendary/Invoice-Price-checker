@@ -16,7 +16,7 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
 | CC-007 | External terminal manual tender (P0) | 🟡 | card parts record machine, confirmed-by, approval code, verified=false; shown in sale details |
 | CC-008 | Provider adapter + fake provider (P0) | 🟡 | Ramyar: ALL providers (Stripe Terminal, Square, SumUp, Adyen, Tap to Pay on iPhone) behind one adapter; each goes live only with his merchant account + keys; Tap to Pay needs Apple entitlement |
 | CC-009 | Payment recovery / idempotency (P0) | 🟡 | PaymentRunner: save first, timeout → unknown → status check, recoverAll on launch; FileAttemptStore |
-| CC-010 | Refund integration (P0) | ⬜ | |
+| CC-010 | Refund integration (P0) | 🟡 | refunds go back the way the sale was paid (card first), capped per way, linked to the original card payment |
 | CC-011 | Durable sync outbox (P0) | ⬜ | |
 | CC-012 | Sync conflict policy (P0) | ⬜ | |
 | CC-013 | Cloud file integrity (P1) | ⬜ | |
@@ -138,3 +138,9 @@ Status: ⬜ not started · 🟡 in progress · ✅ done · ⏸ needs Ramyar's de
   SumUp, Adyen: all "not connected", each needs Ramyar's account/keys), `FileAttemptStore` (atomic, protected),
   More › Card payments screen. Not yet (needs a real provider account): the till's live card checkout through the
   runner, and calling recoverAll at launch — both wait for the first connected provider.
+- 23 Nov — CC-010: found a card + cash sale's refund was all CASH from the drawer. Now `SaleMaths.refundTenders`
+  sends money back the way it was paid: gift/points/accounts in proportion, then card first, cash, other, each
+  capped at what it paid minus earlier refunds (the store passes them in); card parts keep the original approval
+  code, verified false, confirmedBy = the cashier doing it. Tests: RefundTenderTests. Still: refunds through a
+  connected card company use `PaymentRunner.refund` once one is connected; two tills refunding the same sale while
+  offline is CC-012.
